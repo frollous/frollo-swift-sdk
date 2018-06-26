@@ -5,7 +5,7 @@
 //  Created by Nick Dawson on 26/6/18.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for FrolloSDK.
 FOUNDATION_EXPORT double FrolloSDKVersionNumber;
