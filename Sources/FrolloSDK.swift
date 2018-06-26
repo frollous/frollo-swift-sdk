@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+class FrolloSDK {
+    
+    public func setup() -> Bool {
+        return true
+    }
+    
+}

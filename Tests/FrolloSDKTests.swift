@@ -10,6 +10,8 @@ import XCTest
 
 class FrolloSDKTests: XCTestCase {
     
+    private let sdk = FrolloSDK()
+    
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -21,8 +23,7 @@ class FrolloSDKTests: XCTestCase {
     }
     
     func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        XCTAssert(sdk.setup())
     }
     
     func testPerformanceExample() {
