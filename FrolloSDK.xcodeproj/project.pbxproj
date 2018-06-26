@@ -32,6 +32,9 @@
 		01527CCF20E1B5C300B5042A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		01527CD720E1C2D700B5042A /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		01527CD820E1C5A600B5042A /* FrolloSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrolloSDK.swift; sourceTree = "<group>"; };
+		01527CDA20E1CD1800B5042A /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		01527CDB20E1CD1800B5042A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		01527CDC20E1CD1800B5042A /* Carthage.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Carthage.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +59,9 @@
 		01527CB320E1B49800B5042A = {
 			isa = PBXGroup;
 			children = (
+				01527CDA20E1CD1800B5042A /* Cartfile */,
+				01527CDC20E1CD1800B5042A /* Carthage.xcconfig */,
+				01527CDB20E1CD1800B5042A /* README.md */,
 				01527CD720E1C2D700B5042A /* Package.swift */,
 				01527CC120E1B5C300B5042A /* Sources */,
 				01527CCC20E1B5C300B5042A /* Tests */,
@@ -149,6 +155,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0940;
 				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = Frollo;
 				TargetAttributes = {
 					01527CBE20E1B5C300B5042A = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -224,6 +231,7 @@
 /* Begin XCBuildConfiguration section */
 		01527CB820E1B49800B5042A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 01527CDC20E1CD1800B5042A /* Carthage.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
@@ -233,6 +241,7 @@
 		};
 		01527CB920E1B49800B5042A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 01527CDC20E1CD1800B5042A /* Carthage.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
