@@ -123,6 +123,8 @@ GEM
       xcodeproj (>= 1.5.7, < 2.0.0)
       xcpretty (~> 0.2.8)
       xcpretty-travis-formatter (>= 0.0.3)
+    fastlane-plugin-carthage_cache (0.1.1)
+      carthage_cache
     ffi (1.9.25)
     fourflusher (2.0.1)
     fuzzy_match (2.0.4)
@@ -245,6 +247,7 @@ PLATFORMS
 DEPENDENCIES
   carthage_cache
   fastlane
+  fastlane-plugin-carthage_cache
   jazzy
   xcpretty!
 
