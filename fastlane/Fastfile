@@ -23,21 +23,21 @@ platform :ios do
   lane :test do
     setup_jenkins
 
-    # if carthage_cache_exist(bucket: 'frollo-sdk-carthage-cache')
-    #   carthage_cache_install(
-    #     bucket: 'frollo-sdk-carthage-cache'
-    #   )
-    # else
-      # carthage(
-      # 	command: "bootstrap",
-      #   platform: "all",
-      #   use_binaries: false
-      # )
+    if carthage_cache_exist(bucket: 'frollo-sdk-carthage-cache')
+      carthage_cache_install(
+        bucket: 'frollo-sdk-carthage-cache'
+      )
+    else
+      carthage(
+      	command: "bootstrap",
+        platform: "all",
+        use_binaries: false
+      )
 
-    #   carthage_cache_publish(
-    #     bucket: 'frollo-sdk-carthage-cache'
-    #   )
-    # end
+      carthage_cache_publish(
+        bucket: 'frollo-sdk-carthage-cache'
+      )
+    end
 
  	run_tests(scheme: "FrolloSDK",
     		  clean: true,
