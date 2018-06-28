@@ -43,12 +43,14 @@ platform :ios do
     		  clean: true,
     		  code_coverage: true,
     		  destination: "platform=macOS,arch=x86_64",
-    		  output_directory: "fastlane/mac_test_output")
+    		  output_directory: "fastlane/mac_test_output",
+    		  slack_message: "Frollo iOS SDK: macOS Tests")
 
     run_tests(scheme: "FrolloSDK",
     		  clean: true,
     		  code_coverage: true,
-    		  devices: ["iPhone 5s (10.3.1)", "iPhone X", "Apple TV 4K"])
+    		  devices: ["iPhone 5s (10.3.1)", "iPhone X", "Apple TV 4K"],
+    		  slack_message: "Frollo iOS SDK: iOS and tvOS Tests")
 
     xcov(project: "FrolloSDK.xcodeproj",
     	 scheme: "FrolloSDK")
