@@ -7,10 +7,25 @@
 
 import Foundation
 
+public typealias FrolloSDKCompletionHandler = (Error?) -> Void
+
 class FrolloSDK {
     
-    public func setup() -> Bool {
-        return true
+    public let preferences = Preferences()
+    
+    internal let authentication = Authentication()
+    internal let network: Network
+    
+    public init(serverURL: URL) {
+        self.network = Network(serverURL: serverURL)
+    }
+    
+    public func authenticate(authToken: String, completion: FrolloSDKCompletionHandler) {
+        authentication.authenticate(authToken, completion: completion)
+    }
+    
+    public func reset() {
+        
     }
     
 }

@@ -11,6 +11,9 @@
 		01527CCE20E1B5C300B5042A /* FrolloSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */; };
 		01527CD020E1B5C300B5042A /* FrolloSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 01527CC220E1B5C300B5042A /* FrolloSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01527CD920E1C5A600B5042A /* FrolloSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CD820E1C5A600B5042A /* FrolloSDK.swift */; };
+		01EED86220E5A7EB00F4516B /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED85C20E5A7EA00F4516B /* Authentication.swift */; };
+		01EED86320E5A7EB00F4516B /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED85F20E5A7EA00F4516B /* Network.swift */; };
+		01EED86420E5A7EB00F4516B /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED86120E5A7EA00F4516B /* Preferences.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +38,9 @@
 		01527CDA20E1CD1800B5042A /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		01527CDB20E1CD1800B5042A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		01527CDC20E1CD1800B5042A /* Carthage.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Carthage.xcconfig; sourceTree = "<group>"; };
+		01EED85C20E5A7EA00F4516B /* Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
+		01EED85F20E5A7EA00F4516B /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		01EED86120E5A7EA00F4516B /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +90,11 @@
 				01527CC220E1B5C300B5042A /* FrolloSDK.h */,
 				01527CD820E1C5A600B5042A /* FrolloSDK.swift */,
 				01527CC320E1B5C300B5042A /* Info.plist */,
+				01EED85D20E5A7EA00F4516B /* Aggregation */,
+				01EED85B20E5A7EA00F4516B /* Authentication */,
+				01EED85A20E5A7EA00F4516B /* Model */,
+				01EED85E20E5A7EA00F4516B /* Network */,
+				01EED86020E5A7EA00F4516B /* Preferences */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -95,6 +106,44 @@
 				01527CCF20E1B5C300B5042A /* Info.plist */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		01EED85A20E5A7EA00F4516B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		01EED85B20E5A7EA00F4516B /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				01EED85C20E5A7EA00F4516B /* Authentication.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		01EED85D20E5A7EA00F4516B /* Aggregation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Aggregation;
+			sourceTree = "<group>";
+		};
+		01EED85E20E5A7EA00F4516B /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				01EED85F20E5A7EA00F4516B /* Network.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		01EED86020E5A7EA00F4516B /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				01EED86120E5A7EA00F4516B /* Preferences.swift */,
+			);
+			path = Preferences;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -207,6 +256,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				01527CD920E1C5A600B5042A /* FrolloSDK.swift in Sources */,
+				01EED86220E5A7EB00F4516B /* Authentication.swift in Sources */,
+				01EED86420E5A7EB00F4516B /* Preferences.swift in Sources */,
+				01EED86320E5A7EB00F4516B /* Network.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

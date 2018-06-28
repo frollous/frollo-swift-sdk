@@ -10,8 +10,6 @@ import XCTest
 
 class FrolloSDKTests: XCTestCase {
     
-    private let sdk = FrolloSDK()
-    
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -22,15 +20,12 @@ class FrolloSDKTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        XCTAssert(sdk.setup())
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testSDKSetupServerURLIsSet() {
+        let url = URL(string: "https://api.example.com")!
+        
+        let sdk = FrolloSDK(serverURL: url)
+        
+        XCTAssertEqual(sdk.network.serverURL, url)
     }
     
 }
