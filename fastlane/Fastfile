@@ -21,7 +21,7 @@ platform :ios do
   desc "Frollo SDK testing and deployment"
 
   lane :test do
-    #setup_jenkins
+    setup_jenkins
 
     if carthage_cache_exist(bucket: 'frollo-sdk-carthage-cache')
       carthage_cache_install(
