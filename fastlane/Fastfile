@@ -21,7 +21,7 @@ platform :ios do
   desc "Frollo SDK testing and deployment"
 
   lane :test do
-    setup_jenkins
+    #setup_jenkins
 
     if carthage_cache_exist(bucket: 'frollo-sdk-carthage-cache')
       carthage_cache_install(
@@ -41,13 +41,19 @@ platform :ios do
 
  	run_tests(scheme: "FrolloSDK",
     		  clean: true,
-    		  destination: "platform=OS X,arch=x86_64",
+    		  code_coverage: true,
+    		  destination: "platform=macOS,arch=x86_64",
     		  output_directory: "fastlane/mac_test_output")
 
     run_tests(scheme: "FrolloSDK",
     		  clean: true,
+    		  code_coverage: true,
     		  devices: ["iPhone 5s (10.3.1)", "iPhone X", "Apple TV 4K"])
 
+    xcov(project: "FrolloSDK.xcodeproj",
+    	 scheme: "FrolloSDK")
+
+    jazzy
 
   end
 end

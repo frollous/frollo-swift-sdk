@@ -67,3 +67,10 @@ fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
 fastlane/mac_test_output
+fastlane/xcov_report
+
+# jazzy
+
+docs
+
+

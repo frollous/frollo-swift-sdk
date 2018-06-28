@@ -119,7 +119,6 @@
 				01527CBB20E1B5C300B5042A /* Frameworks */,
 				01527CBC20E1B5C300B5042A /* Headers */,
 				01527CBD20E1B5C300B5042A /* Resources */,
-				01EED85320E3515500F4516B /* Carthage Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -202,24 +201,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		01EED85320E3515500F4516B /* Carthage Copy Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/Mac/Alamofire.framework",
-			);
-			name = "Carthage Copy Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		01527CBA20E1B5C300B5042A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -252,6 +233,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 01527CDC20E1CD1800B5042A /* Carthage.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
@@ -265,6 +247,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 01527CDC20E1CD1800B5042A /* Carthage.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
