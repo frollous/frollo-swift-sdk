@@ -55,7 +55,7 @@ class DatabaseTests: XCTestCase {
     }
     
     func checkDatabaseEmpty(database: Database) {
-        let context = database.persistentContainer.newBackgroundContext()
+        let context = database.viewContext
         
         for entity in database.persistentContainer.managedObjectModel.entities {
             guard let entityName = entity.name

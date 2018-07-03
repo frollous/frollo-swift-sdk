@@ -20,12 +20,32 @@ class FrolloSDKTests: XCTestCase {
         super.tearDown()
     }
     
-    func testSDKSetupServerURLIsSet() {
+    func testSDKInitServerURLIsSet() {
         let url = URL(string: "https://api.example.com")!
         
         let sdk = FrolloSDK(serverURL: url)
         
         XCTAssertEqual(sdk.network.serverURL, url)
+    }
+    
+    func testSDKSetupSuccess() {
+        let url = URL(string: "https://api.example.com")!
+        
+        let sdk = FrolloSDK(serverURL: url)
+        
+        sdk.setup { (error) in
+            XCTAssertNil(error)
+        }
+    }
+    
+    func testSDKResetSuccess() {
+        let url = URL(string: "https://api.example.com")!
+        
+        let sdk = FrolloSDK(serverURL: url)
+        
+        sdk.reset { (error) in
+            XCTAssertNil(error)
+        }
     }
     
 }

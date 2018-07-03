@@ -129,40 +129,40 @@ class Database {
         - completionHandler: Completion handler is called with success indicating success or failure
      
      */
-    internal func migrate(completionHandler: @escaping (Bool) -> Void) -> Progress? {
-        migrationLock.lock()
-        
-        let progress = Progress(totalUnitCount: 1)
-        
-        let modelURL = Bundle(for: type(of: self)).url(forResource: DatabaseConstants.storeName, withExtension: DatabaseConstants.parentModelExtension)!
-        let model = NSManagedObjectModel(contentsOf: modelURL)!
-        
-        let storeDescription = NSPersistentStoreDescription(url: Database.storeURL)
-        storeDescription.shouldMigrateStoreAutomatically = true
-        storeDescription.shouldInferMappingModelAutomatically = true
-        
-        let migrationContainer = NSPersistentContainer(name: DatabaseConstants.modelName, managedObjectModel: model)
-        migrationContainer.persistentStoreDescriptions = [storeDescription]
-        
-        migrationContainer.loadPersistentStores { (persistentStoreDescription, error) in
-            self.migrationLock.unlock()
-            
-            if let migrationError = error {
-                // TODO: Replace with logging
-                print("Database store migration failed.")
-                print(migrationError.localizedDescription)
-                
-                completionHandler(false)
-            } else {
-                // TODO: Replace with logging
-                print("Database store successfully migrated.")
-                
-                completionHandler(true)
-            }
-        }
-        
-        return progress
-    }
+//    internal func migrate(completionHandler: @escaping (Bool) -> Void) -> Progress? {
+//        migrationLock.lock()
+//
+//        let progress = Progress(totalUnitCount: 1)
+//
+//        let modelURL = Bundle(for: type(of: self)).url(forResource: DatabaseConstants.storeName, withExtension: DatabaseConstants.parentModelExtension)!
+//        let model = NSManagedObjectModel(contentsOf: modelURL)!
+//
+//        let storeDescription = NSPersistentStoreDescription(url: Database.storeURL)
+//        storeDescription.shouldMigrateStoreAutomatically = true
+//        storeDescription.shouldInferMappingModelAutomatically = true
+//
+//        let migrationContainer = NSPersistentContainer(name: DatabaseConstants.modelName, managedObjectModel: model)
+//        migrationContainer.persistentStoreDescriptions = [storeDescription]
+//
+//        migrationContainer.loadPersistentStores { (persistentStoreDescription, error) in
+//            self.migrationLock.unlock()
+//
+//            if let migrationError = error {
+//                // TODO: Replace with logging
+//                print("Database store migration failed.")
+//                print(migrationError.localizedDescription)
+//
+//                completionHandler(false)
+//            } else {
+//                // TODO: Replace with logging
+//                print("Database store successfully migrated.")
+//
+//                completionHandler(true)
+//            }
+//        }
+//
+//        return progress
+//    }
     
     // MARK: - Reset
     
