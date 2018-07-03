@@ -53,7 +53,8 @@ platform :ios do
     		  slack_message: "Frollo iOS SDK: iOS and tvOS Tests")
 
     xcov(project: "FrolloSDK.xcodeproj",
-    	 scheme: "FrolloSDK")
+    	 scheme: "FrolloSDK",
+    	 derived_data_path: "./derivedData")
 
     jazzy
 
