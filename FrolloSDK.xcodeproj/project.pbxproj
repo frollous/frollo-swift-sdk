@@ -11,9 +11,16 @@
 		01527CCE20E1B5C300B5042A /* FrolloSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */; };
 		01527CD020E1B5C300B5042A /* FrolloSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 01527CC220E1B5C300B5042A /* FrolloSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01527CD920E1C5A600B5042A /* FrolloSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CD820E1C5A600B5042A /* FrolloSDK.swift */; };
+		01C824E520EB0E620093400E /* Test+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824E320EB0E620093400E /* Test+CoreDataClass.swift */; };
+		01C824E920EB2F570093400E /* Data+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824E820EB2F570093400E /* Data+Random.swift */; };
 		01EED86220E5A7EB00F4516B /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED85C20E5A7EA00F4516B /* Authentication.swift */; };
 		01EED86320E5A7EB00F4516B /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED85F20E5A7EA00F4516B /* Network.swift */; };
 		01EED86420E5A7EB00F4516B /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED86120E5A7EA00F4516B /* Preferences.swift */; };
+		01EED86B20E5AA5B00F4516B /* FrolloSDKDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 01EED86920E5AA5B00F4516B /* FrolloSDKDataModel.xcdatamodeld */; };
+		01EED86E20E5AAAB00F4516B /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED86D20E5AAAB00F4516B /* Database.swift */; };
+		01EEDB1820EADF1E00F4516B /* TestInvalidDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 01EEDB1620EADF1E00F4516B /* TestInvalidDataModel.xcdatamodeld */; };
+		01EEDB1B20EAE2CE00F4516B /* DatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EEDB1A20EAE2CE00F4516B /* DatabaseTests.swift */; };
+		01EEDB1D20EAEA2000F4516B /* DatabaseMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EEDB1C20EAEA2000F4516B /* DatabaseMigrationTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,9 +45,16 @@
 		01527CDA20E1CD1800B5042A /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		01527CDB20E1CD1800B5042A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		01527CDC20E1CD1800B5042A /* Carthage.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Carthage.xcconfig; sourceTree = "<group>"; };
+		01C824E320EB0E620093400E /* Test+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Test+CoreDataClass.swift"; sourceTree = "<group>"; };
+		01C824E820EB2F570093400E /* Data+Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Random.swift"; sourceTree = "<group>"; };
 		01EED85C20E5A7EA00F4516B /* Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
 		01EED85F20E5A7EA00F4516B /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		01EED86120E5A7EA00F4516B /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		01EED86A20E5AA5B00F4516B /* FrolloSDKDataModel-1.0.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.0.0.xcdatamodel"; sourceTree = "<group>"; };
+		01EED86D20E5AAAB00F4516B /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
+		01EEDB1720EADF1E00F4516B /* TestInvalidDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestInvalidDataModel.xcdatamodel; sourceTree = "<group>"; };
+		01EEDB1A20EAE2CE00F4516B /* DatabaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseTests.swift; sourceTree = "<group>"; };
+		01EEDB1C20EAEA2000F4516B /* DatabaseMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseMigrationTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +101,7 @@
 		01527CC120E1B5C300B5042A /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				01EED86C20E5AA8B00F4516B /* Database */,
 				01527CC220E1B5C300B5042A /* FrolloSDK.h */,
 				01527CD820E1C5A600B5042A /* FrolloSDK.swift */,
 				01527CC320E1B5C300B5042A /* Info.plist */,
@@ -102,15 +117,27 @@
 		01527CCC20E1B5C300B5042A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				01C824E720EB2F4A0093400E /* Extensions */,
+				01EEDB1920EAE2A900F4516B /* Database */,
 				01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */,
 				01527CCF20E1B5C300B5042A /* Info.plist */,
+				01EEDB1520EADEFA00F4516B /* Resources */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		01C824E720EB2F4A0093400E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				01C824E820EB2F570093400E /* Data+Random.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		01EED85A20E5A7EA00F4516B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				01C824E320EB0E620093400E /* Test+CoreDataClass.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -146,6 +173,32 @@
 			path = Preferences;
 			sourceTree = "<group>";
 		};
+		01EED86C20E5AA8B00F4516B /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				01EED86920E5AA5B00F4516B /* FrolloSDKDataModel.xcdatamodeld */,
+				01EED86D20E5AAAB00F4516B /* Database.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		01EEDB1520EADEFA00F4516B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				01EEDB1620EADF1E00F4516B /* TestInvalidDataModel.xcdatamodeld */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		01EEDB1920EAE2A900F4516B /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				01EEDB1A20EAE2CE00F4516B /* DatabaseTests.swift */,
+				01EEDB1C20EAEA2000F4516B /* DatabaseMigrationTests.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -164,6 +217,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 01527CD120E1B5C300B5042A /* Build configuration list for PBXNativeTarget "FrolloSDK" */;
 			buildPhases = (
+				01EED86F20E5B4C500F4516B /* Scan TODO and FIXME flags */,
 				01527CBA20E1B5C300B5042A /* Sources */,
 				01527CBB20E1B5C300B5042A /* Frameworks */,
 				01527CBC20E1B5C300B5042A /* Headers */,
@@ -250,13 +304,33 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		01EED86F20E5B4C500F4516B /* Scan TODO and FIXME flags */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Scan TODO and FIXME flags";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}/Sources\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		01527CBA20E1B5C300B5042A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01EED86E20E5AAAB00F4516B /* Database.swift in Sources */,
+				01C824E520EB0E620093400E /* Test+CoreDataClass.swift in Sources */,
 				01527CD920E1C5A600B5042A /* FrolloSDK.swift in Sources */,
 				01EED86220E5A7EB00F4516B /* Authentication.swift in Sources */,
+				01EED86B20E5AA5B00F4516B /* FrolloSDKDataModel.xcdatamodeld in Sources */,
 				01EED86420E5A7EB00F4516B /* Preferences.swift in Sources */,
 				01EED86320E5A7EB00F4516B /* Network.swift in Sources */,
 			);
@@ -266,7 +340,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01EEDB1B20EAE2CE00F4516B /* DatabaseTests.swift in Sources */,
+				01EEDB1D20EAEA2000F4516B /* DatabaseMigrationTests.swift in Sources */,
 				01527CCE20E1B5C300B5042A /* FrolloSDKTests.swift in Sources */,
+				01EEDB1820EADF1E00F4516B /* TestInvalidDataModel.xcdatamodeld in Sources */,
+				01C824E920EB2F570093400E /* Data+Random.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,6 +702,29 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		01EED86920E5AA5B00F4516B /* FrolloSDKDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				01EED86A20E5AA5B00F4516B /* FrolloSDKDataModel-1.0.0.xcdatamodel */,
+			);
+			currentVersion = 01EED86A20E5AA5B00F4516B /* FrolloSDKDataModel-1.0.0.xcdatamodel */;
+			path = FrolloSDKDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		01EEDB1620EADF1E00F4516B /* TestInvalidDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				01EEDB1720EADF1E00F4516B /* TestInvalidDataModel.xcdatamodel */,
+			);
+			currentVersion = 01EEDB1720EADF1E00F4516B /* TestInvalidDataModel.xcdatamodel */;
+			path = TestInvalidDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 01527CB420E1B49800B5042A /* Project object */;
 }
