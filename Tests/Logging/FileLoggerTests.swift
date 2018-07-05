@@ -46,33 +46,6 @@ class FileLoggerTests: XCTestCase {
     
     // MARK: - Tests
     
-    func testLogFileCreatesFolderIfMissing() {
-        // Delete the container folder
-        let logTestPath = logPath()
-        let previousTestPath = previousLogPath()
-        let folderPath = logTestPath.deletingLastPathComponent()
-        
-        do {
-            try FileManager.default.removeItem(at: folderPath)
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
-        
-        let testMessage1 = "typewriter four loko tofu disrupt cornhole flexitarian hella"
-        
-        let fileLogger = FileLogger(path: logTestPath, previousPath: previousTestPath)
-        
-        fileLogger.writeMessage(testMessage1, level: .debug)
-        
-        do {
-            let logContents = try String(contentsOf: logTestPath)
-            
-            XCTAssertEqual(testMessage1 + "\n", logContents)
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
-    }
-    
     func testLogFileLogs() {
         let logTestPath = logPath()
         let previousTestPath = previousLogPath()
