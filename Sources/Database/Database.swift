@@ -65,16 +65,14 @@ class Database {
         
         persistentContainer.loadPersistentStores { (persistentStoreDescription, error) in
             if let setupError = error {
-                // TODO: Replace with logging
-                print(setupError.localizedDescription)
+                Log.error(setupError.localizedDescription)
                 
                 // Fallback to resetting the store
                 self.destroyPersistentStore()
                 
                 self.persistentContainer.loadPersistentStores(completionHandler: { (persistentStoreDescription, secondarySetupError) in
                     if let setupError = secondarySetupError {
-                        // TODO: Replace with logging
-                        print(setupError.localizedDescription)
+                        Log.error(setupError.localizedDescription)
                     }
                     
                     completionHandler(secondarySetupError)
@@ -104,8 +102,7 @@ class Database {
             let model = NSManagedObjectModel(contentsOf: Bundle(for: type(of: self)).url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!)!
             return !model.isConfiguration(withName: nil, compatibleWithStoreMetadata: storeMetadata)
         } catch let error {
-            // TODO: Replace with logging
-            print(error.localizedDescription)
+            Log.error(error.localizedDescription)
             
             return false
         }
@@ -138,14 +135,12 @@ class Database {
 //            self.migrationLock.unlock()
 //
 //            if let migrationError = error {
-//                // TODO: Replace with logging
-//                print("Database store migration failed.")
-//                print(migrationError.localizedDescription)
+//                Log.fault("Database store migration failed.")
+//                Log.fault(migrationError.localizedDescription)
 //
 //                completionHandler(false)
 //            } else {
-//                // TODO: Replace with logging
-//                print("Database store successfully migrated.")
+//                Log.info("Database store successfully migrated.")
 //
 //                completionHandler(true)
 //            }
@@ -174,8 +169,7 @@ class Database {
         do {
             try persistentStoreCoordinator.destroyPersistentStore(at: Database.storeURL, ofType: NSSQLiteStoreType, options: nil)
         } catch {
-            // TODO: Replace with logging
-            print(error.localizedDescription)
+            Log.error(error.localizedDescription)
         }
     }
     
