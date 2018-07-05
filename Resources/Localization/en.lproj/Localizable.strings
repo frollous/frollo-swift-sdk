@@ -1,0 +1,33 @@
+/* 
+  Strings.strings
+  FrolloSDK
+
+  Created by Nick Dawson on 5/7/18.
+  Copyright © 2018 Frollo. All rights reserved.
+*/
+
+"BadRequest" = "Something went wrong. Please check you are using the latest version of the app and try again.";
+"ConnectionFailure" = "The server couldn't be contacted. Please check your internet connection and try again.";
+"DatabaseError" = "The local database has been corrupted. Please login again and your data will be synced from our servers.";
+"DeprecatedError" = "This version of the app is no longer supported. Please upgrade to the latest version to continue.";
+"DiskFullError" = "Your device has run out of free space and Frollo can no longer function correctly. Please free up some space before trying again.";
+"FacebookLoggedOut" = "Your Facebook login has expired. Please login again.";
+"InvalidAccessToken" = "Invalid access token. Please contact support.";
+"InvalidData" = "The server returned invalid data. Please check you are using the latest version of the app and try again.";
+"InvalidRefreshToken" = "Your login has expired. Please login again.";
+"InvalidSSL" = "Invalid SSL connection. Please check you are using the latest version of the app. This could be an attempt to intercept your private data.";
+"InvalidUsernamePassword" = "Your username or password is incorrect. Please check them and try again.";
+"Maintenance" = "The server is currently under maintenance and will be available again shortly.";
+"NotFound" = "We couldn't find that. Please check you are using the latest version of the app and try again.";
+"NotImplemented" = "Oh dear, it looks like our elves forgot to finish building that...";
+"PasscodeError" = "You entered an incorrect passcode too many times and have been logged out.";
+"RateLimit" = "The app has been rate limited.";
+"ServerError" = "Something went wrong at our end. Please try again later. Contact support if this issue persists.";
+"SuspendedDevice" = "This device has been logged out. Please login again to continue.";
+"SuspendedUser" = "This account has been disabled. Please contact support for details.";
+"SystemError" = "Something in the app went wrong. Please check you are using the latest version of the app and try again.";
+"Unauthorised" = "You don't have permission to do this. Please contact support if this issue persists.";
+"UnknownAuthorisation" = "Your login has expired unexpectedly. Please login again.";
+"UnknownError" = "Something unexpected went wrong. Please try again shortly.";
+"UserAlreadyExists" = "An account already exists with this email. Please login or use another email.";
+"UserLoggedOut" = "Your login has expired unexpectedly. Please login again.";
