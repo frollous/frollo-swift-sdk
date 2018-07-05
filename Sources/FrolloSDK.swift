@@ -11,6 +11,17 @@ public typealias FrolloSDKCompletionHandler = (Error?) -> Void
 
 class FrolloSDK {
     
+    struct FrolloSDKConstants {
+        static let dataFolder = "FrolloSDKData"
+    }
+    
+    static internal let dataFolderURL: URL = {
+        let urls = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
+        var appDataURL = urls[0]
+        appDataURL.appendPathComponent(FrolloSDKConstants.dataFolder)
+        return appDataURL
+    }()
+    
     public let preferences = Preferences()
     
 //    internal let authentication = Authentication()
@@ -18,6 +29,15 @@ class FrolloSDK {
     internal let network: Network
     
     public init(serverURL: URL) {
+        // Create data folder if it doesn't exist
+        if !FileManager.default.fileExists(atPath: FrolloSDK.dataFolderURL.path) {
+            do {
+                try FileManager.default.createDirectory(at: FrolloSDK.dataFolderURL, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                fatalError("FrolloSDK could not create app data folder. SDK cannot function without this.")
+            }
+        }
+        
         self.network = Network(serverURL: serverURL)
     }
     

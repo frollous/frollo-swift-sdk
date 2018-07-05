@@ -20,6 +20,25 @@ class FrolloSDKTests: XCTestCase {
         super.tearDown()
     }
     
+    // MARK: - Helpers
+    
+    func removeDataFolder() {
+        // Remove app data folder from disk
+        try? FileManager.default.removeItem(atPath: FrolloSDK.dataFolderURL.path)
+    }
+    
+    // MARK: - Tests
+    
+    func testSDKCreatesDataFolder() {
+        removeDataFolder()
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        _ = FrolloSDK(serverURL: url)
+        
+        XCTAssertTrue(FileManager.default.fileExists(atPath: FrolloSDK.dataFolderURL.path))
+    }
+    
     func testSDKInitServerURLIsSet() {
         let url = URL(string: "https://api.example.com")!
         

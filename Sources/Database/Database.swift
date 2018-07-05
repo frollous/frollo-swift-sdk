@@ -22,14 +22,8 @@ class Database {
     
     private var migrationLock = NSLock()
     
-    static internal let appDataURL: URL = {
-        let urls = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
-        var appDataURL = urls[0]
-        appDataURL.appendPathComponent(DatabaseConstants.appDataFolder)
-        return appDataURL
-    }()
     static internal let storeURL: URL = {
-        var storeURL = appDataURL.appendingPathComponent(DatabaseConstants.storeName)
+        var storeURL = FrolloSDK.dataFolderURL.appendingPathComponent(DatabaseConstants.storeName)
         storeURL.appendPathExtension(DatabaseConstants.storeExtension)
         return storeURL
     }()
@@ -49,10 +43,6 @@ class Database {
      Sets up a Core Data stack with NSPersistentContainer to manager the NSManagedObjectContexts
      */
     init() {
-        if !FileManager.default.fileExists(atPath: Database.appDataURL.path) {
-            try! FileManager.default.createDirectory(at: Database.appDataURL, withIntermediateDirectories: true, attributes: nil)
-        }
-        
         let modelURL = Bundle(for: type(of: self)).url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!
         model = NSManagedObjectModel(contentsOf: modelURL)!
         

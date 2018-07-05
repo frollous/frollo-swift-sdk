@@ -17,24 +17,26 @@ class DatabaseTests: XCTestCase {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
         
-        removeDatabaseAppDataFolder()
+        removeDatabase()
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
         
-        removeDatabaseAppDataFolder()
+        removeDatabase()
     }
     
     // MARK: - Helpers
     
-    func removeDatabaseAppDataFolder() {
-        // Remove database from disk
-        let storeURL = Database.storeURL
-        let storeFolder = storeURL.deletingLastPathComponent()
+    func removeDatabase() {
+        let databaseURL = Database.storeURL
+        let databaseSHMURL = Database.storeURL.appendingPathExtension("-shm")
+        let databaseWALURL = Database.storeURL.appendingPathExtension("-wal")
         
-        try? FileManager.default.removeItem(atPath: storeFolder.path)
+        try? FileManager.default.removeItem(at: databaseURL)
+        try? FileManager.default.removeItem(at: databaseSHMURL)
+        try? FileManager.default.removeItem(at: databaseWALURL)
     }
     
     func insertTestData(database: Database) {
@@ -89,7 +91,7 @@ class DatabaseTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        removeDatabaseAppDataFolder()
+        removeDatabase()
     }
     
     func testDatabaseSetupSuccess() {
