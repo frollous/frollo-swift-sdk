@@ -11,7 +11,32 @@
 		01527CCE20E1B5C300B5042A /* FrolloSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */; };
 		01527CD020E1B5C300B5042A /* FrolloSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 01527CC220E1B5C300B5042A /* FrolloSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01527CD920E1C5A600B5042A /* FrolloSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CD820E1C5A600B5042A /* FrolloSDK.swift */; };
-		01C824E520EB0E620093400E /* Test+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824E320EB0E620093400E /* Test+CoreDataClass.swift */; };
+		016DD0A420EF365100F41919 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016DD0A320EF365100F41919 /* APIErrorTests.swift */; };
+		017391EE20EEFFEA00C0BB32 /* Test+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017391ED20EEFFEA00C0BB32 /* Test+CoreDataClass.swift */; };
+		017391F020EF001200C0BB32 /* APIErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017391EF20EF001200C0BB32 /* APIErrorResponse.swift */; };
+		01B896B520F2EDA30068069A /* error_invalid_value.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896A320F2EDA30068069A /* error_invalid_value.json */; };
+		01B896B620F2EDA30068069A /* error_invalid_auth_head.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896A420F2EDA30068069A /* error_invalid_auth_head.json */; };
+		01B896B720F2EDA30068069A /* error_invalid_access_token.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896A520F2EDA30068069A /* error_invalid_access_token.json */; };
+		01B896B820F2EDA30068069A /* error_value_must_differ.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896A620F2EDA30068069A /* error_value_must_differ.json */; };
+		01B896B920F2EDA30068069A /* error_value_over_limit.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896A720F2EDA30068069A /* error_value_over_limit.json */; };
+		01B896BA20F2EDA30068069A /* error_invalid_refresh_token.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896A820F2EDA30068069A /* error_invalid_refresh_token.json */; };
+		01B896BB20F2EDA30068069A /* error_invalid_username_password.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896A920F2EDA30068069A /* error_invalid_username_password.json */; };
+		01B896BC20F2EDA30068069A /* error_invalid_user_agent.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896AA20F2EDA30068069A /* error_invalid_user_agent.json */; };
+		01B896BD20F2EDA30068069A /* error_server.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896AB20F2EDA30068069A /* error_server.json */; };
+		01B896BE20F2EDA30068069A /* error_internal_exception.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896AC20F2EDA30068069A /* error_internal_exception.json */; };
+		01B896BF20F2EDA30068069A /* error_suspended_user.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896AD20F2EDA30068069A /* error_suspended_user.json */; };
+		01B896C020F2EDA30068069A /* error_invalid_count.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896AE20F2EDA30068069A /* error_invalid_count.json */; };
+		01B896C120F2EDA30068069A /* error_duplicate.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896AF20F2EDA30068069A /* error_duplicate.json */; };
+		01B896C220F2EDA30068069A /* error_invalid_length.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896B020F2EDA30068069A /* error_invalid_length.json */; };
+		01B896C320F2EDA30068069A /* error_not_found.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896B120F2EDA30068069A /* error_not_found.json */; };
+		01B896C420F2EDA30068069A /* error_aggregator.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896B220F2EDA30068069A /* error_aggregator.json */; };
+		01B896C520F2EDA30068069A /* error_suspended_device.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896B320F2EDA30068069A /* error_suspended_device.json */; };
+		01B896C620F2EDA30068069A /* error_not_allowed.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896B420F2EDA30068069A /* error_not_allowed.json */; };
+		01B896CA20F3106B0068069A /* error_unknown_code.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896C720F3106A0068069A /* error_unknown_code.json */; };
+		01B896CB20F3106B0068069A /* error_bad_format.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896C820F3106A0068069A /* error_bad_format.json */; };
+		01B896CC20F3106B0068069A /* error_missing_code.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896C920F3106B0068069A /* error_missing_code.json */; };
+		01B896CE20F3169F0068069A /* DataErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B896CD20F3169F0068069A /* DataErrorTests.swift */; };
+		01B896D020F32D5E0068069A /* NetworkErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B896CF20F32D5E0068069A /* NetworkErrorTests.swift */; };
 		01C824E920EB2F570093400E /* Data+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824E820EB2F570093400E /* Data+Random.swift */; };
 		01C824EC20EC34BA0093400E /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824EB20EC34BA0093400E /* Log.swift */; };
 		01C824EE20EC40FD0093400E /* ConsoleLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824ED20EC40FD0093400E /* ConsoleLogger.swift */; };
@@ -22,7 +47,7 @@
 		01C824F920EC8EF90093400E /* ConsoleLoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824F820EC8EF90093400E /* ConsoleLoggerTests.swift */; };
 		01C824FD20EDD6630093400E /* FrolloSDKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824FC20EDD6630093400E /* FrolloSDKError.swift */; };
 		01C8250320EDDB340093400E /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C8250220EDDB340093400E /* APIError.swift */; };
-		01C8250520EDDB410093400E /* SystemError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C8250420EDDB410093400E /* SystemError.swift */; };
+		01C8250520EDDB410093400E /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C8250420EDDB410093400E /* NetworkError.swift */; };
 		01C8250720EDDB4F0093400E /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C8250620EDDB4F0093400E /* DataError.swift */; };
 		01C8250D20EDEF250093400E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 01C8250F20EDEF250093400E /* Localizable.strings */; };
 		01C8251420EDF6200093400E /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C8251320EDF6200093400E /* Localization.swift */; };
@@ -58,7 +83,32 @@
 		01527CDA20E1CD1800B5042A /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		01527CDB20E1CD1800B5042A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		01527CDC20E1CD1800B5042A /* Carthage.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Carthage.xcconfig; sourceTree = "<group>"; };
-		01C824E320EB0E620093400E /* Test+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Test+CoreDataClass.swift"; sourceTree = "<group>"; };
+		016DD0A320EF365100F41919 /* APIErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorTests.swift; sourceTree = "<group>"; };
+		017391ED20EEFFEA00C0BB32 /* Test+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Test+CoreDataClass.swift"; sourceTree = "<group>"; };
+		017391EF20EF001200C0BB32 /* APIErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorResponse.swift; sourceTree = "<group>"; };
+		01B896A320F2EDA30068069A /* error_invalid_value.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_invalid_value.json; sourceTree = "<group>"; };
+		01B896A420F2EDA30068069A /* error_invalid_auth_head.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_invalid_auth_head.json; sourceTree = "<group>"; };
+		01B896A520F2EDA30068069A /* error_invalid_access_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_invalid_access_token.json; sourceTree = "<group>"; };
+		01B896A620F2EDA30068069A /* error_value_must_differ.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_value_must_differ.json; sourceTree = "<group>"; };
+		01B896A720F2EDA30068069A /* error_value_over_limit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_value_over_limit.json; sourceTree = "<group>"; };
+		01B896A820F2EDA30068069A /* error_invalid_refresh_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_invalid_refresh_token.json; sourceTree = "<group>"; };
+		01B896A920F2EDA30068069A /* error_invalid_username_password.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_invalid_username_password.json; sourceTree = "<group>"; };
+		01B896AA20F2EDA30068069A /* error_invalid_user_agent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_invalid_user_agent.json; sourceTree = "<group>"; };
+		01B896AB20F2EDA30068069A /* error_server.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_server.json; sourceTree = "<group>"; };
+		01B896AC20F2EDA30068069A /* error_internal_exception.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_internal_exception.json; sourceTree = "<group>"; };
+		01B896AD20F2EDA30068069A /* error_suspended_user.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_suspended_user.json; sourceTree = "<group>"; };
+		01B896AE20F2EDA30068069A /* error_invalid_count.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_invalid_count.json; sourceTree = "<group>"; };
+		01B896AF20F2EDA30068069A /* error_duplicate.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_duplicate.json; sourceTree = "<group>"; };
+		01B896B020F2EDA30068069A /* error_invalid_length.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_invalid_length.json; sourceTree = "<group>"; };
+		01B896B120F2EDA30068069A /* error_not_found.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_not_found.json; sourceTree = "<group>"; };
+		01B896B220F2EDA30068069A /* error_aggregator.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_aggregator.json; sourceTree = "<group>"; };
+		01B896B320F2EDA30068069A /* error_suspended_device.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_suspended_device.json; sourceTree = "<group>"; };
+		01B896B420F2EDA30068069A /* error_not_allowed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_not_allowed.json; sourceTree = "<group>"; };
+		01B896C720F3106A0068069A /* error_unknown_code.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_unknown_code.json; sourceTree = "<group>"; };
+		01B896C820F3106A0068069A /* error_bad_format.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_bad_format.json; sourceTree = "<group>"; };
+		01B896C920F3106B0068069A /* error_missing_code.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_missing_code.json; sourceTree = "<group>"; };
+		01B896CD20F3169F0068069A /* DataErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataErrorTests.swift; sourceTree = "<group>"; };
+		01B896CF20F32D5E0068069A /* NetworkErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorTests.swift; sourceTree = "<group>"; };
 		01C824E820EB2F570093400E /* Data+Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Random.swift"; sourceTree = "<group>"; };
 		01C824EB20EC34BA0093400E /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		01C824ED20EC40FD0093400E /* ConsoleLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleLogger.swift; sourceTree = "<group>"; };
@@ -69,7 +119,7 @@
 		01C824F820EC8EF90093400E /* ConsoleLoggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleLoggerTests.swift; sourceTree = "<group>"; };
 		01C824FC20EDD6630093400E /* FrolloSDKError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrolloSDKError.swift; sourceTree = "<group>"; };
 		01C8250220EDDB340093400E /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
-		01C8250420EDDB410093400E /* SystemError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemError.swift; sourceTree = "<group>"; };
+		01C8250420EDDB410093400E /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		01C8250620EDDB4F0093400E /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
 		01C8250E20EDEF250093400E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		01C8251320EDF6200093400E /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
@@ -148,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				01EEDB1920EAE2A900F4516B /* Database */,
+				016DD0A220EF356D00F41919 /* Error */,
 				01C824E720EB2F4A0093400E /* Extensions */,
 				01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */,
 				01527CCF20E1B5C300B5042A /* Info.plist */,
@@ -155,6 +206,68 @@
 				01EEDB1520EADEFA00F4516B /* Resources */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		016DD0A220EF356D00F41919 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				016DD0A320EF365100F41919 /* APIErrorTests.swift */,
+				01B896CD20F3169F0068069A /* DataErrorTests.swift */,
+				01B896CF20F32D5E0068069A /* NetworkErrorTests.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		017391EB20EEFFEA00C0BB32 /* Transient */ = {
+			isa = PBXGroup;
+			children = (
+				017391EF20EF001200C0BB32 /* APIErrorResponse.swift */,
+			);
+			path = Transient;
+			sourceTree = "<group>";
+		};
+		017391EC20EEFFEA00C0BB32 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				017391ED20EEFFEA00C0BB32 /* Test+CoreDataClass.swift */,
+			);
+			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		01B896A120F2EDA30068069A /* API */ = {
+			isa = PBXGroup;
+			children = (
+				01B896A220F2EDA30068069A /* Error */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		01B896A220F2EDA30068069A /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				01B896B220F2EDA30068069A /* error_aggregator.json */,
+				01B896C820F3106A0068069A /* error_bad_format.json */,
+				01B896AF20F2EDA30068069A /* error_duplicate.json */,
+				01B896AC20F2EDA30068069A /* error_internal_exception.json */,
+				01B896A520F2EDA30068069A /* error_invalid_access_token.json */,
+				01B896A420F2EDA30068069A /* error_invalid_auth_head.json */,
+				01B896AE20F2EDA30068069A /* error_invalid_count.json */,
+				01B896B020F2EDA30068069A /* error_invalid_length.json */,
+				01B896A820F2EDA30068069A /* error_invalid_refresh_token.json */,
+				01B896AA20F2EDA30068069A /* error_invalid_user_agent.json */,
+				01B896A920F2EDA30068069A /* error_invalid_username_password.json */,
+				01B896A320F2EDA30068069A /* error_invalid_value.json */,
+				01B896C920F3106B0068069A /* error_missing_code.json */,
+				01B896B420F2EDA30068069A /* error_not_allowed.json */,
+				01B896B120F2EDA30068069A /* error_not_found.json */,
+				01B896AB20F2EDA30068069A /* error_server.json */,
+				01B896B320F2EDA30068069A /* error_suspended_device.json */,
+				01B896AD20F2EDA30068069A /* error_suspended_user.json */,
+				01B896C720F3106A0068069A /* error_unknown_code.json */,
+				01B896A620F2EDA30068069A /* error_value_must_differ.json */,
+				01B896A720F2EDA30068069A /* error_value_over_limit.json */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		01C824E720EB2F4A0093400E /* Extensions */ = {
@@ -192,7 +305,7 @@
 				01C8250220EDDB340093400E /* APIError.swift */,
 				01C8250620EDDB4F0093400E /* DataError.swift */,
 				01C824FC20EDD6630093400E /* FrolloSDKError.swift */,
-				01C8250420EDDB410093400E /* SystemError.swift */,
+				01C8250420EDDB410093400E /* NetworkError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -233,7 +346,8 @@
 		01EED85A20E5A7EA00F4516B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				01C824E320EB0E620093400E /* Test+CoreDataClass.swift */,
+				017391EC20EEFFEA00C0BB32 /* Core Data */,
+				017391EB20EEFFEA00C0BB32 /* Transient */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -280,6 +394,7 @@
 		01EEDB1520EADEFA00F4516B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				01B896A120F2EDA30068069A /* API */,
 				01EEDB1620EADF1E00F4516B /* TestInvalidDataModel.xcdatamodeld */,
 			);
 			path = Resources;
@@ -395,6 +510,27 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01B896C020F2EDA30068069A /* error_invalid_count.json in Resources */,
+				01B896BD20F2EDA30068069A /* error_server.json in Resources */,
+				01B896BA20F2EDA30068069A /* error_invalid_refresh_token.json in Resources */,
+				01B896BC20F2EDA30068069A /* error_invalid_user_agent.json in Resources */,
+				01B896C120F2EDA30068069A /* error_duplicate.json in Resources */,
+				01B896C620F2EDA30068069A /* error_not_allowed.json in Resources */,
+				01B896BE20F2EDA30068069A /* error_internal_exception.json in Resources */,
+				01B896CC20F3106B0068069A /* error_missing_code.json in Resources */,
+				01B896B720F2EDA30068069A /* error_invalid_access_token.json in Resources */,
+				01B896C320F2EDA30068069A /* error_not_found.json in Resources */,
+				01B896B820F2EDA30068069A /* error_value_must_differ.json in Resources */,
+				01B896C420F2EDA30068069A /* error_aggregator.json in Resources */,
+				01B896CA20F3106B0068069A /* error_unknown_code.json in Resources */,
+				01B896B620F2EDA30068069A /* error_invalid_auth_head.json in Resources */,
+				01B896CB20F3106B0068069A /* error_bad_format.json in Resources */,
+				01B896C520F2EDA30068069A /* error_suspended_device.json in Resources */,
+				01B896BB20F2EDA30068069A /* error_invalid_username_password.json in Resources */,
+				01B896C220F2EDA30068069A /* error_invalid_length.json in Resources */,
+				01B896B520F2EDA30068069A /* error_invalid_value.json in Resources */,
+				01B896BF20F2EDA30068069A /* error_suspended_user.json in Resources */,
+				01B896B920F2EDA30068069A /* error_value_over_limit.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,15 +561,16 @@
 				01C8250720EDDB4F0093400E /* DataError.swift in Sources */,
 				01EED86E20E5AAAB00F4516B /* Database.swift in Sources */,
 				01C824FD20EDD6630093400E /* FrolloSDKError.swift in Sources */,
-				01C824E520EB0E620093400E /* Test+CoreDataClass.swift in Sources */,
 				01527CD920E1C5A600B5042A /* FrolloSDK.swift in Sources */,
 				01C824EE20EC40FD0093400E /* ConsoleLogger.swift in Sources */,
+				017391EE20EEFFEA00C0BB32 /* Test+CoreDataClass.swift in Sources */,
 				01C8251420EDF6200093400E /* Localization.swift in Sources */,
-				01C8250520EDDB410093400E /* SystemError.swift in Sources */,
+				01C8250520EDDB410093400E /* NetworkError.swift in Sources */,
 				01EED86220E5A7EB00F4516B /* Authentication.swift in Sources */,
 				01C824F520EC75560093400E /* FileLogger.swift in Sources */,
 				01EED86B20E5AA5B00F4516B /* FrolloSDKDataModel.xcdatamodeld in Sources */,
 				01EED86420E5A7EB00F4516B /* Preferences.swift in Sources */,
+				017391F020EF001200C0BB32 /* APIErrorResponse.swift in Sources */,
 				01C824F020EC410B0093400E /* NetworkLogger.swift in Sources */,
 				01C824EC20EC34BA0093400E /* Log.swift in Sources */,
 				01EED86320E5A7EB00F4516B /* Network.swift in Sources */,
@@ -445,9 +582,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				016DD0A420EF365100F41919 /* APIErrorTests.swift in Sources */,
 				01EEDB1B20EAE2CE00F4516B /* DatabaseTests.swift in Sources */,
+				01B896D020F32D5E0068069A /* NetworkErrorTests.swift in Sources */,
 				01C824F920EC8EF90093400E /* ConsoleLoggerTests.swift in Sources */,
 				01EEDB1D20EAEA2000F4516B /* DatabaseMigrationTests.swift in Sources */,
+				01B896CE20F3169F0068069A /* DataErrorTests.swift in Sources */,
 				01C824F720EC7AC30093400E /* FileLoggerTests.swift in Sources */,
 				01C824F320EC4D600093400E /* LogTests.swift in Sources */,
 				01527CCE20E1B5C300B5042A /* FrolloSDKTests.swift in Sources */,

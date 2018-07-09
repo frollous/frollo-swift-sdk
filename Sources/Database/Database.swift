@@ -60,7 +60,7 @@ class Database {
      - parameters:
         - completionHandler: Completion handler is called with error indicating if the setup was successful or not
     */
-    internal func setup(completionHandler: @escaping (Error?) -> Void) {
+    internal func setup(completionHandler: @escaping (FrolloSDKError?) -> Void) {
         migrationLock.lock()
         
         persistentContainer.loadPersistentStores { (persistentStoreDescription, error) in
@@ -73,12 +73,15 @@ class Database {
                 self.persistentContainer.loadPersistentStores(completionHandler: { (persistentStoreDescription, secondarySetupError) in
                     if let setupError = secondarySetupError {
                         Log.error(setupError.localizedDescription)
+                        
+                        let dataError = DataError(type: .database, subType: .corrupt)
+                        completionHandler(dataError)
+                    } else {
+                        completionHandler(nil)
                     }
-                    
-                    completionHandler(secondarySetupError)
                 })
             } else {
-                completionHandler(error)
+                completionHandler(nil)
             }
         }
     }

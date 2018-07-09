@@ -10,13 +10,15 @@ import Foundation
 
 class DataError: FrolloSDKError {
     
-    enum DataErrorType {
+    enum DataErrorType: String {
         case database
-        case  unknown
+        case unknown
     }
     
-    enum DataErrorSubType {
+    enum DataErrorSubType: String {
+        case corrupt
         case diskFull
+        case migrationFailed
         
         case unknown
     }
@@ -26,7 +28,7 @@ class DataError: FrolloSDKError {
     
     public var debugDescription: String {
         get {
-            return localizedDescription
+            return debugDataErrorDescription()
         }
     }
     public var localizedDescription: String {
@@ -46,21 +48,27 @@ class DataError: FrolloSDKError {
         switch type {
             case .database:
                 switch subType {
+                    case .corrupt:
+                        return Localization.string("Error.Data.Database.Corrupted")
                     case .diskFull:
-                        return Localization.string("DiskFullError")
+                        return Localization.string("Error.Data.Database.DiskFullError")
+                    case .migrationFailed:
+                        return Localization.string("Error.Data.Database.MigrationFailed")
                     default:
-                        return "Unknown Database Error"
+                        return Localization.string("Error.Data.Database.UnknownError")
                 }
             case .unknown:
                 switch subType {
                     case .unknown:
-                        return Localization.string("UnknownError")
+                        return Localization.string("Error.Generic.UnknownError")
                     default:
-                        return Localization.string("UnknownError")
+                        return Localization.string("Error.Generic.UnknownError")
                 }
         }
     }
     
-    
+    private func debugDataErrorDescription() -> String {
+        return "DataError: " + type.rawValue + "." + subType.rawValue + ": " + localizedDescription
+    }
     
 }
