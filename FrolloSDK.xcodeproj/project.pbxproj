@@ -11,6 +11,8 @@
 		01527CCE20E1B5C300B5042A /* FrolloSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */; };
 		01527CD020E1B5C300B5042A /* FrolloSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 01527CC220E1B5C300B5042A /* FrolloSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01527CD920E1C5A600B5042A /* FrolloSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CD820E1C5A600B5042A /* FrolloSDK.swift */; };
+		0160953720F33EB10060791B /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0160953620F33EB10060791B /* Version.swift */; };
+		0160953A20F41ECF0060791B /* VersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0160953920F41ECF0060791B /* VersionTests.swift */; };
 		016DD0A420EF365100F41919 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016DD0A320EF365100F41919 /* APIErrorTests.swift */; };
 		017391EE20EEFFEA00C0BB32 /* Test+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017391ED20EEFFEA00C0BB32 /* Test+CoreDataClass.swift */; };
 		017391F020EF001200C0BB32 /* APIErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017391EF20EF001200C0BB32 /* APIErrorResponse.swift */; };
@@ -83,6 +85,8 @@
 		01527CDA20E1CD1800B5042A /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		01527CDB20E1CD1800B5042A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		01527CDC20E1CD1800B5042A /* Carthage.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Carthage.xcconfig; sourceTree = "<group>"; };
+		0160953620F33EB10060791B /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
+		0160953920F41ECF0060791B /* VersionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionTests.swift; sourceTree = "<group>"; };
 		016DD0A320EF365100F41919 /* APIErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorTests.swift; sourceTree = "<group>"; };
 		017391ED20EEFFEA00C0BB32 /* Test+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Test+CoreDataClass.swift"; sourceTree = "<group>"; };
 		017391EF20EF001200C0BB32 /* APIErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorResponse.swift; sourceTree = "<group>"; };
@@ -190,6 +194,7 @@
 				01EED85A20E5A7EA00F4516B /* Model */,
 				01EED85E20E5A7EA00F4516B /* Network */,
 				01EED86020E5A7EA00F4516B /* Preferences */,
+				0160953520F33E980060791B /* Version */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -204,8 +209,25 @@
 				01527CCF20E1B5C300B5042A /* Info.plist */,
 				01C824F120EC4CD90093400E /* Logging */,
 				01EEDB1520EADEFA00F4516B /* Resources */,
+				0160953820F41EB80060791B /* Version */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		0160953520F33E980060791B /* Version */ = {
+			isa = PBXGroup;
+			children = (
+				0160953620F33EB10060791B /* Version.swift */,
+			);
+			path = Version;
+			sourceTree = "<group>";
+		};
+		0160953820F41EB80060791B /* Version */ = {
+			isa = PBXGroup;
+			children = (
+				0160953920F41ECF0060791B /* VersionTests.swift */,
+			);
+			path = Version;
 			sourceTree = "<group>";
 		};
 		016DD0A220EF356D00F41919 /* Error */ = {
@@ -568,6 +590,7 @@
 				01C8250520EDDB410093400E /* NetworkError.swift in Sources */,
 				01EED86220E5A7EB00F4516B /* Authentication.swift in Sources */,
 				01C824F520EC75560093400E /* FileLogger.swift in Sources */,
+				0160953720F33EB10060791B /* Version.swift in Sources */,
 				01EED86B20E5AA5B00F4516B /* FrolloSDKDataModel.xcdatamodeld in Sources */,
 				01EED86420E5A7EB00F4516B /* Preferences.swift in Sources */,
 				017391F020EF001200C0BB32 /* APIErrorResponse.swift in Sources */,
@@ -584,6 +607,7 @@
 			files = (
 				016DD0A420EF365100F41919 /* APIErrorTests.swift in Sources */,
 				01EEDB1B20EAE2CE00F4516B /* DatabaseTests.swift in Sources */,
+				0160953A20F41ECF0060791B /* VersionTests.swift in Sources */,
 				01B896D020F32D5E0068069A /* NetworkErrorTests.swift in Sources */,
 				01C824F920EC8EF90093400E /* ConsoleLoggerTests.swift in Sources */,
 				01EEDB1D20EAEA2000F4516B /* DatabaseMigrationTests.swift in Sources */,
