@@ -25,7 +25,7 @@ class FrolloSDK {
     public let preferences = Preferences()
     
 //    internal let authentication = Authentication()
-    internal let database = Database()
+    internal let database: Database
     internal let network: Network
     
     public init(serverURL: URL) {
@@ -38,6 +38,7 @@ class FrolloSDK {
             }
         }
         
+        self.database = Database(path: FrolloSDK.dataFolderURL)
         self.network = Network(serverURL: serverURL)
     }
     

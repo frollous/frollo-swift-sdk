@@ -34,6 +34,11 @@ class Version {
         }
     }
     
+    /**
+     Check if the version of the app has changed and a migration is needed
+     
+     - returns: Boolean indicating migration occurred or not
+     */
     internal func migrationNeeded() -> Bool {
         if let lastVersion = previousVersion {
             if lastVersion.compare(currentVersion, options: .numeric, range: nil, locale: nil) == .orderedAscending {
@@ -47,6 +52,9 @@ class Version {
         return false
     }
     
+    /**
+     Migrate the app to the latest version
+     */
     internal func migrateVersion() {
         guard previousVersion != nil
             else {
@@ -60,13 +68,18 @@ class Version {
     
     // MARK: - Migration handling
     
+    /**
+     Initialises the app setting initial values and force clearing the keychain that can persist between installs
+     */
     private func initialiseApp() {
-        // Force clean the keychain as this can persist from install to install
         // TODO: Keychain clear
         
         updatePreviousVersion()
     }
     
+    /**
+     Update the recorded previous version and version history of the app
+     */
     private func updatePreviousVersion() {
         previousVersion = currentVersion
         versionHistory.append(currentVersion)

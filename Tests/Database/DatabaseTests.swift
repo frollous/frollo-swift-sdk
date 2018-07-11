@@ -15,28 +15,22 @@ class DatabaseTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        
-        removeDatabase()
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
-        
-        removeDatabase()
     }
     
     // MARK: - Helpers
     
-    func removeDatabase() {
-        let databaseURL = Database.storeURL
-        let databaseSHMURL = Database.storeURL.appendingPathExtension("-shm")
-        let databaseWALURL = Database.storeURL.appendingPathExtension("-wal")
+    private func tempFolderPath() -> URL {
+        var tempFolder = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+        tempFolder.appendPathComponent(UUID().uuidString, isDirectory: true)
         
-        try? FileManager.default.removeItem(at: databaseURL)
-        try? FileManager.default.removeItem(at: databaseSHMURL)
-        try? FileManager.default.removeItem(at: databaseWALURL)
+        try? FileManager.default.createDirectory(at: tempFolder, withIntermediateDirectories: true, attributes: nil)
+        
+        return tempFolder
     }
     
     func insertTestData(database: Database) {
@@ -73,15 +67,17 @@ class DatabaseTests: XCTestCase {
         }
     }
     
-    // MARK: - Tests
+    // MARK: - Setup Tests
     
     func testDatabaseSetupFailure() {
         let expectation1 = expectation(description: "Setup Callback")
         
-        let database = Database()
+        let path = tempFolderPath()
+        
+        let database = Database(path: path)
         
         // Insert garbage SQLite store
-        FileManager.default.createFile(atPath: Database.storeURL.path, contents: Data.randomData(length: 1000), attributes: nil)
+        FileManager.default.createFile(atPath: database.storeURL.path, contents: Data.randomData(length: 1000), attributes: nil)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -91,33 +87,39 @@ class DatabaseTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        removeDatabase()
+        try? FileManager.default.removeItem(at: path)
     }
     
     func testDatabaseSetupSuccess() {
         let expectation1 = expectation(description: "Setup Callback")
         
-        XCTAssertFalse(FileManager.default.fileExists(atPath: Database.storeURL.path))
+        let path = tempFolderPath()
         
-        let database = Database()
+        let database = Database(path: path)
         
         XCTAssertFalse(database.needsMigration())
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            XCTAssertTrue(FileManager.default.fileExists(atPath: Database.storeURL.path))
+            XCTAssertTrue(FileManager.default.fileExists(atPath: database.storeURL.path))
             
             expectation1.fulfill()
         }
         
         wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: path)
     }
+    
+    // MARK: - Reset tests
     
     func testDatabaseReset() {
         let expectation1 = expectation(description: "Reset Callback")
         
-        let database = Database()
+        let path = tempFolderPath()
+        
+        let database = Database(path: path)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -134,6 +136,8 @@ class DatabaseTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 10.0)
+        
+        try? FileManager.default.removeItem(at: path)
     }
     
 }
