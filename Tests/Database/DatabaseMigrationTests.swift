@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import CoreData
 @testable import FrolloSDK
 
 class DatabaseMigrationTests: XCTestCase {
