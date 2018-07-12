@@ -23,7 +23,9 @@ class DataError: FrolloSDKError {
         case unknown
     }
     
+    /// Data error type
     public var type: DataErrorType
+    /// More detailed sub type of the error
     public var subType: DataErrorSubType
     
     public var debugDescription: String {

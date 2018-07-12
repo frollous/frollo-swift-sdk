@@ -27,8 +27,10 @@ class NetworkError: FrolloSDKError {
         }
     }
     
-    internal var systemError: NSError
-    internal var type: NetworkErrorType
+    /// Underlying system error that triggered this error
+    public var systemError: NSError
+    /// Type of error for common scenarios
+    public var type: NetworkErrorType
     
     init(error: NSError) {
         self.systemError = error

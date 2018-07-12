@@ -44,10 +44,14 @@ class APIError: FrolloSDKError {
         }
     }
     
-    internal var type: APIErrorType
-    internal var errorCode: APIErrorResponse.APIErrorCode?
-    internal var message: String?
-    internal var statusCode: Int
+    /// Type of API Error
+    public var type: APIErrorType
+    /// Error code returned by the API if available and recognised
+    public var errorCode: APIErrorResponse.APIErrorCode?
+    /// Error message returned by the API if available
+    public var message: String?
+    /// Status code received from the API
+    public var statusCode: Int
     
     internal required init(statusCode: Int, response: Data?) {
         self.statusCode = statusCode

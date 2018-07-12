@@ -15,7 +15,7 @@ class VersionTests: XCTestCase {
         super.setUp()
         
         // Remove the version suite
-        UserDefaults.standard.removeSuite(named: Version.VersionConstants.suiteName)
+        UserDefaults.standard.removeSuite(named: VersionConstants.suiteName)
     }
     
     override func tearDown() {
@@ -26,29 +26,29 @@ class VersionTests: XCTestCase {
     // MARK: - Helpers
     
     private func setVersionEnvironment(previousVersion: String, versionHistory: [String]) {
-        UserDefaults.standard.removePersistentDomain(forName: Version.VersionConstants.suiteName)
+        UserDefaults.standard.removePersistentDomain(forName: VersionConstants.suiteName)
         
-        let suite = UserDefaults(suiteName: Version.VersionConstants.suiteName)
-        suite?.set(previousVersion, forKey: Version.VersionConstants.appVersionLast)
-        suite?.set(versionHistory, forKey: Version.VersionConstants.appVersionHistory)
+        let suite = UserDefaults(suiteName: VersionConstants.suiteName)
+        suite?.set(previousVersion, forKey: VersionConstants.appVersionLast)
+        suite?.set(versionHistory, forKey: VersionConstants.appVersionHistory)
         suite?.synchronize()
     }
     
     // MARK: - Tests
     
     func testVersionFreshInstall() {
-        UserDefaults.standard.removePersistentDomain(forName: Version.VersionConstants.suiteName)
+        UserDefaults.standard.removePersistentDomain(forName: VersionConstants.suiteName)
         
         let version = Version()
         
-        let currentVersion = Bundle(for: Version.self).object(forInfoDictionaryKey: Version.VersionConstants.bundleVersion) as! String
+        let currentVersion = Bundle(for: Version.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
         XCTAssertEqual(currentVersion, version.currentVersion)
         XCTAssertNil(version.previousVersion)
         XCTAssertFalse(version.versionHistory.count > 0)
     }
     
     func testVersionFreshInstallMigrationDoesNothing() {
-        UserDefaults.standard.removePersistentDomain(forName: Version.VersionConstants.suiteName)
+        UserDefaults.standard.removePersistentDomain(forName: VersionConstants.suiteName)
         
         let version = Version()
         version.migrateVersion()
@@ -56,24 +56,24 @@ class VersionTests: XCTestCase {
     }
     
     func testVersioMigrationNotNeededOnFreshInstall() {
-        UserDefaults.standard.removePersistentDomain(forName: Version.VersionConstants.suiteName)
+        UserDefaults.standard.removePersistentDomain(forName: VersionConstants.suiteName)
         
         let version = Version()
         let migrationNeeded = version.migrationNeeded()
         
-        let currentVersion = Bundle(for: Version.self).object(forInfoDictionaryKey: Version.VersionConstants.bundleVersion) as! String
+        let currentVersion = Bundle(for: Version.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
         XCTAssertFalse(migrationNeeded)
         XCTAssertEqual(currentVersion, version.previousVersion)
         XCTAssertTrue(version.versionHistory.contains(currentVersion))
     }
     
     func testVersionMigrationNotNeededIfVersionIsSame() {
-        let currentVersion = Bundle(for: Version.self).object(forInfoDictionaryKey: Version.VersionConstants.bundleVersion) as! String
+        let currentVersion = Bundle(for: Version.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
         
         setVersionEnvironment(previousVersion: currentVersion, versionHistory: [currentVersion])
         
-        let suite = UserDefaults(suiteName: Version.VersionConstants.suiteName)
-        suite?.set(currentVersion, forKey: Version.VersionConstants.appVersionLast)
+        let suite = UserDefaults(suiteName: VersionConstants.suiteName)
+        suite?.set(currentVersion, forKey: VersionConstants.appVersionLast)
         
         let version = Version()
         XCTAssertFalse(version.migrationNeeded())
@@ -81,7 +81,7 @@ class VersionTests: XCTestCase {
     
     func testVersionMigrationIfVersionIsOlder() {
         let oldVersion = "0.9.1"
-        let currentVersion = Bundle(for: Version.self).object(forInfoDictionaryKey: Version.VersionConstants.bundleVersion) as! String
+        let currentVersion = Bundle(for: Version.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
         
         setVersionEnvironment(previousVersion: oldVersion, versionHistory: [oldVersion])
         

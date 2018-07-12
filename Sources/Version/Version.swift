@@ -8,14 +8,15 @@
 
 import Foundation
 
+internal struct VersionConstants {
+    static let appVersionHistory = "FrolloSDKVersion.appVersionHistory"
+    static let appVersionLast = "FrolloSDKVersion.currentAppVersion"
+    static let bundleShortVersion = "CFBundleShortVersionString"
+    static let bundleVersion = "CFBundleVersion"
+    static let suiteName = "us.frollo.FrolloSDKVersion"
+}
+
 class Version {
-    
-    internal struct VersionConstants {
-        static let appVersionHistory = "FrolloSDKVersion.appVersionHistory"
-        static let appVersionLast = "FrolloSDKVersion.currentAppVersion"
-        static let bundleVersion = "CFBundleShortVersionString"
-        static let suiteName = "us.frollo.FrolloSDKVersion"
-    }
     
     internal let currentVersion: String
     
@@ -25,7 +26,7 @@ class Version {
     private let userDefaults = UserDefaults(suiteName: VersionConstants.suiteName)!
     
     init() {
-        currentVersion = Bundle(for: Version.self).object(forInfoDictionaryKey: VersionConstants.bundleVersion) as! String
+        currentVersion = Bundle(for: Version.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
         previousVersion = userDefaults.string(forKey: VersionConstants.appVersionLast)
         if let appVersionHistory = userDefaults.object(forKey:VersionConstants.appVersionHistory) as? [String] {
             versionHistory = appVersionHistory

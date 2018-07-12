@@ -13,6 +13,7 @@
 		0101949920F5815800334482 /* FakeDatabaseModel.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 0101949320F5815800334482 /* FakeDatabaseModel.sqlite */; };
 		0101949A20F5815800334482 /* FakeDatabaseModel.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 0101949420F5815800334482 /* FakeDatabaseModel.sqlite-shm */; };
 		0101949B20F5815800334482 /* FrolloSDKDataModel-1.0.0.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 0101949520F5815800334482 /* FrolloSDKDataModel-1.0.0.sqlite-wal */; };
+		0101949E20F595F300334482 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101949D20F595F300334482 /* NetworkTests.swift */; };
 		01527CC920E1B5C300B5042A /* FrolloSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01527CBF20E1B5C300B5042A /* FrolloSDK.framework */; };
 		01527CCE20E1B5C300B5042A /* FrolloSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */; };
 		01527CD020E1B5C300B5042A /* FrolloSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 01527CC220E1B5C300B5042A /* FrolloSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -23,6 +24,7 @@
 		016DD0A420EF365100F41919 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016DD0A320EF365100F41919 /* APIErrorTests.swift */; };
 		017391EE20EEFFEA00C0BB32 /* Test+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017391ED20EEFFEA00C0BB32 /* Test+CoreDataClass.swift */; };
 		017391F020EF001200C0BB32 /* APIErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017391EF20EF001200C0BB32 /* APIErrorResponse.swift */; };
+		01874B6520F6C0C7005A7D0C /* frollo.cer in Resources */ = {isa = PBXBuildFile; fileRef = 01874B6420F6C0C6005A7D0C /* frollo.cer */; };
 		01B896B520F2EDA30068069A /* error_invalid_value.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896A320F2EDA30068069A /* error_invalid_value.json */; };
 		01B896B620F2EDA30068069A /* error_invalid_auth_head.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896A420F2EDA30068069A /* error_invalid_auth_head.json */; };
 		01B896B720F2EDA30068069A /* error_invalid_access_token.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896A520F2EDA30068069A /* error_invalid_access_token.json */; };
@@ -86,6 +88,7 @@
 		0101949320F5815800334482 /* FakeDatabaseModel.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = FakeDatabaseModel.sqlite; sourceTree = "<group>"; };
 		0101949420F5815800334482 /* FakeDatabaseModel.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FakeDatabaseModel.sqlite-shm"; sourceTree = "<group>"; };
 		0101949520F5815800334482 /* FrolloSDKDataModel-1.0.0.sqlite-wal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FrolloSDKDataModel-1.0.0.sqlite-wal"; sourceTree = "<group>"; };
+		0101949D20F595F300334482 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		01527CBF20E1B5C300B5042A /* FrolloSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FrolloSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		01527CC220E1B5C300B5042A /* FrolloSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrolloSDK.h; sourceTree = "<group>"; };
 		01527CC320E1B5C300B5042A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -103,6 +106,7 @@
 		016DD0A320EF365100F41919 /* APIErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorTests.swift; sourceTree = "<group>"; };
 		017391ED20EEFFEA00C0BB32 /* Test+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Test+CoreDataClass.swift"; sourceTree = "<group>"; };
 		017391EF20EF001200C0BB32 /* APIErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorResponse.swift; sourceTree = "<group>"; };
+		01874B6420F6C0C6005A7D0C /* frollo.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = frollo.cer; sourceTree = "<group>"; };
 		01B896A320F2EDA30068069A /* error_invalid_value.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_invalid_value.json; sourceTree = "<group>"; };
 		01B896A420F2EDA30068069A /* error_invalid_auth_head.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_invalid_auth_head.json; sourceTree = "<group>"; };
 		01B896A520F2EDA30068069A /* error_invalid_access_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_invalid_access_token.json; sourceTree = "<group>"; };
@@ -168,6 +172,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0101949C20F595C900334482 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				0101949D20F595F300334482 /* NetworkTests.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		01527CB320E1B49800B5042A = {
 			isa = PBXGroup;
 			children = (
@@ -214,12 +226,13 @@
 		01527CCC20E1B5C300B5042A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */,
+				01527CCF20E1B5C300B5042A /* Info.plist */,
 				01EEDB1920EAE2A900F4516B /* Database */,
 				016DD0A220EF356D00F41919 /* Error */,
 				01C824E720EB2F4A0093400E /* Extensions */,
-				01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */,
-				01527CCF20E1B5C300B5042A /* Info.plist */,
 				01C824F120EC4CD90093400E /* Logging */,
+				0101949C20F595C900334482 /* Network */,
 				01EEDB1520EADEFA00F4516B /* Resources */,
 				0160953820F41EB80060791B /* Version */,
 			);
@@ -280,6 +293,14 @@
 				017391ED20EEFFEA00C0BB32 /* Test+CoreDataClass.swift */,
 			);
 			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		01874B6320F6C0C6005A7D0C /* Certificates */ = {
+			isa = PBXGroup;
+			children = (
+				01874B6420F6C0C6005A7D0C /* frollo.cer */,
+			);
+			path = Certificates;
 			sourceTree = "<group>";
 		};
 		01B896A120F2EDA30068069A /* API */ = {
@@ -443,6 +464,7 @@
 			isa = PBXGroup;
 			children = (
 				01B896A120F2EDA30068069A /* API */,
+				01874B6320F6C0C6005A7D0C /* Certificates */,
 				0160953B20F47FE10060791B /* Database */,
 			);
 			path = Resources;
@@ -497,6 +519,7 @@
 				01527CC420E1B5C300B5042A /* Sources */,
 				01527CC520E1B5C300B5042A /* Frameworks */,
 				01527CC620E1B5C300B5042A /* Resources */,
+				01874B5C20F5C040005A7D0C /* Copy Carthage Frameworks */,
 			);
 			buildRules = (
 			);
@@ -566,6 +589,7 @@
 				01B896C120F2EDA30068069A /* error_duplicate.json in Resources */,
 				01B896C620F2EDA30068069A /* error_not_allowed.json in Resources */,
 				01B896BE20F2EDA30068069A /* error_internal_exception.json in Resources */,
+				01874B6520F6C0C7005A7D0C /* frollo.cer in Resources */,
 				0101949A20F5815800334482 /* FakeDatabaseModel.sqlite-shm in Resources */,
 				01B896CC20F3106B0068069A /* error_missing_code.json in Resources */,
 				01B896B720F2EDA30068069A /* error_invalid_access_token.json in Resources */,
@@ -591,6 +615,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		01874B5C20F5C040005A7D0C /* Copy Carthage Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				Alamofire,
+			);
+			name = "Copy Carthage Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "case \"$PLATFORM_NAME\" in\nmacosx) plat=Mac;;\niphone*) plat=iOS;;\nwatch*) plat=watchOS;;\ntv*) plat=tvOS;;\nappletv*) plat=tvOS;;\n*) echo \"error: Unknown PLATFORM_NAME: $PLATFORM_NAME\"; exit 1;;\nesac\nfor (( n = 0; n < SCRIPT_INPUT_FILE_COUNT; n++ )); do\nVAR=SCRIPT_INPUT_FILE_$n\nframework=$(basename \"${!VAR}\")\nexport SCRIPT_INPUT_FILE_$n=\"$SRCROOT\"/Carthage/Build/$plat/\"$framework\".framework\ndone\n\n${CARTHAGE:-/usr/local/bin/carthage} copy-frameworks || exit\n\nfor (( n = 0; n < SCRIPT_INPUT_FILE_COUNT; n++ )); do\nVAR=SCRIPT_INPUT_FILE_$n\nsource=${!VAR}.dSYM\ndest=${BUILT_PRODUCTS_DIR}/$(basename \"$source\")\nditto \"$source\" \"$dest\" || exit\ndone";
+		};
 		01EED86F20E5B4C500F4516B /* Scan TODO and FIXME flags */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -643,6 +682,7 @@
 				01B896D020F32D5E0068069A /* NetworkErrorTests.swift in Sources */,
 				01C824F920EC8EF90093400E /* ConsoleLoggerTests.swift in Sources */,
 				01EEDB1D20EAEA2000F4516B /* DatabaseMigrationTests.swift in Sources */,
+				0101949E20F595F300334482 /* NetworkTests.swift in Sources */,
 				01B896CE20F3169F0068069A /* DataErrorTests.swift in Sources */,
 				0160953E20F47FE10060791B /* TestInvalidDataModel.xcdatamodeld in Sources */,
 				01C824F720EC7AC30093400E /* FileLoggerTests.swift in Sources */,
@@ -909,6 +949,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
 					"${DT_TOOLCHAIN_DIR}/usr/lib/swift/macosx/",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -973,6 +1018,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
 					"${DT_TOOLCHAIN_DIR}/usr/lib/swift/macosx/",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
