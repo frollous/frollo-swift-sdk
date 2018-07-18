@@ -25,6 +25,10 @@
 "Error.API.UserAlreadyExists" = "A user account already exists with this identifier.";
 "Error.API.UserLoggedOut" = "User is already logged out.";
 
+"Error.Data.Authentication.MissingAccessToken" = "Access token is missing after refresh.";
+"Error.Data.Authentication.MissingRefreshToken" = "Refresh token is missing. No valid login found.";
+"Error.Data.Authentication.Unknown" = "Unknown authentication error occurred.";
+
 "Error.Data.Database.Corrupted" = "The database on disk has been corrupted and has been reset.";
 "Error.Data.Database.DiskFullError" = "The device has run out of free space and the SDK can no longer function correctly.";
 "Error.Data.Database.MigrationFailed" = "The database migration failed and the database has been reset.";

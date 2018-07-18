@@ -21,6 +21,33 @@ class DataErrorTests: XCTestCase {
         super.tearDown()
     }
     
+    func testAuthenticationMissingAccessToken() {
+        let error = DataError(type: .authentication, subType: .missingAccessToken)
+        XCTAssertEqual(error.type, .authentication)
+        XCTAssertEqual(error.subType, .missingAccessToken)
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.Data.Authentication.MissingAccessToken"))
+        XCTAssertTrue(error.debugDescription.contains(DataError.DataErrorType.authentication.rawValue))
+        XCTAssertGreaterThan(error.debugDescription.count, error.localizedDescription.count)
+    }
+    
+    func testAuthenticationMissingRefreshToken() {
+        let error = DataError(type: .authentication, subType: .missingRefreshToken)
+        XCTAssertEqual(error.type, .authentication)
+        XCTAssertEqual(error.subType, .missingRefreshToken)
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.Data.Authentication.MissingRefreshToken"))
+        XCTAssertTrue(error.debugDescription.contains(DataError.DataErrorType.authentication.rawValue))
+        XCTAssertGreaterThan(error.debugDescription.count, error.localizedDescription.count)
+    }
+    
+    func testAuthenticationErrorUnknown() {
+        let error = DataError(type: .authentication, subType: .unknown)
+        XCTAssertEqual(error.type, .authentication)
+        XCTAssertEqual(error.subType, .unknown)
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.Data.Authentication.Unknown"))
+        XCTAssertTrue(error.debugDescription.contains(DataError.DataErrorType.authentication.rawValue))
+        XCTAssertGreaterThan(error.debugDescription.count, error.localizedDescription.count)
+    }
+    
     func testDatabaseErrorCorrupt() {
         let error = DataError(type: .database, subType: .corrupt)
         XCTAssertEqual(error.type, .database)

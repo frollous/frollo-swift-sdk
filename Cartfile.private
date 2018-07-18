@@ -1,2 +1,2 @@
-# Hippolyte HTTP Mocking
-github "JanGorman/Hippolyte" ~> 0.4.0
+# OHHTTPStubs HTTP Mocking
+github "AliSoftware/OHHTTPStubs" ~> 6.1.0

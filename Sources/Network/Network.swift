@@ -12,11 +12,14 @@ import Alamofire
 
 class Network: SessionDelegate {
     
+    internal typealias NetworkCompletion = (_ json: Any?, _ error: FrolloSDKError?) -> Void
+    
     struct HTTPHeader {
         static let authorization = "Authorization"
         static let contentType = "Content-Type"
         static let etag = "Etag"
         static let userAgent = "User-Agent"
+        static let xBackground = "X-Background"
     }
     
     public let reachability: NetworkReachabilityManager
@@ -25,6 +28,7 @@ class Network: SessionDelegate {
     internal let responseQueue = DispatchQueue(label: "FrolloSDK.APIResponseQueue", qos: .userInitiated, attributes: .concurrent)
     internal let serverURL: URL
     
+    internal var authenticator: NetworkAuthenticator!
     internal var sessionManager: SessionManager!
     
     private let APIVersion = "1.15"
@@ -65,11 +69,60 @@ class Network: SessionDelegate {
         
         super.init()
         
+        authenticator = NetworkAuthenticator(network: self)
+        
         self.sessionManager = SessionManager(configuration: configuration, delegate: self, serverTrustPolicyManager: serverTrustManager)
-        //self.sessionManager.adapter = self.authenticationHandler
-        //self.sessionManager.retrier = self.authenticationHandler
+        self.sessionManager.adapter = authenticator
+        self.sessionManager.retrier = authenticator
     }
     
+    internal func handleCompletion(response: DataResponse<Any>, completion: NetworkCompletion) {
+        switch response.result {
+            case .success(let value):
+                completion(value, nil)
+            case .failure(let error):
+                if let statusCode = response.response?.statusCode {
+                    let apiError = APIError(statusCode: statusCode, response: response.data)
+                    
+                    let clearTokenStatuses: [APIError.APIErrorType] = [.invalidRefreshToken, .suspendedDevice, .suspendedUser, .invalidUsernamePassword, .otherAuthorisation]
+                    if clearTokenStatuses.contains(apiError.type) {
+                        authenticator.clearTokens()
+                    }
+                    
+                    completion(nil, apiError)
+                } else {
+                    let systemError = error as NSError
+                    let networkError = NetworkError(error: systemError)
+                    completion(nil, networkError)
+                }
+        }
+    }
     
+    internal func handleTokens(response: DataResponse<Any>, completion: NetworkCompletion) {
+        switch response.result {
+            case .success:
+                if let json = response.data {
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = .secondsSince1970
+                    do {
+                        let tokenResponse = try decoder.decode(APITokenResponse.self, from: json)
+                        
+                        authenticator.saveTokens(refresh: tokenResponse.refreshToken, access: tokenResponse.accessToken, expiry: tokenResponse.accessTokenExpiry)
+                    } catch {
+                        Log.error(error.localizedDescription)
+                        
+                        authenticator.clearTokens()
+                        
+                        let dataError = DataError(type: .authentication, subType: .missingAccessToken)
+                        completion(nil, dataError)
+                        
+                        return
+                    }
+                }
+                self.handleCompletion(response: response, completion: completion)
+            case .failure:
+                self.handleCompletion(response: response, completion: completion)
+        }
+    }
     
 }

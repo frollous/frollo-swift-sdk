@@ -1,0 +1,29 @@
+{
+	"id": 12345,
+	"first_name": "Jacob",
+	"last_name": "Frollo",
+	"email": "jacob@frollo.us",
+	"email_verified": true,
+	"status": "active",
+	"primary_currency": "AUD",
+	"gender": "male",
+	"date_of_birth": "1990-01",
+	"address": {
+		"postcode": "2060"
+	},
+	"marital_status": "single",
+	"household_size": 2,
+	"features": [{
+		"feature": "bills",
+		"enabled": true
+	}, {
+		"feature": "credit_score",
+		"enabled": true
+	}],
+	"facebook_id": "1234567890",
+	"register_complete": true,
+	"valid_password": true,
+	"attribution": {
+		"network": "Organic"
+	}
+}

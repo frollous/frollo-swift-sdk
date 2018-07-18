@@ -10,6 +10,7 @@ import XCTest
 @testable import FrolloSDK
 
 import Alamofire
+import OHHTTPStubs
 
 class NetworkTests: XCTestCase {
     
@@ -57,7 +58,7 @@ class NetworkTests: XCTestCase {
         return SecTrustCopyPublicKey(trust!)!
     }
     
-    // MARK: - Tests
+    // MARK: - Public Key Pinning Tests
     
     func testSetupPublicKeyPinningEnabledValidKey() {
         let expectation1 = XCTestExpectation(description: "Pinning Success Response")
@@ -66,6 +67,11 @@ class NetworkTests: XCTestCase {
         let testURL = serverURL.appendingPathComponent("pages/terms")
         
         let network = Network(serverURL: serverURL, pinnedPublicKeys: [realPublicKey])
+        
+        network.authenticator.refreshToken = "AnExistingRefreshToken"
+        network.authenticator.accessToken = "AnExistingAccessToken"
+        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        
         network.sessionManager.request(testURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).response { (response) in
             XCTAssertNil(response.error)
             XCTAssertNotNil(response.data)
@@ -103,6 +109,10 @@ class NetworkTests: XCTestCase {
         let serverURL = URL(string: "https://google.com.au/")!
         let network = Network(serverURL: serverURL)
         
+        network.authenticator.refreshToken = "AnExistingRefreshToken"
+        network.authenticator.accessToken = "AnExistingAccessToken"
+        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        
         network.sessionManager.request(serverURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).response { (response) in
             XCTAssertNil(response.error)
             
@@ -115,6 +125,40 @@ class NetworkTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 30.0)
+    }
+    
+    // MARK: - System Error Tests
+    
+    func testInvalidDomainRaisesNetworkError() {
+        let expectation1 = expectation(description: "API Response")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(error: NSError(domain: NSURLErrorDomain, code: -999, userInfo: [NSURLErrorFailingURLStringErrorKey: "https://example.com", NSLocalizedDescriptionKey: "cancelled", NSURLErrorFailingURLErrorKey: URL(string: "https://api.example.com/" + UserEndpoint.details.path)!]))
+        }
+        
+        let network = Network(serverURL: url)
+        
+        network.authenticator.refreshToken = "AnExistingRefreshToken"
+        network.authenticator.accessToken = "AnExistingAccessToken"
+        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        
+        network.fetchUser { (json, error) in
+            XCTAssertNotNil(error)
+            
+            if let systemError = error as? NetworkError {
+                XCTAssertEqual(systemError.type, .connectionFailure)
+            } else {
+                XCTFail("Wrong error type")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
     }
     
 }
