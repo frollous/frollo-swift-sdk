@@ -13,7 +13,7 @@ internal struct VersionConstants {
     static let appVersionLast = "FrolloSDKVersion.currentAppVersion"
     static let bundleShortVersion = "CFBundleShortVersionString"
     static let bundleVersion = "CFBundleVersion"
-    static let suiteName = "us.frollo.FrolloSDKVersion"
+    static let suiteName = "us.frollo.FrolloSDKTests"
 }
 
 class Version {
@@ -23,12 +23,18 @@ class Version {
     internal var previousVersion: String?
     internal var versionHistory: [String]
     
-    private let userDefaults = UserDefaults(suiteName: VersionConstants.suiteName)!
+    private let preferencesExtension = "plist"
+    private let preferencesFileName = "FrolloSDKVersion"
+    private let preferencesPersistence: PreferencesPersistence
     
-    init() {
+    init(path: URL) {
+        let path = path.appendingPathComponent(preferencesFileName).appendingPathExtension(preferencesExtension)
+        
+        preferencesPersistence = PreferencesPersistence(path: path)
+        
         currentVersion = Bundle(for: Version.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
-        previousVersion = userDefaults.string(forKey: VersionConstants.appVersionLast)
-        if let appVersionHistory = userDefaults.object(forKey:VersionConstants.appVersionHistory) as? [String] {
+        previousVersion = preferencesPersistence[VersionConstants.appVersionLast] as? String
+        if let appVersionHistory = preferencesPersistence[VersionConstants.appVersionHistory] as? [String] {
             versionHistory = appVersionHistory
         } else {
             versionHistory = [String]()
@@ -85,9 +91,9 @@ class Version {
         previousVersion = currentVersion
         versionHistory.append(currentVersion)
         
-        UserDefaults.standard.set(currentVersion, forKey: VersionConstants.appVersionLast)
-        UserDefaults.standard.set(versionHistory, forKey: VersionConstants.appVersionHistory)
-        UserDefaults.standard.synchronize()
+        preferencesPersistence[VersionConstants.appVersionLast] = currentVersion
+        preferencesPersistence[VersionConstants.appVersionHistory] = versionHistory
+        preferencesPersistence.synchronise()
     }
     
 }

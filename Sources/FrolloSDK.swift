@@ -22,7 +22,7 @@ class FrolloSDK {
         return appDataURL
     }()
     
-    public let preferences = Preferences()
+    //public let preferences = Preferences()
     
 //    internal let authentication = Authentication()
     internal let database: Database
