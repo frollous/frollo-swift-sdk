@@ -11,6 +11,7 @@ import XCTest
 
 class VersionTests: XCTestCase {
     
+    private let keychainService = "VersionTestsKeychain"
     private let tempFolderPath = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent(UUID().uuidString, isDirectory: true)
     
     override func setUp() {
@@ -47,10 +48,24 @@ class VersionTests: XCTestCase {
     
     // MARK: - Tests
     
+    func testKeychainClearedFreshInstall() {
+        let path = tempFolderPath
+        
+        let testKey = "TestKey"
+        
+        let keychain = Keychain(service: keychainService)
+        keychain[testKey] = "RandomData"
+        
+        let version = Version(path: path, keychain: keychain)
+        _ = version.migrationNeeded()
+        
+        XCTAssertNil(keychain[testKey])
+    }
+    
     func testVersionFreshInstall() {
         let path = tempFolderPath
         
-        let version = Version(path: path)
+        let version = Version(path: path, keychain: Keychain(service: keychainService))
         
         let currentVersion = Bundle(for: Version.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
         XCTAssertEqual(currentVersion, version.currentVersion)
@@ -61,7 +76,7 @@ class VersionTests: XCTestCase {
     func testVersionFreshInstallMigrationDoesNothing() {
         let path = tempFolderPath
         
-        let version = Version(path: path)
+        let version = Version(path: path, keychain: Keychain(service: keychainService))
         version.migrateVersion()
         XCTAssertNil(version.previousVersion)
     }
@@ -69,7 +84,7 @@ class VersionTests: XCTestCase {
     func testVersioMigrationNotNeededOnFreshInstall() {
         let path = tempFolderPath
         
-        let version = Version(path: path)
+        let version = Version(path: path, keychain: Keychain(service: keychainService))
         let migrationNeeded = version.migrationNeeded()
         
         let currentVersion = Bundle(for: Version.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
@@ -87,7 +102,7 @@ class VersionTests: XCTestCase {
         let suite = UserDefaults(suiteName: VersionConstants.suiteName)
         suite?.set(currentVersion, forKey: VersionConstants.appVersionLast)
         
-        let version = Version(path: path)
+        let version = Version(path: path, keychain: Keychain(service: keychainService))
         XCTAssertFalse(version.migrationNeeded())
     }
     
@@ -98,7 +113,7 @@ class VersionTests: XCTestCase {
         let path = tempPath()
         setVersionEnvironment(path: path, previousVersion: oldVersion, versionHistory: [oldVersion])
         
-        let version = Version(path: path)
+        let version = Version(path: path, keychain: Keychain(service: keychainService))
         let migrationNeeded = version.migrationNeeded()
         
         XCTAssertTrue(migrationNeeded)

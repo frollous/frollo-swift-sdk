@@ -54,6 +54,8 @@ class FrolloSDK {
 //    }
     
     public func reset(completionHandler: @escaping (Error?) -> Void) {
+        keychain.removeAll()
+        
         database.reset(completionHandler: completionHandler)
     }
     

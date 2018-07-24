@@ -23,11 +23,14 @@ class Version {
     internal var previousVersion: String?
     internal var versionHistory: [String]
     
+    private let keychain: Keychain
     private let preferencesExtension = "plist"
     private let preferencesFileName = "FrolloSDKVersion"
     private let preferencesPersistence: PreferencesPersistence
     
-    init(path: URL) {
+    init(path: URL, keychain: Keychain) {
+        self.keychain = keychain
+        
         let path = path.appendingPathComponent(preferencesFileName).appendingPathExtension(preferencesExtension)
         
         preferencesPersistence = PreferencesPersistence(path: path)
@@ -79,7 +82,7 @@ class Version {
      Initialises the app setting initial values and force clearing the keychain that can persist between installs
      */
     private func initialiseApp() {
-        // TODO: Keychain clear
+        keychain.removeAll()
         
         updatePreviousVersion()
     }
