@@ -12,11 +12,18 @@ import Alamofire
 
 class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     
+    internal struct KeychainKey {
+        static let accessToken = "accessToken"
+        static let accessTokenExpiry = "accessTokenExpiry"
+        static let refreshToken = "refreshToken"
+    }
+    
     internal var accessToken: String?
     internal var refreshToken: String?
     internal var expiryDate: Date?
     
     private let bearerFormat = "Bearer %@"
+    private let keychain: Keychain
     private let lock = NSLock()
     private let maxRateLimitCount: Double = 10
     private let timeInterval5Minutes: Double = 300
@@ -27,8 +34,11 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     
     private weak var network: Network?
     
-    init(network: Network) {
+    init(network: Network, keychain: Keychain) {
         self.network = network
+        self.keychain = keychain
+        
+        loadTokens()
     }
     
     internal func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
@@ -179,10 +189,11 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         accessToken = access
         expiryDate = expiry
         
-        // TODO: Save to actual keychain
-        //keychain[KeychainConstants.refreshTokenKey] = token
-        //keychain[KeychainConstants.accessTokenKey] = accessToken
-        //UserDefaults.standard.set(expiry, forKey: UserDefaultsConstants.accessTokenExpiryKey)
+        keychain[KeychainKey.accessToken] = access
+        keychain[KeychainKey.refreshToken] = refresh
+    
+        let expirySeconds = String(expiry.timeIntervalSince1970)
+        keychain[KeychainKey.accessTokenExpiry] = expirySeconds
     }
     
     internal func clearTokens() {
@@ -190,10 +201,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         expiryDate = nil
         refreshToken = nil
         
-        // TODO: Save to actual keychain
-        //try! keychain.removeAll()
-        
-        //UserDefaults.standard.removeObject(forKey: UserDefaultsConstants.accessTokenExpiryKey)
+        keychain.removeAll()
     }
     
     private func refreshTokens() {
@@ -241,10 +249,12 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     }
     
     private func loadTokens() {
-        // TODO: Load from actual keychain
-        //accessToken = keychain[KeychainConstants.accessTokenKey]
-        //refreshToken = keychain[KeychainConstants.refreshTokenKey]
-        //expiryDate = UserDefaults.standard.object(forKey: UserDefaultsConstants.accessTokenExpiryKey) as? Date
+        accessToken = keychain[KeychainKey.accessToken]
+        refreshToken = keychain[KeychainKey.refreshToken]
+        
+        if let expiryTime = keychain[KeychainKey.accessTokenExpiry], let expirySeconds = TimeInterval(expiryTime) {
+            expiryDate = Date(timeIntervalSince1970: expirySeconds)
+        }
     }
     
 }

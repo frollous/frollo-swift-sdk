@@ -24,7 +24,9 @@ class UserRequestTests: XCTestCase {
     func testLogin() {
         let serverURL = URL(string: "https://api.example.com")!
         
-        let network = Network(serverURL: serverURL)
+        let keychain = Keychain(service: "TestSDKKeychain")
+        
+        let network = Network(serverURL: serverURL, keychain: keychain)
         
         
     }

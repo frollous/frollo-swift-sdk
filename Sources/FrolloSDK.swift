@@ -11,8 +11,9 @@ public typealias FrolloSDKCompletionHandler = (Error?) -> Void
 
 class FrolloSDK {
     
-    struct FrolloSDKConstants {
+    private struct FrolloSDKConstants {
         static let dataFolder = "FrolloSDKData"
+        static let keychainService = "FrolloSDKKeychain"
     }
     
     static internal let dataFolderURL: URL = {
@@ -26,6 +27,7 @@ class FrolloSDK {
     
 //    internal let authentication = Authentication()
     internal let database: Database
+    internal let keychain: Keychain
     internal let network: Network
     
     public init(serverURL: URL) {
@@ -39,7 +41,8 @@ class FrolloSDK {
         }
         
         self.database = Database(path: FrolloSDK.dataFolderURL)
-        self.network = Network(serverURL: serverURL)
+        self.keychain = Keychain(service: FrolloSDKConstants.keychainService)
+        self.network = Network(serverURL: serverURL, keychain: keychain)
     }
     
     public func setup(completionHandler: @escaping (Error?) -> Void) {

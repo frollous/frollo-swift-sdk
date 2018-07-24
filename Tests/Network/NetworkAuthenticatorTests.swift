@@ -13,6 +13,8 @@ import Alamofire
 import OHHTTPStubs
 
 class NetworkAuthenticatorTests: XCTestCase {
+    
+    private let keychainService = "NetworkAuthenticatorTestsKeychain"
 
     override func setUp() {
         super.setUp()
@@ -24,9 +26,34 @@ class NetworkAuthenticatorTests: XCTestCase {
         super.tearDown()
         
         OHHTTPStubs.removeAllStubs()
+        Keychain(service: keychainService).removeAll()
     }
     
     // MARK: - Token Refresh Tests
+    
+    func testTokensPersist() {
+        let keychain = Keychain(service: keychainService)
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let refreshToken = "AnExistingRefreshToken"
+        let accessToken = "AnExistingAccessToken"
+        let expiryDateString = "1721259268.0"
+        let expiryDate = Date(timeIntervalSince1970: 1721259268)
+        
+        var network =  Network(serverURL: url, keychain: keychain)
+        network.authenticator.saveTokens(refresh: refreshToken, access: accessToken, expiry: expiryDate)
+        
+        XCTAssertEqual(keychain["accessToken"], accessToken)
+        XCTAssertEqual(keychain["refreshToken"], refreshToken)
+        XCTAssertEqual(keychain["accessTokenExpiry"], expiryDateString)
+        
+        network = Network(serverURL: url, keychain: keychain)
+        
+        XCTAssertEqual(network.authenticator.accessToken, accessToken)
+        XCTAssertEqual(network.authenticator.refreshToken, refreshToken)
+        XCTAssertEqual(network.authenticator.expiryDate, expiryDate)
+    }
     
     func testForceRefreshingAccessTokens() {
         let expectation1 = expectation(description: "API Response")
@@ -37,11 +64,12 @@ class NetworkAuthenticatorTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         
-        let network = Network(serverURL: url)
+        let keychain = Keychain(service: keychainService)
+        keychain["refreshToken"] = "AnExistingRefreshToken"
+        keychain["accessToken"] = "AnExistingAccessToken"
+        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
         
-        network.authenticator.refreshToken = "AnExistingRefreshToken"
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        let network = Network(serverURL: url, keychain: keychain)
         
         network.refreshToken { (json, error) in
             XCTAssertNil(error)
@@ -55,6 +83,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
         
         OHHTTPStubs.removeAllStubs()
+        keychain.removeAll()
     }
     
     func testForceRefreshingInvalidAccessTokens() {
@@ -66,11 +95,12 @@ class NetworkAuthenticatorTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_invalid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         
-        let network = Network(serverURL: url)
+        let keychain = Keychain(service: keychainService)
+        keychain["refreshToken"] = "AnExistingRefreshToken"
+        keychain["accessToken"] = "AnExistingAccessToken"
+        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
         
-        network.authenticator.refreshToken = "AnExistingRefreshToken"
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        let network = Network(serverURL: url, keychain: keychain)
         
         network.refreshToken { (json, error) in
             XCTAssertNotNil(error)
@@ -91,6 +121,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
         
         OHHTTPStubs.removeAllStubs()
+        keychain.removeAll()
     }
     
     func testPreemptiveAccessTokenRefresh() {
@@ -105,11 +136,12 @@ class NetworkAuthenticatorTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         
-        let network = Network(serverURL: url)
+        let keychain = Keychain(service: keychainService)
+        keychain["refreshToken"] = "AnExistingRefreshToken"
+        keychain["accessToken"] = "AnExistingAccessToken"
+        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 30).timeIntervalSince1970) // 30 seconds in the future falls within the 5 minute access token expiry
         
-        network.authenticator.refreshToken = "AnExistingRefreshToken"
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 30) // 30 seconds in the future falls within the 5 minute access token expiry
+        let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchUser { (json, error) in
             XCTAssertNil(error)
@@ -123,6 +155,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
         
         OHHTTPStubs.removeAllStubs()
+        keychain.removeAll()
     }
     
     func testInvalidAccessTokenRefresh() {
@@ -144,11 +177,12 @@ class NetworkAuthenticatorTests: XCTestCase {
             }
         }
         
-        let network = Network(serverURL: url)
+        let keychain = Keychain(service: keychainService)
+        keychain["refreshToken"] = "AnExistingRefreshToken"
+        keychain["accessToken"] = "AnExistingAccessToken"
+        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
         
-        network.authenticator.refreshToken = "AnExistingRefreshToken"
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchUser { (json, error) in
             XCTAssertNil(error)
@@ -162,6 +196,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
         
         OHHTTPStubs.removeAllStubs()
+        keychain.removeAll()
     }
     
     func testInvalidRefreshTokenFails() {
@@ -173,11 +208,12 @@ class NetworkAuthenticatorTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_refresh_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         
-        let network = Network(serverURL: url)
+        let keychain = Keychain(service: keychainService)
+        keychain["refreshToken"] = "AnExistingRefreshToken"
+        keychain["accessToken"] = "AnExistingAccessToken"
+        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
         
-        network.authenticator.refreshToken = "AnExistingRefreshToken"
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchUser { (json, error) in
             XCTAssertNotNil(error)
@@ -197,6 +233,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
         
         OHHTTPStubs.removeAllStubs()
+        keychain.removeAll()
     }
     
     // MARK: - Retry Tests
@@ -224,11 +261,12 @@ class NetworkAuthenticatorTests: XCTestCase {
             return fix
         }
         
-        let network = Network(serverURL: url)
+        let keychain = Keychain(service: keychainService)
+        keychain["refreshToken"] = "AnExistingRefreshToken"
+        keychain["accessToken"] = "AnExistingAccessToken"
+        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
         
-        network.authenticator.refreshToken = "AnExistingRefreshToken"
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchUser { (json, error) in
             XCTAssertNil(error)
@@ -255,6 +293,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         wait(for: [expectation1, expectation2, expectation3], timeout: 5.0)
         
         OHHTTPStubs.removeAllStubs()
+        keychain.removeAll()
     }
     
     func testRequestsGetCancelledAfterRefreshingAccessTokenFails() {
@@ -271,11 +310,12 @@ class NetworkAuthenticatorTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_access_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         
-        let network = Network(serverURL: url)
+        let keychain = Keychain(service: keychainService)
+        keychain["refreshToken"] = "AnExistingRefreshToken"
+        keychain["accessToken"] = "AnExistingAccessToken"
+        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
         
-        network.authenticator.refreshToken = "AnExistingRefreshToken"
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchUser { (json, error) in
             XCTAssertNotNil(error)
@@ -302,6 +342,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         wait(for: [expectation1, expectation2, expectation3], timeout: 5.0)
         
         OHHTTPStubs.removeAllStubs()
+        keychain.removeAll()
     }
     
     func testRateLimitRetries() {
@@ -321,11 +362,12 @@ class NetworkAuthenticatorTests: XCTestCase {
             }
         }
         
-        let network = Network(serverURL: url)
+        let keychain = Keychain(service: keychainService)
+        keychain["refreshToken"] = "AnExistingRefreshToken"
+        keychain["accessToken"] = "AnExistingAccessToken"
+        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
         
-        network.authenticator.refreshToken = "AnExistingRefreshToken"
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchUser { (json, error) in
             XCTAssertNil(error)
@@ -337,6 +379,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         wait(for: [expectation1], timeout: 15.0)
         
         OHHTTPStubs.removeAllStubs()
+        keychain.removeAll()
     }
     
     // MARK: - Adapter Header Tests
@@ -352,11 +395,12 @@ class NetworkAuthenticatorTests: XCTestCase {
     func testAccessTokenHeaderAppendedToHostRequests() {
         let url = URL(string: "https://api.example.com")!
         
-        let network = Network(serverURL: url)
+        let keychain = Keychain(service: keychainService)
+        keychain["refreshToken"] = "AnExistingRefreshToken"
+        keychain["accessToken"] = "AnExistingAccessToken"
+        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
         
-        network.authenticator.refreshToken = "AnExistingRefreshToken"
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        let network = Network(serverURL: url, keychain: keychain)
         
         let userURL = URL(string: UserEndpoint.details.path, relativeTo: url)!
         let request = network.sessionManager.request(userURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil)
@@ -372,16 +416,19 @@ class NetworkAuthenticatorTests: XCTestCase {
         } catch {
             XCTFail(error.localizedDescription)
         }
+        
+        keychain.removeAll()
     }
     
     func testRefreshTokenHeaderAppendedToRefreshRequests() {
         let url = URL(string: "https://api.example.com")!
         
-        let network = Network(serverURL: url)
+        let keychain = Keychain(service: keychainService)
+        keychain["refreshToken"] = "AnExistingRefreshToken"
+        keychain["accessToken"] = "AnExistingAccessToken"
+        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
         
-        network.authenticator.refreshToken = "AnExistingRefreshToken"
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        let network = Network(serverURL: url, keychain: keychain)
         
         let refreshURL = URL(string: DeviceEndpoint.refreshToken.path, relativeTo: url)!
         let request = network.sessionManager.request(refreshURL, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
@@ -397,16 +444,19 @@ class NetworkAuthenticatorTests: XCTestCase {
         } catch {
             XCTFail(error.localizedDescription)
         }
+        
+        keychain.removeAll()
     }
     
     func testNoHeaderAppendedToLoginRequest() {
         let url = URL(string: "https://api.example.com")!
         
-        let network = Network(serverURL: url)
+        let keychain = Keychain(service: keychainService)
+        keychain["refreshToken"] = "AnExistingRefreshToken"
+        keychain["accessToken"] = "AnExistingAccessToken"
+        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
         
-        network.authenticator.refreshToken = "AnExistingRefreshToken"
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        let network = Network(serverURL: url, keychain: keychain)
         
         let userURL = URL(string: UserEndpoint.login.path, relativeTo: url)!
         let request = network.sessionManager.request(userURL, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
@@ -417,16 +467,19 @@ class NetworkAuthenticatorTests: XCTestCase {
         } catch {
             XCTFail(error.localizedDescription)
         }
+        
+        keychain.removeAll()
     }
     
     func testNoHeaderAppendedToExternalHostRequests() {
         let url = URL(string: "https://api.example.com")!
         
-        let network = Network(serverURL: url)
+        let keychain = Keychain(service: keychainService)
+        keychain["refreshToken"] = "AnExistingRefreshToken"
+        keychain["accessToken"] = "AnExistingAccessToken"
+        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
         
-        network.authenticator.refreshToken = "AnExistingRefreshToken"
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        let network = Network(serverURL: url, keychain: keychain)
         
         let userURL = URL(string: "https://google.com.au")!
         let request = network.sessionManager.request(userURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil)
@@ -437,6 +490,8 @@ class NetworkAuthenticatorTests: XCTestCase {
         } catch {
             XCTFail(error.localizedDescription)
         }
+        
+        keychain.removeAll()
     }
     
     

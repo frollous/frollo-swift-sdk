@@ -33,7 +33,7 @@ class Network: SessionDelegate {
     
     private let APIVersion = "1.15"
     
-    internal init(serverURL: URL, pinnedPublicKeys: [SecKey]? = nil) {
+    internal init(serverURL: URL, keychain: Keychain, pinnedPublicKeys: [SecKey]? = nil) {
         self.serverURL = serverURL
         
         #if os(macOS)
@@ -69,7 +69,7 @@ class Network: SessionDelegate {
         
         super.init()
         
-        authenticator = NetworkAuthenticator(network: self)
+        authenticator = NetworkAuthenticator(network: self, keychain: keychain)
         
         self.sessionManager = SessionManager(configuration: configuration, delegate: self, serverTrustPolicyManager: serverTrustManager)
         self.sessionManager.adapter = authenticator
