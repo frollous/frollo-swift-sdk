@@ -98,7 +98,11 @@ class DatabaseMigrationTests: XCTestCase {
                 }
                 
                 for _ in 0..<100 {
-                    _ = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
+                    let model = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
+                    
+                    if let userModel = model as? User {
+                        userModel.populateTestData()
+                    }
                 }
             }
             

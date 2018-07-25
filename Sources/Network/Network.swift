@@ -12,7 +12,7 @@ import Alamofire
 
 class Network: SessionDelegate {
     
-    internal typealias NetworkCompletion = (_ json: Any?, _ error: FrolloSDKError?) -> Void
+    internal typealias NetworkCompletion = (_ data: Data?, _ error: FrolloSDKError?) -> Void
     
     struct HTTPHeader {
         static let authorization = "Authorization"
@@ -76,12 +76,14 @@ class Network: SessionDelegate {
         self.sessionManager.retrier = authenticator
     }
     
-    internal func handleCompletion(response: DataResponse<Any>, completion: NetworkCompletion) {
+    internal func handleFailure(response: DataResponse<Data>, completion: (_: FrolloSDKError?) -> Void) {
         switch response.result {
-            case .success(let value):
-                completion(value, nil)
+            case .success:
+                completion(nil)
             case .failure(let error):
-                if let statusCode = response.response?.statusCode {
+                if let parsedError = error as? FrolloSDKError {
+                    completion(parsedError)
+                } else if let statusCode = response.response?.statusCode {
                     let apiError = APIError(statusCode: statusCode, response: response.data)
                     
                     let clearTokenStatuses: [APIError.APIErrorType] = [.invalidRefreshToken, .suspendedDevice, .suspendedUser, .invalidUsernamePassword, .otherAuthorisation]
@@ -89,39 +91,40 @@ class Network: SessionDelegate {
                         authenticator.clearTokens()
                     }
                     
-                    completion(nil, apiError)
+                    completion(apiError)
                 } else {
                     let systemError = error as NSError
                     let networkError = NetworkError(error: systemError)
-                    completion(nil, networkError)
+                    completion(networkError)
                 }
         }
     }
     
-    internal func handleTokens(response: DataResponse<Any>, completion: NetworkCompletion) {
+    internal func handleTokens(response: DataResponse<Data>, completion: NetworkCompletion) {
         switch response.result {
-            case .success:
-                if let json = response.data {
-                    let decoder = JSONDecoder()
-                    decoder.dateDecodingStrategy = .secondsSince1970
-                    do {
-                        let tokenResponse = try decoder.decode(APITokenResponse.self, from: json)
-                        
-                        authenticator.saveTokens(refresh: tokenResponse.refreshToken, access: tokenResponse.accessToken, expiry: tokenResponse.accessTokenExpiry)
-                    } catch {
-                        Log.error(error.localizedDescription)
-                        
-                        authenticator.clearTokens()
-                        
-                        let dataError = DataError(type: .authentication, subType: .missingAccessToken)
-                        completion(nil, dataError)
-                        
-                        return
-                    }
+            case .success(let value):
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .secondsSince1970
+                do {
+                    let tokenResponse = try decoder.decode(APITokenResponse.self, from: value)
+                    
+                    authenticator.saveTokens(refresh: tokenResponse.refreshToken, access: tokenResponse.accessToken, expiry: tokenResponse.accessTokenExpiry)
+                } catch {
+                    Log.error(error.localizedDescription)
+                    
+                    authenticator.clearTokens()
+                    
+                    let dataError = DataError(type: .authentication, subType: .missingAccessToken)
+                    completion(nil, dataError)
+                    
+                    return
                 }
-                self.handleCompletion(response: response, completion: completion)
+                
+                completion(value, nil)
             case .failure:
-                self.handleCompletion(response: response, completion: completion)
+                handleFailure(response: response) { (error) in
+                    completion(nil, error)
+                }
         }
     }
     

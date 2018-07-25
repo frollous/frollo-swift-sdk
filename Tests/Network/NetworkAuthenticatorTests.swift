@@ -133,7 +133,7 @@ class NetworkAuthenticatorTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         
         let keychain = Keychain(service: keychainService)
@@ -170,7 +170,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         }
         stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
             if failedOnce {
-                return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+                return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
             } else {
                 failedOnce = true
                 return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_access_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType: "application/json"])
@@ -255,7 +255,7 @@ class NetworkAuthenticatorTests: XCTestCase {
             if userRequestCount < 3 {
                 fix = fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_access_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType: "application/json"])
             } else {
-                fix = fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+                fix = fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
             }
             userRequestCount += 1
             return fix
@@ -356,9 +356,9 @@ class NetworkAuthenticatorTests: XCTestCase {
         stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
             if rateLimited {
                 rateLimited = false
-                return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details", ofType: "json")!, status: 429, headers: [Network.HTTPHeader.contentType: "application/json"])
+                return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, status: 429, headers: [Network.HTTPHeader.contentType: "application/json"])
             } else {
-                return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+                return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
             }
         }
         

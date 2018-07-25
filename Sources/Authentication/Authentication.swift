@@ -14,8 +14,22 @@ public struct FrolloSDKAuthenticationNotification {
 
 class Authentication {
     
+    private let network: Network
+    
+    init(network: Network) {
+        self.network = network
+    }
+    
     internal func authenticate(_ authToken: String, completion: FrolloSDKCompletionHandler) {
         completion(nil)
+    }
+    
+    internal func fetchUser(completion: FrolloSDKCompletionHandler) {
+        network.fetchUser { (data, error) in
+            if let responseError = error {
+                
+            }
+        }
     }
     
 }

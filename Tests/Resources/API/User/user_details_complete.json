@@ -12,6 +12,8 @@
 		"postcode": "2060"
 	},
 	"marital_status": "single",
+    "occupation": "community_and_personal_service_workers",
+    "industry": "electricity_gas_water_and_waste_services",
 	"household_size": 2,
 	"features": [{
 		"feature": "bills",

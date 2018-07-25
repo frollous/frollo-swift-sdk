@@ -1,0 +1,9 @@
+{
+	"id": 12345,
+	"first_name": "Jacob",
+	"email": "jacob@frollo.us",
+	"email_verified": true,
+	"status": "active",
+	"primary_currency": "AUD",
+	"valid_password": true
+}

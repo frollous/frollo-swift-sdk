@@ -1,0 +1,9 @@
+{
+	"id": 12345,
+	"first_name": "Jacob",
+	"email_verified": true,
+	"status": "active",
+	"primary_currency": "AUD",
+	"register_complete": true,
+	"valid_password": true
+}

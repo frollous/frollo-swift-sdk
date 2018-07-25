@@ -22,13 +22,34 @@ extension Network {
 //        }
 //    }
     
-    internal func fetchUser(completion: @escaping NetworkCompletion) {
+    internal func fetchUser(completion: @escaping (_: APIUserResponse?, _: Error?) -> Void) {
         requestQueue.async {
             let url = URL(string: UserEndpoint.details.path, relativeTo: self.serverURL)!
             
-            self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseJSON(queue: self.responseQueue, options: .allowFragments, completionHandler: { (response: DataResponse<Any>) in
-                self.handleCompletion(response: response, completion: completion)
-            })
+            self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response: DataResponse<Data>) in
+                switch response.result {
+                    case .success(let value):
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "yyyy-MM"
+                        
+                        let decoder = JSONDecoder()
+                        decoder.dateDecodingStrategy = .formatted(dateFormatter)
+                        do {
+                            let tokenResponse = try decoder.decode(APIUserResponse.self, from: value)
+                            
+                            completion(tokenResponse, nil)
+                        } catch {
+                            Log.error(error.localizedDescription)
+                            
+                            let dataError = DataError(type: .unknown, subType: .unknown)
+                            completion(nil, dataError)
+                        }
+                    case .failure:
+                        self.handleFailure(response: response) { (error) in
+                            completion(nil, error)
+                        }
+                }
+            }
         }
     }
     

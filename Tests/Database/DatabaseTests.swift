@@ -33,6 +33,8 @@ class DatabaseTests: XCTestCase {
         return tempFolder
     }
     
+    // MARK: - Tests
+    
     func insertTestData(database: Database) {
         let context = database.newBackgroundContext()
         
@@ -43,7 +45,10 @@ class DatabaseTests: XCTestCase {
             }
             
             for _ in 0..<100 {
-                _ = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
+                let model = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
+                if let userModel = model as? User {
+                    userModel.populateTestData()
+                }
             }
         }
         
