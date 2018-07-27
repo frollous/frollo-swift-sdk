@@ -31,7 +31,7 @@ class Network: SessionDelegate {
     internal var authenticator: NetworkAuthenticator!
     internal var sessionManager: SessionManager!
     
-    private let APIVersion = "1.15"
+    private let APIVersion = "1.16"
     
     internal init(serverURL: URL, keychain: Keychain, pinnedPublicKeys: [SecKey]? = nil) {
         self.serverURL = serverURL

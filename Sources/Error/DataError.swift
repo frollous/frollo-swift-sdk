@@ -11,12 +11,15 @@ import Foundation
 class DataError: FrolloSDKError {
     
     enum DataErrorType: String {
+        case api
         case authentication
         case database
         case unknown
     }
     
     enum DataErrorSubType: String {
+        case invalidData
+        
         case missingAccessToken
         case missingRefreshToken
         
@@ -52,16 +55,23 @@ class DataError: FrolloSDKError {
     
     private func localizedDataErrorDescription() -> String {
         switch type {
-        case .authentication:
-            switch subType {
-                case .missingAccessToken:
-                    return Localization.string("Error.Data.Authentication.MissingAccessToken")
-                case .missingRefreshToken:
-                    return Localization.string("Error.Data.Authentication.MissingRefreshToken")
-                default:
-                    return Localization.string("Error.Data.Authentication.Unknown")
-                
-            }
+            case .api:
+                switch subType {
+                    case .invalidData:
+                        return Localization.string("Error.Data.API.InvalidData")
+                    default:
+                        return Localization.string("Error.Data.API.Unknown")
+                }
+            case .authentication:
+                switch subType {
+                    case .missingAccessToken:
+                        return Localization.string("Error.Data.Authentication.MissingAccessToken")
+                    case .missingRefreshToken:
+                        return Localization.string("Error.Data.Authentication.MissingRefreshToken")
+                    default:
+                        return Localization.string("Error.Data.Authentication.Unknown")
+                    
+                }
             
             case .database:
                 switch subType {

@@ -27,6 +27,146 @@ class UserRequestTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    // MARK: - Login User
+    
+    func testLoginUserEmail() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.login.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain(service: keychainService)
+        keychain["refreshToken"] = "AnExistingRefreshToken"
+        keychain["accessToken"] = "AnExistingAccessToken"
+        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        let loginRequest = APIUserLoginRequest.testEmailData()
+        
+        network.loginUser(request: loginRequest) { (response, error) in
+            XCTAssertNil(error)
+            
+            if let userResponse = response {
+                XCTAssertEqual(userResponse.userID, 12345)
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testLoginUserFacebook() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.login.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain(service: keychainService)
+        keychain["refreshToken"] = "AnExistingRefreshToken"
+        keychain["accessToken"] = "AnExistingAccessToken"
+        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        let loginRequest = APIUserLoginRequest.testFacebookData()
+        
+        network.loginUser(request: loginRequest) { (response, error) in
+            XCTAssertNil(error)
+            
+            if let userResponse = response {
+                XCTAssertEqual(userResponse.userID, 12345)
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testLoginUserVolt() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.login.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain(service: keychainService)
+        keychain["refreshToken"] = "AnExistingRefreshToken"
+        keychain["accessToken"] = "AnExistingAccessToken"
+        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        let loginRequest = APIUserLoginRequest.testVoltData()
+        
+        network.loginUser(request: loginRequest) { (response, error) in
+            XCTAssertNil(error)
+            
+            if let userResponse = response {
+                XCTAssertEqual(userResponse.userID, 12345)
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testLoginUserInvalid() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain(service: keychainService)
+        keychain["refreshToken"] = "AnExistingRefreshToken"
+        keychain["accessToken"] = "AnExistingAccessToken"
+        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        let loginRequest = APIUserLoginRequest.testInvalidData()
+        
+        network.loginUser(request: loginRequest) { (response, error) in
+            XCTAssertNotNil(error)
+            XCTAssertNil(response)
+            
+            if let dataError = error as? DataError {
+                XCTAssertEqual(dataError.type, .api)
+                XCTAssertEqual(dataError.subType, .invalidData)
+            } else {
+                XCTFail("Wrong error")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    // MARK: - Refresh User
+    
     func testFetchUserComplete() {
         let expectation1 = expectation(description: "Network Request")
         

@@ -25,6 +25,9 @@
 "Error.API.UserAlreadyExists" = "A user account already exists with this identifier.";
 "Error.API.UserLoggedOut" = "User is already logged out.";
 
+"Error.Data.API.InvalidData" = "API request or response data was invalid.";
+"Error.Data.API.Unknown" = "Unknown error occurred in the API request or response.";
+
 "Error.Data.Authentication.MissingAccessToken" = "Access token is missing after refresh.";
 "Error.Data.Authentication.MissingRefreshToken" = "Refresh token is missing. No valid login found.";
 "Error.Data.Authentication.Unknown" = "Unknown authentication error occurred.";

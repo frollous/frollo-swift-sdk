@@ -21,6 +21,24 @@ class DataErrorTests: XCTestCase {
         super.tearDown()
     }
     
+    func testAPIInvalidData() {
+        let error = DataError(type: .api, subType: .invalidData)
+        XCTAssertEqual(error.type, .api)
+        XCTAssertEqual(error.subType, .invalidData)
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.Data.API.InvalidData"))
+        XCTAssertTrue(error.debugDescription.contains(DataError.DataErrorType.api.rawValue))
+        XCTAssertGreaterThan(error.debugDescription.count, error.localizedDescription.count)
+    }
+    
+    func testAPIErrorUnknown() {
+        let error = DataError(type: .api, subType: .unknown)
+        XCTAssertEqual(error.type, .api)
+        XCTAssertEqual(error.subType, .unknown)
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.Data.API.Unknown"))
+        XCTAssertTrue(error.debugDescription.contains(DataError.DataErrorType.api.rawValue))
+        XCTAssertGreaterThan(error.debugDescription.count, error.localizedDescription.count)
+    }
+    
     func testAuthenticationMissingAccessToken() {
         let error = DataError(type: .authentication, subType: .missingAccessToken)
         XCTAssertEqual(error.type, .authentication)

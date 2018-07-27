@@ -6,6 +6,7 @@
 //  Copyright © 2018 Frollo. All rights reserved.
 //
 
+import CoreData
 import Foundation
 
 public struct FrolloSDKAuthenticationNotification {
@@ -14,9 +15,11 @@ public struct FrolloSDKAuthenticationNotification {
 
 class Authentication {
     
+    private let database: Database
     private let network: Network
     
-    init(network: Network) {
+    init(database: Database, network: Network) {
+        self.database = database
         self.network = network
     }
     
@@ -24,11 +27,79 @@ class Authentication {
         completion(nil)
     }
     
-    internal func fetchUser(completion: FrolloSDKCompletionHandler) {
+    internal func loginUser(method: APIUserLoginRequest.AuthType, email: String? = nil, password: String? = nil, userID: String? = nil, userToken: String? = nil, completion: @escaping FrolloSDKCompletionHandler) {
+        let deviceInfo = DeviceInfo.current()
+        
+        let userLoginRequest = APIUserLoginRequest(authType: method,
+                                                   deviceID: deviceInfo.deviceID,
+                                                   deviceName: deviceInfo.deviceName,
+                                                   deviceType: deviceInfo.deviceType,
+                                                   email: email,
+                                                   password: password,
+                                                   userID: userID,
+                                                   userToken: userToken)
+        
+        network.loginUser(request: userLoginRequest) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let userResponse = response {
+                    self.handleUserResponse(userResponse: userResponse)
+                }
+            }
+            
+            completion(error)
+        }
+    }
+    
+    /**
+     Refresh the user details
+     
+     Refreshes the latest details of the user from the server. This should be called on app launch and resuming after a set period of time if the user is already logged in. This returns the same data as login and register.
+     
+     - parameters:
+        - completion: A completion handler once the API has returned and the cache has been updated. Returns any error that occurred during the process.
+    */
+    public func refreshUser(completion: @escaping FrolloSDKCompletionHandler) {
         network.fetchUser { (data, error) in
             if let responseError = error {
-                
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let userResponse = data {
+                    self.handleUserResponse(userResponse: userResponse)
+                }
             }
+            
+            completion(error)
+        }
+    }
+    
+    // MARK: - User Model
+    
+    private func handleUserResponse(userResponse: APIUserResponse) {
+        let managedObjectContext = self.database.newBackgroundContext()
+        
+        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+        
+        do {
+            let fetchedUsers = try managedObjectContext.fetch(fetchRequest)
+            
+            let user: User
+            if let fetchedUser = fetchedUsers.first {
+                user = fetchedUser
+            } else {
+                user = User(context: managedObjectContext)
+            }
+            
+            user.update(response: userResponse)
+            
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        } catch {
+            Log.error(error.localizedDescription)
         }
     }
     

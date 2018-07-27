@@ -21,6 +21,11 @@
 		0136D2382101775B0062EAEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0136D2362101775B0062EAEA /* Main.storyboard */; };
 		0136D23A2101775D0062EAEA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0136D2392101775D0062EAEA /* Assets.xcassets */; };
 		0136D23D2101775D0062EAEA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0136D23B2101775D0062EAEA /* LaunchScreen.storyboard */; };
+		013D2D86210A88AC00EEDEC5 /* APIUserLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013D2D85210A88AC00EEDEC5 /* APIUserLoginRequest.swift */; };
+		013D2D90210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013D2D8F210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift */; };
+		013D2D91210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013D2D8F210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift */; };
+		013D2D92210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013D2D8F210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift */; };
+		013D2D94210AA38800EEDEC5 /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013D2D93210AA38800EEDEC5 /* DeviceInfo.swift */; };
 		01527CC920E1B5C300B5042A /* FrolloSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01527CBF20E1B5C300B5042A /* FrolloSDK.framework */; };
 		01527CCE20E1B5C300B5042A /* FrolloSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */; };
 		01527CD020E1B5C300B5042A /* FrolloSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 01527CC220E1B5C300B5042A /* FrolloSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -28,8 +33,10 @@
 		0160953720F33EB10060791B /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0160953620F33EB10060791B /* Version.swift */; };
 		0160953A20F41ECF0060791B /* VersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0160953920F41ECF0060791B /* VersionTests.swift */; };
 		0160953E20F47FE10060791B /* TestInvalidDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0160953C20F47FE10060791B /* TestInvalidDataModel.xcdatamodeld */; };
+		016097E6210AAAD90034E857 /* DeviceInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097E5210AAAD90034E857 /* DeviceInfoTests.swift */; };
+		016097E7210AAAD90034E857 /* DeviceInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097E5210AAAD90034E857 /* DeviceInfoTests.swift */; };
+		016097E8210AAAD90034E857 /* DeviceInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097E5210AAAD90034E857 /* DeviceInfoTests.swift */; };
 		016DD0A420EF365100F41919 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016DD0A320EF365100F41919 /* APIErrorTests.swift */; };
-		017391EE20EEFFEA00C0BB32 /* Test+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017391ED20EEFFEA00C0BB32 /* Test+CoreDataClass.swift */; };
 		017391F020EF001200C0BB32 /* APIErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017391EF20EF001200C0BB32 /* APIErrorResponse.swift */; };
 		017B48322101B4FE00447E65 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016DD0A320EF365100F41919 /* APIErrorTests.swift */; };
 		017B48332101B4FE00447E65 /* DatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EEDB1A20EAE2CE00F4516B /* DatabaseTests.swift */; };
@@ -157,6 +164,9 @@
 		017B48F721083A3500447E65 /* APIUserResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48F621083A3500447E65 /* APIUserResponse+Test.swift */; };
 		017B48F821083A3500447E65 /* APIUserResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48F621083A3500447E65 /* APIUserResponse+Test.swift */; };
 		017B48F921083A3500447E65 /* APIUserResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48F621083A3500447E65 /* APIUserResponse+Test.swift */; };
+		017B48FC21084BA200447E65 /* AuthenticationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48FB21084BA200447E65 /* AuthenticationTests.swift */; };
+		017B48FD21084BA200447E65 /* AuthenticationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48FB21084BA200447E65 /* AuthenticationTests.swift */; };
+		017B48FE21084BA200447E65 /* AuthenticationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48FB21084BA200447E65 /* AuthenticationTests.swift */; };
 		01874B6520F6C0C7005A7D0C /* frollo.cer in Resources */ = {isa = PBXBuildFile; fileRef = 01874B6420F6C0C6005A7D0C /* frollo.cer */; };
 		01874B7420F81EA8005A7D0C /* UserEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B7320F81EA8005A7D0C /* UserEndpoint.swift */; };
 		01874B7620F82158005A7D0C /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B7520F82158005A7D0C /* Endpoint.swift */; };
@@ -285,6 +295,9 @@
 		0136D23C2101775D0062EAEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0136D23E2101775D0062EAEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0136D2422101776E0062EAEA /* FrolloSDKTestHost.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FrolloSDKTestHost.entitlements; sourceTree = "<group>"; };
+		013D2D85210A88AC00EEDEC5 /* APIUserLoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserLoginRequest.swift; sourceTree = "<group>"; };
+		013D2D8F210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIUserLoginRequest+Test.swift"; sourceTree = "<group>"; };
+		013D2D93210AA38800EEDEC5 /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		01527CBF20E1B5C300B5042A /* FrolloSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FrolloSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		01527CC220E1B5C300B5042A /* FrolloSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrolloSDK.h; sourceTree = "<group>"; };
 		01527CC320E1B5C300B5042A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -299,8 +312,8 @@
 		0160953620F33EB10060791B /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 		0160953920F41ECF0060791B /* VersionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionTests.swift; sourceTree = "<group>"; };
 		0160953D20F47FE10060791B /* TestInvalidDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestInvalidDataModel.xcdatamodel; sourceTree = "<group>"; };
+		016097E5210AAAD90034E857 /* DeviceInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoTests.swift; sourceTree = "<group>"; };
 		016DD0A320EF365100F41919 /* APIErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorTests.swift; sourceTree = "<group>"; };
-		017391ED20EEFFEA00C0BB32 /* Test+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Test+CoreDataClass.swift"; sourceTree = "<group>"; };
 		017391EF20EF001200C0BB32 /* APIErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorResponse.swift; sourceTree = "<group>"; };
 		017B48682101B4FE00447E65 /* FrolloSDK macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FrolloSDK macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		017B486C2105433B00447E65 /* PreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesTests.swift; sourceTree = "<group>"; };
@@ -323,6 +336,7 @@
 		017B48E32108287600447E65 /* user_details_invalid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user_details_invalid.json; sourceTree = "<group>"; };
 		017B48F02108356C00447E65 /* User+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+Test.swift"; sourceTree = "<group>"; };
 		017B48F621083A3500447E65 /* APIUserResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIUserResponse+Test.swift"; sourceTree = "<group>"; };
+		017B48FB21084BA200447E65 /* AuthenticationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationTests.swift; sourceTree = "<group>"; };
 		01874B6420F6C0C6005A7D0C /* frollo.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = frollo.cer; sourceTree = "<group>"; };
 		01874B7320F81EA8005A7D0C /* UserEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEndpoint.swift; sourceTree = "<group>"; };
 		01874B7520F82158005A7D0C /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
@@ -471,6 +485,74 @@
 			path = "FrolloSDK iOS Test Host";
 			sourceTree = "<group>";
 		};
+		013D2D81210A885F00EEDEC5 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				013D2D84210A889200EEDEC5 /* Device */,
+				013D2D83210A888900EEDEC5 /* Shared */,
+				013D2D82210A887C00EEDEC5 /* User */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		013D2D82210A887C00EEDEC5 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				013D2D85210A88AC00EEDEC5 /* APIUserLoginRequest.swift */,
+				017B48DF2107FE6A00447E65 /* APIUserResponse.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		013D2D83210A888900EEDEC5 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				017391EF20EF001200C0BB32 /* APIErrorResponse.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		013D2D84210A889200EEDEC5 /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				01F220E220FEAC7600C70B00 /* APITokenResponse.swift */,
+			);
+			path = Device;
+			sourceTree = "<group>";
+		};
+		013D2D87210A8AE200EEDEC5 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				013D2D88210A8AE900EEDEC5 /* Device */,
+				013D2D8A210A8AF700EEDEC5 /* Shared */,
+				013D2D89210A8AF000EEDEC5 /* User */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		013D2D88210A8AE900EEDEC5 /* Device */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Device;
+			sourceTree = "<group>";
+		};
+		013D2D89210A8AF000EEDEC5 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				017B48F621083A3500447E65 /* APIUserResponse+Test.swift */,
+				013D2D8F210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		013D2D8A210A8AF700EEDEC5 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		01527CB320E1B49800B5042A = {
 			isa = PBXGroup;
 			children = (
@@ -525,6 +607,7 @@
 		01527CCC20E1B5C300B5042A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				017B48FA21084B8D00447E65 /* Authentication */,
 				01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */,
 				01527CCF20E1B5C300B5042A /* Info.plist */,
 				01EEDB1920EAE2A900F4516B /* Database */,
@@ -584,9 +667,7 @@
 		017391EB20EEFFEA00C0BB32 /* Transient */ = {
 			isa = PBXGroup;
 			children = (
-				017391EF20EF001200C0BB32 /* APIErrorResponse.swift */,
-				01F220E220FEAC7600C70B00 /* APITokenResponse.swift */,
-				017B48DF2107FE6A00447E65 /* APIUserResponse.swift */,
+				013D2D93210AA38800EEDEC5 /* DeviceInfo.swift */,
 			);
 			path = Transient;
 			sourceTree = "<group>";
@@ -594,7 +675,6 @@
 		017391EC20EEFFEA00C0BB32 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				017391ED20EEFFEA00C0BB32 /* Test+CoreDataClass.swift */,
 				017B48D92106E1C100447E65 /* User+CoreDataClass.swift */,
 			);
 			path = "Core Data";
@@ -625,8 +705,9 @@
 		017B48D32106D46900447E65 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				017B48F4210839AD00447E65 /* Transient */,
+				013D2D87210A8AE200EEDEC5 /* API */,
 				017B48D42106D48200447E65 /* Core Data */,
+				017B48F4210839AD00447E65 /* Transient */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -643,17 +724,17 @@
 		017B48F4210839AD00447E65 /* Transient */ = {
 			isa = PBXGroup;
 			children = (
-				017B48F5210839B400447E65 /* API */,
+				016097E5210AAAD90034E857 /* DeviceInfoTests.swift */,
 			);
 			path = Transient;
 			sourceTree = "<group>";
 		};
-		017B48F5210839B400447E65 /* API */ = {
+		017B48FA21084B8D00447E65 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				017B48F621083A3500447E65 /* APIUserResponse+Test.swift */,
+				017B48FB21084BA200447E65 /* AuthenticationTests.swift */,
 			);
-			path = API;
+			path = Authentication;
 			sourceTree = "<group>";
 		};
 		01874B6320F6C0C6005A7D0C /* Certificates */ = {
@@ -815,6 +896,7 @@
 		01EED85A20E5A7EA00F4516B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				013D2D81210A885F00EEDEC5 /* API */,
 				017391EC20EEFFEA00C0BB32 /* Core Data */,
 				017391EB20EEFFEA00C0BB32 /* Transient */,
 			);
@@ -1324,14 +1406,15 @@
 				01C824EE20EC40FD0093400E /* ConsoleLogger.swift in Sources */,
 				017B48E02107FE6A00447E65 /* APIUserResponse.swift in Sources */,
 				01874B7F20FD9F21005A7D0C /* Network+Device.swift in Sources */,
-				017391EE20EEFFEA00C0BB32 /* Test+CoreDataClass.swift in Sources */,
 				01C8251420EDF6200093400E /* Localization.swift in Sources */,
 				01C8250520EDDB410093400E /* NetworkError.swift in Sources */,
 				01874B7620F82158005A7D0C /* Endpoint.swift in Sources */,
 				01EED86220E5A7EB00F4516B /* Authentication.swift in Sources */,
 				01C824F520EC75560093400E /* FileLogger.swift in Sources */,
+				013D2D94210AA38800EEDEC5 /* DeviceInfo.swift in Sources */,
 				0160953720F33EB10060791B /* Version.swift in Sources */,
 				0136D225210011E70062EAEA /* Keychain.swift in Sources */,
+				013D2D86210A88AC00EEDEC5 /* APIUserLoginRequest.swift in Sources */,
 				01EED86B20E5AA5B00F4516B /* FrolloSDKDataModel.xcdatamodeld in Sources */,
 				01EED86420E5A7EB00F4516B /* Preferences.swift in Sources */,
 				017391F020EF001200C0BB32 /* APIErrorResponse.swift in Sources */,
@@ -1354,8 +1437,11 @@
 				017B48D62106D4A000447E65 /* UserTests.swift in Sources */,
 				01E0819420FDB7150036133F /* NetworkAuthenticatorTests.swift in Sources */,
 				0160953A20F41ECF0060791B /* VersionTests.swift in Sources */,
+				017B48FC21084BA200447E65 /* AuthenticationTests.swift in Sources */,
 				01B896D020F32D5E0068069A /* NetworkErrorTests.swift in Sources */,
+				016097E6210AAAD90034E857 /* DeviceInfoTests.swift in Sources */,
 				01C824F920EC8EF90093400E /* ConsoleLoggerTests.swift in Sources */,
+				013D2D90210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */,
 				01EEDB1D20EAEA2000F4516B /* DatabaseMigrationTests.swift in Sources */,
 				0101949E20F595F300334482 /* NetworkTests.swift in Sources */,
 				01B896CE20F3169F0068069A /* DataErrorTests.swift in Sources */,
@@ -1382,8 +1468,11 @@
 				017B48D72106D4A000447E65 /* UserTests.swift in Sources */,
 				017B48342101B4FE00447E65 /* NetworkAuthenticatorTests.swift in Sources */,
 				017B48352101B4FE00447E65 /* VersionTests.swift in Sources */,
+				017B48FD21084BA200447E65 /* AuthenticationTests.swift in Sources */,
 				017B48362101B4FE00447E65 /* NetworkErrorTests.swift in Sources */,
+				016097E7210AAAD90034E857 /* DeviceInfoTests.swift in Sources */,
 				017B48372101B4FE00447E65 /* ConsoleLoggerTests.swift in Sources */,
+				013D2D91210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */,
 				017B48382101B4FE00447E65 /* DatabaseMigrationTests.swift in Sources */,
 				017B48392101B4FE00447E65 /* NetworkTests.swift in Sources */,
 				017B483A2101B4FE00447E65 /* DataErrorTests.swift in Sources */,
@@ -1419,8 +1508,11 @@
 				017B48D82106D4A000447E65 /* UserTests.swift in Sources */,
 				017B488F2105958100447E65 /* NetworkAuthenticatorTests.swift in Sources */,
 				017B48902105958100447E65 /* VersionTests.swift in Sources */,
+				017B48FE21084BA200447E65 /* AuthenticationTests.swift in Sources */,
 				017B48912105958100447E65 /* NetworkErrorTests.swift in Sources */,
+				016097E8210AAAD90034E857 /* DeviceInfoTests.swift in Sources */,
 				017B48922105958100447E65 /* ConsoleLoggerTests.swift in Sources */,
+				013D2D92210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */,
 				017B48932105958100447E65 /* DatabaseMigrationTests.swift in Sources */,
 				017B48942105958100447E65 /* NetworkTests.swift in Sources */,
 				017B48952105958100447E65 /* DataErrorTests.swift in Sources */,
