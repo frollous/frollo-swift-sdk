@@ -66,7 +66,7 @@ struct DeviceInfo {
         
         let property = IORegistryEntryCreateCFProperty(platformExpert, "model" as CFString, kCFAllocatorDefault, 0)
         
-        if let modelData = property?.takeUnretainedValue() as? Data, let model = String(data: modelData, encoding: .ascii) {
+        if let modelData = property?.takeUnretainedValue() as? Data, let model = String(data: modelData, encoding: .utf8) {
             return model
         }
         
