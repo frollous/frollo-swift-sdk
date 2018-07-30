@@ -18,8 +18,19 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         static let refreshToken = "refreshToken"
     }
     
+    /**
+     Access Token used with the API
+    */
     internal var accessToken: String?
+    
+    /**
+     Refresh Token used with the API to renew access tokens
+    */
     internal var refreshToken: String?
+    
+    /**
+     Expiry date of the access token, typically 30 minutes after issue
+    */
     internal var expiryDate: Date?
     
     private let bearerFormat = "Bearer %@"
@@ -76,7 +87,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     
     // MARK: - Retry Requests
     
-    func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
+    internal func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
         guard let responseError = error as? AFError
             else {
                 completion(false, 0)
@@ -184,6 +195,14 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     
     // MARK: - Token Handling
     
+    /**
+     Cache tokens and save tokens to the keychain
+     
+     - parameters:
+         - refresh: Refresh token
+         - access: Access token
+         - expiry: Access token expiry date
+    */
     internal func saveTokens(refresh: String, access: String, expiry: Date) {
         refreshToken = refresh
         accessToken = access
@@ -196,6 +215,9 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         keychain[KeychainKey.accessTokenExpiry] = expirySeconds
     }
     
+    /**
+     Clear the cached tokens and delete any keychain persisted tokens
+    */
     internal func clearTokens() {
         accessToken = nil
         expiryDate = nil

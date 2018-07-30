@@ -14,12 +14,31 @@ import IOKit
 import UIKit
 #endif
 
+/**
+ Cross-platform device information
+ 
+ Gathers information about the user's device for macOS and iOS based platforms
+ */
 struct DeviceInfo {
     
+    /**
+     Unique identifier for the device
+    */
     let deviceID: String
+    
+    /**
+     User defined name for the device, e.g. "Jacob's iPhone"
+    */
     let deviceName: String
+    
+    /**
+     Type and model of device, e.g. iPhone X
+    */
     let deviceType: String
     
+    /**
+     Device information about the current device
+    */
     static func current() -> DeviceInfo {
         #if os(macOS)
         let deviceID = serialNumber()

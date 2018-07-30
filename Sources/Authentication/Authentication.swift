@@ -13,6 +13,11 @@ public struct FrolloSDKAuthenticationNotification {
     public static let authenticationStatusChanged = "FrolloSDKAuthenticationNotification.authenticationStatusChanged"
 }
 
+/**
+ Authentication
+ 
+ Manages authentication, login, registration, logout and the user profile.
+ */
 class Authentication {
     
     struct AuthenticationNotification {
@@ -44,6 +49,9 @@ class Authentication {
     
     // MARK: - User
     
+    /**
+     Fetch the first available user model from the cache
+    */
     private func fetchUser() -> User? {
         var fetchedUser: User?
         
@@ -66,6 +74,17 @@ class Authentication {
     
     // MARK: - Login, Register and User Profile
     
+    /**
+     Login a user using various authentication methods
+     
+     - parameters:
+         - method: Login method to be used. See AuthType for details
+         - email: Email address of the user (optional)
+         - password: Password for the user (optional)
+         - userID: Unique identifier for the user depending on authentication method (optional)
+         - userToken: Token for the user depending on authentication method (optional)
+         - completion: Completion handler with any error that occurred
+    */
     internal func loginUser(method: APIUserLoginRequest.AuthType, email: String? = nil, password: String? = nil, userID: String? = nil, userToken: String? = nil, completion: @escaping FrolloSDKCompletionHandler) {
         let deviceInfo = DeviceInfo.current()
         
