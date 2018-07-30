@@ -22,17 +22,6 @@ class UserTests: XCTestCase {
         super.tearDown()
     }
     
-    // MARK: - Helpers
-    
-    private func tempFolderPath() -> URL {
-        var tempFolder = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
-        tempFolder.appendPathComponent(UUID().uuidString, isDirectory: true)
-        
-        try? FileManager.default.createDirectory(at: tempFolder, withIntermediateDirectories: true, attributes: nil)
-        
-        return tempFolder
-    }
-    
     // MARK: - Tests
     
     func testUserModelUpdate() {
@@ -69,6 +58,7 @@ class UserTests: XCTestCase {
             XCTAssertEqual(userModel.householdSize, userResponseModel.householdSize)
             XCTAssertEqual(userModel.facebookID, userResponseModel.facebookID)
             XCTAssertEqual(userModel.validPassword, userResponseModel.validPassword)
+            XCTAssertEqual(userModel.features, userResponseModel.features)
             
             expectation1.fulfill()
         }

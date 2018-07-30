@@ -35,18 +35,34 @@ class AuthenticationTests: XCTestCase {
         super.tearDown()
     }
     
-    // MARK: - Helpers
-    
-    private func tempFolderPath() -> URL {
-        var tempFolder = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
-        tempFolder.appendPathComponent(UUID().uuidString, isDirectory: true)
-        
-        try? FileManager.default.createDirectory(at: tempFolder, withIntermediateDirectories: true, attributes: nil)
-        
-        return tempFolder
-    }
-    
     // MARK: - Tests
+    
+    func testLoginUser() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.login.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            authentication.loginUser(method: .email, email: "user@frollo.us", password: "password") { (error) in
+                XCTAssertNil(error)
+                
+                XCTAssertNotNil(authentication.user)
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+    }
     
     func testRefreshUser() {
         let expectation1 = expectation(description: "Network Request")
@@ -57,13 +73,16 @@ class AuthenticationTests: XCTestCase {
         
         let path = tempFolderPath()
         let database = Database(path: path)
-        let authentication = Authentication(database: database, network: network)
+        let preferences = Preferences(path: path)
+        let authentication = Authentication(database: database, network: network, preferences: preferences)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
             authentication.refreshUser { (error) in
                 XCTAssertNil(error)
+                
+                XCTAssertNotNil(authentication.user)
                 
                 expectation1.fulfill()
             }

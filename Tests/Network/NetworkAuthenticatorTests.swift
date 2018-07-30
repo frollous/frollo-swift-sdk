@@ -64,10 +64,7 @@ class NetworkAuthenticatorTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         
@@ -95,10 +92,7 @@ class NetworkAuthenticatorTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_invalid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         
@@ -177,10 +171,7 @@ class NetworkAuthenticatorTests: XCTestCase {
             }
         }
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         
@@ -208,10 +199,7 @@ class NetworkAuthenticatorTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_refresh_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         
@@ -261,10 +249,7 @@ class NetworkAuthenticatorTests: XCTestCase {
             return fix
         }
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         
@@ -310,10 +295,7 @@ class NetworkAuthenticatorTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_access_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         
@@ -362,10 +344,7 @@ class NetworkAuthenticatorTests: XCTestCase {
             }
         }
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         
@@ -395,10 +374,7 @@ class NetworkAuthenticatorTests: XCTestCase {
     func testAccessTokenHeaderAppendedToHostRequests() {
         let url = URL(string: "https://api.example.com")!
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         
@@ -423,10 +399,7 @@ class NetworkAuthenticatorTests: XCTestCase {
     func testRefreshTokenHeaderAppendedToRefreshRequests() {
         let url = URL(string: "https://api.example.com")!
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         
@@ -451,10 +424,7 @@ class NetworkAuthenticatorTests: XCTestCase {
     func testNoHeaderAppendedToLoginRequest() {
         let url = URL(string: "https://api.example.com")!
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         
@@ -474,10 +444,7 @@ class NetworkAuthenticatorTests: XCTestCase {
     func testNoHeaderAppendedToExternalHostRequests() {
         let url = URL(string: "https://api.example.com")!
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         

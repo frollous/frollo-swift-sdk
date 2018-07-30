@@ -5,6 +5,7 @@
         <attribute name="email" attributeType="String" syncable="YES"/>
         <attribute name="emailVerified" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="facebookID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="featuresRawValue" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="firstName" attributeType="String" syncable="YES"/>
         <attribute name="genderRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="householdSize" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
@@ -19,6 +20,6 @@
         <attribute name="validPassword" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="User" positionX="-63" positionY="-9" width="128" height="285"/>
+        <element name="User" positionX="-63" positionY="-9" width="128" height="300"/>
     </elements>
 </model>

@@ -25,10 +25,11 @@ class FrolloSDK {
     
     //public let preferences = Preferences()
     
-//    internal let authentication = Authentication()
+    internal let authentication: Authentication
     internal let database: Database
     internal let keychain: Keychain
     internal let network: Network
+    internal let preferences: Preferences
     
     public init(serverURL: URL) {
         // Create data folder if it doesn't exist
@@ -43,6 +44,9 @@ class FrolloSDK {
         self.database = Database(path: FrolloSDK.dataFolderURL)
         self.keychain = Keychain(service: FrolloSDKConstants.keychainService)
         self.network = Network(serverURL: serverURL, keychain: keychain)
+        self.preferences = Preferences(path: FrolloSDK.dataFolderURL)
+        
+        self.authentication = Authentication(database: database, network: network, preferences: preferences)
     }
     
     public func setup(completionHandler: @escaping (Error?) -> Void) {

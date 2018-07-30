@@ -29,6 +29,7 @@ extension APIUserResponse {
                                address: Address(postcode: "2060"),
                                dateOfBirth: date,
                                facebookID: String(arc4random()),
+                               features: [User.FeatureFlag(enabled: true, feature: .aggregation)],
                                gender: .male,
                                householdSize: 1,
                                householdType: .single,

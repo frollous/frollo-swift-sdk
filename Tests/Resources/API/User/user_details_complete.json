@@ -16,10 +16,7 @@
     "industry": "electricity_gas_water_and_waste_services",
 	"household_size": 2,
 	"features": [{
-		"feature": "bills",
-		"enabled": true
-	}, {
-		"feature": "credit_score",
+		"feature": "aggregation",
 		"enabled": true
 	}],
 	"facebook_id": "1234567890",

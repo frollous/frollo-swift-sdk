@@ -22,17 +22,6 @@ class DatabaseTests: XCTestCase {
         super.tearDown()
     }
     
-    // MARK: - Helpers
-    
-    private func tempFolderPath() -> URL {
-        var tempFolder = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
-        tempFolder.appendPathComponent(UUID().uuidString, isDirectory: true)
-        
-        try? FileManager.default.createDirectory(at: tempFolder, withIntermediateDirectories: true, attributes: nil)
-        
-        return tempFolder
-    }
-    
     // MARK: - Tests
     
     func insertTestData(database: Database) {

@@ -36,6 +36,12 @@
 		016097E6210AAAD90034E857 /* DeviceInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097E5210AAAD90034E857 /* DeviceInfoTests.swift */; };
 		016097E7210AAAD90034E857 /* DeviceInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097E5210AAAD90034E857 /* DeviceInfoTests.swift */; };
 		016097E8210AAAD90034E857 /* DeviceInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097E5210AAAD90034E857 /* DeviceInfoTests.swift */; };
+		016097EA210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097E9210EA0D60034E857 /* XCTestCase+TempFolder.swift */; };
+		016097EB210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097E9210EA0D60034E857 /* XCTestCase+TempFolder.swift */; };
+		016097EC210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097E9210EA0D60034E857 /* XCTestCase+TempFolder.swift */; };
+		016097EE210EA27E0034E857 /* Keychain+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097ED210EA27E0034E857 /* Keychain+Test.swift */; };
+		016097EF210EA27E0034E857 /* Keychain+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097ED210EA27E0034E857 /* Keychain+Test.swift */; };
+		016097F0210EA27E0034E857 /* Keychain+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097ED210EA27E0034E857 /* Keychain+Test.swift */; };
 		016DD0A420EF365100F41919 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016DD0A320EF365100F41919 /* APIErrorTests.swift */; };
 		017391F020EF001200C0BB32 /* APIErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017391EF20EF001200C0BB32 /* APIErrorResponse.swift */; };
 		017B48322101B4FE00447E65 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016DD0A320EF365100F41919 /* APIErrorTests.swift */; };
@@ -313,6 +319,8 @@
 		0160953920F41ECF0060791B /* VersionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionTests.swift; sourceTree = "<group>"; };
 		0160953D20F47FE10060791B /* TestInvalidDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestInvalidDataModel.xcdatamodel; sourceTree = "<group>"; };
 		016097E5210AAAD90034E857 /* DeviceInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoTests.swift; sourceTree = "<group>"; };
+		016097E9210EA0D60034E857 /* XCTestCase+TempFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+TempFolder.swift"; sourceTree = "<group>"; };
+		016097ED210EA27E0034E857 /* Keychain+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Keychain+Test.swift"; sourceTree = "<group>"; };
 		016DD0A320EF365100F41919 /* APIErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorTests.swift; sourceTree = "<group>"; };
 		017391EF20EF001200C0BB32 /* APIErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorResponse.swift; sourceTree = "<group>"; };
 		017B48682101B4FE00447E65 /* FrolloSDK macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FrolloSDK macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -814,6 +822,8 @@
 			isa = PBXGroup;
 			children = (
 				01C824E820EB2F570093400E /* Data+Random.swift */,
+				016097E9210EA0D60034E857 /* XCTestCase+TempFolder.swift */,
+				016097ED210EA27E0034E857 /* Keychain+Test.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1443,6 +1453,7 @@
 				01C824F920EC8EF90093400E /* ConsoleLoggerTests.swift in Sources */,
 				013D2D90210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */,
 				01EEDB1D20EAEA2000F4516B /* DatabaseMigrationTests.swift in Sources */,
+				016097EE210EA27E0034E857 /* Keychain+Test.swift in Sources */,
 				0101949E20F595F300334482 /* NetworkTests.swift in Sources */,
 				01B896CE20F3169F0068069A /* DataErrorTests.swift in Sources */,
 				017B486D2105433B00447E65 /* PreferencesTests.swift in Sources */,
@@ -1451,6 +1462,7 @@
 				017B487221055FBA00447E65 /* PreferencesPersistenceTests.swift in Sources */,
 				01C824F720EC7AC30093400E /* FileLoggerTests.swift in Sources */,
 				01C824F320EC4D600093400E /* LogTests.swift in Sources */,
+				016097EA210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
 				0136D229210067DF0062EAEA /* KeychainTests.swift in Sources */,
 				017B48F721083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				017B48F12108356C00447E65 /* User+Test.swift in Sources */,
@@ -1474,6 +1486,7 @@
 				017B48372101B4FE00447E65 /* ConsoleLoggerTests.swift in Sources */,
 				013D2D91210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */,
 				017B48382101B4FE00447E65 /* DatabaseMigrationTests.swift in Sources */,
+				016097EF210EA27E0034E857 /* Keychain+Test.swift in Sources */,
 				017B48392101B4FE00447E65 /* NetworkTests.swift in Sources */,
 				017B483A2101B4FE00447E65 /* DataErrorTests.swift in Sources */,
 				017B486E2105433B00447E65 /* PreferencesTests.swift in Sources */,
@@ -1482,6 +1495,7 @@
 				017B487321055FBA00447E65 /* PreferencesPersistenceTests.swift in Sources */,
 				017B483D2101B4FE00447E65 /* FileLoggerTests.swift in Sources */,
 				017B483E2101B4FE00447E65 /* LogTests.swift in Sources */,
+				016097EB210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
 				017B483F2101B4FE00447E65 /* KeychainTests.swift in Sources */,
 				017B48F821083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				017B48F22108356C00447E65 /* User+Test.swift in Sources */,
@@ -1514,6 +1528,7 @@
 				017B48922105958100447E65 /* ConsoleLoggerTests.swift in Sources */,
 				013D2D92210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */,
 				017B48932105958100447E65 /* DatabaseMigrationTests.swift in Sources */,
+				016097F0210EA27E0034E857 /* Keychain+Test.swift in Sources */,
 				017B48942105958100447E65 /* NetworkTests.swift in Sources */,
 				017B48952105958100447E65 /* DataErrorTests.swift in Sources */,
 				017B48962105958100447E65 /* PreferencesTests.swift in Sources */,
@@ -1522,6 +1537,7 @@
 				017B48992105958100447E65 /* PreferencesPersistenceTests.swift in Sources */,
 				017B489A2105958100447E65 /* FileLoggerTests.swift in Sources */,
 				017B489B2105958100447E65 /* LogTests.swift in Sources */,
+				016097EC210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
 				017B489C2105958100447E65 /* KeychainTests.swift in Sources */,
 				017B48F921083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				017B48F32108356C00447E65 /* User+Test.swift in Sources */,

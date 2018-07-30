@@ -28,15 +28,6 @@ class DatabaseMigrationTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func tempFolderPath() -> URL {
-        var tempFolder = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
-        tempFolder.appendPathComponent(UUID().uuidString, isDirectory: true)
-        
-        try? FileManager.default.createDirectory(at: tempFolder, withIntermediateDirectories: true, attributes: nil)
-        
-        return tempFolder
-    }
-    
     private func populateTestDataNamed(name: String) -> URL {
         let tempFolder = tempFolderPath()
         

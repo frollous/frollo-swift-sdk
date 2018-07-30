@@ -16,6 +16,7 @@ struct APIUserResponse: Codable {
         case email
         case emailVerified = "email_verified"
         case facebookID = "facebook_id"
+        case features
         case firstName = "first_name"
         case gender
         case householdSize = "household_size"
@@ -44,6 +45,7 @@ struct APIUserResponse: Codable {
     var address: Address?
     var dateOfBirth: Date?
     var facebookID: String?
+    var features: [User.FeatureFlag]?
     var gender: User.Gender?
     var householdSize: Int64?
     var householdType: User.HouseholdType?

@@ -13,6 +13,15 @@ import CoreData
 @objc(User)
 public class User: NSManagedObject {
     
+    public struct FeatureFlag: Codable, Equatable {
+        let enabled: Bool
+        let feature: Feature
+    }
+    
+    public enum Feature: String, Codable {
+        case aggregation
+    }
+    
     public enum Gender: String, Codable {
         case female
         case male
@@ -67,6 +76,26 @@ public class User: NSManagedObject {
     }
     
     static let entityName = "User"
+    
+    public var features: [FeatureFlag]? {
+        get {
+            if let featureData = featuresRawValue {
+                let decoder = JSONDecoder()
+                
+                do {
+                    let features = try decoder.decode([FeatureFlag].self, from: featureData)
+                    return features
+                } catch {
+                    Log.error(error.localizedDescription)
+                }
+            }
+            return nil
+        }
+        set {
+            let encoder = JSONEncoder()
+            featuresRawValue = try? encoder.encode(newValue)
+        }
+    }
     
     public var gender: Gender? {
         get {
@@ -134,6 +163,7 @@ public class User: NSManagedObject {
         validPassword = response.validPassword
         
         facebookID = response.facebookID
+        features = response.features
         gender = response.gender
         householdSize = response.householdSize ?? -1
         householdType = response.householdType

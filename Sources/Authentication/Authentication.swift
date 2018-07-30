@@ -15,17 +15,56 @@ public struct FrolloSDKAuthenticationNotification {
 
 class Authentication {
     
+    struct AuthenticationNotification {
+        static let userUpdated = Notification.Name("AuthenticationNotification.userUpdated")
+    }
+    
+    /**
+     User model from cache if available
+    */
+    public var user: User? {
+        get {
+            return fetchUser()
+        }
+    }
+    
     private let database: Database
     private let network: Network
+    private let preferences: Preferences
     
-    init(database: Database, network: Network) {
+    init(database: Database, network: Network, preferences: Preferences) {
         self.database = database
         self.network = network
+        self.preferences = preferences
     }
     
     internal func authenticate(_ authToken: String, completion: FrolloSDKCompletionHandler) {
         completion(nil)
     }
+    
+    // MARK: - User
+    
+    private func fetchUser() -> User? {
+        var fetchedUser: User?
+        
+        let managedObjectContext = database.viewContext
+        
+        managedObjectContext.performAndWait {
+            let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+            
+            do {
+                let fetchedUsers = try managedObjectContext.fetch(fetchRequest)
+                
+                fetchedUser = fetchedUsers.first
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+        
+        return fetchedUser
+    }
+    
+    // MARK: - Login, Register and User Profile
     
     internal func loginUser(method: APIUserLoginRequest.AuthType, email: String? = nil, password: String? = nil, userID: String? = nil, userToken: String? = nil, completion: @escaping FrolloSDKCompletionHandler) {
         let deviceInfo = DeviceInfo.current()
@@ -93,11 +132,15 @@ class Authentication {
             
             user.update(response: userResponse)
             
+            preferences.refreshFeatures(user: user)
+            
             do {
                 try managedObjectContext.save()
             } catch {
                 Log.error(error.localizedDescription)
             }
+            
+            NotificationCenter.default.post(name: AuthenticationNotification.userUpdated, object: user)
         } catch {
             Log.error(error.localizedDescription)
         }

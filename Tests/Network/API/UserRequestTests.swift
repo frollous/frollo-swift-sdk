@@ -24,6 +24,7 @@ class UserRequestTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
         
+        Keychain(service: keychainService).removeAll()
         OHHTTPStubs.removeAllStubs()
     }
     
@@ -38,10 +39,7 @@ class UserRequestTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         
@@ -73,10 +71,7 @@ class UserRequestTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         
@@ -108,10 +103,7 @@ class UserRequestTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         
@@ -139,10 +131,7 @@ class UserRequestTests: XCTestCase {
         
         let url = URL(string: "https://api.example.com")!
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         
@@ -176,10 +165,7 @@ class UserRequestTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         
@@ -207,6 +193,7 @@ class UserRequestTests: XCTestCase {
                 XCTAssertEqual(userResponse.householdSize, 2)
                 XCTAssertEqual(userResponse.facebookID, "1234567890")
                 XCTAssertEqual(userResponse.validPassword, true)
+                XCTAssertEqual(userResponse.features, [User.FeatureFlag(enabled: true, feature: .aggregation)])
             } else {
                 XCTFail("No response object")
             }
@@ -228,10 +215,7 @@ class UserRequestTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_incomplete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         
@@ -254,6 +238,7 @@ class UserRequestTests: XCTestCase {
                 XCTAssertNil(userResponse.industry)
                 XCTAssertNil(userResponse.householdSize)
                 XCTAssertNil(userResponse.facebookID)
+                XCTAssertNil(userResponse.features)
                 XCTAssertEqual(userResponse.validPassword, true)
             } else {
                 XCTFail("No response object")
@@ -276,10 +261,7 @@ class UserRequestTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_invalid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         
-        let keychain = Keychain(service: keychainService)
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
         let network = Network(serverURL: url, keychain: keychain)
         
