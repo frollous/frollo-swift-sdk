@@ -30,6 +30,7 @@
 		01527CCE20E1B5C300B5042A /* FrolloSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */; };
 		01527CD020E1B5C300B5042A /* FrolloSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 01527CC220E1B5C300B5042A /* FrolloSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01527CD920E1C5A600B5042A /* FrolloSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CD820E1C5A600B5042A /* FrolloSDK.swift */; };
+		015EEDDA210FC8760081AD76 /* Network+Aggregation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDD9210FC8760081AD76 /* Network+Aggregation.swift */; };
 		0160953720F33EB10060791B /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0160953620F33EB10060791B /* Version.swift */; };
 		0160953A20F41ECF0060791B /* VersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0160953920F41ECF0060791B /* VersionTests.swift */; };
 		0160953E20F47FE10060791B /* TestInvalidDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0160953C20F47FE10060791B /* TestInvalidDataModel.xcdatamodeld */; };
@@ -42,6 +43,8 @@
 		016097EE210EA27E0034E857 /* Keychain+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097ED210EA27E0034E857 /* Keychain+Test.swift */; };
 		016097EF210EA27E0034E857 /* Keychain+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097ED210EA27E0034E857 /* Keychain+Test.swift */; };
 		016097F0210EA27E0034E857 /* Keychain+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097ED210EA27E0034E857 /* Keychain+Test.swift */; };
+		016097F5210EE2BB0034E857 /* APIProviderResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097F4210EE2BA0034E857 /* APIProviderResponse.swift */; };
+		016097F8210EE3300034E857 /* Provider+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097F6210EE3300034E857 /* Provider+CoreDataClass.swift */; };
 		016DD0A420EF365100F41919 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016DD0A320EF365100F41919 /* APIErrorTests.swift */; };
 		017391F020EF001200C0BB32 /* APIErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017391EF20EF001200C0BB32 /* APIErrorResponse.swift */; };
 		017B48322101B4FE00447E65 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016DD0A320EF365100F41919 /* APIErrorTests.swift */; };
@@ -315,12 +318,15 @@
 		01527CDA20E1CD1800B5042A /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		01527CDB20E1CD1800B5042A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		01527CDC20E1CD1800B5042A /* Carthage.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Carthage.xcconfig; sourceTree = "<group>"; };
+		015EEDD9210FC8760081AD76 /* Network+Aggregation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+Aggregation.swift"; sourceTree = "<group>"; };
 		0160953620F33EB10060791B /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 		0160953920F41ECF0060791B /* VersionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionTests.swift; sourceTree = "<group>"; };
 		0160953D20F47FE10060791B /* TestInvalidDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestInvalidDataModel.xcdatamodel; sourceTree = "<group>"; };
 		016097E5210AAAD90034E857 /* DeviceInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoTests.swift; sourceTree = "<group>"; };
 		016097E9210EA0D60034E857 /* XCTestCase+TempFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+TempFolder.swift"; sourceTree = "<group>"; };
 		016097ED210EA27E0034E857 /* Keychain+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Keychain+Test.swift"; sourceTree = "<group>"; };
+		016097F4210EE2BA0034E857 /* APIProviderResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProviderResponse.swift; sourceTree = "<group>"; };
+		016097F6210EE3300034E857 /* Provider+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Provider+CoreDataClass.swift"; sourceTree = "<group>"; };
 		016DD0A320EF365100F41919 /* APIErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorTests.swift; sourceTree = "<group>"; };
 		017391EF20EF001200C0BB32 /* APIErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorResponse.swift; sourceTree = "<group>"; };
 		017B48682101B4FE00447E65 /* FrolloSDK macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FrolloSDK macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -496,6 +502,7 @@
 		013D2D81210A885F00EEDEC5 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				016097F1210EE26C0034E857 /* Aggregation */,
 				013D2D84210A889200EEDEC5 /* Device */,
 				013D2D83210A888900EEDEC5 /* Shared */,
 				013D2D82210A887C00EEDEC5 /* User */,
@@ -662,6 +669,30 @@
 			path = Database;
 			sourceTree = "<group>";
 		};
+		016097F1210EE26C0034E857 /* Aggregation */ = {
+			isa = PBXGroup;
+			children = (
+				016097F4210EE2BA0034E857 /* APIProviderResponse.swift */,
+			);
+			path = Aggregation;
+			sourceTree = "<group>";
+		};
+		016097F2210EE27B0034E857 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				017B48D92106E1C100447E65 /* User+CoreDataClass.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		016097F3210EE2820034E857 /* Aggregation */ = {
+			isa = PBXGroup;
+			children = (
+				016097F6210EE3300034E857 /* Provider+CoreDataClass.swift */,
+			);
+			path = Aggregation;
+			sourceTree = "<group>";
+		};
 		016DD0A220EF356D00F41919 /* Error */ = {
 			isa = PBXGroup;
 			children = (
@@ -683,7 +714,8 @@
 		017391EC20EEFFEA00C0BB32 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				017B48D92106E1C100447E65 /* User+CoreDataClass.swift */,
+				016097F3210EE2820034E857 /* Aggregation */,
+				016097F2210EE27B0034E857 /* User */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
@@ -766,6 +798,7 @@
 		01874B7220F81E08005A7D0C /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				015EEDD9210FC8760081AD76 /* Network+Aggregation.swift */,
 				01874B7E20FD9F21005A7D0C /* Network+Device.swift */,
 				01874B7C20FD6FB9005A7D0C /* Network+User.swift */,
 			);
@@ -1412,6 +1445,8 @@
 				01874B7420F81EA8005A7D0C /* UserEndpoint.swift in Sources */,
 				017B48DE2106E3A000447E65 /* CodingUserInfoKey.swift in Sources */,
 				017B48DB2106E1C100447E65 /* User+CoreDataClass.swift in Sources */,
+				016097F5210EE2BB0034E857 /* APIProviderResponse.swift in Sources */,
+				016097F8210EE3300034E857 /* Provider+CoreDataClass.swift in Sources */,
 				017B487021054F0B00447E65 /* PreferencesPersistence.swift in Sources */,
 				01C824EE20EC40FD0093400E /* ConsoleLogger.swift in Sources */,
 				017B48E02107FE6A00447E65 /* APIUserResponse.swift in Sources */,
@@ -1433,6 +1468,7 @@
 				01C824F020EC410B0093400E /* NetworkLogger.swift in Sources */,
 				01874B7820F82C98005A7D0C /* DeviceEndpoint.swift in Sources */,
 				01C824EC20EC34BA0093400E /* Log.swift in Sources */,
+				015EEDDA210FC8760081AD76 /* Network+Aggregation.swift in Sources */,
 				01EED86320E5A7EB00F4516B /* Network.swift in Sources */,
 				01C8250320EDDB340093400E /* APIError.swift in Sources */,
 			);

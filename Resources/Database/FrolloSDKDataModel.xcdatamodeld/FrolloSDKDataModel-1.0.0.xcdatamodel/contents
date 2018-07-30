@@ -1,5 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.0.0">
+    <entity name="Provider" representedClassName="Provider" syncable="YES" codeGenerationType="category">
+        <attribute name="authTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="baseURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="containerBank" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerBill" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerCreditCard" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerCreditScore" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerInsurance" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerInvestment" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerLoan" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerReward" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerUnknown" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="encryptionAlias" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="encryptionPublicKey" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="encryptionTypeRawValue" attributeType="String" defaultValueString="unsupported" syncable="YES"/>
+        <attribute name="forgotPasswordURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="helpMessage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="largeLogoURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="loginFormRawValue" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="loginHelpMessage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="loginURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mfaTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="oAuthSite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="popular" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="providerID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="smallLogoURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="statusRawValue" attributeType="String" defaultValueString="supported" syncable="YES"/>
+        <fetchIndex name="byProviderIDAndStatusIndex">
+            <fetchIndexElement property="statusRawValue" type="Binary" order="ascending"/>
+            <fetchIndexElement property="providerID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byPopularIndex">
+            <fetchIndexElement property="popular" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byProviderIDIndex">
+            <fetchIndexElement property="providerID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byContainerCreditScoreIndex">
+            <fetchIndexElement property="containerCreditScore" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="category">
         <attribute name="dateOfBirth" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="email" attributeType="String" syncable="YES"/>
@@ -20,6 +62,7 @@
         <attribute name="validPassword" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
+        <element name="Provider" positionX="-63" positionY="117" width="128" height="450"/>
         <element name="User" positionX="-63" positionY="-9" width="128" height="300"/>
     </elements>
 </model>
