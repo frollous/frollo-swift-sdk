@@ -84,7 +84,7 @@ class ProviderTests: XCTestCase {
         XCTAssertEqual(provider.oAuthSite, false)
         XCTAssertEqual(provider.authType, providerResponse.authType)
         XCTAssertEqual(provider.mfaType, providerResponse.mfaType)
-        XCTAssertEqual(provider.encryptionType, .unsupported)
+        XCTAssertEqual(provider.encryptionType, nil)
         XCTAssertEqual(provider.encryptionAlias, providerResponse.encryption?.alias)
         XCTAssertEqual(provider.encryptionPublicKey, providerResponse.encryption?.pem)
         XCTAssertEqual(provider.containerBank, providerResponse.containerNames.contains(.bank))
