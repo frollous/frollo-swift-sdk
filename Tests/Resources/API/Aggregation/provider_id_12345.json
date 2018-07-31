@@ -1,0 +1,24 @@
+{
+	"id": 12345,
+	"name": "AustralianSuper",
+	"small_logo_url": "https://example.com/australiansuper-small.png",
+	"small_logo_revision": 2,
+	"status": "disabled",
+	"popular": false,
+	"large_logo_url": "https://example.com/australiansuper-logo600pxw.png",
+	"container_names": ["investment", "insurance"],
+	"large_logo_revision": 2,
+	"help_message": "test",
+	"login_help_message": "login here",
+	"login_url": "https://www.australiansuper.com/login.aspx",
+	"base_url": "http://www.australiansuper.com/",
+	"forget_password_url": "https://www.australiansuper.com/forgotpassword.aspx",
+	"o_auth_site": false,
+	"auth_type": "mfa_credentials",
+	"mfa_type": "token",
+	"encryption": {
+		"encryption_type": "encrypt_values",
+		"alias": "09282016_1",
+		"pem": "-----BEGIN PUBLIC KEY----------END PUBLIC KEY-----"
+	}
+}

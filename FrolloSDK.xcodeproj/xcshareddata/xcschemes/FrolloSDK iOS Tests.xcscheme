@@ -50,6 +50,15 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "01527CC720E1B5C300B5042A"
+            BuildableName = "FrolloSDK iOS Tests.xctest"
+            BlueprintName = "FrolloSDK iOS Tests"
+            ReferencedContainer = "container:FrolloSDK.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>

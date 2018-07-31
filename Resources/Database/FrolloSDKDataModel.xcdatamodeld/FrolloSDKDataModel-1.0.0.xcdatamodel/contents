@@ -10,11 +10,12 @@
         <attribute name="containerInsurance" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="containerInvestment" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="containerLoan" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerRealEstate" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="containerReward" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="containerUnknown" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="encryptionAlias" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="encryptionPublicKey" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="encryptionTypeRawValue" attributeType="String" defaultValueString="unsupported" syncable="YES"/>
+        <attribute name="encryptionTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="forgotPasswordURLString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="helpMessage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="largeLogoURLString" optional="YES" attributeType="String" syncable="YES"/>
@@ -62,7 +63,7 @@
         <attribute name="validPassword" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Provider" positionX="-63" positionY="117" width="128" height="450"/>
+        <element name="Provider" positionX="-63" positionY="117" width="128" height="30"/>
         <element name="User" positionX="-63" positionY="-9" width="128" height="300"/>
     </elements>
 </model>

@@ -47,7 +47,7 @@ class Authentication {
         completion(nil)
     }
     
-    // MARK: - User
+    // MARK: - Cache
     
     /**
      Fetch the first available user model from the cache

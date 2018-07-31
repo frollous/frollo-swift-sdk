@@ -31,6 +31,30 @@
 		01527CD020E1B5C300B5042A /* FrolloSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 01527CC220E1B5C300B5042A /* FrolloSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01527CD920E1C5A600B5042A /* FrolloSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CD820E1C5A600B5042A /* FrolloSDK.swift */; };
 		015EEDDA210FC8760081AD76 /* Network+Aggregation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDD9210FC8760081AD76 /* Network+Aggregation.swift */; };
+		015EEDDC210FC9C60081AD76 /* AggregationEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDDB210FC9C60081AD76 /* AggregationEndpoint.swift */; };
+		015EEDDE210FD7710081AD76 /* FailableCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDDD210FD7710081AD76 /* FailableCodable.swift */; };
+		015EEDE2210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDE1210FDA760081AD76 /* APIProviderResponse+Test.swift */; };
+		015EEDE3210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDE1210FDA760081AD76 /* APIProviderResponse+Test.swift */; };
+		015EEDE4210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDE1210FDA760081AD76 /* APIProviderResponse+Test.swift */; };
+		015EEDEA210FDAB20081AD76 /* AggregationRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDE9210FDAB20081AD76 /* AggregationRequestTests.swift */; };
+		015EEDEB210FDAB20081AD76 /* AggregationRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDE9210FDAB20081AD76 /* AggregationRequestTests.swift */; };
+		015EEDEC210FDAB20081AD76 /* AggregationRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDE9210FDAB20081AD76 /* AggregationRequestTests.swift */; };
+		015EEDF1210FE51C0081AD76 /* providers_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 015EEDEE210FE51C0081AD76 /* providers_invalid.json */; };
+		015EEDF2210FE51C0081AD76 /* providers_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 015EEDEE210FE51C0081AD76 /* providers_invalid.json */; };
+		015EEDF3210FE51C0081AD76 /* providers_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 015EEDEE210FE51C0081AD76 /* providers_invalid.json */; };
+		015EEDF4210FE51C0081AD76 /* providers_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 015EEDEF210FE51C0081AD76 /* providers_valid.json */; };
+		015EEDF5210FE51C0081AD76 /* providers_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 015EEDEF210FE51C0081AD76 /* providers_valid.json */; };
+		015EEDF6210FE51C0081AD76 /* providers_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 015EEDEF210FE51C0081AD76 /* providers_valid.json */; };
+		015EEDF7210FE51C0081AD76 /* provider_id_12345.json in Resources */ = {isa = PBXBuildFile; fileRef = 015EEDF0210FE51C0081AD76 /* provider_id_12345.json */; };
+		015EEDF8210FE51C0081AD76 /* provider_id_12345.json in Resources */ = {isa = PBXBuildFile; fileRef = 015EEDF0210FE51C0081AD76 /* provider_id_12345.json */; };
+		015EEDF9210FE51C0081AD76 /* provider_id_12345.json in Resources */ = {isa = PBXBuildFile; fileRef = 015EEDF0210FE51C0081AD76 /* provider_id_12345.json */; };
+		015EEDFD211018420081AD76 /* ProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDFC211018420081AD76 /* ProviderTests.swift */; };
+		015EEDFE211018420081AD76 /* ProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDFC211018420081AD76 /* ProviderTests.swift */; };
+		015EEDFF211018420081AD76 /* ProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDFC211018420081AD76 /* ProviderTests.swift */; };
+		015EEE03211030F30081AD76 /* Aggregation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEE02211030F30081AD76 /* Aggregation.swift */; };
+		015EEE05211037CE0081AD76 /* Provider+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEE04211037CE0081AD76 /* Provider+Test.swift */; };
+		015EEE06211037CE0081AD76 /* Provider+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEE04211037CE0081AD76 /* Provider+Test.swift */; };
+		015EEE07211037CE0081AD76 /* Provider+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEE04211037CE0081AD76 /* Provider+Test.swift */; };
 		0160953720F33EB10060791B /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0160953620F33EB10060791B /* Version.swift */; };
 		0160953A20F41ECF0060791B /* VersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0160953920F41ECF0060791B /* VersionTests.swift */; };
 		0160953E20F47FE10060791B /* TestInvalidDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0160953C20F47FE10060791B /* TestInvalidDataModel.xcdatamodeld */; };
@@ -156,7 +180,6 @@
 		017B48D72106D4A000447E65 /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48D52106D4A000447E65 /* UserTests.swift */; };
 		017B48D82106D4A000447E65 /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48D52106D4A000447E65 /* UserTests.swift */; };
 		017B48DB2106E1C100447E65 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48D92106E1C100447E65 /* User+CoreDataClass.swift */; };
-		017B48DE2106E3A000447E65 /* CodingUserInfoKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48DD2106E3A000447E65 /* CodingUserInfoKey.swift */; };
 		017B48E02107FE6A00447E65 /* APIUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48DF2107FE6A00447E65 /* APIUserResponse.swift */; };
 		017B48E721082DCA00447E65 /* user_details_complete.json in Resources */ = {isa = PBXBuildFile; fileRef = 017B48E12108287500447E65 /* user_details_complete.json */; };
 		017B48E821082DCA00447E65 /* user_details_complete.json in Resources */ = {isa = PBXBuildFile; fileRef = 017B48E12108287500447E65 /* user_details_complete.json */; };
@@ -242,6 +265,13 @@
 			remoteGlobalIDString = 01527CBE20E1B5C300B5042A;
 			remoteInfo = FrolloSDK;
 		};
+		015EEE0021102D960081AD76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 01527CB420E1B49800B5042A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 017B48772105950F00447E65;
+			remoteInfo = "FrolloSDK tvOS Test Host";
+		};
 		017B48282101B2C900447E65 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 01527CB420E1B49800B5042A /* Project object */;
@@ -319,6 +349,16 @@
 		01527CDB20E1CD1800B5042A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		01527CDC20E1CD1800B5042A /* Carthage.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Carthage.xcconfig; sourceTree = "<group>"; };
 		015EEDD9210FC8760081AD76 /* Network+Aggregation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+Aggregation.swift"; sourceTree = "<group>"; };
+		015EEDDB210FC9C60081AD76 /* AggregationEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregationEndpoint.swift; sourceTree = "<group>"; };
+		015EEDDD210FD7710081AD76 /* FailableCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailableCodable.swift; sourceTree = "<group>"; };
+		015EEDE1210FDA760081AD76 /* APIProviderResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIProviderResponse+Test.swift"; sourceTree = "<group>"; };
+		015EEDE9210FDAB20081AD76 /* AggregationRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregationRequestTests.swift; sourceTree = "<group>"; };
+		015EEDEE210FE51C0081AD76 /* providers_invalid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = providers_invalid.json; sourceTree = "<group>"; };
+		015EEDEF210FE51C0081AD76 /* providers_valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = providers_valid.json; sourceTree = "<group>"; };
+		015EEDF0210FE51C0081AD76 /* provider_id_12345.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_id_12345.json; sourceTree = "<group>"; };
+		015EEDFC211018420081AD76 /* ProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderTests.swift; sourceTree = "<group>"; };
+		015EEE02211030F30081AD76 /* Aggregation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aggregation.swift; sourceTree = "<group>"; };
+		015EEE04211037CE0081AD76 /* Provider+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Provider+Test.swift"; sourceTree = "<group>"; };
 		0160953620F33EB10060791B /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 		0160953920F41ECF0060791B /* VersionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionTests.swift; sourceTree = "<group>"; };
 		0160953D20F47FE10060791B /* TestInvalidDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestInvalidDataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -343,7 +383,6 @@
 		017B48C92105960000447E65 /* FrolloSDK tvOS Test Host.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "FrolloSDK tvOS Test Host.entitlements"; sourceTree = "<group>"; };
 		017B48D52106D4A000447E65 /* UserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
 		017B48D92106E1C100447E65 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
-		017B48DD2106E3A000447E65 /* CodingUserInfoKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodingUserInfoKey.swift; sourceTree = "<group>"; };
 		017B48DF2107FE6A00447E65 /* APIUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserResponse.swift; sourceTree = "<group>"; };
 		017B48E12108287500447E65 /* user_details_complete.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user_details_complete.json; sourceTree = "<group>"; };
 		017B48E22108287600447E65 /* user_details_incomplete.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user_details_incomplete.json; sourceTree = "<group>"; };
@@ -538,6 +577,7 @@
 		013D2D87210A8AE200EEDEC5 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				015EEDE0210FDA570081AD76 /* Aggregation */,
 				013D2D88210A8AE900EEDEC5 /* Device */,
 				013D2D8A210A8AF700EEDEC5 /* Shared */,
 				013D2D89210A8AF000EEDEC5 /* User */,
@@ -579,8 +619,6 @@
 				01C8250820EDEC630093400E /* Resources */,
 				01527CC120E1B5C300B5042A /* Sources */,
 				01527CCC20E1B5C300B5042A /* Tests */,
-				0136D2312101775B0062EAEA /* FrolloSDK iOS Test Host */,
-				017B48792105950F00447E65 /* FrolloSDK tvOS Test Host */,
 				01527CC020E1B5C300B5042A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -622,12 +660,12 @@
 		01527CCC20E1B5C300B5042A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				017B48FA21084B8D00447E65 /* Authentication */,
 				01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */,
-				01527CCF20E1B5C300B5042A /* Info.plist */,
+				017B48FA21084B8D00447E65 /* Authentication */,
 				01EEDB1920EAE2A900F4516B /* Database */,
 				016DD0A220EF356D00F41919 /* Error */,
 				01C824E720EB2F4A0093400E /* Extensions */,
+				015EEDED210FDF1A0081AD76 /* Hosts */,
 				0136D2262100679A0062EAEA /* Keychain */,
 				01C824F120EC4CD90093400E /* Logging */,
 				017B48D32106D46900447E65 /* Model */,
@@ -637,6 +675,51 @@
 				0160953820F41EB80060791B /* Version */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		015EEDDF210FDA4D0081AD76 /* Aggregation */ = {
+			isa = PBXGroup;
+			children = (
+				015EEDF0210FE51C0081AD76 /* provider_id_12345.json */,
+				015EEDEE210FE51C0081AD76 /* providers_invalid.json */,
+				015EEDEF210FE51C0081AD76 /* providers_valid.json */,
+			);
+			path = Aggregation;
+			sourceTree = "<group>";
+		};
+		015EEDE0210FDA570081AD76 /* Aggregation */ = {
+			isa = PBXGroup;
+			children = (
+				015EEDE1210FDA760081AD76 /* APIProviderResponse+Test.swift */,
+			);
+			path = Aggregation;
+			sourceTree = "<group>";
+		};
+		015EEDED210FDF1A0081AD76 /* Hosts */ = {
+			isa = PBXGroup;
+			children = (
+				0136D2312101775B0062EAEA /* FrolloSDK iOS Test Host */,
+				017B48792105950F00447E65 /* FrolloSDK tvOS Test Host */,
+			);
+			path = Hosts;
+			sourceTree = "<group>";
+		};
+		015EEDFA210FE5440081AD76 /* Aggregation */ = {
+			isa = PBXGroup;
+			children = (
+				015EEDFC211018420081AD76 /* ProviderTests.swift */,
+				015EEE04211037CE0081AD76 /* Provider+Test.swift */,
+			);
+			path = Aggregation;
+			sourceTree = "<group>";
+		};
+		015EEDFB210FE5490081AD76 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				017B48D52106D4A000447E65 /* UserTests.swift */,
+				017B48F02108356C00447E65 /* User+Test.swift */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 		0160953520F33E980060791B /* Version */ = {
@@ -755,8 +838,8 @@
 		017B48D42106D48200447E65 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				017B48D52106D4A000447E65 /* UserTests.swift */,
-				017B48F02108356C00447E65 /* User+Test.swift */,
+				015EEDFA210FE5440081AD76 /* Aggregation */,
+				015EEDFB210FE5490081AD76 /* User */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
@@ -788,6 +871,7 @@
 		01874B6D20F81B34005A7D0C /* Endpoints */ = {
 			isa = PBXGroup;
 			children = (
+				015EEDDB210FC9C60081AD76 /* AggregationEndpoint.swift */,
 				01874B7520F82158005A7D0C /* Endpoint.swift */,
 				01874B7720F82C98005A7D0C /* DeviceEndpoint.swift */,
 				01874B7320F81EA8005A7D0C /* UserEndpoint.swift */,
@@ -808,6 +892,7 @@
 		01874B7920F834BD005A7D0C /* API */ = {
 			isa = PBXGroup;
 			children = (
+				015EEDE9210FDAB20081AD76 /* AggregationRequestTests.swift */,
 				01874B7A20F834D1005A7D0C /* UserRequestTests.swift */,
 			);
 			path = API;
@@ -816,6 +901,7 @@
 		01B896A120F2EDA30068069A /* API */ = {
 			isa = PBXGroup;
 			children = (
+				015EEDDF210FDA4D0081AD76 /* Aggregation */,
 				01E0819620FDC0E90036133F /* Device */,
 				01B896A220F2EDA30068069A /* Error */,
 				01F220E420FEBB6B00C70B00 /* User */,
@@ -921,7 +1007,7 @@
 		01C8251020EDF56E0093400E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				017B48DD2106E3A000447E65 /* CodingUserInfoKey.swift */,
+				015EEDDD210FD7710081AD76 /* FailableCodable.swift */,
 				01C8251320EDF6200093400E /* Localization.swift */,
 			);
 			path = Extensions;
@@ -957,6 +1043,7 @@
 		01EED85D20E5A7EA00F4516B /* Aggregation */ = {
 			isa = PBXGroup;
 			children = (
+				015EEE02211030F30081AD76 /* Aggregation.swift */,
 			);
 			path = Aggregation;
 			sourceTree = "<group>";
@@ -992,6 +1079,7 @@
 		01EEDB1520EADEFA00F4516B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				01527CCF20E1B5C300B5042A /* Info.plist */,
 				01B896A120F2EDA30068069A /* API */,
 				01874B6320F6C0C6005A7D0C /* Certificates */,
 				0160953B20F47FE10060791B /* Database */,
@@ -1083,6 +1171,7 @@
 			dependencies = (
 				01527CCB20E1B5C300B5042A /* PBXTargetDependency */,
 				017B482B2101B30E00447E65 /* PBXTargetDependency */,
+				015EEE0121102D960081AD76 /* PBXTargetDependency */,
 			);
 			name = "FrolloSDK iOS Tests";
 			productName = FrolloSDKTests;
@@ -1246,6 +1335,7 @@
 				01B896CC20F3106B0068069A /* error_missing_code.json in Resources */,
 				01B896B720F2EDA30068069A /* error_invalid_access_token.json in Resources */,
 				0101949920F5815800334482 /* FakeDatabaseModel.sqlite in Resources */,
+				015EEDF7210FE51C0081AD76 /* provider_id_12345.json in Resources */,
 				0101949720F5815800334482 /* FakeDatabaseModel.sqlite-wal in Resources */,
 				01B896C320F2EDA30068069A /* error_not_found.json in Resources */,
 				0101949820F5815800334482 /* FrolloSDKDataModel-1.0.0.sqlite in Resources */,
@@ -1262,7 +1352,9 @@
 				01B896BB20F2EDA30068069A /* error_invalid_username_password.json in Resources */,
 				01B896C220F2EDA30068069A /* error_invalid_length.json in Resources */,
 				01B896B520F2EDA30068069A /* error_invalid_value.json in Resources */,
+				015EEDF4210FE51C0081AD76 /* providers_valid.json in Resources */,
 				01B896BF20F2EDA30068069A /* error_suspended_user.json in Resources */,
+				015EEDF1210FE51C0081AD76 /* providers_invalid.json in Resources */,
 				01B896B920F2EDA30068069A /* error_value_over_limit.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1286,6 +1378,7 @@
 				017B48512101B4FE00447E65 /* error_missing_code.json in Resources */,
 				017B48522101B4FE00447E65 /* error_invalid_access_token.json in Resources */,
 				017B48532101B4FE00447E65 /* FakeDatabaseModel.sqlite in Resources */,
+				015EEDF8210FE51C0081AD76 /* provider_id_12345.json in Resources */,
 				017B48542101B4FE00447E65 /* FakeDatabaseModel.sqlite-wal in Resources */,
 				017B48552101B4FE00447E65 /* error_not_found.json in Resources */,
 				017B48562101B4FE00447E65 /* FrolloSDKDataModel-1.0.0.sqlite in Resources */,
@@ -1302,7 +1395,9 @@
 				017B485F2101B4FE00447E65 /* error_invalid_username_password.json in Resources */,
 				017B48602101B4FE00447E65 /* error_invalid_length.json in Resources */,
 				017B48612101B4FE00447E65 /* error_invalid_value.json in Resources */,
+				015EEDF5210FE51C0081AD76 /* providers_valid.json in Resources */,
 				017B48622101B4FE00447E65 /* error_suspended_user.json in Resources */,
+				015EEDF2210FE51C0081AD76 /* providers_invalid.json in Resources */,
 				017B48632101B4FE00447E65 /* error_value_over_limit.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1335,6 +1430,7 @@
 				017B48AE2105958100447E65 /* error_missing_code.json in Resources */,
 				017B48AF2105958100447E65 /* error_invalid_access_token.json in Resources */,
 				017B48B02105958100447E65 /* FakeDatabaseModel.sqlite in Resources */,
+				015EEDF9210FE51C0081AD76 /* provider_id_12345.json in Resources */,
 				017B48B12105958100447E65 /* FakeDatabaseModel.sqlite-wal in Resources */,
 				017B48B22105958100447E65 /* error_not_found.json in Resources */,
 				017B48B32105958100447E65 /* FrolloSDKDataModel-1.0.0.sqlite in Resources */,
@@ -1351,7 +1447,9 @@
 				017B48BC2105958100447E65 /* error_invalid_username_password.json in Resources */,
 				017B48BD2105958100447E65 /* error_invalid_length.json in Resources */,
 				017B48BE2105958100447E65 /* error_invalid_value.json in Resources */,
+				015EEDF6210FE51C0081AD76 /* providers_valid.json in Resources */,
 				017B48BF2105958100447E65 /* error_suspended_user.json in Resources */,
+				015EEDF3210FE51C0081AD76 /* providers_invalid.json in Resources */,
 				017B48C02105958100447E65 /* error_value_over_limit.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1443,7 +1541,6 @@
 				01C824FD20EDD6630093400E /* FrolloSDKError.swift in Sources */,
 				01527CD920E1C5A600B5042A /* FrolloSDK.swift in Sources */,
 				01874B7420F81EA8005A7D0C /* UserEndpoint.swift in Sources */,
-				017B48DE2106E3A000447E65 /* CodingUserInfoKey.swift in Sources */,
 				017B48DB2106E1C100447E65 /* User+CoreDataClass.swift in Sources */,
 				016097F5210EE2BB0034E857 /* APIProviderResponse.swift in Sources */,
 				016097F8210EE3300034E857 /* Provider+CoreDataClass.swift in Sources */,
@@ -1454,11 +1551,13 @@
 				01C8251420EDF6200093400E /* Localization.swift in Sources */,
 				01C8250520EDDB410093400E /* NetworkError.swift in Sources */,
 				01874B7620F82158005A7D0C /* Endpoint.swift in Sources */,
+				015EEE03211030F30081AD76 /* Aggregation.swift in Sources */,
 				01EED86220E5A7EB00F4516B /* Authentication.swift in Sources */,
 				01C824F520EC75560093400E /* FileLogger.swift in Sources */,
 				013D2D94210AA38800EEDEC5 /* DeviceInfo.swift in Sources */,
 				0160953720F33EB10060791B /* Version.swift in Sources */,
 				0136D225210011E70062EAEA /* Keychain.swift in Sources */,
+				015EEDDE210FD7710081AD76 /* FailableCodable.swift in Sources */,
 				013D2D86210A88AC00EEDEC5 /* APIUserLoginRequest.swift in Sources */,
 				01EED86B20E5AA5B00F4516B /* FrolloSDKDataModel.xcdatamodeld in Sources */,
 				01EED86420E5A7EB00F4516B /* Preferences.swift in Sources */,
@@ -1466,6 +1565,7 @@
 				01F220E320FEAC7600C70B00 /* APITokenResponse.swift in Sources */,
 				01874B7D20FD6FB9005A7D0C /* Network+User.swift in Sources */,
 				01C824F020EC410B0093400E /* NetworkLogger.swift in Sources */,
+				015EEDDC210FC9C60081AD76 /* AggregationEndpoint.swift in Sources */,
 				01874B7820F82C98005A7D0C /* DeviceEndpoint.swift in Sources */,
 				01C824EC20EC34BA0093400E /* Log.swift in Sources */,
 				015EEDDA210FC8760081AD76 /* Network+Aggregation.swift in Sources */,
@@ -1478,11 +1578,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				015EEDEA210FDAB20081AD76 /* AggregationRequestTests.swift in Sources */,
 				016DD0A420EF365100F41919 /* APIErrorTests.swift in Sources */,
 				01EEDB1B20EAE2CE00F4516B /* DatabaseTests.swift in Sources */,
 				017B48D62106D4A000447E65 /* UserTests.swift in Sources */,
 				01E0819420FDB7150036133F /* NetworkAuthenticatorTests.swift in Sources */,
 				0160953A20F41ECF0060791B /* VersionTests.swift in Sources */,
+				015EEDFD211018420081AD76 /* ProviderTests.swift in Sources */,
 				017B48FC21084BA200447E65 /* AuthenticationTests.swift in Sources */,
 				01B896D020F32D5E0068069A /* NetworkErrorTests.swift in Sources */,
 				016097E6210AAAD90034E857 /* DeviceInfoTests.swift in Sources */,
@@ -1496,9 +1598,11 @@
 				01874B7B20F834D1005A7D0C /* UserRequestTests.swift in Sources */,
 				0160953E20F47FE10060791B /* TestInvalidDataModel.xcdatamodeld in Sources */,
 				017B487221055FBA00447E65 /* PreferencesPersistenceTests.swift in Sources */,
+				015EEDE2210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */,
 				01C824F720EC7AC30093400E /* FileLoggerTests.swift in Sources */,
 				01C824F320EC4D600093400E /* LogTests.swift in Sources */,
 				016097EA210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
+				015EEE05211037CE0081AD76 /* Provider+Test.swift in Sources */,
 				0136D229210067DF0062EAEA /* KeychainTests.swift in Sources */,
 				017B48F721083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				017B48F12108356C00447E65 /* User+Test.swift in Sources */,
@@ -1511,11 +1615,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				015EEDEB210FDAB20081AD76 /* AggregationRequestTests.swift in Sources */,
 				017B48322101B4FE00447E65 /* APIErrorTests.swift in Sources */,
 				017B48332101B4FE00447E65 /* DatabaseTests.swift in Sources */,
 				017B48D72106D4A000447E65 /* UserTests.swift in Sources */,
 				017B48342101B4FE00447E65 /* NetworkAuthenticatorTests.swift in Sources */,
 				017B48352101B4FE00447E65 /* VersionTests.swift in Sources */,
+				015EEDFE211018420081AD76 /* ProviderTests.swift in Sources */,
 				017B48FD21084BA200447E65 /* AuthenticationTests.swift in Sources */,
 				017B48362101B4FE00447E65 /* NetworkErrorTests.swift in Sources */,
 				016097E7210AAAD90034E857 /* DeviceInfoTests.swift in Sources */,
@@ -1529,9 +1635,11 @@
 				017B483B2101B4FE00447E65 /* UserRequestTests.swift in Sources */,
 				017B483C2101B4FE00447E65 /* TestInvalidDataModel.xcdatamodeld in Sources */,
 				017B487321055FBA00447E65 /* PreferencesPersistenceTests.swift in Sources */,
+				015EEDE3210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */,
 				017B483D2101B4FE00447E65 /* FileLoggerTests.swift in Sources */,
 				017B483E2101B4FE00447E65 /* LogTests.swift in Sources */,
 				016097EB210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
+				015EEE06211037CE0081AD76 /* Provider+Test.swift in Sources */,
 				017B483F2101B4FE00447E65 /* KeychainTests.swift in Sources */,
 				017B48F821083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				017B48F22108356C00447E65 /* User+Test.swift in Sources */,
@@ -1553,11 +1661,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				015EEDEC210FDAB20081AD76 /* AggregationRequestTests.swift in Sources */,
 				017B488D2105958100447E65 /* APIErrorTests.swift in Sources */,
 				017B488E2105958100447E65 /* DatabaseTests.swift in Sources */,
 				017B48D82106D4A000447E65 /* UserTests.swift in Sources */,
 				017B488F2105958100447E65 /* NetworkAuthenticatorTests.swift in Sources */,
 				017B48902105958100447E65 /* VersionTests.swift in Sources */,
+				015EEDFF211018420081AD76 /* ProviderTests.swift in Sources */,
 				017B48FE21084BA200447E65 /* AuthenticationTests.swift in Sources */,
 				017B48912105958100447E65 /* NetworkErrorTests.swift in Sources */,
 				016097E8210AAAD90034E857 /* DeviceInfoTests.swift in Sources */,
@@ -1571,9 +1681,11 @@
 				017B48972105958100447E65 /* UserRequestTests.swift in Sources */,
 				017B48982105958100447E65 /* TestInvalidDataModel.xcdatamodeld in Sources */,
 				017B48992105958100447E65 /* PreferencesPersistenceTests.swift in Sources */,
+				015EEDE4210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */,
 				017B489A2105958100447E65 /* FileLoggerTests.swift in Sources */,
 				017B489B2105958100447E65 /* LogTests.swift in Sources */,
 				016097EC210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
+				015EEE07211037CE0081AD76 /* Provider+Test.swift in Sources */,
 				017B489C2105958100447E65 /* KeychainTests.swift in Sources */,
 				017B48F921083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				017B48F32108356C00447E65 /* User+Test.swift in Sources */,
@@ -1589,6 +1701,11 @@
 			isa = PBXTargetDependency;
 			target = 01527CBE20E1B5C300B5042A /* FrolloSDK */;
 			targetProxy = 01527CCA20E1B5C300B5042A /* PBXContainerItemProxy */;
+		};
+		015EEE0121102D960081AD76 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 017B48772105950F00447E65 /* FrolloSDK tvOS Test Host */;
+			targetProxy = 015EEE0021102D960081AD76 /* PBXContainerItemProxy */;
 		};
 		017B48292101B2C900447E65 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1691,7 +1808,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = "FrolloSDK iOS Test Host/FrolloSDKTestHost.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Tests/Hosts/FrolloSDK iOS Test Host/FrolloSDKTestHost.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
@@ -1713,7 +1830,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "FrolloSDK iOS Test Host/Info.plist";
+				INFOPLIST_FILE = "Tests/Hosts/FrolloSDK iOS Test Host/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1764,7 +1881,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = "FrolloSDK iOS Test Host/FrolloSDKTestHost.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Tests/Hosts/FrolloSDK iOS Test Host/FrolloSDKTestHost.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
@@ -1780,7 +1897,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "FrolloSDK iOS Test Host/Info.plist";
+				INFOPLIST_FILE = "Tests/Hosts/FrolloSDK iOS Test Host/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2028,7 +2145,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2098,7 +2215,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2174,7 +2291,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2243,7 +2360,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2270,8 +2387,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Launch Image";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -2300,7 +2416,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = "FrolloSDK tvOS Test Host/FrolloSDK tvOS Test Host.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Tests/Hosts/FrolloSDK tvOS Test Host/FrolloSDK tvOS Test Host.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -2321,7 +2437,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "FrolloSDK tvOS Test Host/Info.plist";
+				INFOPLIST_FILE = "Tests/Hosts/FrolloSDK tvOS Test Host/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2343,8 +2459,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Launch Image";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -2373,7 +2488,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = "FrolloSDK tvOS Test Host/FrolloSDK tvOS Test Host.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Tests/Hosts/FrolloSDK tvOS Test Host/FrolloSDK tvOS Test Host.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -2388,7 +2503,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "FrolloSDK tvOS Test Host/Info.plist";
+				INFOPLIST_FILE = "Tests/Hosts/FrolloSDK tvOS Test Host/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2458,7 +2573,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2528,7 +2643,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

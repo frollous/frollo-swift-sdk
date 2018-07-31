@@ -89,8 +89,10 @@ extension Network {
 //            })
 //        }
 //    }
+    
+    // MARK: - Response Handling
         
-    internal func handleUserResponse(response: DataResponse<Data>, completion: UserRequestCompletion) {
+    private func handleUserResponse(response: DataResponse<Data>, completion: UserRequestCompletion) {
         switch response.result {
             case .success(let value):
                 let dateFormatter = DateFormatter()

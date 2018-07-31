@@ -93,6 +93,8 @@ class DatabaseMigrationTests: XCTestCase {
                     
                     if let userModel = model as? User {
                         userModel.populateTestData()
+                    } else if let providerModel = model as? Provider {
+                        providerModel.populateTestData()
                     }
                 }
             }
