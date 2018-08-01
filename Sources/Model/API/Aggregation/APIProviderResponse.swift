@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct APIProviderResponse: Codable {
+struct APIProviderResponse: APIUniqueResponse, Codable {
     
     enum CodingKeys: String, CodingKey {
         case authType = "auth_type"
@@ -56,7 +56,7 @@ struct APIProviderResponse: Codable {
         var pem: String?
     }
     
-    let id: Int64
+    var id: Int64
     let containerNames: [ContainerName]
     let name: String
     let popular: Bool

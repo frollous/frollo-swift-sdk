@@ -6,9 +6,10 @@
 //  Copyright © 2018 Frollo. All rights reserved.
 //
 
+import CoreData
 import Foundation
 
-class Aggregation {
+class Aggregation: ResponseHandler {
     
     private let database: Database
     private let network: Network
@@ -51,7 +52,19 @@ class Aggregation {
     // MARK: - Response Handling
     
     private func handleProvidersResponse(_ providersResponse: [APIProviderResponse]) {
+        let managedObjectContext = database.newBackgroundContext()
         
+        let filterPredicate = NSPredicate(format: "statusRawValue IN %@", argumentArray: [[Provider.Status.supported.rawValue, Provider.Status.beta.rawValue]])
+        
+        updateObjectsWithResponse(type: Provider.self, objectsResponse: providersResponse, primaryKey: "providerID", filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
     }
     
 }

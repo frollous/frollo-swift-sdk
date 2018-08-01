@@ -11,7 +11,13 @@ import Foundation
 import CoreData
 
 @objc(Provider)
-public class Provider: NSManagedObject {
+public class Provider: NSManagedObject, CacheableManagedObject {
+    
+    var primaryID: Int64 {
+        get {
+            return providerID
+        }
+    }
     
     public enum AuthType: String, Codable {
         case credentials
@@ -129,6 +135,12 @@ public class Provider: NSManagedObject {
         }
         set {
             statusRawValue = newValue.rawValue
+        }
+    }
+    
+    internal func update(response: APIUniqueResponse) {
+        if let providerResponse = response as? APIProviderResponse {
+            update(response: providerResponse)
         }
     }
     
