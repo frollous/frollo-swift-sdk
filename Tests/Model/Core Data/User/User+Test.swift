@@ -10,7 +10,7 @@ import CoreData
 import XCTest
 @testable import FrolloSDK
 
-extension User {
+extension User: TestableCoreData {
     
     func populateTestData() {
         let dateFormatter = DateFormatter()

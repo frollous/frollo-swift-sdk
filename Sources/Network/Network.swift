@@ -13,6 +13,7 @@ import Alamofire
 class Network: SessionDelegate {
     
     internal typealias NetworkCompletion = (_ data: Data?, _ error: FrolloSDKError?) -> Void
+    internal typealias RequestCompletion<T> = (_: T?, _: Error?) -> Void
     
     struct HTTPHeader {
         static let authorization = "Authorization"
@@ -117,6 +118,52 @@ class Network: SessionDelegate {
                     completion(networkError)
                 }
         }
+    }
+    
+    internal func handleResponse<T: Codable>(type: T.Type, response: DataResponse<Data>, completion: RequestCompletion<T>) {
+        switch response.result {
+            case .success(let value):
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds)
+                
+                do {
+                    let apiResponse = try decoder.decode(T.self, from: value)
+                    
+                    completion(apiResponse, nil)
+                } catch {
+                    Log.error(error.localizedDescription)
+                    
+                    let dataError = DataError(type: .unknown, subType: .unknown)
+                    completion(nil, dataError)
+                }
+            case .failure:
+                self.handleFailure(response: response) { (error) in
+                    completion(nil, error)
+                }
+        }
+    }
+    
+    internal func handleArrayResponse<T: Codable>(type: T.Type, response: DataResponse<Data>, completion: RequestCompletion<[T]>) {
+        switch response.result {
+            case .success(let value):
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds)
+                
+                do {
+                    let apiResponse = try decoder.decode(FailableCodableArray<T>.self, from: value)
+                    
+                    completion(apiResponse.elements, nil)
+                } catch {
+                    Log.error(error.localizedDescription)
+                    
+                    let dataError = DataError(type: .unknown, subType: .unknown)
+                    completion(nil, dataError)
+                }
+            case .failure:
+                self.handleFailure(response: response) { (error) in
+                    completion(nil, error)
+                }
+            }
     }
     
     internal func handleTokens(response: DataResponse<Data>, completion: NetworkCompletion) {

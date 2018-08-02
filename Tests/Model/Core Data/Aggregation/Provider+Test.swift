@@ -9,7 +9,7 @@
 import Foundation
 @testable import FrolloSDK
 
-extension Provider {
+extension Provider: TestableCoreData {
     
     func populateTestData() {
         providerID = Int64(arc4random())

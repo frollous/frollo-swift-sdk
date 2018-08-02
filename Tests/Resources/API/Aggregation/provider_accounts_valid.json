@@ -1,0 +1,38 @@
+[{
+	"id": 623,
+	"provider_id": 11582,
+	"editable": true,
+	"refresh_status": {
+		"status": "success",
+		"sub_status": "success",
+		"last_refreshed": "2018-08-02T01:40:26.000+00:00"
+	}
+}, {
+	"id": 624,
+	"provider_id": 11583,
+	"editable": true,
+	"refresh_status": {
+		"status": "success",
+		"sub_status": "success",
+		"last_refreshed": "2018-08-02T07:12:49.696+10:00"
+	}
+}, {
+	"id": 625,
+	"provider_id": 11584,
+	"editable": true,
+	"refresh_status": {
+		"status": "success",
+		"sub_status": "success",
+		"last_refreshed": "2018-08-02T07:12:49.696+10:00"
+	}
+}, {
+	"id": 867,
+	"provider_id": 4078,
+	"editable": true,
+	"refresh_status": {
+		"status": "needs_action",
+		"sub_status": "relogin_required",
+		"additional_status": "invalid_credentials",
+		"next_refresh": "2038-04-06T18:28:50.000+11:00"
+	}
+}]

@@ -157,4 +157,81 @@ class AggregationRequestTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testFetchProviderAccounts() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_accounts_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        network.fetchProviderAccounts { (response, error) in
+            XCTAssertNil(error)
+            
+            if let providerAccountsResponse = response {
+                XCTAssertEqual(providerAccountsResponse.count, 4)
+                
+                if let firstProviderAccount = providerAccountsResponse.first {
+                    XCTAssertEqual(firstProviderAccount.id, 623)
+                    XCTAssertEqual(firstProviderAccount.providerID, 11582)
+                    XCTAssertEqual(firstProviderAccount.editable, true)
+                    XCTAssertEqual(firstProviderAccount.refreshStatus.status, .success)
+                    XCTAssertEqual(firstProviderAccount.refreshStatus.subStatus, .success)
+                    XCTAssertEqual(firstProviderAccount.refreshStatus.lastRefreshed, Date(timeIntervalSince1970: 1533174026))
+                    XCTAssertNil(firstProviderAccount.refreshStatus.nextRefresh)
+                    XCTAssertNil(firstProviderAccount.refreshStatus.additionalStatus)
+                }
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testFetchProviderAccountsSkipsInvalid() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_accounts_invalid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        network.fetchProviderAccounts { (response, error) in
+            XCTAssertNil(error)
+            
+            if let providerAccountsResponse = response {
+                XCTAssertEqual(providerAccountsResponse.count, 2)
+                
+                if let firstProviderAccount = providerAccountsResponse.first {
+                    XCTAssertEqual(firstProviderAccount.id, 624)
+                }
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    
+    
 }

@@ -1,0 +1,11 @@
+{
+	"id": 123,
+	"provider_id": 4078,
+	"editable": true,
+	"refresh_status": {
+		"status": "needs_action",
+		"sub_status": "relogin_required",
+		"additional_status": "invalid_credentials",
+		"next_refresh": "2038-04-06T18:28:50.000+11:00"
+	}
+}

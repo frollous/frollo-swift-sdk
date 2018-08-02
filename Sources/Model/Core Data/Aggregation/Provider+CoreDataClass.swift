@@ -13,7 +13,7 @@ import CoreData
 @objc(Provider)
 public class Provider: NSManagedObject, CacheableManagedObject {
     
-    var primaryID: Int64 {
+    internal var primaryID: Int64 {
         get {
             return providerID
         }

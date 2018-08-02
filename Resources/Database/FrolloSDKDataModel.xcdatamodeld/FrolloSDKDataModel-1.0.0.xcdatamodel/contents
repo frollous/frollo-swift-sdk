@@ -29,6 +29,7 @@
         <attribute name="providerID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="smallLogoURLString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="statusRawValue" attributeType="String" defaultValueString="supported" syncable="YES"/>
+        <relationship name="providerAccounts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProviderAccount" inverseName="provider" inverseEntity="ProviderAccount" syncable="YES"/>
         <fetchIndex name="byProviderIDAndStatusIndex">
             <fetchIndexElement property="statusRawValue" type="Binary" order="ascending"/>
             <fetchIndexElement property="providerID" type="Binary" order="ascending"/>
@@ -41,6 +42,24 @@
         </fetchIndex>
         <fetchIndex name="byContainerCreditScoreIndex">
             <fetchIndexElement property="containerCreditScore" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="ProviderAccount" representedClassName="ProviderAccount" syncable="YES" codeGenerationType="category">
+        <attribute name="editable" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="lastRefreshed" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="loginForm" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="nextRefresh" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="providerAccountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="providerID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="refreshAdditionalStatusRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="refreshStatusRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="refreshSubStatusRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="provider" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Provider" inverseName="providerAccounts" inverseEntity="Provider" syncable="YES"/>
+        <fetchIndex name="byProviderAccountID">
+            <fetchIndexElement property="providerAccountID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byProviderID">
+            <fetchIndexElement property="providerID" type="Binary" order="ascending"/>
         </fetchIndex>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="category">
@@ -63,7 +82,8 @@
         <attribute name="validPassword" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Provider" positionX="-63" positionY="117" width="128" height="30"/>
+        <element name="Provider" positionX="-63" positionY="117" width="128" height="480"/>
         <element name="User" positionX="-63" positionY="-9" width="128" height="300"/>
+        <element name="ProviderAccount" positionX="-63" positionY="117" width="128" height="195"/>
     </elements>
 </model>
