@@ -19,6 +19,12 @@ public class Provider: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    internal var linkedID: Int64? {
+        get {
+            return nil
+        }
+    }
+    
     public enum AuthType: String, Codable {
         case credentials
         case mfaCredentials = "mfa_credentials"
@@ -135,6 +141,14 @@ public class Provider: NSManagedObject, CacheableManagedObject {
         }
         set {
             statusRawValue = newValue.rawValue
+        }
+    }
+    
+    // MARK: - Relationships
+    
+    func linkObject(object: CacheableManagedObject) {
+        if let providerAccount = object as? ProviderAccount {
+            addToProviderAccounts(providerAccount)
         }
     }
     

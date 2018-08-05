@@ -29,7 +29,7 @@
         <attribute name="providerID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="smallLogoURLString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="statusRawValue" attributeType="String" defaultValueString="supported" syncable="YES"/>
-        <relationship name="providerAccounts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProviderAccount" inverseName="provider" inverseEntity="ProviderAccount" syncable="YES"/>
+        <relationship name="providerAccounts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ProviderAccount" inverseName="provider" inverseEntity="ProviderAccount" syncable="YES"/>
         <fetchIndex name="byProviderIDAndStatusIndex">
             <fetchIndexElement property="statusRawValue" type="Binary" order="ascending"/>
             <fetchIndexElement property="providerID" type="Binary" order="ascending"/>
@@ -83,7 +83,7 @@
     </entity>
     <elements>
         <element name="Provider" positionX="-63" positionY="117" width="128" height="480"/>
-        <element name="User" positionX="-63" positionY="-9" width="128" height="300"/>
         <element name="ProviderAccount" positionX="-63" positionY="117" width="128" height="195"/>
+        <element name="User" positionX="-63" positionY="-9" width="128" height="300"/>
     </elements>
 </model>

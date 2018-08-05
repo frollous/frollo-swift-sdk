@@ -18,6 +18,12 @@ public class ProviderAccount: NSManagedObject, CacheableManagedObject {
             return providerAccountID
         }
     }
+    
+    internal var linkedID: Int64? {
+        get {
+            return providerID
+        }
+    }
 
     static let entityName = "ProviderAccount"
     
@@ -52,6 +58,10 @@ public class ProviderAccount: NSManagedObject, CacheableManagedObject {
         set {
             refreshAdditionalStatusRawValue = newValue?.rawValue
         }
+    }
+    
+    func linkObject(object: CacheableManagedObject) {
+        // Do nothing yet
     }
     
     // MARK: - Update from response

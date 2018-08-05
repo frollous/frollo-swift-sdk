@@ -11,12 +11,12 @@ import Foundation
 
 protocol CacheableManagedObject: class {
     
-    //static func otherFetchRequest<T>() -> NSFetchRequest<T>
-    
     static var entityName: String { get }
     
     var primaryID: Int64 { get }
+    var linkedID: Int64? { get }
     
+    func linkObject(object: CacheableManagedObject)
     func update(response: APIUniqueResponse)
     
 }
