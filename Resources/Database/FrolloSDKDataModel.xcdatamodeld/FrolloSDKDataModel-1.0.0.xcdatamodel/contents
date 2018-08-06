@@ -1,5 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.0.0">
+    <entity name="Account" representedClassName="Account" syncable="YES" codeGenerationType="category">
+        <attribute name="accountHolderName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="accountName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="accountStatusRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="accountSubTypeRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="accountTypeRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="amountDue" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="amountDueCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="apr" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="availableBalance" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="availableBalanceCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="availableCash" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="availableCashCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="availableCredit" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="availableCreditCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="balanceDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="classificationRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="currentBalance" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="currentBalanceCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="favourite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="hidden" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="included" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="interestRate" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="lastPaymentAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="lastPaymentAmountCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastPaymentDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="lastRefreshed" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="minimumAmountDue" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="minimumAmountDueCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nextRefresh" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="nickName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="providerAccountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="providerName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="refreshAdditionalStatusRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="refreshStatusRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="refreshSubStatusRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="totalCashLimit" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="totalCashLimitCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="totalCreditLine" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="totalCreditLineCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="balanceTiers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AccountBalanceTier" inverseName="account" inverseEntity="AccountBalanceTier" syncable="YES"/>
+        <relationship name="providerAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProviderAccount" inverseName="accounts" inverseEntity="ProviderAccount" syncable="YES"/>
+    </entity>
+    <entity name="AccountBalanceTier" representedClassName="AccountBalanceTier" syncable="YES" codeGenerationType="category">
+        <attribute name="maximum" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="minimum" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="balanceTiers" inverseEntity="Account" syncable="YES"/>
+    </entity>
     <entity name="Provider" representedClassName="Provider" syncable="YES" codeGenerationType="category">
         <attribute name="authTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="baseURLString" optional="YES" attributeType="String" syncable="YES"/>
@@ -54,6 +105,7 @@
         <attribute name="refreshAdditionalStatusRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="refreshStatusRawValue" attributeType="String" syncable="YES"/>
         <attribute name="refreshSubStatusRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="accounts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Account" inverseName="providerAccount" inverseEntity="Account" syncable="YES"/>
         <relationship name="provider" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Provider" inverseName="providerAccounts" inverseEntity="Provider" syncable="YES"/>
         <fetchIndex name="byProviderAccountID">
             <fetchIndexElement property="providerAccountID" type="Binary" order="ascending"/>
@@ -83,7 +135,9 @@
     </entity>
     <elements>
         <element name="Provider" positionX="-63" positionY="117" width="128" height="480"/>
-        <element name="ProviderAccount" positionX="-63" positionY="117" width="128" height="195"/>
+        <element name="ProviderAccount" positionX="-63" positionY="117" width="128" height="210"/>
         <element name="User" positionX="-63" positionY="-9" width="128" height="300"/>
+        <element name="Account" positionX="-54" positionY="144" width="128" height="690"/>
+        <element name="AccountBalanceTier" positionX="-45" positionY="153" width="128" height="105"/>
     </elements>
 </model>

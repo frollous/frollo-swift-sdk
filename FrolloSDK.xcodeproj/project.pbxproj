@@ -51,6 +51,23 @@
 		013D2D91210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013D2D8F210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift */; };
 		013D2D92210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013D2D8F210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift */; };
 		013D2D94210AA38800EEDEC5 /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013D2D93210AA38800EEDEC5 /* DeviceInfo.swift */; };
+		01483B6C2117C70600D0DA87 /* Account+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B682117C70600D0DA87 /* Account+CoreDataClass.swift */; };
+		01483B6E2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B6A2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift */; };
+		01483B712117C7E900D0DA87 /* APIAccountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B702117C7E900D0DA87 /* APIAccountResponse.swift */; };
+		01483B732117D80100D0DA87 /* APIAccountResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B722117D80100D0DA87 /* APIAccountResponse+Test.swift */; };
+		01483B742117D80100D0DA87 /* APIAccountResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B722117D80100D0DA87 /* APIAccountResponse+Test.swift */; };
+		01483B752117D80100D0DA87 /* APIAccountResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B722117D80100D0DA87 /* APIAccountResponse+Test.swift */; };
+		01483B772117DC3800D0DA87 /* Account+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B762117DC3800D0DA87 /* Account+Test.swift */; };
+		01483B782117DC3800D0DA87 /* Account+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B762117DC3800D0DA87 /* Account+Test.swift */; };
+		01483B792117DC3800D0DA87 /* Account+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B762117DC3800D0DA87 /* Account+Test.swift */; };
+		01483B7B2117E1FF00D0DA87 /* AccountTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B7A2117E1FF00D0DA87 /* AccountTests.swift */; };
+		01483B7C2117E1FF00D0DA87 /* AccountTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B7A2117E1FF00D0DA87 /* AccountTests.swift */; };
+		01483B7E2117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B7D2117F51600D0DA87 /* AccountBalanceTier+Test.swift */; };
+		01483B7F2117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B7D2117F51600D0DA87 /* AccountBalanceTier+Test.swift */; };
+		01483B802117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B7D2117F51600D0DA87 /* AccountBalanceTier+Test.swift */; };
+		01483B822117F65500D0DA87 /* AccountBalanceTierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B812117F65500D0DA87 /* AccountBalanceTierTests.swift */; };
+		01483B832117F65500D0DA87 /* AccountBalanceTierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B812117F65500D0DA87 /* AccountBalanceTierTests.swift */; };
+		01483B842117F65500D0DA87 /* AccountBalanceTierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B812117F65500D0DA87 /* AccountBalanceTierTests.swift */; };
 		01527CC920E1B5C300B5042A /* FrolloSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01527CBF20E1B5C300B5042A /* FrolloSDK.framework */; };
 		01527CCE20E1B5C300B5042A /* FrolloSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */; };
 		01527CD020E1B5C300B5042A /* FrolloSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 01527CC220E1B5C300B5042A /* FrolloSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -379,6 +396,14 @@
 		013D2D85210A88AC00EEDEC5 /* APIUserLoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserLoginRequest.swift; sourceTree = "<group>"; };
 		013D2D8F210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIUserLoginRequest+Test.swift"; sourceTree = "<group>"; };
 		013D2D93210AA38800EEDEC5 /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
+		01483B682117C70600D0DA87 /* Account+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Account+CoreDataClass.swift"; sourceTree = "<group>"; };
+		01483B6A2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccountBalanceTier+CoreDataClass.swift"; sourceTree = "<group>"; };
+		01483B702117C7E900D0DA87 /* APIAccountResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIAccountResponse.swift; sourceTree = "<group>"; };
+		01483B722117D80100D0DA87 /* APIAccountResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIAccountResponse+Test.swift"; sourceTree = "<group>"; };
+		01483B762117DC3800D0DA87 /* Account+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Account+Test.swift"; sourceTree = "<group>"; };
+		01483B7A2117E1FF00D0DA87 /* AccountTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTests.swift; sourceTree = "<group>"; };
+		01483B7D2117F51600D0DA87 /* AccountBalanceTier+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccountBalanceTier+Test.swift"; sourceTree = "<group>"; };
+		01483B812117F65500D0DA87 /* AccountBalanceTierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBalanceTierTests.swift; sourceTree = "<group>"; };
 		01527CBF20E1B5C300B5042A /* FrolloSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FrolloSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		01527CC220E1B5C300B5042A /* FrolloSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrolloSDK.h; sourceTree = "<group>"; };
 		01527CC320E1B5C300B5042A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -642,8 +667,8 @@
 		013D2D89210A8AF000EEDEC5 /* User */ = {
 			isa = PBXGroup;
 			children = (
-				017B48F621083A3500447E65 /* APIUserResponse+Test.swift */,
 				013D2D8F210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift */,
+				017B48F621083A3500447E65 /* APIUserResponse+Test.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -742,8 +767,9 @@
 		015EEDE0210FDA570081AD76 /* Aggregation */ = {
 			isa = PBXGroup;
 			children = (
-				015EEDE1210FDA760081AD76 /* APIProviderResponse+Test.swift */,
+				01483B722117D80100D0DA87 /* APIAccountResponse+Test.swift */,
 				013A32C22112BBDE00B0590B /* APIProviderAccountResponse+Test.swift */,
+				015EEDE1210FDA760081AD76 /* APIProviderResponse+Test.swift */,
 			);
 			path = Aggregation;
 			sourceTree = "<group>";
@@ -760,10 +786,14 @@
 		015EEDFA210FE5440081AD76 /* Aggregation */ = {
 			isa = PBXGroup;
 			children = (
-				015EEDFC211018420081AD76 /* ProviderTests.swift */,
+				01483B762117DC3800D0DA87 /* Account+Test.swift */,
+				01483B7A2117E1FF00D0DA87 /* AccountTests.swift */,
+				01483B7D2117F51600D0DA87 /* AccountBalanceTier+Test.swift */,
+				01483B812117F65500D0DA87 /* AccountBalanceTierTests.swift */,
 				015EEE04211037CE0081AD76 /* Provider+Test.swift */,
-				013A32CA2112BE6600B0590B /* ProviderAccountTests.swift */,
 				013A32CE2112C3A900B0590B /* ProviderAccount+Test.swift */,
+				013A32CA2112BE6600B0590B /* ProviderAccountTests.swift */,
+				015EEDFC211018420081AD76 /* ProviderTests.swift */,
 			);
 			path = Aggregation;
 			sourceTree = "<group>";
@@ -812,6 +842,7 @@
 			children = (
 				016097F4210EE2BA0034E857 /* APIProviderResponse.swift */,
 				013A32AC2112799500B0590B /* APIProviderAccountResponse.swift */,
+				01483B702117C7E900D0DA87 /* APIAccountResponse.swift */,
 			);
 			path = Aggregation;
 			sourceTree = "<group>";
@@ -827,9 +858,11 @@
 		016097F3210EE2820034E857 /* Aggregation */ = {
 			isa = PBXGroup;
 			children = (
+				01483B682117C70600D0DA87 /* Account+CoreDataClass.swift */,
+				01483B6A2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift */,
+				013A32AE21127A3600B0590B /* AccountRefreshStatus.swift */,
 				016097F6210EE3300034E857 /* Provider+CoreDataClass.swift */,
 				013A32A8211273A300B0590B /* ProviderAccount+CoreDataClass.swift */,
-				013A32AE21127A3600B0590B /* AccountRefreshStatus.swift */,
 			);
 			path = Aggregation;
 			sourceTree = "<group>";
@@ -1634,6 +1667,7 @@
 				017B487021054F0B00447E65 /* PreferencesPersistence.swift in Sources */,
 				013A32AA211273A300B0590B /* ProviderAccount+CoreDataClass.swift in Sources */,
 				01C824EE20EC40FD0093400E /* ConsoleLogger.swift in Sources */,
+				01483B712117C7E900D0DA87 /* APIAccountResponse.swift in Sources */,
 				017B48E02107FE6A00447E65 /* APIUserResponse.swift in Sources */,
 				01874B7F20FD9F21005A7D0C /* Network+Device.swift in Sources */,
 				01819144211162DD000E0F80 /* CacheableManagedObject.swift in Sources */,
@@ -1644,12 +1678,14 @@
 				01EED86220E5A7EB00F4516B /* Authentication.swift in Sources */,
 				013A32AD2112799500B0590B /* APIProviderAccountResponse.swift in Sources */,
 				01C824F520EC75560093400E /* FileLogger.swift in Sources */,
+				01483B6C2117C70600D0DA87 /* Account+CoreDataClass.swift in Sources */,
 				013D2D94210AA38800EEDEC5 /* DeviceInfo.swift in Sources */,
 				0160953720F33EB10060791B /* Version.swift in Sources */,
 				0136D225210011E70062EAEA /* Keychain.swift in Sources */,
 				015EEDDE210FD7710081AD76 /* FailableCodable.swift in Sources */,
 				013D2D86210A88AC00EEDEC5 /* APIUserLoginRequest.swift in Sources */,
 				01EED86B20E5AA5B00F4516B /* FrolloSDKDataModel.xcdatamodeld in Sources */,
+				01483B6E2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift in Sources */,
 				01EED86420E5A7EB00F4516B /* Preferences.swift in Sources */,
 				017391F020EF001200C0BB32 /* APIErrorResponse.swift in Sources */,
 				01F220E320FEAC7600C70B00 /* APITokenResponse.swift in Sources */,
@@ -1673,10 +1709,13 @@
 			files = (
 				0181914E21117BC2000E0F80 /* AggregationTests.swift in Sources */,
 				015EEDEA210FDAB20081AD76 /* AggregationRequestTests.swift in Sources */,
+				01483B822117F65500D0DA87 /* AccountBalanceTierTests.swift in Sources */,
 				016DD0A420EF365100F41919 /* APIErrorTests.swift in Sources */,
 				01EEDB1B20EAE2CE00F4516B /* DatabaseTests.swift in Sources */,
 				017B48D62106D4A000447E65 /* UserTests.swift in Sources */,
+				01483B7B2117E1FF00D0DA87 /* AccountTests.swift in Sources */,
 				013A32C32112BBDE00B0590B /* APIProviderAccountResponse+Test.swift in Sources */,
+				01483B7E2117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */,
 				01E0819420FDB7150036133F /* NetworkAuthenticatorTests.swift in Sources */,
 				0160953A20F41ECF0060791B /* VersionTests.swift in Sources */,
 				015EEDFD211018420081AD76 /* ProviderTests.swift in Sources */,
@@ -1688,6 +1727,7 @@
 				013A32CB2112BE6600B0590B /* ProviderAccountTests.swift in Sources */,
 				013D2D90210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */,
 				01EEDB1D20EAEA2000F4516B /* DatabaseMigrationTests.swift in Sources */,
+				01483B732117D80100D0DA87 /* APIAccountResponse+Test.swift in Sources */,
 				016097EE210EA27E0034E857 /* Keychain+Test.swift in Sources */,
 				0101949E20F595F300334482 /* NetworkTests.swift in Sources */,
 				01B896CE20F3169F0068069A /* DataErrorTests.swift in Sources */,
@@ -1700,6 +1740,7 @@
 				01C824F320EC4D600093400E /* LogTests.swift in Sources */,
 				016097EA210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
 				015EEE05211037CE0081AD76 /* Provider+Test.swift in Sources */,
+				01483B772117DC3800D0DA87 /* Account+Test.swift in Sources */,
 				0136D229210067DF0062EAEA /* KeychainTests.swift in Sources */,
 				017B48F721083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				013A32CF2112C3A900B0590B /* ProviderAccount+Test.swift in Sources */,
@@ -1715,10 +1756,13 @@
 			files = (
 				0181914F21117BC2000E0F80 /* AggregationTests.swift in Sources */,
 				015EEDEB210FDAB20081AD76 /* AggregationRequestTests.swift in Sources */,
+				01483B832117F65500D0DA87 /* AccountBalanceTierTests.swift in Sources */,
 				017B48322101B4FE00447E65 /* APIErrorTests.swift in Sources */,
 				017B48332101B4FE00447E65 /* DatabaseTests.swift in Sources */,
 				017B48D72106D4A000447E65 /* UserTests.swift in Sources */,
+				01483B7C2117E1FF00D0DA87 /* AccountTests.swift in Sources */,
 				013A32C42112BBDE00B0590B /* APIProviderAccountResponse+Test.swift in Sources */,
+				01483B7F2117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */,
 				017B48342101B4FE00447E65 /* NetworkAuthenticatorTests.swift in Sources */,
 				017B48352101B4FE00447E65 /* VersionTests.swift in Sources */,
 				015EEDFE211018420081AD76 /* ProviderTests.swift in Sources */,
@@ -1730,6 +1774,7 @@
 				013A32CC2112BE6600B0590B /* ProviderAccountTests.swift in Sources */,
 				013D2D91210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */,
 				017B48382101B4FE00447E65 /* DatabaseMigrationTests.swift in Sources */,
+				01483B742117D80100D0DA87 /* APIAccountResponse+Test.swift in Sources */,
 				016097EF210EA27E0034E857 /* Keychain+Test.swift in Sources */,
 				017B48392101B4FE00447E65 /* NetworkTests.swift in Sources */,
 				017B483A2101B4FE00447E65 /* DataErrorTests.swift in Sources */,
@@ -1742,6 +1787,7 @@
 				017B483E2101B4FE00447E65 /* LogTests.swift in Sources */,
 				016097EB210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
 				015EEE06211037CE0081AD76 /* Provider+Test.swift in Sources */,
+				01483B782117DC3800D0DA87 /* Account+Test.swift in Sources */,
 				017B483F2101B4FE00447E65 /* KeychainTests.swift in Sources */,
 				017B48F821083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				013A32D02112C3A900B0590B /* ProviderAccount+Test.swift in Sources */,
@@ -1781,18 +1827,22 @@
 				013A32CD2112BE6600B0590B /* ProviderAccountTests.swift in Sources */,
 				013D2D92210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */,
 				017B48932105958100447E65 /* DatabaseMigrationTests.swift in Sources */,
+				01483B752117D80100D0DA87 /* APIAccountResponse+Test.swift in Sources */,
 				016097F0210EA27E0034E857 /* Keychain+Test.swift in Sources */,
 				017B48942105958100447E65 /* NetworkTests.swift in Sources */,
 				017B48952105958100447E65 /* DataErrorTests.swift in Sources */,
 				017B48962105958100447E65 /* PreferencesTests.swift in Sources */,
+				01483B842117F65500D0DA87 /* AccountBalanceTierTests.swift in Sources */,
 				017B48972105958100447E65 /* UserRequestTests.swift in Sources */,
 				017B48982105958100447E65 /* TestInvalidDataModel.xcdatamodeld in Sources */,
 				017B48992105958100447E65 /* PreferencesPersistenceTests.swift in Sources */,
 				015EEDE4210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */,
 				017B489A2105958100447E65 /* FileLoggerTests.swift in Sources */,
 				017B489B2105958100447E65 /* LogTests.swift in Sources */,
+				01483B802117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */,
 				016097EC210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
 				015EEE07211037CE0081AD76 /* Provider+Test.swift in Sources */,
+				01483B792117DC3800D0DA87 /* Account+Test.swift in Sources */,
 				017B489C2105958100447E65 /* KeychainTests.swift in Sources */,
 				017B48F921083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				013A32D12112C3A900B0590B /* ProviderAccount+Test.swift in Sources */,
