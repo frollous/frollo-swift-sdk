@@ -723,7 +723,6 @@
 		01527CC120E1B5C300B5042A /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				01819147211178AC000E0F80 /* Shared */,
 				01527CC220E1B5C300B5042A /* FrolloSDK.h */,
 				01527CD820E1C5A600B5042A /* FrolloSDK.swift */,
 				01527CC320E1B5C300B5042A /* Info.plist */,
@@ -737,6 +736,7 @@
 				01EED85A20E5A7EA00F4516B /* Model */,
 				01EED85E20E5A7EA00F4516B /* Network */,
 				01EED86020E5A7EA00F4516B /* Preferences */,
+				01819147211178AC000E0F80 /* Shared */,
 				0160953520F33E980060791B /* Version */,
 			);
 			path = Sources;

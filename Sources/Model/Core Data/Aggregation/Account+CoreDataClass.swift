@@ -202,6 +202,13 @@ public class Account: NSManagedObject, CacheableManagedObject {
             availableCash = nil
             availableCashCurrency = nil
         }
+        if let balance = response.availableCredit {
+            availableCredit = NSDecimalNumber(string: balance.amount)
+            availableCreditCurrency = balance.currency
+        } else {
+            availableCredit = nil
+            availableCreditCurrency = nil
+        }
         if let balance = response.currentBalance {
             currentBalance = NSDecimalNumber(string: balance.amount)
             currentBalanceCurrency = balance.currency
