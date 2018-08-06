@@ -12,9 +12,9 @@ import Foundation
 extension APIAccountResponse {
     
     static func testCompleteDate() -> APIAccountResponse {
-        let balanceDetails = BalanceDetails(currentDescription: UUID().uuidString, tiers: [BalanceTier(description: UUID().uuidString, min: Decimal(arc4random()), max: Decimal(arc4random())),
-                                                                                           BalanceTier(description: UUID().uuidString, min: Decimal(arc4random()), max: Decimal(arc4random())),
-                                                                                           BalanceTier(description: UUID().uuidString, min: Decimal(arc4random()), max: Decimal(arc4random()))])
+        let balanceDetails = BalanceDetails(currentDescription: UUID().uuidString, tiers: [BalanceTier(description: UUID().uuidString, min: String(arc4random()), max: String(arc4random())),
+                                                                                           BalanceTier(description: UUID().uuidString, min: String(arc4random()), max: String(arc4random())),
+                                                                                           BalanceTier(description: UUID().uuidString, min: String(arc4random()), max: String(arc4random()))])
         
         let holderProfile = HolderProfile(name: "Jacob Frollo")
         
@@ -28,7 +28,6 @@ extension APIAccountResponse {
                                   accountName: UUID().uuidString,
                                   accountStatus: .active,
                                   accountType: .savings,
-                                  classification: .personal,
                                   container: .bank,
                                   favourite: true,
                                   hidden: false,
@@ -36,22 +35,23 @@ extension APIAccountResponse {
                                   providerAccountID: 76251,
                                   providerName: "Detailed Test Provider",
                                   refreshStatus: refreshStatus,
-                                  amountDue: Balance(amount: Decimal(arc4random()) / 10, currency: "AUD"),
-                                  apr: 18.53,
-                                  availableBalance: Balance(amount: Decimal(arc4random()) / 10, currency: "AUD"),
-                                  availableCash: Balance(amount: Decimal(arc4random()) / 10, currency: "AUD"),
-                                  availableCredit: Balance(amount: Decimal(arc4random()) / 10, currency: "AUD"),
+                                  amountDue: Balance(amount: String(arc4random()), currency: "AUD"),
+                                  apr: "18.53",
+                                  availableBalance: Balance(amount: String(arc4random()), currency: "AUD"),
+                                  availableCash: Balance(amount: String(arc4random()), currency: "AUD"),
+                                  availableCredit: Balance(amount: String(arc4random()), currency: "AUD"),
                                   balanceDetails: balanceDetails,
-                                  currentBalance: Balance(amount: Decimal(arc4random()) / 10, currency: "AUD"),
+                                  classification: .personal,
+                                  currentBalance: Balance(amount: String(arc4random()), currency: "AUD"),
                                   dueDate: Date(timeIntervalSinceNow: 10000),
                                   holderProfile: holderProfile,
-                                  interestRate: 3.05,
-                                  lastPaymentAmount: Balance(amount: Decimal(arc4random()) / 10, currency: "AUD"),
+                                  interestRate: "3.05",
+                                  lastPaymentAmount: Balance(amount: String(arc4random()), currency: "AUD"),
                                   lastPaymentDate: Date(timeIntervalSinceNow: -10000),
-                                  minimumAmountDue: Balance(amount: Decimal(arc4random()) / 10, currency: "AUD"),
+                                  minimumAmountDue: Balance(amount: String(arc4random()), currency: "AUD"),
                                   nickName: "Friendly Name",
-                                  totalCashLimit: Balance(amount: Decimal(arc4random()) / 10, currency: "AUD"),
-                                  totalCreditLine: Balance(amount: Decimal(arc4random()) / 10, currency: "AUD"))
+                                  totalCashLimit: Balance(amount: String(arc4random()), currency: "AUD"),
+                                  totalCreditLine: Balance(amount: String(arc4random()), currency: "AUD"))
     }
     
 }

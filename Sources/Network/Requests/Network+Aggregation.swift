@@ -52,4 +52,24 @@ extension Network {
         }
     }
     
+    internal func fetchAccount(accountID: Int64, completion: @escaping RequestCompletion<APIAccountResponse>) {
+        requestQueue.async {
+            let url = URL(string: AggregationEndpoint.account(accountID: accountID).path, relativeTo: self.serverURL)!
+            
+            self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.handleResponse(type: APIAccountResponse.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func fetchAccounts(completion: @escaping RequestCompletion<[APIAccountResponse]>) {
+        requestQueue.async {
+            let url = URL(string: AggregationEndpoint.accounts.path, relativeTo: self.serverURL)!
+            
+            self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.handleArrayResponse(type: APIAccountResponse.self, response: response, completion: completion)
+            }
+        }
+    }
+    
 }

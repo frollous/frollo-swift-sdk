@@ -40,6 +40,7 @@ public class Account: NSManagedObject, CacheableManagedObject {
         case credit
         case charge
         case experian
+        case individual
         case insurance
         case bill
         case loan
@@ -55,6 +56,7 @@ public class Account: NSManagedObject, CacheableManagedObject {
         case custodian
         case unknown
         case other
+        case checking
     }
     
     public enum AccountType: String, Codable {
@@ -179,32 +181,68 @@ public class Account: NSManagedObject, CacheableManagedObject {
         
         // Optional balances
         
-        amountDue = response.amountDue?.amount as NSDecimalNumber?
-        amountDueCurrency = response.amountDue?.currency
-        availableBalance = response.availableBalance?.amount as NSDecimalNumber?
-        availableBalanceCurrency = response.availableBalance?.currency
-        availableCash = response.availableCash?.amount as NSDecimalNumber?
-        availableCashCurrency = response.availableCash?.currency
-        availableCredit = response.availableCredit?.amount as NSDecimalNumber?
-        availableCreditCurrency = response.availableCredit?.currency
-        currentBalance = response.currentBalance?.amount as NSDecimalNumber?
-        currentBalanceCurrency = response.currentBalance?.currency
-        lastPaymentAmount = response.lastPaymentAmount?.amount as NSDecimalNumber?
-        lastPaymentAmountCurrency = response.lastPaymentAmount?.currency
-        minimumAmountDue = response.minimumAmountDue?.amount as NSDecimalNumber?
-        minimumAmountDueCurrency = response.minimumAmountDue?.currency
-        totalCashLimit = response.totalCashLimit.amount as NSDecimalNumber?
-        totalCashLimitCurrency = response.totalCashLimit.currency
-        totalCreditLine = response.totalCreditLine.amount as NSDecimalNumber?
-        totalCreditLineCurrency = response.totalCreditLine.currency
+        if let balance = response.amountDue {
+            amountDue = NSDecimalNumber(string: balance.amount)
+            amountDueCurrency = balance.currency
+        } else {
+            amountDue = nil
+            amountDueCurrency = nil
+        }
+        if let balance = response.availableBalance {
+            availableBalance = NSDecimalNumber(string: balance.amount)
+            availableBalanceCurrency = balance.currency
+        } else {
+            availableBalance = nil
+            availableBalanceCurrency = nil
+        }
+        if let balance = response.availableCash {
+            availableCash = NSDecimalNumber(string: balance.amount)
+            availableCashCurrency = balance.currency
+        } else {
+            availableCash = nil
+            availableCashCurrency = nil
+        }
+        if let balance = response.currentBalance {
+            currentBalance = NSDecimalNumber(string: balance.amount)
+            currentBalanceCurrency = balance.currency
+        } else {
+            currentBalance = nil
+            currentBalanceCurrency = nil
+        }
+        if let balance = response.lastPaymentAmount {
+            lastPaymentAmount = NSDecimalNumber(string: balance.amount)
+            lastPaymentAmountCurrency = balance.currency
+        } else {
+            lastPaymentAmount = nil
+            lastPaymentAmountCurrency = nil
+        }
+        if let balance = response.minimumAmountDue {
+            minimumAmountDue = NSDecimalNumber(string: balance.amount)
+            minimumAmountDueCurrency = balance.currency
+        } else {
+            minimumAmountDue = nil
+            minimumAmountDueCurrency = nil
+        }
+        if let balance = response.totalCashLimit {
+            totalCashLimit = NSDecimalNumber(string: balance.amount)
+            totalCashLimitCurrency = balance.currency
+        } else {
+            totalCashLimit = nil
+            totalCashLimitCurrency = nil
+        }
+        if let balance = response.totalCreditLine {
+            totalCreditLine = NSDecimalNumber(string: balance.amount)
+            totalCreditLineCurrency = balance.currency
+        } else {
+            totalCreditLine = nil
+            totalCreditLineCurrency = nil
+        }
         
         // Optionals
         
         accountHolderName = response.holderProfile?.name
         balanceDescription = response.balanceDetails?.currentDescription
         classification = response.classification
-        apr = response.apr as NSDecimalNumber?
-        interestRate = response.interestRate as NSDecimalNumber?
         dueDate = response.dueDate
         lastPaymentDate = response.lastPaymentDate
         lastRefreshed = response.refreshStatus.lastRefreshed
@@ -213,6 +251,17 @@ public class Account: NSManagedObject, CacheableManagedObject {
         refreshStatus = response.refreshStatus.status
         refreshSubStatus = response.refreshStatus.subStatus
         nickName = response.nickName
+        
+        if let updatedAPR = response.apr {
+            apr = NSDecimalNumber(string: updatedAPR)
+        } else {
+            apr = nil
+        }
+        if let updatedInterestRate = response.interestRate {
+            interestRate = NSDecimalNumber(string: updatedInterestRate)
+        } else {
+            interestRate = nil
+        }
     }
 
 }

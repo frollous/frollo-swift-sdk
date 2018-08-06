@@ -232,6 +232,168 @@ class AggregationRequestTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testFetchProviderAccountByID() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.providerAccount(providerAccountID: 123).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        network.fetchProviderAccount(providerAccountID: 123) { (response, error) in
+            XCTAssertNil(error)
+            
+            if let providerAccountResponse = response {
+                XCTAssertEqual(providerAccountResponse.id, 123)
+                XCTAssertEqual(providerAccountResponse.providerID, 4078)
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
     
+    func testFetchAccounts() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        network.fetchAccounts { (response, error) in
+            XCTAssertNil(error)
+            
+            if let accountsResponse = response {
+                XCTAssertEqual(accountsResponse.count, 4)
+                
+                if let firstAccount = accountsResponse.first {
+                    XCTAssertEqual(firstAccount.id, 542)
+                    XCTAssertEqual(firstAccount.providerAccountID, 867)
+                    XCTAssertEqual(firstAccount.refreshStatus.status, .success)
+                    XCTAssertEqual(firstAccount.refreshStatus.subStatus, .success)
+                    XCTAssertEqual(firstAccount.refreshStatus.lastRefreshed, Date(timeIntervalSince1970: 1533174026))
+                    XCTAssertNil(firstAccount.refreshStatus.nextRefresh)
+                    XCTAssertNil(firstAccount.refreshStatus.additionalStatus)
+                    XCTAssertEqual(firstAccount.availableCash?.amount, "1823.85")
+                    XCTAssertEqual(firstAccount.availableCash?.currency, "AUD")
+                    XCTAssertEqual(firstAccount.currentBalance?.amount, "1823.85")
+                    XCTAssertEqual(firstAccount.currentBalance?.currency, "AUD")
+                    XCTAssertEqual(firstAccount.availableBalance?.amount, "1823.85")
+                    XCTAssertEqual(firstAccount.availableBalance?.currency, "AUD")
+                    XCTAssertEqual(firstAccount.availableCredit?.amount, "1823.85")
+                    XCTAssertEqual(firstAccount.availableCredit?.currency, "AUD")
+                    XCTAssertEqual(firstAccount.totalCashLimit?.amount, "1823.85")
+                    XCTAssertEqual(firstAccount.totalCashLimit?.currency, "AUD")
+                    XCTAssertEqual(firstAccount.totalCreditLine?.amount, "1823.85")
+                    XCTAssertEqual(firstAccount.totalCreditLine?.currency, "AUD")
+                    XCTAssertEqual(firstAccount.amountDue?.amount, "1823.85")
+                    XCTAssertEqual(firstAccount.amountDue?.currency, "AUD")
+                    XCTAssertEqual(firstAccount.minimumAmountDue?.amount, "1823.85")
+                    XCTAssertEqual(firstAccount.minimumAmountDue?.currency, "AUD")
+                    XCTAssertEqual(firstAccount.lastPaymentAmount?.amount, "1823.85")
+                    XCTAssertEqual(firstAccount.lastPaymentAmount?.currency, "AUD")
+                    XCTAssertEqual(firstAccount.apr, "18.99")
+                    XCTAssertEqual(firstAccount.interestRate, "3.01")
+                    XCTAssertEqual(firstAccount.holderProfile?.name, "Jacob")
+                    XCTAssertEqual(firstAccount.container, .bank)
+                    XCTAssertEqual(firstAccount.accountType, .checking)
+                    XCTAssertEqual(firstAccount.included, true)
+                    XCTAssertEqual(firstAccount.hidden, false)
+                    XCTAssertEqual(firstAccount.favourite, true)
+                    XCTAssertEqual(firstAccount.accountName, "Personal Account")
+                    XCTAssertEqual(firstAccount.providerName, "ME Bank (demo)")
+                }
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testFetchAccountsSkipsInvalid() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_invalid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        network.fetchAccounts { (response, error) in
+            XCTAssertNil(error)
+            
+            if let accountsResponse = response {
+                XCTAssertEqual(accountsResponse.count, 2)
+                
+                if let firstAccount = accountsResponse.first {
+                    XCTAssertEqual(firstAccount.id, 542)
+                }
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testFetchAccountByID() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.account(accountID: 542).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_id_542", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        network.fetchAccount(accountID: 542) { (response, error) in
+            XCTAssertNil(error)
+            
+            if let accountResponse = response {
+                XCTAssertEqual(accountResponse.id, 542)
+                XCTAssertEqual(accountResponse.providerAccountID, 867)
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
     
 }

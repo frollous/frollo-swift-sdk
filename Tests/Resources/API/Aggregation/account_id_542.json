@@ -1,0 +1,24 @@
+{
+	"id": 542,
+	"provider_account_id": 867,
+	"provider_name": "ME Bank (demo)",
+	"account_name": "Personal Account",
+	"account_status": "active",
+	"account_type": "checking",
+	"container": "bank",
+	"included": true,
+	"favourite": true,
+	"hidden": false,
+	"current_balance": {
+		"amount": "1823.85",
+		"currency": "AUD"
+	},
+	"holder_profile": {
+		"name": "Jacob"
+	},
+	"refresh_status": {
+		"status": "success",
+		"sub_status": "success",
+		"last_refreshed": "2018-08-06T07:10:42.651+10:00"
+	}
+}

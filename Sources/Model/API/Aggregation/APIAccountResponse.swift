@@ -48,7 +48,7 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
             case currency
         }
         
-        let amount: Decimal
+        let amount: String
         let currency: String
         
     }
@@ -74,8 +74,8 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
         }
         
         let description: String
-        let min: Decimal
-        let max: Decimal
+        let min: String
+        let max: String
     }
     
     struct HolderProfile: Codable {
@@ -109,7 +109,6 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
     let accountName: String
     let accountStatus: Account.AccountStatus
     let accountType: Account.AccountSubType
-    let classification: Account.Classification
     let container: Account.AccountType
     let favourite: Bool
     let hidden: Bool
@@ -119,20 +118,21 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
     let refreshStatus: RefreshStatus
     
     var amountDue: Balance?
-    var apr: Decimal?
+    var apr: String?
     var availableBalance: Balance?
     var availableCash: Balance?
     var availableCredit: Balance?
     var balanceDetails: BalanceDetails?
+    var classification: Account.Classification?
     var currentBalance: Balance?
     var dueDate: Date?
     var holderProfile: HolderProfile?
-    var interestRate: Decimal?
+    var interestRate: String?
     var lastPaymentAmount: Balance?
     var lastPaymentDate: Date?
     var minimumAmountDue: Balance?
     var nickName: String?
-    var totalCashLimit: Balance
-    var totalCreditLine: Balance
+    var totalCashLimit: Balance?
+    var totalCreditLine: Balance?
 
 }

@@ -15,8 +15,8 @@ public class AccountBalanceTier: NSManagedObject {
     
     internal func update(response: APIAccountResponse.BalanceTier) {
         name = response.description
-        minimum = response.min as NSDecimalNumber?
-        maximum = response.max as NSDecimalNumber?
+        minimum = NSDecimalNumber(string: response.min)
+        maximum = NSDecimalNumber(string: response.max)
     }
 
 }

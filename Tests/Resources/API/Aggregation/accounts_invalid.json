@@ -1,0 +1,87 @@
+[{
+	"id": 542,
+	"provider_account_id": 867,
+	"provider_name": "ME Bank (demo)",
+	"account_name": "Personal Account",
+	"account_status": "active",
+	"account_type": "checking",
+	"container": "bank",
+	"included": true,
+	"favourite": true,
+	"hidden": false,
+	"current_balance": {
+		"amount": "1823.85",
+		"currency": "AUD"
+	},
+	"holder_profile": {
+		"name": "Jacob"
+	},
+	"refresh_status": {
+		"status": "success",
+		"sub_status": "success",
+		"last_refreshed": "2018-08-06T07:10:42.651+10:00"
+	}
+}, {
+	"id": 543,
+	"provider_name": "ME Bank (demo)",
+	"account_name": "Savings Account",
+	"account_status": "active",
+	"account_type": "savings",
+	"container": "bank",
+	"included": true,
+	"favourite": false,
+	"hidden": false,
+	"current_balance": {
+		"amount": "2309.12",
+		"currency": "AUD"
+	},
+	"holder_profile": {
+		"name": "Jacob"
+	},
+	"refresh_status": {
+		"status": "success",
+		"sub_status": "success",
+		"last_refreshed": "2018-08-06T07:10:42.651+10:00"
+	}
+}, {
+	"id": 544,
+	"provider_account_id": 624,
+	"provider_name": "ANZ (demo)",
+	"account_name": "Credit Card",
+	"account_status": "active",
+	"account_type": "credit",
+	"container": "credit_card",
+	"included": true,
+	"current_balance": {
+		"amount": "0.00",
+		"currency": "AUD"
+	},
+	"apr": "20.24",
+	"holder_profile": {
+		"name": "Jacob"
+	},
+	"refresh_status": {
+		"status": "success",
+		"sub_status": "success",
+		"last_refreshed": "2018-08-06T07:10:42.651+10:00"
+	}
+}, {
+	"id": 545,
+	"provider_account_id": 625,
+	"provider_name": "AustralianSuper (demo)",
+	"account_name": "Super investment",
+	"account_status": "active",
+	"account_type": "individual",
+	"container": "investment",
+	"included": true,
+	"favourite": true,
+	"hidden": false,
+	"holder_profile": {
+		"name": "Jacob"
+	},
+	"refresh_status": {
+		"status": "success",
+		"sub_status": "success",
+		"last_refreshed": "2018-08-06T07:10:42.651+10:00"
+	}
+}]
