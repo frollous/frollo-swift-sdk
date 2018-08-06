@@ -14,10 +14,12 @@ class Aggregation: ResponseHandler {
     private let database: Database
     private let network: Network
     
+    private let accountLock = NSLock()
     private let providerLock = NSLock()
     private let providerAccountLock = NSLock()
     
     private var linkingProviderIDs = Set<Int64>()
+    private var linkingProviderAccountIDs = Set<Int64>()
     
     internal init(database: Database, network: Network) {
         self.database = database
@@ -131,6 +133,56 @@ class Aggregation: ResponseHandler {
         }
     }
     
+    /**
+     Refresh all available accounts from the host.
+     
+     - parameters:
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshAccounts(completion: FrolloSDKCompletionHandler? = nil) {
+        network.fetchAccounts { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let accountsResponse = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleAccountsResponse(accountsResponse, managedObjectContext: managedObjectContext)
+                    
+                    self.linkAccountsToProviderAccounts(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            completion?(error)
+        }
+        
+    }
+    
+    /**
+     Refresh a specific account by ID from the host
+     
+     - parameters:
+        - accountID: ID of the account to fetch
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshAccount(accountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        network.fetchAccount(accountID: accountID) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let accountResponse = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleAccountResponse(accountResponse, managedObjectContext: managedObjectContext)
+                    
+                    self.linkAccountsToProviderAccounts(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            completion?(error)
+        }
+    }
+    
     // MARK: - Linking Objects
     
     private func linkProviderAccountsToProviders(managedObjectContext: NSManagedObjectContext) {
@@ -144,17 +196,33 @@ class Aggregation: ResponseHandler {
         
         let missingProviderIDs = linkObjectToParentObject(type: ProviderAccount.self, parentType: Provider.self, managedObjectContext: managedObjectContext, linkedIDs: linkingProviderIDs, linkedKey: "providerID")
         
-        linkingProviderIDs = Set()
+        linkingProviderIDs = linkingProviderIDs.intersection(missingProviderIDs)
         
         for providerID in missingProviderIDs {
-            guard !linkingProviderIDs.contains(providerID)
-                else {
-                    continue
-            }
             refreshProvider(providerID: providerID)
         }
         
-        linkingProviderIDs = linkingProviderIDs.union(missingProviderIDs)
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func linkAccountsToProviderAccounts(managedObjectContext: NSManagedObjectContext) {
+        providerAccountLock.lock()
+        accountLock.lock()
+        
+        defer {
+            providerAccountLock.unlock()
+            accountLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: Account.self, parentType: ProviderAccount.self, managedObjectContext: managedObjectContext, linkedIDs: linkingProviderAccountIDs, linkedKey: "providerAccountID")
+        
+        linkingProviderAccountIDs = Set()
         
         managedObjectContext.performAndWait {
             do {
@@ -232,9 +300,49 @@ class Aggregation: ResponseHandler {
             providerAccountLock.unlock()
         }
         
-        let updatedProviderAccountIDs = updateObjectsWithResponse(type: ProviderAccount.self, objectsResponse: providerAccountsResponse, primaryKey: "providerAccountID", filterPredicate: nil, managedObjectContext: managedObjectContext)
+        let updatedProviderIDs = updateObjectsWithResponse(type: ProviderAccount.self, objectsResponse: providerAccountsResponse, primaryKey: "providerAccountID", filterPredicate: nil, managedObjectContext: managedObjectContext)
         
-        linkingProviderIDs = linkingProviderIDs.union(updatedProviderAccountIDs)
+        linkingProviderIDs = linkingProviderIDs.union(updatedProviderIDs)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleAccountResponse(_ accountResponse: APIAccountResponse, managedObjectContext: NSManagedObjectContext) {
+        accountLock.lock()
+        
+        defer {
+            accountLock.unlock()
+        }
+        
+        updateObjectWithResponse(type: Account.self, objectResponse: accountResponse, primaryKey: "accountID", managedObjectContext: managedObjectContext)
+        
+        linkingProviderAccountIDs.insert(accountResponse.providerAccountID)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleAccountsResponse(_ accountsResponse: [APIAccountResponse], managedObjectContext: NSManagedObjectContext) {
+        accountLock.lock()
+        
+        defer {
+            accountLock.unlock()
+        }
+        
+        let updatedProviderAccountIDs = updateObjectsWithResponse(type: Account.self, objectsResponse: accountsResponse, primaryKey: "accountID", filterPredicate: nil, managedObjectContext: managedObjectContext)
+        
+        linkingProviderAccountIDs = linkingProviderAccountIDs.union(updatedProviderAccountIDs)
         
         managedObjectContext.performAndWait {
             do {

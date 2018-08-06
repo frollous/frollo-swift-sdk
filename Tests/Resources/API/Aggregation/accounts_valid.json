@@ -54,7 +54,22 @@
 		"last_refreshed": "2018-08-02T01:40:26.000+00:00"
 	},
 	"apr": "18.99",
-	"interest_rate": "3.01"
+	"interest_rate": "3.01",
+	"balance_details": {
+      "current_description": "Below average",
+      "tiers": [
+        {
+          "description": "Below average",
+          "min": 0,
+          "max": 549
+        },
+        {
+          "description": "Above average",
+          "min": 550,
+          "max": 700
+        }
+      ]
+    }
 }, {
 	"id": 543,
 	"provider_account_id": 623,

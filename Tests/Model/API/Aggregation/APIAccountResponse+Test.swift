@@ -12,9 +12,7 @@ import Foundation
 extension APIAccountResponse {
     
     static func testCompleteDate() -> APIAccountResponse {
-        let balanceDetails = BalanceDetails(currentDescription: UUID().uuidString, tiers: [BalanceTier(description: UUID().uuidString, min: String(arc4random()), max: String(arc4random())),
-                                                                                           BalanceTier(description: UUID().uuidString, min: String(arc4random()), max: String(arc4random())),
-                                                                                           BalanceTier(description: UUID().uuidString, min: String(arc4random()), max: String(arc4random()))])
+        let balanceDetails = BalanceDetails(currentDescription: UUID().uuidString, tiers: [BalanceTier(description: UUID().uuidString, min: Int64(arc4random()), max: Int64(arc4random()))])
         
         let holderProfile = HolderProfile(name: "Jacob Frollo")
         

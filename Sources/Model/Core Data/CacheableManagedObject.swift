@@ -17,6 +17,6 @@ protocol CacheableManagedObject: class {
     var linkedID: Int64? { get }
     
     func linkObject(object: CacheableManagedObject)
-    func update(response: APIUniqueResponse)
+    func update(response: APIUniqueResponse, context: NSManagedObjectContext)
     
 }

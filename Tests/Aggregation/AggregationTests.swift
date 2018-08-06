@@ -262,4 +262,148 @@ class AggregationTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testRefreshAccountsIsCached() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            aggregation.refreshAccounts { (error) in
+                XCTAssertNil(error)
+                
+                let context = database.viewContext
+                
+                let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
+                
+                do {
+                    let fetchedAccounts = try context.fetch(fetchRequest)
+                    
+                    XCTAssertEqual(fetchedAccounts.count, 4)
+                } catch {
+                    XCTFail(error.localizedDescription)
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testRefreshAccountByIDIsCached() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.account(accountID: 542).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_id_542", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            aggregation.refreshAccount(accountID: 542) { (error) in
+                XCTAssertNil(error)
+                
+                let context = database.viewContext
+                
+                let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
+                fetchRequest.predicate = NSPredicate(format: "accountID == %ld", argumentArray: [542])
+                
+                do {
+                    let fetchedProviderAccounts = try context.fetch(fetchRequest)
+                    
+                    XCTAssertEqual(fetchedProviderAccounts.first?.accountID, 542)
+                } catch {
+                    XCTFail(error.localizedDescription)
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testAccountsLinkToProviderAccounts() {
+        let expectation1 = expectation(description: "Network Provider Account Request")
+        let expectation2 = expectation(description: "Network Account Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_accounts_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            aggregation.refreshProviderAccounts { (error) in
+                XCTAssertNil(error)
+                
+                aggregation.refreshAccounts(completion: { (error) in
+                    XCTAssertNil(error)
+                    
+                    let context = database.viewContext
+                    
+                    let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
+                    fetchRequest.predicate = NSPredicate(format: "accountID == %ld", argumentArray: [542])
+                    
+                    do {
+                        let fetchedAccounts = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedAccounts.count, 1)
+                        
+                        if let account = fetchedAccounts.first {
+                            XCTAssertNotNil(account.providerAccount)
+                            
+                            XCTAssertEqual(account.providerAccountID, account.providerAccount?.providerAccountID)
+                        }
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation2.fulfill()
+                })
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1, expectation2], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
 }

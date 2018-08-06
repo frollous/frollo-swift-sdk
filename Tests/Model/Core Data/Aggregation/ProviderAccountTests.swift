@@ -29,7 +29,7 @@ class ProviderAccountTests: XCTestCase {
         let providerAccountResponse = APIProviderAccountResponse.testCompleteDate()
         
         let providerAccount = ProviderAccount(context: managedObjectContext)
-        providerAccount.update(response: providerAccountResponse)
+        providerAccount.update(response: providerAccountResponse, context: managedObjectContext)
         
         XCTAssertEqual(providerAccount.providerAccountID, providerAccountResponse.id)
         XCTAssertEqual(providerAccount.providerID, providerAccountResponse.providerID)

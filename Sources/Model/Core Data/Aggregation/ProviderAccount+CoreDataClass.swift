@@ -61,18 +61,20 @@ public class ProviderAccount: NSManagedObject, CacheableManagedObject {
     }
     
     func linkObject(object: CacheableManagedObject) {
-        // Do nothing yet
+        if let account = object as? Account {
+            addToAccounts(account)
+        }
     }
     
     // MARK: - Update from response
     
-    internal func update(response: APIUniqueResponse) {
+    internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
         if let providerAccountResponse = response as? APIProviderAccountResponse {
-            update(response: providerAccountResponse)
+            update(response: providerAccountResponse, context: context)
         }
     }
     
-    internal func update(response: APIProviderAccountResponse) {
+    internal func update(response: APIProviderAccountResponse, context: NSManagedObjectContext) {
         providerAccountID = response.id
         providerID = response.providerID
         editable = response.editable

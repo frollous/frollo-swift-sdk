@@ -29,7 +29,7 @@ class ProviderTests: XCTestCase {
         let providerResponse = APIProviderResponse.testCompleteData()
         
         let provider = Provider(context: managedObjectContext)
-        provider.update(response: providerResponse)
+        provider.update(response: providerResponse, context: managedObjectContext)
         
         XCTAssertEqual(provider.providerID, providerResponse.id)
         XCTAssertEqual(provider.name, providerResponse.name)
@@ -68,7 +68,7 @@ class ProviderTests: XCTestCase {
         let providerResponse = APIProviderResponse.testIncompleteData()
         
         let provider = Provider(context: managedObjectContext)
-        provider.update(response: providerResponse)
+        provider.update(response: providerResponse, context: managedObjectContext)
         
         XCTAssertEqual(provider.providerID, providerResponse.id)
         XCTAssertEqual(provider.name, providerResponse.name)
@@ -108,10 +108,10 @@ class ProviderTests: XCTestCase {
         let detailedProviderResponse = APIProviderResponse.testCompleteData()
         
         let provider = Provider(context: managedObjectContext)
-        provider.update(response: detailedProviderResponse)
+        provider.update(response: detailedProviderResponse, context: managedObjectContext)
         
         let listProviderResponse = APIProviderResponse.testIncompleteData()
-        provider.update(response: listProviderResponse)
+        provider.update(response: listProviderResponse, context: managedObjectContext)
         
         XCTAssertEqual(provider.providerID, listProviderResponse.id)
         XCTAssertEqual(provider.name, listProviderResponse.name)

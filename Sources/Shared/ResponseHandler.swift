@@ -35,7 +35,7 @@ extension ResponseHandler {
                     object = T(context: managedObjectContext)
                 }
                 
-                object.update(response: objectResponse)
+                object.update(response: objectResponse, context: managedObjectContext)
             } catch {
                 Log.error(error.localizedDescription)
             }
@@ -83,7 +83,7 @@ extension ResponseHandler {
                         object = T(context: managedObjectContext)
                     }
                     
-                    object.update(response: objectResponse)
+                    object.update(response: objectResponse, context: managedObjectContext)
                     if let objectLinkedID = object.linkedID {
                         linkedIDs.insert(objectLinkedID)
                     }
@@ -117,7 +117,7 @@ extension ResponseHandler {
         return linkedIDs
     }
     
-    internal func linkObjectToParentObject<T: CacheableManagedObject & NSManagedObject, U: CacheableManagedObject & NSManagedObject>(type: T.Type, parentType: U.Type, managedObjectContext: NSManagedObjectContext, linkedIDs: Set<Int64>, linkedKey: String) -> Set<Int64> {
+    @discardableResult internal func linkObjectToParentObject<T: CacheableManagedObject & NSManagedObject, U: CacheableManagedObject & NSManagedObject>(type: T.Type, parentType: U.Type, managedObjectContext: NSManagedObjectContext, linkedIDs: Set<Int64>, linkedKey: String) -> Set<Int64> {
         var missingProviderIDs = Set<Int64>()
         
         managedObjectContext.performAndWait {

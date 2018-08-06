@@ -152,13 +152,13 @@ public class Provider: NSManagedObject, CacheableManagedObject {
         }
     }
     
-    internal func update(response: APIUniqueResponse) {
+    internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
         if let providerResponse = response as? APIProviderResponse {
-            update(response: providerResponse)
+            update(response: providerResponse, context: context)
         }
     }
     
-    internal func update(response: APIProviderResponse) {
+    internal func update(response: APIProviderResponse, context: NSManagedObjectContext) {
         providerID = response.id
         name = response.name
         popular = response.popular

@@ -74,8 +74,8 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
         }
         
         let description: String
-        let min: String
-        let max: String
+        let min: Int64
+        let max: Int64
     }
     
     struct HolderProfile: Codable {

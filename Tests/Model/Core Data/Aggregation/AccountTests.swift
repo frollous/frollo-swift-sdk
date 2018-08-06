@@ -29,7 +29,7 @@ class AccountTests: XCTestCase {
         let accountResponse = APIAccountResponse.testCompleteDate()
         
         let account = Account(context: managedObjectContext)
-        account.update(response: accountResponse)
+        account.update(response: accountResponse, context: managedObjectContext)
         
         XCTAssertEqual(account.accountID, accountResponse.id)
         XCTAssertEqual(account.providerAccountID, accountResponse.providerAccountID)
@@ -72,6 +72,15 @@ class AccountTests: XCTestCase {
         XCTAssertEqual(account.totalCashLimitCurrency, accountResponse.totalCashLimit?.currency)
         XCTAssertEqual(account.totalCreditLine, NSDecimalNumber(string: accountResponse.totalCreditLine?.amount))
         XCTAssertEqual(account.totalCreditLineCurrency, accountResponse.totalCreditLine?.currency)
+        XCTAssertNotNil(account.balanceTiers)
+        
+        if let accountBalanceTiers = account.balanceTiers as? Set<AccountBalanceTier> {
+            XCTAssertEqual(accountBalanceTiers.first?.name, accountResponse.balanceDetails?.tiers.first?.description)
+            XCTAssertEqual(accountBalanceTiers.first?.minimum, Decimal((accountResponse.balanceDetails?.tiers.first?.min)!) as NSDecimalNumber)
+            XCTAssertEqual(accountBalanceTiers.first?.maximum, Decimal((accountResponse.balanceDetails?.tiers.first?.max)!) as NSDecimalNumber)
+        } else {
+            XCTFail("No balance tiers found")
+        }
     }
     
 }

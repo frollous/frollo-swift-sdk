@@ -318,6 +318,9 @@ class AggregationRequestTests: XCTestCase {
                     XCTAssertEqual(firstAccount.favourite, true)
                     XCTAssertEqual(firstAccount.accountName, "Personal Account")
                     XCTAssertEqual(firstAccount.providerName, "ME Bank (demo)")
+                    XCTAssertEqual(firstAccount.balanceDetails?.tiers.first?.description, "Below average")
+                    XCTAssertEqual(firstAccount.balanceDetails?.tiers.first?.max, 549)
+                    XCTAssertEqual(firstAccount.balanceDetails?.tiers.first?.min, 0)
                 }
             } else {
                 XCTFail("No response object")

@@ -161,13 +161,13 @@ public class Account: NSManagedObject, CacheableManagedObject {
         // TODO: Implement account link
     }
     
-    func update(response: APIUniqueResponse) {
+    func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
         if let accountResponse = response as? APIAccountResponse {
-            update(response: accountResponse)
+            update(response: accountResponse, context: context)
         }
     }
     
-    func update(response: APIAccountResponse) {
+    func update(response: APIAccountResponse, context: NSManagedObjectContext) {
         accountID = response.id
         providerAccountID = response.providerAccountID
         providerName = response.providerName
@@ -268,6 +268,25 @@ public class Account: NSManagedObject, CacheableManagedObject {
             interestRate = NSDecimalNumber(string: updatedInterestRate)
         } else {
             interestRate = nil
+        }
+        
+        // Balance tiers
+        
+        if let tiers = balanceTiers as? Set<AccountBalanceTier> {
+            removeFromBalanceTiers(tiers as NSSet)
+            
+            for tier in tiers {
+                managedObjectContext?.delete(tier)
+            }
+        }
+        
+        if let tiers = response.balanceDetails?.tiers {
+            for tier in tiers {
+                let accountBalanceTier = AccountBalanceTier(context: context)
+                accountBalanceTier.update(response: tier)
+                
+                addToBalanceTiers(accountBalanceTier)
+            }
         }
     }
 
