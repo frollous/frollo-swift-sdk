@@ -28,6 +28,23 @@ class Aggregation: ResponseHandler {
     
     // MARK: - Cache
     
+    private func cachedAccount(accountID: Int64, background: Bool = false) -> Account? {
+        let managedObjectContext = background ? database.newBackgroundContext() : database.viewContext
+        
+        let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "accountID == %ld", argumentArray: [accountID])
+        
+        do {
+            let fetchedAccounts = try managedObjectContext.fetch(fetchRequest)
+            
+            return fetchedAccounts.first
+        } catch {
+            Log.error(error.localizedDescription)
+        }
+        
+        return nil
+    }
+    
     // MARK: - Updating Data
     
     /**
@@ -167,6 +184,41 @@ class Aggregation: ResponseHandler {
      */
     public func refreshAccount(accountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
         network.fetchAccount(accountID: accountID) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let accountResponse = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleAccountResponse(accountResponse, managedObjectContext: managedObjectContext)
+                    
+                    self.linkAccountsToProviderAccounts(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            completion?(error)
+        }
+    }
+    
+    /**
+     Update an account on the host
+     
+     - parameters:
+        - accountID: ID of the account to be updated
+        - completion: Optional completion handler with optional error if the request fails
+    */
+    public func update(accountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard let account = cachedAccount(accountID: accountID, background: true)
+            else {
+                let error = DataError(type: .database, subType: .notFound)
+                
+                completion?(error)
+                return
+        }
+        
+        let request = account.updateRequest()
+        
+        network.updateAccount(accountID: accountID, request: request) { (response, error) in
             if let responseError = error {
                 Log.error(responseError.localizedDescription)
             } else {

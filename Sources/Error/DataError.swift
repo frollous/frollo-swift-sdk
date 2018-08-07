@@ -26,6 +26,7 @@ class DataError: FrolloSDKError {
         case corrupt
         case diskFull
         case migrationFailed
+        case notFound
         
         case unknown
     }
@@ -81,6 +82,8 @@ class DataError: FrolloSDKError {
                         return Localization.string("Error.Data.Database.DiskFullError")
                     case .migrationFailed:
                         return Localization.string("Error.Data.Database.MigrationFailed")
+                    case .notFound:
+                        return Localization.string("Error.Data.Database.NotFound")
                     default:
                         return Localization.string("Error.Data.Database.UnknownError")
                 }

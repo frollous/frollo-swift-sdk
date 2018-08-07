@@ -93,6 +93,15 @@ class DataErrorTests: XCTestCase {
         XCTAssertGreaterThan(error.debugDescription.count, error.localizedDescription.count)
     }
     
+    func testDatabaseErrorNotFound() {
+        let error = DataError(type: .database, subType: .notFound)
+        XCTAssertEqual(error.type, .database)
+        XCTAssertEqual(error.subType, .notFound)
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.Data.Database.NotFound"))
+        XCTAssertTrue(error.debugDescription.contains(DataError.DataErrorType.database.rawValue))
+        XCTAssertGreaterThan(error.debugDescription.count, error.localizedDescription.count)
+    }
+    
     func testDatabaseErrorUnknown() {
         let error = DataError(type: .database, subType: .unknown)
         XCTAssertEqual(error.type, .database)

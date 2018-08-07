@@ -406,4 +406,55 @@ class AggregationTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testUpdatingAccount() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.account(accountID: 542).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_id_542", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            let account = Account(context: managedObjectContext)
+            account.populateTestData()
+            account.accountID = 542
+            
+            try? managedObjectContext.save()
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            aggregation.update(accountID: 542) { (error) in
+                XCTAssertNil(error)
+                
+                let context = database.viewContext
+                
+                let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
+                fetchRequest.predicate = NSPredicate(format: "accountID == %ld", argumentArray: [542])
+                
+                do {
+                    let fetchedProviderAccounts = try context.fetch(fetchRequest)
+                    
+                    XCTAssertEqual(fetchedProviderAccounts.first?.accountID, 542)
+                } catch {
+                    XCTFail(error.localizedDescription)
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
 }

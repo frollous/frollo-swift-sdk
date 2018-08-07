@@ -35,6 +35,7 @@
 "Error.Data.Database.Corrupted" = "The database on disk has been corrupted and has been reset.";
 "Error.Data.Database.DiskFullError" = "The device has run out of free space and the SDK can no longer function correctly.";
 "Error.Data.Database.MigrationFailed" = "The database migration failed and the database has been reset.";
+"Error.Data.Database.NotFound" = "The object requested was not found in the database.";
 "Error.Data.Database.UnknownError" = "Unknown error occurred with the database.";
 
 "Error.Generic.UnknownError" = "Unknown error occurred.";

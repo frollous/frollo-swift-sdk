@@ -12,16 +12,6 @@ import Alamofire
 
 extension Network {
     
-    internal func fetchProvider(providerID: Int64, completion: @escaping RequestCompletion<APIProviderResponse>) {
-        requestQueue.async {
-            let url = URL(string: AggregationEndpoint.provider(providerID: providerID).path, relativeTo: self.serverURL)!
-            
-            self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
-                self.handleResponse(type: APIProviderResponse.self, response: response, completion: completion)
-            }
-        }
-    }
-    
     internal func fetchProviders(completion: @escaping RequestCompletion<[APIProviderResponse]>) {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.providers.path, relativeTo: self.serverURL)!
@@ -32,12 +22,12 @@ extension Network {
         }
     }
     
-    internal func fetchProviderAccount(providerAccountID: Int64, completion: @escaping RequestCompletion<APIProviderAccountResponse>) {
+    internal func fetchProvider(providerID: Int64, completion: @escaping RequestCompletion<APIProviderResponse>) {
         requestQueue.async {
-            let url = URL(string: AggregationEndpoint.providerAccount(providerAccountID: providerAccountID).path, relativeTo: self.serverURL)!
+            let url = URL(string: AggregationEndpoint.provider(providerID: providerID).path, relativeTo: self.serverURL)!
             
             self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
-                self.handleResponse(type: APIProviderAccountResponse.self, response: response, completion: completion)
+                self.handleResponse(type: APIProviderResponse.self, response: response, completion: completion)
             }
         }
     }
@@ -52,12 +42,12 @@ extension Network {
         }
     }
     
-    internal func fetchAccount(accountID: Int64, completion: @escaping RequestCompletion<APIAccountResponse>) {
+    internal func fetchProviderAccount(providerAccountID: Int64, completion: @escaping RequestCompletion<APIProviderAccountResponse>) {
         requestQueue.async {
-            let url = URL(string: AggregationEndpoint.account(accountID: accountID).path, relativeTo: self.serverURL)!
+            let url = URL(string: AggregationEndpoint.providerAccount(providerAccountID: providerAccountID).path, relativeTo: self.serverURL)!
             
             self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
-                self.handleResponse(type: APIAccountResponse.self, response: response, completion: completion)
+                self.handleResponse(type: APIProviderAccountResponse.self, response: response, completion: completion)
             }
         }
     }
@@ -68,6 +58,52 @@ extension Network {
             
             self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
                 self.handleArrayResponse(type: APIAccountResponse.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func fetchAccount(accountID: Int64, completion: @escaping RequestCompletion<APIAccountResponse>) {
+        requestQueue.async {
+            let url = URL(string: AggregationEndpoint.account(accountID: accountID).path, relativeTo: self.serverURL)!
+            
+            self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.handleResponse(type: APIAccountResponse.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func updateAccount(accountID: Int64, request: APIAccountUpdateRequest, completion: @escaping RequestCompletion<APIAccountResponse>) {
+        requestQueue.async {
+            guard request.valid
+                else {
+                    let error = DataError(type: .api, subType: .invalidData)
+                    
+                    completion(nil, error)
+                    return
+            }
+            
+            let url = URL(string: AggregationEndpoint.account(accountID: accountID).path, relativeTo: self.serverURL)!
+            
+            var urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = HTTPMethod.put.rawValue
+            
+            let encoder = JSONEncoder()
+            
+            do {
+                let requestData = try encoder.encode(request)
+                
+                urlRequest.httpBody = requestData
+            } catch {
+                Log.error(error.localizedDescription)
+                
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(nil, dataError)
+                return
+            }
+            
+            self.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response: DataResponse<Data>) in
+                self.handleResponse(type: APIAccountResponse.self, response: response, completion: completion)
             }
         }
     }

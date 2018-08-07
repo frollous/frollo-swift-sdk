@@ -399,4 +399,61 @@ class AggregationRequestTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testUpdateAccountValid() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.account(accountID: 542).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_id_542", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        let request = APIAccountUpdateRequest.testUpdateDataValid()
+        network.updateAccount(accountID: 542, request: request) { (response, error) in
+            XCTAssertNil(error)
+            
+            if let accountResponse = response {
+                XCTAssertEqual(accountResponse.id, 542)
+                XCTAssertEqual(accountResponse.providerAccountID, 867)
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testUpdateAccountInvalid() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.account(accountID: 542).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_id_542", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        let request = APIAccountUpdateRequest.testUpdateDataInvalid()
+        network.updateAccount(accountID: 542, request: request) { (response, error) in
+            XCTAssertNotNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
 }
