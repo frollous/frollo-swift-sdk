@@ -18,6 +18,7 @@ enum AggregationEndpoint: Endpoint {
     
     case account(accountID: Int64)
     case accounts
+    case merchants
     case provider(providerID: Int64)
     case providers
     case providerAccount(providerAccountID: Int64)
@@ -30,6 +31,8 @@ enum AggregationEndpoint: Endpoint {
                 return "aggregation/accounts/" + String(accountID)
             case .accounts:
                 return "aggregation/accounts"
+            case .merchants:
+                return "aggregation/merchants"
             case .provider(let providerID):
                 return "aggregation/providers/" + String(providerID)
             case .providers:

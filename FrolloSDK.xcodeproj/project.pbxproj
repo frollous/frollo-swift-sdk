@@ -111,6 +111,12 @@
 		01483BC32119718700D0DA87 /* APIMerchantResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483BC22119718700D0DA87 /* APIMerchantResponse+Test.swift */; };
 		01483BC42119718700D0DA87 /* APIMerchantResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483BC22119718700D0DA87 /* APIMerchantResponse+Test.swift */; };
 		01483BC52119718700D0DA87 /* APIMerchantResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483BC22119718700D0DA87 /* APIMerchantResponse+Test.swift */; };
+		01483BC82119781C00D0DA87 /* merchants_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01483BC62119781A00D0DA87 /* merchants_invalid.json */; };
+		01483BC92119781C00D0DA87 /* merchants_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01483BC62119781A00D0DA87 /* merchants_invalid.json */; };
+		01483BCA2119781C00D0DA87 /* merchants_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01483BC62119781A00D0DA87 /* merchants_invalid.json */; };
+		01483BCB2119781C00D0DA87 /* merchants_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01483BC72119781C00D0DA87 /* merchants_valid.json */; };
+		01483BCC2119781C00D0DA87 /* merchants_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01483BC72119781C00D0DA87 /* merchants_valid.json */; };
+		01483BCD2119781C00D0DA87 /* merchants_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01483BC72119781C00D0DA87 /* merchants_valid.json */; };
 		01527CC920E1B5C300B5042A /* FrolloSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01527CBF20E1B5C300B5042A /* FrolloSDK.framework */; };
 		01527CCE20E1B5C300B5042A /* FrolloSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */; };
 		01527CD020E1B5C300B5042A /* FrolloSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 01527CC220E1B5C300B5042A /* FrolloSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -465,6 +471,8 @@
 		01483BBA2119706D00D0DA87 /* Merchant+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Merchant+Test.swift"; sourceTree = "<group>"; };
 		01483BBE211970D700D0DA87 /* MerchantTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantTests.swift; sourceTree = "<group>"; };
 		01483BC22119718700D0DA87 /* APIMerchantResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIMerchantResponse+Test.swift"; sourceTree = "<group>"; };
+		01483BC62119781A00D0DA87 /* merchants_invalid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = merchants_invalid.json; sourceTree = "<group>"; };
+		01483BC72119781C00D0DA87 /* merchants_valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = merchants_valid.json; sourceTree = "<group>"; };
 		01527CBF20E1B5C300B5042A /* FrolloSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FrolloSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		01527CC220E1B5C300B5042A /* FrolloSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrolloSDK.h; sourceTree = "<group>"; };
 		01527CC320E1B5C300B5042A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -818,6 +826,8 @@
 				01483B87211808DE00D0DA87 /* account_id_542.json */,
 				01483B85211808DC00D0DA87 /* accounts_invalid.json */,
 				01483B86211808DE00D0DA87 /* accounts_valid.json */,
+				01483BC62119781A00D0DA87 /* merchants_invalid.json */,
+				01483BC72119781C00D0DA87 /* merchants_valid.json */,
 				013A32BC21129B3100B0590B /* provider_account_id_123.json */,
 				013A32B22112994B00B0590B /* provider_accounts_invalid.json */,
 				013A32B02112994800B0590B /* provider_accounts_valid.json */,
@@ -1519,6 +1529,7 @@
 				01B896BC20F2EDA30068069A /* error_invalid_user_agent.json in Resources */,
 				01B896C120F2EDA30068069A /* error_duplicate.json in Resources */,
 				01B896C620F2EDA30068069A /* error_not_allowed.json in Resources */,
+				01483BCB2119781C00D0DA87 /* merchants_valid.json in Resources */,
 				01B896BE20F2EDA30068069A /* error_internal_exception.json in Resources */,
 				01874B6520F6C0C7005A7D0C /* frollo.cer in Resources */,
 				013A32BD21129B3200B0590B /* provider_account_id_123.json in Resources */,
@@ -1533,6 +1544,7 @@
 				01483B88211808DE00D0DA87 /* accounts_invalid.json in Resources */,
 				0101949820F5815800334482 /* FrolloSDKDataModel-1.0.0.sqlite in Resources */,
 				01B896B820F2EDA30068069A /* error_value_must_differ.json in Resources */,
+				01483BC82119781C00D0DA87 /* merchants_invalid.json in Resources */,
 				01B896C420F2EDA30068069A /* error_aggregator.json in Resources */,
 				01B896CA20F3106B0068069A /* error_unknown_code.json in Resources */,
 				01B896B620F2EDA30068069A /* error_invalid_auth_head.json in Resources */,
@@ -1570,6 +1582,7 @@
 				017B484A2101B4FE00447E65 /* error_invalid_user_agent.json in Resources */,
 				017B484B2101B4FE00447E65 /* error_duplicate.json in Resources */,
 				017B484D2101B4FE00447E65 /* error_not_allowed.json in Resources */,
+				01483BCC2119781C00D0DA87 /* merchants_valid.json in Resources */,
 				017B484E2101B4FE00447E65 /* error_internal_exception.json in Resources */,
 				017B484F2101B4FE00447E65 /* frollo.cer in Resources */,
 				013A32BE21129B3200B0590B /* provider_account_id_123.json in Resources */,
@@ -1584,6 +1597,7 @@
 				01483B89211808DE00D0DA87 /* accounts_invalid.json in Resources */,
 				017B48562101B4FE00447E65 /* FrolloSDKDataModel-1.0.0.sqlite in Resources */,
 				017B48572101B4FE00447E65 /* error_value_must_differ.json in Resources */,
+				01483BC92119781C00D0DA87 /* merchants_invalid.json in Resources */,
 				017B48582101B4FE00447E65 /* error_aggregator.json in Resources */,
 				017B48592101B4FE00447E65 /* error_unknown_code.json in Resources */,
 				017B485A2101B4FE00447E65 /* error_invalid_auth_head.json in Resources */,
@@ -1630,6 +1644,7 @@
 				017B48A72105958100447E65 /* error_invalid_user_agent.json in Resources */,
 				017B48A82105958100447E65 /* error_duplicate.json in Resources */,
 				017B48AA2105958100447E65 /* error_not_allowed.json in Resources */,
+				01483BCD2119781C00D0DA87 /* merchants_valid.json in Resources */,
 				017B48AB2105958100447E65 /* error_internal_exception.json in Resources */,
 				017B48AC2105958100447E65 /* frollo.cer in Resources */,
 				013A32BF21129B3200B0590B /* provider_account_id_123.json in Resources */,
@@ -1644,6 +1659,7 @@
 				01483B8A211808DE00D0DA87 /* accounts_invalid.json in Resources */,
 				017B48B32105958100447E65 /* FrolloSDKDataModel-1.0.0.sqlite in Resources */,
 				017B48B42105958100447E65 /* error_value_must_differ.json in Resources */,
+				01483BCA2119781C00D0DA87 /* merchants_invalid.json in Resources */,
 				017B48B52105958100447E65 /* error_aggregator.json in Resources */,
 				017B48B62105958100447E65 /* error_unknown_code.json in Resources */,
 				017B48B72105958100447E65 /* error_invalid_auth_head.json in Resources */,

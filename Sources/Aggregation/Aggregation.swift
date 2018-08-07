@@ -15,6 +15,7 @@ class Aggregation: ResponseHandler {
     private let network: Network
     
     private let accountLock = NSLock()
+    private let merchantLock = NSLock()
     private let providerLock = NSLock()
     private let providerAccountLock = NSLock()
     private let transactionCategoryLock = NSLock()
@@ -260,6 +261,30 @@ class Aggregation: ResponseHandler {
         }
     }
     
+    /**
+     Refresh all merchants from the host.
+     
+     - parameters:
+        - completion: Optional completion handler with optional error if the request fails
+    */
+    public func refreshMerchants(completion: FrolloSDKCompletionHandler? = nil) {
+        network.fetchMerchants { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let merchantsResponse = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleMerchantsResponse(merchantsResponse, managedObjectContext: managedObjectContext)
+                    
+                    self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            completion?(error)
+        }
+    }
+    
     // MARK: - Linking Objects
     
     private func linkProviderAccountsToProviders(managedObjectContext: NSManagedObjectContext) {
@@ -308,6 +333,10 @@ class Aggregation: ResponseHandler {
                 Log.error(error.localizedDescription)
             }
         }
+    }
+    
+    private func linkTransactionsToMerchants(managedObjectContext: NSManagedObjectContext) {
+        // TODO: Implement linking
     }
     
     private func linkTransactionsToTransactionCategories(managedObjectContext: NSManagedObjectContext) {
@@ -442,6 +471,24 @@ class Aggregation: ResponseHandler {
         }
         
         updateObjectsWithResponse(type: TransactionCategory.self, objectsResponse: transactionCategoriesResponse, primaryKey: "transactionCategoryID", filterPredicate: nil, managedObjectContext: managedObjectContext)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleMerchantsResponse(_ merchantsResponse: [APIMerchantResponse], managedObjectContext: NSManagedObjectContext) {
+        merchantLock.lock()
+        
+        defer {
+            merchantLock.unlock()
+        }
+        
+        updateObjectsWithResponse(type: Merchant.self, objectsResponse: merchantsResponse, primaryKey: "merchantID", filterPredicate: nil, managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
             do {

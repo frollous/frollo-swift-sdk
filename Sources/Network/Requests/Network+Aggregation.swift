@@ -12,6 +12,8 @@ import Alamofire
 
 extension Network {
     
+    // MARK: - Providers
+    
     internal func fetchProviders(completion: @escaping RequestCompletion<[APIProviderResponse]>) {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.providers.path, relativeTo: self.serverURL)!
@@ -32,6 +34,8 @@ extension Network {
         }
     }
     
+    // MARK: - Provider Accounts
+    
     internal func fetchProviderAccounts(completion: @escaping RequestCompletion<[APIProviderAccountResponse]>) {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.providerAccounts.path, relativeTo: self.serverURL)!
@@ -51,6 +55,8 @@ extension Network {
             }
         }
     }
+    
+    // MARK: - Accounts
     
     internal func fetchAccounts(completion: @escaping RequestCompletion<[APIAccountResponse]>) {
         requestQueue.async {
@@ -108,12 +114,26 @@ extension Network {
         }
     }
     
+    // MARK: - Transaction Categories
+    
     internal func fetchTransactionCategories(completion: @escaping RequestCompletion<[APITransactionCategoryResponse]>) {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.transactionCategories.path, relativeTo: self.serverURL)!
             
             self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
                 self.handleArrayResponse(type: APITransactionCategoryResponse.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    // MARK: - Merchants
+    
+    internal func fetchMerchants(completion: @escaping RequestCompletion<[APIMerchantResponse]>) {
+        requestQueue.async {
+            let url = URL(string: AggregationEndpoint.merchants.path, relativeTo: self.serverURL)!
+            
+            self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.handleArrayResponse(type: APIMerchantResponse.self, response: response, completion: completion)
             }
         }
     }

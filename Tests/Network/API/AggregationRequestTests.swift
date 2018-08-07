@@ -526,4 +526,74 @@ class AggregationRequestTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testFetchMerchants() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        network.fetchMerchants() { (response, error) in
+            XCTAssertNil(error)
+            
+            if let merchantsResponse = response {
+                XCTAssertEqual(merchantsResponse.count, 1200)
+                
+                if let firstMerchant = merchantsResponse.first {
+                    XCTAssertEqual(firstMerchant.id, 1)
+                    
+                }
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testFetchMerchantsSkipsInvalid() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_invalid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        network.fetchMerchants() { (response, error) in
+            XCTAssertNil(error)
+            
+            if let merchantsResponse = response {
+                XCTAssertEqual(merchantsResponse.count, 1196)
+                
+                if let firstMerchant = merchantsResponse.first {
+                    XCTAssertEqual(firstMerchant.id, 1)
+                    
+                }
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
 }
