@@ -17,6 +17,7 @@ class Aggregation: ResponseHandler {
     private let accountLock = NSLock()
     private let providerLock = NSLock()
     private let providerAccountLock = NSLock()
+    private let transactionCategoryLock = NSLock()
     
     private var linkingProviderIDs = Set<Int64>()
     private var linkingProviderAccountIDs = Set<Int64>()
@@ -207,7 +208,7 @@ class Aggregation: ResponseHandler {
         - accountID: ID of the account to be updated
         - completion: Optional completion handler with optional error if the request fails
     */
-    public func update(accountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+    public func updateAccount(accountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
         guard let account = cachedAccount(accountID: accountID, background: true)
             else {
                 let error = DataError(type: .database, subType: .notFound)
@@ -228,6 +229,30 @@ class Aggregation: ResponseHandler {
                     self.handleAccountResponse(accountResponse, managedObjectContext: managedObjectContext)
                     
                     self.linkAccountsToProviderAccounts(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            completion?(error)
+        }
+    }
+    
+    /**
+     Refresh all transaction categories from the host.
+     
+     - parameters:
+        - completion: Optional completion handler with optional error if the request fails
+    */
+    public func refreshTransactionCategories(completion: FrolloSDKCompletionHandler? = nil) {
+        network.fetchTransactionCategories { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let transactionCategoriesResponse = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleTransactionCategoriesResponse(transactionCategoriesResponse, managedObjectContext: managedObjectContext)
+                    
+                    self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
                 }
             }
             
@@ -283,6 +308,10 @@ class Aggregation: ResponseHandler {
                 Log.error(error.localizedDescription)
             }
         }
+    }
+    
+    private func linkTransactionsToTransactionCategories(managedObjectContext: NSManagedObjectContext) {
+        // TODO: Implement linking
     }
     
     // MARK: - Response Handling
@@ -395,6 +424,24 @@ class Aggregation: ResponseHandler {
         let updatedProviderAccountIDs = updateObjectsWithResponse(type: Account.self, objectsResponse: accountsResponse, primaryKey: "accountID", filterPredicate: nil, managedObjectContext: managedObjectContext)
         
         linkingProviderAccountIDs = linkingProviderAccountIDs.union(updatedProviderAccountIDs)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleTransactionCategoriesResponse(_ transactionCategoriesResponse: [APITransactionCategoryResponse], managedObjectContext: NSManagedObjectContext) {
+        transactionCategoryLock.lock()
+        
+        defer {
+            transactionCategoryLock.unlock()
+        }
+        
+        updateObjectsWithResponse(type: TransactionCategory.self, objectsResponse: transactionCategoriesResponse, primaryKey: "transactionCategoryID", filterPredicate: nil, managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
             do {

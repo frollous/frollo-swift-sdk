@@ -433,7 +433,7 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, network: network)
             
-            aggregation.update(accountID: 542) { (error) in
+            aggregation.updateAccount(accountID: 542) { (error) in
                 XCTAssertNil(error)
                 
                 let context = database.viewContext
@@ -445,6 +445,48 @@ class AggregationTests: XCTestCase {
                     let fetchedProviderAccounts = try context.fetch(fetchRequest)
                     
                     XCTAssertEqual(fetchedProviderAccounts.first?.accountID, 542)
+                } catch {
+                    XCTFail(error.localizedDescription)
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testRefreshTransactionCategoriesIsCached() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.transactionCategories.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_categories_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            aggregation.refreshTransactionCategories { (error) in
+                XCTAssertNil(error)
+                
+                let context = database.viewContext
+                
+                let fetchRequest: NSFetchRequest<TransactionCategory> = TransactionCategory.fetchRequest()
+                
+                do {
+                    let fetchedTransactionCategories = try context.fetch(fetchRequest)
+                    
+                    XCTAssertEqual(fetchedTransactionCategories.count, 43)
                 } catch {
                     XCTFail(error.localizedDescription)
                 }

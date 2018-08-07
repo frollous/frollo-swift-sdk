@@ -99,6 +99,7 @@
 		01483BB02119564600D0DA87 /* transaction_categories_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01483BAC2119564600D0DA87 /* transaction_categories_valid.json */; };
 		01483BB12119564600D0DA87 /* transaction_categories_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01483BAC2119564600D0DA87 /* transaction_categories_valid.json */; };
 		01483BB22119564600D0DA87 /* transaction_categories_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01483BAC2119564600D0DA87 /* transaction_categories_valid.json */; };
+		01483BB321195A8000D0DA87 /* AccountTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B7A2117E1FF00D0DA87 /* AccountTests.swift */; };
 		01527CC920E1B5C300B5042A /* FrolloSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01527CBF20E1B5C300B5042A /* FrolloSDK.framework */; };
 		01527CCE20E1B5C300B5042A /* FrolloSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */; };
 		01527CD020E1B5C300B5042A /* FrolloSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 01527CC220E1B5C300B5042A /* FrolloSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1927,6 +1928,7 @@
 				017B489B2105958100447E65 /* LogTests.swift in Sources */,
 				01483B802117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */,
 				016097EC210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
+				01483BB321195A8000D0DA87 /* AccountTests.swift in Sources */,
 				015EEE07211037CE0081AD76 /* Provider+Test.swift in Sources */,
 				01483B792117DC3800D0DA87 /* Account+Test.swift in Sources */,
 				017B489C2105958100447E65 /* KeychainTests.swift in Sources */,
