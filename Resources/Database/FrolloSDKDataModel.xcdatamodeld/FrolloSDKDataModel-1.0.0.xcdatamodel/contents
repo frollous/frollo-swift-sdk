@@ -44,12 +44,30 @@
         <attribute name="totalCreditLineCurrency" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="balanceTiers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AccountBalanceTier" inverseName="account" inverseEntity="AccountBalanceTier" syncable="YES"/>
         <relationship name="providerAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProviderAccount" inverseName="accounts" inverseEntity="ProviderAccount" syncable="YES"/>
+        <fetchIndex name="byAccountIDIndex">
+            <fetchIndexElement property="accountID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byProviderAccountIDIndex">
+            <fetchIndexElement property="providerAccountID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byAccountTypeIndex">
+            <fetchIndexElement property="accountTypeRawValue" type="Binary" order="ascending"/>
+        </fetchIndex>
     </entity>
     <entity name="AccountBalanceTier" representedClassName="AccountBalanceTier" syncable="YES" codeGenerationType="category">
         <attribute name="maximum" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="minimum" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="balanceTiers" inverseEntity="Account" syncable="YES"/>
+    </entity>
+    <entity name="Merchant" representedClassName="Merchant" syncable="YES" codeGenerationType="category">
+        <attribute name="merchantID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="merchantTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="smallLogoURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <fetchIndex name="byMerchantIDIndex">
+            <fetchIndexElement property="merchantID" type="Binary" order="ascending"/>
+        </fetchIndex>
     </entity>
     <entity name="Provider" representedClassName="Provider" syncable="YES" codeGenerationType="category">
         <attribute name="authTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
@@ -122,6 +140,9 @@
         <attribute name="placement" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="transactionCategoryID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="userDefined" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <fetchIndex name="byTransactionCategoryIndex">
+            <fetchIndexElement property="transactionCategoryID" type="Binary" order="ascending"/>
+        </fetchIndex>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="category">
         <attribute name="dateOfBirth" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -149,5 +170,6 @@
         <element name="Account" positionX="-54" positionY="144" width="128" height="690"/>
         <element name="AccountBalanceTier" positionX="-45" positionY="153" width="128" height="105"/>
         <element name="TransactionCategory" positionX="-36" positionY="162" width="128" height="150"/>
+        <element name="Merchant" positionX="-27" positionY="171" width="128" height="105"/>
     </elements>
 </model>

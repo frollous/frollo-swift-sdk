@@ -100,6 +100,17 @@
 		01483BB12119564600D0DA87 /* transaction_categories_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01483BAC2119564600D0DA87 /* transaction_categories_valid.json */; };
 		01483BB22119564600D0DA87 /* transaction_categories_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01483BAC2119564600D0DA87 /* transaction_categories_valid.json */; };
 		01483BB321195A8000D0DA87 /* AccountTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B7A2117E1FF00D0DA87 /* AccountTests.swift */; };
+		01483BB6211967A500D0DA87 /* Merchant+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483BB4211967A500D0DA87 /* Merchant+CoreDataClass.swift */; };
+		01483BB921196E2100D0DA87 /* APIMerchantResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483BB821196E2100D0DA87 /* APIMerchantResponse.swift */; };
+		01483BBB2119706D00D0DA87 /* Merchant+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483BBA2119706D00D0DA87 /* Merchant+Test.swift */; };
+		01483BBC2119706D00D0DA87 /* Merchant+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483BBA2119706D00D0DA87 /* Merchant+Test.swift */; };
+		01483BBD2119706D00D0DA87 /* Merchant+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483BBA2119706D00D0DA87 /* Merchant+Test.swift */; };
+		01483BBF211970D700D0DA87 /* MerchantTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483BBE211970D700D0DA87 /* MerchantTests.swift */; };
+		01483BC0211970D700D0DA87 /* MerchantTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483BBE211970D700D0DA87 /* MerchantTests.swift */; };
+		01483BC1211970D700D0DA87 /* MerchantTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483BBE211970D700D0DA87 /* MerchantTests.swift */; };
+		01483BC32119718700D0DA87 /* APIMerchantResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483BC22119718700D0DA87 /* APIMerchantResponse+Test.swift */; };
+		01483BC42119718700D0DA87 /* APIMerchantResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483BC22119718700D0DA87 /* APIMerchantResponse+Test.swift */; };
+		01483BC52119718700D0DA87 /* APIMerchantResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483BC22119718700D0DA87 /* APIMerchantResponse+Test.swift */; };
 		01527CC920E1B5C300B5042A /* FrolloSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01527CBF20E1B5C300B5042A /* FrolloSDK.framework */; };
 		01527CCE20E1B5C300B5042A /* FrolloSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */; };
 		01527CD020E1B5C300B5042A /* FrolloSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 01527CC220E1B5C300B5042A /* FrolloSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -449,6 +460,11 @@
 		01483BA721194AEC00D0DA87 /* TransactionCategoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCategoryTests.swift; sourceTree = "<group>"; };
 		01483BAB2119564500D0DA87 /* transaction_categories_invalid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_categories_invalid.json; sourceTree = "<group>"; };
 		01483BAC2119564600D0DA87 /* transaction_categories_valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_categories_valid.json; sourceTree = "<group>"; };
+		01483BB4211967A500D0DA87 /* Merchant+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Merchant+CoreDataClass.swift"; sourceTree = "<group>"; };
+		01483BB821196E2100D0DA87 /* APIMerchantResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIMerchantResponse.swift; sourceTree = "<group>"; };
+		01483BBA2119706D00D0DA87 /* Merchant+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Merchant+Test.swift"; sourceTree = "<group>"; };
+		01483BBE211970D700D0DA87 /* MerchantTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantTests.swift; sourceTree = "<group>"; };
+		01483BC22119718700D0DA87 /* APIMerchantResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIMerchantResponse+Test.swift"; sourceTree = "<group>"; };
 		01527CBF20E1B5C300B5042A /* FrolloSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FrolloSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		01527CC220E1B5C300B5042A /* FrolloSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrolloSDK.h; sourceTree = "<group>"; };
 		01527CC320E1B5C300B5042A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -818,9 +834,10 @@
 			isa = PBXGroup;
 			children = (
 				01483B722117D80100D0DA87 /* APIAccountResponse+Test.swift */,
+				01483B93211913F200D0DA87 /* APIAccountUpdateRequest+Test.swift */,
+				01483BC22119718700D0DA87 /* APIMerchantResponse+Test.swift */,
 				013A32C22112BBDE00B0590B /* APIProviderAccountResponse+Test.swift */,
 				015EEDE1210FDA760081AD76 /* APIProviderResponse+Test.swift */,
-				01483B93211913F200D0DA87 /* APIAccountUpdateRequest+Test.swift */,
 				01483B9F2119318D00D0DA87 /* APITransactionCategoryResponse+Test.swift */,
 			);
 			path = Aggregation;
@@ -842,12 +859,14 @@
 				01483B7A2117E1FF00D0DA87 /* AccountTests.swift */,
 				01483B7D2117F51600D0DA87 /* AccountBalanceTier+Test.swift */,
 				01483B812117F65500D0DA87 /* AccountBalanceTierTests.swift */,
+				01483BBA2119706D00D0DA87 /* Merchant+Test.swift */,
 				015EEE04211037CE0081AD76 /* Provider+Test.swift */,
 				013A32CE2112C3A900B0590B /* ProviderAccount+Test.swift */,
 				013A32CA2112BE6600B0590B /* ProviderAccountTests.swift */,
 				015EEDFC211018420081AD76 /* ProviderTests.swift */,
 				01483BA32119321A00D0DA87 /* TransactionCategory+Test.swift */,
 				01483BA721194AEC00D0DA87 /* TransactionCategoryTests.swift */,
+				01483BBE211970D700D0DA87 /* MerchantTests.swift */,
 			);
 			path = Aggregation;
 			sourceTree = "<group>";
@@ -894,10 +913,11 @@
 		016097F1210EE26C0034E857 /* Aggregation */ = {
 			isa = PBXGroup;
 			children = (
-				016097F4210EE2BA0034E857 /* APIProviderResponse.swift */,
-				013A32AC2112799500B0590B /* APIProviderAccountResponse.swift */,
 				01483B702117C7E900D0DA87 /* APIAccountResponse.swift */,
 				01483B9121190E1700D0DA87 /* APIAccountUpdateRequest.swift */,
+				01483BB821196E2100D0DA87 /* APIMerchantResponse.swift */,
+				013A32AC2112799500B0590B /* APIProviderAccountResponse.swift */,
+				016097F4210EE2BA0034E857 /* APIProviderResponse.swift */,
 				01483B9B21192D4A00D0DA87 /* APITransactionCategoryResponse.swift */,
 			);
 			path = Aggregation;
@@ -918,6 +938,7 @@
 				01483B6A2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift */,
 				013A32AE21127A3600B0590B /* AccountRefreshStatus.swift */,
 				01483B9D21192F1600D0DA87 /* BudgetCategory.swift */,
+				01483BB4211967A500D0DA87 /* Merchant+CoreDataClass.swift */,
 				016097F6210EE3300034E857 /* Provider+CoreDataClass.swift */,
 				013A32A8211273A300B0590B /* ProviderAccount+CoreDataClass.swift */,
 				01483B9721192C3900D0DA87 /* TransactionCategory+CoreDataClass.swift */,
@@ -1733,6 +1754,7 @@
 				01C824FD20EDD6630093400E /* FrolloSDKError.swift in Sources */,
 				01527CD920E1C5A600B5042A /* FrolloSDK.swift in Sources */,
 				013A32AF21127A3600B0590B /* AccountRefreshStatus.swift in Sources */,
+				01483BB6211967A500D0DA87 /* Merchant+CoreDataClass.swift in Sources */,
 				01874B7420F81EA8005A7D0C /* UserEndpoint.swift in Sources */,
 				017B48DB2106E1C100447E65 /* User+CoreDataClass.swift in Sources */,
 				016097F5210EE2BB0034E857 /* APIProviderResponse.swift in Sources */,
@@ -1741,6 +1763,7 @@
 				017B487021054F0B00447E65 /* PreferencesPersistence.swift in Sources */,
 				013A32AA211273A300B0590B /* ProviderAccount+CoreDataClass.swift in Sources */,
 				01C824EE20EC40FD0093400E /* ConsoleLogger.swift in Sources */,
+				01483BB921196E2100D0DA87 /* APIMerchantResponse.swift in Sources */,
 				01483B712117C7E900D0DA87 /* APIAccountResponse.swift in Sources */,
 				017B48E02107FE6A00447E65 /* APIUserResponse.swift in Sources */,
 				01874B7F20FD9F21005A7D0C /* Network+Device.swift in Sources */,
@@ -1791,6 +1814,7 @@
 				01EEDB1B20EAE2CE00F4516B /* DatabaseTests.swift in Sources */,
 				017B48D62106D4A000447E65 /* UserTests.swift in Sources */,
 				01483B7B2117E1FF00D0DA87 /* AccountTests.swift in Sources */,
+				01483BBF211970D700D0DA87 /* MerchantTests.swift in Sources */,
 				013A32C32112BBDE00B0590B /* APIProviderAccountResponse+Test.swift in Sources */,
 				01483B94211913F200D0DA87 /* APIAccountUpdateRequest+Test.swift in Sources */,
 				01483B7E2117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */,
@@ -1813,6 +1837,7 @@
 				017B486D2105433B00447E65 /* PreferencesTests.swift in Sources */,
 				01874B7B20F834D1005A7D0C /* UserRequestTests.swift in Sources */,
 				0160953E20F47FE10060791B /* TestInvalidDataModel.xcdatamodeld in Sources */,
+				01483BBB2119706D00D0DA87 /* Merchant+Test.swift in Sources */,
 				017B487221055FBA00447E65 /* PreferencesPersistenceTests.swift in Sources */,
 				015EEDE2210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */,
 				01C824F720EC7AC30093400E /* FileLoggerTests.swift in Sources */,
@@ -1821,6 +1846,7 @@
 				015EEE05211037CE0081AD76 /* Provider+Test.swift in Sources */,
 				01483B772117DC3800D0DA87 /* Account+Test.swift in Sources */,
 				0136D229210067DF0062EAEA /* KeychainTests.swift in Sources */,
+				01483BC32119718700D0DA87 /* APIMerchantResponse+Test.swift in Sources */,
 				017B48F721083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				013A32CF2112C3A900B0590B /* ProviderAccount+Test.swift in Sources */,
 				017B48F12108356C00447E65 /* User+Test.swift in Sources */,
@@ -1842,6 +1868,7 @@
 				017B48332101B4FE00447E65 /* DatabaseTests.swift in Sources */,
 				017B48D72106D4A000447E65 /* UserTests.swift in Sources */,
 				01483B7C2117E1FF00D0DA87 /* AccountTests.swift in Sources */,
+				01483BC0211970D700D0DA87 /* MerchantTests.swift in Sources */,
 				013A32C42112BBDE00B0590B /* APIProviderAccountResponse+Test.swift in Sources */,
 				01483B95211913F200D0DA87 /* APIAccountUpdateRequest+Test.swift in Sources */,
 				01483B7F2117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */,
@@ -1864,6 +1891,7 @@
 				017B486E2105433B00447E65 /* PreferencesTests.swift in Sources */,
 				017B483B2101B4FE00447E65 /* UserRequestTests.swift in Sources */,
 				017B483C2101B4FE00447E65 /* TestInvalidDataModel.xcdatamodeld in Sources */,
+				01483BBC2119706D00D0DA87 /* Merchant+Test.swift in Sources */,
 				017B487321055FBA00447E65 /* PreferencesPersistenceTests.swift in Sources */,
 				015EEDE3210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */,
 				017B483D2101B4FE00447E65 /* FileLoggerTests.swift in Sources */,
@@ -1872,6 +1900,7 @@
 				015EEE06211037CE0081AD76 /* Provider+Test.swift in Sources */,
 				01483B782117DC3800D0DA87 /* Account+Test.swift in Sources */,
 				017B483F2101B4FE00447E65 /* KeychainTests.swift in Sources */,
+				01483BC42119718700D0DA87 /* APIMerchantResponse+Test.swift in Sources */,
 				017B48F821083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				013A32D02112C3A900B0590B /* ProviderAccount+Test.swift in Sources */,
 				017B48F22108356C00447E65 /* User+Test.swift in Sources */,
@@ -1902,6 +1931,7 @@
 				017B48D82106D4A000447E65 /* UserTests.swift in Sources */,
 				013A32C52112BBDE00B0590B /* APIProviderAccountResponse+Test.swift in Sources */,
 				017B488F2105958100447E65 /* NetworkAuthenticatorTests.swift in Sources */,
+				01483BC1211970D700D0DA87 /* MerchantTests.swift in Sources */,
 				01483BA22119318D00D0DA87 /* APITransactionCategoryResponse+Test.swift in Sources */,
 				017B48902105958100447E65 /* VersionTests.swift in Sources */,
 				015EEDFF211018420081AD76 /* ProviderTests.swift in Sources */,
@@ -1924,6 +1954,7 @@
 				017B48982105958100447E65 /* TestInvalidDataModel.xcdatamodeld in Sources */,
 				017B48992105958100447E65 /* PreferencesPersistenceTests.swift in Sources */,
 				015EEDE4210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */,
+				01483BBD2119706D00D0DA87 /* Merchant+Test.swift in Sources */,
 				017B489A2105958100447E65 /* FileLoggerTests.swift in Sources */,
 				017B489B2105958100447E65 /* LogTests.swift in Sources */,
 				01483B802117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */,
@@ -1932,6 +1963,7 @@
 				015EEE07211037CE0081AD76 /* Provider+Test.swift in Sources */,
 				01483B792117DC3800D0DA87 /* Account+Test.swift in Sources */,
 				017B489C2105958100447E65 /* KeychainTests.swift in Sources */,
+				01483BC52119718700D0DA87 /* APIMerchantResponse+Test.swift in Sources */,
 				017B48F921083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				013A32D12112C3A900B0590B /* ProviderAccount+Test.swift in Sources */,
 				01483BA62119321A00D0DA87 /* TransactionCategory+Test.swift in Sources */,
