@@ -26,7 +26,7 @@ class AccountTests: XCTestCase {
         
         let managedObjectContext = database.newBackgroundContext()
         
-        let accountResponse = APIAccountResponse.testCompleteDate()
+        let accountResponse = APIAccountResponse.testCompleteData()
         
         let account = Account(context: managedObjectContext)
         account.update(response: accountResponse, context: managedObjectContext)

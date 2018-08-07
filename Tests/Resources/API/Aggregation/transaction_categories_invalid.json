@@ -1,0 +1,677 @@
+[{
+	"id": 60,
+	"user_defined": false,
+	"name": "Uncategorised",
+	"high_level_name": "Uncategorized",
+	"category_type": "uncategorize",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/60/icon/app/1519087123.png?1519087123",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 1,
+		"name": "Uncategorized",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 61,
+	"user_defined": false,
+	"name": "Automotive/Fuel",
+	"high_level_name": "Automotive Expenses",
+	"category_type": "expense",
+	"default_budget_category": "living",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/61/icon/app/1519086051.png?1519086051",
+	"icon_revision": 2,
+	"placement": 3,
+	"group": {
+		"id": 2,
+		"name": "Automotive Expenses",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 62,
+	"user_defined": false,
+	"name": "Charitable Giving",
+	"high_level_name": "Giving",
+	"category_type": "expense",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/62/icon/app/1519085161.png?1519085161",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 3,
+		"name": "Giving",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 63,
+	"user_defined": false,
+	"name": "Education",
+	"high_level_name": "Personal/Family Expenses",
+	"category_type": "expense",
+	"default_budget_category": "living",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/63/icon/app/1519086530.png?1519086530",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 4,
+		"name": "Personal/Family Expenses",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 64,
+	"user_defined": false,
+	"name": "Entertainment/Recreation",
+	"high_level_name": "Travel/Entertainment",
+	"category_type": "expense",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/64/icon/app/1519086168.png?1519086168",
+	"icon_revision": 2,
+	"placement": 5,
+	"group": {
+		"id": 5,
+		"name": "Travel/Entertainment",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 65,
+	"user_defined": false,
+	"name": "Gifts",
+	"high_level_name": "Giving",
+	"category_type": "expense",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/65/icon/app/1519086325.png?1519086325",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 3,
+		"name": "Giving",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 66,
+	"user_defined": false,
+	"name": "Groceries",
+	"high_level_name": "Home/Utilities",
+	"category_type": "expense",
+	"default_budget_category": "living",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/66/icon/app/1519086144.png?1519086144",
+	"icon_revision": 2,
+	"placement": 8,
+	"group": {
+		"id": 6,
+		"name": "Home/Utilities",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 67,
+	"user_defined": false,
+	"name": "Healthcare/Medical",
+	"high_level_name": "Healthcare",
+	"category_type": "expense",
+	"default_budget_category": "living",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/67/icon/app/1519086378.png?1519086378",
+	"icon_revision": 3,
+	"placement": 0,
+	"group": {
+		"id": 7,
+		"name": "Healthcare",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 68,
+	"user_defined": false,
+	"name": "Home Improvement",
+	"high_level_name": "Home/Utilities",
+	"category_type": "expense",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/68/icon/app/1519086694.png?1519086694",
+	"icon_revision": 3,
+	"placement": 0,
+	"group": {
+		"id": 6,
+		"name": "Home/Utilities",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 69,
+	"user_defined": false,
+	"name": "Insurance",
+	"high_level_name": "Insurance",
+	"category_type": "expense",
+	"default_budget_category": "living",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/69/icon/app/1519086280.png?1519086280",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 8,
+		"name": "Insurance",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 70,
+	"user_defined": false,
+	"name": "Cable/Satellite/Telecom",
+	"high_level_name": "Home/Utilities",
+	"category_type": "expense",
+	"default_budget_category": "living",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/70/icon/app/1519086509.png?1519086509",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 6,
+		"name": "Home/Utilities",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 71,
+	"user_defined": false,
+	"name": "Services/Supplies",
+	"high_level_name": "Office Expenses",
+	"category_type": "expense",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/71/icon/app/1519087147.png?1519087147",
+	"icon_revision": 2,
+	"placement": 4,
+	"group": {
+		"id": 9,
+		"name": "Office Expenses",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 72,
+	"user_defined": false,
+	"name": "Loans",
+	"high_level_name": "Home/Utilities",
+	"category_type": "expense",
+	"default_budget_category": "living",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/72/icon/app/1519086817.png?1519086817",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 6,
+		"name": "Home/Utilities",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 73,
+	"user_defined": false,
+	"name": "Mortgage",
+	"high_level_name": "Home/Utilities",
+	"category_type": "expense",
+	"default_budget_category": "living",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/73/icon/app/1519086494.png?1519086494",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 6,
+		"name": "Home/Utilities",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 74,
+	"user_defined": false,
+	"name": "Other Expenses",
+	"high_level_name": "Miscellaneous Expenses",
+	"category_type": "expense",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/74/icon/app/1519086264.png?1519086264",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 10,
+		"name": "Miscellaneous Expenses",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 75,
+	"user_defined": false,
+	"name": "Personal/Family",
+	"high_level_name": "Personal/Family Expenses",
+	"category_type": "expense",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/75/icon/app/1519086462.png?1519086462",
+	"icon_revision": 2,
+	"placement": 2,
+	"group": {
+		"id": 4,
+		"name": "Personal/Family Expenses",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 76,
+	"user_defined": false,
+	"name": "Rent",
+	"high_level_name": "Home/Utilities",
+	"category_type": "expense",
+	"default_budget_category": "living",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/76/icon/app/1519086860.png?1519086860",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 6,
+		"name": "Home/Utilities",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 77,
+	"user_defined": false,
+	"name": "Restaurants",
+	"high_level_name": "Travel/Entertainment",
+	"category_type": "expense",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/77/icon/app/1519086303.png?1519086303",
+	"icon_revision": 2,
+	"placement": 7,
+	"group": {
+		"id": 5,
+		"name": "Travel/Entertainment",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 78,
+	"user_defined": false,
+	"name": "Travel",
+	"high_level_name": "Travel/Entertainment",
+	"category_type": "expense",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/78/icon/app/1519086105.png?1519086105",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 5,
+		"name": "Travel/Entertainment",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 79,
+	"user_defined": false,
+	"name": "Service Charges/Fees",
+	"high_level_name": "Miscellaneous Expenses",
+	"category_type": "expense",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/79/icon/app/1519085579.png?1519085579",
+	"icon_revision": 2,
+	"placement": 6,
+	"group": {
+		"id": 10,
+		"name": "Miscellaneous Expenses",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 80,
+	"user_defined": false,
+	"name": "ATM/Cash Withdrawals",
+	"high_level_name": "Personal/Family Expenses",
+	"category_type": "expense",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/80/icon/app/1519084974.png?1519084974",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 4,
+		"name": "Personal/Family Expenses",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 81,
+	"user_defined": false,
+	"name": "Credit Card Payments",
+	"high_level_name": "Credit Card Payment",
+	"category_type": "transfer",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/81/icon/app/1519086080.png?1519086080",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 11,
+		"name": "Credit Card Payment",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 82,
+	"user_defined": false,
+	"name": "Deposits",
+	"high_level_name": "Income",
+	"category_type": "income",
+	"default_budget_category": "income",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/82/icon/app/1519084942.png?1519084942",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 12,
+		"name": "Income",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 83,
+	"user_defined": false,
+	"name": "Transfers",
+	"high_level_name": "Transfers",
+	"category_type": "transfer",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/83/icon/app/1519086243.png?1519086243",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 13,
+		"name": "Transfers",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 84,
+	"user_defined": false,
+	"name": "Salary/Regular Income",
+	"high_level_name": "Income",
+	"category_type": "income",
+	"default_budget_category": "income",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/84/icon/app/1519085292.png?1519085292",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 12,
+		"name": "Income",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 85,
+	"user_defined": false,
+	"name": "Investment/Retirement Income",
+	"high_level_name": "Income",
+	"category_type": "income",
+	"default_budget_category": "income",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/85/icon/app/1519086183.png?1519086183",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 12,
+		"name": "Income",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 86,
+	"user_defined": false,
+	"name": "Other Income",
+	"high_level_name": "Income",
+	"category_type": "income",
+	"default_budget_category": "income",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/86/icon/app/1519086779.png?1519086779",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 12,
+		"name": "Income",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 87,
+	"user_defined": false,
+	"name": "Cheques",
+	"high_level_name": "Miscellaneous Expenses",
+	"category_type": "expense",
+	"default_budget_category": "living",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/87/icon/app/1519085370.png?1519085370",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 10,
+		"name": "Miscellaneous Expenses",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 88,
+	"user_defined": false,
+	"name": "Securities Trades",
+	"high_level_name": "Transfers",
+	"category_type": "transfer",
+	"default_budget_category": "goals",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/88/icon/app/1519086129.png?1519086129",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 13,
+		"name": "Transfers",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 89,
+	"user_defined": false,
+	"name": "Taxes",
+	"high_level_name": "Taxes",
+	"category_type": "expense",
+	"default_budget_category": "living",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/89/icon/app/1519087264.png?1519087264",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 14,
+		"name": "Taxes",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 90,
+	"user_defined": false,
+	"name": "Utilities",
+	"high_level_name": "Home/Utilities",
+	"category_type": "expense",
+	"default_budget_category": "living",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/90/icon/app/1519086583.png?1519086583",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 6,
+		"name": "Home/Utilities",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 91,
+	"user_defined": false,
+	"name": "Savings",
+	"high_level_name": "Transfers",
+	"category_type": "transfer",
+	"default_budget_category": "goals",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/91/icon/app/1519085067.png?1519085067",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 13,
+		"name": "Transfers",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 92,
+	"user_defined": false,
+	"name": "Retirement Contributions",
+	"high_level_name": "Retirement",
+	"category_type": "deferred_compensation",
+	"default_budget_category": "goals",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/92/icon/app/1519085226.png?1519085226",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 15,
+		"name": "Retirement",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 93,
+	"user_defined": false,
+	"name": "Pets/Pet Care",
+	"high_level_name": "Home/Utilities",
+	"category_type": "expense",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/93/icon/app/1519086559.png?1519086559",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 6,
+		"name": "Home/Utilities",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 94,
+	"user_defined": false,
+	"name": "Electronics/General Merchandise",
+	"high_level_name": "Home/Utilities",
+	"category_type": "expense",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/94/icon/app/1519086544.png?1519086544",
+	"icon_revision": 2,
+	"placement": 1,
+	"group": {
+		"id": 6,
+		"name": "Home/Utilities",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 95,
+	"user_defined": false,
+	"name": "Office Expenses",
+	"high_level_name": "Office Expenses",
+	"category_type": "expense",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/95/icon/app/1519082843.png?1519082843",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 9,
+		"name": "Office Expenses",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 96,
+	"user_defined": false,
+	"name": "Sales/Services Income",
+	"high_level_name": "Income",
+	"category_type": "income",
+	"default_budget_category": "income",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/96/icon/app/1519086216.png?1519086216",
+	"icon_revision": 2,
+	"placement": 0
+}, {
+	"id": 97,
+	"user_defined": false,
+	"name": "Interest Income",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 12,
+		"name": "Income",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 98,
+	"user_defined": false,
+	"name": "Postage/Shipping",
+	"high_level_name": "Office Expenses",
+	"category_type": "expense",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/98/icon/app/1519086214.png?1519086214",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 9,
+		"name": "Office Expenses",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 99,
+	"user_defined": false,
+	"name": "Subscriptions/Renewals",
+	"high_level_name": "Personal/Family Expenses",
+	"category_type": "expense",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/99/icon/app/1519086331.png?1519086331",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 4,
+		"name": "Personal/Family Expenses",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"user_defined": false,
+	"name": "Expense Reimbursement",
+	"high_level_name": "Refunds/Reimbursements",
+	"category_type": "income",
+	"default_budget_category": "lifestyle",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/100/icon/app/1519086524.png?1519086524",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 16,
+		"name": "Refunds/Reimbursements",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 101,
+	"user_defined": false,
+	"name": "Rewards",
+	"high_level_name": "Income",
+	"category_type": "income",
+	"default_budget_category": "income",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/101/icon/app/1519087096.png?1519087096",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 12,
+		"name": "Income",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}, {
+	"id": 102,
+	"user_defined": false,
+	"name": "Refunds/Adjustments",
+	"high_level_name": "Refunds/Reimbursements",
+	"category_type": "income",
+	"default_budget_category": "income",
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/categories/102/icon/app/1519087225.png?1519087225",
+	"icon_revision": 2,
+	"placement": 0,
+	"group": {
+		"id": 16,
+		"name": "Refunds/Reimbursements",
+		"icon_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/category_groups/default/icon/app/logo.png",
+		"icon_revision": 0
+	}
+}]

@@ -114,6 +114,15 @@
             <fetchIndexElement property="providerID" type="Binary" order="ascending"/>
         </fetchIndex>
     </entity>
+    <entity name="TransactionCategory" representedClassName="TransactionCategory" syncable="YES" codeGenerationType="category">
+        <attribute name="categoryTypeRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="defaultBudgetCategoryRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="iconURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="placement" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="transactionCategoryID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="userDefined" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="category">
         <attribute name="dateOfBirth" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="email" attributeType="String" syncable="YES"/>
@@ -139,5 +148,6 @@
         <element name="User" positionX="-63" positionY="-9" width="128" height="300"/>
         <element name="Account" positionX="-54" positionY="144" width="128" height="690"/>
         <element name="AccountBalanceTier" positionX="-45" positionY="153" width="128" height="105"/>
+        <element name="TransactionCategory" positionX="-36" positionY="162" width="128" height="150"/>
     </elements>
 </model>

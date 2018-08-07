@@ -108,4 +108,14 @@ extension Network {
         }
     }
     
+    internal func fetchTransactionCategories(completion: @escaping RequestCompletion<[APITransactionCategoryResponse]>) {
+        requestQueue.async {
+            let url = URL(string: AggregationEndpoint.transactionCategories.path, relativeTo: self.serverURL)!
+            
+            self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.handleArrayResponse(type: APITransactionCategoryResponse.self, response: response, completion: completion)
+            }
+        }
+    }
+    
 }

@@ -22,6 +22,7 @@ enum AggregationEndpoint: Endpoint {
     case providers
     case providerAccount(providerAccountID: Int64)
     case providerAccounts
+    case transactionCategories
     
     private func urlPath() -> String {
         switch self {
@@ -37,6 +38,8 @@ enum AggregationEndpoint: Endpoint {
                 return "aggregation/provideraccounts/" + String(providerAccountID)
             case .providerAccounts:
                 return "aggregation/provideraccounts"
+            case .transactionCategories:
+                return "transactions/categories"
         }
     }
     
