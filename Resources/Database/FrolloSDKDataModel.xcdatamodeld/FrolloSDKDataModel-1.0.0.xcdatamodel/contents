@@ -132,6 +132,40 @@
             <fetchIndexElement property="providerID" type="Binary" order="ascending"/>
         </fetchIndex>
     </entity>
+    <entity name="Transaction" representedClassName="Transaction" syncable="YES" codeGenerationType="category">
+        <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="amount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="baseTypeRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="budgetCategoryRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="currency" attributeType="String" syncable="YES"/>
+        <attribute name="included" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="memo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="merchantID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="merchantName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="originalDescription" attributeType="String" syncable="YES"/>
+        <attribute name="postDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="simpleDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="statusRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="transactionCategoryID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="transactionDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="transactionID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="userDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <fetchIndex name="byAccountIDIndex">
+            <fetchIndexElement property="accountID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byTransactionCategoryIDIndex">
+            <fetchIndexElement property="transactionCategoryID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byMerchantIDIndex">
+            <fetchIndexElement property="merchantID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byBudgetCategoryIndex">
+            <fetchIndexElement property="budgetCategoryRawValue" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byTransactionIDIndex">
+            <fetchIndexElement property="transactionID" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
     <entity name="TransactionCategory" representedClassName="TransactionCategory" syncable="YES" codeGenerationType="category">
         <attribute name="categoryTypeRawValue" attributeType="String" syncable="YES"/>
         <attribute name="defaultBudgetCategoryRawValue" attributeType="String" syncable="YES"/>
@@ -164,12 +198,13 @@
         <attribute name="validPassword" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Provider" positionX="-63" positionY="117" width="128" height="480"/>
-        <element name="ProviderAccount" positionX="-63" positionY="117" width="128" height="210"/>
-        <element name="User" positionX="-63" positionY="-9" width="128" height="300"/>
         <element name="Account" positionX="-54" positionY="144" width="128" height="690"/>
         <element name="AccountBalanceTier" positionX="-45" positionY="153" width="128" height="105"/>
-        <element name="TransactionCategory" positionX="-36" positionY="162" width="128" height="150"/>
         <element name="Merchant" positionX="-27" positionY="171" width="128" height="105"/>
+        <element name="Provider" positionX="-63" positionY="117" width="128" height="480"/>
+        <element name="ProviderAccount" positionX="-63" positionY="117" width="128" height="210"/>
+        <element name="Transaction" positionX="-18" positionY="180" width="128" height="300"/>
+        <element name="TransactionCategory" positionX="-36" positionY="162" width="128" height="150"/>
+        <element name="User" positionX="-63" positionY="-9" width="128" height="300"/>
     </elements>
 </model>
