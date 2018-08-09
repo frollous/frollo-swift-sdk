@@ -120,11 +120,11 @@ class Network: SessionDelegate {
         }
     }
     
-    internal func handleResponse<T: Codable>(type: T.Type, response: DataResponse<Data>, completion: RequestCompletion<T>) {
+    internal func handleResponse<T: Codable>(type: T.Type, response: DataResponse<Data>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<T>) {
         switch response.result {
             case .success(let value):
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds)
+                decoder.dateDecodingStrategy = dateDecodingStrategy
                 
                 do {
                     let apiResponse = try decoder.decode(T.self, from: value)
@@ -143,11 +143,11 @@ class Network: SessionDelegate {
         }
     }
     
-    internal func handleArrayResponse<T: Codable>(type: T.Type, response: DataResponse<Data>, completion: RequestCompletion<[T]>) {
+    internal func handleArrayResponse<T: Codable>(type: T.Type, response: DataResponse<Data>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<[T]>) {
         switch response.result {
             case .success(let value):
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds)
+                decoder.dateDecodingStrategy = dateDecodingStrategy
                 
                 do {
                     let apiResponse = try decoder.decode(FailableCodableArray<T>.self, from: value)

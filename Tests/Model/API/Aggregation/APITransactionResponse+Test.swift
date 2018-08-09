@@ -30,10 +30,9 @@ extension APITransactionResponse {
                                       included: true,
                                       memo: UUID().uuidString,
                                       merchantID: Int64(arc4random()),
-                                      merchantName: UUID().uuidString,
-                                      postDate: Date(timeIntervalSinceNow: -1000),
+                                      postDate: "2018-08-05",
                                       status: .posted,
-                                      transactionDate: Date(timeIntervalSinceNow: -1000))
+                                      transactionDate: "2018-08-03")
     }
     
     static func testIncompleteData() -> APITransactionResponse {
@@ -55,10 +54,9 @@ extension APITransactionResponse {
                                       included: true,
                                       memo: nil,
                                       merchantID: Int64(arc4random()),
-                                      merchantName: nil,
                                       postDate: nil,
                                       status: .posted,
-                                      transactionDate: Date(timeIntervalSinceNow: -1000))
+                                      transactionDate: "2018-08-03")
     }
     
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct APITransactionResponse: APIUniqueResponse {
+struct APITransactionResponse: APIUniqueResponse, Codable {
     
     enum CodingKeys: String, CodingKey {
         case accountID = "account_id"
@@ -23,7 +23,6 @@ struct APITransactionResponse: APIUniqueResponse {
         case included
         case memo
         case merchantID = "merchant_id"
-        case merchantName = "merchant_name"
         case postDate = "post_date"
         case status
         case transactionDate = "transaction_date"
@@ -67,9 +66,8 @@ struct APITransactionResponse: APIUniqueResponse {
     let included: Bool
     let memo: String?
     let merchantID: Int64
-    let merchantName: String?
-    let postDate: Date?
+    let postDate: String?
     let status: Transaction.Status
-    let transactionDate: Date?
+    let transactionDate: String
     
 }

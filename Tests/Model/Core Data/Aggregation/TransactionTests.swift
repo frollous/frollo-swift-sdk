@@ -40,12 +40,11 @@ class TransactionTests: XCTestCase {
         XCTAssertEqual(transaction.included, transactionResponse.included)
         XCTAssertEqual(transaction.memo, transactionResponse.memo)
         XCTAssertEqual(transaction.merchantID, transactionResponse.merchantID)
-        XCTAssertEqual(transaction.merchantName, transactionResponse.merchantName)
         XCTAssertEqual(transaction.originalDescription, transactionResponse.description.original)
-        XCTAssertEqual(transaction.postDate, transactionResponse.postDate)
+        XCTAssertEqual(transaction.postDate, Transaction.transactionDateFormatter.date(from: transactionResponse.postDate!))
         XCTAssertEqual(transaction.simpleDescription, transactionResponse.description.simple)
         XCTAssertEqual(transaction.status, transactionResponse.status)
-        XCTAssertEqual(transaction.transactionDate, transactionResponse.transactionDate)
+        XCTAssertEqual(transaction.transactionDate, Transaction.transactionDateFormatter.date(from: transactionResponse.transactionDate))
         XCTAssertEqual(transaction.userDescription, transactionResponse.description.user)
     }
     
@@ -66,14 +65,13 @@ class TransactionTests: XCTestCase {
         XCTAssertEqual(transaction.budgetCategory, transactionResponse.budgetCategory)
         XCTAssertEqual(transaction.currency, transactionResponse.amount.currency)
         XCTAssertEqual(transaction.included, transactionResponse.included)
-        XCTAssertNil(transaction.memo)
         XCTAssertEqual(transaction.merchantID, transactionResponse.merchantID)
-        XCTAssertNil(transaction.merchantName)
         XCTAssertEqual(transaction.originalDescription, transactionResponse.description.original)
+        XCTAssertEqual(transaction.status, transactionResponse.status)
+        XCTAssertEqual(transaction.transactionDate, Transaction.transactionDateFormatter.date(from: transactionResponse.transactionDate))
+        XCTAssertNil(transaction.memo)
         XCTAssertNil(transaction.postDate)
         XCTAssertNil(transaction.simpleDescription)
-        XCTAssertEqual(transaction.status, transactionResponse.status)
-        XCTAssertEqual(transaction.transactionDate, transactionResponse.transactionDate)
         XCTAssertNil(transaction.userDescription)
     }
     

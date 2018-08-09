@@ -18,10 +18,14 @@ class Aggregation: ResponseHandler {
     private let merchantLock = NSLock()
     private let providerLock = NSLock()
     private let providerAccountLock = NSLock()
+    private let transactionLock = NSLock()
     private let transactionCategoryLock = NSLock()
     
     private var linkingProviderIDs = Set<Int64>()
     private var linkingProviderAccountIDs = Set<Int64>()
+    private var linkingAccountIDs = Set<Int64>()
+    private var linkingMerchantIDs = Set<Int64>()
+    private var linkingTransactionCategoryIDs = Set<Int64>()
     
     internal init(database: Database, network: Network) {
         self.database = database
@@ -237,6 +241,46 @@ class Aggregation: ResponseHandler {
         }
     }
     
+    public func refreshTransactions(from fromDate: Date, to toDate: Date, completion: FrolloSDKCompletionHandler? = nil) {
+        network.fetchTransactions(from: fromDate, to: toDate) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let transactionResponse = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleTransactionsResponse(transactionResponse, from: fromDate, to: toDate, managedObjectContext: managedObjectContext)
+                    
+                    self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            completion?(error)
+        }
+    }
+    
+    public func refreshTransaction(transactionID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        network.fetchTransaction(transactionID: transactionID) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let transactionResponse = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleTransactionResponse(transactionResponse, managedObjectContext: managedObjectContext)
+                    
+                    self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            completion?(error)
+        }
+    }
+    
     /**
      Refresh all transaction categories from the host.
      
@@ -335,6 +379,10 @@ class Aggregation: ResponseHandler {
         }
     }
     
+    private func linkTransactionsToAccounts(managedObjectContext: NSManagedObjectContext) {
+        // TODO: Implement linking
+    }
+    
     private func linkTransactionsToMerchants(managedObjectContext: NSManagedObjectContext) {
         // TODO: Implement linking
     }
@@ -352,7 +400,7 @@ class Aggregation: ResponseHandler {
             providerLock.unlock()
         }
         
-        updateObjectWithResponse(type: Provider.self, objectResponse: providerResponse, primaryKey: "providerID", managedObjectContext: managedObjectContext)
+        updateObjectWithResponse(type: Provider.self, objectResponse: providerResponse, primaryKey: #keyPath(Provider.providerID), managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
             do {
@@ -372,7 +420,7 @@ class Aggregation: ResponseHandler {
         
         let filterPredicate = NSPredicate(format: "statusRawValue IN %@", argumentArray: [[Provider.Status.supported.rawValue, Provider.Status.beta.rawValue]])
         
-        updateObjectsWithResponse(type: Provider.self, objectsResponse: providersResponse, primaryKey: "providerID", filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
+        updateObjectsWithResponse(type: Provider.self, objectsResponse: providersResponse, primaryKey: #keyPath(Provider.providerID), linkedKeys: [], filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
             do {
@@ -390,7 +438,7 @@ class Aggregation: ResponseHandler {
             providerAccountLock.unlock()
         }
         
-        updateObjectWithResponse(type: ProviderAccount.self, objectResponse: providerAccountResponse, primaryKey: "providerAccountID", managedObjectContext: managedObjectContext)
+        updateObjectWithResponse(type: ProviderAccount.self, objectResponse: providerAccountResponse, primaryKey: #keyPath(ProviderAccount.providerAccountID), managedObjectContext: managedObjectContext)
         
         linkingProviderIDs.insert(providerAccountResponse.providerID)
         
@@ -410,9 +458,11 @@ class Aggregation: ResponseHandler {
             providerAccountLock.unlock()
         }
         
-        let updatedProviderIDs = updateObjectsWithResponse(type: ProviderAccount.self, objectsResponse: providerAccountsResponse, primaryKey: "providerAccountID", filterPredicate: nil, managedObjectContext: managedObjectContext)
+        let updatedLinkedIDs = updateObjectsWithResponse(type: ProviderAccount.self, objectsResponse: providerAccountsResponse, primaryKey: #keyPath(ProviderAccount.providerAccountID), linkedKeys: [\ProviderAccount.providerID], filterPredicate: nil, managedObjectContext: managedObjectContext)
         
-        linkingProviderIDs = linkingProviderIDs.union(updatedProviderIDs)
+        if let providerIDs = updatedLinkedIDs[\ProviderAccount.providerID] {
+            linkingProviderIDs = linkingProviderIDs.union(providerIDs)
+        }
         
         managedObjectContext.performAndWait {
             do {
@@ -430,7 +480,7 @@ class Aggregation: ResponseHandler {
             accountLock.unlock()
         }
         
-        updateObjectWithResponse(type: Account.self, objectResponse: accountResponse, primaryKey: "accountID", managedObjectContext: managedObjectContext)
+        updateObjectWithResponse(type: Account.self, objectResponse: accountResponse, primaryKey: #keyPath(Account.accountID), managedObjectContext: managedObjectContext)
         
         linkingProviderAccountIDs.insert(accountResponse.providerAccountID)
         
@@ -450,9 +500,11 @@ class Aggregation: ResponseHandler {
             accountLock.unlock()
         }
         
-        let updatedProviderAccountIDs = updateObjectsWithResponse(type: Account.self, objectsResponse: accountsResponse, primaryKey: "accountID", filterPredicate: nil, managedObjectContext: managedObjectContext)
+        let updatedLinkedIDs = updateObjectsWithResponse(type: Account.self, objectsResponse: accountsResponse, primaryKey: #keyPath(Account.accountID), linkedKeys: [\Account.providerAccountID], filterPredicate: nil, managedObjectContext: managedObjectContext)
         
-        linkingProviderAccountIDs = linkingProviderAccountIDs.union(updatedProviderAccountIDs)
+        if let providerAccountIDs = updatedLinkedIDs[\Account.providerAccountID] {
+            linkingProviderAccountIDs = linkingProviderAccountIDs.union(providerAccountIDs)
+        }
         
         managedObjectContext.performAndWait {
             do {
@@ -463,14 +515,47 @@ class Aggregation: ResponseHandler {
         }
     }
     
-    private func handleTransactionCategoriesResponse(_ transactionCategoriesResponse: [APITransactionCategoryResponse], managedObjectContext: NSManagedObjectContext) {
-        transactionCategoryLock.lock()
+    private func handleTransactionResponse(_ transactionResponse: APITransactionResponse, managedObjectContext: NSManagedObjectContext) {
+        transactionLock.lock()
         
         defer {
-            transactionCategoryLock.unlock()
+            transactionLock.unlock()
         }
         
-        updateObjectsWithResponse(type: TransactionCategory.self, objectsResponse: transactionCategoriesResponse, primaryKey: "transactionCategoryID", filterPredicate: nil, managedObjectContext: managedObjectContext)
+        updateObjectWithResponse(type: Transaction.self, objectResponse: transactionResponse, primaryKey: #keyPath(Transaction.transactionID), managedObjectContext: managedObjectContext)
+        
+        linkingAccountIDs.insert(transactionResponse.accountID)
+        linkingMerchantIDs.insert(transactionResponse.merchantID)
+        linkingTransactionCategoryIDs.insert(transactionResponse.categoryID)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleTransactionsResponse(_ transactionsResponse: [APITransactionResponse], from fromDate: Date, to toDate: Date, managedObjectContext: NSManagedObjectContext) {
+        transactionLock.lock()
+        
+        defer {
+            transactionLock.unlock()
+        }
+        
+        let fromDateString = Transaction.transactionDateFormatter.string(from: fromDate)
+        let toDateString = Transaction.transactionDateFormatter.string(from: toDate)
+        
+        let predicate = NSPredicate(format: "transactionDateString >= %@ && transactionDateString <= %@", argumentArray: [fromDateString, toDateString])
+        
+        let updatedLinkedIDs = updateObjectsWithResponse(type: Transaction.self, objectsResponse: transactionsResponse, primaryKey: #keyPath(Transaction.transactionID), linkedKeys: [\Transaction.accountID, \Transaction.merchantID, \Transaction.transactionCategoryID], filterPredicate: predicate, managedObjectContext: managedObjectContext)
+        
+        if let updatedAccountIDs = updatedLinkedIDs[\Transaction.accountID], let updatedMerchantIDs = updatedLinkedIDs[\Transaction.merchantID], let updatedTransactionCategoryIDs = updatedLinkedIDs[\Transaction.transactionCategoryID] {
+            linkingAccountIDs = linkingAccountIDs.union(updatedAccountIDs)
+            linkingMerchantIDs = linkingMerchantIDs.union(updatedMerchantIDs)
+            linkingTransactionCategoryIDs = linkingTransactionCategoryIDs.union(updatedTransactionCategoryIDs)
+        }
         
         managedObjectContext.performAndWait {
             do {
@@ -488,7 +573,25 @@ class Aggregation: ResponseHandler {
             merchantLock.unlock()
         }
         
-        updateObjectsWithResponse(type: Merchant.self, objectsResponse: merchantsResponse, primaryKey: "merchantID", filterPredicate: nil, managedObjectContext: managedObjectContext)
+        updateObjectsWithResponse(type: Merchant.self, objectsResponse: merchantsResponse, primaryKey: #keyPath(Merchant.merchantID), linkedKeys: [], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleTransactionCategoriesResponse(_ transactionCategoriesResponse: [APITransactionCategoryResponse], managedObjectContext: NSManagedObjectContext) {
+        transactionCategoryLock.lock()
+        
+        defer {
+            transactionCategoryLock.unlock()
+        }
+        
+        updateObjectsWithResponse(type: TransactionCategory.self, objectsResponse: transactionCategoriesResponse, primaryKey: #keyPath(TransactionCategory.transactionCategoryID), linkedKeys: [], filterPredicate: nil, managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
             do {

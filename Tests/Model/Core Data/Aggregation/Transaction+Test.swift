@@ -16,7 +16,6 @@ extension Transaction: TestableCoreData {
         accountID = Int64(arc4random())
         merchantID = Int64(arc4random())
         transactionCategoryID = Int64(arc4random())
-        merchantName = UUID().uuidString
         memo = UUID().uuidString
         originalDescription = UUID().uuidString
         simpleDescription = UUID().uuidString

@@ -141,13 +141,12 @@
         <attribute name="included" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="memo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="merchantID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="merchantName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="originalDescription" attributeType="String" syncable="YES"/>
-        <attribute name="postDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="postDateString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="simpleDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="statusRawValue" attributeType="String" syncable="YES"/>
         <attribute name="transactionCategoryID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="transactionDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="transactionDateString" attributeType="String" syncable="YES"/>
         <attribute name="transactionID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="userDescription" optional="YES" attributeType="String" syncable="YES"/>
         <fetchIndex name="byAccountIDIndex">
@@ -203,7 +202,7 @@
         <element name="Merchant" positionX="-27" positionY="171" width="128" height="105"/>
         <element name="Provider" positionX="-63" positionY="117" width="128" height="480"/>
         <element name="ProviderAccount" positionX="-63" positionY="117" width="128" height="210"/>
-        <element name="Transaction" positionX="-18" positionY="180" width="128" height="300"/>
+        <element name="Transaction" positionX="-18" positionY="180" width="128" height="285"/>
         <element name="TransactionCategory" positionX="-36" positionY="162" width="128" height="150"/>
         <element name="User" positionX="-63" positionY="-9" width="128" height="300"/>
     </elements>

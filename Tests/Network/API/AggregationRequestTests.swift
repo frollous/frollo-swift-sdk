@@ -456,6 +456,119 @@ class AggregationRequestTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testFetchTransactions() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        network.fetchTransactions(from: Date(timeIntervalSince1970: 1533124800), to: Date(timeIntervalSince1970: 1535673600)) { (response, error) in
+            XCTAssertNil(error)
+            
+            if let transactionsResponse = response {
+                XCTAssertEqual(transactionsResponse.count, 179)
+                
+                if let firstTransaction = transactionsResponse.first {
+                    XCTAssertEqual(firstTransaction.id, 99704)
+                    XCTAssertEqual(firstTransaction.accountID, 544)
+                    XCTAssertEqual(firstTransaction.amount.amount, "1000.00")
+                    XCTAssertEqual(firstTransaction.amount.currency, "AUD")
+                    XCTAssertEqual(firstTransaction.baseType, .credit)
+                    XCTAssertEqual(firstTransaction.budgetCategory, .lifestyle)
+                    XCTAssertEqual(firstTransaction.description.original, "Credit Card Payment")
+                    XCTAssertEqual(firstTransaction.description.simple, "Payment")
+                    XCTAssertEqual(firstTransaction.description.user, "My Payment")
+                    XCTAssertEqual(firstTransaction.included, true)
+                    XCTAssertEqual(firstTransaction.merchantID, 1)
+                    XCTAssertEqual(firstTransaction.memo, "Remind me")
+                    XCTAssertEqual(firstTransaction.postDate, "2018-03-01")
+                    XCTAssertEqual(firstTransaction.status, .posted)
+                    XCTAssertEqual(firstTransaction.categoryID, 81)
+                    XCTAssertEqual(firstTransaction.transactionDate, "2018-08-08")
+                }
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testFetchTransactionsSkipsInvalid() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_invalid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        network.fetchTransactions(from: Date(timeIntervalSince1970: 1533124800), to: Date(timeIntervalSince1970: 1535673600)) { (response, error) in
+            XCTAssertNil(error)
+            
+            if let transactionsResponse = response {
+                XCTAssertEqual(transactionsResponse.count, 176)
+                
+                if let firstTransaction = transactionsResponse.first {
+                    XCTAssertEqual(firstTransaction.id, 99704)
+                }
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testFetchTransactionByID() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 99703).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_99703", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        network.fetchTransaction(transactionID: 99703) { (response, error) in
+            XCTAssertNil(error)
+            
+            if let transaction = response {
+                XCTAssertEqual(transaction.id, 99703)
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testFetchTransactionCategories() {
         let expectation1 = expectation(description: "Network Request")
         

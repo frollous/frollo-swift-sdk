@@ -13,7 +13,7 @@ protocol ResponseHandler {
     
     func linkObjectToParentObject<T: CacheableManagedObject & NSManagedObject, U: CacheableManagedObject & NSManagedObject>(type: T.Type, parentType: U.Type, managedObjectContext: NSManagedObjectContext, linkedIDs: Set<Int64>, linkedKey: String) -> Set<Int64>
     func updateObjectWithResponse<T: CacheableManagedObject & NSManagedObject>(type: T.Type, objectResponse: APIUniqueResponse, primaryKey: String, managedObjectContext: NSManagedObjectContext)
-    func updateObjectsWithResponse<T: CacheableManagedObject & NSManagedObject>(type: T.Type, objectsResponse: [APIUniqueResponse], primaryKey: String, filterPredicate: NSPredicate?, managedObjectContext: NSManagedObjectContext) -> Set<Int64>
+    func updateObjectsWithResponse<T: CacheableManagedObject & NSManagedObject>(type: T.Type, objectsResponse: [APIUniqueResponse], primaryKey: String, linkedKeys: [KeyPath<T, Int64>], filterPredicate: NSPredicate?, managedObjectContext: NSManagedObjectContext) -> [KeyPath<T, Int64>: Set<Int64>]
 
 }
 
@@ -45,7 +45,7 @@ extension ResponseHandler {
     /**
      Some of that crazy voodoo shit
     */
-    @discardableResult internal func updateObjectsWithResponse<T: CacheableManagedObject & NSManagedObject>(type: T.Type, objectsResponse: [APIUniqueResponse], primaryKey: String, filterPredicate: NSPredicate?, managedObjectContext: NSManagedObjectContext) -> Set<Int64> {
+    @discardableResult internal func updateObjectsWithResponse<T: CacheableManagedObject & NSManagedObject>(type: T.Type, objectsResponse: [APIUniqueResponse], primaryKey: String, linkedKeys: [KeyPath<T, Int64>], filterPredicate: NSPredicate?, managedObjectContext: NSManagedObjectContext) -> [KeyPath<T, Int64>: Set<Int64>] {
         // Sort by ID
         let sortedObjectResponses = objectsResponse.sorted(by: { (responseA: APIUniqueResponse, responseB: APIUniqueResponse) -> Bool in
             return responseA.id > responseB.id
@@ -53,7 +53,10 @@ extension ResponseHandler {
         
         // Build id list predicate
         let objectIDs = sortedObjectResponses.map { $0.id }
-        var linkedIDs = Set<Int64>()
+        var linkedIDs = [KeyPath<T, Int64>: Set<Int64>]()
+        for linkedKey in linkedKeys {
+            linkedIDs[linkedKey] = Set<Int64>()
+        }
         
         managedObjectContext.performAndWait {
             // Fetch existing providers for updating
@@ -84,8 +87,8 @@ extension ResponseHandler {
                     }
                     
                     object.update(response: objectResponse, context: managedObjectContext)
-                    if let objectLinkedID = object.linkedID {
-                        linkedIDs.insert(objectLinkedID)
+                    for linkedKey in linkedKeys {
+                        linkedIDs[linkedKey]?.insert(object[keyPath: linkedKey])
                     }
                 }
                 

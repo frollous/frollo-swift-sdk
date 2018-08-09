@@ -28,6 +28,13 @@ public class Transaction: NSManagedObject, CacheableManagedObject {
     
     static var entityName = "Transaction"
     
+    static let transactionDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.autoupdatingCurrent
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter
+    }()
+    
     var primaryID: Int64 {
         get {
             return transactionID
@@ -58,12 +65,37 @@ public class Transaction: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    public var postDate: Date? {
+        get {
+            if let rawDateString = postDateString {
+                return Transaction.transactionDateFormatter.date(from: rawDateString)
+            }
+            return nil
+        }
+        set {
+            if let newRawDate = newValue {
+                postDateString = Transaction.transactionDateFormatter.string(from: newRawDate)
+            } else {
+                postDateString = nil
+            }
+        }
+    }
+    
     public var status: Status {
         get {
             return Status(rawValue: statusRawValue!)!
         }
         set {
             statusRawValue = newValue.rawValue
+        }
+    }
+    
+    public var transactionDate: Date {
+        get {
+            return Transaction.transactionDateFormatter.date(from: transactionDateString!)!
+        }
+        set {
+            transactionDateString = Transaction.transactionDateFormatter.string(from: newValue)
         }
     }
 
@@ -88,14 +120,13 @@ public class Transaction: NSManagedObject, CacheableManagedObject {
         currency = response.amount.currency
         included = response.included
         merchantID = response.merchantID
-        merchantName = response.merchantName
         memo = response.memo
         originalDescription = response.description.original
-        postDate = response.postDate
+        postDateString = response.postDate
         simpleDescription = response.description.simple
         status = response.status
         transactionCategoryID = response.categoryID
-        transactionDate = response.transactionDate
+        transactionDateString = response.transactionDate
         userDescription = response.description.user
     }
     
