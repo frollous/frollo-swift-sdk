@@ -44,6 +44,7 @@
         <attribute name="totalCreditLineCurrency" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="balanceTiers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AccountBalanceTier" inverseName="account" inverseEntity="AccountBalanceTier" syncable="YES"/>
         <relationship name="providerAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProviderAccount" inverseName="accounts" inverseEntity="ProviderAccount" syncable="YES"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Transaction" inverseName="account" inverseEntity="Transaction" syncable="YES"/>
         <fetchIndex name="byAccountIDIndex">
             <fetchIndexElement property="accountID" type="Binary" order="ascending"/>
         </fetchIndex>
@@ -65,6 +66,7 @@
         <attribute name="merchantTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="smallLogoURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="merchant" inverseEntity="Transaction" syncable="YES"/>
         <fetchIndex name="byMerchantIDIndex">
             <fetchIndexElement property="merchantID" type="Binary" order="ascending"/>
         </fetchIndex>
@@ -149,6 +151,9 @@
         <attribute name="transactionDateString" attributeType="String" syncable="YES"/>
         <attribute name="transactionID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="userDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="transactions" inverseEntity="Account" syncable="YES"/>
+        <relationship name="merchant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Merchant" inverseName="transactions" inverseEntity="Merchant" syncable="YES"/>
+        <relationship name="transactionCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TransactionCategory" inverseName="transactions" inverseEntity="TransactionCategory" syncable="YES"/>
         <fetchIndex name="byAccountIDIndex">
             <fetchIndexElement property="accountID" type="Binary" order="ascending"/>
         </fetchIndex>
@@ -173,6 +178,7 @@
         <attribute name="placement" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="transactionCategoryID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="userDefined" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="transactionCategory" inverseEntity="Transaction" syncable="YES"/>
         <fetchIndex name="byTransactionCategoryIndex">
             <fetchIndexElement property="transactionCategoryID" type="Binary" order="ascending"/>
         </fetchIndex>
@@ -197,13 +203,13 @@
         <attribute name="validPassword" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Account" positionX="-54" positionY="144" width="128" height="690"/>
+        <element name="Account" positionX="-54" positionY="144" width="128" height="705"/>
         <element name="AccountBalanceTier" positionX="-45" positionY="153" width="128" height="105"/>
-        <element name="Merchant" positionX="-27" positionY="171" width="128" height="105"/>
+        <element name="Merchant" positionX="-27" positionY="171" width="128" height="120"/>
         <element name="Provider" positionX="-63" positionY="117" width="128" height="480"/>
         <element name="ProviderAccount" positionX="-63" positionY="117" width="128" height="210"/>
-        <element name="Transaction" positionX="-18" positionY="180" width="128" height="285"/>
-        <element name="TransactionCategory" positionX="-36" positionY="162" width="128" height="150"/>
+        <element name="Transaction" positionX="-18" positionY="180" width="128" height="330"/>
+        <element name="TransactionCategory" positionX="-36" positionY="162" width="128" height="165"/>
         <element name="User" positionX="-63" positionY="-9" width="128" height="300"/>
     </elements>
 </model>

@@ -590,6 +590,192 @@ class AggregationTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testTransactionsLinkToAccounts() {
+        let expectation1 = expectation(description: "Network Account Request")
+        let expectation2 = expectation(description: "Network Transaction Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            aggregation.refreshAccounts { (error) in
+                XCTAssertNil(error)
+                
+                let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
+                let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
+                
+                aggregation.refreshTransactions(from: fromDate, to: toDate) { (error) in
+                    XCTAssertNil(error)
+                    
+                    let context = database.viewContext
+                    
+                    let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                    fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99704])
+                    
+                    do {
+                        let fetchedTransactions = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedTransactions.count, 1)
+                        
+                        if let transaction = fetchedTransactions.first {
+                            XCTAssertNotNil(transaction)
+                            
+                            XCTAssertEqual(transaction.accountID, transaction.account?.accountID)
+                        }
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation2.fulfill()
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1, expectation2], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testTransactionsLinkToMerchants() {
+        let expectation1 = expectation(description: "Network Merchant Request")
+        let expectation2 = expectation(description: "Network Transaction Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            aggregation.refreshMerchants { (error) in
+                XCTAssertNil(error)
+                
+                let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
+                let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
+                
+                aggregation.refreshTransactions(from: fromDate, to: toDate) { (error) in
+                    XCTAssertNil(error)
+                    
+                    let context = database.viewContext
+                    
+                    let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                    fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99704])
+                    
+                    do {
+                        let fetchedTransactions = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedTransactions.count, 1)
+                        
+                        if let transaction = fetchedTransactions.first {
+                            XCTAssertNotNil(transaction)
+                            
+                            XCTAssertEqual(transaction.merchantID, transaction.merchant?.merchantID)
+                        }
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation2.fulfill()
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1, expectation2], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testTransactionsLinkToTransactionCategories() {
+        let expectation1 = expectation(description: "Network Transaction Category Request")
+        let expectation2 = expectation(description: "Network Transaction Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.transactionCategories.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_categories_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            aggregation.refreshTransactionCategories { (error) in
+                XCTAssertNil(error)
+                
+                let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
+                let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
+                
+                aggregation.refreshTransactions(from: fromDate, to: toDate) { (error) in
+                    XCTAssertNil(error)
+                    
+                    let context = database.viewContext
+                    
+                    let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                    fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99704])
+                    
+                    do {
+                        let fetchedTransactions = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedTransactions.count, 1)
+                        
+                        if let transaction = fetchedTransactions.first {
+                            XCTAssertNotNil(transaction)
+                            
+                            XCTAssertEqual(transaction.transactionCategoryID, transaction.transactionCategory?.transactionCategoryID)
+                        }
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation2.fulfill()
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1, expectation2], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testRefreshTransactionCategoriesIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         

@@ -340,7 +340,7 @@ class Aggregation: ResponseHandler {
             providerAccountLock.unlock()
         }
         
-        let missingProviderIDs = linkObjectToParentObject(type: ProviderAccount.self, parentType: Provider.self, managedObjectContext: managedObjectContext, linkedIDs: linkingProviderIDs, linkedKey: "providerID")
+        let missingProviderIDs = linkObjectToParentObject(type: ProviderAccount.self, parentType: Provider.self, managedObjectContext: managedObjectContext, linkedIDs: linkingProviderIDs, linkedKey: \ProviderAccount.providerID, linkedKeyName: #keyPath(ProviderAccount.providerID))
         
         linkingProviderIDs = linkingProviderIDs.intersection(missingProviderIDs)
         
@@ -366,7 +366,7 @@ class Aggregation: ResponseHandler {
             accountLock.unlock()
         }
         
-        linkObjectToParentObject(type: Account.self, parentType: ProviderAccount.self, managedObjectContext: managedObjectContext, linkedIDs: linkingProviderAccountIDs, linkedKey: "providerAccountID")
+        linkObjectToParentObject(type: Account.self, parentType: ProviderAccount.self, managedObjectContext: managedObjectContext, linkedIDs: linkingProviderAccountIDs, linkedKey: \Account.providerAccountID, linkedKeyName: #keyPath(Account.providerAccountID))
         
         linkingProviderAccountIDs = Set()
         
@@ -380,15 +380,69 @@ class Aggregation: ResponseHandler {
     }
     
     private func linkTransactionsToAccounts(managedObjectContext: NSManagedObjectContext) {
-        // TODO: Implement linking
+        accountLock.lock()
+        transactionLock.lock()
+        
+        defer {
+            accountLock.unlock()
+            transactionLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: Transaction.self, parentType: Account.self, managedObjectContext: managedObjectContext, linkedIDs: linkingAccountIDs, linkedKey: \Transaction.accountID, linkedKeyName: #keyPath(Transaction.accountID))
+        
+        linkingAccountIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
     }
     
     private func linkTransactionsToMerchants(managedObjectContext: NSManagedObjectContext) {
-        // TODO: Implement linking
+        merchantLock.lock()
+        transactionLock.lock()
+        
+        defer {
+            merchantLock.unlock()
+            transactionLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: Transaction.self, parentType: Merchant.self, managedObjectContext: managedObjectContext, linkedIDs: linkingMerchantIDs, linkedKey: \Transaction.merchantID, linkedKeyName: #keyPath(Transaction.merchantID))
+        
+        linkingMerchantIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
     }
     
     private func linkTransactionsToTransactionCategories(managedObjectContext: NSManagedObjectContext) {
-        // TODO: Implement linking
+        transactionCategoryLock.lock()
+        transactionLock.lock()
+        
+        defer {
+            transactionCategoryLock.unlock()
+            transactionLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: Transaction.self, parentType: TransactionCategory.self, managedObjectContext: managedObjectContext, linkedIDs: linkingTransactionCategoryIDs, linkedKey: \Transaction.transactionCategoryID, linkedKeyName: #keyPath(Transaction.transactionCategoryID))
+        
+        linkingTransactionCategoryIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
     }
     
     // MARK: - Response Handling

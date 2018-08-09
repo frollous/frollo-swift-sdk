@@ -11,7 +11,7 @@ import Foundation
 
 protocol ResponseHandler {
     
-    func linkObjectToParentObject<T: CacheableManagedObject & NSManagedObject, U: CacheableManagedObject & NSManagedObject>(type: T.Type, parentType: U.Type, managedObjectContext: NSManagedObjectContext, linkedIDs: Set<Int64>, linkedKey: String) -> Set<Int64>
+    func linkObjectToParentObject<T: CacheableManagedObject & NSManagedObject, U: CacheableManagedObject & NSManagedObject>(type: T.Type, parentType: U.Type, managedObjectContext: NSManagedObjectContext, linkedIDs: Set<Int64>, linkedKey: KeyPath<T, Int64>, linkedKeyName: String) -> Set<Int64>
     func updateObjectWithResponse<T: CacheableManagedObject & NSManagedObject>(type: T.Type, objectResponse: APIUniqueResponse, primaryKey: String, managedObjectContext: NSManagedObjectContext)
     func updateObjectsWithResponse<T: CacheableManagedObject & NSManagedObject>(type: T.Type, objectsResponse: [APIUniqueResponse], primaryKey: String, linkedKeys: [KeyPath<T, Int64>], filterPredicate: NSPredicate?, managedObjectContext: NSManagedObjectContext) -> [KeyPath<T, Int64>: Set<Int64>]
 
@@ -120,19 +120,19 @@ extension ResponseHandler {
         return linkedIDs
     }
     
-    @discardableResult internal func linkObjectToParentObject<T: CacheableManagedObject & NSManagedObject, U: CacheableManagedObject & NSManagedObject>(type: T.Type, parentType: U.Type, managedObjectContext: NSManagedObjectContext, linkedIDs: Set<Int64>, linkedKey: String) -> Set<Int64> {
+    @discardableResult internal func linkObjectToParentObject<T: CacheableManagedObject & NSManagedObject, U: CacheableManagedObject & NSManagedObject>(type: T.Type, parentType: U.Type, managedObjectContext: NSManagedObjectContext, linkedIDs: Set<Int64>, linkedKey: KeyPath<T, Int64>, linkedKeyName: String) -> Set<Int64> {
         var missingProviderIDs = Set<Int64>()
         
         managedObjectContext.performAndWait {
             let objectFetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
-            objectFetchRequest.predicate = NSPredicate(format: linkedKey + " IN %@", linkedIDs)
-            objectFetchRequest.sortDescriptors = [NSSortDescriptor(key: linkedKey, ascending: true)]
+            objectFetchRequest.predicate = NSPredicate(format: linkedKeyName + " IN %@", linkedIDs)
+            objectFetchRequest.sortDescriptors = [NSSortDescriptor(key: linkedKeyName, ascending: true)]
             
             let objects = try! managedObjectContext.fetch(objectFetchRequest)
             
             let parentObjectFetchRequest: NSFetchRequest<U> = U.fetchRequest() as! NSFetchRequest<U>
-            parentObjectFetchRequest.predicate = NSPredicate(format: linkedKey + " IN %@", linkedIDs)
-            parentObjectFetchRequest.sortDescriptors = [NSSortDescriptor(key: linkedKey, ascending: true)]
+            parentObjectFetchRequest.predicate = NSPredicate(format: linkedKeyName + " IN %@", linkedIDs)
+            parentObjectFetchRequest.sortDescriptors = [NSSortDescriptor(key: linkedKeyName, ascending: true)]
             
             let parentObjects = try! managedObjectContext.fetch(parentObjectFetchRequest)
             
@@ -146,11 +146,11 @@ extension ResponseHandler {
                 }
                 
                 var parentObject = parentObjects[currentParentObjectIndex]
-                if parentObject.primaryID != object.linkedID {
+                if parentObject.primaryID != object[keyPath: linkedKey] {
                     for index in currentParentObjectIndex...(parentObjects.count-1) {
                         parentObject = parentObjects[index]
                         
-                        if parentObject.primaryID == object.linkedID {
+                        if parentObject.primaryID == object[keyPath: linkedKey] {
                             currentParentObjectIndex = index
                             
                             break
@@ -158,7 +158,7 @@ extension ResponseHandler {
                     }
                 }
                 
-                if parentObject.primaryID == object.linkedID {
+                if parentObject.primaryID == object[keyPath: linkedKey] {
                     matchedParentObjectIDs.insert(parentObject.primaryID)
                     
                     parentObject.linkObject(object: object)

@@ -158,7 +158,9 @@ public class Account: NSManagedObject, CacheableManagedObject {
     // MARK: - Updating object
     
     func linkObject(object: CacheableManagedObject) {
-        // TODO: Implement account link
+        if let transaction = object as? Transaction {
+            addToTransactions(transaction)
+        }
     }
     
     func update(response: APIUniqueResponse, context: NSManagedObjectContext) {

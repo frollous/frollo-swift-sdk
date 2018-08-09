@@ -57,7 +57,9 @@ public class Merchant: NSManagedObject, CacheableManagedObject {
     // MARK: - Update Object
     
     func linkObject(object: CacheableManagedObject) {
-        // Not implemented
+        if let transaction = object as? Transaction {
+            addToTransactions(transaction)
+        }
     }
     
     func update(response: APIUniqueResponse, context: NSManagedObjectContext) {

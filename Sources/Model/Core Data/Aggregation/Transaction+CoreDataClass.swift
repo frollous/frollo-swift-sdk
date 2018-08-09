@@ -102,7 +102,7 @@ public class Transaction: NSManagedObject, CacheableManagedObject {
     // MARK: - Updating Object
     
     func linkObject(object: CacheableManagedObject) {
-        // TODO: - Implement
+        // Not used
     }
     
     func update(response: APIUniqueResponse, context: NSManagedObjectContext) {

@@ -70,7 +70,9 @@ public class TransactionCategory: NSManagedObject, CacheableManagedObject {
     // MARK: - Updating object
     
     func linkObject(object: CacheableManagedObject) {
-        // Do nothing
+        if let transaction = object as? Transaction {
+            addToTransactions(transaction)
+        }
     }
     
     func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
