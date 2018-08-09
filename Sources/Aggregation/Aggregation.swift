@@ -241,6 +241,14 @@ class Aggregation: ResponseHandler {
         }
     }
     
+    /**
+     Refresh all available accounts from the host.
+     
+     - parameters:
+        - fromDate: Start date to fetch transactions from (inclusive)
+        - toDate: End date to fetch transactions up to (inclusive)
+        - completion: Optional completion handler with optional error if the request fails
+    */
     public func refreshTransactions(from fromDate: Date, to toDate: Date, completion: FrolloSDKCompletionHandler? = nil) {
         network.fetchTransactions(from: fromDate, to: toDate) { (response, error) in
             if let responseError = error {
@@ -261,6 +269,13 @@ class Aggregation: ResponseHandler {
         }
     }
     
+    /**
+     Refresh a specific transaction by ID from the host
+     
+     - parameters:
+        - transactionID: ID of the transaction to fetch
+        - completion: Optional completion handler with optional error if the request fails
+     */
     public func refreshTransaction(transactionID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
         network.fetchTransaction(transactionID: transactionID) { (response, error) in
             if let responseError = error {
