@@ -141,6 +141,34 @@ extension Network {
         }
     }
     
+    internal func updateTransaction(transactionID: Int64, request: APITransactionUpdateRequest, completion: @escaping RequestCompletion<APITransactionResponse>) {
+        requestQueue.async {
+            let url = URL(string: AggregationEndpoint.transaction(transactionID: transactionID).path, relativeTo: self.serverURL)!
+            
+            var urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = HTTPMethod.put.rawValue
+            
+            let encoder = JSONEncoder()
+            
+            do {
+                let requestData = try encoder.encode(request)
+                
+                urlRequest.httpBody = requestData
+            } catch {
+                Log.error(error.localizedDescription)
+                
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(nil, dataError)
+                return
+            }
+            
+            self.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response: DataResponse<Data>) in
+                self.handleResponse(type: APITransactionResponse.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     // MARK: - Transaction Categories
     
     internal func fetchTransactionCategories(completion: @escaping RequestCompletion<[APITransactionCategoryResponse]>) {

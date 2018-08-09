@@ -130,4 +130,12 @@ public class Transaction: NSManagedObject, CacheableManagedObject {
         userDescription = response.description.user
     }
     
+    func updateRequest() -> APITransactionUpdateRequest {
+        return APITransactionUpdateRequest(budgetCategory: budgetCategory,
+                                           categoryID: transactionCategoryID,
+                                           included: included,
+                                           memo: memo,
+                                           userDescription: userDescription)
+    }
+    
 }

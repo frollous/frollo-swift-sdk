@@ -14,6 +14,10 @@
 		0101949A20F5815800334482 /* FakeDatabaseModel.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 0101949420F5815800334482 /* FakeDatabaseModel.sqlite-shm */; };
 		0101949B20F5815800334482 /* FrolloSDKDataModel-1.0.0.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 0101949520F5815800334482 /* FrolloSDKDataModel-1.0.0.sqlite-wal */; };
 		0101949E20F595F300334482 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101949D20F595F300334482 /* NetworkTests.swift */; };
+		010EB42B211BF92A005A926A /* APITransactionUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010EB42A211BF92A005A926A /* APITransactionUpdateRequest.swift */; };
+		010EB42D211C00D0005A926A /* APITransactionUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010EB42C211C00D0005A926A /* APITransactionUpdateRequest+Test.swift */; };
+		010EB42E211C00D0005A926A /* APITransactionUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010EB42C211C00D0005A926A /* APITransactionUpdateRequest+Test.swift */; };
+		010EB42F211C00D0005A926A /* APITransactionUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010EB42C211C00D0005A926A /* APITransactionUpdateRequest+Test.swift */; };
 		0136D225210011E70062EAEA /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136D224210011E70062EAEA /* Keychain.swift */; };
 		0136D229210067DF0062EAEA /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136D227210067B20062EAEA /* KeychainTests.swift */; };
 		0136D2332101775B0062EAEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136D2322101775B0062EAEA /* AppDelegate.swift */; };
@@ -441,6 +445,8 @@
 		0101949420F5815800334482 /* FakeDatabaseModel.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FakeDatabaseModel.sqlite-shm"; sourceTree = "<group>"; };
 		0101949520F5815800334482 /* FrolloSDKDataModel-1.0.0.sqlite-wal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FrolloSDKDataModel-1.0.0.sqlite-wal"; sourceTree = "<group>"; };
 		0101949D20F595F300334482 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
+		010EB42A211BF92A005A926A /* APITransactionUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionUpdateRequest.swift; sourceTree = "<group>"; };
+		010EB42C211C00D0005A926A /* APITransactionUpdateRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APITransactionUpdateRequest+Test.swift"; sourceTree = "<group>"; };
 		0136D224210011E70062EAEA /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		0136D227210067B20062EAEA /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
 		0136D2302101775B0062EAEA /* FrolloSDK iOS Test Host.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FrolloSDK iOS Test Host.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -881,6 +887,7 @@
 				015EEDE1210FDA760081AD76 /* APIProviderResponse+Test.swift */,
 				01483B9F2119318D00D0DA87 /* APITransactionCategoryResponse+Test.swift */,
 				01ED8FCB211A660900ACE691 /* APITransactionResponse+Test.swift */,
+				010EB42C211C00D0005A926A /* APITransactionUpdateRequest+Test.swift */,
 			);
 			path = Aggregation;
 			sourceTree = "<group>";
@@ -964,6 +971,7 @@
 				016097F4210EE2BA0034E857 /* APIProviderResponse.swift */,
 				01483B9B21192D4A00D0DA87 /* APITransactionCategoryResponse.swift */,
 				01ED8FC9211A5E7A00ACE691 /* APITransactionResponse.swift */,
+				010EB42A211BF92A005A926A /* APITransactionUpdateRequest.swift */,
 			);
 			path = Aggregation;
 			sourceTree = "<group>";
@@ -1854,6 +1862,7 @@
 				01874B7D20FD6FB9005A7D0C /* Network+User.swift in Sources */,
 				01C824F020EC410B0093400E /* NetworkLogger.swift in Sources */,
 				015EEDDC210FC9C60081AD76 /* AggregationEndpoint.swift in Sources */,
+				010EB42B211BF92A005A926A /* APITransactionUpdateRequest.swift in Sources */,
 				01874B7820F82C98005A7D0C /* DeviceEndpoint.swift in Sources */,
 				013A32C12112AF4E00B0590B /* DateFormatter.swift in Sources */,
 				01483B9921192C3900D0DA87 /* TransactionCategory+CoreDataClass.swift in Sources */,
@@ -1912,6 +1921,7 @@
 				01483B772117DC3800D0DA87 /* Account+Test.swift in Sources */,
 				01ED8FD0211A672C00ACE691 /* Transaction+Test.swift in Sources */,
 				0136D229210067DF0062EAEA /* KeychainTests.swift in Sources */,
+				010EB42D211C00D0005A926A /* APITransactionUpdateRequest+Test.swift in Sources */,
 				01483BC32119718700D0DA87 /* APIMerchantResponse+Test.swift in Sources */,
 				017B48F721083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				013A32CF2112C3A900B0590B /* ProviderAccount+Test.swift in Sources */,
@@ -1969,6 +1979,7 @@
 				01483B782117DC3800D0DA87 /* Account+Test.swift in Sources */,
 				01ED8FD1211A672C00ACE691 /* Transaction+Test.swift in Sources */,
 				017B483F2101B4FE00447E65 /* KeychainTests.swift in Sources */,
+				010EB42E211C00D0005A926A /* APITransactionUpdateRequest+Test.swift in Sources */,
 				01483BC42119718700D0DA87 /* APIMerchantResponse+Test.swift in Sources */,
 				017B48F821083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				013A32D02112C3A900B0590B /* ProviderAccount+Test.swift in Sources */,
@@ -2035,6 +2046,7 @@
 				01483B792117DC3800D0DA87 /* Account+Test.swift in Sources */,
 				01ED8FD2211A672C00ACE691 /* Transaction+Test.swift in Sources */,
 				017B489C2105958100447E65 /* KeychainTests.swift in Sources */,
+				010EB42F211C00D0005A926A /* APITransactionUpdateRequest+Test.swift in Sources */,
 				01483BC52119718700D0DA87 /* APIMerchantResponse+Test.swift in Sources */,
 				017B48F921083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				013A32D12112C3A900B0590B /* ProviderAccount+Test.swift in Sources */,

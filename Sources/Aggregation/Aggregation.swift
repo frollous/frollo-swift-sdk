@@ -35,15 +35,23 @@ class Aggregation: ResponseHandler {
     // MARK: - Cache
     
     private func cachedAccount(accountID: Int64, background: Bool = false) -> Account? {
+        return cachedObject(type: Account.self, objectID: accountID, objectKey: #keyPath(Account.accountID), background: background)
+    }
+    
+    private func cachedTransaction(transactionID: Int64, background: Bool = false) -> Transaction? {
+        return cachedObject(type: Transaction.self, objectID: transactionID, objectKey: #keyPath(Transaction.transactionID), background: background)
+    }
+    
+    private func cachedObject<T: CacheableManagedObject & NSManagedObject>(type: T.Type, objectID: Int64, objectKey: String, background: Bool) -> T? {
         let managedObjectContext = background ? database.newBackgroundContext() : database.viewContext
         
-        let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "accountID == %ld", argumentArray: [accountID])
+        let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
+        fetchRequest.predicate = NSPredicate(format: objectKey + " == %ld", argumentArray: [objectID])
         
         do {
-            let fetchedAccounts = try managedObjectContext.fetch(fetchRequest)
+            let fetchedObjects = try managedObjectContext.fetch(fetchRequest)
             
-            return fetchedAccounts.first
+            return fetchedObjects.first
         } catch {
             Log.error(error.localizedDescription)
         }
@@ -278,6 +286,43 @@ class Aggregation: ResponseHandler {
      */
     public func refreshTransaction(transactionID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
         network.fetchTransaction(transactionID: transactionID) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let transactionResponse = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleTransactionResponse(transactionResponse, managedObjectContext: managedObjectContext)
+                    
+                    self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            completion?(error)
+        }
+    }
+    
+    /**
+     Update a transaction on the host
+     
+     - parameters:
+        - transactionID: ID of the transaction to be updated
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func updateTransaction(transactionID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard let transaction = cachedTransaction(transactionID: transactionID, background: true)
+            else {
+                let error = DataError(type: .database, subType: .notFound)
+                
+                completion?(error)
+                return
+        }
+        
+        let request = transaction.updateRequest()
+        
+        network.updateTransaction(transactionID: transactionID, request: request) { (response, error) in
             if let responseError = error {
                 Log.error(responseError.localizedDescription)
             } else {

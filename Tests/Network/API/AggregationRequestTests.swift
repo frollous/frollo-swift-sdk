@@ -569,6 +569,38 @@ class AggregationRequestTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testUpdateTransaction() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 99703).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_99703", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        let request = APITransactionUpdateRequest.testCompleteData()
+        network.updateTransaction(transactionID: 99703, request: request) { (response, error) in
+            XCTAssertNil(error)
+            
+            if let transactionResponse = response {
+                XCTAssertEqual(transactionResponse.id, 99703)
+                XCTAssertEqual(transactionResponse.accountID, 543)
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testFetchTransactionCategories() {
         let expectation1 = expectation(description: "Network Request")
         
