@@ -1,0 +1,42 @@
+{
+		"id": "3008",
+		"forgetPasswordURL": "https://www.ingdirect.com.au/client/index.aspx",
+		"formType": "login",
+		"row": [{
+			"id": "6797",
+			"label": "Client Number",
+			"form": "0001",
+			"fieldRowChoice": "0001",
+			"field": [{
+				"id": "4410",
+				"name": "LOGIN",
+				"maxLength": 8,
+				"type": "text",
+				"value": "",
+				"isOptional": false,
+				"valueEditable": true,
+				"validation": [{
+					"regExp": "^[0-9]{0,8}$",
+					"errorMsg": "Please enter a valid Client Number"
+				}]
+			}]
+		}, {
+			"id": "6796",
+			"label": "Access Code",
+			"form": "0001",
+			"fieldRowChoice": "0002",
+			"field": [{
+				"id": "4409",
+				"name": "PASSWORD",
+				"maxLength": 6,
+				"type": "password",
+				"value": "",
+				"isOptional": false,
+				"valueEditable": true,
+				"validation": [{
+					"regExp": "^[0-9]{0,6}$",
+					"errorMsg": "Please enter a valid Access Code"
+				}]
+			}]
+		}]
+}

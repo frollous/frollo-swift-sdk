@@ -1,0 +1,19 @@
+{
+		"mfaTimeout": 99180,
+		"formType": "token",
+		"row": [{
+			"id": "token_row",
+			"label": "Security Key",
+			"fieldRowChoice": "0001",
+			"form": "0001",
+			"field": [{
+				"id": "token",
+				"name": "tokenValue",
+				"isOptional": false,
+				"value": "",
+				"valueEditable": "true",
+				"maxLength": 6,
+				"type": "text"
+			}]
+		}]
+}

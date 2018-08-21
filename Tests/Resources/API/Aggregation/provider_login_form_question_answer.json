@@ -1,0 +1,31 @@
+{
+		"mfaTimeout": 99670,
+		"formType": "questionAndAnswer",
+		"row": [{
+			"id": "SQandA--QUESTION_1--Row--1",
+			"fieldRowChoice": "0001",
+			"form": "0001",
+			"label": "What is the name of your state?",
+			"field": [{
+				"id": "SQandA--QUESTION_1--1",
+				"name": "QUESTION_1",
+				"isOptional": false,
+				"value": "",
+				"valueEditable": "true",
+				"type": "text"
+			}]
+		}, {
+			"id": "SQandA--QUESTION_2--Row--2",
+			"fieldRowChoice": "0002",
+			"form": "0001",
+			"label": "What is the name of your first school",
+			"field": [{
+				"id": "SQandA--QUESTION_2--2",
+				"name": "QUESTION_2",
+				"isOptional": false,
+				"value": "",
+				"valueEditable": "true",
+				"type": "text"
+			}]
+		}]
+}

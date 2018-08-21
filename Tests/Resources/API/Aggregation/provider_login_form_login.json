@@ -1,0 +1,35 @@
+{
+    "id": "13039",
+    "forgetPasswordURL": "https://ib.mebank.com.au/auth/ib/login.html",
+    "formType": "login",
+    "row": [
+      {
+        "label": "Customer ID",
+        "form": "0001",
+        "field_row_choice": "0001",
+        "field": [{
+          "id": "53364",
+          "name": "LOGIN",
+          "max_length": 8,
+          "type": "text",
+          "value": "",
+          "is_optional": false,
+          "value_editable": true
+        }]
+      },
+      {
+        "label": "Access Code",
+        "form": "0001",
+        "field_row_choice": "0002",
+        "field": [{
+          "id": "53363",
+          "name": "PASSWORD",
+          "max_length": 255,
+          "type": "password",
+          "value": "",
+          "is_optional": false,
+          "value_editable": true
+        }]
+      }
+    ]
+  }

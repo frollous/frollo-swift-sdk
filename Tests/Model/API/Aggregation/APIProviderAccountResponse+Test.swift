@@ -20,6 +20,7 @@ extension APIProviderAccountResponse {
         
         return APIProviderAccountResponse(id: 76251,
                                           editable: true,
+                                          loginForm: nil,
                                           providerID: 54321,
                                           refreshStatus: refreshStatus)
     }

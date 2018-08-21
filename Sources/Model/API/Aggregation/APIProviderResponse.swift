@@ -19,6 +19,7 @@ struct APIProviderResponse: APIUniqueResponse, Codable {
         case helpMessage = "help_message"
         case id
         case largeLogoURLString = "large_logo_url"
+        case loginForm = "login_form"
         case loginHelpMessage = "login_help_message"
         case loginURLString = "login_url"
         case mfaType = "mfa_type"
@@ -68,6 +69,7 @@ struct APIProviderResponse: APIUniqueResponse, Codable {
     var forgotPasswordURLString: String?
     var helpMessage: String?
     var largeLogoURLString: String?
+    var loginForm: ProviderLoginForm?
     var loginHelpMessage: String?
     var loginURLString: String?
     var mfaType: Provider.MFAType?

@@ -1,0 +1,70 @@
+{
+		"id": "3326",
+		"forgetPasswordURL": "https://ibank.barclays.co.uk/fp/1_2m/online/1,17266,loginForgottenDetails,00.html?forgottenLoginDetails=true",
+		"help": "To link your Barclay account you must enter your Surname and one of the following: your Membership Number, Card Number, or Sort Code and Account Number.",
+		"formType": "login",
+		"row": [{
+			"id": "7223",
+			"label": "Surname",
+			"form": "0001",
+			"fieldRowChoice": "0001",
+			"field": [{
+				"id": "4956",
+				"name": "LOGIN",
+				"type": "text",
+				"value": "",
+				"isOptional": false,
+				"valueEditable": true
+			}]
+		}, {
+			"id": "7224",
+			"label": "Membership number",
+			"form": "0001",
+			"fieldRowChoice": "0002 Choice",
+			"field": [{
+				"id": "4958",
+				"name": "OP_LOGIN1",
+				"maxLength": 12,
+				"type": "text",
+				"value": "",
+				"isOptional": true,
+				"valueEditable": true
+			}]
+		}, {
+			"id": "151124",
+			"label": "Card number",
+			"form": "0001",
+			"fieldRowChoice": "0002 Choice",
+			"field": [{
+				"id": "65773",
+				"name": "OP_LOGIN2",
+				"maxLength": 16,
+				"type": "text",
+				"value": "",
+				"isOptional": true,
+				"valueEditable": true
+			}]
+		}, {
+			"id": "151125",
+			"label": "Sort code and Account number",
+			"form": "0001",
+			"fieldRowChoice": "0002 Choice",
+			"field": [{
+				"id": "65774",
+				"name": "OP_LOGIN3",
+				"maxLength": 6,
+				"type": "text",
+				"value": "",
+				"isOptional": true,
+				"valueEditable": true
+			}, {
+				"id": "65764",
+				"name": "OP_LOGIN4",
+				"maxLength": 8,
+				"type": "text",
+				"value": "",
+				"isOptional": true,
+				"valueEditable": true
+			}]
+		}]
+	}
