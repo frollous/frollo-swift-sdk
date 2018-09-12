@@ -27,6 +27,34 @@ public class ProviderAccount: NSManagedObject, CacheableManagedObject {
 
     static let entityName = "ProviderAccount"
     
+    public var loginForm: ProviderLoginForm? {
+        get {
+            if let rawValue = loginFormRawValue {
+                let decoder = JSONDecoder()
+                
+                do {
+                    return try decoder.decode(ProviderLoginForm.self, from: rawValue)
+                } catch {
+                    Log.error(error.localizedDescription)
+                }
+            }
+            return nil
+        }
+        set {
+            if let newRawValue = newValue {
+                let encoder = JSONEncoder()
+                
+                do {
+                    loginFormRawValue = try encoder.encode(newRawValue)
+                } catch {
+                    loginFormRawValue = nil
+                }
+            } else {
+                loginFormRawValue = nil
+            }
+        }
+    }
+    
     public var refreshStatus: AccountRefreshStatus {
         get {
             return AccountRefreshStatus(rawValue: refreshStatusRawValue!)!
@@ -83,6 +111,7 @@ public class ProviderAccount: NSManagedObject, CacheableManagedObject {
         refreshStatus = response.refreshStatus.status
         refreshSubStatus = response.refreshStatus.subStatus
         refreshAdditionalStatus = response.refreshStatus.additionalStatus
+        loginForm = response.loginForm
     }
     
 }

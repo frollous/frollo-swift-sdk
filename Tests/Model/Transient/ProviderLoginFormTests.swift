@@ -6,6 +6,7 @@
 //  Copyright © 2018 Frollo. All rights reserved.
 //
 
+import CoreData
 import XCTest
 @testable import FrolloSDK
 
@@ -558,6 +559,21 @@ class ProviderLoginFormTests: XCTestCase {
         } catch {
             XCTFail(error.localizedDescription)
         }
+    }
+    
+    func testProviderLoginFormEncryptionByValues() {
+        let encryptionAlias = "09282016_1"
+        let encryptionKey = "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1eXKHvPBlS4A41OvQqFn0SfNH7OgEs2MXMLeyp3xKorEipEKuzv/JDtHFHRAfYwyeiC0q+me0R8GLA6NEDGDfpxGv/XUFyza609ZqtCTOiGCp8DcjLG0mPljdGA1Df0BKhF3y5uata1y0dKSI8aY8lXPza+Tsw4TtjdmHbJ2rR3sFZkYch1RTmNKxKDxMgUmtIk785lIfLJ2x6lvh4ZS9QhuAnsoVM91WWKHrLHYfAeA/zD1TxHDm5/4wPbmFLEBe2+5zGae19nsA/9zDwKP4whpte9HuDDQa5Vsq+aWj5pDJuvFgwA/DStqcHGijn5gzB/JXEoE9qx+dcG92PpvfwIDAQAB\n------END PUBLIC KEY------"
+        
+        var form = ProviderLoginForm.loginFormFilledData()
+        
+        form.encryptValues(encryptionKey: encryptionKey, encryptionAlias: encryptionAlias)
+        
+        XCTAssertTrue(form.row[0].field[0].value!.contains(encryptionAlias))
+        XCTAssertEqual(form.row[0].field[0].value?.count, 523)
+        XCTAssertTrue(form.row[1].field[0].value!.contains(encryptionAlias))
+        XCTAssertEqual(form.row[1].field[0].value?.count, 523)
+        XCTAssertNotEqual(form.row[0].field[0].value, form.row[1].field[0].value)
     }
 
 }

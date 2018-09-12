@@ -8,17 +8,17 @@
 
 import Foundation
 
-struct ProviderLoginForm: Codable {
+public struct ProviderLoginForm: Codable {
     
     struct Row: Codable {
         
-        let field: [Field]
+        var field: [Field]
         let fieldRowChoice: String
         let form: String
         let hint: String?
         let id: String
         let label: String
-        let selected: Bool?
+        var selected: Bool?
         
     }
     
@@ -34,7 +34,7 @@ struct ProviderLoginForm: Codable {
         let suffix: String?
         let type: FieldType
         let validation: [Validation]?
-        let value: String?
+        var value: String?
         let valueEditable: Bool
         
         public func imageData() -> Data? {
@@ -89,6 +89,37 @@ struct ProviderLoginForm: Codable {
     let mfaInfoText: String?
     let mfaTimeout: Int?
     let mfaInfoTitle: String?
-    let row: [Row]
+    var row: [Row]
+    
+    public mutating func encryptValues(encryptionKey: String, encryptionAlias: String) {
+        guard let publicKey = SecKeyCreateWithPEMData(encryptionKey, nil)
+            else {
+                return
+        }
+        
+        for rowIndex in row.indices {
+            for fieldIndex in row[rowIndex].field.indices {
+                guard let value = row[rowIndex].field[fieldIndex].value,
+                    !value.isEmpty
+                    else {
+                        continue
+                }
+                
+                let data = value.data(using: .utf8)!
+                let blockSize = SecKeyGetBlockSize(publicKey)
+                
+                var encryptedDataBuffer = [UInt8](repeating: 0, count: blockSize)
+                var encryptedDataLength = blockSize
+                
+                var decryptedDataAsArray = [UInt8](repeating: 0, count: data.count / MemoryLayout<UInt8>.size)
+                (data as NSData).getBytes(&decryptedDataAsArray, length: data.count)
+                
+                SecKeyEncrypt(publicKey, .PKCS1, decryptedDataAsArray, decryptedDataAsArray.count, &encryptedDataBuffer, &encryptedDataLength)
+                
+                let encryptedData = Data(bytes: UnsafePointer<UInt8>(encryptedDataBuffer), count: encryptedDataLength)
+                row[rowIndex].field[fieldIndex].value = String(format: "%@:%@", arguments: [encryptionAlias, encryptedData.hexEncodedString()])
+            }
+        }
+    }
     
 }

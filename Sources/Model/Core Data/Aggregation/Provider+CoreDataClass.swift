@@ -99,6 +99,34 @@ public class Provider: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    public var loginForm: ProviderLoginForm? {
+        get {
+            if let rawValue = loginFormRawValue {
+                let decoder = JSONDecoder()
+                
+                do {
+                    return try decoder.decode(ProviderLoginForm.self, from: rawValue)
+                } catch {
+                    Log.error(error.localizedDescription)
+                }
+            }
+            return nil
+        }
+        set {
+            if let newRawValue = newValue {
+                let encoder = JSONEncoder()
+                
+                do {
+                    loginFormRawValue = try encoder.encode(newRawValue)
+                } catch {
+                    loginFormRawValue = nil
+                }
+            } else {
+                loginFormRawValue = nil
+            }
+        }
+    }
+    
     public var loginURL: URL? {
         get {
             if let urlString = loginURLString {
@@ -237,6 +265,9 @@ public class Provider: NSManagedObject, CacheableManagedObject {
         }
         if let responseSmallURL = response.smallLogoURLString {
             smallLogoURLString = responseSmallURL
+        }
+        if let responseLoginForm = response.loginForm {
+            loginForm = responseLoginForm
         }
         
     }

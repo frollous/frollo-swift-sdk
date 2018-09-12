@@ -118,7 +118,7 @@
     <entity name="ProviderAccount" representedClassName="ProviderAccount" syncable="YES" codeGenerationType="category">
         <attribute name="editable" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="lastRefreshed" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="loginForm" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="loginFormRawValue" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="nextRefresh" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="providerAccountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="providerID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
