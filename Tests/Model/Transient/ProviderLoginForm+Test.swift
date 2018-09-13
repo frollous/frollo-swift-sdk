@@ -57,6 +57,29 @@ extension ProviderLoginForm {
                                      selected: nil)
     }
     
+    static func loginFormMaxLengthRow() -> ProviderLoginForm.Row {
+        let field = ProviderLoginForm.Field(id: "7224",
+                                            image: nil,
+                                            isOptional: false,
+                                            maxLength: 12,
+                                            name: "MEMBER_NO",
+                                            option: nil,
+                                            prefix: nil,
+                                            suffix: nil,
+                                            type: .text,
+                                            validation: nil,
+                                            value: "",
+                                            valueEditable: true)
+        
+        return ProviderLoginForm.Row(field: [field],
+                                     fieldRowChoice: "0002",
+                                     form: "0001",
+                                     hint: nil,
+                                     id: "7330",
+                                     label: "Member Number",
+                                     selected: nil)
+    }
+    
     static func loginFormMultipleChoiceRows() -> [ProviderLoginForm.Row] {
         return [ProviderLoginForm.loginFormMultipleChoiceRow(choice: "0002 Choice"), ProviderLoginForm.loginFormMultipleChoiceRow(choice: "0002 Choice"), ProviderLoginForm.loginFormMultipleChoiceRow(choice: "0002 Choice")]
     }
@@ -82,6 +105,33 @@ extension ProviderLoginForm {
                                      id: "151124",
                                      label: "An Option",
                                      selected: nil)
+    }
+    
+    static func loginFormValidationField() -> ProviderLoginForm.Row {
+        let field = ProviderLoginForm.Field(id: "65773",
+                                            image: nil,
+                                            isOptional: true,
+                                            maxLength: nil,
+                                            name: "PASSWORD",
+                                            option: nil,
+                                            prefix: nil,
+                                            suffix: nil,
+                                            type: .text,
+                                            validation: [ProviderLoginForm.loginFormRegexValidation()],
+                                            value: "",
+                                            valueEditable: true)
+        
+        return ProviderLoginForm.Row(field: [field],
+                                     fieldRowChoice: "0001",
+                                     form: "0001",
+                                     hint: nil,
+                                     id: "151124",
+                                     label: "PASSWORD",
+                                     selected: nil)
+    }
+    
+    static func loginFormRegexValidation() -> ProviderLoginForm.Validation {
+        return ProviderLoginForm.Validation(errorMsg: "Please enter a valid Access Code", regExp: "^[0-9]{0,6}$")
     }
     
 //    static func testLoginFormData() -> ProviderLoginForm {
@@ -136,6 +186,37 @@ extension ProviderLoginForm {
                                  mfaTimeout: nil,
                                  mfaInfoTitle: nil,
                                  row: [usernameRow] + multipleChoiceRows)
+    }
+    
+    static func loginFormFilledMaxLengthExceededField() -> ProviderLoginForm {
+        var usernameRow = ProviderLoginForm.loginFormUsernameRow()
+        usernameRow.field[0].value = "abc123"
+        
+        var maxLengthRow = ProviderLoginForm.loginFormMaxLengthRow()
+        maxLengthRow.field[0].value = "This string is way too long"
+        
+        return ProviderLoginForm(id: "3410",
+                                 forgetPasswordURL: "https://secure.amp.com.au/wps/portal/sec/ForgotUsername/!ut/p/a1/04_Sj9CPykssy0xPLMnMz0vMAfGjzOIDDC1cPUzcDbwNLANcDBxdg009vfz9jQxcTfW99KPSc_KTgEoj9SPxKy3IDnIEAM_vx8Q!/",
+                                 formType: .login,
+                                 help: nil,
+                                 mfaInfoText: nil,
+                                 mfaTimeout: nil,
+                                 mfaInfoTitle: nil,
+                                 row: [usernameRow, maxLengthRow])
+    }
+    
+    static func loginFormFilledRegexInvalidField() -> ProviderLoginForm {
+        var regexField = ProviderLoginForm.loginFormValidationField()
+        regexField.field[0].value = "Not an access code"
+        
+        return ProviderLoginForm(id: "3410",
+                                forgetPasswordURL: "https://secure.amp.com.au/wps/portal/sec/ForgotUsername/!ut/p/a1/04_Sj9CPykssy0xPLMnMz0vMAfGjzOIDDC1cPUzcDbwNLANcDBxdg009vfz9jQxcTfW99KPSc_KTgEoj9SPxKy3IDnIEAM_vx8Q!/",
+                                formType: .login,
+                                help: nil,
+                                mfaInfoText: nil,
+                                mfaTimeout: nil,
+                                mfaInfoTitle: nil,
+                                row: [regexField])
     }
     
 //

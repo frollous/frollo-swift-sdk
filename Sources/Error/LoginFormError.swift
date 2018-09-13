@@ -18,6 +18,9 @@ class LoginFormError: FrolloSDKError {
         case unknown
     }
     
+    /// Additional error information
+    public var additionalError: String?
+    
     /// Affected field name
     public var fieldName: String
     
@@ -43,18 +46,26 @@ class LoginFormError: FrolloSDKError {
     // MARK: - Error Descriptions
     
     private func localizedDataErrorDescription() -> String {
+        var description: String
+        
         switch type {
             case .fieldChoiceNotSelected:
-                return String(format: Localization.string("Error.LoginForm.FieldChoiceNotSelectedFormat"), arguments: [fieldName])
+                description = String(format: Localization.string("Error.LoginForm.FieldChoiceNotSelectedFormat"), arguments: [fieldName])
             case .missingRequiredField:
-                return String(format: Localization.string("Error.LoginForm.MissingRequiredFieldFormat"), arguments: [fieldName])
+                description = String(format: Localization.string("Error.LoginForm.MissingRequiredFieldFormat"), arguments: [fieldName])
             case .maxLengthExceeded:
-                return String(format: Localization.string("Error.LoginForm.MaxLengthExceededFormat"), arguments: [fieldName])
+                description = String(format: Localization.string("Error.LoginForm.MaxLengthExceededFormat"), arguments: [fieldName])
             case .validationFailed:
-                return String(format: Localization.string("Error.LoginForm.ValidationFailedFormat"), arguments: [fieldName])
+                description = String(format: Localization.string("Error.LoginForm.ValidationFailedFormat"), arguments: [fieldName])
             case .unknown:
-                return Localization.string("Error.LoginForm.UnknownError")
+                description = Localization.string("Error.LoginForm.UnknownError")
         }
+        
+        if let additional = additionalError {
+            description.append(" " + additional)
+        }
+        
+        return description
     }
     
     private func debugDataErrorDescription() -> String {

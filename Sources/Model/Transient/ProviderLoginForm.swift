@@ -166,7 +166,9 @@ public struct ProviderLoginForm: Codable {
                         do {
                             let regex = try NSRegularExpression(pattern: currentValidation.regExp, options: [])
                             if regex.numberOfMatches(in: value, options: [], range: NSRange(location: 0, length: value.utf16.count)) < 1 {
-                                return (false, LoginFormError(type: .validationFailed, fieldName: currentField.name))
+                                let error = LoginFormError(type: .validationFailed, fieldName: currentField.name)
+                                error.additionalError = currentValidation.errorMsg
+                                return (false, error)
                             }
                         } catch {
                             Log.error(error.localizedDescription)

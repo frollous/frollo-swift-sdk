@@ -605,11 +605,32 @@ class ProviderLoginFormTests: XCTestCase {
     }
     
     func testProviderLoginFormMaxLengthValidation() {
+        let loginForm = ProviderLoginForm.loginFormFilledMaxLengthExceededField()
         
+        let result = loginForm.validateForm()
+        
+        XCTAssertFalse(result.0)
+        XCTAssertNotNil(result.1)
+        
+        if let error = result.1 as? LoginFormError {
+            XCTAssertEqual(error.type, .maxLengthExceeded)
+            XCTAssertEqual(error.fieldName, "MEMBER_NO")
+        }
     }
     
     func testProviderLoginFormRegexValidation() {
+        let loginForm = ProviderLoginForm.loginFormFilledRegexInvalidField()
         
+        let result = loginForm.validateForm()
+        
+        XCTAssertFalse(result.0)
+        XCTAssertNotNil(result.1)
+        
+        if let error = result.1 as? LoginFormError {
+            XCTAssertEqual(error.type, .validationFailed)
+            XCTAssertEqual(error.fieldName, "PASSWORD")
+            XCTAssertEqual(error.additionalError, "Please enter a valid Access Code")
+        }
     }
 
 }
