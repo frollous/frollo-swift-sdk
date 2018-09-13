@@ -87,6 +87,7 @@ class DataError: FrolloSDKError {
                     default:
                         return Localization.string("Error.Data.Database.UnknownError")
                 }
+            
             case .unknown:
                 switch subType {
                     case .unknown:

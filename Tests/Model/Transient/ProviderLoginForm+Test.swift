@@ -57,6 +57,33 @@ extension ProviderLoginForm {
                                      selected: nil)
     }
     
+    static func loginFormMultipleChoiceRows() -> [ProviderLoginForm.Row] {
+        return [ProviderLoginForm.loginFormMultipleChoiceRow(choice: "0002 Choice"), ProviderLoginForm.loginFormMultipleChoiceRow(choice: "0002 Choice"), ProviderLoginForm.loginFormMultipleChoiceRow(choice: "0002 Choice")]
+    }
+    
+    static func loginFormMultipleChoiceRow(choice: String) -> ProviderLoginForm.Row {
+        let field = ProviderLoginForm.Field(id: "65773",
+                                            image: nil,
+                                            isOptional: true,
+                                            maxLength: 12,
+                                            name: "OP_LOGIN1",
+                                            option: nil,
+                                            prefix: nil,
+                                            suffix: nil,
+                                            type: .text,
+                                            validation: nil,
+                                            value: "",
+                                            valueEditable: true)
+        
+        return ProviderLoginForm.Row(field: [field],
+                                     fieldRowChoice: choice,
+                                     form: "0001",
+                                     hint: nil,
+                                     id: "151124",
+                                     label: "An Option",
+                                     selected: nil)
+    }
+    
 //    static func testLoginFormData() -> ProviderLoginForm {
 //
 //
@@ -77,6 +104,38 @@ extension ProviderLoginForm {
                                  mfaTimeout: nil,
                                  mfaInfoTitle: nil,
                                  row: [usernameRow, passwordRow])
+    }
+    
+    static func loginFormFilledMissingRequiredField() -> ProviderLoginForm {
+        var usernameRow = ProviderLoginForm.loginFormUsernameRow()
+        usernameRow.field[0].value = ""
+        
+        let passwordRow = ProviderLoginForm.loginFormPasswordRow()
+        
+        return ProviderLoginForm(id: "3410",
+                                 forgetPasswordURL: "https://secure.amp.com.au/wps/portal/sec/ForgotUsername/!ut/p/a1/04_Sj9CPykssy0xPLMnMz0vMAfGjzOIDDC1cPUzcDbwNLANcDBxdg009vfz9jQxcTfW99KPSc_KTgEoj9SPxKy3IDnIEAM_vx8Q!/",
+                                 formType: .login,
+                                 help: nil,
+                                 mfaInfoText: nil,
+                                 mfaTimeout: nil,
+                                 mfaInfoTitle: nil,
+                                 row: [usernameRow, passwordRow])
+    }
+    
+    static func loginFormFilledInvalidMultipleChoiceField() -> ProviderLoginForm {
+        var usernameRow = ProviderLoginForm.loginFormUsernameRow()
+        usernameRow.field[0].value = "abc123"
+        
+        let multipleChoiceRows = ProviderLoginForm.loginFormMultipleChoiceRows()
+        
+        return ProviderLoginForm(id: "3410",
+                                 forgetPasswordURL: "https://secure.amp.com.au/wps/portal/sec/ForgotUsername/!ut/p/a1/04_Sj9CPykssy0xPLMnMz0vMAfGjzOIDDC1cPUzcDbwNLANcDBxdg009vfz9jQxcTfW99KPSc_KTgEoj9SPxKy3IDnIEAM_vx8Q!/",
+                                 formType: .login,
+                                 help: nil,
+                                 mfaInfoText: nil,
+                                 mfaTimeout: nil,
+                                 mfaInfoTitle: nil,
+                                 row: [usernameRow] + multipleChoiceRows)
     }
     
 //

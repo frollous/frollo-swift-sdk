@@ -38,6 +38,12 @@
 "Error.Data.Database.NotFound" = "The object requested was not found in the database.";
 "Error.Data.Database.UnknownError" = "Unknown error occurred with the database.";
 
+"Error.LoginForm.FieldChoiceNotSelectedFormat" = "No field selected for multiple choice row %@.";
+"Error.LoginForm.MaxLengthExceededFormat" = "The maximum length for %@ has been exceeded.";
+"Error.LoginForm.MissingRequiredFieldFormat" = "%@ is required.";
+"Error.LoginForm.ValidationFailedFormat" = "Validation failed for %@.";
+"Error.LoginForm.UnknownError" = "Unknown error occurred validating the login form.";
+
 "Error.Generic.UnknownError" = "Unknown error occurred.";
 
 "Error.Network.ConnectionFailure" = "The server couldn't be contacted. Check your internet connection and try again.";

@@ -122,4 +122,61 @@ public struct ProviderLoginForm: Codable {
         }
     }
     
+    public func validateForm() -> (Bool, Error?) {
+        // Validate multiple field choice
+        var previousFieldRowChoice: String?
+        var previousFieldRowMatched = false
+        var previousFieldRowSelected = false
+        
+        for currentRow in row {
+            if currentRow.fieldRowChoice == previousFieldRowChoice {
+                previousFieldRowMatched = true
+                
+                if !previousFieldRowSelected, let selected = currentRow.selected, selected {
+                    previousFieldRowSelected = true
+                }
+            } else {
+                if !previousFieldRowSelected && previousFieldRowMatched {
+                    // No section was selected, fail validation
+                    return (false, LoginFormError(type: .fieldChoiceNotSelected, fieldName: currentRow.label))
+                } else {
+                    previousFieldRowSelected = currentRow.selected ?? false
+                }
+            }
+            
+            previousFieldRowChoice = currentRow.fieldRowChoice
+        }
+        
+        // Check final row
+        if !previousFieldRowSelected && previousFieldRowMatched {
+            // No section was selected, fail validation
+            return (false, LoginFormError(type: .fieldChoiceNotSelected, fieldName: row.last!.label))
+        }
+        
+        for currentRow in row {
+            for currentField in currentRow.field {
+                if !currentField.isOptional && (currentField.value == nil || currentField.value?.isEmpty == true) {
+                    // Required field not filled
+                    return (false,LoginFormError(type: .missingRequiredField, fieldName: currentField.name))
+                } else if let value = currentField.value, let maxLength = currentField.maxLength, value.count > maxLength {
+                    // Value is too long
+                    return (false, LoginFormError(type: .maxLengthExceeded, fieldName: currentField.name))
+                } else if let value = currentField.value, let validation = currentField.validation {
+                    for currentValidation in validation {
+                        do {
+                            let regex = try NSRegularExpression(pattern: currentValidation.regExp, options: [])
+                            if regex.numberOfMatches(in: value, options: [], range: NSRange(location: 0, length: value.utf16.count)) < 1 {
+                                return (false, LoginFormError(type: .validationFailed, fieldName: currentField.name))
+                            }
+                        } catch {
+                            Log.error(error.localizedDescription)
+                        }
+                    }
+                }
+            }
+        }
+        
+        return (true, nil)
+    }
+    
 }

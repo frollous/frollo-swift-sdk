@@ -575,5 +575,41 @@ class ProviderLoginFormTests: XCTestCase {
         XCTAssertEqual(form.row[1].field[0].value?.count, 523)
         XCTAssertNotEqual(form.row[0].field[0].value, form.row[1].field[0].value)
     }
+    
+    func testProviderLoginFormMultipleChoiceValidation() {
+        let loginForm = ProviderLoginForm.loginFormFilledInvalidMultipleChoiceField()
+        
+        let result = loginForm.validateForm()
+        
+        XCTAssertFalse(result.0)
+        XCTAssertNotNil(result.1)
+        
+        if let error = result.1 as? LoginFormError {
+            XCTAssertEqual(error.type, .fieldChoiceNotSelected)
+            XCTAssertEqual(error.fieldName, "An Option")
+        }
+    }
+    
+    func testProviderLoginFormOptionalValidation() {
+        let loginForm = ProviderLoginForm.loginFormFilledMissingRequiredField()
+        
+        let result = loginForm.validateForm()
+        
+        XCTAssertFalse(result.0)
+        XCTAssertNotNil(result.1)
+        
+        if let error = result.1 as? LoginFormError {
+            XCTAssertEqual(error.type, .missingRequiredField)
+            XCTAssertEqual(error.fieldName, "LOGIN")
+        }
+    }
+    
+    func testProviderLoginFormMaxLengthValidation() {
+        
+    }
+    
+    func testProviderLoginFormRegexValidation() {
+        
+    }
 
 }
