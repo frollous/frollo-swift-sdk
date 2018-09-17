@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Security
 
 public struct ProviderLoginForm: Codable {
     
@@ -106,6 +107,29 @@ public struct ProviderLoginForm: Codable {
                 }
                 
                 let data = value.data(using: .utf8)!
+                
+                var encryptedData: Data?
+                
+                #if os(macOS)
+                var error: Unmanaged<CFError>?
+                
+                let transform = SecEncryptTransformCreate(publicKey, &error)
+                guard error == nil
+                    else {
+                        continue
+                }
+                
+                guard SecTransformSetAttribute(transform, kSecTransformInputAttributeName, data as CFData, &error)
+                    else {
+                        continue
+                }
+                
+                encryptedData = SecTransformExecute(transform, &error) as? Data
+                guard error == nil
+                    else {
+                        continue
+                }
+                #else
                 let blockSize = SecKeyGetBlockSize(publicKey)
                 
                 var encryptedDataBuffer = [UInt8](repeating: 0, count: blockSize)
@@ -116,8 +140,14 @@ public struct ProviderLoginForm: Codable {
                 
                 SecKeyEncrypt(publicKey, .PKCS1, decryptedDataAsArray, decryptedDataAsArray.count, &encryptedDataBuffer, &encryptedDataLength)
                 
-                let encryptedData = Data(bytes: UnsafePointer<UInt8>(encryptedDataBuffer), count: encryptedDataLength)
-                row[rowIndex].field[fieldIndex].value = String(format: "%@:%@", arguments: [encryptionAlias, encryptedData.hexEncodedString()])
+                encryptedData = Data(bytes: UnsafePointer<UInt8>(encryptedDataBuffer), count: encryptedDataLength)
+                #endif
+                
+                guard let rowData = encryptedData else {
+                    continue
+                }
+                
+                row[rowIndex].field[fieldIndex].value = String(format: "%@:%@", arguments: [encryptionAlias, rowData.hexEncodedString()])
             }
         }
     }
