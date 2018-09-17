@@ -276,7 +276,7 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         let filledForm = ProviderLoginForm.loginFormFilledData()
-        let request = APIProviderAccountRequest(loginForm: filledForm, providerID: 4078)
+        let request = APIProviderAccountCreateRequest(loginForm: filledForm, providerID: 4078)
         
         network.createProviderAccount(request: request) { (response, error) in
             XCTAssertNil(error)

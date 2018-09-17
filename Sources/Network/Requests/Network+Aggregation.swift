@@ -56,11 +56,57 @@ extension Network {
         }
     }
     
-    internal func createProviderAccount(request: APIProviderAccountRequest, completion: @escaping RequestCompletion<APIProviderAccountResponse>) {
+    internal func createProviderAccount(request: APIProviderAccountCreateRequest, completion: @escaping RequestCompletion<APIProviderAccountResponse>) {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.providerAccounts.path, relativeTo: self.serverURL)!
             
-            self.sessionManager.request(url, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { (response) in
+            var urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = HTTPMethod.post.rawValue
+            
+            let encoder = JSONEncoder()
+            
+            do {
+                let requestData = try encoder.encode(request)
+                
+                urlRequest.httpBody = requestData
+            } catch {
+                Log.error(error.localizedDescription)
+                
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(nil, dataError)
+                return
+            }
+            
+            self.sessionManager.request(urlRequest).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { (response) in
+                self.handleResponse(type: APIProviderAccountResponse.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func updateProviderAccount(providerAccountID: Int64, request: APIProviderAccountUpdateRequest, completion: @escaping RequestCompletion<APIProviderAccountResponse>) {
+        requestQueue.async {
+            let url = URL(string: AggregationEndpoint.providerAccount(providerAccountID: providerAccountID).path, relativeTo: self.serverURL)!
+            
+            var urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = HTTPMethod.put.rawValue
+            
+            let encoder = JSONEncoder()
+            
+            do {
+                let requestData = try encoder.encode(request)
+                
+                urlRequest.httpBody = requestData
+            } catch {
+                Log.error(error.localizedDescription)
+                
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(nil, dataError)
+                return
+            }
+            
+            self.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
                 self.handleResponse(type: APIProviderAccountResponse.self, response: response, completion: completion)
             }
         }

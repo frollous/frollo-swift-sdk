@@ -34,6 +34,10 @@ class Aggregation: ResponseHandler {
     
     // MARK: - Cache
     
+    private func cachedProviderAccount(providerAccountID: Int64, background: Bool = false) -> ProviderAccount? {
+        return cachedObject(type: ProviderAccount.self, objectID: providerAccountID, objectKey: #keyPath(ProviderAccount.providerAccountID), background: background)
+    }
+    
     private func cachedAccount(accountID: Int64, background: Bool = false) -> Account? {
         return cachedObject(type: Account.self, objectID: accountID, objectKey: #keyPath(Account.accountID), background: background)
     }
@@ -173,9 +177,36 @@ class Aggregation: ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func createProviderAccount(providerID: Int64, loginForm: ProviderLoginForm, completion: FrolloSDKCompletionHandler? = nil) {
-        let request = APIProviderAccountRequest(loginForm: loginForm, providerID: providerID)
+        let request = APIProviderAccountCreateRequest(loginForm: loginForm, providerID: providerID)
         
         network.createProviderAccount(request: request) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let providerAccountRespone = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleProviderAccountResponse(providerAccountRespone, managedObjectContext: managedObjectContext)
+                    
+                    self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            completion?(error)
+        }
+    }
+    
+    /**
+     Update a provider account on the host
+     
+     - parameters:
+     - providerAccountID: ID of the provider account to be updated
+     - completion: Optional completion handler with optional error if the request fails
+     */
+    public func updateProviderAccount(providerAccountID: Int64, loginForm: ProviderLoginForm, completion: FrolloSDKCompletionHandler? = nil) {
+        let request = APIProviderAccountUpdateRequest(loginForm: loginForm)
+        
+        network.updateProviderAccount(providerAccountID: providerAccountID, request: request) { (response, error) in
             if let responseError = error {
                 Log.error(responseError.localizedDescription)
             } else {
