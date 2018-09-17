@@ -132,6 +132,36 @@ class Authentication {
         }
     }
     
+    /**
+     Update the user details
+     
+     Updates the user details from cache on the server. This should be called whenever details or statistics about a user are altered, e.g. changing email.
+     
+     - parameters:
+        - completion: A completion handler once the API has returned and the cache has been updated. Returns any error that occurred during the process.
+     */
+    public func updateUser(completion: @escaping FrolloSDKCompletionHandler) {
+        guard let request = user?.updateRequest()
+            else {
+                let error = DataError(type: .database, subType: .notFound)
+                
+                completion(error)
+                return
+        }
+        
+        network.updateUser(request: request) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let userResponse = response {
+                    self.handleUserResponse(userResponse: userResponse)
+                }
+            }
+            
+            completion(error)
+        }
+    }
+    
     // MARK: - User Model
     
     private func handleUserResponse(userResponse: APIUserResponse) {

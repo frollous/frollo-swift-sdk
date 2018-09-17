@@ -392,6 +392,7 @@
 		01E8375A2149F08100A50E15 /* LoginFormError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E837592149F08100A50E15 /* LoginFormError.swift */; };
 		01EAAEDF214B6185003D1EAC /* APIProviderAccountCreateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EAAEDE214B6185003D1EAC /* APIProviderAccountCreateRequest.swift */; };
 		01EAAEE1214F351D003D1EAC /* APIProviderAccountUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EAAEE0214F351D003D1EAC /* APIProviderAccountUpdateRequest.swift */; };
+		01EAAEE32150663A003D1EAC /* APIUserUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EAAEE22150663A003D1EAC /* APIUserUpdateRequest.swift */; };
 		01ED8FC7211A5DE800ACE691 /* Transaction+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01ED8FC5211A5DE800ACE691 /* Transaction+CoreDataClass.swift */; };
 		01ED8FCA211A5E7A00ACE691 /* APITransactionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01ED8FC9211A5E7A00ACE691 /* APITransactionResponse.swift */; };
 		01ED8FCC211A660900ACE691 /* APITransactionResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01ED8FCB211A660900ACE691 /* APITransactionResponse+Test.swift */; };
@@ -668,6 +669,7 @@
 		01E837592149F08100A50E15 /* LoginFormError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFormError.swift; sourceTree = "<group>"; };
 		01EAAEDE214B6185003D1EAC /* APIProviderAccountCreateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProviderAccountCreateRequest.swift; sourceTree = "<group>"; };
 		01EAAEE0214F351D003D1EAC /* APIProviderAccountUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProviderAccountUpdateRequest.swift; sourceTree = "<group>"; };
+		01EAAEE22150663A003D1EAC /* APIUserUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserUpdateRequest.swift; sourceTree = "<group>"; };
 		01ED8FC5211A5DE800ACE691 /* Transaction+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transaction+CoreDataClass.swift"; sourceTree = "<group>"; };
 		01ED8FC9211A5E7A00ACE691 /* APITransactionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionResponse.swift; sourceTree = "<group>"; };
 		01ED8FCB211A660900ACE691 /* APITransactionResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APITransactionResponse+Test.swift"; sourceTree = "<group>"; };
@@ -793,6 +795,7 @@
 			children = (
 				013D2D85210A88AC00EEDEC5 /* APIUserLoginRequest.swift */,
 				017B48DF2107FE6A00447E65 /* APIUserResponse.swift */,
+				01EAAEE22150663A003D1EAC /* APIUserUpdateRequest.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1952,6 +1955,7 @@
 				01483B712117C7E900D0DA87 /* APIAccountResponse.swift in Sources */,
 				017B48E02107FE6A00447E65 /* APIUserResponse.swift in Sources */,
 				01874B7F20FD9F21005A7D0C /* Network+Device.swift in Sources */,
+				01EAAEE32150663A003D1EAC /* APIUserUpdateRequest.swift in Sources */,
 				01819144211162DD000E0F80 /* CacheableManagedObject.swift in Sources */,
 				01C8251420EDF6200093400E /* Localization.swift in Sources */,
 				01C8250520EDDB410093400E /* NetworkError.swift in Sources */,

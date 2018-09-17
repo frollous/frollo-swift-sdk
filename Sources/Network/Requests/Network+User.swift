@@ -90,6 +90,34 @@ extension Network {
 //        }
 //    }
     
+    internal func updateUser(request: APIUserUpdateRequest, completion: @escaping UserRequestCompletion) {
+        requestQueue.async {
+            let url = URL(string: UserEndpoint.details.path, relativeTo: self.serverURL)!
+            
+            var urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = HTTPMethod.put.rawValue
+            
+            let encoder = JSONEncoder()
+            
+            do {
+                let requestData = try encoder.encode(request)
+                
+                urlRequest.httpBody = requestData
+            } catch {
+                Log.error(error.localizedDescription)
+                
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(nil, dataError)
+                return
+            }
+            
+            self.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue, completionHandler: { (response) in
+                self.handleUserResponse(response: response, completion: completion)
+            })
+        }
+    }
+    
     // MARK: - Response Handling
         
     private func handleUserResponse(response: DataResponse<Data>, completion: UserRequestCompletion) {

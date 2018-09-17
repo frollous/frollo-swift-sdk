@@ -154,6 +154,8 @@ public class User: NSManagedObject {
         }
     }
     
+    // MARK: - Updating from response
+    
     internal func update(response: APIUserResponse) {
         userID = response.userID
         email = response.email
@@ -171,6 +173,27 @@ public class User: NSManagedObject {
         lastName = response.lastName
         occupation = response.occupation
         postcode = response.address?.postcode
+    }
+    
+    // MARK: - Update request
+    
+    internal func updateRequest() -> APIUserUpdateRequest {
+        var address: APIUserUpdateRequest.Address?
+        if let code = postcode {
+            address = APIUserUpdateRequest.Address(postcode: code)
+        }
+        
+        return APIUserUpdateRequest(email: email!,
+                                    firstName: firstName!,
+                                    primaryCurrency: primaryCurrency!,
+                                    address: address,
+                                    dateOfBirth: dateOfBirth,
+                                    gender: gender,
+                                    householdSize: householdSize,
+                                    householdType: householdType,
+                                    industry: industry,
+                                    lastName: lastName,
+                                    occupation: occupation)
     }
     
 }

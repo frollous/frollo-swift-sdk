@@ -61,7 +61,7 @@ class AuthenticationTests: XCTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 5.0)
+        wait(for: [expectation1], timeout: 3.0)
     }
     
     func testRefreshUser() {
@@ -88,7 +88,43 @@ class AuthenticationTests: XCTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 5.0)
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testUpdateUser() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let moc = database.newBackgroundContext()
+            
+            moc.performAndWait {
+                let user = User(context: moc)
+                user.populateTestData()
+                
+                try! moc.save()
+            }
+            
+            authentication.updateUser { (error) in
+                XCTAssertNil(error)
+                
+                XCTAssertNotNil(authentication.user)
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
     }
     
 }
