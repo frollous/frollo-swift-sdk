@@ -313,7 +313,7 @@ class ProviderLoginFormTests: XCTestCase {
             XCTAssertEqual(loginForm.row[1].field[0].id, "SQandA--QUESTION_2--2")
             XCTAssertEqual(loginForm.row[1].field[0].name, "QUESTION_2")
             XCTAssertNil(loginForm.row[1].field[0].maxLength)
-            XCTAssertEqual(loginForm.row[1].field[0].type, .password)
+            XCTAssertEqual(loginForm.row[1].field[0].type, .text)
             XCTAssertEqual(loginForm.row[1].field[0].value, "")
             XCTAssertEqual(loginForm.row[1].field[0].isOptional, false)
             XCTAssertEqual(loginForm.row[1].field[0].valueEditable, true)

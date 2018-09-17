@@ -41,6 +41,4 @@ public func SecKeyCreateWithPEMData(_ keyData: String, _ error: UnsafeMutablePoi
     } catch {
         return nil
     }
-    
-    return nil
 }

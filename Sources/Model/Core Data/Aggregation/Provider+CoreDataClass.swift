@@ -251,6 +251,9 @@ public class Provider: NSManagedObject, CacheableManagedObject {
         if let responseLargeLogoURL = response.largeLogoURLString {
             largeLogoURLString = responseLargeLogoURL
         }
+        if let responseLoginForm = response.loginForm {
+            loginForm = responseLoginForm
+        }
         if let responseLoginMessage = response.loginHelpMessage {
             loginHelpMessage = responseLoginMessage
         }

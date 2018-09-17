@@ -131,8 +131,8 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     private func appendOTPHeader(request: URLRequest) -> URLRequest {
         var urlRequest = request
         
-        let bundleID = String(repeating: Bundle.main.bundleIdentifier!, count: 2)
-        
+//        let bundleID = String(repeating: Bundle.main.bundleIdentifier!, count: 2)
+//
 //        let generator = Generator(factor: .timer(period: 30), secret: bundleID.data(using: .utf8)!, algorithm: .sha256, digits: 8)
 //        let password = try! generator?.password(at: Date())
 //        let bearer = String(format: "Bearer %@", password!)

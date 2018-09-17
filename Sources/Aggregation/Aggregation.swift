@@ -165,6 +165,34 @@ class Aggregation: ResponseHandler {
     }
     
     /**
+     Create a provider account
+     
+     - parameters:
+        - providerID: ID of the provider which an account should be created for
+        - loginForm: Provider login form with validated and encrypted values with the user's details
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func createProviderAccount(providerID: Int64, loginForm: ProviderLoginForm, completion: FrolloSDKCompletionHandler? = nil) {
+        let request = APIProviderAccountRequest(loginForm: loginForm, providerID: providerID)
+        
+        network.createProviderAccount(request: request) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let providerAccountRespone = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleProviderAccountResponse(providerAccountRespone, managedObjectContext: managedObjectContext)
+                    
+                    self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            completion?(error)
+        }
+    }
+    
+    /**
      Refresh all available accounts from the host.
      
      - parameters:

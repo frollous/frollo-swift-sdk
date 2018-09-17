@@ -60,46 +60,6 @@ class ProviderTests: XCTestCase {
         XCTAssertEqual(provider.containerUnknown, providerResponse.containerNames.contains(.unknown))
     }
     
-    func testUpdatingProviderIncompleteData() {
-        let database = Database(path: tempFolderPath())
-        
-        let managedObjectContext = database.newBackgroundContext()
-        
-        let providerResponse = APIProviderResponse.testIncompleteData()
-        
-        let provider = Provider(context: managedObjectContext)
-        provider.update(response: providerResponse, context: managedObjectContext)
-        
-        XCTAssertEqual(provider.providerID, providerResponse.id)
-        XCTAssertEqual(provider.name, providerResponse.name)
-        XCTAssertEqual(provider.smallLogoURL, URL(string: providerResponse.smallLogoURLString!)!)
-        XCTAssertEqual(provider.status, providerResponse.status)
-        XCTAssertEqual(provider.popular, providerResponse.popular)
-        XCTAssertEqual(provider.largeLogoURL, nil)
-        XCTAssertEqual(provider.helpMessage, providerResponse.helpMessage)
-        XCTAssertEqual(provider.loginHelpMessage, providerResponse.loginHelpMessage)
-        XCTAssertEqual(provider.loginURL, nil)
-        XCTAssertEqual(provider.baseURLString, providerResponse.baseURLString)
-        XCTAssertEqual(provider.forgotPasswordURL, nil)
-        XCTAssertEqual(provider.oAuthSite, false)
-        XCTAssertEqual(provider.authType, providerResponse.authType)
-        XCTAssertEqual(provider.mfaType, providerResponse.mfaType)
-        XCTAssertEqual(provider.encryptionType, nil)
-        XCTAssertEqual(provider.encryptionAlias, providerResponse.encryption?.alias)
-        XCTAssertEqual(provider.encryptionPublicKey, providerResponse.encryption?.pem)
-        XCTAssertEqual(provider.containerBank, providerResponse.containerNames.contains(.bank))
-        XCTAssertEqual(provider.containerBill, providerResponse.containerNames.contains(.bill))
-        XCTAssertEqual(provider.containerCreditCard, providerResponse.containerNames.contains(.creditCard))
-        XCTAssertEqual(provider.containerCreditScore, providerResponse.containerNames.contains(.creditScore))
-        XCTAssertEqual(provider.containerInsurance, providerResponse.containerNames.contains(.insurance))
-        XCTAssertEqual(provider.containerInvestment, providerResponse.containerNames.contains(.investment))
-        XCTAssertEqual(provider.containerLoan, providerResponse.containerNames.contains(.loan))
-        XCTAssertEqual(provider.containerRealEstate, providerResponse.containerNames.contains(.realEstate))
-        XCTAssertEqual(provider.containerReward, providerResponse.containerNames.contains(.reward))
-        XCTAssertEqual(provider.containerUnknown, providerResponse.containerNames.contains(.unknown))
-        
-    }
-    
     func testUpdatingProviderWithIncompleteDataDoesNotOverwrite() {
         let database = Database(path: tempFolderPath())
         
@@ -140,6 +100,46 @@ class ProviderTests: XCTestCase {
         XCTAssertEqual(provider.containerRealEstate, listProviderResponse.containerNames.contains(.realEstate))
         XCTAssertEqual(provider.containerReward, listProviderResponse.containerNames.contains(.reward))
         XCTAssertEqual(provider.containerUnknown, listProviderResponse.containerNames.contains(.unknown))
+    }
+    
+    func testUpdatingProviderIncompleteData() {
+        let database = Database(path: tempFolderPath())
+        
+        let managedObjectContext = database.newBackgroundContext()
+        
+        let providerResponse = APIProviderResponse.testIncompleteData()
+        
+        let provider = Provider(context: managedObjectContext)
+        provider.update(response: providerResponse, context: managedObjectContext)
+        
+        XCTAssertEqual(provider.providerID, providerResponse.id)
+        XCTAssertEqual(provider.name, providerResponse.name)
+        XCTAssertEqual(provider.smallLogoURL, URL(string: providerResponse.smallLogoURLString!)!)
+        XCTAssertEqual(provider.status, providerResponse.status)
+        XCTAssertEqual(provider.popular, providerResponse.popular)
+        XCTAssertEqual(provider.largeLogoURL, nil)
+        XCTAssertEqual(provider.helpMessage, providerResponse.helpMessage)
+        XCTAssertEqual(provider.loginHelpMessage, providerResponse.loginHelpMessage)
+        XCTAssertEqual(provider.loginURL, nil)
+        XCTAssertEqual(provider.baseURLString, providerResponse.baseURLString)
+        XCTAssertEqual(provider.forgotPasswordURL, nil)
+        XCTAssertEqual(provider.oAuthSite, false)
+        XCTAssertEqual(provider.authType, providerResponse.authType)
+        XCTAssertEqual(provider.mfaType, providerResponse.mfaType)
+        XCTAssertEqual(provider.encryptionType, nil)
+        XCTAssertEqual(provider.encryptionAlias, providerResponse.encryption?.alias)
+        XCTAssertEqual(provider.encryptionPublicKey, providerResponse.encryption?.pem)
+        XCTAssertEqual(provider.containerBank, providerResponse.containerNames.contains(.bank))
+        XCTAssertEqual(provider.containerBill, providerResponse.containerNames.contains(.bill))
+        XCTAssertEqual(provider.containerCreditCard, providerResponse.containerNames.contains(.creditCard))
+        XCTAssertEqual(provider.containerCreditScore, providerResponse.containerNames.contains(.creditScore))
+        XCTAssertEqual(provider.containerInsurance, providerResponse.containerNames.contains(.insurance))
+        XCTAssertEqual(provider.containerInvestment, providerResponse.containerNames.contains(.investment))
+        XCTAssertEqual(provider.containerLoan, providerResponse.containerNames.contains(.loan))
+        XCTAssertEqual(provider.containerRealEstate, providerResponse.containerNames.contains(.realEstate))
+        XCTAssertEqual(provider.containerReward, providerResponse.containerNames.contains(.reward))
+        XCTAssertEqual(provider.containerUnknown, providerResponse.containerNames.contains(.unknown))
+        
     }
     
 }

@@ -262,6 +262,40 @@ class AggregationRequestTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testCreateProviderAccount() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, status: 201, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        let filledForm = ProviderLoginForm.loginFormFilledData()
+        let request = APIProviderAccountRequest(loginForm: filledForm, providerID: 4078)
+        
+        network.createProviderAccount(request: request) { (response, error) in
+            XCTAssertNil(error)
+            
+            if let providerAccountResponse = response {
+                XCTAssertEqual(providerAccountResponse.id, 123)
+                XCTAssertEqual(providerAccountResponse.providerID, 4078)
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testFetchAccounts() {
         let expectation1 = expectation(description: "Network Request")
         

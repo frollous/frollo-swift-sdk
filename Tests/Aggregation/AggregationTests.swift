@@ -262,6 +262,52 @@ class AggregationTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testCreateProviderAccount() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let providerID: Int64 = 12345
+        
+        let loginForm = ProviderLoginForm.loginFormFilledData()
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, status: 201, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            aggregation.createProviderAccount(providerID: providerID, loginForm: loginForm, completion: { (error) in
+                XCTAssertNil(error)
+                
+                let context = database.viewContext
+                
+                let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
+                
+                do {
+                    let fetchedAccounts = try context.fetch(fetchRequest)
+                    
+                    XCTAssertEqual(fetchedAccounts.count, 1)
+                } catch {
+                    XCTFail(error.localizedDescription)
+                }
+                
+                expectation1.fulfill()
+            })
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testRefreshAccountsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         

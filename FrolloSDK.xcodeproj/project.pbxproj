@@ -390,6 +390,7 @@
 		01E0819420FDB7150036133F /* NetworkAuthenticatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E0819220FDB6F30036133F /* NetworkAuthenticatorTests.swift */; };
 		01E0819820FDC0E90036133F /* refresh_token_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01E0819720FDC0E90036133F /* refresh_token_valid.json */; };
 		01E8375A2149F08100A50E15 /* LoginFormError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E837592149F08100A50E15 /* LoginFormError.swift */; };
+		01EAAEDF214B6185003D1EAC /* APIProviderAccountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EAAEDE214B6185003D1EAC /* APIProviderAccountRequest.swift */; };
 		01ED8FC7211A5DE800ACE691 /* Transaction+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01ED8FC5211A5DE800ACE691 /* Transaction+CoreDataClass.swift */; };
 		01ED8FCA211A5E7A00ACE691 /* APITransactionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01ED8FC9211A5E7A00ACE691 /* APITransactionResponse.swift */; };
 		01ED8FCC211A660900ACE691 /* APITransactionResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01ED8FCB211A660900ACE691 /* APITransactionResponse+Test.swift */; };
@@ -664,6 +665,7 @@
 		01E0819520FDBA850036133F /* Cartfile.private */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.private; sourceTree = "<group>"; };
 		01E0819720FDC0E90036133F /* refresh_token_valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = refresh_token_valid.json; sourceTree = "<group>"; };
 		01E837592149F08100A50E15 /* LoginFormError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFormError.swift; sourceTree = "<group>"; };
+		01EAAEDE214B6185003D1EAC /* APIProviderAccountRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProviderAccountRequest.swift; sourceTree = "<group>"; };
 		01ED8FC5211A5DE800ACE691 /* Transaction+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transaction+CoreDataClass.swift"; sourceTree = "<group>"; };
 		01ED8FC9211A5E7A00ACE691 /* APITransactionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionResponse.swift; sourceTree = "<group>"; };
 		01ED8FCB211A660900ACE691 /* APITransactionResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APITransactionResponse+Test.swift"; sourceTree = "<group>"; };
@@ -1035,6 +1037,7 @@
 				01483B702117C7E900D0DA87 /* APIAccountResponse.swift */,
 				01483B9121190E1700D0DA87 /* APIAccountUpdateRequest.swift */,
 				01483BB821196E2100D0DA87 /* APIMerchantResponse.swift */,
+				01EAAEDE214B6185003D1EAC /* APIProviderAccountRequest.swift */,
 				013A32AC2112799500B0590B /* APIProviderAccountResponse.swift */,
 				016097F4210EE2BA0034E857 /* APIProviderResponse.swift */,
 				01483B9B21192D4A00D0DA87 /* APITransactionCategoryResponse.swift */,
@@ -1969,6 +1972,7 @@
 				01F220E320FEAC7600C70B00 /* APITokenResponse.swift in Sources */,
 				01819149211178D2000E0F80 /* ResponseHandler.swift in Sources */,
 				01874B7D20FD6FB9005A7D0C /* Network+User.swift in Sources */,
+				01EAAEDF214B6185003D1EAC /* APIProviderAccountRequest.swift in Sources */,
 				01C824F020EC410B0093400E /* NetworkLogger.swift in Sources */,
 				015EEDDC210FC9C60081AD76 /* AggregationEndpoint.swift in Sources */,
 				010EB42B211BF92A005A926A /* APITransactionUpdateRequest.swift in Sources */,

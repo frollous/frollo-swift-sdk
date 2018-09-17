@@ -56,6 +56,16 @@ extension Network {
         }
     }
     
+    internal func createProviderAccount(request: APIProviderAccountRequest, completion: @escaping RequestCompletion<APIProviderAccountResponse>) {
+        requestQueue.async {
+            let url = URL(string: AggregationEndpoint.providerAccounts.path, relativeTo: self.serverURL)!
+            
+            self.sessionManager.request(url, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { (response) in
+                self.handleResponse(type: APIProviderAccountResponse.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     // MARK: - Accounts
     
     internal func fetchAccounts(completion: @escaping RequestCompletion<[APIAccountResponse]>) {

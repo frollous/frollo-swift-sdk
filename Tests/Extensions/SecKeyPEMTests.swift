@@ -50,4 +50,14 @@ class SecKeyPEMTests: XCTestCase {
         XCTAssertEqual(referenceKey, derKey)
     }
     
+    func testInvalidPEMToSecKey() {
+        let pemKey = "ThisisNotaKeygnasogndafgndfjgndfjngdfks"
+        
+        var keyError: Unmanaged<CFError>?
+        
+        let derKey = SecKeyCreateWithPEMData(pemKey, &keyError)
+        
+        XCTAssertNil(derKey)
+    }
+    
 }

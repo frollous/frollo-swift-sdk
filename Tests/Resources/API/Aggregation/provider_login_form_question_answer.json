@@ -11,7 +11,7 @@
 				"name": "QUESTION_1",
 				"isOptional": false,
 				"value": "",
-				"valueEditable": "true",
+				"valueEditable": true,
 				"type": "text"
 			}]
 		}, {
@@ -24,7 +24,7 @@
 				"name": "QUESTION_2",
 				"isOptional": false,
 				"value": "",
-				"valueEditable": "true",
+				"valueEditable": true,
 				"type": "text"
 			}]
 		}]

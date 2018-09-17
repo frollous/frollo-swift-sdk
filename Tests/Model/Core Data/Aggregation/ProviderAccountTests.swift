@@ -39,6 +39,8 @@ class ProviderAccountTests: XCTestCase {
         XCTAssertEqual(providerAccount.refreshStatus, providerAccountResponse.refreshStatus.status)
         XCTAssertEqual(providerAccount.refreshSubStatus, providerAccountResponse.refreshStatus.subStatus)
         XCTAssertEqual(providerAccount.refreshAdditionalStatus, providerAccountResponse.refreshStatus.additionalStatus)
+        XCTAssertEqual(providerAccount.loginForm?.id, providerAccountResponse.loginForm?.id)
+        XCTAssertNotNil(providerAccount.loginForm)
     }
     
 }
