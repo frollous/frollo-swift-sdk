@@ -111,6 +111,40 @@ class Authentication {
     }
     
     /**
+     Register a user by email and password
+     
+     - parameters:
+        - firstName: Given name of the user
+        - lastName: Family name of the user, if provided (optional)
+        - email: Email address of the user
+        - password: Password for the user
+        - completion: Completion handler with any error that occurred
+     */
+    internal func registerUser(firstName: String, lastName: String?, email: String, password: String, completion: @escaping FrolloSDKCompletionHandler) {
+        let deviceInfo = DeviceInfo.current()
+        
+        let userRegisterRequest = APIUserRegisterRequest(deviceID: deviceInfo.deviceID,
+                                                         deviceName: deviceInfo.deviceName,
+                                                         deviceType: deviceInfo.deviceType,
+                                                         email: email,
+                                                         firstName: firstName,
+                                                         password: password,
+                                                         lastName: lastName)
+        
+        network.registerUser(request: userRegisterRequest) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let userResponse = response {
+                    self.handleUserResponse(userResponse: userResponse)
+                }
+            }
+            
+            completion(error)
+        }
+    }
+    
+    /**
      Refresh the user details
      
      Refreshes the latest details of the user from the server. This should be called on app launch and resuming after a set period of time if the user is already logged in. This returns the same data as login and register.

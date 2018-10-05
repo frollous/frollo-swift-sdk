@@ -64,6 +64,33 @@ class AuthenticationTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testRegisterUser() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.register.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, status: 201, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            authentication.registerUser(firstName: "Frollo", lastName: "User", email: "user@frollo.us", password: "password") { (error) in
+                XCTAssertNil(error)
+                
+                XCTAssertNotNil(authentication.user)
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testRefreshUser() {
         let expectation1 = expectation(description: "Network Request")
         

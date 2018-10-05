@@ -131,12 +131,12 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     private func appendOTPHeader(request: URLRequest) -> URLRequest {
         var urlRequest = request
         
-//        let bundleID = String(repeating: Bundle.main.bundleIdentifier!, count: 2)
-//
-//        let generator = OTP(factor: .timer(period: 30), secret: bundleID.data(using: .utf8)!, algorithm: .sha256, digits: 8)
-//        let password = try! generator?.password(at: Date())
-//        let bearer = String(format: "Bearer %@", password!)
-//        urlRequest.setValue(bearer, forHTTPHeaderField: APIClient.HTTPHeader.authorization)
+        let bundleID = String(repeating: Bundle.main.bundleIdentifier ?? "FrolloSDK", count: 2)
+
+        let generator = OTP(factor: .timer(period: 30), secret: bundleID.data(using: .utf8)!, algorithm: .sha256, digits: 8)
+        let password = try! generator?.password(at: Date())
+        let bearer = String(format: "Bearer %@", password!)
+        urlRequest.setValue(bearer, forHTTPHeaderField: Network.HTTPHeader.authorization)
         
         return urlRequest
     }

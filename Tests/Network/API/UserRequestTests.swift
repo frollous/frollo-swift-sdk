@@ -154,6 +154,38 @@ class UserRequestTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testRegisterUser() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.register.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, status: 201, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        let registerRequest = APIUserRegisterRequest.testData()
+        
+        network.registerUser(request: registerRequest) { (response, error) in
+            XCTAssertNil(error)
+            
+            if let userResponse = response {
+                XCTAssertEqual(userResponse.userID, 12345)
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     // MARK: - Refresh User
     
     func testFetchUserComplete() {

@@ -80,15 +80,33 @@ extension Network {
 //        }
 //    }
 //
-//    internal func registerUser(parameters: [String: Any], completion: @escaping NetworkCompletion) {
-//        requestQueue.async {
-//            let url = URL(string: UserEndpoint.register.path, relativeTo: self.serverURL)!
-//
-//            self.sessionManager.request(url, method: .get, parameters: parameters, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 201...201).responseJSON(queue: self.responseQueue, options: .allowFragments, completionHandler: { (response: DataResponse<Any>) in
-//                self.handleTokens(response: response, completion: completion)
-//            })
-//        }
-//    }
+    internal func registerUser(request: APIUserRegisterRequest, completion: @escaping UserRequestCompletion) {
+        requestQueue.async {
+            let url = URL(string: UserEndpoint.register.path, relativeTo: self.serverURL)!
+            
+            var urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = HTTPMethod.post.rawValue
+            
+            let encoder = JSONEncoder()
+            
+            do {
+                let requestData = try encoder.encode(request)
+                
+                urlRequest.httpBody = requestData
+            } catch {
+                Log.error(error.localizedDescription)
+                
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(nil, dataError)
+                return
+            }
+
+            self.sessionManager.request(urlRequest).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { (response) in
+                self.handleUserResponse(response: response, completion: completion)
+            }
+        }
+    }
     
     internal func updateUser(request: APIUserUpdateRequest, completion: @escaping UserRequestCompletion) {
         requestQueue.async {
@@ -112,9 +130,9 @@ extension Network {
                 return
             }
             
-            self.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue, completionHandler: { (response) in
+            self.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
                 self.handleUserResponse(response: response, completion: completion)
-            })
+            }
         }
     }
     
