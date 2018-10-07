@@ -38,6 +38,10 @@
 		012C451E212B850900799A0A /* provider_login_form_captcha.json in Resources */ = {isa = PBXBuildFile; fileRef = 012C451D212B850700799A0A /* provider_login_form_captcha.json */; };
 		012C451F212B850900799A0A /* provider_login_form_captcha.json in Resources */ = {isa = PBXBuildFile; fileRef = 012C451D212B850700799A0A /* provider_login_form_captcha.json */; };
 		012C4520212B850900799A0A /* provider_login_form_captcha.json in Resources */ = {isa = PBXBuildFile; fileRef = 012C451D212B850700799A0A /* provider_login_form_captcha.json */; };
+		01333D3F216AAF36005764A4 /* APIUserChangePasswordRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01333D3E216AAF36005764A4 /* APIUserChangePasswordRequest.swift */; };
+		01333D42216AB115005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01333D40216AB094005764A4 /* APIUserChangePasswordRequest+Test.swift */; };
+		01333D43216AB115005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01333D40216AB094005764A4 /* APIUserChangePasswordRequest+Test.swift */; };
+		01333D44216AB116005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01333D40216AB094005764A4 /* APIUserChangePasswordRequest+Test.swift */; };
 		0136D225210011E70062EAEA /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136D224210011E70062EAEA /* Keychain.swift */; };
 		0136D229210067DF0062EAEA /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136D227210067B20062EAEA /* KeychainTests.swift */; };
 		0136D2332101775B0062EAEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136D2322101775B0062EAEA /* AppDelegate.swift */; };
@@ -509,6 +513,8 @@
 		012C4515212A967700799A0A /* provider_login_form_multiple_choice.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_login_form_multiple_choice.json; sourceTree = "<group>"; };
 		012C4516212A967800799A0A /* provider_login_form_login.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_login_form_login.json; sourceTree = "<group>"; };
 		012C451D212B850700799A0A /* provider_login_form_captcha.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_login_form_captcha.json; sourceTree = "<group>"; };
+		01333D3E216AAF36005764A4 /* APIUserChangePasswordRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserChangePasswordRequest.swift; sourceTree = "<group>"; };
+		01333D40216AB094005764A4 /* APIUserChangePasswordRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIUserChangePasswordRequest+Test.swift"; sourceTree = "<group>"; };
 		0136D224210011E70062EAEA /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		0136D227210067B20062EAEA /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
 		0136D2302101775B0062EAEA /* FrolloSDK iOS Test Host.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FrolloSDK iOS Test Host.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -805,6 +811,7 @@
 		013D2D82210A887C00EEDEC5 /* User */ = {
 			isa = PBXGroup;
 			children = (
+				01333D3E216AAF36005764A4 /* APIUserChangePasswordRequest.swift */,
 				013D2D85210A88AC00EEDEC5 /* APIUserLoginRequest.swift */,
 				01BC3D102166D90C0065A4B8 /* APIUserRegisterRequest.swift */,
 				017B48DF2107FE6A00447E65 /* APIUserResponse.swift */,
@@ -850,6 +857,7 @@
 		013D2D89210A8AF000EEDEC5 /* User */ = {
 			isa = PBXGroup;
 			children = (
+				01333D40216AB094005764A4 /* APIUserChangePasswordRequest+Test.swift */,
 				013D2D8F210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift */,
 				017B48F621083A3500447E65 /* APIUserResponse+Test.swift */,
 				01BC3D122166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift */,
@@ -2001,6 +2009,7 @@
 				01EED86B20E5AA5B00F4516B /* FrolloSDKDataModel.xcdatamodeld in Sources */,
 				01483B6E2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift in Sources */,
 				01EED86420E5A7EB00F4516B /* Preferences.swift in Sources */,
+				01333D3F216AAF36005764A4 /* APIUserChangePasswordRequest.swift in Sources */,
 				017391F020EF001200C0BB32 /* APIErrorResponse.swift in Sources */,
 				01F220E320FEAC7600C70B00 /* APITokenResponse.swift in Sources */,
 				01819149211178D2000E0F80 /* ResponseHandler.swift in Sources */,
@@ -2044,6 +2053,7 @@
 				0160953A20F41ECF0060791B /* VersionTests.swift in Sources */,
 				015EEDFD211018420081AD76 /* ProviderTests.swift in Sources */,
 				017B48FC21084BA200447E65 /* AuthenticationTests.swift in Sources */,
+				01333D42216AB115005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */,
 				01B896D020F32D5E0068069A /* NetworkErrorTests.swift in Sources */,
 				016097E6210AAAD90034E857 /* DeviceInfoTests.swift in Sources */,
 				013A32D32112C40500B0590B /* CoreData+Test.swift in Sources */,
@@ -2107,6 +2117,7 @@
 				017B48352101B4FE00447E65 /* VersionTests.swift in Sources */,
 				015EEDFE211018420081AD76 /* ProviderTests.swift in Sources */,
 				017B48FD21084BA200447E65 /* AuthenticationTests.swift in Sources */,
+				01333D43216AB115005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */,
 				017B48362101B4FE00447E65 /* NetworkErrorTests.swift in Sources */,
 				016097E7210AAAD90034E857 /* DeviceInfoTests.swift in Sources */,
 				013A32D42112C40500B0590B /* CoreData+Test.swift in Sources */,
@@ -2179,6 +2190,7 @@
 				017B48912105958100447E65 /* NetworkErrorTests.swift in Sources */,
 				016097E8210AAAD90034E857 /* DeviceInfoTests.swift in Sources */,
 				013A32D52112C40500B0590B /* CoreData+Test.swift in Sources */,
+				01333D44216AB116005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */,
 				017B48922105958100447E65 /* ConsoleLoggerTests.swift in Sources */,
 				013A32CD2112BE6600B0590B /* ProviderAccountTests.swift in Sources */,
 				01483B96211913F200D0DA87 /* APIAccountUpdateRequest+Test.swift in Sources */,
