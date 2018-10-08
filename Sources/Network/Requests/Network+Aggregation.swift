@@ -60,22 +60,12 @@ extension Network {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.providerAccounts.path, relativeTo: self.serverURL)!
             
-            var urlRequest = URLRequest(url: url)
-            urlRequest.httpMethod = HTTPMethod.post.rawValue
-            
-            let encoder = JSONEncoder()
-            
-            do {
-                let requestData = try encoder.encode(request)
-                
-                urlRequest.httpBody = requestData
-            } catch {
-                Log.error(error.localizedDescription)
-                
-                let dataError = DataError(type: .api, subType: .invalidData)
-                
-                completion(nil, dataError)
-                return
+            guard let urlRequest = self.contentRequest(url: url, method: .post, content: request)
+                else {
+                    let dataError = DataError(type: .api, subType: .invalidData)
+                    
+                    completion(nil, dataError)
+                    return
             }
             
             self.sessionManager.request(urlRequest).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { (response) in
@@ -88,22 +78,12 @@ extension Network {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.providerAccount(providerAccountID: providerAccountID).path, relativeTo: self.serverURL)!
             
-            var urlRequest = URLRequest(url: url)
-            urlRequest.httpMethod = HTTPMethod.put.rawValue
-            
-            let encoder = JSONEncoder()
-            
-            do {
-                let requestData = try encoder.encode(request)
-                
-                urlRequest.httpBody = requestData
-            } catch {
-                Log.error(error.localizedDescription)
-                
-                let dataError = DataError(type: .api, subType: .invalidData)
-                
-                completion(nil, dataError)
-                return
+            guard let urlRequest = self.contentRequest(url: url, method: .put, content: request)
+                else {
+                    let dataError = DataError(type: .api, subType: .invalidData)
+                    
+                    completion(nil, dataError)
+                    return
             }
             
             self.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
@@ -146,22 +126,12 @@ extension Network {
             
             let url = URL(string: AggregationEndpoint.account(accountID: accountID).path, relativeTo: self.serverURL)!
             
-            var urlRequest = URLRequest(url: url)
-            urlRequest.httpMethod = HTTPMethod.put.rawValue
-            
-            let encoder = JSONEncoder()
-            
-            do {
-                let requestData = try encoder.encode(request)
-                
-                urlRequest.httpBody = requestData
-            } catch {
-                Log.error(error.localizedDescription)
-                
-                let dataError = DataError(type: .api, subType: .invalidData)
-                
-                completion(nil, dataError)
-                return
+            guard let urlRequest = self.contentRequest(url: url, method: .put, content: request)
+                else {
+                    let dataError = DataError(type: .api, subType: .invalidData)
+                    
+                    completion(nil, dataError)
+                    return
             }
             
             self.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response: DataResponse<Data>) in
@@ -201,22 +171,12 @@ extension Network {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.transaction(transactionID: transactionID).path, relativeTo: self.serverURL)!
             
-            var urlRequest = URLRequest(url: url)
-            urlRequest.httpMethod = HTTPMethod.put.rawValue
-            
-            let encoder = JSONEncoder()
-            
-            do {
-                let requestData = try encoder.encode(request)
-                
-                urlRequest.httpBody = requestData
-            } catch {
-                Log.error(error.localizedDescription)
-                
-                let dataError = DataError(type: .api, subType: .invalidData)
-                
-                completion(nil, dataError)
-                return
+            guard let urlRequest = self.contentRequest(url: url, method: .put, content: request)
+                else {
+                    let dataError = DataError(type: .api, subType: .invalidData)
+                    
+                    completion(nil, dataError)
+                    return
             }
             
             self.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response: DataResponse<Data>) in

@@ -9,7 +9,22 @@ import Foundation
 
 public typealias FrolloSDKCompletionHandler = (Error?) -> Void
 
-class FrolloSDK {
+class FrolloSDK: NetworkDelegate {
+    
+    /**
+     Notification triggered when ever the authentication status of the SDK changes. Observe this notification to detect if the SDK user has authenticated or been logged out.
+    */
+    public static let authenticationChangedNotification = Notification.Name(rawValue: "FrolloSDK.authenticationChangedNotification")
+    
+    /**
+     User info key for authentication status sent with `authenticationChangedNotification` notifications.
+    */
+    public static let authenticationStatusKey = "FrolloSDKKey.authenticationStatus"
+    
+    public enum FrolloSDKAuthenticationStatus {
+        case authenticated
+        case loggedOut
+    }
     
     private struct FrolloSDKConstants {
         static let dataFolder = "FrolloSDKData"
@@ -47,6 +62,8 @@ class FrolloSDK {
         self.preferences = Preferences(path: FrolloSDK.dataFolderURL)
         
         self.authentication = Authentication(database: database, network: network, preferences: preferences)
+        
+        self.network.delegate = self
     }
     
     public func setup(completionHandler: @escaping (Error?) -> Void) {
@@ -57,10 +74,30 @@ class FrolloSDK {
 //        authentication.authenticate(authToken, completion: completion)
 //    }
     
-    public func reset(completionHandler: @escaping (Error?) -> Void) {
+    public func logout(completionHandler: @escaping (Error?) -> Void) {
+        authentication.logoutUser()
+        
+        reset()
+    }
+    
+    // MARK: - Logout and Reset
+    
+    public func reset(completionHandler: ((Error?) -> Void)? = nil) {
+        authentication.reset()
+        
         keychain.removeAll()
         
-        database.reset(completionHandler: completionHandler)
+        database.reset { (error) in
+            completionHandler?(error)
+        }
+        
+        NotificationCenter.default.post(name: FrolloSDK.authenticationChangedNotification, object: self, userInfo: [FrolloSDK.authenticationStatusKey: FrolloSDKAuthenticationStatus.loggedOut])
+    }
+    
+    // MARK: - Network Delegate
+    
+    internal func forcedLogout() {
+        reset()
     }
     
 }

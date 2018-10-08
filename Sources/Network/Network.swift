@@ -10,6 +10,12 @@ import Foundation
 
 import Alamofire
 
+protocol NetworkDelegate: class {
+    
+    func forcedLogout()
+    
+}
+
 class Network: SessionDelegate {
     
     internal typealias NetworkCompletion = (_ data: Data?, _ error: FrolloSDKError?) -> Void
@@ -37,6 +43,8 @@ class Network: SessionDelegate {
      Base URL of the API
     */
     internal let serverURL: URL
+    
+    internal weak var delegate: NetworkDelegate?
     
     internal var authenticator: NetworkAuthenticator!
     internal var sessionManager: SessionManager!
@@ -96,6 +104,37 @@ class Network: SessionDelegate {
         self.sessionManager.retrier = authenticator
     }
     
+    // MARK: - Reset
+    
+    internal func reset() {
+        URLCache.shared.removeAllCachedResponses()
+        
+        authenticator.clearTokens()
+    }
+    
+    // MARK: - Requests
+    
+    internal func contentRequest<T: Codable>(url: URL, method: HTTPMethod, content: T) -> URLRequest? {
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = method.rawValue
+        
+        let encoder = JSONEncoder()
+        
+        do {
+            let requestData = try encoder.encode(content)
+            
+            urlRequest.httpBody = requestData
+            
+            return urlRequest
+        } catch {
+            Log.error(error.localizedDescription)
+            
+            return nil
+        }
+    }
+    
+    // MARK: - Response Handling
+    
     internal func handleFailure(response: DataResponse<Data>, completion: (_: FrolloSDKError?) -> Void) {
         switch response.result {
             case .success:
@@ -108,7 +147,9 @@ class Network: SessionDelegate {
                     
                     let clearTokenStatuses: [APIError.APIErrorType] = [.invalidRefreshToken, .suspendedDevice, .suspendedUser, .invalidUsernamePassword, .otherAuthorisation]
                     if clearTokenStatuses.contains(apiError.type) {
-                        authenticator.clearTokens()
+                        reset()
+                        
+                        delegate?.forcedLogout()
                     }
                     
                     completion(apiError)
@@ -164,6 +205,17 @@ class Network: SessionDelegate {
                     completion(nil, error)
                 }
             }
+    }
+    
+    internal func handleEmptyResponse(response: DataResponse<Data>, completion: NetworkCompletion) {
+        switch response.result {
+            case .success:
+                completion(nil, nil)
+            case .failure:
+                self.handleFailure(response: response) { (error) in
+                    completion(nil, error)
+                }
+        }
     }
     
     internal func handleTokens(response: DataResponse<Data>, completion: NetworkCompletion) {

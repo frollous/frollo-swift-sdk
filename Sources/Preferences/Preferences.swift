@@ -54,6 +54,13 @@ class Preferences {
     
     // MARK: - Preferences
     
-    
+    @objc internal var loggedIn: Bool {
+        get {
+            return preferencesPersistence[#keyPath(loggedIn)] as? Bool ?? false
+        }
+        set {
+            preferencesPersistence[#keyPath(loggedIn)] = newValue
+        }
+    }
     
 }

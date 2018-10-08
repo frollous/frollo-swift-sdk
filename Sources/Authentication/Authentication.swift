@@ -25,6 +25,18 @@ class Authentication {
     }
     
     /**
+     Indicates if the user is currently authorised with Frollo
+    */
+    public var loggedIn: Bool {
+        get {
+            return preferences.loggedIn
+        }
+        set {
+            preferences.loggedIn = newValue
+        }
+    }
+    
+    /**
      User model from cache if available
     */
     public var user: User? {
@@ -108,6 +120,19 @@ class Authentication {
             
             completion(error)
         }
+    }
+    
+    /**
+     Log out the user from the server. This revokes the refresh token for the current device if not already revoked and resets the token storage.
+    */
+    internal func logoutUser() {
+        network.logoutUser { (data, error) in
+            if let logoutError = error {
+                Log.error(logoutError.localizedDescription)
+            }
+        }
+        
+        reset()
     }
     
     /**
@@ -213,6 +238,8 @@ class Authentication {
                 user = User(context: managedObjectContext)
             }
             
+            loggedIn = true
+            
             user.update(response: userResponse)
             
             preferences.refreshFeatures(user: user)
@@ -227,6 +254,18 @@ class Authentication {
         } catch {
             Log.error(error.localizedDescription)
         }
+    }
+    
+    // MARK: - Logout Handling
+    
+    internal func reset() {
+        guard loggedIn else {
+            return
+        }
+        
+        loggedIn = false
+        
+        network.reset()
     }
     
 }
