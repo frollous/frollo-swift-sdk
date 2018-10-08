@@ -78,9 +78,9 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_value_must_differ")
         
         let error = APIError(statusCode: 400, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.BadRequest"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.PasswordMustBeDifferent"))
         XCTAssertEqual(error.statusCode, 400)
-        XCTAssertEqual(error.type, .badRequest)
+        XCTAssertEqual(error.type, .passwordMustBeDifferent)
         XCTAssertEqual(error.errorCode, .invalidMustBeDifferent)
         XCTAssertNotNil(error.message)
     }
