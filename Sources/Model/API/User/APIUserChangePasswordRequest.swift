@@ -18,4 +18,8 @@ struct APIUserChangePasswordRequest: Codable {
     let currentPassword: String?
     let newPassword: String
     
+    internal func valid() -> Bool {
+        return newPassword.count >= 8
+    }
+    
 }

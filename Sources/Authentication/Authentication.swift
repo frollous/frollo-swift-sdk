@@ -87,6 +87,34 @@ class Authentication {
     // MARK: - Login, Register and User Profile
     
     /**
+     Change the password for the user. Current password is not needed for users who signed up using a 3rd party and never set a password. Check for `validPassword` on the user profile to determine this.
+     
+     - parameters:
+        - currentPassword: Current password to validate the user (optional)
+        - newPassword: New password for the user - must be at least 8 characters
+    */
+    internal func changePassword(currentPassword: String?, newPassword: String, completion: @escaping FrolloSDKCompletionHandler) {
+        let changePasswordRequest = APIUserChangePasswordRequest(currentPassword: currentPassword,
+                                                                 newPassword: newPassword)
+        
+        guard changePasswordRequest.valid()
+            else {
+                let error = DataError(type: .api, subType: .passwordTooShort)
+                    
+                completion(error)
+                return
+        }
+        
+        network.changePassword(request: changePasswordRequest) { (data, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            }
+            
+            completion(error)
+        }
+    }
+    
+    /**
      Login a user using various authentication methods
      
      - parameters:

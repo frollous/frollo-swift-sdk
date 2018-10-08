@@ -19,6 +19,7 @@ class DataError: FrolloSDKError {
     
     enum DataErrorSubType: String {
         case invalidData
+        case passwordTooShort
         
         case missingAccessToken
         case missingRefreshToken
@@ -60,6 +61,8 @@ class DataError: FrolloSDKError {
                 switch subType {
                     case .invalidData:
                         return Localization.string("Error.Data.API.InvalidData")
+                    case .passwordTooShort:
+                        return Localization.string("Error.Data.API.PasswordTooShort")
                     default:
                         return Localization.string("Error.Data.API.Unknown")
                 }

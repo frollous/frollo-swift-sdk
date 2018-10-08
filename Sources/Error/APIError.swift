@@ -22,6 +22,7 @@ class APIError: FrolloSDKError {
         case unauthorised
         case notFound
         case alreadyExists
+        case passwordMustBeDifferent
         
         case invalidAccessToken
         case invalidRefreshToken
@@ -72,7 +73,16 @@ class APIError: FrolloSDKError {
         
         switch statusCode {
             case 400:
-                type = .badRequest
+                if let errorCode = errorResponse?.errorCode {
+                    switch errorCode {
+                        case .invalidMustBeDifferent:
+                            type = .passwordMustBeDifferent
+                        default:
+                            type = .badRequest
+                    }
+                } else {
+                    type = .badRequest
+                }
             
             case 401:
                 if let errorCode = errorResponse?.errorCode {
@@ -147,6 +157,8 @@ class APIError: FrolloSDKError {
                 return Localization.string("Error.API.NotImplemented")
             case .otherAuthorisation:
                 return Localization.string("Error.API.UnknownAuthorisation")
+            case .passwordMustBeDifferent:
+                return Localization.string("Error.API.PasswordMustBeDifferent")
             case .rateLimit:
                 return Localization.string("Error.API.RateLimit")
             case .serverError:

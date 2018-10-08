@@ -11,7 +11,7 @@ import Foundation
 
 extension APIUserChangePasswordRequest {
     
-    static func testDate() -> APIUserChangePasswordRequest {
+    static func testData() -> APIUserChangePasswordRequest {
         return APIUserChangePasswordRequest(currentPassword: UUID().uuidString,
                                             newPassword: UUID().uuidString)
     }

@@ -235,6 +235,84 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testChangePassword() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.user.path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let network = Network(serverURL: serverURL, keychain: keychain)
+        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        authentication.loggedIn = true
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let moc = database.newBackgroundContext()
+            
+            moc.performAndWait {
+                let user = User(context: moc)
+                user.populateTestData()
+                
+                try! moc.save()
+            }
+            
+            authentication.changePassword(currentPassword: UUID().uuidString, newPassword: UUID().uuidString, completion: { (error) in
+                XCTAssertNil(error)
+                
+                expectation1.fulfill()
+            })
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testChangePasswordFailsIfTooShort() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.user.path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let network = Network(serverURL: serverURL, keychain: keychain)
+        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        authentication.loggedIn = true
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let moc = database.newBackgroundContext()
+            
+            moc.performAndWait {
+                let user = User(context: moc)
+                user.populateTestData()
+                
+                try! moc.save()
+            }
+            
+            authentication.changePassword(currentPassword: UUID().uuidString, newPassword: "1234", completion: { (error) in
+                XCTAssertNotNil(error)
+                
+                if let dataError = error as? DataError {
+                    XCTAssertEqual(dataError.type, .api)
+                    XCTAssertEqual(dataError.subType, .passwordTooShort)
+                }
+                
+                expectation1.fulfill()
+            })
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     // MARK: - Network logged out delegate
     
     func forcedLogout() {

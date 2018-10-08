@@ -15,6 +15,7 @@
 "Error.API.NotFound" = "Object not found on the API";
 "Error.API.NotImplemented" = "API has not been implemented.";
 "Error.API.PasscodeError" = "You entered an incorrect passcode too many times and have been logged out.";
+"Error.API.PasswordMustBeDifferent" = "New password must be different to the current password.";
 "Error.API.RateLimit" = "The app has been rate limited. Wait before trying your request again.";
 "Error.API.ServerError" = "Something went wrong at our end. Please try again later. Contact support if this issue persists.";
 "Error.API.SuspendedDevice" = "This device has been logged out. Please login again to continue.";
@@ -26,6 +27,7 @@
 "Error.API.UserLoggedOut" = "User is already logged out.";
 
 "Error.Data.API.InvalidData" = "API request or response data was invalid.";
+"Error.Data.API.PasswordTooShort" = "Password must be at least 8 characters long.";
 "Error.Data.API.Unknown" = "Unknown error occurred in the API request or response.";
 
 "Error.Data.Authentication.MissingAccessToken" = "Access token is missing after refresh.";
