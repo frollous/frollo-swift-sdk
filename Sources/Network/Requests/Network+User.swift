@@ -33,15 +33,15 @@ extension Network {
         }
     }
     
-//    internal func deleteUser(completion: @escaping NetworkCompletion) {
-//        requestQueue.async {
-//            let url = URL(string: UserEndpoint.user.path, relativeTo: self.serverURL)!
-//            
-//            self.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseJSON(queue: self.responseQueue, options: .allowFragments, completionHandler: { (response: DataResponse<Any>) in
-//                self.handleCompletion(response: response, completion: completion)
-//            })
-//        }
-//    }
+    internal func deleteUser(completion: @escaping NetworkCompletion) {
+        requestQueue.async {
+            let url = URL(string: UserEndpoint.user.path, relativeTo: self.serverURL)!
+            
+            self.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { (response) in
+                self.handleEmptyResponse(response: response, completion: completion)
+            }
+        }
+    }
     
     internal func fetchUser(completion: @escaping UserRequestCompletion) {
         requestQueue.async {

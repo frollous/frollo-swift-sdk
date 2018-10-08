@@ -92,6 +92,7 @@ class Authentication {
      - parameters:
         - currentPassword: Current password to validate the user (optional)
         - newPassword: New password for the user - must be at least 8 characters
+        - completion: Completion handler with any error that occurred
     */
     internal func changePassword(currentPassword: String?, newPassword: String, completion: @escaping FrolloSDKCompletionHandler) {
         let changePasswordRequest = APIUserChangePasswordRequest(currentPassword: currentPassword,
@@ -108,6 +109,24 @@ class Authentication {
         network.changePassword(request: changePasswordRequest) { (data, error) in
             if let responseError = error {
                 Log.error(responseError.localizedDescription)
+            }
+            
+            completion(error)
+        }
+    }
+    
+    /**
+     Delete the user account and complete logout activities on success
+     
+     - parameters:
+        - completion: Completion handler with any error that occurred
+    */
+    internal func deleteUser(completion: @escaping FrolloSDKCompletionHandler) {
+        network.deleteUser { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                self.reset()
             }
             
             completion(error)
