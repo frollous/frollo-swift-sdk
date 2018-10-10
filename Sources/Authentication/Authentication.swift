@@ -239,6 +239,25 @@ class Authentication {
     }
     
     /**
+     Reset the password for the specified email. Sends an email to the address provided if an account exists with instructions on resetting the password.
+     
+     - parameters:
+        - email: Email address of the account to begin resetting the password for.
+        - completion: A completion handler once the API has returned and the cache has been updated. Returns any error that occurred during the process.
+    */
+    public func resetPassword(email: String, completion: @escaping FrolloSDKCompletionHandler) {
+        let request = APIUserResetPasswordRequest(email: email)
+        
+        network.resetPassword(request: request) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            }
+            
+            completion(error)
+        }
+    }
+    
+    /**
      Update the user details
      
      Updates the user details from cache on the server. This should be called whenever details or statistics about a user are altered, e.g. changing email.

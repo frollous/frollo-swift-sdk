@@ -107,6 +107,24 @@ extension Network {
         }
     }
     
+    internal func resetPassword(request: APIUserResetPasswordRequest, completion: @escaping NetworkCompletion) {
+        requestQueue.async {
+            let url = URL(string: UserEndpoint.resetPassword.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.contentRequest(url: url, method: .post, content: request)
+                else {
+                    let dataError = DataError(type: .api, subType: .invalidData)
+                    
+                    completion(nil, dataError)
+                    return
+            }
+            
+            self.sessionManager.request(urlRequest).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { (response) in
+                self.handleEmptyResponse(response: response, completion: completion)
+            }
+        }
+    }
+    
     internal func updateUser(request: APIUserUpdateRequest, completion: @escaping UserRequestCompletion) {
         requestQueue.async {
             let url = URL(string: UserEndpoint.details.path, relativeTo: self.serverURL)!

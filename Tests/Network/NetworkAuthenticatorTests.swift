@@ -396,7 +396,35 @@ class NetworkAuthenticatorTests: XCTestCase {
     }
     
     func testOTPHeaderAppendedToResetPasswordRequest() {
-        // TODO: Write this test after OTP feature
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        let bundleID = Bundle.main.bundleIdentifier ?? "FrolloSDK"
+        let seed = String(repeating: bundleID, count: 2)
+        
+        let generator = OTP(factor: .timer(period: 30), secret: seed.data(using: .utf8)!, algorithm: .sha256, digits: 8)
+        let password = try! generator?.password(at: Date())
+        let bearer = String(format: "Bearer %@", password!)
+        
+        let userURL = URL(string: UserEndpoint.resetPassword.path, relativeTo: url)!
+        let request = network.sessionManager.request(userURL, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
+        do {
+            let adaptedRequest = try network.authenticator.adapt(request.request!)
+            
+            if let authorizationHeader = adaptedRequest.value(forHTTPHeaderField: Network.HTTPHeader.authorization) {
+                XCTAssertEqual(authorizationHeader, bearer)
+            } else {
+                XCTFail("No auth header")
+            }
+            
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
+        keychain.removeAll()
     }
     
     func testAccessTokenHeaderAppendedToHostRequests() {

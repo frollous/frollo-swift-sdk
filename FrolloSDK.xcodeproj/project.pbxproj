@@ -22,6 +22,7 @@
 		011E87D2213767F00026E047 /* SecKeyPEMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011E87D1213767F00026E047 /* SecKeyPEMTests.swift */; };
 		011E87D3213767F00026E047 /* SecKeyPEMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011E87D1213767F00026E047 /* SecKeyPEMTests.swift */; };
 		011E87D4213767F00026E047 /* SecKeyPEMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011E87D1213767F00026E047 /* SecKeyPEMTests.swift */; };
+		011F1A60216B289B00119474 /* APIUserResetPasswordRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F1A5F216B289B00119474 /* APIUserResetPasswordRequest.swift */; };
 		012C450A212A775D00799A0A /* ProviderLoginForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012C4509212A775D00799A0A /* ProviderLoginForm.swift */; };
 		012C450F212A88C500799A0A /* ProviderLoginFormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012C450D212A889F00799A0A /* ProviderLoginFormTests.swift */; };
 		012C4510212A88C600799A0A /* ProviderLoginFormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012C450D212A889F00799A0A /* ProviderLoginFormTests.swift */; };
@@ -507,6 +508,7 @@
 		010EB42C211C00D0005A926A /* APITransactionUpdateRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APITransactionUpdateRequest+Test.swift"; sourceTree = "<group>"; };
 		011E87CF213766550026E047 /* SecKeyPEM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecKeyPEM.swift; sourceTree = "<group>"; };
 		011E87D1213767F00026E047 /* SecKeyPEMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecKeyPEMTests.swift; sourceTree = "<group>"; };
+		011F1A5F216B289B00119474 /* APIUserResetPasswordRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserResetPasswordRequest.swift; sourceTree = "<group>"; };
 		012C4509212A775D00799A0A /* ProviderLoginForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderLoginForm.swift; sourceTree = "<group>"; };
 		012C450B212A875900799A0A /* ProviderLoginForm+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProviderLoginForm+Test.swift"; sourceTree = "<group>"; };
 		012C450D212A889F00799A0A /* ProviderLoginFormTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderLoginFormTests.swift; sourceTree = "<group>"; };
@@ -814,6 +816,7 @@
 				01333D3E216AAF36005764A4 /* APIUserChangePasswordRequest.swift */,
 				013D2D85210A88AC00EEDEC5 /* APIUserLoginRequest.swift */,
 				01BC3D102166D90C0065A4B8 /* APIUserRegisterRequest.swift */,
+				011F1A5F216B289B00119474 /* APIUserResetPasswordRequest.swift */,
 				017B48DF2107FE6A00447E65 /* APIUserResponse.swift */,
 				01EAAEE22150663A003D1EAC /* APIUserUpdateRequest.swift */,
 			);
@@ -2004,6 +2007,7 @@
 				0160953720F33EB10060791B /* Version.swift in Sources */,
 				0136D225210011E70062EAEA /* Keychain.swift in Sources */,
 				015EEDDE210FD7710081AD76 /* FailableCodable.swift in Sources */,
+				011F1A60216B289B00119474 /* APIUserResetPasswordRequest.swift in Sources */,
 				013D2D86210A88AC00EEDEC5 /* APIUserLoginRequest.swift in Sources */,
 				01EAAEE1214F351D003D1EAC /* APIProviderAccountUpdateRequest.swift in Sources */,
 				01EED86B20E5AA5B00F4516B /* FrolloSDKDataModel.xcdatamodeld in Sources */,
