@@ -641,6 +641,7 @@
 		01874B7E20FD9F21005A7D0C /* Network+Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+Device.swift"; sourceTree = "<group>"; };
 		01874B8020FDA1DB005A7D0C /* NetworkAuthenticator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkAuthenticator.swift; sourceTree = "<group>"; };
 		018B0425216EC785008C34D7 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		018B042B216EFD95008C34D7 /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; };
 		01A1F5912148D645002B9A93 /* provider-public-key.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = "provider-public-key.der"; sourceTree = "<group>"; };
 		01A1F5922148D646002B9A93 /* provider-public-key.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "provider-public-key.pem"; sourceTree = "<group>"; };
 		01A1F5992148DBC9002B9A93 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -883,6 +884,7 @@
 				01527CDA20E1CD1800B5042A /* Cartfile */,
 				01E0819520FDBA850036133F /* Cartfile.private */,
 				01527CDC20E1CD1800B5042A /* Carthage.xcconfig */,
+				018B042B216EFD95008C34D7 /* Gemfile */,
 				01527CDB20E1CD1800B5042A /* README.md */,
 				01527CD720E1C2D700B5042A /* Package.swift */,
 				01C8250820EDEC630093400E /* Resources */,

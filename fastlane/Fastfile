@@ -13,7 +13,7 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
-fastlane_version "2.98.0"
+fastlane_version "2.106.0"
 
 default_platform(:ios)
 
@@ -39,18 +39,18 @@ platform :ios do
       )
     end
 
- 	run_tests(scheme: "FrolloSDK macOS Tests",
-    		  clean: true,
-    		  code_coverage: true,
-    		  destination: "platform=macOS,arch=x86_64",
-    		  output_directory: "fastlane/mac_test_output",
-    		  slack_message: "Frollo SDK: macOS Tests")
+ 	  # run_tests(scheme: "FrolloSDK macOS Tests",
+    # 		  clean: true,
+    # 		  code_coverage: true,
+    # 		  destination: "platform=macOS,arch=x86_64",
+    # 		  output_directory: "fastlane/mac_test_output",
+    # 		  slack_message: "Frollo SDK: macOS Tests")
 
- 	run_tests(scheme: "FrolloSDK tvOS Tests",
-    		  clean: true,
-    		  code_coverage: true,
-    		  devices: ["Apple TV 4K"],
-    		  slack_message: "Frollo SDK: tvOS Tests")
+ 	  # run_tests(scheme: "FrolloSDK tvOS Tests",
+    # 		  clean: true,
+    # 		  code_coverage: true,
+    # 		  devices: ["Apple TV 4K"],
+    # 		  slack_message: "Frollo SDK: tvOS Tests")
 
     run_tests(scheme: "FrolloSDK iOS Tests",
     		  clean: true,
@@ -59,8 +59,7 @@ platform :ios do
     		  slack_message: "Frollo SDK: iOS Tests")
 
     xcov(project: "FrolloSDK.xcodeproj",
-    	 scheme: "FrolloSDK",
-    	 derived_data_path: "./derivedData")
+    	 scheme: "FrolloSDK")
 
     jazzy
 
