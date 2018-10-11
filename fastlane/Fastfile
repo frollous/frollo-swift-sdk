@@ -44,17 +44,20 @@ platform :ios do
     		  code_coverage: true,
     		  destination: "platform=macOS,arch=x86_64",
     		  output_directory: "fastlane/mac_test_output",
+          result_bundle: true,
     		  slack_message: "Frollo SDK: macOS Tests")
 
  	  run_tests(scheme: "FrolloSDK tvOS Tests",
     		  clean: true,
     		  code_coverage: true,
     		  devices: ["Apple TV 4K"],
+          result_bundle: true,
     		  slack_message: "Frollo SDK: tvOS Tests")
 
     run_tests(scheme: "FrolloSDK iOS Tests",
     		  clean: true,
     		  code_coverage: true,
+          result_bundle: true,
     		  devices: ["iPhone 5s (10.3.1)", "iPhone X"],
     		  slack_message: "Frollo SDK: iOS Tests")
 
