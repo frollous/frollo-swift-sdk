@@ -17,7 +17,6 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
     private let serverURL = URL(string: "https://api.example.com")!
     
     private var authentication: Authentication!
-    private var logoutExpectations = [XCTestExpectation]()
     
     override func setUp() {
         super.setUp()
@@ -26,8 +25,6 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         keychain["refreshToken"] = "AnExistingRefreshToken"
         keychain["accessToken"] = "AnExistingAccessToken"
         keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
-        
-        logoutExpectations = []
     }
     
     override func tearDown() {
@@ -224,12 +221,12 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
                 try! moc.save()
             }
             
-            self.logoutExpectations.append(expectation1)
-            
             authentication.updateUser { (error) in
                 XCTAssert(error != nil)
                 
-                XCTAssertFalse(authentication.loggedIn)
+                XCTAssertNil(network.authenticator.refreshToken)
+                
+                expectation1.fulfill()
             }
         }
         
@@ -349,7 +346,6 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
     }
     
     func testResetPassword() {
@@ -391,9 +387,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
     // MARK: - Network logged out delegate
     
     func forcedLogout() {
-        for expectation in logoutExpectations {
-            expectation.fulfill()
-        }
+        
     }
     
 }
