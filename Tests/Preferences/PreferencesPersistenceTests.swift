@@ -113,6 +113,8 @@ class PreferencesPersistenceTests: XCTestCase {
         
         persistence.synchronise()
         
+        sleep(1)
+        
         persistence.reset()
         
         XCTAssertNil(persistence["TestData"])

@@ -113,6 +113,8 @@ class VersionTests: XCTestCase {
         let path = tempPath()
         setVersionEnvironment(path: path, previousVersion: oldVersion, versionHistory: [oldVersion])
         
+        sleep(1)
+        
         let version = Version(path: path, keychain: Keychain(service: keychainService))
         let migrationNeeded = version.migrationNeeded()
         
