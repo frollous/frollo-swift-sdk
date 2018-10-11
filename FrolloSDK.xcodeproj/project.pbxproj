@@ -348,6 +348,7 @@
 		01874B7D20FD6FB9005A7D0C /* Network+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B7C20FD6FB9005A7D0C /* Network+User.swift */; };
 		01874B7F20FD9F21005A7D0C /* Network+Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B7E20FD9F21005A7D0C /* Network+Device.swift */; };
 		01874B8120FDA1DD005A7D0C /* NetworkAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B8020FDA1DB005A7D0C /* NetworkAuthenticator.swift */; };
+		018B0426216EC785008C34D7 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B0425216EC785008C34D7 /* Date.swift */; };
 		01A1F5932148D646002B9A93 /* provider-public-key.der in Resources */ = {isa = PBXBuildFile; fileRef = 01A1F5912148D645002B9A93 /* provider-public-key.der */; };
 		01A1F5942148D646002B9A93 /* provider-public-key.der in Resources */ = {isa = PBXBuildFile; fileRef = 01A1F5912148D645002B9A93 /* provider-public-key.der */; };
 		01A1F5952148D646002B9A93 /* provider-public-key.der in Resources */ = {isa = PBXBuildFile; fileRef = 01A1F5912148D645002B9A93 /* provider-public-key.der */; };
@@ -639,6 +640,7 @@
 		01874B7C20FD6FB9005A7D0C /* Network+User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+User.swift"; sourceTree = "<group>"; };
 		01874B7E20FD9F21005A7D0C /* Network+Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+Device.swift"; sourceTree = "<group>"; };
 		01874B8020FDA1DB005A7D0C /* NetworkAuthenticator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkAuthenticator.swift; sourceTree = "<group>"; };
+		018B0425216EC785008C34D7 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		01A1F5912148D645002B9A93 /* provider-public-key.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = "provider-public-key.der"; sourceTree = "<group>"; };
 		01A1F5922148D646002B9A93 /* provider-public-key.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "provider-public-key.pem"; sourceTree = "<group>"; };
 		01A1F5992148DBC9002B9A93 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -1360,6 +1362,7 @@
 			isa = PBXGroup;
 			children = (
 				01A1F5992148DBC9002B9A93 /* Data.swift */,
+				018B0425216EC785008C34D7 /* Date.swift */,
 				013A32C02112AF4E00B0590B /* DateFormatter.swift */,
 				015EEDDD210FD7710081AD76 /* FailableCodable.swift */,
 				01C8251320EDF6200093400E /* Localization.swift */,
@@ -1974,6 +1977,7 @@
 				01874B8120FDA1DD005A7D0C /* NetworkAuthenticator.swift in Sources */,
 				01C824FD20EDD6630093400E /* FrolloSDKError.swift in Sources */,
 				01527CD920E1C5A600B5042A /* FrolloSDK.swift in Sources */,
+				018B0426216EC785008C34D7 /* Date.swift in Sources */,
 				013A32AF21127A3600B0590B /* AccountRefreshStatus.swift in Sources */,
 				01483BB6211967A500D0DA87 /* Merchant+CoreDataClass.swift in Sources */,
 				01874B7420F81EA8005A7D0C /* UserEndpoint.swift in Sources */,

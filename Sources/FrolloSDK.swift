@@ -38,13 +38,16 @@ class FrolloSDK: NetworkDelegate {
         return appDataURL
     }()
     
-    //public let preferences = Preferences()
-    
+    internal let aggregation: Aggregation
     internal let authentication: Authentication
     internal let database: Database
     internal let keychain: Keychain
     internal let network: Network
     internal let preferences: Preferences
+    
+    internal var refreshTimer: Timer?
+    
+    // MARK: - Setup
     
     public init(serverURL: URL) {
         // Create data folder if it doesn't exist
@@ -61,6 +64,7 @@ class FrolloSDK: NetworkDelegate {
         self.network = Network(serverURL: serverURL, keychain: keychain)
         self.preferences = Preferences(path: FrolloSDK.dataFolderURL)
         
+        self.aggregation = Aggregation(database: database, network: network)
         self.authentication = Authentication(database: database, network: network, preferences: preferences)
         
         self.network.delegate = self
@@ -74,15 +78,17 @@ class FrolloSDK: NetworkDelegate {
 //        authentication.authenticate(authToken, completion: completion)
 //    }
     
+    // MARK: - Logout and Reset
+    
     public func logout(completionHandler: @escaping (Error?) -> Void) {
         authentication.logoutUser()
         
         reset()
     }
     
-    // MARK: - Logout and Reset
-    
     public func reset(completionHandler: ((Error?) -> Void)? = nil) {
+        pauseScheduledRefreshing()
+        
         authentication.reset()
         
         keychain.removeAll()
@@ -92,6 +98,75 @@ class FrolloSDK: NetworkDelegate {
         }
         
         NotificationCenter.default.post(name: FrolloSDK.authenticationChangedNotification, object: self, userInfo: [FrolloSDK.authenticationStatusKey: FrolloSDKAuthenticationStatus.loggedOut])
+    }
+    
+    // MARK: - Lifecycle
+    
+    public func applicationDidEnterBackground() {
+        pauseScheduledRefreshing()
+    }
+    
+    public func applicationWillEnterForeground() {
+        resumeScheduledRefreshing()
+    }
+    
+    // MARK: - Refresh
+    
+    public func refreshData() {
+        guard !database.needsMigration()
+            else {
+                return
+        }
+        
+        refreshPrimary()
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//            self.refreshSecondary()
+//        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 20) {
+            self.refreshSystem()
+        }
+        
+        resumeScheduledRefreshing()
+    }
+    
+    /**
+     Refresh data from the most time sensitive and important APIs, e.g. accounts, transactions
+    */
+    private func refreshPrimary() {
+        aggregation.refreshProviderAccounts()
+        aggregation.refreshAccounts()
+        aggregation.refreshTransactions(from: Date().startOfLastMonth(), to: Date().endOfMonth())
+        authentication.refreshUser()
+    }
+    
+    /**
+     Refresh data from long lived sources which don't change often, e.g. transaction categories, providers
+    */
+    private func refreshSystem() {
+        aggregation.refreshProviders()
+        aggregation.refreshTransactionCategories()
+        aggregation.refreshMerchants()
+    }
+    
+    // MARK: - Scheduled Refresh
+    
+    private func resumeScheduledRefreshing() {
+        cancelRefreshTimer()
+        
+        refreshTimer = Timer.scheduledTimer(withTimeInterval: 120, repeats: true, block: { (timer: Timer) in
+            self.refreshPrimary()
+        })
+    }
+    
+    private func pauseScheduledRefreshing() {
+        cancelRefreshTimer()
+    }
+    
+    private func cancelRefreshTimer() {
+        refreshTimer?.invalidate()
+        refreshTimer = nil
     }
     
     // MARK: - Network Delegate

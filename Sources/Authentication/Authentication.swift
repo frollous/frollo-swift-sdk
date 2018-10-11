@@ -222,9 +222,9 @@ class Authentication {
      Refreshes the latest details of the user from the server. This should be called on app launch and resuming after a set period of time if the user is already logged in. This returns the same data as login and register.
      
      - parameters:
-        - completion: A completion handler once the API has returned and the cache has been updated. Returns any error that occurred during the process.
+        - completion: A completion handler once the API has returned and the cache has been updated. Returns any error that occurred during the process. (Optional)
     */
-    public func refreshUser(completion: @escaping FrolloSDKCompletionHandler) {
+    public func refreshUser(completion: FrolloSDKCompletionHandler? = nil) {
         network.fetchUser { (data, error) in
             if let responseError = error {
                 Log.error(responseError.localizedDescription)
@@ -234,7 +234,7 @@ class Authentication {
                 }
             }
             
-            completion(error)
+            completion?(error)
         }
     }
     

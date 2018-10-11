@@ -67,4 +67,24 @@ class FrolloSDKTests: XCTestCase {
         }
     }
     
+    func testPauseScheduledRefresh() {
+        let url = URL(string: "https://api.example.com")!
+        
+        let sdk = FrolloSDK(serverURL: url)
+        
+        sdk.applicationDidEnterBackground()
+        
+        XCTAssertNil(sdk.refreshTimer)
+    }
+    
+    func testResumeScheduledRefresh() {
+        let url = URL(string: "https://api.example.com")!
+        
+        let sdk = FrolloSDK(serverURL: url)
+        
+        sdk.applicationWillEnterForeground()
+        
+        XCTAssertNotNil(sdk.refreshTimer)
+    }
+    
 }
