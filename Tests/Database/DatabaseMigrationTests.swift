@@ -146,6 +146,8 @@ class DatabaseMigrationTests: XCTestCase {
         
         let path = populateTestDataNamed(name: fakeTestDataModelName)
         
+        sleep(1)
+        
         let database = Database(path: path)
         
         XCTAssertTrue(database.needsMigration())
