@@ -689,7 +689,7 @@ class AggregationTests: XCTestCase {
         
         let transactions: [Int64] = [1, 2, 3, 4, 5]
         
-        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.transactionsByID(transactionIDs: transactions).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(url.host!) && pathStartsWith("/" + AggregationEndpoint.transactions.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
         }
         
@@ -713,7 +713,7 @@ class AggregationTests: XCTestCase {
                 do {
                     let fetchedTransactions = try context.fetch(fetchRequest)
                     
-                    XCTAssertEqual(fetchedTransactions.count, 176)
+                    XCTAssertEqual(fetchedTransactions.count, 179)
                 } catch {
                     XCTFail(error.localizedDescription)
                 }
