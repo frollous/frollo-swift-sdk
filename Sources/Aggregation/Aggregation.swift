@@ -309,7 +309,7 @@ class Aggregation: ResponseHandler {
     }
     
     /**
-     Refresh all available accounts from the host.
+     Refresh transactions from a certain period from the host
      
      - parameters:
         - fromDate: Start date to fetch transactions from (inclusive)
@@ -352,6 +352,33 @@ class Aggregation: ResponseHandler {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleTransactionResponse(transactionResponse, managedObjectContext: managedObjectContext)
+                    
+                    self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            completion?(error)
+        }
+    }
+    
+    /**
+     Refresh specific transactions by ID from the host
+     
+     - parameters:
+         - transactionIDs: List of transaction IDs to fetch
+         - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshTransactions(transactionIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
+        network.fetchTransactions(transactionIDs: transactionIDs) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let transactionResponse = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleTransactionsResponse(transactionResponse, transactionIDs: transactionIDs, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
@@ -711,16 +738,26 @@ class Aggregation: ResponseHandler {
     }
     
     private func handleTransactionsResponse(_ transactionsResponse: [APITransactionResponse], from fromDate: Date, to toDate: Date, managedObjectContext: NSManagedObjectContext) {
+        let fromDateString = Transaction.transactionDateFormatter.string(from: fromDate)
+        let toDateString = Transaction.transactionDateFormatter.string(from: toDate)
+        
+        let predicate = NSPredicate(format: "transactionDateString >= %@ && transactionDateString <= %@", argumentArray: [fromDateString, toDateString])
+        
+        handleTransactionsResponse(transactionsResponse, predicate: predicate, managedObjectContext: managedObjectContext)
+    }
+    
+    private func handleTransactionsResponse(_ transactionsResponse: [APITransactionResponse], transactionIDs: [Int64], managedObjectContext: NSManagedObjectContext) {
+        let predicate = NSPredicate(format: "transactionID IN %@", argumentArray: [transactionIDs])
+        
+        handleTransactionsResponse(transactionsResponse, predicate: predicate, managedObjectContext: managedObjectContext)
+    }
+    
+    private func handleTransactionsResponse(_ transactionsResponse: [APITransactionResponse], predicate: NSPredicate, managedObjectContext: NSManagedObjectContext) {
         transactionLock.lock()
         
         defer {
             transactionLock.unlock()
         }
-        
-        let fromDateString = Transaction.transactionDateFormatter.string(from: fromDate)
-        let toDateString = Transaction.transactionDateFormatter.string(from: toDate)
-        
-        let predicate = NSPredicate(format: "transactionDateString >= %@ && transactionDateString <= %@", argumentArray: [fromDateString, toDateString])
         
         let updatedLinkedIDs = updateObjectsWithResponse(type: Transaction.self, objectsResponse: transactionsResponse, primaryKey: #keyPath(Transaction.transactionID), linkedKeys: [\Transaction.accountID, \Transaction.merchantID, \Transaction.transactionCategoryID], filterPredicate: predicate, managedObjectContext: managedObjectContext)
         

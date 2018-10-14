@@ -682,6 +682,50 @@ class AggregationTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testRefreshTransactionByIDsIsCached() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let transactions: [Int64] = [1, 2, 3, 4, 5]
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.transactionsByID(transactionIDs: transactions).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            aggregation.refreshTransactions(transactionIDs: transactions) { (error) in
+                XCTAssertNil(error)
+                
+                let context = database.viewContext
+                
+                let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                
+                do {
+                    let fetchedTransactions = try context.fetch(fetchRequest)
+                    
+                    XCTAssertEqual(fetchedTransactions.count, 176)
+                } catch {
+                    XCTFail(error.localizedDescription)
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testTransactionsLinkToAccounts() {
         let expectation1 = expectation(description: "Network Account Request")
         let expectation2 = expectation(description: "Network Transaction Request")

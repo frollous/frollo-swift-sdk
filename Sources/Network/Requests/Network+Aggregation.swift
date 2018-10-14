@@ -167,6 +167,16 @@ extension Network {
         }
     }
     
+    internal func fetchTransactions(transactionIDs: [Int64], completion: @escaping RequestCompletion<[APITransactionResponse]>) {
+        requestQueue.async {
+            let url = URL(string: AggregationEndpoint.transactionsByID(transactionIDs: transactionIDs).path, relativeTo: self.serverURL)!
+            
+            self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.handleArrayResponse(type: APITransactionResponse.self, response: response, dateDecodingStrategy: .formatted(Transaction.transactionDateFormatter), completion: completion)
+            }
+        }
+    }
+    
     internal func updateTransaction(transactionID: Int64, request: APITransactionUpdateRequest, completion: @escaping RequestCompletion<APITransactionResponse>) {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.transaction(transactionID: transactionID).path, relativeTo: self.serverURL)!
