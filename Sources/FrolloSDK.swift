@@ -9,18 +9,16 @@ import Foundation
 
 public typealias FrolloSDKCompletionHandler = (Error?) -> Void
 
-class FrolloSDK: NetworkDelegate {
+/// Frollo SDK manager and main instantiation. Responsible for managing the lifecycle and coordination of the SDK
+public class FrolloSDK: NetworkDelegate {
     
-    /**
-     Notification triggered when ever the authentication status of the SDK changes. Observe this notification to detect if the SDK user has authenticated or been logged out.
-    */
+    /// Notification triggered when ever the authentication status of the SDK changes. Observe this notification to detect if the SDK user has authenticated or been logged out.
     public static let authenticationChangedNotification = Notification.Name(rawValue: "FrolloSDK.authenticationChangedNotification")
     
-    /**
-     User info key for authentication status sent with `authenticationChangedNotification` notifications.
-    */
+    /// User info key for authentication status sent with `authenticationChangedNotification` notifications.
     public static let authenticationStatusKey = "FrolloSDKKey.authenticationStatus"
     
+    /// Status of the FrolloSDK authentication with Frollo servers
     public enum FrolloSDKAuthenticationStatus {
         case authenticated
         case loggedOut
@@ -49,6 +47,14 @@ class FrolloSDK: NetworkDelegate {
     
     // MARK: - Setup
     
+    /**
+     Initialises the SDK
+     
+     Initialises an SDK instance pointing to the specified Frollo backend API URL. Only one instance should be instantiated.
+     
+     - parameters:
+        - serverURL: Base URL of the Frollo API this SDK should point to
+    */
     public init(serverURL: URL) {
         // Create data folder if it doesn't exist
         if !FileManager.default.fileExists(atPath: FrolloSDK.dataFolderURL.path) {
@@ -70,8 +76,16 @@ class FrolloSDK: NetworkDelegate {
         self.network.delegate = self
     }
     
-    public func setup(completionHandler: @escaping (Error?) -> Void) {
-        database.setup(completionHandler: completionHandler)
+    /**
+     Setup the SDK
+     
+     Sets up the SDK for use by performing any datbase migrations or other underlying setup needed. Must be called and completed before using the SDK.
+     
+     - parameters:
+        - completion: Completion handler with optional error if something goes wrong during the setup process
+    */
+    public func setup(completion: @escaping (Error?) -> Void) {
+        database.setup(completionHandler: completion)
     }
     
 //    public func authenticate(authToken: String, completion: FrolloSDKCompletionHandler) {
@@ -80,12 +94,24 @@ class FrolloSDK: NetworkDelegate {
     
     // MARK: - Logout and Reset
     
-    public func logout(completionHandler: @escaping (Error?) -> Void) {
+    /**
+     Logout the currently authenticated user from Frollo backend. Resets all caches and databases.
+     
+     - parameters:
+        - completion: Completion handler with optional error if something goes wrong during the logout process
+    */
+    public func logout(completion: @escaping (Error?) -> Void) {
         authentication.logoutUser()
         
         reset()
     }
     
+    /**
+     Reset the SDK. Clears all caches, datbases and keychain entries. Called automatically from logout.
+     
+     - parameters:
+        - completion: Completion handler with option error if something goes wrong (optional)
+    */
     public func reset(completionHandler: ((Error?) -> Void)? = nil) {
         pauseScheduledRefreshing()
         
@@ -102,16 +128,29 @@ class FrolloSDK: NetworkDelegate {
     
     // MARK: - Lifecycle
     
+    /**
+     Application entered the background or is about to terminate.
+     
+     Notify the SDK of an app lifecycle change. Call this to ensure proper refreshing of cache data occurs when the app enters background or resumes.
+    */
     public func applicationDidEnterBackground() {
         pauseScheduledRefreshing()
     }
     
+    /**
+     Application resumed from background
+     
+     Notify the SDK of an app lifecycle change. Call this to ensure proper refreshing of cache data occurs when the app enters background or resumes.
+     */
     public func applicationWillEnterForeground() {
         resumeScheduledRefreshing()
     }
     
     // MARK: - Refresh
     
+    /**
+     Refreshes all cached data in an optimised way. Fetches most urgent data first and then proceeds to update other caches if needed.
+    */
     public func refreshData() {
         guard !database.needsMigration()
             else {

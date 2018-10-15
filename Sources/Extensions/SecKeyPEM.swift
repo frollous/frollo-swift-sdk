@@ -9,7 +9,7 @@
 import Foundation
 import Security
 
-public func SecKeyCreateWithPEMData(_ keyData: String, _ error: UnsafeMutablePointer<Unmanaged<CFError>?>?) -> SecKey? {
+internal func SecKeyCreateWithPEMData(_ keyData: String, _ error: UnsafeMutablePointer<Unmanaged<CFError>?>?) -> SecKey? {
     guard !keyData.isEmpty
         else {
             return nil

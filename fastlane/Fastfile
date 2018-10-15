@@ -21,48 +21,62 @@ platform :ios do
   desc "Frollo SDK testing and deployment"
 
   lane :test do
-    #setup_jenkins
+    begin
+      #setup_jenkins
 
-    if carthage_cache_exist(bucket: 'frollo-sdk-carthage-cache')
-      carthage_cache_install(
-        bucket: 'frollo-sdk-carthage-cache'
-      )
-    else
-      carthage(
-      	command: "bootstrap",
-        platform: "all",
-        use_binaries: false
-      )
+      if carthage_cache_exist(bucket: 'frollo-sdk-carthage-cache')
+        carthage_cache_install(
+          bucket: 'frollo-sdk-carthage-cache'
+        )
+      else
+        carthage(
+        	command: "bootstrap",
+          platform: "all",
+          use_binaries: false
+        )
 
-      carthage_cache_publish(
-        bucket: 'frollo-sdk-carthage-cache'
-      )
+        carthage_cache_publish(
+          bucket: 'frollo-sdk-carthage-cache'
+        )
+      end
+
+   	  run_tests(scheme: "FrolloSDK macOS Tests",
+      		  clean: true,
+      		  code_coverage: true,
+      		  destination: "platform=macOS,arch=x86_64",
+      		  output_directory: "fastlane/mac_test_output",
+      		  slack_message: "Frollo SDK: macOS Tests")
+
+   	  run_tests(scheme: "FrolloSDK tvOS Tests",
+      		  clean: true,
+      		  code_coverage: true,
+      		  devices: ["Apple TV 4K"],
+      		  slack_message: "Frollo SDK: tvOS Tests")
+
+      run_tests(scheme: "FrolloSDK iOS Tests",
+      		  clean: true,
+      		  code_coverage: true,
+      		  devices: ["iPhone 5s (10.3.1)", "iPhone X"],
+      		  slack_message: "Frollo SDK: iOS Tests",
+            output_style: "raw")
+
+      xcov(project: "FrolloSDK.xcodeproj",
+      	 scheme: "FrolloSDK")
+
+      jazzy(config: ".jazzy.json")
+
+      slack(message: "Frollo Swift SDK Successfully Integrated!",
+            success: true)
+
+    rescue => exception
+      on_error(exception)
     end
-
- 	  run_tests(scheme: "FrolloSDK macOS Tests",
-    		  clean: true,
-    		  code_coverage: true,
-    		  destination: "platform=macOS,arch=x86_64",
-    		  output_directory: "fastlane/mac_test_output",
-    		  slack_message: "Frollo SDK: macOS Tests")
-
- 	  run_tests(scheme: "FrolloSDK tvOS Tests",
-    		  clean: true,
-    		  code_coverage: true,
-    		  devices: ["Apple TV 4K"],
-    		  slack_message: "Frollo SDK: tvOS Tests")
-
-    run_tests(scheme: "FrolloSDK iOS Tests",
-    		  clean: true,
-    		  code_coverage: true,
-    		  devices: ["iPhone 5s (10.3.1)", "iPhone X"],
-    		  slack_message: "Frollo SDK: iOS Tests",
-          output_style: "raw")
-
-    xcov(project: "FrolloSDK.xcodeproj",
-    	 scheme: "FrolloSDK")
-
-    jazzy
-
   end
+end
+
+def on_error(exception)
+       slack(
+           message: "Frollo Swift SDK integration failed with exception : #{exception}",
+           success: false,
+       )
 end

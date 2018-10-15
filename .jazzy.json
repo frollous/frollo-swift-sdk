@@ -1,0 +1,50 @@
+{
+  "author": "Frollo",
+  "author_url": "https://www.frollo.us",
+  "min_acl": "public",
+  "module": "FrolloSDK",
+  "theme": "Documentation/Themes/fullwidth",
+  "documentation": "Documentation/Guides/*.md",
+  "abstract": "Documentation/Includes/*.md",
+  "custom_categories": [
+  	{
+  		"name": "Documentation",
+  		"children": [
+  			"Changelog"
+  		]
+  	},
+  	{
+  		"name": "SDK",
+  		"children": [
+  			"FrolloSDK",
+  			"FrolloSDKCompletionHandler",
+  			"FrolloSDKAuthenticationNotification"
+  		]
+  	},
+  	{
+  		"name": "Authentication",
+  		"children": [
+  			"Authentication",
+  			"User"
+  		]
+  	},
+	{
+		"name": "Aggregation",
+		"children": [
+			"Aggregation",
+			"Provider",
+			"ProviderAccount",
+			"Account",
+			"Transaction",
+			"TransactionCategory",
+			"Merchant",
+			"AccountBalanceTier",
+			"AccountRefreshStatus",
+			"AccountRefreshSubStatus",
+			"AccountRefreshAdditionalStatus",
+			"BudgetCategory",
+			"ProviderLoginForm"
+		]
+	}
+  ]
+}

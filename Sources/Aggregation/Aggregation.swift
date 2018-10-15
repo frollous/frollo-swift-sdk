@@ -9,7 +9,8 @@
 import CoreData
 import Foundation
 
-class Aggregation: ResponseHandler {
+/// Manages all aggregation data including accounts, transactions, categories and merchants
+public class Aggregation: ResponseHandler {
     
     private let database: Database
     private let network: Network
@@ -63,7 +64,7 @@ class Aggregation: ResponseHandler {
         return nil
     }
     
-    // MARK: - Updating Data
+    // MARK: - Providers
     
     /**
      Refresh all available providers from the host.
@@ -117,6 +118,8 @@ class Aggregation: ResponseHandler {
             completion?(error)
         }
     }
+    
+    // MARK: - Provider Accounts
     
     /**
      Refresh all available provider accounts from the host.
@@ -223,6 +226,8 @@ class Aggregation: ResponseHandler {
         }
     }
     
+    // MARK: - Accounts
+    
     /**
      Refresh all available accounts from the host.
      
@@ -307,6 +312,8 @@ class Aggregation: ResponseHandler {
             completion?(error)
         }
     }
+    
+    // MARK: - Transactions
     
     /**
      Refresh transactions from a certain period from the host
@@ -427,6 +434,8 @@ class Aggregation: ResponseHandler {
         }
     }
     
+    // MARK: - Transaction Categories
+    
     /**
      Refresh all transaction categories from the host.
      
@@ -450,6 +459,8 @@ class Aggregation: ResponseHandler {
             completion?(error)
         }
     }
+    
+    // MARK: - Merchants
     
     /**
      Refresh all merchants from the host.
