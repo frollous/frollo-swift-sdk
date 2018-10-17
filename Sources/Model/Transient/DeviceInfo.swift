@@ -10,8 +10,10 @@ import Foundation
 
 #if os(macOS)
 import IOKit
-#elseif os(iOS) || os(tvOS) || os(watchOS)
+#elseif os(iOS) || os(tvOS)
 import UIKit
+#elseif os(watchOS)
+import WatchKit
 #endif
 
 /**
@@ -44,6 +46,10 @@ struct DeviceInfo {
         let deviceID = serialNumber()
         let deviceName = Host.current().name ?? "Unknown"
         let deviceType = modelIdentifier()
+        #elseif os(watchOS)
+        let deviceID = UUID().uuidString
+        let deviceName = WKInterfaceDevice.current().name
+        let deviceType = platform()
         #else
         let deviceID = UIDevice.current.identifierForVendor!.uuidString
         let deviceName = UIDevice.current.name

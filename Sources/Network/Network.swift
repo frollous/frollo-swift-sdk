@@ -29,7 +29,9 @@ class Network: SessionDelegate {
         static let xBackground = "X-Background"
     }
     
+    #if !os(watchOS)
     public let reachability: NetworkReachabilityManager
+    #endif
     
     /**
      Asynchronous queue all network requests are executed from
@@ -81,7 +83,9 @@ class Network: SessionDelegate {
         let systemVersion = ProcessInfo.processInfo.operatingSystemVersionString
         let userAgent = String(format: "%@|V%@|B%@|%@%@|API%@", arguments: [Bundle(for: Network.self).bundleIdentifier!, appVersion, appBuild, osVersion, systemVersion, APIVersion])
         
+        #if !os(watchOS)
         reachability = NetworkReachabilityManager(host: serverURL.host!)!
+        #endif
         
         let configuration = URLSessionConfiguration.default
         configuration.allowsCellularAccess = true

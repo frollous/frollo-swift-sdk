@@ -40,6 +40,11 @@ platform :ios do
         )
       end
 
+      xcodebuild(scheme: "FrolloSDK",
+          clean: true,
+          build: true,
+          destination: "platform=watchOS Simulator,name=Apple Watch Series 4 - 44mm")
+
    	  run_tests(scheme: "FrolloSDK macOS Tests",
       		  clean: true,
       		  code_coverage: true,
