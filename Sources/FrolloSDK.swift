@@ -36,6 +36,13 @@ public class FrolloSDK: NetworkDelegate {
         return appDataURL
     }()
     
+    /// Indicates if the user is currently authenticated or not
+    public var loggedIn: Bool {
+        get {
+            return authentication.loggedIn
+        }
+    }
+    
     internal let aggregation: Aggregation
     internal let authentication: Authentication
     internal let database: Database
