@@ -43,8 +43,9 @@ public class FrolloSDK: NetworkDelegate {
         }
     }
     
-    internal let aggregation: Aggregation
-    internal let authentication: Authentication
+    public let aggregation: Aggregation
+    public let authentication: Authentication
+    
     internal let database: Database
     internal let keychain: Keychain
     internal let network: Network
@@ -105,12 +106,12 @@ public class FrolloSDK: NetworkDelegate {
      Logout the currently authenticated user from Frollo backend. Resets all caches and databases.
      
      - parameters:
-        - completion: Completion handler with optional error if something goes wrong during the logout process
+        - completion: Completion handler with optional error if something goes wrong during the logout process (optional)
     */
-    public func logout(completion: @escaping (Error?) -> Void) {
+    public func logout(completion: ((Error?) -> Void)? = nil) {
         authentication.logoutUser()
         
-        reset()
+        reset(completionHandler: completion)
     }
     
     /**

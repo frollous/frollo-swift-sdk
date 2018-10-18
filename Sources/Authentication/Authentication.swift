@@ -300,7 +300,7 @@ public class Authentication {
      - parameters:
         - completion: Completion handler with any error that occurred
     */
-    internal func deleteUser(completion: @escaping FrolloSDKCompletionHandler) {
+    public func deleteUser(completion: @escaping FrolloSDKCompletionHandler) {
         network.deleteUser { (response, error) in
             if let responseError = error {
                 Log.error(responseError.localizedDescription)
@@ -314,6 +314,12 @@ public class Authentication {
     
     // MARK: - Logout
     
+    /**
+     Logout the currently authenticated user from Frollo backend. Resets all caches and databases.
+     
+     - parameters:
+        - completion: Completion handler with optional error if something goes wrong during the logout process
+     */
     /**
      Log out the user from the server. This revokes the refresh token for the current device if not already revoked and resets the token storage.
     */
