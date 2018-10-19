@@ -21,12 +21,12 @@ class Network: SessionDelegate {
     internal typealias NetworkCompletion = (_ data: Data?, _ error: FrolloSDKError?) -> Void
     internal typealias RequestCompletion<T> = (_: T?, _: Error?) -> Void
     
-    struct HTTPHeader {
-        static let authorization = "Authorization"
-        static let contentType = "Content-Type"
-        static let etag = "Etag"
-        static let userAgent = "User-Agent"
-        static let xBackground = "X-Background"
+    internal enum HTTPHeader: String {
+        case authorization = "Authorization"
+        case contentType = "Content-Type"
+        case etag = "Etag"
+        case userAgent = "User-Agent"
+        case xBackground = "X-Background"
     }
     
     #if !os(watchOS)
@@ -89,7 +89,7 @@ class Network: SessionDelegate {
         
         let configuration = URLSessionConfiguration.default
         configuration.allowsCellularAccess = true
-        configuration.httpAdditionalHeaders = [HTTPHeader.userAgent: userAgent]
+        configuration.httpAdditionalHeaders = [HTTPHeader.userAgent.rawValue: userAgent]
         
         var serverTrustManager: ServerTrustPolicyManager?
         
@@ -127,6 +127,7 @@ class Network: SessionDelegate {
         do {
             let requestData = try encoder.encode(content)
             
+            urlRequest.addValue("application/json", forHTTPHeaderField: HTTPHeader.contentType.rawValue)
             urlRequest.httpBody = requestData
             
             return urlRequest

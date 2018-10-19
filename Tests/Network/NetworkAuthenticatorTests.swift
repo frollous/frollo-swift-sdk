@@ -61,7 +61,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
@@ -89,7 +89,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_invalid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_invalid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
@@ -124,10 +124,10 @@ class NetworkAuthenticatorTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain(service: keychainService)
@@ -160,14 +160,14 @@ class NetworkAuthenticatorTests: XCTestCase {
         var failedOnce = false
         
         stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
             if failedOnce {
-                return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+                return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
             } else {
                 failedOnce = true
-                return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_access_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType: "application/json"])
+                return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_access_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
             }
         }
         
@@ -196,7 +196,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_refresh_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_refresh_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
@@ -236,14 +236,14 @@ class NetworkAuthenticatorTests: XCTestCase {
         var userRequestCount = 0
         
         stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
             let fix: OHHTTPStubsResponse
             if userRequestCount < 3 {
-                fix = fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_access_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType: "application/json"])
+                fix = fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_access_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
             } else {
-                fix = fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+                fix = fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
             }
             userRequestCount += 1
             return fix
@@ -289,10 +289,10 @@ class NetworkAuthenticatorTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_refresh_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_refresh_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_access_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_access_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
@@ -338,9 +338,9 @@ class NetworkAuthenticatorTests: XCTestCase {
         stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
             if rateLimited {
                 rateLimited = false
-                return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, status: 429, headers: [Network.HTTPHeader.contentType: "application/json"])
+                return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, status: 429, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
             } else {
-                return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType: "application/json"])
+                return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
             }
         }
         
@@ -382,7 +382,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         do {
             let adaptedRequest = try network.authenticator.adapt(request.request!)
             
-            if let authorizationHeader = adaptedRequest.value(forHTTPHeaderField: Network.HTTPHeader.authorization) {
+            if let authorizationHeader = adaptedRequest.value(forHTTPHeaderField: Network.HTTPHeader.authorization.rawValue) {
                 XCTAssertEqual(authorizationHeader, bearer)
             } else {
                 XCTFail("No auth header")
@@ -414,7 +414,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         do {
             let adaptedRequest = try network.authenticator.adapt(request.request!)
             
-            if let authorizationHeader = adaptedRequest.value(forHTTPHeaderField: Network.HTTPHeader.authorization) {
+            if let authorizationHeader = adaptedRequest.value(forHTTPHeaderField: Network.HTTPHeader.authorization.rawValue) {
                 XCTAssertEqual(authorizationHeader, bearer)
             } else {
                 XCTFail("No auth header")
@@ -439,7 +439,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         do {
             let adaptedRequest = try network.authenticator.adapt(request.request!)
             
-            if let authorizationHeader = adaptedRequest.value(forHTTPHeaderField: Network.HTTPHeader.authorization) {
+            if let authorizationHeader = adaptedRequest.value(forHTTPHeaderField: Network.HTTPHeader.authorization.rawValue) {
                 XCTAssertEqual(authorizationHeader, "Bearer AnExistingAccessToken")
             } else {
                 XCTFail("No auth header")
@@ -464,7 +464,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         do {
             let adaptedRequest = try network.authenticator.adapt(request.request!)
             
-            if let authorizationHeader = adaptedRequest.value(forHTTPHeaderField: Network.HTTPHeader.authorization) {
+            if let authorizationHeader = adaptedRequest.value(forHTTPHeaderField: Network.HTTPHeader.authorization.rawValue) {
                 XCTAssertEqual(authorizationHeader, "Bearer AnExistingRefreshToken")
             } else {
                 XCTFail("No auth header")
@@ -489,7 +489,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         do {
             let adaptedRequest = try network.authenticator.adapt(request.request!)
             
-            XCTAssertNil(adaptedRequest.value(forHTTPHeaderField: Network.HTTPHeader.authorization))
+            XCTAssertNil(adaptedRequest.value(forHTTPHeaderField: Network.HTTPHeader.authorization.rawValue))
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -509,7 +509,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         do {
             let adaptedRequest = try network.authenticator.adapt(request.request!)
             
-            XCTAssertNil(adaptedRequest.value(forHTTPHeaderField: Network.HTTPHeader.authorization))
+            XCTAssertNil(adaptedRequest.value(forHTTPHeaderField: Network.HTTPHeader.authorization.rawValue))
         } catch {
             XCTFail(error.localizedDescription)
         }

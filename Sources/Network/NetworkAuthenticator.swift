@@ -136,7 +136,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         let generator = OTP(factor: .timer(period: 30), secret: bundleID.data(using: .utf8)!, algorithm: .sha256, digits: 8)
         let password = try! generator?.password(at: Date())
         let bearer = String(format: "Bearer %@", password!)
-        urlRequest.setValue(bearer, forHTTPHeaderField: Network.HTTPHeader.authorization)
+        urlRequest.setValue(bearer, forHTTPHeaderField: Network.HTTPHeader.authorization.rawValue)
         
         return urlRequest
     }
@@ -150,7 +150,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         var urlRequest = request
         
         let bearer = String(format: bearerFormat, token)
-        urlRequest.setValue(bearer, forHTTPHeaderField: Network.HTTPHeader.authorization)
+        urlRequest.setValue(bearer, forHTTPHeaderField: Network.HTTPHeader.authorization.rawValue)
         
         return urlRequest
     }
@@ -188,7 +188,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         var urlRequest = request
 
         let bearer = String(format: bearerFormat, accessToken!)
-        urlRequest.setValue(bearer, forHTTPHeaderField: Network.HTTPHeader.authorization)
+        urlRequest.setValue(bearer, forHTTPHeaderField: Network.HTTPHeader.authorization.rawValue)
 
         return urlRequest
     }
