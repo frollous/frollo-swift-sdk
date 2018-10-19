@@ -34,7 +34,7 @@ class UserRequestTests: XCTestCase {
         let expectation1 = expectation(description: "Network Request")
         
         let url = URL(string: "https://api.example.com")!
-        
+
         stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.login.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
@@ -225,7 +225,7 @@ class UserRequestTests: XCTestCase {
                 XCTAssertEqual(userResponse.householdSize, 2)
                 XCTAssertEqual(userResponse.facebookID, "1234567890")
                 XCTAssertEqual(userResponse.validPassword, true)
-                XCTAssertEqual(userResponse.features, [User.FeatureFlag(enabled: true, feature: .aggregation)])
+                XCTAssertEqual(userResponse.features, [User.FeatureFlag(enabled: true, feature: "aggregation")])
             } else {
                 XCTFail("No response object")
             }

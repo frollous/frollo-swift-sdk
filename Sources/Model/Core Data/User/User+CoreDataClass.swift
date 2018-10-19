@@ -15,11 +15,7 @@ public class User: NSManagedObject {
     
     public struct FeatureFlag: Codable, Equatable {
         let enabled: Bool
-        let feature: Feature
-    }
-    
-    public enum Feature: String, Codable {
-        case aggregation
+        let feature: String
     }
     
     public enum Gender: String, Codable {

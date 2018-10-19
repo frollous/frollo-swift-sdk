@@ -24,5 +24,8 @@
 	"valid_password": true,
 	"attribution": {
 		"network": "Organic"
-	}
+	},
+	"refresh_token": "sdjfnlasdjknfldskjngdflskjgnldsjkfnoa;nfeiansvijnasdvijda;nfgi;ej",
+	"access_token": "sdjfnlasdjknfldskjngdflskjgnldsjkfnoa;nfeiansvijnasdvijda;nfgi;ej",
+	"access_token_exp": 1939911061
 }

@@ -45,8 +45,10 @@ class Preferences {
         if let featureFlags = user.features {
             for featureFlag in featureFlags {
                 switch featureFlag.feature {
-                    case .aggregation:
+                    case "aggregation":
                         featureAggregation = featureFlag.enabled
+                    default:
+                        break
                 }
             }
         }

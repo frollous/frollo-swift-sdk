@@ -37,7 +37,7 @@ class PreferencesTests: XCTestCase {
         let user = User(context: managedObjectContext)
         user.populateTestData()
         
-        user.features = [User.FeatureFlag(enabled: false, feature: .aggregation)]
+        user.features = [User.FeatureFlag(enabled: false, feature: "aggregation")]
         
         preferences.refreshFeatures(user: user)
         
