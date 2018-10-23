@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-@objc(Transaction)
 public class Transaction: NSManagedObject, CacheableManagedObject {
     
     public enum BaseType: String, Codable {

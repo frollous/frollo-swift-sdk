@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-@objc(AccountBalanceTier)
 public class AccountBalanceTier: NSManagedObject {
     
     internal func update(response: APIAccountResponse.BalanceTier) {

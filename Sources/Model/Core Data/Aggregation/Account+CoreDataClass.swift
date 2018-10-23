@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-@objc(Account)
 public class Account: NSManagedObject, CacheableManagedObject {
     
     internal var primaryID: Int64 {

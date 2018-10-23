@@ -29,7 +29,10 @@ class Database {
         }
     }
     
-    private let model: NSManagedObjectModel
+    static let model: NSManagedObjectModel = {
+        let modelURL = Bundle(for: Database.self).url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!
+        return NSManagedObjectModel(contentsOf: modelURL)!
+    }()
     
     private var migrationLock = NSLock()
     
@@ -44,11 +47,11 @@ class Database {
     init(path: URL) {
         storeURL = path.appendingPathComponent(DatabaseConstants.storeName).appendingPathExtension(DatabaseConstants.storeExtension)
         
-        let modelURL = Bundle(for: type(of: self)).url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!
-        model = NSManagedObjectModel(contentsOf: modelURL)!
+//        let modelURL = Bundle(for: type(of: self)).url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!
+//        model = NSManagedObjectModel(contentsOf: modelURL)!
         
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
-        persistentContainer = NSPersistentContainer(name: DatabaseConstants.storeName, managedObjectModel: model)
+        persistentContainer = NSPersistentContainer(name: DatabaseConstants.storeName, managedObjectModel: Database.model)
         persistentContainer.persistentStoreDescriptions = [storeDescription]
     }
     
@@ -260,7 +263,7 @@ class Database {
     */
     internal func reset(completionHandler: @escaping (Error?) -> Void) {
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
-        persistentContainer = NSPersistentContainer(name: DatabaseConstants.storeName, managedObjectModel: model)
+        persistentContainer = NSPersistentContainer(name: DatabaseConstants.storeName, managedObjectModel: Database.model)
         persistentContainer.persistentStoreDescriptions = [storeDescription]
         
         destroyPersistentStore()
@@ -274,7 +277,7 @@ class Database {
      Deletes the persistent score on disk removing all data. Also resets corrupted databases
     */
     internal func destroyPersistentStore() {
-        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
+        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: Database.model)
         
         do {
             try persistentStoreCoordinator.destroyPersistentStore(at: storeURL, ofType: NSSQLiteStoreType, options: nil)

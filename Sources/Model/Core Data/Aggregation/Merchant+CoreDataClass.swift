@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-@objc(Merchant)
 public class Merchant: NSManagedObject, CacheableManagedObject {
 
     public enum MerchantType: String, Codable {
