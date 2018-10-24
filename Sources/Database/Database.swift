@@ -9,7 +9,7 @@
 import CoreData
 import Foundation
 
-class Database {
+public class Database {
     
     struct DatabaseConstants {
         static let appDataFolder = "FrolloSDKData"
@@ -20,14 +20,15 @@ class Database {
         static let storeName = "FrolloSDKDatabase"
     }
     
-    internal let storeURL: URL
-    
-    internal var persistentContainer: NSPersistentContainer
-    internal var viewContext: NSManagedObjectContext {
+    public var viewContext: NSManagedObjectContext {
         get {
             return persistentContainer.viewContext
         }
     }
+    
+    internal let storeURL: URL
+    
+    internal var persistentContainer: NSPersistentContainer
     
     static let model: NSManagedObjectModel = {
         let modelURL = Bundle(for: Database.self).url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!
@@ -293,7 +294,7 @@ class Database {
      
      - seealso: [NSPersistentContainer Documentation](https://developer.apple.com/documentation/coredata/nspersistentcontainer)
     */
-    internal func newBackgroundContext() -> NSManagedObjectContext {
+    public func newBackgroundContext() -> NSManagedObjectContext {
         return persistentContainer.newBackgroundContext()
     }
     

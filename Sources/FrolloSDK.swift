@@ -38,8 +38,8 @@ public class FrolloSDK: NetworkDelegate {
     
     public let aggregation: Aggregation
     public let authentication: Authentication
+    public let database: Database
     
-    internal let database: Database
     internal let keychain: Keychain
     internal let network: Network
     internal let preferences: Preferences
