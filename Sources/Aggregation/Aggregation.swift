@@ -10,7 +10,7 @@ import CoreData
 import Foundation
 
 /// Manages all aggregation data including accounts, transactions, categories and merchants
-public class Aggregation: ResponseHandler {
+public class Aggregation: CachedObjects, ResponseHandler {
     
     private let database: Database
     private let network: Network
@@ -33,38 +33,43 @@ public class Aggregation: ResponseHandler {
         self.network = network
     }
     
-    // MARK: - Cache
-    
-    private func cachedProviderAccount(providerAccountID: Int64, background: Bool = false) -> ProviderAccount? {
-        return cachedObject(type: ProviderAccount.self, objectID: providerAccountID, objectKey: #keyPath(ProviderAccount.providerAccountID), background: background)
-    }
-    
-    private func cachedAccount(accountID: Int64, background: Bool = false) -> Account? {
-        return cachedObject(type: Account.self, objectID: accountID, objectKey: #keyPath(Account.accountID), background: background)
-    }
-    
-    private func cachedTransaction(transactionID: Int64, background: Bool = false) -> Transaction? {
-        return cachedObject(type: Transaction.self, objectID: transactionID, objectKey: #keyPath(Transaction.transactionID), background: background)
-    }
-    
-    private func cachedObject<T: CacheableManagedObject & NSManagedObject>(type: T.Type, objectID: Int64, objectKey: String, background: Bool) -> T? {
-        let managedObjectContext = background ? database.newBackgroundContext() : database.viewContext
-        
-        let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
-        fetchRequest.predicate = NSPredicate(format: objectKey + " == %ld", argumentArray: [objectID])
-        
-        do {
-            let fetchedObjects = try managedObjectContext.fetch(fetchRequest)
-            
-            return fetchedObjects.first
-        } catch {
-            Log.error(error.localizedDescription)
-        }
-        
-        return nil
-    }
     
     // MARK: - Providers
+    
+    /**
+     Fetch provider by ID from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - providerID: Unique provider ID to fetch
+     */
+    public func provider(context: NSManagedObjectContext, providerID: Int64) -> Provider? {
+        return cachedObject(type: Provider.self, context: context, objectID: providerID, objectKey: #keyPath(Provider.providerID))
+    }
+    
+    /**
+     Fetch providers from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `Provider` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerID ascending (Optional)
+     */
+    public func providers(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Provider.providerID), ascending: true)]) -> [Provider]? {
+        return cachedObjects(type: Provider.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    }
+    
+    /**
+     Fetched results controller of Providers from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `Provider` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerID ascending (Optional)
+     */
+    public func providersFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Provider.providerID), ascending: true)]) -> NSFetchedResultsController<Provider>? {
+        return fetchedResultsController(type: Provider.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    }
     
     /**
      Refresh all available providers from the host.
@@ -120,6 +125,41 @@ public class Aggregation: ResponseHandler {
     }
     
     // MARK: - Provider Accounts
+    
+    /**
+     Fetch provider account by ID from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - providerAccountID: Unique provider account ID to fetch
+    */
+    public func providerAccount(context: NSManagedObjectContext, providerAccountID: Int64) -> ProviderAccount? {
+        return cachedObject(type: ProviderAccount.self, context: context, objectID: providerAccountID, objectKey: #keyPath(ProviderAccount.providerAccountID))
+    }
+    
+    /**
+     Fetch provider accounts from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `ProviderAccount` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerAccountID ascending (Optional)
+    */
+    public func providerAccounts(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)]) -> [ProviderAccount]? {
+        return cachedObjects(type: ProviderAccount.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    }
+    
+    /**
+     Fetched results controller of Provider Accounts from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `ProviderAccount` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerAccountID ascending (Optional)
+    */
+    public func providerAccountsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)]) -> NSFetchedResultsController<ProviderAccount>? {
+        return fetchedResultsController(type: ProviderAccount.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    }
     
     /**
      Refresh all available provider accounts from the host.
@@ -203,8 +243,8 @@ public class Aggregation: ResponseHandler {
      Update a provider account on the host
      
      - parameters:
-     - providerAccountID: ID of the provider account to be updated
-     - completion: Optional completion handler with optional error if the request fails
+        - providerAccountID: ID of the provider account to be updated
+        - completion: Optional completion handler with optional error if the request fails
      */
     public func updateProviderAccount(providerAccountID: Int64, loginForm: ProviderLoginForm, completion: FrolloSDKCompletionHandler? = nil) {
         let request = APIProviderAccountUpdateRequest(loginForm: loginForm)
@@ -227,6 +267,41 @@ public class Aggregation: ResponseHandler {
     }
     
     // MARK: - Accounts
+    
+    /**
+     Fetch account by ID from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - accountID: Unique account ID to fetch
+     */
+    public func account(context: NSManagedObjectContext, accountID: Int64) -> Account? {
+        return cachedObject(type: Account.self, context: context, objectID: accountID, objectKey: #keyPath(Account.accountID))
+    }
+    
+    /**
+     Fetch accounts from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `Account` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to accountID ascending (Optional)
+     */
+    public func accounts(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Account.accountID), ascending: true)]) -> [Account]? {
+        return cachedObjects(type: Account.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    }
+    
+    /**
+     Fetched results controller of Accounts from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `Account` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to accountID ascending (Optional)
+     */
+    public func accountsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Account.accountID), ascending: true)]) -> NSFetchedResultsController<Account>? {
+        return fetchedResultsController(type: Account.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    }
     
     /**
      Refresh all available accounts from the host.
@@ -286,7 +361,7 @@ public class Aggregation: ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func updateAccount(accountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard let account = cachedAccount(accountID: accountID, background: true)
+        guard let account = account(context: database.newBackgroundContext(), accountID: accountID)
             else {
                 let error = DataError(type: .database, subType: .notFound)
                 
@@ -314,6 +389,41 @@ public class Aggregation: ResponseHandler {
     }
     
     // MARK: - Transactions
+    
+    /**
+     Fetch transaction by ID from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - transactionID: Unique transaction ID to fetch
+     */
+    public func transaction(context: NSManagedObjectContext, transactionID: Int64) -> Transaction? {
+        return cachedObject(type: Transaction.self, context: context, objectID: transactionID, objectKey: #keyPath(Transaction.transactionID))
+    }
+    
+    /**
+     Fetch transactions from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `Transaction` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionID ascending (Optional)
+     */
+    public func transactions(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)]) -> [Transaction]? {
+        return cachedObjects(type: Transaction.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    }
+    
+    /**
+     Fetched results controller of transactions from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `Transaction` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionID ascending (Optional)
+     */
+    public func transactionsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)]) -> NSFetchedResultsController<Transaction>? {
+        return fetchedResultsController(type: Transaction.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    }
     
     /**
      Refresh transactions from a certain period from the host
@@ -405,7 +515,7 @@ public class Aggregation: ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func updateTransaction(transactionID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard let transaction = cachedTransaction(transactionID: transactionID, background: true)
+        guard let transaction = transaction(context: database.newBackgroundContext(), transactionID: transactionID)
             else {
                 let error = DataError(type: .database, subType: .notFound)
                 
@@ -437,6 +547,41 @@ public class Aggregation: ResponseHandler {
     // MARK: - Transaction Categories
     
     /**
+     Fetch transaction category by ID from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - transactionID: Unique transaction category ID to fetch
+     */
+    public func transactionCategory(context: NSManagedObjectContext, transactionCategoryID: Int64) -> TransactionCategory? {
+        return cachedObject(type: TransactionCategory.self, context: context, objectID: transactionCategoryID, objectKey: #keyPath(TransactionCategory.transactionCategoryID))
+    }
+    
+    /**
+     Fetch transaction categories from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `TransactionCategory` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionCategoryID ascending (Optional)
+     */
+    public func transactionCategories(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(TransactionCategory.transactionCategoryID), ascending: true)]) -> [TransactionCategory]? {
+        return cachedObjects(type: TransactionCategory.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    }
+    
+    /**
+     Fetched results controller of transaction categories from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `TransactionCategory` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionCategoryID ascending (Optional)
+     */
+    public func transactionCategoriesFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(TransactionCategory.transactionCategoryID), ascending: true)]) -> NSFetchedResultsController<TransactionCategory>? {
+        return fetchedResultsController(type: TransactionCategory.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    }
+    
+    /**
      Refresh all transaction categories from the host.
      
      - parameters:
@@ -461,6 +606,41 @@ public class Aggregation: ResponseHandler {
     }
     
     // MARK: - Merchants
+    
+    /**
+     Fetch merchant by ID from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - transactionID: Unique merchant ID to fetch
+     */
+    public func merchant(context: NSManagedObjectContext, merchantID: Int64) -> Merchant? {
+        return cachedObject(type: Merchant.self, context: context, objectID: merchantID, objectKey: #keyPath(Merchant.merchantID))
+    }
+    
+    /**
+     Fetch merchants from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `Merchant` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to merchantID ascending (Optional)
+     */
+    public func merchants(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)]) -> [Merchant]? {
+        return cachedObjects(type: Merchant.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    }
+    
+    /**
+     Fetched results controller of merchants from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `Merchant` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to merchantID ascending (Optional)
+     */
+    public func merchantsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)]) -> NSFetchedResultsController<Merchant>? {
+        return fetchedResultsController(type: Merchant.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    }
     
     /**
      Refresh all merchants from the host.

@@ -54,4 +54,10 @@ extension Account: TestableCoreData {
         favourite = true
     }
     
+    func populateTestData(withID id: Int64) {
+        populateTestData()
+        
+        accountID = id
+    }
+    
 }

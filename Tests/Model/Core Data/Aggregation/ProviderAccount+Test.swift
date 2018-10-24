@@ -22,4 +22,10 @@ extension ProviderAccount: TestableCoreData {
         refreshAdditionalStatus = .mfaNeeded
     }
     
+    func populateTestData(withID id: Int64) {
+        populateTestData()
+        
+        providerAccountID = id
+    }
+    
 }

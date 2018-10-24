@@ -18,4 +18,10 @@ extension Merchant: TestableCoreData {
         smallLogoURLString = "https://example.com/merchant.png"
     }
     
+    func populateTestData(withID id: Int64) {
+        populateTestData()
+        
+        merchantID = id
+    }
+    
 }

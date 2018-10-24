@@ -30,4 +30,10 @@ extension Transaction: TestableCoreData {
         transactionDate = Date(timeIntervalSinceNow: -1000)
     }
     
+    func populateTestData(withID id: Int64) {
+        populateTestData()
+        
+        transactionID = id
+    }
+    
 }

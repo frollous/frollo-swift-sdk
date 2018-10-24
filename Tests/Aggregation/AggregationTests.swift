@@ -29,6 +29,141 @@ class AggregationTests: XCTestCase {
         Keychain(service: keychainService).removeAll()
     }
     
+    func testFetchProviderByID() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            let id: Int64 = 12345
+            
+            managedObjectContext.performAndWait {
+                let testProvider = Provider(context: managedObjectContext)
+                testProvider.populateTestData(withID: id)
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let provider = aggregation.provider(context: database.viewContext, providerID: id)
+            
+            XCTAssertNotNil(provider)
+            XCTAssertEqual(provider?.providerID, id)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchProviders() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testProvider1 = Provider(context: managedObjectContext)
+                testProvider1.populateTestData()
+                testProvider1.containerLoan = true
+                
+                let testProvider2 = Provider(context: managedObjectContext)
+                testProvider2.populateTestData()
+                testProvider2.containerLoan = false
+                
+                let testProvider3 = Provider(context: managedObjectContext)
+                testProvider3.populateTestData()
+                testProvider3.containerLoan = true
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let predicate = NSPredicate(format: "containerLoan == true", argumentArray: nil)
+            let providers = aggregation.providers(context: database.viewContext, filteredBy: predicate)
+            
+            XCTAssertNotNil(providers)
+            XCTAssertEqual(providers?.count, 2)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testProvidersFetchedResultsController() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testProvider1 = Provider(context: managedObjectContext)
+                testProvider1.populateTestData()
+                testProvider1.containerLoan = true
+                
+                let testProvider2 = Provider(context: managedObjectContext)
+                testProvider2.populateTestData()
+                testProvider2.containerLoan = false
+                
+                let testProvider3 = Provider(context: managedObjectContext)
+                testProvider3.populateTestData()
+                testProvider3.containerLoan = true
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let predicate = NSPredicate(format: "containerLoan == true", argumentArray: nil)
+            let fetchedResultsController = aggregation.providersFetchedResultsController(context: database.viewContext, filteredBy: predicate)
+            
+            do {
+                try fetchedResultsController?.performFetch()
+                
+                XCTAssertNotNil(fetchedResultsController?.fetchedObjects)
+                XCTAssertEqual(fetchedResultsController?.fetchedObjects?.count, 2)
+                
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testRefreshProvidersIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -116,6 +251,141 @@ class AggregationTests: XCTestCase {
     
     func testRefreshProvidersUpdate() {
         // TODO: Implement
+    }
+    
+    func testFetchProviderAccountByID() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            let id: Int64 = 12345
+            
+            managedObjectContext.performAndWait {
+                let testProviderAccount = ProviderAccount(context: managedObjectContext)
+                testProviderAccount.populateTestData(withID: id)
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let providerAccount = aggregation.providerAccount(context: database.viewContext, providerAccountID: id)
+            
+            XCTAssertNotNil(providerAccount)
+            XCTAssertEqual(providerAccount?.providerAccountID, id)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchProviderAccounts() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testProviderAccount1 = ProviderAccount(context: managedObjectContext)
+                testProviderAccount1.populateTestData()
+                testProviderAccount1.providerID = 69
+                
+                let testProviderAccount2 = ProviderAccount(context: managedObjectContext)
+                testProviderAccount2.populateTestData()
+                testProviderAccount2.providerID = 12
+                
+                let testProviderAccount3 = ProviderAccount(context: managedObjectContext)
+                testProviderAccount3.populateTestData()
+                testProviderAccount3.providerID = 69
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let predicate = NSPredicate(format: "providerID == 69", argumentArray: nil)
+            let providerAccounts = aggregation.providerAccounts(context: database.viewContext, filteredBy: predicate)
+            
+            XCTAssertNotNil(providerAccounts)
+            XCTAssertEqual(providerAccounts?.count, 2)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testProviderAccountsFetchedResultsController() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testProviderAccount1 = ProviderAccount(context: managedObjectContext)
+                testProviderAccount1.populateTestData()
+                testProviderAccount1.providerID = 69
+                
+                let testProviderAccount2 = ProviderAccount(context: managedObjectContext)
+                testProviderAccount2.populateTestData()
+                testProviderAccount2.providerID = 12
+                
+                let testProviderAccount3 = ProviderAccount(context: managedObjectContext)
+                testProviderAccount3.populateTestData()
+                testProviderAccount3.providerID = 69
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let predicate = NSPredicate(format: "providerID == 69", argumentArray: nil)
+            let fetchedResultsController = aggregation.providerAccountsFetchedResultsController(context: database.viewContext, filteredBy: predicate)
+            
+            do {
+                try fetchedResultsController?.performFetch()
+                
+                XCTAssertNotNil(fetchedResultsController?.fetchedObjects)
+                XCTAssertEqual(fetchedResultsController?.fetchedObjects?.count, 2)
+                
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
     }
     
     func testRefreshProviderAccountsIsCached() {
@@ -354,6 +624,143 @@ class AggregationTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    // MARK: - Account Tests
+    
+    func testFetchAccountByID() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            let id: Int64 = 12345
+            
+            managedObjectContext.performAndWait {
+                let testAccount = Account(context: managedObjectContext)
+                testAccount.populateTestData(withID: id)
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let account = aggregation.account(context: database.viewContext, accountID: id)
+            
+            XCTAssertNotNil(account)
+            XCTAssertEqual(account?.accountID, id)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchAccounts() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testAccount1 = Account(context: managedObjectContext)
+                testAccount1.populateTestData()
+                testAccount1.providerAccountID = 69
+                
+                let testAccount2 = Account(context: managedObjectContext)
+                testAccount2.populateTestData()
+                testAccount2.providerAccountID = 12
+                
+                let testAccount3 = Account(context: managedObjectContext)
+                testAccount3.populateTestData()
+                testAccount3.providerAccountID = 69
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let predicate = NSPredicate(format: "providerAccountID == 69", argumentArray: nil)
+            let accounts = aggregation.accounts(context: database.viewContext, filteredBy: predicate)
+            
+            XCTAssertNotNil(accounts)
+            XCTAssertEqual(accounts?.count, 2)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testAccountsFetchedResultsController() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testAccount1 = Account(context: managedObjectContext)
+                testAccount1.populateTestData()
+                testAccount1.providerAccountID = 69
+                
+                let testAccount2 = Account(context: managedObjectContext)
+                testAccount2.populateTestData()
+                testAccount2.providerAccountID = 12
+                
+                let testAccount3 = Account(context: managedObjectContext)
+                testAccount3.populateTestData()
+                testAccount3.providerAccountID = 69
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let predicate = NSPredicate(format: "providerAccountID == 69", argumentArray: nil)
+            let fetchedResultsController = aggregation.accountsFetchedResultsController(context: database.viewContext, filteredBy: predicate)
+            
+            do {
+                try fetchedResultsController?.performFetch()
+                
+                XCTAssertNotNil(fetchedResultsController?.fetchedObjects)
+                XCTAssertEqual(fetchedResultsController?.fetchedObjects?.count, 2)
+                
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testRefreshAccountsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -547,6 +954,143 @@ class AggregationTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         OHHTTPStubs.removeAllStubs()
+    }
+    
+    // MARK: - Transaction Tests
+    
+    func testFetchTransactionByID() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            let id: Int64 = 12345
+            
+            managedObjectContext.performAndWait {
+                let testTransaction = Transaction(context: managedObjectContext)
+                testTransaction.populateTestData(withID: id)
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let transaction = aggregation.transaction(context: database.viewContext, transactionID: id)
+            
+            XCTAssertNotNil(transaction)
+            XCTAssertEqual(transaction?.transactionID, id)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchTransactions() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testTransaction1 = Transaction(context: managedObjectContext)
+                testTransaction1.populateTestData()
+                testTransaction1.baseType = .debit
+                
+                let testTransaction2 = Transaction(context: managedObjectContext)
+                testTransaction2.populateTestData()
+                testTransaction2.baseType = .credit
+                
+                let testTransaction3 = Transaction(context: managedObjectContext)
+                testTransaction3.populateTestData()
+                testTransaction3.baseType = .debit
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let predicate = NSPredicate(format: "baseTypeRawValue == %@", argumentArray: [Transaction.BaseType.credit.rawValue])
+            let transactions = aggregation.transactions(context: database.viewContext, filteredBy: predicate)
+            
+            XCTAssertNotNil(transactions)
+            XCTAssertEqual(transactions?.count, 1)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testTransactionsFetchedResultsController() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testTransaction1 = Transaction(context: managedObjectContext)
+                testTransaction1.populateTestData()
+                testTransaction1.baseType = .debit
+                
+                let testTransaction2 = Transaction(context: managedObjectContext)
+                testTransaction2.populateTestData()
+                testTransaction2.baseType = .credit
+                
+                let testTransaction3 = Transaction(context: managedObjectContext)
+                testTransaction3.populateTestData()
+                testTransaction3.baseType = .debit
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let predicate = NSPredicate(format: "baseTypeRawValue == %@", argumentArray: [Transaction.BaseType.credit.rawValue])
+            let fetchedResultsController = aggregation.transactionsFetchedResultsController(context: database.viewContext, filteredBy: predicate)
+            
+            do {
+                try fetchedResultsController?.performFetch()
+                
+                XCTAssertNotNil(fetchedResultsController?.fetchedObjects)
+                XCTAssertEqual(fetchedResultsController?.fetchedObjects?.count, 1)
+                
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
     }
     
     func testRefreshTransactionsIsCached() {
@@ -963,6 +1507,143 @@ class AggregationTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    // MARK: - Transaction Category Tests
+    
+    func testFetchTransactionCategoryByID() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            let id: Int64 = 12345
+            
+            managedObjectContext.performAndWait {
+                let testTransactionCategory = TransactionCategory(context: managedObjectContext)
+                testTransactionCategory.populateTestData(withID: id)
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let transactionCategory = aggregation.transactionCategory(context: database.viewContext, transactionCategoryID: id)
+            
+            XCTAssertNotNil(transactionCategory)
+            XCTAssertEqual(transactionCategory?.transactionCategoryID, id)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchTransactionCategories() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testTransactionCategory1 = TransactionCategory(context: managedObjectContext)
+                testTransactionCategory1.populateTestData()
+                testTransactionCategory1.categoryType = .transfer
+                
+                let testTransactionCategory2 = TransactionCategory(context: managedObjectContext)
+                testTransactionCategory2.populateTestData()
+                testTransactionCategory2.categoryType = .expense
+                
+                let testTransactionCategory3 = TransactionCategory(context: managedObjectContext)
+                testTransactionCategory3.populateTestData()
+                testTransactionCategory3.categoryType = .expense
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let predicate = NSPredicate(format: "categoryTypeRawValue == %@", argumentArray: [TransactionCategory.CategoryType.expense.rawValue])
+            let transactionCategories = aggregation.transactionCategories(context: database.viewContext, filteredBy: predicate)
+            
+            XCTAssertNotNil(transactionCategories)
+            XCTAssertEqual(transactionCategories?.count, 2)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testTransactionCategoriesFetchedResultsController() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testTransactionCategory1 = TransactionCategory(context: managedObjectContext)
+                testTransactionCategory1.populateTestData()
+                testTransactionCategory1.categoryType = .transfer
+                
+                let testTransactionCategory2 = TransactionCategory(context: managedObjectContext)
+                testTransactionCategory2.populateTestData()
+                testTransactionCategory2.categoryType = .expense
+                
+                let testTransactionCategory3 = TransactionCategory(context: managedObjectContext)
+                testTransactionCategory3.populateTestData()
+                testTransactionCategory3.categoryType = .expense
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let predicate = NSPredicate(format: "categoryTypeRawValue == %@", argumentArray: [TransactionCategory.CategoryType.expense.rawValue])
+            let fetchedResultsController = aggregation.transactionCategoriesFetchedResultsController(context: database.viewContext, filteredBy: predicate)
+            
+            do {
+                try fetchedResultsController?.performFetch()
+                
+                XCTAssertNotNil(fetchedResultsController?.fetchedObjects)
+                XCTAssertEqual(fetchedResultsController?.fetchedObjects?.count, 2)
+                
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testRefreshTransactionCategoriesIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -1003,6 +1684,143 @@ class AggregationTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         OHHTTPStubs.removeAllStubs()
+    }
+    
+    // MARK: - Merchant Tests
+    
+    func testFetchMerchantByID() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            let id: Int64 = 12345
+            
+            managedObjectContext.performAndWait {
+                let testMerchant = Merchant(context: managedObjectContext)
+                testMerchant.populateTestData(withID: id)
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let merchant = aggregation.merchant(context: database.viewContext, merchantID: id)
+            
+            XCTAssertNotNil(merchant)
+            XCTAssertEqual(merchant?.merchantID, id)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchMerchants() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testMerchant1 = Merchant(context: managedObjectContext)
+                testMerchant1.populateTestData()
+                testMerchant1.merchantType = .retailer
+                
+                let testMerchant2 = Merchant(context: managedObjectContext)
+                testMerchant2.populateTestData()
+                testMerchant2.merchantType = .retailer
+                
+                let testMerchant3 = Merchant(context: managedObjectContext)
+                testMerchant3.populateTestData()
+                testMerchant3.merchantType = .transactional
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let predicate = NSPredicate(format: "merchantTypeRawValue == %@", argumentArray: [Merchant.MerchantType.retailer.rawValue])
+            let merchants = aggregation.merchants(context: database.viewContext, filteredBy: predicate)
+            
+            XCTAssertNotNil(merchants)
+            XCTAssertEqual(merchants?.count, 2)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testMerchantsFetchedResultsController() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testMerchant1 = Merchant(context: managedObjectContext)
+                testMerchant1.populateTestData()
+                testMerchant1.merchantType = .retailer
+                
+                let testMerchant2 = Merchant(context: managedObjectContext)
+                testMerchant2.populateTestData()
+                testMerchant2.merchantType = .retailer
+                
+                let testMerchant3 = Merchant(context: managedObjectContext)
+                testMerchant3.populateTestData()
+                testMerchant3.merchantType = .transactional
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            let predicate = NSPredicate(format: "merchantTypeRawValue == %@", argumentArray: [Merchant.MerchantType.retailer.rawValue])
+            let fetchedResultsController = aggregation.merchantsFetchedResultsController(context: database.viewContext, filteredBy: predicate)
+            
+            do {
+                try fetchedResultsController?.performFetch()
+                
+                XCTAssertNotNil(fetchedResultsController?.fetchedObjects)
+                XCTAssertEqual(fetchedResultsController?.fetchedObjects?.count, 2)
+                
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
     }
     
     func testRefreshMerchantsIsCached() {

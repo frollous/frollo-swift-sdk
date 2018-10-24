@@ -20,4 +20,10 @@ extension TransactionCategory: TestableCoreData {
         userDefined = false
     }
     
+    func populateTestData(withID id: Int64) {
+        populateTestData()
+        
+        transactionCategoryID = id
+    }
+    
 }
