@@ -335,6 +335,9 @@
 		017B48FD21084BA200447E65 /* AuthenticationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48FB21084BA200447E65 /* AuthenticationTests.swift */; };
 		017B48FE21084BA200447E65 /* AuthenticationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48FB21084BA200447E65 /* AuthenticationTests.swift */; };
 		017E58D0217FD92D00DC56FF /* CachedObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E58CF217FD92D00DC56FF /* CachedObjects.swift */; };
+		017E58D2217FF86F00DC56FF /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E58D1217FF86F00DC56FF /* DateExtensionsTests.swift */; };
+		017E58D3217FF86F00DC56FF /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E58D1217FF86F00DC56FF /* DateExtensionsTests.swift */; };
+		017E58D4217FF86F00DC56FF /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E58D1217FF86F00DC56FF /* DateExtensionsTests.swift */; };
 		01819144211162DD000E0F80 /* CacheableManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01819143211162DD000E0F80 /* CacheableManagedObject.swift */; };
 		01819146211168C8000E0F80 /* APIUniqueResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01819145211168C8000E0F80 /* APIUniqueResponse.swift */; };
 		01819149211178D2000E0F80 /* ResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01819148211178D2000E0F80 /* ResponseHandler.swift */; };
@@ -630,6 +633,7 @@
 		017B48F621083A3500447E65 /* APIUserResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIUserResponse+Test.swift"; sourceTree = "<group>"; };
 		017B48FB21084BA200447E65 /* AuthenticationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationTests.swift; sourceTree = "<group>"; };
 		017E58CF217FD92D00DC56FF /* CachedObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedObjects.swift; sourceTree = "<group>"; };
+		017E58D1217FF86F00DC56FF /* DateExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionsTests.swift; sourceTree = "<group>"; };
 		01819143211162DD000E0F80 /* CacheableManagedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheableManagedObject.swift; sourceTree = "<group>"; };
 		01819145211168C8000E0F80 /* APIUniqueResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUniqueResponse.swift; sourceTree = "<group>"; };
 		01819148211178D2000E0F80 /* ResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseHandler.swift; sourceTree = "<group>"; };
@@ -1298,6 +1302,7 @@
 			isa = PBXGroup;
 			children = (
 				01C824E820EB2F570093400E /* Data+Random.swift */,
+				017E58D1217FF86F00DC56FF /* DateExtensionsTests.swift */,
 				016097ED210EA27E0034E857 /* Keychain+Test.swift */,
 				011E87D1213767F00026E047 /* SecKeyPEMTests.swift */,
 				016097E9210EA0D60034E857 /* XCTestCase+TempFolder.swift */,
@@ -2091,6 +2096,7 @@
 				01483BBB2119706D00D0DA87 /* Merchant+Test.swift in Sources */,
 				017B487221055FBA00447E65 /* PreferencesPersistenceTests.swift in Sources */,
 				015EEDE2210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */,
+				017E58D2217FF86F00DC56FF /* DateExtensionsTests.swift in Sources */,
 				01C824F720EC7AC30093400E /* FileLoggerTests.swift in Sources */,
 				01C824F320EC4D600093400E /* LogTests.swift in Sources */,
 				016097EA210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
@@ -2155,6 +2161,7 @@
 				01483BBC2119706D00D0DA87 /* Merchant+Test.swift in Sources */,
 				017B487321055FBA00447E65 /* PreferencesPersistenceTests.swift in Sources */,
 				015EEDE3210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */,
+				017E58D3217FF86F00DC56FF /* DateExtensionsTests.swift in Sources */,
 				017B483D2101B4FE00447E65 /* FileLoggerTests.swift in Sources */,
 				017B483E2101B4FE00447E65 /* LogTests.swift in Sources */,
 				016097EB210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
@@ -2228,6 +2235,7 @@
 				01483BBD2119706D00D0DA87 /* Merchant+Test.swift in Sources */,
 				017B489A2105958100447E65 /* FileLoggerTests.swift in Sources */,
 				017B489B2105958100447E65 /* LogTests.swift in Sources */,
+				017E58D4217FF86F00DC56FF /* DateExtensionsTests.swift in Sources */,
 				01483B802117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */,
 				016097EC210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
 				01483BB321195A8000D0DA87 /* AccountTests.swift in Sources */,
