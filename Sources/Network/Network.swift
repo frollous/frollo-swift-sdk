@@ -223,7 +223,7 @@ class Network: SessionDelegate {
         }
     }
     
-    internal func handleTokens(response: DataResponse<Data>, completion: NetworkCompletion) {
+    internal func handleTokens(response: DataResponse<Data>) -> FrolloSDKError? {
         switch response.result {
             case .success(let value):
                 let decoder = JSONDecoder()
@@ -237,18 +237,13 @@ class Network: SessionDelegate {
                     
                     authenticator.clearTokens()
                     
-                    let dataError = DataError(type: .authentication, subType: .missingAccessToken)
-                    completion(nil, dataError)
-                    
-                    return
+                    return DataError(type: .authentication, subType: .missingAccessToken)
                 }
-                
-                completion(value, nil)
             case .failure:
-                handleFailure(response: response) { (error) in
-                    completion(nil, error)
-                }
+                break
         }
+        
+        return nil
     }
     
 }

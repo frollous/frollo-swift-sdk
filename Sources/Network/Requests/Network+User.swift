@@ -74,6 +74,11 @@ extension Network {
             }
 
             self.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                if let error = self.handleTokens(response: response) {
+                    completion(nil, error)
+                    return
+                }
+                
                 self.handleUserResponse(response: response, completion: completion)
             }
         }
@@ -102,6 +107,11 @@ extension Network {
             }
 
             self.sessionManager.request(urlRequest).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { (response) in
+                if let error = self.handleTokens(response: response) {
+                    completion(nil, error)
+                    return
+                }
+                
                 self.handleUserResponse(response: response, completion: completion)
             }
         }

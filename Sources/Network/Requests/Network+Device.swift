@@ -17,7 +17,12 @@ extension Network {
             let url = URL(string: DeviceEndpoint.refreshToken.path, relativeTo: self.serverURL)!
             
             self.sessionManager.request(url, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
-                self.handleTokens(response: response, completion: completionHandler)
+                if let error = self.handleTokens(response: response) {
+                    completionHandler(nil, error)
+                    return
+                }
+                
+                self.handleEmptyResponse(response: response, completion: completionHandler)
             }
         }
     }
