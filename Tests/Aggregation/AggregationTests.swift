@@ -436,9 +436,9 @@ class AggregationTests: XCTestCase {
                     } catch {
                         XCTFail(error.localizedDescription)
                     }
+                    
+                    expectation1.fulfill()
                 }
-                
-                expectation1.fulfill()
             }
         }
         
