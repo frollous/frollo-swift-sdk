@@ -54,6 +54,11 @@
         <fetchIndex name="byAccountTypeIndex">
             <fetchIndexElement property="accountTypeRawValue" type="Binary" order="ascending"/>
         </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="accountID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="AccountBalanceTier" representedClassName=".AccountBalanceTier" syncable="YES" codeGenerationType="category">
         <attribute name="maximum" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
@@ -70,6 +75,11 @@
         <fetchIndex name="byMerchantIDIndex">
             <fetchIndexElement property="merchantID" type="Binary" order="ascending"/>
         </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="merchantID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="Provider" representedClassName=".Provider" syncable="YES" codeGenerationType="category">
         <attribute name="authTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
@@ -114,6 +124,11 @@
         <fetchIndex name="byContainerCreditScoreIndex">
             <fetchIndexElement property="containerCreditScore" type="Binary" order="ascending"/>
         </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="providerID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="ProviderAccount" representedClassName=".ProviderAccount" syncable="YES" codeGenerationType="category">
         <attribute name="editable" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
@@ -133,6 +148,11 @@
         <fetchIndex name="byProviderID">
             <fetchIndexElement property="providerID" type="Binary" order="ascending"/>
         </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="providerAccountID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="Transaction" representedClassName=".Transaction" syncable="YES" codeGenerationType="category">
         <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
@@ -169,6 +189,11 @@
         <fetchIndex name="byTransactionIDIndex">
             <fetchIndexElement property="transactionID" type="Binary" order="ascending"/>
         </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="transactionID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="TransactionCategory" representedClassName=".TransactionCategory" syncable="YES" codeGenerationType="category">
         <attribute name="categoryTypeRawValue" attributeType="String" syncable="YES"/>
@@ -182,6 +207,11 @@
         <fetchIndex name="byTransactionCategoryIndex">
             <fetchIndexElement property="transactionCategoryID" type="Binary" order="ascending"/>
         </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="transactionCategoryID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="User" representedClassName=".User" syncable="YES" codeGenerationType="category">
         <attribute name="dateOfBirth" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -201,6 +231,11 @@
         <attribute name="statusRawValue" attributeType="String" defaultValueString="registered" syncable="YES"/>
         <attribute name="userID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="validPassword" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="userID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <elements>
         <element name="Account" positionX="-54" positionY="144" width="128" height="705"/>

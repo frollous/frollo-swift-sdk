@@ -422,6 +422,22 @@ class AggregationTests: XCTestCase {
                     XCTFail(error.localizedDescription)
                 }
                 
+                aggregation.refreshProviderAccounts { (error) in
+                    XCTAssertNil(error)
+                    
+                    let context = database.viewContext
+                    
+                    let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
+                    
+                    do {
+                        let fetchedProviderAccounts = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedProviderAccounts.count, 4, "Provider Accounts Duplicated")
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                }
+                
                 expectation1.fulfill()
             }
         }
