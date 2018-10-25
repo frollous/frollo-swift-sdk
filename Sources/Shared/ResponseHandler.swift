@@ -48,7 +48,7 @@ extension ResponseHandler {
     @discardableResult internal func updateObjectsWithResponse<T: CacheableManagedObject & NSManagedObject>(type: T.Type, objectsResponse: [APIUniqueResponse], primaryKey: String, linkedKeys: [KeyPath<T, Int64>], filterPredicate: NSPredicate?, managedObjectContext: NSManagedObjectContext) -> [KeyPath<T, Int64>: Set<Int64>] {
         // Sort by ID
         let sortedObjectResponses = objectsResponse.sorted(by: { (responseA: APIUniqueResponse, responseB: APIUniqueResponse) -> Bool in
-            return responseA.id > responseB.id
+            return responseB.id > responseA.id
         })
         
         // Build id list predicate

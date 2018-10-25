@@ -818,7 +818,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             providerLock.unlock()
         }
         
-        let filterPredicate = NSPredicate(format: "statusRawValue IN %@", argumentArray: [[Provider.Status.supported.rawValue, Provider.Status.beta.rawValue]])
+        let filterPredicate = NSPredicate(format: #keyPath(Provider.statusRawValue) + " IN %@", argumentArray: [[Provider.Status.supported.rawValue, Provider.Status.beta.rawValue]])
         
         updateObjectsWithResponse(type: Provider.self, objectsResponse: providersResponse, primaryKey: #keyPath(Provider.providerID), linkedKeys: [], filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
         
@@ -941,13 +941,13 @@ public class Aggregation: CachedObjects, ResponseHandler {
         let fromDateString = Transaction.transactionDateFormatter.string(from: fromDate)
         let toDateString = Transaction.transactionDateFormatter.string(from: toDate)
         
-        let predicate = NSPredicate(format: "transactionDateString >= %@ && transactionDateString <= %@", argumentArray: [fromDateString, toDateString])
+        let predicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " >= %@ && " + #keyPath(Transaction.transactionDateString) + " <= %@", argumentArray: [fromDateString, toDateString])
         
         handleTransactionsResponse(transactionsResponse, predicate: predicate, managedObjectContext: managedObjectContext)
     }
     
     private func handleTransactionsResponse(_ transactionsResponse: [APITransactionResponse], transactionIDs: [Int64], managedObjectContext: NSManagedObjectContext) {
-        let predicate = NSPredicate(format: "transactionID IN %@", argumentArray: [transactionIDs])
+        let predicate = NSPredicate(format: #keyPath(Transaction.transactionID) + " IN %@", argumentArray: [transactionIDs])
         
         handleTransactionsResponse(transactionsResponse, predicate: predicate, managedObjectContext: managedObjectContext)
     }
