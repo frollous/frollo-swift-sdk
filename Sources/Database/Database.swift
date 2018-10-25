@@ -48,9 +48,6 @@ public class Database {
     init(path: URL) {
         storeURL = path.appendingPathComponent(DatabaseConstants.storeName).appendingPathExtension(DatabaseConstants.storeExtension)
         
-//        let modelURL = Bundle(for: type(of: self)).url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!
-//        model = NSManagedObjectModel(contentsOf: modelURL)!
-        
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
         persistentContainer = NSPersistentContainer(name: DatabaseConstants.storeName, managedObjectModel: Database.model)
         persistentContainer.persistentStoreDescriptions = [storeDescription]
@@ -82,10 +79,14 @@ public class Database {
                         let dataError = DataError(type: .database, subType: .corrupt)
                         completionHandler(dataError)
                     } else {
+                        self.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
+                        
                         completionHandler(nil)
                     }
                 })
             } else {
+                self.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
+                
                 completionHandler(nil)
             }
         }
