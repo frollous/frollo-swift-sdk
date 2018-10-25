@@ -121,7 +121,7 @@ extension ResponseHandler {
     }
     
     @discardableResult internal func linkObjectToParentObject<T: CacheableManagedObject & NSManagedObject, U: CacheableManagedObject & NSManagedObject>(type: T.Type, parentType: U.Type, managedObjectContext: NSManagedObjectContext, linkedIDs: Set<Int64>, linkedKey: KeyPath<T, Int64>, linkedKeyName: String) -> Set<Int64> {
-        var missingProviderIDs = Set<Int64>()
+        var missingLinkedIDs = Set<Int64>()
         
         managedObjectContext.performAndWait {
             let objectFetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
@@ -165,10 +165,10 @@ extension ResponseHandler {
                 }
             }
             
-            missingProviderIDs = linkedIDs.subtracting(matchedParentObjectIDs)
+            missingLinkedIDs = linkedIDs.subtracting(matchedParentObjectIDs)
         }
         
-        return missingProviderIDs
+        return missingLinkedIDs
     }
     
 }

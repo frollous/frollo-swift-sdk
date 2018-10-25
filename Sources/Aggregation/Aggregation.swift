@@ -27,6 +27,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
     private var linkingAccountIDs = Set<Int64>()
     private var linkingMerchantIDs = Set<Int64>()
     private var linkingTransactionCategoryIDs = Set<Int64>()
+    private var refreshingProviderIDs = Set<Int64>()
     
     internal init(database: Database, network: Network) {
         self.database = database
@@ -115,6 +116,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleProviderResponse(providerResponse, managedObjectContext: managedObjectContext)
+                    
+                    self.refreshingProviderIDs.remove(providerID)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
                 }
@@ -679,9 +682,15 @@ public class Aggregation: CachedObjects, ResponseHandler {
         
         let missingProviderIDs = linkObjectToParentObject(type: ProviderAccount.self, parentType: Provider.self, managedObjectContext: managedObjectContext, linkedIDs: linkingProviderIDs, linkedKey: \ProviderAccount.providerID, linkedKeyName: #keyPath(ProviderAccount.providerID))
         
-        linkingProviderIDs = linkingProviderIDs.intersection(missingProviderIDs)
+        linkingProviderIDs = Set()
         
         for providerID in missingProviderIDs {
+            guard !refreshingProviderIDs.contains(providerID)
+                else {
+                    continue
+            }
+            
+            refreshingProviderIDs.insert(providerID)
             refreshProvider(providerID: providerID)
         }
         
