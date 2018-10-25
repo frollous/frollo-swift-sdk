@@ -150,6 +150,9 @@
 		01527CCE20E1B5C300B5042A /* FrolloSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */; };
 		01527CD020E1B5C300B5042A /* FrolloSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 01527CC220E1B5C300B5042A /* FrolloSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01527CD920E1C5A600B5042A /* FrolloSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CD820E1C5A600B5042A /* FrolloSDK.swift */; };
+		01555F2821812C62004A313A /* DeviceRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01555F2721812C62004A313A /* DeviceRequestTests.swift */; };
+		01555F2921812C62004A313A /* DeviceRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01555F2721812C62004A313A /* DeviceRequestTests.swift */; };
+		01555F2A21812C62004A313A /* DeviceRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01555F2721812C62004A313A /* DeviceRequestTests.swift */; };
 		015EEDDA210FC8760081AD76 /* Network+Aggregation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDD9210FC8760081AD76 /* Network+Aggregation.swift */; };
 		015EEDDC210FC9C60081AD76 /* AggregationEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDDB210FC9C60081AD76 /* AggregationEndpoint.swift */; };
 		015EEDDE210FD7710081AD76 /* FailableCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDDD210FD7710081AD76 /* FailableCodable.swift */; };
@@ -585,6 +588,7 @@
 		01527CDA20E1CD1800B5042A /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		01527CDB20E1CD1800B5042A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		01527CDC20E1CD1800B5042A /* Carthage.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Carthage.xcconfig; sourceTree = "<group>"; };
+		01555F2721812C62004A313A /* DeviceRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRequestTests.swift; sourceTree = "<group>"; };
 		015EEDD9210FC8760081AD76 /* Network+Aggregation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+Aggregation.swift"; sourceTree = "<group>"; };
 		015EEDDB210FC9C60081AD76 /* AggregationEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregationEndpoint.swift; sourceTree = "<group>"; };
 		015EEDDD210FD7710081AD76 /* FailableCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailableCodable.swift; sourceTree = "<group>"; };
@@ -1255,6 +1259,7 @@
 			children = (
 				015EEDE9210FDAB20081AD76 /* AggregationRequestTests.swift */,
 				01874B7A20F834D1005A7D0C /* UserRequestTests.swift */,
+				01555F2721812C62004A313A /* DeviceRequestTests.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -2069,6 +2074,7 @@
 				01483B7E2117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */,
 				01BC3D0D2165C5500065A4B8 /* OTPTests.swift in Sources */,
 				01E0819420FDB7150036133F /* NetworkAuthenticatorTests.swift in Sources */,
+				01555F2821812C62004A313A /* DeviceRequestTests.swift in Sources */,
 				0160953A20F41ECF0060791B /* VersionTests.swift in Sources */,
 				015EEDFD211018420081AD76 /* ProviderTests.swift in Sources */,
 				017B48FC21084BA200447E65 /* AuthenticationTests.swift in Sources */,
@@ -2134,6 +2140,7 @@
 				01483B7F2117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */,
 				01BC3D0E2165C5500065A4B8 /* OTPTests.swift in Sources */,
 				017B48342101B4FE00447E65 /* NetworkAuthenticatorTests.swift in Sources */,
+				01555F2921812C62004A313A /* DeviceRequestTests.swift in Sources */,
 				017B48352101B4FE00447E65 /* VersionTests.swift in Sources */,
 				015EEDFE211018420081AD76 /* ProviderTests.swift in Sources */,
 				017B48FD21084BA200447E65 /* AuthenticationTests.swift in Sources */,
@@ -2208,6 +2215,7 @@
 				015EEDFF211018420081AD76 /* ProviderTests.swift in Sources */,
 				01BC3D0F2165C5500065A4B8 /* OTPTests.swift in Sources */,
 				017B48FE21084BA200447E65 /* AuthenticationTests.swift in Sources */,
+				01555F2A21812C62004A313A /* DeviceRequestTests.swift in Sources */,
 				017B48912105958100447E65 /* NetworkErrorTests.swift in Sources */,
 				016097E8210AAAD90034E857 /* DeviceInfoTests.swift in Sources */,
 				013A32D52112C40500B0590B /* CoreData+Test.swift in Sources */,
