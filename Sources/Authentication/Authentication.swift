@@ -150,7 +150,9 @@ public class Authentication {
                 }
             }
             
-            completion(error)
+            DispatchQueue.main.async {
+                completion(error)
+            }
         }
     }
     
@@ -186,7 +188,9 @@ public class Authentication {
                 }
             }
             
-            completion(error)
+            DispatchQueue.main.async {
+                completion(error)
+            }
         }
     }
     
@@ -207,7 +211,9 @@ public class Authentication {
                 Log.error(responseError.localizedDescription)
             }
             
-            completion(error)
+            DispatchQueue.main.async {
+                completion(error)
+            }
         }
     }
     
@@ -231,7 +237,9 @@ public class Authentication {
                 }
             }
             
-            completion?(error)
+            DispatchQueue.main.async {
+                completion?(error)
+            }
         }
     }
     
@@ -248,7 +256,9 @@ public class Authentication {
             else {
                 let error = DataError(type: .database, subType: .notFound)
                 
-                completion(error)
+                DispatchQueue.main.async {
+                    completion(error)
+                }
                 return
         }
         
@@ -261,7 +271,9 @@ public class Authentication {
                 }
             }
             
-            completion(error)
+            DispatchQueue.main.async {
+                completion(error)
+            }
         }
     }
     
@@ -281,7 +293,9 @@ public class Authentication {
             else {
                 let error = DataError(type: .api, subType: .passwordTooShort)
                 
-                completion(error)
+                DispatchQueue.main.async {
+                    completion(error)
+                }
                 return
         }
         
@@ -290,7 +304,9 @@ public class Authentication {
                 Log.error(responseError.localizedDescription)
             }
             
-            completion(error)
+            DispatchQueue.main.async {
+                completion(error)
+            }
         }
     }
     
@@ -308,7 +324,9 @@ public class Authentication {
                 self.reset()
             }
             
-            completion(error)
+            DispatchQueue.main.async {
+                completion(error)
+            }
         }
     }
     

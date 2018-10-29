@@ -94,7 +94,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 }
             }
             
-            completion?(error)
+            DispatchQueue.main.async {
+                completion?(error)
+            }
         }
     }
     
@@ -123,7 +125,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 }
             }
             
-            completion?(error)
+            DispatchQueue.main.async {
+                completion?(error)
+            }
         }
     }
     
@@ -184,7 +188,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 }
             }
             
-            completion?(error)
+            DispatchQueue.main.async {
+                completion?(error)
+            }
         }
         
     }
@@ -210,7 +216,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 }
             }
             
-            completion?(error)
+            DispatchQueue.main.async {
+                completion?(error)
+            }
         }
     }
     
@@ -238,7 +246,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 }
             }
             
-            completion?(error)
+            DispatchQueue.main.async {
+                completion?(error)
+            }
         }
     }
     
@@ -265,7 +275,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 }
             }
             
-            completion?(error)
+            DispatchQueue.main.async {
+                completion?(error)
+            }
         }
     }
     
@@ -326,7 +338,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 }
             }
             
-            completion?(error)
+            DispatchQueue.main.async {
+                completion?(error)
+            }
         }
         
     }
@@ -352,7 +366,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 }
             }
             
-            completion?(error)
+            DispatchQueue.main.async {
+                completion?(error)
+            }
         }
     }
     
@@ -368,7 +384,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
             else {
                 let error = DataError(type: .database, subType: .notFound)
                 
-                completion?(error)
+                DispatchQueue.main.async {
+                    completion?(error)
+                }
                 return
         }
         
@@ -387,7 +405,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 }
             }
             
-            completion?(error)
+            DispatchQueue.main.async {
+                completion?(error)
+            }
         }
     }
     
@@ -452,7 +472,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 }
             }
             
-            completion?(error)
+            DispatchQueue.main.async {
+                completion?(error)
+            }
         }
     }
     
@@ -479,7 +501,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 }
             }
             
-            completion?(error)
+            DispatchQueue.main.async {
+                completion?(error)
+            }
         }
     }
     
@@ -506,7 +530,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 }
             }
             
-            completion?(error)
+            DispatchQueue.main.async {
+                completion?(error)
+            }
         }
     }
     
@@ -522,7 +548,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
             else {
                 let error = DataError(type: .database, subType: .notFound)
                 
-                completion?(error)
+                DispatchQueue.main.async {
+                    completion?(error)
+                }
                 return
         }
         
@@ -543,7 +571,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 }
             }
             
-            completion?(error)
+            DispatchQueue.main.async {
+                completion?(error)
+            }
         }
     }
     
@@ -604,7 +634,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 }
             }
             
-            completion?(error)
+            DispatchQueue.main.async {
+                completion?(error)
+            }
         }
     }
     
@@ -665,7 +697,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 }
             }
             
-            completion?(error)
+            DispatchQueue.main.async {
+                completion?(error)
+            }
         }
     }
     

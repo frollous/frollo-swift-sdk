@@ -89,10 +89,6 @@ public class FrolloSDK: NetworkDelegate {
         database.setup(completionHandler: completion)
     }
     
-//    public func authenticate(authToken: String, completion: FrolloSDKCompletionHandler) {
-//        authentication.authenticate(authToken, completion: completion)
-//    }
-    
     // MARK: - Logout and Reset
     
     /**
