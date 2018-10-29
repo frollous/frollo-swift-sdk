@@ -234,7 +234,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         
         refreshing = true
         
-        network?.refreshToken(completionHandler: { (json, error) in
+        network?.refreshToken(completion: { (json, error) in
             if let responseError = error {
                 if let apiError = error as? APIError, apiError.type == .invalidRefreshToken {
                     self.clearTokens()

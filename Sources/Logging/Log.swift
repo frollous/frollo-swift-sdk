@@ -14,7 +14,8 @@ internal protocol Logger: class {
     
 }
 
-internal enum LogLevel {
+/// Logging level
+public enum LogLevel: String, Codable {
     case debug
     case error
     case fault
@@ -59,6 +60,7 @@ class Log {
     internal var errorLoggers = [Logger]()
     internal var faultLoggers = [Logger]()
     internal var infoLoggers = [Logger]()
+    internal var network: Network?
     
     internal init(synchronous: Bool) {
         async = !synchronous
@@ -69,7 +71,7 @@ class Log {
     private func updateLogLevel() {
         let consoleLogger = ConsoleLogger()
         let fileLogger = FileLogger(path: logFilePath, previousPath: previousLogFilePath)
-        let networkLogger = NetworkLogger()
+        let networkLogger = NetworkLogger(network: network)
         
         debugLoggers = []
         infoLoggers = []

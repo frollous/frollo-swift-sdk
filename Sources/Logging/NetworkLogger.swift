@@ -10,8 +10,21 @@ import Foundation
 
 class NetworkLogger: Logger {
     
+    private let network: Network?
+    
+    init(network: Network?) {
+        self.network = network
+    }
+    
     func writeMessage(_ message: String, level: LogLevel) {
-        // TODO: Implement with network stack
+        guard let net = network
+            else {
+                return
+        }
+        
+        let request = APILogRequest(details: nil, message: message, score: level)
+        
+        net.createLog(request: request) { (response, error) in }
     }
     
 }

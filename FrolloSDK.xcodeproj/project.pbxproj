@@ -192,6 +192,10 @@
 		016097F0210EA27E0034E857 /* Keychain+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097ED210EA27E0034E857 /* Keychain+Test.swift */; };
 		016097F5210EE2BB0034E857 /* APIProviderResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097F4210EE2BA0034E857 /* APIProviderResponse.swift */; };
 		016097F8210EE3300034E857 /* Provider+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097F6210EE3300034E857 /* Provider+CoreDataClass.swift */; };
+		01616B0C2186BFD5003EF2D0 /* APILogRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616B0B2186BFD5003EF2D0 /* APILogRequest.swift */; };
+		01616B0E2186C4E8003EF2D0 /* NetworkLoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616B0D2186C4E8003EF2D0 /* NetworkLoggerTests.swift */; };
+		01616B0F2186C4E8003EF2D0 /* NetworkLoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616B0D2186C4E8003EF2D0 /* NetworkLoggerTests.swift */; };
+		01616B102186C4E8003EF2D0 /* NetworkLoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616B0D2186C4E8003EF2D0 /* NetworkLoggerTests.swift */; };
 		016DD0A420EF365100F41919 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016DD0A320EF365100F41919 /* APIErrorTests.swift */; };
 		017391F020EF001200C0BB32 /* APIErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017391EF20EF001200C0BB32 /* APIErrorResponse.swift */; };
 		01743B08212BA3D10082DA00 /* captcha.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 01743B07212BA3D00082DA00 /* captcha.bmp */; };
@@ -608,6 +612,8 @@
 		016097ED210EA27E0034E857 /* Keychain+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Keychain+Test.swift"; sourceTree = "<group>"; };
 		016097F4210EE2BA0034E857 /* APIProviderResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProviderResponse.swift; sourceTree = "<group>"; };
 		016097F6210EE3300034E857 /* Provider+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Provider+CoreDataClass.swift"; sourceTree = "<group>"; };
+		01616B0B2186BFD5003EF2D0 /* APILogRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APILogRequest.swift; sourceTree = "<group>"; };
+		01616B0D2186C4E8003EF2D0 /* NetworkLoggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLoggerTests.swift; sourceTree = "<group>"; };
 		016DD0A320EF365100F41919 /* APIErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorTests.swift; sourceTree = "<group>"; };
 		017391EF20EF001200C0BB32 /* APIErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorResponse.swift; sourceTree = "<group>"; };
 		01743B07212BA3D00082DA00 /* captcha.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = captcha.bmp; sourceTree = "<group>"; };
@@ -847,6 +853,7 @@
 		013D2D84210A889200EEDEC5 /* Device */ = {
 			isa = PBXGroup;
 			children = (
+				01616B0B2186BFD5003EF2D0 /* APILogRequest.swift */,
 				01F220E220FEAC7600C70B00 /* APITokenResponse.swift */,
 			);
 			path = Device;
@@ -1258,8 +1265,8 @@
 			isa = PBXGroup;
 			children = (
 				015EEDE9210FDAB20081AD76 /* AggregationRequestTests.swift */,
-				01874B7A20F834D1005A7D0C /* UserRequestTests.swift */,
 				01555F2721812C62004A313A /* DeviceRequestTests.swift */,
+				01874B7A20F834D1005A7D0C /* UserRequestTests.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -1332,6 +1339,7 @@
 				01C824F820EC8EF90093400E /* ConsoleLoggerTests.swift */,
 				01C824F620EC7AC30093400E /* FileLoggerTests.swift */,
 				01C824F220EC4D600093400E /* LogTests.swift */,
+				01616B0D2186C4E8003EF2D0 /* NetworkLoggerTests.swift */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -1995,6 +2003,7 @@
 				018B0426216EC785008C34D7 /* Date.swift in Sources */,
 				013A32AF21127A3600B0590B /* AccountRefreshStatus.swift in Sources */,
 				01483BB6211967A500D0DA87 /* Merchant+CoreDataClass.swift in Sources */,
+				01616B0C2186BFD5003EF2D0 /* APILogRequest.swift in Sources */,
 				01874B7420F81EA8005A7D0C /* UserEndpoint.swift in Sources */,
 				01E8375A2149F08100A50E15 /* LoginFormError.swift in Sources */,
 				017B48DB2106E1C100447E65 /* User+CoreDataClass.swift in Sources */,
@@ -2096,6 +2105,7 @@
 				017B486D2105433B00447E65 /* PreferencesTests.swift in Sources */,
 				012C4512212A88CC00799A0A /* ProviderLoginForm+Test.swift in Sources */,
 				012C450F212A88C500799A0A /* ProviderLoginFormTests.swift in Sources */,
+				01616B0E2186C4E8003EF2D0 /* NetworkLoggerTests.swift in Sources */,
 				01874B7B20F834D1005A7D0C /* UserRequestTests.swift in Sources */,
 				0160953E20F47FE10060791B /* TestInvalidDataModel.xcdatamodeld in Sources */,
 				011E87D2213767F00026E047 /* SecKeyPEMTests.swift in Sources */,
@@ -2162,6 +2172,7 @@
 				017B486E2105433B00447E65 /* PreferencesTests.swift in Sources */,
 				012C4513212A88CD00799A0A /* ProviderLoginForm+Test.swift in Sources */,
 				012C4510212A88C600799A0A /* ProviderLoginFormTests.swift in Sources */,
+				01616B0F2186C4E8003EF2D0 /* NetworkLoggerTests.swift in Sources */,
 				017B483B2101B4FE00447E65 /* UserRequestTests.swift in Sources */,
 				017B483C2101B4FE00447E65 /* TestInvalidDataModel.xcdatamodeld in Sources */,
 				011E87D3213767F00026E047 /* SecKeyPEMTests.swift in Sources */,
@@ -2237,6 +2248,7 @@
 				017B48982105958100447E65 /* TestInvalidDataModel.xcdatamodeld in Sources */,
 				012C4514212A88CD00799A0A /* ProviderLoginForm+Test.swift in Sources */,
 				012C4511212A88C600799A0A /* ProviderLoginFormTests.swift in Sources */,
+				01616B102186C4E8003EF2D0 /* NetworkLoggerTests.swift in Sources */,
 				017B48992105958100447E65 /* PreferencesPersistenceTests.swift in Sources */,
 				015EEDE4210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */,
 				011E87D4213767F00026E047 /* SecKeyPEMTests.swift in Sources */,

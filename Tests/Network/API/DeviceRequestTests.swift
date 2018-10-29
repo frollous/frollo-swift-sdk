@@ -53,5 +53,32 @@ class DeviceRequestTests: XCTestCase {
         
         OHHTTPStubs.removeAllStubs()
     }
+    
+    func testLog() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.log.path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        let request = APILogRequest(details: "Details Content", message: "Log message", score: .error)
+        
+        network.createLog(request: request) { (response, error) in
+            XCTAssertNil(error)
+            XCTAssertNil(response)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
 
 }

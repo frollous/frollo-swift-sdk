@@ -107,11 +107,16 @@ public class FrolloSDK: NetworkDelegate {
      Sets up the SDK for use by performing any datbase migrations or other underlying setup needed. Must be called and completed before using the SDK.
      
      - parameters:
+        - serverURL: Base URL of the Frollo API this SDK should point to
+        - logLevel: Level of logging for debug and error messages
         - completion: Completion handler with optional error if something goes wrong during the setup process
     */
-    public func setup(serverURL: URL, completion: @escaping (Error?) -> Void) {
+    public func setup(serverURL: URL, logLevel: LogLevel = .error, completion: @escaping (Error?) -> Void) {
         network = Network(serverURL: serverURL, keychain: keychain)
         network.delegate = self
+        
+        Log.manager.network = network
+        Log.logLevel = logLevel
         
         _aggregation = Aggregation(database: _database, network: network)
         _authentication = Authentication(database: _database, network: network, preferences: preferences)
