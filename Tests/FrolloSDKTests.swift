@@ -30,61 +30,109 @@ class FrolloSDKTests: XCTestCase {
     // MARK: - Tests
     
     func testSDKCreatesDataFolder() {
+        let expectation1 = expectation(description: "Setup")
+        
         removeDataFolder()
         
         let url = URL(string: "https://api.example.com")!
         
-        _ = FrolloSDK(serverURL: url)
+        let sdk = FrolloSDK()
+        sdk.setup(serverURL: url) { (error) in
+            XCTAssertNil(error)
+            XCTAssertTrue(FileManager.default.fileExists(atPath: FrolloSDK.dataFolderURL.path))
+            
+            expectation1.fulfill()
+        }
         
-        XCTAssertTrue(FileManager.default.fileExists(atPath: FrolloSDK.dataFolderURL.path))
+        wait(for: [expectation1], timeout: 3.0)
     }
     
     func testSDKInitServerURLIsSet() {
+        let expectation1 = expectation(description: "Setup")
+        
         let url = URL(string: "https://api.example.com")!
         
-        let sdk = FrolloSDK(serverURL: url)
+        let sdk = FrolloSDK()
+        sdk.setup(serverURL: url) { (error) in
+            XCTAssertNil(error)
+            XCTAssertEqual(sdk.network.serverURL, url)
+            
+            expectation1.fulfill()
+        }
         
-        XCTAssertEqual(sdk.network.serverURL, url)
+        wait(for: [expectation1], timeout: 3.0)
     }
     
     func testSDKSetupSuccess() {
+        let expectation1 = expectation(description: "Setup")
+        
         let url = URL(string: "https://api.example.com")!
         
-        let sdk = FrolloSDK(serverURL: url)
-        
-        sdk.setup { (error) in
+        let sdk = FrolloSDK()
+        sdk.setup(serverURL: url) { (error) in
             XCTAssertNil(error)
+            
+            expectation1.fulfill()
         }
+        
+        wait(for: [expectation1], timeout: 3.0)
     }
     
     func testSDKResetSuccess() {
+        let expectation1 = expectation(description: "Setup")
+        
         let url = URL(string: "https://api.example.com")!
-        
-        let sdk = FrolloSDK(serverURL: url)
-        
-        sdk.reset { (error) in
+
+        let sdk = FrolloSDK()
+        sdk.setup(serverURL: url) { (error) in
             XCTAssertNil(error)
+            
+            sdk.reset { (error) in
+                XCTAssertNil(error)
+                XCTAssertFalse(sdk.setup)
+                
+                expectation1.fulfill()
+            }
         }
+        
+        wait(for: [expectation1], timeout: 3.0)
     }
     
     func testPauseScheduledRefresh() {
+        let expectation1 = expectation(description: "Setup")
+        
         let url = URL(string: "https://api.example.com")!
         
-        let sdk = FrolloSDK(serverURL: url)
+        let sdk = FrolloSDK()
+        sdk.setup(serverURL: url) { (error) in
+            XCTAssertNil(error)
+            
+            sdk.applicationDidEnterBackground()
+            
+            XCTAssertNil(sdk.refreshTimer)
+            
+            expectation1.fulfill()
+        }
         
-        sdk.applicationDidEnterBackground()
-        
-        XCTAssertNil(sdk.refreshTimer)
+        wait(for: [expectation1], timeout: 3.0)
     }
     
     func testResumeScheduledRefresh() {
+        let expectation1 = expectation(description: "Setup")
+        
         let url = URL(string: "https://api.example.com")!
         
-        let sdk = FrolloSDK(serverURL: url)
+        let sdk = FrolloSDK()
+        sdk.setup(serverURL: url) { (error) in
+            XCTAssertNil(error)
+            
+            sdk.applicationWillEnterForeground()
+            
+            XCTAssertNotNil(sdk.refreshTimer)
+            expectation1.fulfill()
+        }
         
-        sdk.applicationWillEnterForeground()
-        
-        XCTAssertNotNil(sdk.refreshTimer)
+        wait(for: [expectation1], timeout: 3.0)
     }
     
 }

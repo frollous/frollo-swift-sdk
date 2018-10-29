@@ -18,6 +18,8 @@ public class FrolloSDK: NetworkDelegate {
     /// User info key for authentication status sent with `authenticationChangedNotification` notifications.
     public static let authenticationStatusKey = "FrolloSDKKey.authenticationStatus"
     
+    public static let shared = FrolloSDK()
+    
     /// Status of the FrolloSDK authentication with Frollo servers
     public enum FrolloSDKAuthenticationStatus {
         case authenticated
@@ -36,27 +38,55 @@ public class FrolloSDK: NetworkDelegate {
         return appDataURL
     }()
     
-    public let aggregation: Aggregation
-    public let authentication: Authentication
-    public let database: Database
+    public var aggregation: Aggregation {
+        get {
+            guard setup
+                else {
+                    fatalError("SDK not setup.")
+            }
+            
+            return _aggregation
+        }
+    }
+    public var authentication: Authentication {
+        get {
+            guard setup
+                else {
+                    fatalError("SDK not setup.")
+            }
+            
+            return _authentication
+        }
+    }
+    public var database: Database {
+        get {
+            guard setup
+                else {
+                    fatalError("SDK not setup.")
+            }
+            
+            return _database
+        }
+    }
     
+    internal let _database: Database
     internal let keychain: Keychain
-    internal let network: Network
     internal let preferences: Preferences
     
+    internal var _aggregation: Aggregation!
+    internal var _authentication: Authentication!
+    internal var network: Network!
     internal var refreshTimer: Timer?
+    internal var setup = false
     
     // MARK: - Setup
     
     /**
      Initialises the SDK
      
-     Initialises an SDK instance pointing to the specified Frollo backend API URL. Only one instance should be instantiated.
-     
-     - parameters:
-        - serverURL: Base URL of the Frollo API this SDK should point to
+     Initialises an SDK instance. Only one instance should be instantiated. Setup must be run before use
     */
-    public init(serverURL: URL) {
+    internal init() {
         // Create data folder if it doesn't exist
         if !FileManager.default.fileExists(atPath: FrolloSDK.dataFolderURL.path) {
             do {
@@ -66,15 +96,9 @@ public class FrolloSDK: NetworkDelegate {
             }
         }
         
-        self.database = Database(path: FrolloSDK.dataFolderURL)
+        self._database = Database(path: FrolloSDK.dataFolderURL)
         self.keychain = Keychain(service: FrolloSDKConstants.keychainService)
-        self.network = Network(serverURL: serverURL, keychain: keychain)
         self.preferences = Preferences(path: FrolloSDK.dataFolderURL)
-        
-        self.aggregation = Aggregation(database: database, network: network)
-        self.authentication = Authentication(database: database, network: network, preferences: preferences)
-        
-        self.network.delegate = self
     }
     
     /**
@@ -85,8 +109,20 @@ public class FrolloSDK: NetworkDelegate {
      - parameters:
         - completion: Completion handler with optional error if something goes wrong during the setup process
     */
-    public func setup(completion: @escaping (Error?) -> Void) {
-        database.setup(completionHandler: completion)
+    public func setup(serverURL: URL, completion: @escaping (Error?) -> Void) {
+        network = Network(serverURL: serverURL, keychain: keychain)
+        network.delegate = self
+        
+        _aggregation = Aggregation(database: _database, network: network)
+        _authentication = Authentication(database: _database, network: network, preferences: preferences)
+        
+        _database.setup { (error) in
+            if error == nil {
+                self.setup = true
+            }
+            
+            completion(error)
+        }
     }
     
     // MARK: - Logout and Reset
@@ -116,7 +152,12 @@ public class FrolloSDK: NetworkDelegate {
         
         keychain.removeAll()
         
+        _aggregation = nil
+        _authentication = nil
+        
         database.reset { (error) in
+            self.setup = false
+            
             completionHandler?(error)
         }
         
