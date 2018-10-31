@@ -11,32 +11,32 @@ import Security
 
 public struct ProviderLoginForm: Codable {
     
-    struct Row: Codable {
+    public struct Row: Codable {
         
-        var field: [Field]
-        let fieldRowChoice: String
-        let form: String
-        let hint: String?
-        let id: String
-        let label: String
-        var selected: Bool?
+        public var field: [Field]
+        public let fieldRowChoice: String
+        public let form: String
+        public let hint: String?
+        public let id: String
+        public let label: String
+        public var selected: Bool?
         
     }
     
-    struct Field: Codable {
+    public struct Field: Codable {
         
-        let id: String
-        let image: [Int8]?
-        let isOptional: Bool
-        let maxLength: Int?
-        let name: String
-        let option: [Option]?
-        let prefix: String?
-        let suffix: String?
-        let type: FieldType
-        let validation: [Validation]?
-        var value: String?
-        let valueEditable: Bool
+        public let id: String
+        public let image: [Int8]?
+        public let isOptional: Bool
+        public let maxLength: Int?
+        public let name: String
+        public let option: [Option]?
+        public let prefix: String?
+        public let suffix: String?
+        public let type: FieldType
+        public let validation: [Validation]?
+        public var value: String?
+        public let valueEditable: Bool
         
         public func imageData() -> Data? {
             guard let imageArray = image
@@ -52,22 +52,22 @@ public struct ProviderLoginForm: Codable {
         
     }
     
-    struct Option: Codable {
+    public struct Option: Codable {
         
-        let displayText: String
-        let isSelected: Bool?
-        let optionValue: String
-        
-    }
-    
-    struct Validation: Codable {
-        
-        let errorMsg: String
-        let regExp: String
+        public let displayText: String
+        public let isSelected: Bool?
+        public let optionValue: String
         
     }
     
-    enum FieldType: String, Codable {
+    public struct Validation: Codable {
+        
+        public let errorMsg: String
+        public let regExp: String
+        
+    }
+    
+    public enum FieldType: String, Codable {
         case checkbox
         case image
         case option
@@ -76,21 +76,21 @@ public struct ProviderLoginForm: Codable {
         case text
     }
     
-    enum FormType: String, Codable {
+    public enum FormType: String, Codable {
         case image
         case login
         case questionAndAnswer
         case token
     }
     
-    let id: String?
-    let forgetPasswordURL: String?
-    let formType: FormType
-    let help: String?
-    let mfaInfoText: String?
-    let mfaTimeout: Int?
-    let mfaInfoTitle: String?
-    var row: [Row]
+    public let id: String?
+    public let forgetPasswordURL: String?
+    public let formType: FormType
+    public let help: String?
+    public let mfaInfoText: String?
+    public let mfaTimeout: Int?
+    public let mfaInfoTitle: String?
+    public var row: [Row]
     
     public mutating func encryptValues(encryptionKey: String, encryptionAlias: String) {
         guard let publicKey = SecKeyCreateWithPEMData(encryptionKey, nil)
