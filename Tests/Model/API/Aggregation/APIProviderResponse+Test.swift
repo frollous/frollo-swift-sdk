@@ -62,7 +62,7 @@ extension APIProviderResponse {
         
         let field1 = ProviderLoginForm.Field(id: "762", image: nil, isOptional: false, maxLength: 8, name: "AccountNumber", option: nil, prefix: nil, suffix: nil, type: .text, validation: nil, value: nil, valueEditable: true)
         
-        let row1 = ProviderLoginForm.Row(field: [field1], fieldRowChoice: "Choice1", form: "0001", hint: "Account Number", id: "4512", label: "Account Number", selected: nil)
+        let row1 = ProviderLoginForm.Row(field: [field1], fieldRowChoice: "Choice1", form: "0001", hint: "Account Number", id: "4512", label: "Account Number")
         
         let loginForm = ProviderLoginForm(id: "7224",
                                           forgetPasswordURL: "https://example.com/forgot",

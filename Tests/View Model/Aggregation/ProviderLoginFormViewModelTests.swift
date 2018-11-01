@@ -33,5 +33,21 @@ class ProviderLoginFormViewModelTests: XCTestCase {
         let dataModel = viewModel.dataModel()
         XCTAssertEqual(dataModel.row.count, providerLoginForm.row.count)
     }
+    
+    func testProviderLoginFormMultipleChoiceValidation() {
+        let loginForm = ProviderLoginForm.loginFormFilledInvalidMultipleChoiceField()
+        
+        let viewModel = ProviderLoginFormViewModel(loginForm: loginForm)
+        
+        let result = viewModel.validateMultipleChoice()
+        
+        XCTAssertFalse(result.0)
+        XCTAssertNotNil(result.1)
+        
+        if let error = result.1 as? LoginFormError {
+            XCTAssertEqual(error.type, .fieldChoiceNotSelected)
+            XCTAssertEqual(error.fieldName, "An Option")
+        }
+    }
 
 }

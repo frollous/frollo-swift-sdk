@@ -57,4 +57,34 @@ public struct ProviderLoginFormViewModel {
         return ProviderLoginForm(id: id, forgetPasswordURL: forgetPasswordURL, formType: formType, help: help, mfaInfoText: mfaInfoText, mfaTimeout: mfaTimeout, mfaInfoTitle: mfaInfoTitle, row: rows)
     }
     
+    public func validateMultipleChoice() -> (Bool, Error?) {
+        // Validate multiple field choice
+        var validValueFound = true
+        var invalidRowLabel: String?
+        
+        for cell in cells {
+            if cell.rows.count > 1 {
+                validValueFound = false
+                
+                for row in cell.rows {
+                    invalidRowLabel = row.label
+                    
+                    for field in row.field {
+                        if field.value != nil && field.value?.isEmpty != true {
+                            validValueFound = true
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Check final row
+        if !validValueFound, let rowLabel = invalidRowLabel {
+            // No filled selection was found, fail validation
+            return (false, LoginFormError(type: .fieldChoiceNotSelected, fieldName: rowLabel))
+        }
+        
+        return (true, nil)
+    }
+    
 }

@@ -19,7 +19,6 @@ public struct ProviderLoginForm: Codable {
         public let hint: String?
         public let id: String
         public let label: String
-        public var selected: Bool?
         
     }
     
@@ -153,36 +152,6 @@ public struct ProviderLoginForm: Codable {
     }
     
     public func validateForm() -> (Bool, Error?) {
-        // Validate multiple field choice
-        var previousFieldRowChoice: String?
-        var previousFieldRowMatched = false
-        var previousFieldRowSelected = false
-        
-        for currentRow in row {
-            if currentRow.fieldRowChoice == previousFieldRowChoice {
-                previousFieldRowMatched = true
-                
-                if !previousFieldRowSelected, let selected = currentRow.selected, selected {
-                    previousFieldRowSelected = true
-                }
-            } else {
-                if !previousFieldRowSelected && previousFieldRowMatched {
-                    // No section was selected, fail validation
-                    return (false, LoginFormError(type: .fieldChoiceNotSelected, fieldName: currentRow.label))
-                } else {
-                    previousFieldRowSelected = currentRow.selected ?? false
-                }
-            }
-            
-            previousFieldRowChoice = currentRow.fieldRowChoice
-        }
-        
-        // Check final row
-        if !previousFieldRowSelected && previousFieldRowMatched {
-            // No section was selected, fail validation
-            return (false, LoginFormError(type: .fieldChoiceNotSelected, fieldName: row.last!.label))
-        }
-        
         for currentRow in row {
             for currentField in currentRow.field {
                 if !currentField.isOptional && (currentField.value == nil || currentField.value?.isEmpty == true) {

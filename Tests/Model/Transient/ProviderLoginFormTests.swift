@@ -47,7 +47,6 @@ class ProviderLoginFormTests: XCTestCase {
             XCTAssertEqual(loginForm.row[0].form, "0001")
             XCTAssertEqual(loginForm.row[0].fieldRowChoice, "0001")
             XCTAssertNil(loginForm.row[0].hint)
-            XCTAssertNil(loginForm.row[0].selected)
             
             XCTAssertEqual(loginForm.row[0].field.count, 1)
             
@@ -68,7 +67,6 @@ class ProviderLoginFormTests: XCTestCase {
             XCTAssertEqual(loginForm.row[1].form, "0001")
             XCTAssertEqual(loginForm.row[1].fieldRowChoice, "0002")
             XCTAssertNil(loginForm.row[1].hint)
-            XCTAssertNil(loginForm.row[1].selected)
             
             XCTAssertEqual(loginForm.row[1].field.count, 1)
             
@@ -113,7 +111,6 @@ class ProviderLoginFormTests: XCTestCase {
             XCTAssertEqual(loginForm.row[0].form, "0001")
             XCTAssertEqual(loginForm.row[0].fieldRowChoice, "0001")
             XCTAssertNil(loginForm.row[0].hint)
-            XCTAssertNil(loginForm.row[0].selected)
             
             XCTAssertEqual(loginForm.row[0].field.count, 1)
             
@@ -160,7 +157,6 @@ class ProviderLoginFormTests: XCTestCase {
             XCTAssertEqual(loginForm.row[0].form, "0001")
             XCTAssertEqual(loginForm.row[0].fieldRowChoice, "0001")
             XCTAssertNil(loginForm.row[0].hint)
-            XCTAssertNil(loginForm.row[0].selected)
             
             XCTAssertEqual(loginForm.row[0].field.count, 1)
             
@@ -182,7 +178,6 @@ class ProviderLoginFormTests: XCTestCase {
             XCTAssertEqual(loginForm.row[1].form, "0001")
             XCTAssertEqual(loginForm.row[1].fieldRowChoice, "0002 Choice")
             XCTAssertNil(loginForm.row[1].hint)
-            XCTAssertNil(loginForm.row[1].selected)
             
             XCTAssertEqual(loginForm.row[1].field.count, 1)
             
@@ -204,7 +199,6 @@ class ProviderLoginFormTests: XCTestCase {
             XCTAssertEqual(loginForm.row[2].form, "0001")
             XCTAssertEqual(loginForm.row[2].fieldRowChoice, "0002 Choice")
             XCTAssertNil(loginForm.row[2].hint)
-            XCTAssertNil(loginForm.row[2].selected)
             
             XCTAssertEqual(loginForm.row[2].field.count, 1)
             
@@ -226,7 +220,6 @@ class ProviderLoginFormTests: XCTestCase {
             XCTAssertEqual(loginForm.row[3].form, "0001")
             XCTAssertEqual(loginForm.row[3].fieldRowChoice, "0002 Choice")
             XCTAssertNil(loginForm.row[3].hint)
-            XCTAssertNil(loginForm.row[3].selected)
             
             XCTAssertEqual(loginForm.row[3].field.count, 2)
             
@@ -284,7 +277,6 @@ class ProviderLoginFormTests: XCTestCase {
             XCTAssertEqual(loginForm.row[0].form, "0001")
             XCTAssertEqual(loginForm.row[0].fieldRowChoice, "0001")
             XCTAssertNil(loginForm.row[0].hint)
-            XCTAssertNil(loginForm.row[0].selected)
             
             XCTAssertEqual(loginForm.row[0].field.count, 1)
             
@@ -306,7 +298,6 @@ class ProviderLoginFormTests: XCTestCase {
             XCTAssertEqual(loginForm.row[1].form, "0001")
             XCTAssertEqual(loginForm.row[1].fieldRowChoice, "0002")
             XCTAssertNil(loginForm.row[1].hint)
-            XCTAssertNil(loginForm.row[1].selected)
             
             XCTAssertEqual(loginForm.row[1].field.count, 1)
             
@@ -351,7 +342,6 @@ class ProviderLoginFormTests: XCTestCase {
             XCTAssertEqual(loginForm.row[0].form, "0001")
             XCTAssertEqual(loginForm.row[0].fieldRowChoice, "0001")
             XCTAssertNil(loginForm.row[0].hint)
-            XCTAssertNil(loginForm.row[0].selected)
             
             XCTAssertEqual(loginForm.row[0].field.count, 1)
             
@@ -395,7 +385,6 @@ class ProviderLoginFormTests: XCTestCase {
             XCTAssertEqual(loginForm.row[0].form, "0001")
             XCTAssertEqual(loginForm.row[0].fieldRowChoice, "0001")
             XCTAssertNil(loginForm.row[0].hint)
-            XCTAssertNil(loginForm.row[0].selected)
             
             XCTAssertEqual(loginForm.row[0].field.count, 1)
             
@@ -417,7 +406,6 @@ class ProviderLoginFormTests: XCTestCase {
             XCTAssertEqual(loginForm.row[1].form, "0001")
             XCTAssertEqual(loginForm.row[1].fieldRowChoice, "0002")
             XCTAssertNil(loginForm.row[1].hint)
-            XCTAssertNil(loginForm.row[1].selected)
             
             XCTAssertEqual(loginForm.row[1].field.count, 1)
             
@@ -439,7 +427,6 @@ class ProviderLoginFormTests: XCTestCase {
             XCTAssertEqual(loginForm.row[2].form, "0001")
             XCTAssertEqual(loginForm.row[2].fieldRowChoice, "0003")
             XCTAssertNil(loginForm.row[2].hint)
-            XCTAssertNil(loginForm.row[2].selected)
             
             XCTAssertEqual(loginForm.row[2].field.count, 1)
             
@@ -465,7 +452,6 @@ class ProviderLoginFormTests: XCTestCase {
             XCTAssertEqual(loginForm.row[3].form, "0001")
             XCTAssertEqual(loginForm.row[3].fieldRowChoice, "0004")
             XCTAssertNil(loginForm.row[3].hint)
-            XCTAssertNil(loginForm.row[3].selected)
             
             XCTAssertEqual(loginForm.row[3].field.count, 1)
             
@@ -509,7 +495,6 @@ class ProviderLoginFormTests: XCTestCase {
             XCTAssertEqual(loginForm.row[0].form, "0001")
             XCTAssertEqual(loginForm.row[0].fieldRowChoice, "0001")
             XCTAssertNil(loginForm.row[0].hint)
-            XCTAssertNil(loginForm.row[0].selected)
             
             XCTAssertEqual(loginForm.row[0].field.count, 1)
             
@@ -535,7 +520,6 @@ class ProviderLoginFormTests: XCTestCase {
             XCTAssertEqual(loginForm.row[1].form, "0001")
             XCTAssertEqual(loginForm.row[1].fieldRowChoice, "0002")
             XCTAssertNil(loginForm.row[1].hint)
-            XCTAssertNil(loginForm.row[1].selected)
             
             XCTAssertEqual(loginForm.row[1].field.count, 1)
             
@@ -574,20 +558,6 @@ class ProviderLoginFormTests: XCTestCase {
         XCTAssertTrue(form.row[1].field[0].value!.contains(encryptionAlias))
         XCTAssertEqual(form.row[1].field[0].value?.count, 523)
         XCTAssertNotEqual(form.row[0].field[0].value, form.row[1].field[0].value)
-    }
-    
-    func testProviderLoginFormMultipleChoiceValidation() {
-        let loginForm = ProviderLoginForm.loginFormFilledInvalidMultipleChoiceField()
-        
-        let result = loginForm.validateForm()
-        
-        XCTAssertFalse(result.0)
-        XCTAssertNotNil(result.1)
-        
-        if let error = result.1 as? LoginFormError {
-            XCTAssertEqual(error.type, .fieldChoiceNotSelected)
-            XCTAssertEqual(error.fieldName, "An Option")
-        }
     }
     
     func testProviderLoginFormOptionalValidation() {

@@ -30,8 +30,7 @@ extension ProviderLoginForm {
                                      form: "0001",
                                      hint: nil,
                                      id: "7331",
-                                     label: "User ID",
-                                     selected: nil)
+                                     label: "User ID")
     }
     
     static func loginFormPasswordRow() -> ProviderLoginForm.Row {
@@ -53,8 +52,7 @@ extension ProviderLoginForm {
                                      form: "0001",
                                      hint: nil,
                                      id: "7330",
-                                     label: "Password",
-                                     selected: nil)
+                                     label: "Password")
     }
     
     static func loginFormMaxLengthRow() -> ProviderLoginForm.Row {
@@ -76,8 +74,7 @@ extension ProviderLoginForm {
                                      form: "0001",
                                      hint: nil,
                                      id: "7330",
-                                     label: "Member Number",
-                                     selected: nil)
+                                     label: "Member Number")
     }
     
     static func loginFormMultipleChoiceRows() -> [ProviderLoginForm.Row] {
@@ -103,8 +100,7 @@ extension ProviderLoginForm {
                                      form: "0001",
                                      hint: nil,
                                      id: "151124",
-                                     label: "An Option",
-                                     selected: nil)
+                                     label: "An Option")
     }
     
     static func loginFormValidationField() -> ProviderLoginForm.Row {
@@ -126,8 +122,7 @@ extension ProviderLoginForm {
                                      form: "0001",
                                      hint: nil,
                                      id: "151124",
-                                     label: "PASSWORD",
-                                     selected: nil)
+                                     label: "PASSWORD")
     }
     
     static func loginFormRegexValidation() -> ProviderLoginForm.Validation {
