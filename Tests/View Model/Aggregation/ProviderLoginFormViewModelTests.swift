@@ -29,6 +29,9 @@ class ProviderLoginFormViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.cells.last?.rows.count, 3)
         XCTAssertEqual(viewModel.cells.last?.fieldRowChoice, "0002 Choice")
         XCTAssertEqual(viewModel.cells.last?.selectedRowID, viewModel.cells.last?.rows.first?.id)
+        
+        let dataModel = viewModel.dataModel()
+        XCTAssertEqual(dataModel.row.count, providerLoginForm.row.count)
     }
 
 }

@@ -47,5 +47,14 @@ public struct ProviderLoginFormViewModel {
             }
         }
     }
+
+    public func dataModel() -> ProviderLoginForm {
+        var rows = [ProviderLoginForm.Row]()
+        for cell in cells {
+            rows.append(contentsOf: cell.rows)
+        }
+        
+        return ProviderLoginForm(id: id, forgetPasswordURL: forgetPasswordURL, formType: formType, help: help, mfaInfoText: mfaInfoText, mfaTimeout: mfaTimeout, mfaInfoTitle: mfaInfoTitle, row: rows)
+    }
     
 }
