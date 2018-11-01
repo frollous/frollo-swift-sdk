@@ -9,6 +9,7 @@
 import CoreData
 import Foundation
 
+/// Managed the Core Data backed local cache of data
 public class Database {
     
     struct DatabaseConstants {
@@ -20,6 +21,7 @@ public class Database {
         static let storeName = "FrolloSDKDatabase"
     }
     
+    /// Main thread context for use by views see `NSPersistentContainer` for details
     public var viewContext: NSManagedObjectContext {
         get {
             return persistentContainer.viewContext
@@ -45,7 +47,7 @@ public class Database {
      - parameters:
         - path: Path to folder where the database should be stored
      */
-    init(path: URL) {
+    internal init(path: URL) {
         storeURL = path.appendingPathComponent(DatabaseConstants.storeName).appendingPathExtension(DatabaseConstants.storeExtension)
         
         let storeDescription = NSPersistentStoreDescription(url: storeURL)

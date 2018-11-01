@@ -45,6 +45,12 @@
 			"BudgetCategory",
 			"ProviderLoginForm"
 		]
+	},
+	{
+		"name": "Database",
+		"children": [
+			"Database"
+		]
 	}
   ]
 }

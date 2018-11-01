@@ -18,6 +18,7 @@ public class FrolloSDK: NetworkDelegate {
     /// User info key for authentication status sent with `authenticationChangedNotification` notifications.
     public static let authenticationStatusKey = "FrolloSDKKey.authenticationStatus"
     
+    /// Global singleton for SDK
     public static let shared = FrolloSDK()
     
     /// Status of the FrolloSDK authentication with Frollo servers
@@ -38,6 +39,7 @@ public class FrolloSDK: NetworkDelegate {
         return appDataURL
     }()
     
+    /// Aggregation - All account and transaction related data see `Aggregation` for details
     public var aggregation: Aggregation {
         get {
             guard setup
@@ -48,6 +50,7 @@ public class FrolloSDK: NetworkDelegate {
             return _aggregation
         }
     }
+    /// Authentication - All authentication and user related data see `Authentication` for details
     public var authentication: Authentication {
         get {
             guard setup
@@ -58,6 +61,7 @@ public class FrolloSDK: NetworkDelegate {
             return _authentication
         }
     }
+    /// Database - Core Data management and contexts for fetching data. See `Database` for details
     public var database: Database {
         get {
             guard setup

@@ -25,7 +25,7 @@ public struct ProviderLoginFormViewModel {
     public let mfaInfoTitle: String?
     public var cells = [Cell]()
     
-    init(loginForm: ProviderLoginForm) {
+    public init(loginForm: ProviderLoginForm) {
         self.id = loginForm.id
         self.forgetPasswordURL = loginForm.forgetPasswordURL
         self.formType = loginForm.formType

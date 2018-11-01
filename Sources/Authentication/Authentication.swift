@@ -30,25 +30,13 @@ public class Authentication {
      The method to be used for authenticating the user when logging in.
      */
     public enum AuthType: String, Codable {
-        /**
-         Email
-         
-         Authenticate with an email address and password
-         */
+        /// Authenticate with an email address and password
         case email
         
-        /**
-         Facebook
-         
-         Authenticate using Facebook using the user's email, Facebook User ID and Facebook Access Token.
-         */
+        /// Authenticate using Facebook using the user's email, Facebook User ID and Facebook Access Token.
         case facebook
         
-        /**
-         Volt
-         
-         Authenticate using a Volt token, requires email, Volt user ID and Volt access token.
-         */
+        /// Authenticate using a Volt token, requires email, Volt user ID and Volt access token.
         case volt
     }
     

@@ -75,6 +75,10 @@
 		013A32D32112C40500B0590B /* CoreData+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013A32D22112C40500B0590B /* CoreData+Test.swift */; };
 		013A32D42112C40500B0590B /* CoreData+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013A32D22112C40500B0590B /* CoreData+Test.swift */; };
 		013A32D52112C40500B0590B /* CoreData+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013A32D22112C40500B0590B /* CoreData+Test.swift */; };
+		013BC1DF218A6998005A2714 /* ProviderLoginFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013BC1DE218A6998005A2714 /* ProviderLoginFormViewModel.swift */; };
+		013BC1E3218A81E2005A2714 /* ProviderLoginFormViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013BC1E2218A81E2005A2714 /* ProviderLoginFormViewModelTests.swift */; };
+		013BC1E4218A81E2005A2714 /* ProviderLoginFormViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013BC1E2218A81E2005A2714 /* ProviderLoginFormViewModelTests.swift */; };
+		013BC1E5218A81E2005A2714 /* ProviderLoginFormViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013BC1E2218A81E2005A2714 /* ProviderLoginFormViewModelTests.swift */; };
 		013D2D86210A88AC00EEDEC5 /* APIUserLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013D2D85210A88AC00EEDEC5 /* APIUserLoginRequest.swift */; };
 		013D2D90210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013D2D8F210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift */; };
 		013D2D91210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013D2D8F210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift */; };
@@ -550,6 +554,8 @@
 		013A32CA2112BE6600B0590B /* ProviderAccountTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderAccountTests.swift; sourceTree = "<group>"; };
 		013A32CE2112C3A900B0590B /* ProviderAccount+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProviderAccount+Test.swift"; sourceTree = "<group>"; };
 		013A32D22112C40500B0590B /* CoreData+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreData+Test.swift"; sourceTree = "<group>"; };
+		013BC1DE218A6998005A2714 /* ProviderLoginFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderLoginFormViewModel.swift; sourceTree = "<group>"; };
+		013BC1E2218A81E2005A2714 /* ProviderLoginFormViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderLoginFormViewModelTests.swift; sourceTree = "<group>"; };
 		013D2D85210A88AC00EEDEC5 /* APIUserLoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserLoginRequest.swift; sourceTree = "<group>"; };
 		013D2D8F210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIUserLoginRequest+Test.swift"; sourceTree = "<group>"; };
 		013D2D93210AA38800EEDEC5 /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
@@ -817,6 +823,38 @@
 			path = "FrolloSDK iOS Test Host";
 			sourceTree = "<group>";
 		};
+		013BC1DC218A690F005A2714 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				013BC1DD218A692E005A2714 /* Aggregation */,
+			);
+			path = "View Model";
+			sourceTree = "<group>";
+		};
+		013BC1DD218A692E005A2714 /* Aggregation */ = {
+			isa = PBXGroup;
+			children = (
+				013BC1DE218A6998005A2714 /* ProviderLoginFormViewModel.swift */,
+			);
+			path = Aggregation;
+			sourceTree = "<group>";
+		};
+		013BC1E0218A81B4005A2714 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				013BC1E1218A81BB005A2714 /* Aggregation */,
+			);
+			path = "View Model";
+			sourceTree = "<group>";
+		};
+		013BC1E1218A81BB005A2714 /* Aggregation */ = {
+			isa = PBXGroup;
+			children = (
+				013BC1E2218A81E2005A2714 /* ProviderLoginFormViewModelTests.swift */,
+			);
+			path = Aggregation;
+			sourceTree = "<group>";
+		};
 		013D2D81210A885F00EEDEC5 /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -963,6 +1001,7 @@
 				017B486B2105431200447E65 /* Preferences */,
 				01EEDB1520EADEFA00F4516B /* Resources */,
 				0160953820F41EB80060791B /* Version */,
+				013BC1E0218A81B4005A2714 /* View Model */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1409,6 +1448,7 @@
 				013D2D81210A885F00EEDEC5 /* API */,
 				017391EC20EEFFEA00C0BB32 /* Core Data */,
 				017391EB20EEFFEA00C0BB32 /* Transient */,
+				013BC1DC218A690F005A2714 /* View Model */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2035,6 +2075,7 @@
 				0160953720F33EB10060791B /* Version.swift in Sources */,
 				0136D225210011E70062EAEA /* Keychain.swift in Sources */,
 				015EEDDE210FD7710081AD76 /* FailableCodable.swift in Sources */,
+				013BC1DF218A6998005A2714 /* ProviderLoginFormViewModel.swift in Sources */,
 				011F1A60216B289B00119474 /* APIUserResetPasswordRequest.swift in Sources */,
 				013D2D86210A88AC00EEDEC5 /* APIUserLoginRequest.swift in Sources */,
 				01EAAEE1214F351D003D1EAC /* APIProviderAccountUpdateRequest.swift in Sources */,
@@ -2113,6 +2154,7 @@
 				017B487221055FBA00447E65 /* PreferencesPersistenceTests.swift in Sources */,
 				015EEDE2210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */,
 				017E58D2217FF86F00DC56FF /* DateExtensionsTests.swift in Sources */,
+				013BC1E3218A81E2005A2714 /* ProviderLoginFormViewModelTests.swift in Sources */,
 				01C824F720EC7AC30093400E /* FileLoggerTests.swift in Sources */,
 				01C824F320EC4D600093400E /* LogTests.swift in Sources */,
 				016097EA210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
@@ -2180,6 +2222,7 @@
 				017B487321055FBA00447E65 /* PreferencesPersistenceTests.swift in Sources */,
 				015EEDE3210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */,
 				017E58D3217FF86F00DC56FF /* DateExtensionsTests.swift in Sources */,
+				013BC1E4218A81E2005A2714 /* ProviderLoginFormViewModelTests.swift in Sources */,
 				017B483D2101B4FE00447E65 /* FileLoggerTests.swift in Sources */,
 				017B483E2101B4FE00447E65 /* LogTests.swift in Sources */,
 				016097EB210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
@@ -2256,6 +2299,7 @@
 				017B489A2105958100447E65 /* FileLoggerTests.swift in Sources */,
 				017B489B2105958100447E65 /* LogTests.swift in Sources */,
 				017E58D4217FF86F00DC56FF /* DateExtensionsTests.swift in Sources */,
+				013BC1E5218A81E2005A2714 /* ProviderLoginFormViewModelTests.swift in Sources */,
 				01483B802117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */,
 				016097EC210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
 				01483BB321195A8000D0DA87 /* AccountTests.swift in Sources */,
