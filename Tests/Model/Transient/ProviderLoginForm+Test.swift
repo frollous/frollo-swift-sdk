@@ -188,6 +188,21 @@ extension ProviderLoginForm {
                                  row: [usernameRow] + multipleChoiceRows)
     }
     
+    static func loginFormMultipleChoiceFields() -> ProviderLoginForm {
+        let usernameRow = ProviderLoginForm.loginFormUsernameRow()
+        
+        let multipleChoiceRows = ProviderLoginForm.loginFormMultipleChoiceRows()
+        
+        return ProviderLoginForm(id: "3410",
+                                 forgetPasswordURL: "https://secure.amp.com.au/wps/portal/sec/ForgotUsername/!ut/p/a1/04_Sj9CPykssy0xPLMnMz0vMAfGjzOIDDC1cPUzcDbwNLANcDBxdg009vfz9jQxcTfW99KPSc_KTgEoj9SPxKy3IDnIEAM_vx8Q!/",
+                                 formType: .login,
+                                 help: nil,
+                                 mfaInfoText: nil,
+                                 mfaTimeout: nil,
+                                 mfaInfoTitle: nil,
+                                 row: [usernameRow] + multipleChoiceRows)
+    }
+    
     static func loginFormFilledMaxLengthExceededField() -> ProviderLoginForm {
         var usernameRow = ProviderLoginForm.loginFormUsernameRow()
         usernameRow.field[0].value = "abc123"
