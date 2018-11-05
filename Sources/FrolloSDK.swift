@@ -76,6 +76,7 @@ public class FrolloSDK: NetworkDelegate {
     internal let _database: Database
     internal let keychain: Keychain
     internal let preferences: Preferences
+    internal let version: Version
     
     internal var _aggregation: Aggregation!
     internal var _authentication: Authentication!
@@ -103,6 +104,7 @@ public class FrolloSDK: NetworkDelegate {
         self._database = Database(path: FrolloSDK.dataFolderURL)
         self.keychain = Keychain(service: FrolloSDKConstants.keychainService)
         self.preferences = Preferences(path: FrolloSDK.dataFolderURL)
+        self.version = Version(path: FrolloSDK.dataFolderURL, keychain: self.keychain)
     }
     
     /**
@@ -119,6 +121,10 @@ public class FrolloSDK: NetworkDelegate {
         guard !setup
             else {
                 fatalError("SDK already setup")
+        }
+        
+        if version.migrationNeeded() {
+            version.migrateVersion()
         }
         
         network = Network(serverURL: serverURL, keychain: keychain)
