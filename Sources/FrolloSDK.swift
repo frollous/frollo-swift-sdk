@@ -116,6 +116,11 @@ public class FrolloSDK: NetworkDelegate {
         - completion: Completion handler with optional error if something goes wrong during the setup process
     */
     public func setup(serverURL: URL, logLevel: LogLevel = .error, completion: @escaping (Error?) -> Void) {
+        guard !setup
+            else {
+                fatalError("SDK already setup")
+        }
+        
         network = Network(serverURL: serverURL, keychain: keychain)
         network.delegate = self
         
