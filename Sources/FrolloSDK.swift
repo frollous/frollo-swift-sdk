@@ -84,6 +84,8 @@ public class FrolloSDK: NetworkDelegate {
     internal var refreshTimer: Timer?
     internal var setup = false
     
+    private let frolloHost = "frollo.us"
+    
     // MARK: - Setup
     
     /**
@@ -115,9 +117,10 @@ public class FrolloSDK: NetworkDelegate {
      - parameters:
         - serverURL: Base URL of the Frollo API this SDK should point to
         - logLevel: Level of logging for debug and error messages
+        - publicKeyPinningEnabled: Enable or disable public key pinning for *.frollo.us domains- useful for disabling in debug mode
         - completion: Completion handler with optional error if something goes wrong during the setup process
     */
-    public func setup(serverURL: URL, logLevel: LogLevel = .error, completion: @escaping (Error?) -> Void) {
+    public func setup(serverURL: URL, logLevel: LogLevel = .error, publicKeyPinningEnabled: Bool = true, completion: @escaping (Error?) -> Void) {
         guard !setup
             else {
                 fatalError("SDK already setup")
@@ -127,7 +130,32 @@ public class FrolloSDK: NetworkDelegate {
             version.migrateVersion()
         }
         
-        network = Network(serverURL: serverURL, keychain: keychain)
+        var pinnedKeys: [SecKey]?
+        
+        // Automatically pin Frollo server certificates
+        if publicKeyPinningEnabled, let host = serverURL.host, host.contains(frolloHost) {
+            let activeKey: SecKey
+            let backupKey: SecKey
+            
+            let keyDict: [NSString: Any] = [
+                kSecAttrKeyType: kSecAttrKeyTypeRSA,
+                kSecAttrKeyClass: kSecAttrKeyClassPublic,
+                kSecAttrKeySizeInBits: NSNumber(value: 256)
+            ]
+            
+            var keyError: Unmanaged<CFError>?
+            
+            activeKey = SecKeyCreateWithData(PublicKey.active as CFData, keyDict as CFDictionary, &keyError)!
+            backupKey = SecKeyCreateWithData(PublicKey.backup as CFData, keyDict as CFDictionary, &keyError)!
+            
+            if let error = keyError {
+                Log.error(error.takeUnretainedValue().localizedDescription)
+            } else {
+                pinnedKeys = [activeKey, backupKey]
+            }
+        }
+        
+        network = Network(serverURL: serverURL, keychain: keychain, pinnedPublicKeys: pinnedKeys)
         network.delegate = self
         
         Log.manager.network = network

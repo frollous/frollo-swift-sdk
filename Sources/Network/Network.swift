@@ -57,11 +57,11 @@ class Network: SessionDelegate {
      Initialise a network stack pointing to an API at a specific URL
      
      - parameters:
-     - serverURL: Base URL of the API, e.g. https://api.example.com/v1/
-     - keychain: Keychain service to store access and refresh tokens
-     - pinnedPublicKeys: Array of public keys to pin the server's certificates against (Optional)
+        - serverURL: Base URL of the API, e.g. https://api.example.com/v1/
+        - keychain: Keychain service to store access and refresh tokens
+        - pinnedPublicKeys: Array of public keys to pin the server's certificates against (Optional)
      
-     - warning: If using certificate pinning make sure you pin a second public key as a backup in case the production private/public key pair becomes compromised. Failure to do this will render your app unusable until updated with the new public/private key pair.
+        - warning: If using certificate pinning make sure you pin a second public key as a backup in case the production private/public key pair becomes compromised. Failure to do this will render your app unusable until updated with the new public/private key pair.
     */
     internal init(serverURL: URL, keychain: Keychain, pinnedPublicKeys: [SecKey]? = nil) {
         self.serverURL = serverURL

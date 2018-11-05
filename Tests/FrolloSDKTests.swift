@@ -71,6 +71,7 @@ class FrolloSDKTests: XCTestCase {
         let sdk = FrolloSDK()
         sdk.setup(serverURL: url) { (error) in
             XCTAssertNil(error)
+            XCTAssertTrue(sdk.setup)
             
             expectation1.fulfill()
         }
@@ -129,6 +130,40 @@ class FrolloSDKTests: XCTestCase {
             sdk.applicationWillEnterForeground()
             
             XCTAssertNotNil(sdk.refreshTimer)
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testSingletonInstantiatedOnce() {
+        XCTAssertTrue(FrolloSDK.shared === FrolloSDK.shared)
+    }
+    
+    func testEnablePublicKeyPinning() {
+        let expectation1 = expectation(description: "Setup")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let sdk = FrolloSDK()
+        sdk.setup(serverURL: url, publicKeyPinningEnabled: true) { (error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testDisablePublicKeyPinning() {
+        let expectation1 = expectation(description: "Setup")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let sdk = FrolloSDK()
+        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (error) in
+            XCTAssertNil(error)
+            
             expectation1.fulfill()
         }
         

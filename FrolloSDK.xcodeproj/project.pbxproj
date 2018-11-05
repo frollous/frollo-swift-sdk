@@ -157,6 +157,7 @@
 		01555F2821812C62004A313A /* DeviceRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01555F2721812C62004A313A /* DeviceRequestTests.swift */; };
 		01555F2921812C62004A313A /* DeviceRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01555F2721812C62004A313A /* DeviceRequestTests.swift */; };
 		01555F2A21812C62004A313A /* DeviceRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01555F2721812C62004A313A /* DeviceRequestTests.swift */; };
+		0159E46E2190F3BD002CC3BB /* PublicKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E46D2190F3BD002CC3BB /* PublicKeys.swift */; };
 		015EEDDA210FC8760081AD76 /* Network+Aggregation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDD9210FC8760081AD76 /* Network+Aggregation.swift */; };
 		015EEDDC210FC9C60081AD76 /* AggregationEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDDB210FC9C60081AD76 /* AggregationEndpoint.swift */; };
 		015EEDDE210FD7710081AD76 /* FailableCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDDD210FD7710081AD76 /* FailableCodable.swift */; };
@@ -599,6 +600,7 @@
 		01527CDB20E1CD1800B5042A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		01527CDC20E1CD1800B5042A /* Carthage.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Carthage.xcconfig; sourceTree = "<group>"; };
 		01555F2721812C62004A313A /* DeviceRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRequestTests.swift; sourceTree = "<group>"; };
+		0159E46D2190F3BD002CC3BB /* PublicKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicKeys.swift; sourceTree = "<group>"; };
 		015EEDD9210FC8760081AD76 /* Network+Aggregation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+Aggregation.swift"; sourceTree = "<group>"; };
 		015EEDDB210FC9C60081AD76 /* AggregationEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregationEndpoint.swift; sourceTree = "<group>"; };
 		015EEDDD210FD7710081AD76 /* FailableCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailableCodable.swift; sourceTree = "<group>"; };
@@ -1473,6 +1475,7 @@
 		01EED85E20E5A7EA00F4516B /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				0159E46D2190F3BD002CC3BB /* PublicKeys.swift */,
 				01EED85F20E5A7EA00F4516B /* Network.swift */,
 				01874B8020FDA1DB005A7D0C /* NetworkAuthenticator.swift */,
 				01874B6D20F81B34005A7D0C /* Endpoints */,
@@ -2046,6 +2049,7 @@
 				01616B0C2186BFD5003EF2D0 /* APILogRequest.swift in Sources */,
 				01874B7420F81EA8005A7D0C /* UserEndpoint.swift in Sources */,
 				01E8375A2149F08100A50E15 /* LoginFormError.swift in Sources */,
+				0159E46E2190F3BD002CC3BB /* PublicKeys.swift in Sources */,
 				017B48DB2106E1C100447E65 /* User+CoreDataClass.swift in Sources */,
 				016097F5210EE2BB0034E857 /* APIProviderResponse.swift in Sources */,
 				016097F8210EE3300034E857 /* Provider+CoreDataClass.swift in Sources */,
