@@ -90,7 +90,6 @@ class FrolloSDKTests: XCTestCase {
             
             sdk.reset { (error) in
                 XCTAssertNil(error)
-                XCTAssertFalse(sdk.setup)
                 
                 expectation1.fulfill()
             }

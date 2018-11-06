@@ -204,8 +204,6 @@ public class FrolloSDK: NetworkDelegate {
         _authentication = nil
         
         database.reset { (error) in
-            self.setup = false
-            
             completionHandler?(error)
         }
         

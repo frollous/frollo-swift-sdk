@@ -230,7 +230,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
                 XCTAssert(error != nil)
                 
                 XCTAssertNil(network.authenticator.refreshToken)
-                XCTAssertFalse(authentication.loggedIn)
+                XCTAssertNil(network.authenticator.accessToken)
                 
                 expectation1.fulfill()
             }
