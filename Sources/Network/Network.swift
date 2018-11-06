@@ -145,7 +145,13 @@ class Network: SessionDelegate {
             case .success:
                 completion(nil)
             case .failure(let error):
-                if let parsedError = error as? FrolloSDKError {
+                if let parsedError = error as? DataError, parsedError.type == .authentication, parsedError.subType == .missingRefreshToken {
+                    reset()
+                    
+                    delegate?.forcedLogout()
+                    
+                    completion(parsedError)
+                } else if let parsedError = error as? FrolloSDKError {
                     completion(parsedError)
                 } else if let statusCode = response.response?.statusCode {
                     let apiError = APIError(statusCode: statusCode, response: response.data)

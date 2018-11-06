@@ -13,7 +13,6 @@ import OHHTTPStubs
 
 class AuthenticationTests: XCTestCase, NetworkDelegate {
     
-    private let keychain = Keychain(service: "AuthenticationTestsKeychain")
     private let serverURL = URL(string: "https://api.example.com")!
     
     private var authentication: Authentication!
@@ -22,14 +21,20 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
         
-        keychain["refreshToken"] = "AnExistingRefreshToken"
-        keychain["accessToken"] = "AnExistingAccessToken"
-        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
+    }
+    
+    private func validKeychain() -> Keychain {
+        let keychain = Keychain(service: "AuthenticationTestsKeychain")
+        keychain["refreshToken"] = "AnExistingRefreshToken"
+        keychain["accessToken"] = "AnExistingAccessToken"
+        keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
+        return keychain
     }
     
     // MARK: - Tests
@@ -44,7 +49,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: keychain)
+        let network = Network(serverURL: serverURL, keychain: validKeychain())
         let authentication = Authentication(database: database, network: network, preferences: preferences)
         
         database.setup { (error) in
@@ -72,7 +77,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: keychain)
+        let network = Network(serverURL: serverURL, keychain: validKeychain())
         let authentication = Authentication(database: database, network: network, preferences: preferences)
         
         database.setup { (error) in
@@ -100,7 +105,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: keychain)
+        let network = Network(serverURL: serverURL, keychain: validKeychain())
         let authentication = Authentication(database: database, network: network, preferences: preferences)
         
         database.setup { (error) in
@@ -128,7 +133,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: keychain)
+        let network = Network(serverURL: serverURL, keychain: validKeychain())
         let authentication = Authentication(database: database, network: network, preferences: preferences)
         
         database.setup { (error) in
@@ -165,7 +170,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: keychain)
+        let network = Network(serverURL: serverURL, keychain: validKeychain())
         let authentication = Authentication(database: database, network: network, preferences: preferences)
         authentication.loggedIn = true
         
@@ -203,7 +208,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: keychain)
+        let network = Network(serverURL: serverURL, keychain: validKeychain())
         network.delegate = self
         
         let authentication = Authentication(database: database, network: network, preferences: preferences)
@@ -225,6 +230,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
                 XCTAssert(error != nil)
                 
                 XCTAssertNil(network.authenticator.refreshToken)
+                XCTAssertFalse(authentication.loggedIn)
                 
                 expectation1.fulfill()
             }
@@ -243,7 +249,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: keychain)
+        let network = Network(serverURL: serverURL, keychain: validKeychain())
         let authentication = Authentication(database: database, network: network, preferences: preferences)
         authentication.loggedIn = true
         
@@ -279,7 +285,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: keychain)
+        let network = Network(serverURL: serverURL, keychain: validKeychain())
         let authentication = Authentication(database: database, network: network, preferences: preferences)
         authentication.loggedIn = true
         
@@ -320,7 +326,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: keychain)
+        let network = Network(serverURL: serverURL, keychain: validKeychain())
         let authentication = Authentication(database: database, network: network, preferences: preferences)
         authentication.loggedIn = true
         
@@ -358,7 +364,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: keychain)
+        let network = Network(serverURL: serverURL, keychain: validKeychain())
         let authentication = Authentication(database: database, network: network, preferences: preferences)
         authentication.loggedIn = true
         
@@ -379,6 +385,51 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
                 
                 expectation1.fulfill()
             })
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testForcedLogoutIfMissingRefreshToken() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = validKeychain()
+        keychain["refreshToken"] = nil
+        keychain["accessToken"] = nil
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let network = Network(serverURL: serverURL, keychain: keychain)
+        network.delegate = self
+        
+        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        authentication.loggedIn = true
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let moc = database.newBackgroundContext()
+            
+            moc.performAndWait {
+                let user = User(context: moc)
+                user.populateTestData()
+                
+                try! moc.save()
+            }
+            
+            authentication.refreshUser { (error) in
+                XCTAssert(error != nil)
+                
+                XCTAssertNil(network.authenticator.refreshToken)
+                XCTAssertNil(network.authenticator.accessToken)
+                
+                expectation1.fulfill()
+            }
         }
         
         wait(for: [expectation1], timeout: 3.0)
