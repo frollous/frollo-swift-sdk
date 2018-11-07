@@ -33,7 +33,12 @@ public class FrolloSDK: NetworkDelegate {
     }
     
     static internal let dataFolderURL: URL = {
-        let urls = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
+        #if os(tvOS)
+        let folder = FileManager.SearchPathDirectory.cachesDirectory
+        #else
+        let folder = FileManager.SearchPathDirectory.applicationSupportDirectory
+        #endif
+        let urls = FileManager.default.urls(for: folder, in: .userDomainMask)
         var appDataURL = urls[0]
         appDataURL.appendPathComponent(FrolloSDKConstants.dataFolder)
         return appDataURL

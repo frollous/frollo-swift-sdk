@@ -33,7 +33,11 @@ class Version {
         
         let path = path.appendingPathComponent(preferencesFileName).appendingPathExtension(preferencesExtension)
         
-        preferencesPersistence = PreferencesPersistence(path: path)
+        #if os(tvOS)
+        preferencesPersistence = UserDefaultsPersistence()
+        #else
+        preferencesPersistence = PropertyListPersistence(path: path)
+        #endif
         
         currentVersion = Bundle(for: Version.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
         previousVersion = preferencesPersistence[VersionConstants.appVersionLast] as? String
@@ -94,8 +98,8 @@ class Version {
         previousVersion = currentVersion
         versionHistory.append(currentVersion)
         
-        preferencesPersistence[VersionConstants.appVersionLast] = currentVersion
-        preferencesPersistence[VersionConstants.appVersionHistory] = versionHistory
+        preferencesPersistence.setValue(currentVersion, for: VersionConstants.appVersionLast)
+        preferencesPersistence.setValue(versionHistory, for: VersionConstants.appVersionHistory)
         preferencesPersistence.synchronise()
     }
     

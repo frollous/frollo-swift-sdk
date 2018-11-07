@@ -44,7 +44,7 @@ class PreferencesPersistenceTests: XCTestCase {
         let testKey2 = "TestString"
         let testString = UUID().uuidString
         
-        let persistence = PreferencesPersistence(path: path)
+        let persistence = PropertyListPersistence(path: path)
         persistence[testKey1] = testData
         persistence[testKey2] = testString
         
@@ -60,7 +60,7 @@ class PreferencesPersistenceTests: XCTestCase {
         let testKey2 = "TestString"
         let testString = UUID().uuidString
         
-        var persistence = PreferencesPersistence(path: path)
+        var persistence = PropertyListPersistence(path: path)
         persistence[testKey1] = testData
         persistence[testKey2] = testString
         
@@ -69,7 +69,7 @@ class PreferencesPersistenceTests: XCTestCase {
         XCTAssertTrue(FileManager.default.fileExists(atPath: path.path))
         
         // Reload from disk
-        persistence = PreferencesPersistence(path: path)
+        persistence = PropertyListPersistence(path: path)
         
         XCTAssertEqual(persistence[testKey1] as? Data, testData)
         XCTAssertEqual(persistence[testKey2] as? String, testString)
@@ -85,7 +85,7 @@ class PreferencesPersistenceTests: XCTestCase {
         let testKey2 = "TestString"
         let testString = UUID().uuidString
         
-        var persistence = PreferencesPersistence(path: path)
+        var persistence = PropertyListPersistence(path: path)
         persistence[testKey1] = testData
         persistence[testKey2] = testString
         
@@ -93,7 +93,7 @@ class PreferencesPersistenceTests: XCTestCase {
             XCTAssertTrue(FileManager.default.fileExists(atPath: path.path))
             
             // Reload from disk
-            persistence = PreferencesPersistence(path: path)
+            persistence = PropertyListPersistence(path: path)
             
             XCTAssertEqual(persistence[testKey1] as? Data, testData)
             XCTAssertEqual(persistence[testKey2] as? String, testString)
@@ -107,7 +107,7 @@ class PreferencesPersistenceTests: XCTestCase {
     func testResetPreferencesPersistence() {
         let path = tempPath()
         
-        let persistence = PreferencesPersistence(path: path)
+        let persistence = PropertyListPersistence(path: path)
         persistence["TestData"] = Data.randomData(length: 32)
         persistence["TestString"] = UUID().uuidString
         

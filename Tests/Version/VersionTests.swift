@@ -18,6 +18,10 @@ class VersionTests: XCTestCase {
         super.setUp()
         
         try? FileManager.default.createDirectory(at: tempFolderPath, withIntermediateDirectories: true, attributes: nil)
+        
+        if let bundleID = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundleID)
+        }
     }
     
     override func tearDown() {
@@ -25,6 +29,10 @@ class VersionTests: XCTestCase {
         super.tearDown()
         
         try? FileManager.default.removeItem(at: tempFolderPath)
+        
+        if let bundleID = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundleID)
+        }
     }
     
     // MARK: - Helpers
@@ -32,7 +40,12 @@ class VersionTests: XCTestCase {
     private func setVersionEnvironment(path: URL, previousVersion: String, versionHistory: [String]) {
         let filePath = path.appendingPathComponent("FrolloSDKVersion").appendingPathExtension("plist")
         
-        let persistence = PreferencesPersistence(path: filePath)
+        #if os(tvOS)
+        let persistence = UserDefaultsPersistence()
+        #else
+        let persistence = PropertyListPersistence(path: filePath)
+        #endif
+        
         persistence[VersionConstants.appVersionLast] = previousVersion
         persistence[VersionConstants.appVersionHistory] = versionHistory
         persistence.synchronise()

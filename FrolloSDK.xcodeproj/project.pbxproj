@@ -158,6 +158,8 @@
 		01555F2921812C62004A313A /* DeviceRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01555F2721812C62004A313A /* DeviceRequestTests.swift */; };
 		01555F2A21812C62004A313A /* DeviceRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01555F2721812C62004A313A /* DeviceRequestTests.swift */; };
 		0159E46E2190F3BD002CC3BB /* PublicKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E46D2190F3BD002CC3BB /* PublicKeys.swift */; };
+		0159E47621926949002CC3BB /* PropertyListPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47521926949002CC3BB /* PropertyListPersistence.swift */; };
+		0159E47821926959002CC3BB /* UserDefaultsPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47721926959002CC3BB /* UserDefaultsPersistence.swift */; };
 		015EEDDA210FC8760081AD76 /* Network+Aggregation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDD9210FC8760081AD76 /* Network+Aggregation.swift */; };
 		015EEDDC210FC9C60081AD76 /* AggregationEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDDB210FC9C60081AD76 /* AggregationEndpoint.swift */; };
 		015EEDDE210FD7710081AD76 /* FailableCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDDD210FD7710081AD76 /* FailableCodable.swift */; };
@@ -601,6 +603,8 @@
 		01527CDC20E1CD1800B5042A /* Carthage.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Carthage.xcconfig; sourceTree = "<group>"; };
 		01555F2721812C62004A313A /* DeviceRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRequestTests.swift; sourceTree = "<group>"; };
 		0159E46D2190F3BD002CC3BB /* PublicKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicKeys.swift; sourceTree = "<group>"; };
+		0159E47521926949002CC3BB /* PropertyListPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyListPersistence.swift; sourceTree = "<group>"; };
+		0159E47721926959002CC3BB /* UserDefaultsPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsPersistence.swift; sourceTree = "<group>"; };
 		015EEDD9210FC8760081AD76 /* Network+Aggregation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+Aggregation.swift"; sourceTree = "<group>"; };
 		015EEDDB210FC9C60081AD76 /* AggregationEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregationEndpoint.swift; sourceTree = "<group>"; };
 		015EEDDD210FD7710081AD76 /* FailableCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailableCodable.swift; sourceTree = "<group>"; };
@@ -1489,6 +1493,8 @@
 			children = (
 				01EED86120E5A7EA00F4516B /* Preferences.swift */,
 				017B486F21054F0B00447E65 /* PreferencesPersistence.swift */,
+				0159E47521926949002CC3BB /* PropertyListPersistence.swift */,
+				0159E47721926959002CC3BB /* UserDefaultsPersistence.swift */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -2069,6 +2075,7 @@
 				015EEE03211030F30081AD76 /* Aggregation.swift in Sources */,
 				01483B9C21192D4A00D0DA87 /* APITransactionCategoryResponse.swift in Sources */,
 				01483B9221190E1700D0DA87 /* APIAccountUpdateRequest.swift in Sources */,
+				0159E47821926959002CC3BB /* UserDefaultsPersistence.swift in Sources */,
 				01BC3D112166D90C0065A4B8 /* APIUserRegisterRequest.swift in Sources */,
 				01BC3D0B2165C1EC0065A4B8 /* OTP.swift in Sources */,
 				01EED86220E5A7EB00F4516B /* Authentication.swift in Sources */,
@@ -2090,6 +2097,7 @@
 				017391F020EF001200C0BB32 /* APIErrorResponse.swift in Sources */,
 				01F220E320FEAC7600C70B00 /* APITokenResponse.swift in Sources */,
 				01819149211178D2000E0F80 /* ResponseHandler.swift in Sources */,
+				0159E47621926949002CC3BB /* PropertyListPersistence.swift in Sources */,
 				01874B7D20FD6FB9005A7D0C /* Network+User.swift in Sources */,
 				01EAAEDF214B6185003D1EAC /* APIProviderAccountCreateRequest.swift in Sources */,
 				01C824F020EC410B0093400E /* NetworkLogger.swift in Sources */,

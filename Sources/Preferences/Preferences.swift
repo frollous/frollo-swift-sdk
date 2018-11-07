@@ -25,7 +25,11 @@ class Preferences {
     init(path: URL) {
         let path = path.appendingPathComponent(preferencesFileName).appendingPathExtension(preferencesExtension)
         
-        preferencesPersistence = PreferencesPersistence(path: path)
+        #if os(tvOS)
+        preferencesPersistence = UserDefaultsPersistence()
+        #else
+        preferencesPersistence = PropertyListPersistence(path: path)
+        #endif
     }
     
     // MARK: - Management
@@ -61,7 +65,7 @@ class Preferences {
             return preferencesPersistence[#keyPath(loggedIn)] as? Bool ?? false
         }
         set {
-            preferencesPersistence[#keyPath(loggedIn)] = newValue
+            preferencesPersistence.setValue(newValue, for: #keyPath(loggedIn))
         }
     }
     
