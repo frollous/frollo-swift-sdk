@@ -83,6 +83,8 @@ public class Authentication {
     
     /**
      Fetch the first available user model from the cache
+     
+     - Returns: User object if found
     */
     private func fetchUser() -> User? {
         var fetchedUser: User?
