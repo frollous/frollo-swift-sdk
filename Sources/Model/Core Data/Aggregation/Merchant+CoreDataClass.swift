@@ -10,28 +10,46 @@
 import Foundation
 import CoreData
 
+/**
+ Merchant
+ 
+ Core Data representation of a merchant object
+ */
 public class Merchant: NSManagedObject, CacheableManagedObject {
 
+    /**
+     Merchant Type
+     
+     The type of merchant so non-retail ones can be identified
+    */
     public enum MerchantType: String, Codable {
+        
+        /// Retailer
         case retailer
+        
+        /// Transactional
         case transactional
+        
+        /// Unknown
         case unknown
     }
     
+    /// Core Data entity description name
     static var entityName = "Merchant"
     
-    var primaryID: Int64 {
+    internal var primaryID: Int64 {
         get {
             return merchantID
         }
     }
     
-    var linkedID: Int64? {
+    internal var linkedID: Int64? {
         get {
             return nil
         }
     }
     
+    /// Type of merchant
     public var merchantType: MerchantType {
         get {
             return MerchantType(rawValue: merchantTypeRawValue!)!
@@ -41,6 +59,7 @@ public class Merchant: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// URL of the merchant's small logo image
     public var smallLogoURL: URL? {
         get {
             if let logoURL = smallLogoURLString {
@@ -55,19 +74,19 @@ public class Merchant: NSManagedObject, CacheableManagedObject {
     
     // MARK: - Update Object
     
-    func linkObject(object: CacheableManagedObject) {
+    internal func linkObject(object: CacheableManagedObject) {
         if let transaction = object as? Transaction {
             addToTransactions(transaction)
         }
     }
     
-    func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
+    internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
         if let merchantResponse = response as? APIMerchantResponse {
             update(response: merchantResponse, context: context)
         }
     }
     
-    func update(response: APIMerchantResponse, context: NSManagedObjectContext) {
+    internal func update(response: APIMerchantResponse, context: NSManagedObjectContext) {
         merchantID = response.id
         name = response.name
         merchantType = response.merchantType
