@@ -10,6 +10,11 @@
 import Foundation
 import CoreData
 
+/**
+ Account
+ 
+ Core Data model of the account.
+ */
 public class Account: NSManagedObject, CacheableManagedObject {
     
     internal var primaryID: Int64 {
@@ -24,64 +29,192 @@ public class Account: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /**
+     Account Status
+     
+     Status of the account according to the `Provider`
+    */
     public enum AccountStatus: String, Codable {
+        
+        /// Account is fully active
         case active
+        
+        /// Account has been closed
         case closed
+        
+        /// Account is inactive (usually no transactions or other information)
         case inactive
+        
+        /// Account is about to be closed
         case toBeClosed = "to_be_closed"
+        
     }
     
+    /**
+     Account Sub Type
+     
+     Sub type of the account indicating more detail what the account is
+    */
     public enum AccountSubType: String, Codable {
+        
+        /// Bank - CD
         case cd
-        case market
-        case money
-        case savings
-        case credit
-        case charge
-        case experian
-        case individual
-        case insurance
-        case bill
-        case loan
-        case brokerageCash = "brokerage_cash"
-        case brokerageMargin = "brokerage_margin"
-        case moneyMarket = "money_market"
-        case ira
-        case t401k
-        case t403b
-        case trust
-        case annuity
-        case simple
-        case custodian
-        case unknown
-        case other
+        
+        /// Bank - Checking
         case checking
-    }
-    
-    public enum AccountType: String, Codable {
-        case bank
-        case bill
-        case creditCard = "credit_card"
-        case creditScore = "credit_score"
+        
+        /// Bank - Savings
+        case savings
+        
+        
+        
+        /// Credit Card - Credit
+        case credit
+        
+        /// Credit Card - Charge
+        case charge
+        
+        
+        
+        /// Credit Score - Experian
+        case experian
+        
+        
+        
+        /// Insurance
         case insurance
-        case investment
+        
+        
+        
+        /// Bill
+        case bill
+        
+        
+        
+        /// Loan
         case loan
-        case reward
-        case unknown
-    }
-    
-    public enum Classification: String, Codable {
-        case addOnCard = "add_on_card"
-        case corporate
-        case other
-        case personal
-        case smallBusiness = "small_business"
+        
+        
+        
+        /// Investment - 401K
+        case t401k
+        
+        /// Investment - 403B
+        case t403b
+        
+        /// Investment - Annuity
+        case annuity
+        
+        /// Investment - Brokerage Cash
+        case brokerageCash = "brokerage_cash"
+        
+        /// Investment - Brokerage Margin
+        case brokerageMargin = "brokerage_margin"
+        
+        /// Investment - Custodial
+        case custodial
+        
+        /// Investment - IRA
+        case ira
+        
+        /// Investment - Individual
+        case individual
+        
+        /// Investment - Market
+        case market
+        
+        /// Investment - Money
+        case money
+        
+        /// Investment - Money Market
+        case moneyMarket = "money_market"
+        
+        /// Invesmtent - Simple
+        case simple
+        
+        /// Investment - Trust
         case trust
-        case virtualCard = "virtual_card"
+
+        
+        
+        /// Unknown
+        case unknown
+        
+        /// Other
+        case other
+        
     }
     
+    /**
+     Account Type
+     
+     Main type of the account as determined by container
+    */
+    public enum AccountType: String, Codable {
+        
+        /// Bank account
+        case bank
+        
+        /// Biller account
+        case bill
+        
+        /// Credit card
+        case creditCard = "credit_card"
+        
+        /// Credit Score
+        case creditScore = "credit_score"
+        
+        /// Insurance
+        case insurance
+        
+        /// Investment
+        case investment
+        
+        /// Loan
+        case loan
+        
+        /// Reward/Loyalty Account
+        case reward
+        
+        /// Unknown
+        case unknown
+        
+    }
+    
+    /**
+     Account Classification
+     
+     More detailed classification of the type of account
+    */
+    public enum Classification: String, Codable {
+        
+        /// Add on card account
+        case addOnCard = "add_on_card"
+        
+        /// Corporate account
+        case corporate
+        
+        /// Other account
+        case other
+        
+        /// Personal account
+        case personal
+        
+        /// Small business account
+        case smallBusiness = "small_business"
+        
+        /// Trust account
+        case trust
+        
+        /// Virtual card account
+        case virtualCard = "virtual_card"
+        
+    }
+    
+    /// Core Data entity description name
     static var entityName = "Account"
     
+    /// Account Status
     public var accountStatus: AccountStatus {
         get {
             return AccountStatus(rawValue: accountStatusRawValue!)!
@@ -91,6 +224,7 @@ public class Account: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Account Sub Type
     public var accountSubType: AccountSubType {
         get {
             return AccountSubType(rawValue: accountSubTypeRawValue!)!
@@ -100,6 +234,7 @@ public class Account: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Account Type
     public var accountType: AccountType {
         get {
             return AccountType(rawValue: accountTypeRawValue!)!
@@ -109,6 +244,7 @@ public class Account: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Account Classification (optional)
     public var classification: Classification? {
         get {
             if let rawValue = classificationRawValue {
@@ -121,6 +257,7 @@ public class Account: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Account Refresh Status
     public var refreshStatus: AccountRefreshStatus {
         get {
             return AccountRefreshStatus(rawValue: refreshStatusRawValue!)!
@@ -130,6 +267,7 @@ public class Account: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Account Refresh Sub Status (optional)
     public var refreshSubStatus: AccountRefreshSubStatus? {
         get {
             if let rawValue = refreshSubStatusRawValue {
@@ -142,6 +280,7 @@ public class Account: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Account Refresh Additional Status (optional)
     public var refreshAdditionalStatus: AccountRefreshAdditionalStatus? {
         get {
             if let rawValue = refreshAdditionalStatusRawValue {
@@ -156,19 +295,19 @@ public class Account: NSManagedObject, CacheableManagedObject {
     
     // MARK: - Updating object
     
-    func linkObject(object: CacheableManagedObject) {
+    internal func linkObject(object: CacheableManagedObject) {
         if let transaction = object as? Transaction {
             addToTransactions(transaction)
         }
     }
     
-    func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
+    internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
         if let accountResponse = response as? APIAccountResponse {
             update(response: accountResponse, context: context)
         }
     }
     
-    func update(response: APIAccountResponse, context: NSManagedObjectContext) {
+    internal func update(response: APIAccountResponse, context: NSManagedObjectContext) {
         accountID = response.id
         providerAccountID = response.providerAccountID
         providerName = response.providerName

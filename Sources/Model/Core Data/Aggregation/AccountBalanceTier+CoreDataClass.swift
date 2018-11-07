@@ -10,6 +10,11 @@
 import Foundation
 import CoreData
 
+/**
+ Account Balance Tier
+ 
+ Represents what tier a certain balance on an account falls into. Used for `Account.AccountType.creditScore` 
+ */
 public class AccountBalanceTier: NSManagedObject {
     
     internal func update(response: APIAccountResponse.BalanceTier) {
