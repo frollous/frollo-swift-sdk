@@ -37,8 +37,4 @@ class ConsoleLoggerTests: XCTestCase {
         consoleLogger.writeMessage("Test log message", level: .error)
     }
     
-    func testFaultMessage() {
-        consoleLogger.writeMessage("Test log message", level: .fault)
-    }
-    
 }

@@ -16,10 +16,16 @@ internal protocol Logger: class {
 
 /// Logging level
 public enum LogLevel: String, Codable {
+    
+    /// Log all messages including verbose debug statements
     case debug
+    
+    /// Log only the most significant errors
     case error
-    case fault
+    
+    /// Log additional information
     case info
+    
 }
 
 class Log {
@@ -58,7 +64,6 @@ class Log {
     
     internal var debugLoggers = [Logger]()
     internal var errorLoggers = [Logger]()
-    internal var faultLoggers = [Logger]()
     internal var infoLoggers = [Logger]()
     internal var network: Network?
     
@@ -75,8 +80,7 @@ class Log {
         
         debugLoggers = []
         infoLoggers = []
-        errorLoggers = [fileLogger]
-        faultLoggers = [fileLogger, networkLogger]
+        errorLoggers = [fileLogger, networkLogger]
         
         switch Log.logLevel {
             case .debug:
@@ -86,10 +90,7 @@ class Log {
                 infoLoggers = [consoleLogger]
                 fallthrough
             case .error:
-                errorLoggers = [consoleLogger, fileLogger]
-                fallthrough
-            case .fault:
-                faultLoggers = [consoleLogger, fileLogger, networkLogger]
+                errorLoggers = [consoleLogger, fileLogger, networkLogger]
         
         }
     }
@@ -98,10 +99,6 @@ class Log {
     
     class internal func error(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
         manager.errorLog(String(format: "%@.%@[%ld]: %@", className(filePath: file), function, line, message))
-    }
-    
-    class internal func fault(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
-        manager.faultLog(String(format: "%@.%@[%ld]: %@", className(filePath: file), function, line, message))
     }
     
     class internal func info(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
@@ -149,20 +146,6 @@ class Log {
             } else {
                 lock.lock()
                 logger.writeMessage(message, level: .error)
-                lock.unlock()
-            }
-        }
-    }
-    
-    internal func faultLog(_ message: String) {
-        for logger in faultLoggers {
-            if async {
-                queue.async {
-                    logger.writeMessage(message, level: .fault)
-                }
-            } else {
-                lock.lock()
-                logger.writeMessage(message, level: .fault)
                 lock.unlock()
             }
         }

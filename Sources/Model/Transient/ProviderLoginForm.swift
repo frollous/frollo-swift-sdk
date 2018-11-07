@@ -205,6 +205,9 @@ public struct ProviderLoginForm: Codable {
     /// Time before the MFA challenge times out (optional)
     public let mfaTimeout: Int?
     
+    /// Additional information title for MFA login forms (optional)
+    public let mfaInfoTitle: String?
+    
     /// List of login form rows. Use a `ProviderLoginFormViewModel` to collate multiple choice rows together for easier UI display
     public var row: [Row]
     

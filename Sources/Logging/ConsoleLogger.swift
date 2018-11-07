@@ -25,8 +25,6 @@ class ConsoleLogger: Logger {
                 os_log("%@", log: log, type: .info, message)
             case .error:
                 os_log("%@", log: log, type: .error, message)
-            case .fault:
-                os_log("%@", log: log, type: .fault, message)
         }
     }
     

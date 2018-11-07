@@ -76,10 +76,6 @@ class LogTests: XCTestCase {
         Log.error("Log test message")
     }
     
-    func testGlobalLogFault() {
-        Log.fault("Log test message")
-    }
-    
     func testDebugLogLevel() {
         Log.logLevel = .debug
         
@@ -100,12 +96,6 @@ class LogTests: XCTestCase {
         XCTAssertTrue(typesOfErrorLogger.console)
         XCTAssertTrue(typesOfErrorLogger.file)
         XCTAssertFalse(typesOfErrorLogger.network)
-        
-        XCTAssertGreaterThan(Log.manager.faultLoggers.count, 0)
-        let typesOfFaultLogger = typesOfLoggerIn(Log.manager.faultLoggers)
-        XCTAssertTrue(typesOfFaultLogger.console)
-        XCTAssertTrue(typesOfFaultLogger.file)
-        XCTAssertTrue(typesOfFaultLogger.network)
     }
     
     func testInfoLogLevel() {
@@ -124,12 +114,6 @@ class LogTests: XCTestCase {
         XCTAssertTrue(typesOfErrorLogger.console)
         XCTAssertTrue(typesOfErrorLogger.file)
         XCTAssertFalse(typesOfErrorLogger.network)
-        
-        XCTAssertGreaterThan(Log.manager.faultLoggers.count, 0)
-        let typesOfFaultLogger = typesOfLoggerIn(Log.manager.faultLoggers)
-        XCTAssertTrue(typesOfFaultLogger.console)
-        XCTAssertTrue(typesOfFaultLogger.file)
-        XCTAssertTrue(typesOfFaultLogger.network)
     }
     
     func testErrorLogLevel() {
@@ -144,32 +128,6 @@ class LogTests: XCTestCase {
         XCTAssertTrue(typesOfErrorLogger.console)
         XCTAssertTrue(typesOfErrorLogger.file)
         XCTAssertFalse(typesOfErrorLogger.network)
-        
-        XCTAssertGreaterThan(Log.manager.faultLoggers.count, 0)
-        let typesOfFaultLogger = typesOfLoggerIn(Log.manager.faultLoggers)
-        XCTAssertTrue(typesOfFaultLogger.console)
-        XCTAssertTrue(typesOfFaultLogger.file)
-        XCTAssertTrue(typesOfFaultLogger.network)
-    }
-    
-    func testFaultLogLevel() {
-        Log.logLevel = .fault
-        
-        XCTAssertEqual(Log.manager.debugLoggers.count, 0)
-        
-        XCTAssertEqual(Log.manager.infoLoggers.count, 0)
-        
-        XCTAssertGreaterThan(Log.manager.errorLoggers.count, 0)
-        let typesOfErrorLogger = typesOfLoggerIn(Log.manager.errorLoggers)
-        XCTAssertFalse(typesOfErrorLogger.console)
-        XCTAssertTrue(typesOfErrorLogger.file)
-        XCTAssertFalse(typesOfErrorLogger.network)
-        
-        XCTAssertGreaterThan(Log.manager.faultLoggers.count, 0)
-        let typesOfFaultLogger = typesOfLoggerIn(Log.manager.faultLoggers)
-        XCTAssertTrue(typesOfFaultLogger.console)
-        XCTAssertTrue(typesOfFaultLogger.file)
-        XCTAssertTrue(typesOfFaultLogger.network)
     }
     
     func testDebugLogSync() {
@@ -194,14 +152,6 @@ class LogTests: XCTestCase {
     
     func testErrorLogAsync() {
         testLog(level: .error, async: true)
-    }
-    
-    func testFaultLogSync() {
-        testLog(level: .fault, async: false)
-    }
-    
-    func testFaultLogAsync() {
-        testLog(level: .fault, async: true)
     }
     
     func testLog(level: LogLevel, async: Bool) {
@@ -230,11 +180,6 @@ class LogTests: XCTestCase {
             log.errorLog(testMessage1)
             log.errorLog(testMessage2)
             log.errorLog(testMessage3)
-        case .fault:
-            log.faultLoggers = [fileLogger]
-            log.faultLog(testMessage1)
-            log.faultLog(testMessage2)
-            log.faultLog(testMessage3)
         }
         
         if async {

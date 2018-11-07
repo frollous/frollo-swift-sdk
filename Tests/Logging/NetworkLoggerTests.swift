@@ -40,7 +40,7 @@ class NetworkLoggerTests: XCTestCase {
         
         let logger = NetworkLogger(network: network)
         
-        logger.writeMessage("Test Message", level: .fault)
+        logger.writeMessage("Test Message", level: .error)
         
         wait(for: [expectation1], timeout: 3.0)
     }
