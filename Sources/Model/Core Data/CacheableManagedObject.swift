@@ -9,7 +9,7 @@
 import CoreData
 import Foundation
 
-protocol CacheableManagedObject: class {
+internal protocol CacheableManagedObject: class {
     
     static var entityName: String { get }
     
