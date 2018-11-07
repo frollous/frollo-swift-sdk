@@ -120,9 +120,9 @@ class KeychainTests: XCTestCase {
     @available(macOS, unavailable)
     func testKeychainAccessGroupInit() {
         #if os(iOS)
-        let accessGroup = "MFREL6LQ6B.us.frollo.FrolloSDKTestHost"
+        let accessGroup = "MFREL6LQ6B.us.frollo.FrolloSDK"
         #elseif os(tvOS)
-        let accessGroup = "MFREL6LQ6B.us.frollo.FrolloSDK-tvOS-Test-Host"
+        let accessGroup = "MFREL6LQ6B.us.frollo.FrolloSDK"
         #else
         let accessGroup = "invalid"
         #endif

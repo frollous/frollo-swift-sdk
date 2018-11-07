@@ -4,7 +4,7 @@
 <dict>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)us.frollo.FrolloSDK-tvOS-Test-Host</string>
+		<string>$(AppIdentifierPrefix)us.frollo.FrolloSDK</string>
 	</array>
 </dict>
 </plist>
