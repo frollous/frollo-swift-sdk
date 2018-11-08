@@ -10,7 +10,8 @@
   	{
   		"name": "Documentation",
   		"children": [
-  			"Changelog"
+  			"Changelog",
+			"Getting Started"
   		]
   	},
   	{
