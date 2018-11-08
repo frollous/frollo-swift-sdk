@@ -10,42 +10,76 @@
 import Foundation
 import CoreData
 
+/**
+ Transaction
+ 
+ Core Data representation of a transaction from an account
+ */
 public class Transaction: NSManagedObject, CacheableManagedObject {
     
+    /**
+     Transaction Base Type
+     
+     The basic type of transaction
+    */
     public enum BaseType: String, Codable {
+        
+        /// Credit
         case credit
+        
+        /// Debit
         case debit
+        
+        /// Other
         case other
+        
+        /// Unknown
         case unknown
+        
     }
     
+    /**
+     Transaction Status
+     
+     Status of the transaction's lifecycle
+    */
     public enum Status: String, Codable {
+        
+        /// Pending. Transaction is authorised but not posted
         case pending
+        
+        /// Posted. Transaction is complete
         case posted
+        
+        /// Scheduled. Transaction is scheduled for the future
         case scheduled
+        
     }
     
+    /// Core Data entity description name
     static var entityName = "Transaction"
     
-    static let transactionDateFormatter: DateFormatter = {
+    /// Date formatter to convert from stored date string to user's current locale
+    public static let transactionDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale.autoupdatingCurrent
         dateFormatter.dateFormat = "yyyy-MM-dd"
         return dateFormatter
     }()
     
-    var primaryID: Int64 {
+    internal var primaryID: Int64 {
         get {
             return transactionID
         }
     }
     
-    var linkedID: Int64? {
+    internal var linkedID: Int64? {
         get {
             return nil
         }
     }
     
+    /// Transaction Base Type
     public var baseType: BaseType {
         get {
             return BaseType(rawValue: baseTypeRawValue!)!
@@ -55,6 +89,7 @@ public class Transaction: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Transaction's associated budget category. See `BudgetCategory`
     public var budgetCategory: BudgetCategory {
         get {
             return BudgetCategory(rawValue: budgetCategoryRawValue!)!
@@ -64,6 +99,7 @@ public class Transaction: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Date the transaction was posted, localized (optional)
     public var postDate: Date? {
         get {
             if let rawDateString = postDateString {
@@ -80,6 +116,7 @@ public class Transaction: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Status of the transaction
     public var status: Status {
         get {
             return Status(rawValue: statusRawValue!)!
@@ -89,6 +126,7 @@ public class Transaction: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Date the transaction occurred, localized
     public var transactionDate: Date {
         get {
             return Transaction.transactionDateFormatter.date(from: transactionDateString!)!
@@ -100,17 +138,17 @@ public class Transaction: NSManagedObject, CacheableManagedObject {
 
     // MARK: - Updating Object
     
-    func linkObject(object: CacheableManagedObject) {
+    internal func linkObject(object: CacheableManagedObject) {
         // Not used
     }
     
-    func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
+    internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
         if let transactionResponse = response as? APITransactionResponse {
             update(response: transactionResponse, context: context)
         }
     }
     
-    func update(response: APITransactionResponse, context: NSManagedObjectContext) {
+    internal func update(response: APITransactionResponse, context: NSManagedObjectContext) {
         transactionID = response.id
         accountID = response.accountID
         amount = NSDecimalNumber(string: response.amount.amount)
@@ -129,7 +167,7 @@ public class Transaction: NSManagedObject, CacheableManagedObject {
         userDescription = response.description.user
     }
     
-    func updateRequest() -> APITransactionUpdateRequest {
+    internal func updateRequest() -> APITransactionUpdateRequest {
         return APITransactionUpdateRequest(budgetCategory: budgetCategory,
                                            categoryID: transactionCategoryID,
                                            included: included,
