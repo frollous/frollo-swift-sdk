@@ -45,6 +45,9 @@ public class Provider: NSManagedObject, CacheableManagedObject {
         /// OAuth. Using OAuth2 authentication
         case oAuth = "oauth"
         
+        /// Unknown
+        case unknown = "unknown"
+        
     }
     
     /**
@@ -80,6 +83,9 @@ public class Provider: NSManagedObject, CacheableManagedObject {
         
         /// Token. Usually an OTP or RSA token
         case token
+        
+        /// Unknown
+        case unknown = "unknown"
         
     }
 

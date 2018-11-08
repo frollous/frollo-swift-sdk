@@ -64,7 +64,7 @@ class APIError: FrolloSDKError {
             do {
                 errorResponse = try decoder.decode(APIErrorResponse.self, from: json)
             } catch {
-                Log.error(error.localizedDescription)
+                print(error.localizedDescription)
             }
         }
         
