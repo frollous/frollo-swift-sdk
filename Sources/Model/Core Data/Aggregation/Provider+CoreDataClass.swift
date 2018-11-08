@@ -10,6 +10,11 @@
 import Foundation
 import CoreData
 
+/**
+ Provider
+ 
+ Core Data represenation of provider of accounts
+ */
 public class Provider: NSManagedObject, CacheableManagedObject {
     
     internal var primaryID: Int64 {
@@ -24,33 +29,85 @@ public class Provider: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /**
+     Provider Authentication Type
+     
+     How the provider performs authentication.
+    */
     public enum AuthType: String, Codable {
+        
+        /// Credentials. Using the user's login credentials
         case credentials
+        
+        /// MFA Credentials. Using the user's MFA and login credentials
         case mfaCredentials = "mfa_credentials"
+        
+        /// OAuth. Using OAuth2 authentication
         case oAuth = "oauth"
+        
     }
     
+    /**
+     Provider Encryption Type
+     
+     The type of login form encryption supported by the provider if applicable
+    */
     public enum EncryptionType: String, Codable {
+        
+        /// Unsupported
         case unsupported
+        
+        /// Encrypt Values. Encrypt the value field of the login form
         case encryptValues = "encrypt_values"
+        
     }
     
+    /**
+     MFA Type
+     
+     Type of MFA the provider uses to authenticate
+    */
     public enum MFAType: String, Codable {
+        
+        /// Image- usually a captcha
         case image
+        
+        /// Question. Security question and answer typically
         case question
+        
+        /// Strong Multiple. Multiple different types
         case strongMultiple = "strong_multiple"
+        
+        /// Token. Usually an OTP or RSA token
         case token
+        
     }
 
+    /**
+     Provider Status
+     
+     Status of the support of the provider
+    */
     public enum Status: String, Codable {
+        
+        /// Beta. Support is still being developed so may have some issues
         case beta
+        
+        /// Disabled. Provider has been disabled by the aggregator
         case disabled
+        
+        /// Supported. Provider is fully supported
         case supported
+        
+        /// Unsupported. Provider is no longer supported
         case unsupported
+        
     }
     
+    /// Core Data entity description name
     static let entityName = "Provider"
     
+    /// Authentication Type (optional)
     public var authType: AuthType? {
         get {
             if let rawValue = authTypeRawValue {
@@ -63,6 +120,7 @@ public class Provider: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Encryption Type (optional)
     public var encryptionType: EncryptionType? {
         get {
             if let rawValue = encryptionTypeRawValue {
@@ -74,6 +132,8 @@ public class Provider: NSManagedObject, CacheableManagedObject {
             encryptionTypeRawValue = newValue?.rawValue
         }
     }
+    
+    /// URL to the forgot password page of the provider (optional)
     public var forgotPasswordURL: URL? {
         get {
             if let urlString = forgotPasswordURLString {
@@ -86,6 +146,7 @@ public class Provider: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// URL to the large logo image of the provider (optional)
     public var largeLogoURL: URL? {
         get {
             if let urlString = largeLogoURLString {
@@ -98,6 +159,7 @@ public class Provider: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Login Form (optional)
     public var loginForm: ProviderLoginForm? {
         get {
             if let rawValue = loginFormRawValue {
@@ -126,6 +188,7 @@ public class Provider: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// URL of the provider's login page (optional)
     public var loginURL: URL? {
         get {
             if let urlString = loginURLString {
@@ -138,6 +201,7 @@ public class Provider: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Type of MFA on the provider (optional)
     public var mfaType: MFAType? {
         get {
             if let rawValue = mfaTypeRawValue {
@@ -150,6 +214,7 @@ public class Provider: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// URL to the small logo image (optional)
     public var smallLogoURL: URL? {
         get {
             if let urlString = smallLogoURLString {
@@ -162,6 +227,7 @@ public class Provider: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Status of the provider
     public var status: Status {
         get {
             return Status(rawValue: statusRawValue!)!
@@ -173,7 +239,7 @@ public class Provider: NSManagedObject, CacheableManagedObject {
     
     // MARK: - Relationships
     
-    func linkObject(object: CacheableManagedObject) {
+    internal func linkObject(object: CacheableManagedObject) {
         if let providerAccount = object as? ProviderAccount {
             addToProviderAccounts(providerAccount)
         }

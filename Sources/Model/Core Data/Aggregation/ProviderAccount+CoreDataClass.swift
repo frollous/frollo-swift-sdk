@@ -10,6 +10,11 @@
 import Foundation
 import CoreData
 
+/**
+ Provider Account
+ 
+ Core Data representation of an account login for a `Provider`
+ */
 public class ProviderAccount: NSManagedObject, CacheableManagedObject {
     
     internal var primaryID: Int64 {
@@ -24,8 +29,10 @@ public class ProviderAccount: NSManagedObject, CacheableManagedObject {
         }
     }
 
+    /// Core Data entity description name
     static let entityName = "ProviderAccount"
     
+    /// Login Form for MFA etc (optional)
     public var loginForm: ProviderLoginForm? {
         get {
             if let rawValue = loginFormRawValue {
@@ -54,6 +61,7 @@ public class ProviderAccount: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Refresh status
     public var refreshStatus: AccountRefreshStatus {
         get {
             return AccountRefreshStatus(rawValue: refreshStatusRawValue!)!
@@ -63,6 +71,7 @@ public class ProviderAccount: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Refresh sub status (optional)
     public var refreshSubStatus: AccountRefreshSubStatus? {
         get {
             if let rawValue = refreshSubStatusRawValue {
@@ -75,6 +84,7 @@ public class ProviderAccount: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Refresh additional status (optional)
     public var refreshAdditionalStatus: AccountRefreshAdditionalStatus? {
         get {
             if let rawValue = refreshAdditionalStatusRawValue {
@@ -87,7 +97,7 @@ public class ProviderAccount: NSManagedObject, CacheableManagedObject {
         }
     }
     
-    func linkObject(object: CacheableManagedObject) {
+    internal func linkObject(object: CacheableManagedObject) {
         if let account = object as? Account {
             addToAccounts(account)
         }
