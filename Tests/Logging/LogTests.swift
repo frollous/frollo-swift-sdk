@@ -95,7 +95,7 @@ class LogTests: XCTestCase {
         let typesOfErrorLogger = typesOfLoggerIn(Log.manager.errorLoggers)
         XCTAssertTrue(typesOfErrorLogger.console)
         XCTAssertTrue(typesOfErrorLogger.file)
-        XCTAssertFalse(typesOfErrorLogger.network)
+        XCTAssertTrue(typesOfErrorLogger.network)
     }
     
     func testInfoLogLevel() {
@@ -113,7 +113,7 @@ class LogTests: XCTestCase {
         let typesOfErrorLogger = typesOfLoggerIn(Log.manager.errorLoggers)
         XCTAssertTrue(typesOfErrorLogger.console)
         XCTAssertTrue(typesOfErrorLogger.file)
-        XCTAssertFalse(typesOfErrorLogger.network)
+        XCTAssertTrue(typesOfErrorLogger.network)
     }
     
     func testErrorLogLevel() {
@@ -127,7 +127,7 @@ class LogTests: XCTestCase {
         let typesOfErrorLogger = typesOfLoggerIn(Log.manager.errorLoggers)
         XCTAssertTrue(typesOfErrorLogger.console)
         XCTAssertTrue(typesOfErrorLogger.file)
-        XCTAssertFalse(typesOfErrorLogger.network)
+        XCTAssertTrue(typesOfErrorLogger.network)
     }
     
     func testDebugLogSync() {

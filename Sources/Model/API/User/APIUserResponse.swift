@@ -11,6 +11,7 @@ import Foundation
 struct APIUserResponse: Codable {
     
     enum CodingKeys: String, CodingKey {
+        
         case address
         case dateOfBirth = "date_of_birth"
         case email
@@ -25,13 +26,29 @@ struct APIUserResponse: Codable {
         case lastName = "last_name"
         case occupation
         case primaryCurrency = "primary_currency"
+        case previousAddress = "previous_address"
         case status
         case userID = "id"
         case validPassword = "valid_password"
+        
     }
     
     struct Address: Codable {
-        var postcode: String
+        
+        enum CodingKeys: String, CodingKey {
+            
+            case line1 = "line_1"
+            case line2 = "line_2"
+            case postcode
+            case suburb
+            
+        }
+        
+        let line1: String?
+        let line2: String?
+        let postcode: String?
+        let suburb: String?
+        
     }
     
     let email: String
@@ -42,15 +59,16 @@ struct APIUserResponse: Codable {
     let userID: Int64
     let validPassword: Bool
     
-    var address: Address?
-    var dateOfBirth: Date?
-    var facebookID: String?
-    var features: [User.FeatureFlag]?
-    var gender: User.Gender?
-    var householdSize: Int64?
-    var householdType: User.HouseholdType?
-    var industry: User.Industry?
-    var lastName: String?
-    var occupation: User.Occupation?
-    
+    let address: Address?
+    let dateOfBirth: Date?
+    let facebookID: String?
+    let features: [User.FeatureFlag]?
+    let gender: User.Gender?
+    let householdSize: Int64?
+    let householdType: User.HouseholdType?
+    let industry: User.Industry?
+    let lastName: String?
+    let occupation: User.Occupation?
+    let previousAddress: Address?
+
 }

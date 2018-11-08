@@ -9,7 +9,16 @@
 	"gender": "male",
 	"date_of_birth": "1990-01",
 	"address": {
-		"postcode": "2060"
+		"line_1": "41 McLaren Street",
+		"line_2": "Frollo Level 1",
+		"postcode": "2060",
+		"suburb": "North Sydney"
+	},
+	"previous_address": {
+		"line_1": "Bay 9 Middlemiss St",
+		"line_2": "Frollo Unit 13",
+		"postcode": "2060",
+		"suburb": "Lavender Bay"
 	},
 	"marital_status": "single",
     "occupation": "community_and_personal_service_workers",

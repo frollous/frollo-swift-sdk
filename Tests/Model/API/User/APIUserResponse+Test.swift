@@ -26,7 +26,7 @@ extension APIUserResponse {
                                status: .active,
                                userID: Int64(arc4random()),
                                validPassword: true,
-                               address: Address(postcode: "2060"),
+                               address: Address(line1: "41 McLaren Street", line2: "Frollo Level 1", postcode: "2060", suburb: "North Sydney"),
                                dateOfBirth: date,
                                facebookID: String(arc4random()),
                                features: [User.FeatureFlag(enabled: true, feature: "aggregation")],
@@ -35,7 +35,8 @@ extension APIUserResponse {
                                householdType: .single,
                                industry: .electricityGasWaterAndWasteServices,
                                lastName: UUID().uuidString,
-                               occupation: .communityAndPersonalServiceWorkers)
+                               occupation: .communityAndPersonalServiceWorkers,
+                               previousAddress: Address(line1: "Bay 9 Middlemiss St", line2: "Frollo Unit 13", postcode: "2060", suburb: "Lavender Bay"))
     }
     
 }
