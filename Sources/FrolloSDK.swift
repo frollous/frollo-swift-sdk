@@ -210,9 +210,6 @@ public class FrolloSDK: NetworkDelegate {
         
         keychain.removeAll()
         
-        _aggregation = nil
-        _authentication = nil
-        
         database.reset { (error) in
             completionHandler?(error)
         }
