@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Frollo SDK Completion Handler with optional error if an issue occurs
 public typealias FrolloSDKCompletionHandler = (Error?) -> Void
 
 /// Frollo SDK manager and main instantiation. Responsible for managing the lifecycle and coordination of the SDK

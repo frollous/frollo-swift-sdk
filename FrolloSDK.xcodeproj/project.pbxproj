@@ -160,6 +160,14 @@
 		0159E46E2190F3BD002CC3BB /* PublicKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E46D2190F3BD002CC3BB /* PublicKeys.swift */; };
 		0159E47621926949002CC3BB /* PropertyListPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47521926949002CC3BB /* PropertyListPersistence.swift */; };
 		0159E47821926959002CC3BB /* UserDefaultsPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47721926959002CC3BB /* UserDefaultsPersistence.swift */; };
+		0159E4822193CBAD002CC3BB /* Merchant+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E4792193CBAD002CC3BB /* Merchant+CoreDataProperties.swift */; };
+		0159E4832193CBAD002CC3BB /* Transaction+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47A2193CBAD002CC3BB /* Transaction+CoreDataProperties.swift */; };
+		0159E4842193CBAD002CC3BB /* TransactionCategory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47B2193CBAD002CC3BB /* TransactionCategory+CoreDataProperties.swift */; };
+		0159E4862193CBAD002CC3BB /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47D2193CBAD002CC3BB /* User+CoreDataProperties.swift */; };
+		0159E4872193CBAD002CC3BB /* Provider+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47E2193CBAD002CC3BB /* Provider+CoreDataProperties.swift */; };
+		0159E4882193CBAD002CC3BB /* ProviderAccount+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47F2193CBAD002CC3BB /* ProviderAccount+CoreDataProperties.swift */; };
+		0159E4892193CBAD002CC3BB /* Account+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E4802193CBAD002CC3BB /* Account+CoreDataProperties.swift */; };
+		0159E48A2193CBAD002CC3BB /* AccountBalanceTier+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E4812193CBAD002CC3BB /* AccountBalanceTier+CoreDataProperties.swift */; };
 		015EEDDA210FC8760081AD76 /* Network+Aggregation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDD9210FC8760081AD76 /* Network+Aggregation.swift */; };
 		015EEDDC210FC9C60081AD76 /* AggregationEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDDB210FC9C60081AD76 /* AggregationEndpoint.swift */; };
 		015EEDDE210FD7710081AD76 /* FailableCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDDD210FD7710081AD76 /* FailableCodable.swift */; };
@@ -605,6 +613,14 @@
 		0159E46D2190F3BD002CC3BB /* PublicKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicKeys.swift; sourceTree = "<group>"; };
 		0159E47521926949002CC3BB /* PropertyListPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyListPersistence.swift; sourceTree = "<group>"; };
 		0159E47721926959002CC3BB /* UserDefaultsPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsPersistence.swift; sourceTree = "<group>"; };
+		0159E4792193CBAD002CC3BB /* Merchant+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Merchant+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0159E47A2193CBAD002CC3BB /* Transaction+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transaction+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0159E47B2193CBAD002CC3BB /* TransactionCategory+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TransactionCategory+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0159E47D2193CBAD002CC3BB /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0159E47E2193CBAD002CC3BB /* Provider+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Provider+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0159E47F2193CBAD002CC3BB /* ProviderAccount+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProviderAccount+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0159E4802193CBAD002CC3BB /* Account+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Account+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0159E4812193CBAD002CC3BB /* AccountBalanceTier+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccountBalanceTier+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		015EEDD9210FC8760081AD76 /* Network+Aggregation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+Aggregation.swift"; sourceTree = "<group>"; };
 		015EEDDB210FC9C60081AD76 /* AggregationEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregationEndpoint.swift; sourceTree = "<group>"; };
 		015EEDDD210FD7710081AD76 /* FailableCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailableCodable.swift; sourceTree = "<group>"; };
@@ -1148,6 +1164,7 @@
 			isa = PBXGroup;
 			children = (
 				017B48D92106E1C100447E65 /* User+CoreDataClass.swift */,
+				0159E47D2193CBAD002CC3BB /* User+CoreDataProperties.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1156,13 +1173,20 @@
 			isa = PBXGroup;
 			children = (
 				01483B682117C70600D0DA87 /* Account+CoreDataClass.swift */,
+				0159E4802193CBAD002CC3BB /* Account+CoreDataProperties.swift */,
 				01483B6A2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift */,
+				0159E4812193CBAD002CC3BB /* AccountBalanceTier+CoreDataProperties.swift */,
 				013A32AE21127A3600B0590B /* AccountRefreshStatus.swift */,
 				01483BB4211967A500D0DA87 /* Merchant+CoreDataClass.swift */,
+				0159E4792193CBAD002CC3BB /* Merchant+CoreDataProperties.swift */,
 				016097F6210EE3300034E857 /* Provider+CoreDataClass.swift */,
+				0159E47E2193CBAD002CC3BB /* Provider+CoreDataProperties.swift */,
 				013A32A8211273A300B0590B /* ProviderAccount+CoreDataClass.swift */,
+				0159E47F2193CBAD002CC3BB /* ProviderAccount+CoreDataProperties.swift */,
 				01ED8FC5211A5DE800ACE691 /* Transaction+CoreDataClass.swift */,
+				0159E47A2193CBAD002CC3BB /* Transaction+CoreDataProperties.swift */,
 				01483B9721192C3900D0DA87 /* TransactionCategory+CoreDataClass.swift */,
+				0159E47B2193CBAD002CC3BB /* TransactionCategory+CoreDataProperties.swift */,
 			);
 			path = Aggregation;
 			sourceTree = "<group>";
@@ -2047,6 +2071,8 @@
 				012C450A212A775D00799A0A /* ProviderLoginForm.swift in Sources */,
 				01EED86E20E5AAAB00F4516B /* Database.swift in Sources */,
 				01874B8120FDA1DD005A7D0C /* NetworkAuthenticator.swift in Sources */,
+				0159E4832193CBAD002CC3BB /* Transaction+CoreDataProperties.swift in Sources */,
+				0159E4842193CBAD002CC3BB /* TransactionCategory+CoreDataProperties.swift in Sources */,
 				01C824FD20EDD6630093400E /* FrolloSDKError.swift in Sources */,
 				01527CD920E1C5A600B5042A /* FrolloSDK.swift in Sources */,
 				018B0426216EC785008C34D7 /* Date.swift in Sources */,
@@ -2062,6 +2088,7 @@
 				01483B9E21192F1600D0DA87 /* BudgetCategory.swift in Sources */,
 				017B487021054F0B00447E65 /* PreferencesPersistence.swift in Sources */,
 				013A32AA211273A300B0590B /* ProviderAccount+CoreDataClass.swift in Sources */,
+				0159E48A2193CBAD002CC3BB /* AccountBalanceTier+CoreDataProperties.swift in Sources */,
 				01C824EE20EC40FD0093400E /* ConsoleLogger.swift in Sources */,
 				01483BB921196E2100D0DA87 /* APIMerchantResponse.swift in Sources */,
 				01483B712117C7E900D0DA87 /* APIAccountResponse.swift in Sources */,
@@ -2078,11 +2105,13 @@
 				0159E47821926959002CC3BB /* UserDefaultsPersistence.swift in Sources */,
 				01BC3D112166D90C0065A4B8 /* APIUserRegisterRequest.swift in Sources */,
 				01BC3D0B2165C1EC0065A4B8 /* OTP.swift in Sources */,
+				0159E4882193CBAD002CC3BB /* ProviderAccount+CoreDataProperties.swift in Sources */,
 				01EED86220E5A7EB00F4516B /* Authentication.swift in Sources */,
 				013A32AD2112799500B0590B /* APIProviderAccountResponse.swift in Sources */,
 				01C824F520EC75560093400E /* FileLogger.swift in Sources */,
 				01483B6C2117C70600D0DA87 /* Account+CoreDataClass.swift in Sources */,
 				013D2D94210AA38800EEDEC5 /* DeviceInfo.swift in Sources */,
+				0159E4822193CBAD002CC3BB /* Merchant+CoreDataProperties.swift in Sources */,
 				0160953720F33EB10060791B /* Version.swift in Sources */,
 				0136D225210011E70062EAEA /* Keychain.swift in Sources */,
 				015EEDDE210FD7710081AD76 /* FailableCodable.swift in Sources */,
@@ -2100,6 +2129,7 @@
 				0159E47621926949002CC3BB /* PropertyListPersistence.swift in Sources */,
 				01874B7D20FD6FB9005A7D0C /* Network+User.swift in Sources */,
 				01EAAEDF214B6185003D1EAC /* APIProviderAccountCreateRequest.swift in Sources */,
+				0159E4862193CBAD002CC3BB /* User+CoreDataProperties.swift in Sources */,
 				01C824F020EC410B0093400E /* NetworkLogger.swift in Sources */,
 				015EEDDC210FC9C60081AD76 /* AggregationEndpoint.swift in Sources */,
 				010EB42B211BF92A005A926A /* APITransactionUpdateRequest.swift in Sources */,
@@ -2108,11 +2138,13 @@
 				01874B7820F82C98005A7D0C /* DeviceEndpoint.swift in Sources */,
 				013A32C12112AF4E00B0590B /* DateFormatter.swift in Sources */,
 				011E87D0213766550026E047 /* SecKeyPEM.swift in Sources */,
+				0159E4872193CBAD002CC3BB /* Provider+CoreDataProperties.swift in Sources */,
 				01483B9921192C3900D0DA87 /* TransactionCategory+CoreDataClass.swift in Sources */,
 				01C824EC20EC34BA0093400E /* Log.swift in Sources */,
 				015EEDDA210FC8760081AD76 /* Network+Aggregation.swift in Sources */,
 				01ED8FCA211A5E7A00ACE691 /* APITransactionResponse.swift in Sources */,
 				01EED86320E5A7EB00F4516B /* Network.swift in Sources */,
+				0159E4892193CBAD002CC3BB /* Account+CoreDataProperties.swift in Sources */,
 				01C8250320EDDB340093400E /* APIError.swift in Sources */,
 				01819146211168C8000E0F80 /* APIUniqueResponse.swift in Sources */,
 			);

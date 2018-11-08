@@ -74,7 +74,7 @@ class AccountTests: XCTestCase {
         XCTAssertEqual(account.totalCreditLineCurrency, accountResponse.totalCreditLine?.currency)
         XCTAssertNotNil(account.balanceTiers)
         
-        if let accountBalanceTiers = account.balanceTiers as? Set<AccountBalanceTier> {
+        if let accountBalanceTiers = account.balanceTiers {
             XCTAssertEqual(accountBalanceTiers.first?.name, accountResponse.balanceDetails?.tiers.first?.description)
             XCTAssertEqual(accountBalanceTiers.first?.minimum, Decimal((accountResponse.balanceDetails?.tiers.first?.min)!) as NSDecimalNumber)
             XCTAssertEqual(accountBalanceTiers.first?.maximum, Decimal((accountResponse.balanceDetails?.tiers.first?.max)!) as NSDecimalNumber)

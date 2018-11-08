@@ -411,9 +411,8 @@ public class Account: NSManagedObject, CacheableManagedObject {
         }
         
         // Balance tiers
-        
-        if let tiers = balanceTiers as? Set<AccountBalanceTier> {
-            removeFromBalanceTiers(tiers as NSSet)
+        if let tiers = balanceTiers {
+            removeFromBalanceTiers(tiers)
             
             for tier in tiers {
                 managedObjectContext?.delete(tier)
