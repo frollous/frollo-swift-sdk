@@ -12,7 +12,8 @@ class FrolloSDKTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        removeDataFolder()
     }
     
     override func tearDown() {
@@ -31,8 +32,6 @@ class FrolloSDKTests: XCTestCase {
     
     func testSDKCreatesDataFolder() {
         let expectation1 = expectation(description: "Setup")
-        
-        removeDataFolder()
         
         let url = URL(string: "https://api.example.com")!
         
@@ -142,7 +141,7 @@ class FrolloSDKTests: XCTestCase {
     func testEnablePublicKeyPinning() {
         let expectation1 = expectation(description: "Setup")
         
-        let url = URL(string: "https://api.example.com")!
+        let url = URL(string: "https://api.frollo.us")!
         
         let sdk = FrolloSDK()
         sdk.setup(serverURL: url, publicKeyPinningEnabled: true) { (error) in
@@ -157,7 +156,7 @@ class FrolloSDKTests: XCTestCase {
     func testDisablePublicKeyPinning() {
         let expectation1 = expectation(description: "Setup")
         
-        let url = URL(string: "https://api.example.com")!
+        let url = URL(string: "https://api.frollo.us")!
         
         let sdk = FrolloSDK()
         sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (error) in

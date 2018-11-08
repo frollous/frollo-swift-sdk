@@ -17,7 +17,9 @@ class NetworkLogger: Logger {
     }
     
     func writeMessage(_ message: String, level: LogLevel) {
-        guard let net = network
+        guard let net = network,
+            net.authenticator.refreshToken != nil,
+            net.authenticator.accessToken != nil
             else {
                 return
         }
