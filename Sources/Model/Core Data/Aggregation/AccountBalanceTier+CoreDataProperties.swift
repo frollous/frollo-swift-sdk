@@ -13,13 +13,25 @@ import CoreData
 
 extension AccountBalanceTier {
 
+    /**
+     Fetch Request
+     
+     - returns: Fetch request for `AccountBalanceTier` type
+     */
     @nonobjc public class func fetchRequest() -> NSFetchRequest<AccountBalanceTier> {
         return NSFetchRequest<AccountBalanceTier>(entityName: "AccountBalanceTier")
     }
 
+    /// Maximum balance value included in this tier (optional)
     @NSManaged public var maximum: NSDecimalNumber?
+    
+    /// Minimum balance value included in this tier (optional)
     @NSManaged public var minimum: NSDecimalNumber?
+    
+    /// Name of this tier (optional)
     @NSManaged public var name: String?
+    
+    /// Parent account
     @NSManaged public var account: Account?
 
 }

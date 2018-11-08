@@ -270,7 +270,7 @@ public class User: NSManagedObject {
     /// Status of the user's account
     public var status: Status {
         get {
-            return Status(rawValue: statusRawValue!)!
+            return Status(rawValue: statusRawValue)!
         }
         set {
             statusRawValue = newValue.rawValue
@@ -306,9 +306,9 @@ public class User: NSManagedObject {
             address = APIUserUpdateRequest.Address(postcode: code)
         }
         
-        return APIUserUpdateRequest(email: email!,
-                                    firstName: firstName!,
-                                    primaryCurrency: primaryCurrency!,
+        return APIUserUpdateRequest(email: email,
+                                    firstName: firstName,
+                                    primaryCurrency: primaryCurrency,
                                     address: address,
                                     dateOfBirth: dateOfBirth,
                                     gender: gender,

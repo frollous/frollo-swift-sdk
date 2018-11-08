@@ -24,7 +24,11 @@ public class FrolloSDK: NetworkDelegate {
     
     /// Status of the FrolloSDK authentication with Frollo servers
     public enum FrolloSDKAuthenticationStatus {
+        
+        /// Authenticated
         case authenticated
+        
+        /// User was logged out
         case loggedOut
     }
     

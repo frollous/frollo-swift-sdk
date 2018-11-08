@@ -20,7 +20,7 @@ extension User: TestableCoreData {
         userID = Int64(arc4random())
         firstName = UUID().uuidString
         lastName = UUID().uuidString
-        email = firstName!.lowercased() + "@frollo.us"
+        email = firstName.lowercased() + "@frollo.us"
         emailVerified = true
         status = .active
         primaryCurrency = "AUD"

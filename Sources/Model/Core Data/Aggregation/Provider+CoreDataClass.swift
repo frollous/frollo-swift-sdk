@@ -230,7 +230,7 @@ public class Provider: NSManagedObject, CacheableManagedObject {
     /// Status of the provider
     public var status: Status {
         get {
-            return Status(rawValue: statusRawValue!)!
+            return Status(rawValue: statusRawValue)!
         }
         set {
             statusRawValue = newValue.rawValue

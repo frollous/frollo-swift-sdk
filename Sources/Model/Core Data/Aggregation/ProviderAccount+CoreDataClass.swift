@@ -64,7 +64,7 @@ public class ProviderAccount: NSManagedObject, CacheableManagedObject {
     /// Refresh status
     public var refreshStatus: AccountRefreshStatus {
         get {
-            return AccountRefreshStatus(rawValue: refreshStatusRawValue!)!
+            return AccountRefreshStatus(rawValue: refreshStatusRawValue)!
         }
         set {
             refreshStatusRawValue = newValue.rawValue

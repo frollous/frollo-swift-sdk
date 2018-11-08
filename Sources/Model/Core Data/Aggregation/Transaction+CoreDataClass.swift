@@ -119,7 +119,7 @@ public class Transaction: NSManagedObject, CacheableManagedObject {
     /// Status of the transaction
     public var status: Status {
         get {
-            return Status(rawValue: statusRawValue!)!
+            return Status(rawValue: statusRawValue)!
         }
         set {
             statusRawValue = newValue.rawValue
@@ -129,7 +129,7 @@ public class Transaction: NSManagedObject, CacheableManagedObject {
     /// Date the transaction occurred, localized
     public var transactionDate: Date {
         get {
-            return Transaction.transactionDateFormatter.date(from: transactionDateString!)!
+            return Transaction.transactionDateFormatter.date(from: transactionDateString)!
         }
         set {
             transactionDateString = Transaction.transactionDateFormatter.string(from: newValue)

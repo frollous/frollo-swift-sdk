@@ -217,7 +217,7 @@ public class Account: NSManagedObject, CacheableManagedObject {
     /// Account Status
     public var accountStatus: AccountStatus {
         get {
-            return AccountStatus(rawValue: accountStatusRawValue!)!
+            return AccountStatus(rawValue: accountStatusRawValue)!
         }
         set {
             accountStatusRawValue = newValue.rawValue
@@ -227,7 +227,7 @@ public class Account: NSManagedObject, CacheableManagedObject {
     /// Account Sub Type
     public var accountSubType: AccountSubType {
         get {
-            return AccountSubType(rawValue: accountSubTypeRawValue!)!
+            return AccountSubType(rawValue: accountSubTypeRawValue)!
         }
         set {
             accountSubTypeRawValue = newValue.rawValue
@@ -237,7 +237,7 @@ public class Account: NSManagedObject, CacheableManagedObject {
     /// Account Type
     public var accountType: AccountType {
         get {
-            return AccountType(rawValue: accountTypeRawValue!)!
+            return AccountType(rawValue: accountTypeRawValue)!
         }
         set {
             accountTypeRawValue = newValue.rawValue
