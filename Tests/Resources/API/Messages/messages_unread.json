@@ -1,28 +1,36 @@
 [{
-	"id": 52432,
-	"event": "TEST_GRAPH",
-	"user_event_id": 50545,
-	"placement": 1000000000,
+	"id": 52473,
+	"event": "DEMO_START",
+	"user_event_id": 50581,
+	"placement": 1020,
 	"persists": false,
 	"read": false,
 	"clicked": false,
-	"message_types": ["setup_nudge", "welcome_nudge"],
+	"message_types": ["home_nudge"],
 	"design_type": "information",
-	"title": "Video",
-	"content_type": "video",
-	"content": {
-		"url": "dsafsdafasd",
-		"autoplay": true,
-		"autoplay_cellular": true,
-		"muted": false
-	},
-	"header": "Test",
-	"button": {
-		"link": "Test",
+	"title": "Well done Jacob!",
+	"content_type": "html5",
+	"content":  { "body": "<html></html>" },
+	"action": {
+		"title": "Claim Points",
+		"link": "frollo://dashboard/",
 		"open_external": false
 	}
 }, {
-	"id": 92432,
+	"id": 52451,
+	"event": "DEMO_OFFER",
+	"user_event_id": 50584,
+	"placement": 149,
+	"persists": false,
+	"read": false,
+	"clicked": false,
+	"message_types": ["home_nudge"],
+	"design_type": "information",
+	"content_type": "html5",
+	"content":  { "body": "\r\n\u003c!doctype html\u003e\r\n\u003chtml\u003e\r\n\u003chead\u003e\r\n\u003cmeta charset=\"utf-8\"\u003e\r\n\u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\u003e\r\n\u003cmeta name=\"description\" content=\"\"\u003e\r\n\u003cmeta name=\"author\" content=\"\"\u003e\r\n\u003clink href=\"https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800\" rel=\"stylesheet\"\u003e\r\n\u003ctitle\u003e\u003c/title\u003e\r\n\u003cstyle type=\"text/css\"\u003e\r\nbody{ padding:0px; margin:0px; font-family: 'Open Sans', sans-serif;}\r\n/*--------------- NETFLIX__BOX_START --------------*/\r\n.netflix-box-main{ padding:0px;}\r\n.netflix-box-inner-main{ width:100%; background: linear-gradient(to right,#614385, #516395); border-radius:10px; min-height:220px;}\r\n.netflix-box-top{ width:446px; margin:0px auto; padding:56px 0px 60px;}\r\n.netflix-logo{ margin:0px; padding:0px; float:left;}\r\n.netflix-logo img{ height:96px; display:flex;}\r\n.netflix-text{ margin:0px; padding:0px; float:right;}\r\n.netflix-text h2{ font-size:40px; line-height:40px; font-weight:700; margin:0px; padding:2px 0px 0px; color:#fff;}\r\n.netflix-text h3{ font-size:40px; line-height:40px; font-weight:700; margin:0px; padding:12px 0px 0px; color:#fff;}\r\n\r\n.netflix-box-info{ margin:0px; padding:0px 0px 46px;}\r\n.netflix-box-info-top{ margin:0px auto; padding:0px 0px 48px; width:564px;}\r\n.spent-last-year{ width:281px; border-right:solid 1px #e5e5e5; min-height:124px; float:left;}\r\n.spent-last-year h2{ font-size:48px; line-height:50px; color:#fff; padding:6px 0px 0px; margin:0px; text-align:center; font-weight:700;}\r\n.spent-last-year p{ font-size:28px; line-height:35px; color:#fff; padding:23px 0px 0px; margin:0px; text-align:center; font-weight:300;}\r\n\r\n.saving-last-year{ width:281px; border-left:solid 1px #e5e5e5; float:left; border-right:0px;}\r\n.saving-last-year h2{ color:#fff;}\r\n\r\n.unsubscribe-btn-netflix{ margin:0px auto 0px; padding:0px; text-align:center; width:230px; height:90px; font-size:30px; font-weight:600; line-height:90px;}\r\n.unsubscribe-btn-netflix a{ background:#424073; color:#fff; display:block; border-radius:10px; text-decoration:none; -webkit-transition: all 0.3s linear; -moz-transition: all 0.3s linear; -o-transition: all 0.3s linear; -ms-transition: all 0.3s linear; transition: all 0.3s linear;}\r\n.unsubscribe-btn-netflix a:hover{ background:#353363;}\r\n\r\n.free-btns{ float:left; font-size:26px; background:#ff5f6d; border-radius:10px; width:190px; height:70px; line-height:70px; font-family: 'Open Sans', sans-serif; font-weight:700; text-align:center;  -webkit-transition: all 0.3s linear; -moz-transition: all 0.3s linear; -o-transition: all 0.3s linear; -ms-transition: all 0.3s linear; transition: all 0.3s linear; }\r\n.free-btns:hover{ background:#514f82;}\r\n.free-btns a{ display:block; color:#fff; text-decoration:none; }\r\n.right-btns{ float:right;}\r\n\r\n.clearfix{ clear:both; overflow:hidden;}\r\n/*--------------- NETFLIX__BOX_END --------------*/\r\n@media(min-width:0px) and (max-width:479px){\r\n/*--------------- NETFLIX__BOX_START --------------*/\r\n.netflix-box-inner-main{ border-width:2px; width:calc(100% - 4px);}\r\n.netflix-box-top{ width:250px; padding:24px 0px 26px;}\r\n.netflix-logo img{ height:40px;}\r\n.netflix-text h2{ font-size:17px; line-height:17px; padding:1px 0px 0px;}\r\n.netflix-text h3{ font-size:17px; line-height:17px; padding:5px 0px 0px;}\r\n.netflix-box-info{ padding:0px 0px 42px;}\r\n.netflix-box-info-top{ width:250px; padding:0px 0px 21px;}\r\n.spent-last-year{ width:124px; min-height:52px;}\r\n.spent-last-year h2{ font-size:22px; line-height:24px; padding:1px 0px 0px;}  \r\n.spent-last-year p{ font-size:14px; line-height:16px; padding:9px 0px 0px;}\r\n.unsubscribe-btn-netflix{ width:120px; height:46px; line-height:46px; font-size:13px;}\r\n.unsubscribe-btn-netflix a{ border-radius:5px;}\r\n.free-credit-btns{ padding-top: 0 px; }\r\n.free-btns{ border-radius:5px; font-size:12px; width:140px; height:30px; line-height:30px; margin-left: 10px; margin-right: 10px;}\r\n/*--------------- NETFLIX__BOX_END --------------*/\r\n}\r\n\r\n@media(min-width:480px) and (max-width:767px){\r\n/*--------------- NETFLIX__BOX_START --------------*/\r\n.netflix-box-inner-main{ border-width:2px; width:calc(100% - 4px);}\r\n.netflix-box-top{ width:350px; padding:35px 0px 40px;}\r\n.netflix-logo img{ height:62px;}\r\n.netflix-text h2{ font-size:26px; line-height:26px; padding:2px 0px 0px;}\r\n.netflix-text h3{ font-size:26px; line-height:26px; padding:8px 0px 0px;}\r\n.netflix-box-info{ padding:0px 0px 45px;}\r\n.netflix-box-info-top{ width:364px; padding:0px 0px 45px;}\r\n.spent-last-year{ width:181px; min-height:80px; padding-bottom:5px;}\r\n.spent-last-year h2{ font-size:30px; line-height:32px; padding:4px 0px 0px;}\r\n.spent-last-year p{ font-size:18px; line-height:20px; padding:15px 0px 0px;}\r\n.unsubscribe-btn-netflix{ width:150px; height:60px; line-height:60px; font-size:20px;}\r\n.unsubscribe-btn-netflix a{ border-radius:8px;}\r\n.free-credit-btns{ padding-top:0px; }\r\n.free-btns{ font-size:17px; height:45px; line-height:45px; margin: 30px;}\r\n/*--------------- NETFLIX__BOX_END --------------*/\r\n}\r\n\u003c/style\u003e\r\n\u003c/head\u003e\r\n\r\n\u003cbody\u003e\r\n\u003cdiv class=\"wrapper\"\u003e\r\n    \u003c!-- NETFLIX_BOX_START --\u003e\r\n    \u003cdiv class=\"netflix-box-main\"\u003e\r\n        \u003cdiv class=\"netflix-box-inner-main\"\u003e\r\n            \u003cdiv class=\"netflix-box-top\"\u003e\r\n            \t\u003cdiv class=\"netflix-logo\"\u003e\u003cimg src=\"https://frollo-sandbox.s3.amazonaws.com/merchants/19/thumb/Optus-Logo-PNG-04905.png?1519084543\" alt=\"\"\u003e\u003c/div\u003e\r\n                \u003cdiv class=\"netflix-text\"\u003e\r\n                \t\u003ch2\u003eMobile phone plans that can save you money.\u003c/h2\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv class=\"clearfix\"\u003e\u003c/div\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"netflix-box-info\"\u003e\r\n            \t\u003cdiv class=\"netflix-box-info-top\"\u003e\r\n                \t\u003cdiv class=\"spent-last-year\"\u003e\r\n                    \t\u003ch2\u003e-$670\u003c/h2\u003e\r\n                        \u003cp\u003eSpent Last Year on your mobile plan\u003c/p\u003e\r\n                    \u003c/div\u003e\r\n                    \u003cdiv class=\"spent-last-year saving-last-year\"\u003e\r\n                    \t\u003ch2\u003e10%\u003c/h2\u003e\r\n                        \u003cp\u003eDiscount plans can save you\u003c/p\u003e\r\n                    \u003c/div\u003e\r\n                    \u003cdiv class=\"clearfix\"\u003e\u003c/div\u003e\r\n                \u003c/div\u003e\r\n               \u003cdiv class=\"free-credit-btns\"\u003e\r\n                \t\u003cdiv class=\"free-btns\"\u003e\u003cp style=\"color: #fff; margin-top:0px\"\u003eYes Tell Me How\u003c/p\u003e\u003c/div\u003e\r\n                    \u003cdiv class=\"free-btns right-btns\"\u003e\u003ca href=\"frollo://dashboard/\"\u003eNot Interested\u003c/a\u003e\u003c/div\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"clearfix\"\u003e\u003c/div\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n    \u003c!-- NETFLIX_BOX_END --\u003e\r\n\u003c/div\u003e\r\n\u003c/body\u003e\r\n\u003c/html\u003e\r\n" },
+	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
+}, {
+	"id": 52432,
 	"event": "TEST_GRAPH",
 	"user_event_id": 50545,
 	"placement": 1000000000,
@@ -35,9 +43,9 @@
 	"content_type": "video",
 	"content": {
 		"url": "dsafsdafasd",
-		"autoplay": false,
-		"autoplay_cellular": false,
-		"muted": true
+		"autoplay": true,
+		"autoplay_cellular": true,
+		"muted": false
 	},
 	"header": "Test",
 	"action": {
@@ -49,55 +57,6 @@
 		"open_external": false
 	}
 }, {
-	"id": 52376,
-	"event": "DEMO_START",
-	"user_event_id": 50484,
-	"placement": 1020,
-	"persists": false,
-	"read": false,
-	"clicked": false,
-	"message_types": ["home_nudge", "credit_score"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": "\u003c!doctype html\u003e\r\n\u003chtml\u003e\r\n\u003chead\u003e\r\n\u003cmeta charset=\"utf-8\"\u003e\r\n\u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\u003e\r\n\u003cmeta name=\"description\" content=\"\"\u003e\r\n\u003cmeta name=\"author\" content=\"\"\u003e\r\n\u003clink href=\"https://fonts.googleapis.com/css?family=Open+Sans:400,600,700\" rel=\"stylesheet\"\u003e\r\n\u003ctitle\u003eBlock 3\u003c/title\u003e\r\n\u003cstyle type=\"text/css\"\u003e\r\nbody{ padding:0px; margin:0px;}\r\n}\r\n/*--------------- WOO_HOO_BOX_START --------------*/\r\n.woo-hoo-box-main-lp{ padding:0; }\r\n.woo-hoo-box-inner-lp{ width:calc(100%); min-height:234px; border-radius:10px; background: linear-gradient(to right,#36d0dc, #5b86e5);}\r\n.woo-hoo-img-lp{ float:left; margin:0px; padding:68px 0px; width:180px; text-align:center;}\r\n.woo-hoo-info-lp{ float:left; margin:0px; padding:0px 0px 0px; width:calc(100% - 180px);}\r\n.woo-hoo-info-lp h2{ font-size:36px; line-height:40px; color:#fff; padding:53px 0px 0px 0px; margin:0px; font-weight:normal; font-family: 'Open Sans', sans-serif;}\r\n.woo-hoo-info-lp p{ font-size:24px; line-height:30px; color:#fff; padding:11px 0px 1px 0px; margin:0px; font-weight:normal; font-family: 'Open Sans', sans-serif;}\r\n.clearfix{ clear:both; overflow:hidden;}\r\n/*--------------- WOO_HOO_BOX_END --------------*/\r\n@media(min-width:0px) and (max-width:479px){\r\n/*--------------- WOO_HOO_BOX_START --------------*/\r\n.woo-hoo-box-main-lp{ padding:0;}\r\n.woo-hoo-box-inner-lp{ background-size:auto 62px; min-height:auto;; padding:20px 0px 20px; background: linear-gradient(to right,#36d0dc, #5b86e5);}\r\n.woo-hoo-img-lp{ width:76px; padding:0; height:43px; margin:19px 0px 19px;}\r\n.woo-hoo-img-lp img{ height:43px;}\r\n.woo-hoo-info-lp{ width:calc(100% - 91px); padding:15px 15px 0px 0px;}\r\n.woo-hoo-info-lp h2{ font-size:18px; line-height:22px; padding:1px 0px 0px;}\r\n.woo-hoo-info-lp p{ font-size:12px; line-height:16px; padding-top:4px;}\r\n/*--------------- WOO_HOO_BOX_END --------------*/\r\n}\r\n\r\n@media(min-width:480px) and (max-width:767px){\r\n/*--------------- WOO_HOO_BOX_START --------------*/\r\n.woo-hoo-box-main-lp{ padding:0;}\r\n.woo-hoo-box-inner-lp{ background-size:auto 92px; min-height:150px; background: linear-gradient(to right,#36d0dc, #5b86e5);}\r\n.woo-hoo-img-lp{ width:110px; padding:0; height:64px; margin:43px 0px 43px;}\r\n.woo-hoo-img-lp img{ height:64px;}\r\n.woo-hoo-info-lp{ width:calc(100% - 110px); padding:0px 0px 0px 0px;}\r\n.woo-hoo-info-lp h2{ font-size:24px; line-height:28px; padding:44px 0px 0px;}\r\n.woo-hoo-info-lp p{ font-size:16px; line-height:20px; padding-top:8px;}\r\n/*--------------- WOO_HOO_BOX_END --------------*/\r\n}\r\n\u003c/style\u003e\r\n\u003c/head\u003e\r\n\r\n\u003cbody\u003e\r\n\u003cdiv class=\"wrapper\"\u003e\r\n    \u003c!-- WOO_HOO_BOX_START --\u003e\r\n    \u003cdiv class=\"woo-hoo-box-main-lp\"\u003e\r\n        \u003cdiv class=\"woo-hoo-box-inner-lp\"\u003e\r\n            \u003cdiv class=\"woo-hoo-img-lp\"\u003e\u003cimg src=\"https://www.frollo.us/wp-content/uploads/2018/03/icons8-credit-card-48.png\" alt=\"\"\u003e\u003c/div\u003e\r\n            \u003cdiV class=\"woo-hoo-info-lp\"\u003e\r\n            \t\u003ch2\u003e\u003cstrong\u003eJacob Woo Hoo!\u003c/strong\u003e\u003c/h2\u003e\r\n                \u003cp\u003eCongratulations on paying off your card\u003c/p\u003e\r\n                \r\n            \u003c/diV\u003e\r\n            \u003cdiv class=\"clearfix\"\u003e\u003c/div\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n    \u003c!-- WOO_HOO_BOX_END --\u003e\r\n\u003c/div\u003e\r\n\u003c/body\u003e\r\n\u003c/html\u003e\r\n",
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 52354,
-	"event": "DEMO_OFFER",
-	"user_event_id": 50485,
-	"placement": 149,
-	"persists": false,
-	"read": false,
-	"clicked": false,
-	"message_types": ["popup", "home_nudge", "credit_score"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": "\r\n\u003c!doctype html\u003e\r\n\u003chtml\u003e\r\n\u003chead\u003e\r\n\u003cmeta charset=\"utf-8\"\u003e\r\n\u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\u003e\r\n\u003cmeta name=\"description\" content=\"\"\u003e\r\n\u003cmeta name=\"author\" content=\"\"\u003e\r\n\u003clink href=\"https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800\" rel=\"stylesheet\"\u003e\r\n\u003ctitle\u003e\u003c/title\u003e\r\n\u003cstyle type=\"text/css\"\u003e\r\nbody{ padding:0px; margin:0px; font-family: 'Open Sans', sans-serif;}\r\n/*--------------- NETFLIX__BOX_START --------------*/\r\n.netflix-box-main{ padding:0px;}\r\n.netflix-box-inner-main{ width:100%; background: linear-gradient(to right,#614385, #516395); border-radius:10px; min-height:220px;}\r\n.netflix-box-top{ width:446px; margin:0px auto; padding:56px 0px 60px;}\r\n.netflix-logo{ margin:0px; padding:0px; float:left;}\r\n.netflix-logo img{ height:96px; display:flex;}\r\n.netflix-text{ margin:0px; padding:0px; float:right;}\r\n.netflix-text h2{ font-size:40px; line-height:40px; font-weight:700; margin:0px; padding:2px 0px 0px; color:#fff;}\r\n.netflix-text h3{ font-size:40px; line-height:40px; font-weight:700; margin:0px; padding:12px 0px 0px; color:#fff;}\r\n\r\n.netflix-box-info{ margin:0px; padding:0px 0px 46px;}\r\n.netflix-box-info-top{ margin:0px auto; padding:0px 0px 48px; width:564px;}\r\n.spent-last-year{ width:281px; border-right:solid 1px #e5e5e5; min-height:124px; float:left;}\r\n.spent-last-year h2{ font-size:48px; line-height:50px; color:#fff; padding:6px 0px 0px; margin:0px; text-align:center; font-weight:700;}\r\n.spent-last-year p{ font-size:28px; line-height:35px; color:#fff; padding:23px 0px 0px; margin:0px; text-align:center; font-weight:300;}\r\n\r\n.saving-last-year{ width:281px; border-left:solid 1px #e5e5e5; float:left; border-right:0px;}\r\n.saving-last-year h2{ color:#fff;}\r\n\r\n.unsubscribe-btn-netflix{ margin:0px auto 0px; padding:0px; text-align:center; width:230px; height:90px; font-size:30px; font-weight:600; line-height:90px;}\r\n.unsubscribe-btn-netflix a{ background:#424073; color:#fff; display:block; border-radius:10px; text-decoration:none; -webkit-transition: all 0.3s linear; -moz-transition: all 0.3s linear; -o-transition: all 0.3s linear; -ms-transition: all 0.3s linear; transition: all 0.3s linear;}\r\n.unsubscribe-btn-netflix a:hover{ background:#353363;}\r\n\r\n.free-btns{ float:left; font-size:26px; background:#ff5f6d; border-radius:10px; width:190px; height:70px; line-height:70px; font-family: 'Open Sans', sans-serif; font-weight:700; text-align:center;  -webkit-transition: all 0.3s linear; -moz-transition: all 0.3s linear; -o-transition: all 0.3s linear; -ms-transition: all 0.3s linear; transition: all 0.3s linear; }\r\n.free-btns:hover{ background:#514f82;}\r\n.free-btns a{ display:block; color:#fff; text-decoration:none; }\r\n.right-btns{ float:right;}\r\n\r\n.clearfix{ clear:both; overflow:hidden;}\r\n/*--------------- NETFLIX__BOX_END --------------*/\r\n@media(min-width:0px) and (max-width:479px){\r\n/*--------------- NETFLIX__BOX_START --------------*/\r\n.netflix-box-inner-main{ border-width:2px; width:calc(100% - 4px);}\r\n.netflix-box-top{ width:250px; padding:24px 0px 26px;}\r\n.netflix-logo img{ height:40px;}\r\n.netflix-text h2{ font-size:17px; line-height:17px; padding:1px 0px 0px;}\r\n.netflix-text h3{ font-size:17px; line-height:17px; padding:5px 0px 0px;}\r\n.netflix-box-info{ padding:0px 0px 42px;}\r\n.netflix-box-info-top{ width:250px; padding:0px 0px 21px;}\r\n.spent-last-year{ width:124px; min-height:52px;}\r\n.spent-last-year h2{ font-size:22px; line-height:24px; padding:1px 0px 0px;}  \r\n.spent-last-year p{ font-size:14px; line-height:16px; padding:9px 0px 0px;}\r\n.unsubscribe-btn-netflix{ width:120px; height:46px; line-height:46px; font-size:13px;}\r\n.unsubscribe-btn-netflix a{ border-radius:5px;}\r\n.free-credit-btns{ padding-top: 0 px; }\r\n.free-btns{ border-radius:5px; font-size:12px; width:140px; height:30px; line-height:30px; margin-left: 10px; margin-right: 10px;}\r\n/*--------------- NETFLIX__BOX_END --------------*/\r\n}\r\n\r\n@media(min-width:480px) and (max-width:767px){\r\n/*--------------- NETFLIX__BOX_START --------------*/\r\n.netflix-box-inner-main{ border-width:2px; width:calc(100% - 4px);}\r\n.netflix-box-top{ width:350px; padding:35px 0px 40px;}\r\n.netflix-logo img{ height:62px;}\r\n.netflix-text h2{ font-size:26px; line-height:26px; padding:2px 0px 0px;}\r\n.netflix-text h3{ font-size:26px; line-height:26px; padding:8px 0px 0px;}\r\n.netflix-box-info{ padding:0px 0px 45px;}\r\n.netflix-box-info-top{ width:364px; padding:0px 0px 45px;}\r\n.spent-last-year{ width:181px; min-height:80px; padding-bottom:5px;}\r\n.spent-last-year h2{ font-size:30px; line-height:32px; padding:4px 0px 0px;}\r\n.spent-last-year p{ font-size:18px; line-height:20px; padding:15px 0px 0px;}\r\n.unsubscribe-btn-netflix{ width:150px; height:60px; line-height:60px; font-size:20px;}\r\n.unsubscribe-btn-netflix a{ border-radius:8px;}\r\n.free-credit-btns{ padding-top:0px; }\r\n.free-btns{ font-size:17px; height:45px; line-height:45px; margin: 30px;}\r\n/*--------------- NETFLIX__BOX_END --------------*/\r\n}\r\n\u003c/style\u003e\r\n\u003c/head\u003e\r\n\r\n\u003cbody\u003e\r\n\u003cdiv class=\"wrapper\"\u003e\r\n    \u003c!-- NETFLIX_BOX_START --\u003e\r\n    \u003cdiv class=\"netflix-box-main\"\u003e\r\n        \u003cdiv class=\"netflix-box-inner-main\"\u003e\r\n            \u003cdiv class=\"netflix-box-top\"\u003e\r\n            \t\u003cdiv class=\"netflix-logo\"\u003e\u003cimg src=\"https://frollo-sandbox.s3.amazonaws.com/merchants/19/thumb/Optus-Logo-PNG-04905.png?1519084543\" alt=\"\"\u003e\u003c/div\u003e\r\n                \u003cdiv class=\"netflix-text\"\u003e\r\n                \t\u003ch2\u003eMobile phone plans that can save you money.\u003c/h2\u003e\r\n                \u003c/div\u003e\r\n                \u003cdiv class=\"clearfix\"\u003e\u003c/div\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"netflix-box-info\"\u003e\r\n            \t\u003cdiv class=\"netflix-box-info-top\"\u003e\r\n                \t\u003cdiv class=\"spent-last-year\"\u003e\r\n                    \t\u003ch2\u003e-$670\u003c/h2\u003e\r\n                        \u003cp\u003eSpent Last Year on your mobile plan\u003c/p\u003e\r\n                    \u003c/div\u003e\r\n                    \u003cdiv class=\"spent-last-year saving-last-year\"\u003e\r\n                    \t\u003ch2\u003e10%\u003c/h2\u003e\r\n                        \u003cp\u003eDiscount plans can save you\u003c/p\u003e\r\n                    \u003c/div\u003e\r\n                    \u003cdiv class=\"clearfix\"\u003e\u003c/div\u003e\r\n                \u003c/div\u003e\r\n               \u003cdiv class=\"free-credit-btns\"\u003e\r\n                \t\u003cdiv class=\"free-btns\"\u003e\u003cp style=\"color: #fff; margin-top:0px\"\u003eYes Tell Me How\u003c/p\u003e\u003c/div\u003e\r\n                    \u003cdiv class=\"free-btns right-btns\"\u003e\u003ca href=\"frollo://dashboard/\"\u003eNot Interested\u003c/a\u003e\u003c/div\u003e\r\n                \u003c/div\u003e\r\n            \u003c/div\u003e\r\n            \u003cdiv class=\"clearfix\"\u003e\u003c/div\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n    \u003c!-- NETFLIX_BOX_END --\u003e\r\n\u003c/div\u003e\r\n\u003c/body\u003e\r\n\u003c/html\u003e\r\n",
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 51891,
-	"event": "B_LIFESTYLE",
-	"user_event_id": 50030,
-	"placement": 100,
-	"persists": false,
-	"read": false,
-	"clicked": false,
-	"message_types": ["feed"],
-	"design_type": "information",
-	"title": "Lifestyle Spending",
-	"content_type": "text_and_image",
-	"content": "You've spent $1,386 of your $1,000 monthly Lifestyle budget.\r\nTap to review and change.",
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/1036/icon/app/1529296593.png?1529296593",
-	"action": {
-		"link": "frollo://spend/tag/lifestyle?period=current",
-		"open_external": false
-	}
-}, {
 	"id": 51291,
 	"event": "B_OVERSPEND",
 	"user_event_id": 49457,
@@ -105,11 +64,11 @@
 	"persists": false,
 	"read": false,
 	"clicked": false,
-	"message_types": ["goal_nudge", "welcome_nudge"],
+	"message_types": ["home_nudge"],
 	"design_type": "information",
 	"title": "Oops!",
 	"content_type": "text_and_image",
-	"content": "Looks like you might have an overspend.\r\nView your spending now!",
+	"content":  { "body": "Looks like you might have an overspend.\r\nView your spending now!" },
 	"action": {
 		"link": "frollo://spend/tag/lifestyle?period=history",
 		"open_external": false
@@ -126,7 +85,7 @@
 	"design_type": "information",
 	"title": "Test WebView Auth",
 	"content_type": "text_and_image",
-	"content": "Test WebView Auth",
+	"content":  { "body": "Test WebView Auth" },
 	"action": {
 		"link": "https://api-sandbox.frollo.us/api/pages/auth_test",
 		"open_external": false
@@ -148,7 +107,7 @@
 	"design_type": "information",
 	"title": "Test Deep Links",
 	"content_type": "text_and_image",
-	"content": "Test Deep Links",
+	"content":  { "body": "Test Deep Links" },
 	"action": {
 		"link": "https://api-sandbox.frollo.us/pages/deep-links",
 		"open_external": false
@@ -170,7 +129,7 @@
 	"design_type": "information",
 	"title": "Test - Show Transactions List",
 	"content_type": "text_and_image",
-	"content": "Test - Show Transactions List",
+	"content":  { "body": "Test - Show Transactions List" },
 	"button": {
 		"title": "Show Transactions",
 		"link": "frollo://transactions",

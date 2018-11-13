@@ -76,12 +76,14 @@ struct APIMessageResponse: APIUniqueResponse, Codable {
         
         static func == (lhs: APIMessageResponse.Content, rhs: APIMessageResponse.Content) -> Bool {
             switch (lhs, rhs) {
-            case (let .text(lhsPayload), let .text(rhsPayload)):
-                return lhsPayload == rhsPayload
-            case (let .video(lhsPayload), let .video(rhsPayload)):
-                return lhsPayload == rhsPayload
-            default:
-                return false
+                case (let .html(lhsPayload), let .html(rhsPayload)):
+                    return lhsPayload == rhsPayload
+                case (let .text(lhsPayload), let .text(rhsPayload)):
+                    return lhsPayload == rhsPayload
+                case (let .video(lhsPayload), let .video(rhsPayload)):
+                    return lhsPayload == rhsPayload
+                default:
+                    return false
             }
         }
         

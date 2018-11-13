@@ -72,8 +72,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchProvidersSkipsInvalid() {
@@ -106,8 +104,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchProviderByID() {
@@ -152,8 +148,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchProviderAccounts() {
@@ -193,8 +187,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchProviderAccountsSkipsInvalid() {
@@ -227,8 +219,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchProviderAccountByID() {
@@ -258,8 +248,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testCreateProviderAccount() {
@@ -292,8 +280,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchAccounts() {
@@ -363,8 +349,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchAccountsSkipsInvalid() {
@@ -397,8 +381,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchAccountByID() {
@@ -428,8 +410,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testUpdateAccountValid() {
@@ -460,8 +440,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testUpdateAccountInvalid() {
@@ -485,8 +463,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchTransactions() {
@@ -534,8 +510,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchTransactionsSkipsInvalid() {
@@ -568,8 +542,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchTransactionByID() {
@@ -598,8 +570,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testUpdateTransaction() {
@@ -630,8 +600,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchTransactionCategories() {
@@ -665,8 +633,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchTransactionCategoriesSkipsInvalid() {
@@ -700,8 +666,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchMerchants() {
@@ -735,8 +699,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchMerchantsSkipsInvalid() {
@@ -770,8 +732,6 @@ class AggregationRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
 }
