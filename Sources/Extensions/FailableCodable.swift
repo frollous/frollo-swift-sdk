@@ -13,7 +13,14 @@ internal struct FailableDecodable<Base: Decodable>: Decodable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.base = try? container.decode(Base.self)
+        
+        do {
+            self.base = try container.decode(Base.self)
+        } catch {
+            Log.error(error.localizedDescription)
+            
+            self.base = nil
+        }
     }
 }
 
