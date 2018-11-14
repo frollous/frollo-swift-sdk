@@ -11,7 +11,7 @@ import Foundation
 
 extension APIMessageResponse {
     
-    static func testCompleteData() -> APIMessageResponse {
+    static func testCompleteData(type: Message.ContentType? = nil) -> APIMessageResponse {
         let actionLink = APIMessageResponse.Link(link: "frollo://dashboard", openExternal: Bool.random(), title: String.randomString(range: 1...30))
         let buttonLink = APIMessageResponse.Link(link: "https://example.com", openExternal: Bool.random(), title: String.randomString(range: 1...30))
         
@@ -20,9 +20,14 @@ extension APIMessageResponse {
         let textContent = APIMessageResponse.Content.Text(body: String.randomString(range: 1...200))
         let videoContent = APIMessageResponse.Content.Video(autoplay: Bool.random(), autoplayCellular: Bool.random(), height: Double.random(in: 1...1000), muted: Bool.random(), url: "https://example.com/video.mp4", width: Double.random(in: 1...1000))
         
-        let randomContentType = Message.ContentType.allCases.randomElement()!
+        let contentType: Message.ContentType
+        if let specifiedType = type {
+            contentType = specifiedType
+        } else {
+            contentType = Message.ContentType.allCases.randomElement()!
+        }
         let content: APIMessageResponse.Content
-        switch randomContentType {
+        switch contentType {
             case .html5:
                 content = .html(htmlContent)
             case .textAndImage:
@@ -38,7 +43,7 @@ extension APIMessageResponse {
                                   button: buttonLink,
                                   clicked: Bool.random(),
                                   content: content,
-                                  contentType: randomContentType,
+                                  contentType: contentType,
                                   designType: Message.Design.allCases.randomElement()!,
                                   footer: String.randomString(range: 1...100),
                                   header: String.randomString(range: 1...100),

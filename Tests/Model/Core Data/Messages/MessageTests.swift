@@ -19,15 +19,15 @@ class MessageTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testUpdatingMessage() {
+    func updateMessageTest(type: Message.ContentType) {
         let database = Database(path: tempFolderPath())
         
         let managedObjectContext = database.newBackgroundContext()
         
-        let messageResponse = APIMessageResponse.testCompleteData()
+        let messageResponse = APIMessageResponse.testCompleteData(type: type)
         
         let message: Message
-        switch messageResponse.contentType {
+        switch type {
             case .html5:
                 message = MessageHTML(context: managedObjectContext)
             case .textAndImage:
@@ -113,6 +113,22 @@ class MessageTests: XCTestCase {
         } else {
             XCTFail("No content parsed")
         }
+    }
+    
+    func testUpdatingHTMLMessage() {
+        updateMessageTest(type: .html5)
+    }
+    
+    func testUpdatingImageMessage() {
+        updateMessageTest(type: .textAndImage)
+    }
+    
+    func testUpdatingTextMessage() {
+        updateMessageTest(type: .text)
+    }
+    
+    func testUpdatingVideoMessage() {
+        updateMessageTest(type: .video)
     }
 
 }

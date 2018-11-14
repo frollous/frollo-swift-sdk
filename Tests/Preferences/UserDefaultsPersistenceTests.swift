@@ -1,50 +1,31 @@
 //
-//  PreferencesPersistenceTests.swift
+//  UserDefaultsPersistenceTests.swift
 //  FrolloSDK
 //
-//  Created by Nick Dawson on 23/7/18.
+//  Created by Nick Dawson on 15/11/18.
 //  Copyright © 2018 Frollo. All rights reserved.
 //
 
 import XCTest
 @testable import FrolloSDK
 
-class PreferencesPersistenceTests: XCTestCase {
-    
-    private let tempFolderPath = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent(UUID().uuidString, isDirectory: true)
-    
+class UserDefaultsPersistenceTests: XCTestCase {
+
     override func setUp() {
-        super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        
-        // Create temp folder
-        try? FileManager.default.createDirectory(at: tempFolderPath, withIntermediateDirectories: true, attributes: nil)
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-        
-        try? FileManager.default.removeItem(at: tempFolderPath)
     }
-    
-    // MARK: - Helpers
-    
-    private func tempPath() -> URL {
-        return tempFolderPath.appendingPathComponent(UUID().uuidString)
-    }
-    
-    // MARK: - Tests
-    
+
     func testPreferencesStoring() {
-        let path = tempPath()
-        
         let testKey1 = "TestData"
         let testData = Data.randomData(length: 32)
         let testKey2 = "TestString"
         let testString = UUID().uuidString
         
-        let persistence = PropertyListPersistence(path: path)
+        let persistence = UserDefaultsPersistence()
         persistence[testKey1] = testData
         persistence[testKey2] = testString
         
@@ -53,23 +34,19 @@ class PreferencesPersistenceTests: XCTestCase {
     }
     
     func testPreferencesPersisted() {
-        let path = tempPath()
-        
         let testKey1 = "TestData"
         let testData = Data.randomData(length: 32)
         let testKey2 = "TestString"
         let testString = UUID().uuidString
         
-        var persistence = PropertyListPersistence(path: path)
+        var persistence = UserDefaultsPersistence()
         persistence[testKey1] = testData
         persistence[testKey2] = testString
         
         persistence.synchronise()
         
-        XCTAssertTrue(FileManager.default.fileExists(atPath: path.path))
-        
         // Reload from disk
-        persistence = PropertyListPersistence(path: path)
+        persistence = UserDefaultsPersistence()
         
         XCTAssertEqual(persistence[testKey1] as? Data, testData)
         XCTAssertEqual(persistence[testKey2] as? String, testString)
@@ -78,22 +55,18 @@ class PreferencesPersistenceTests: XCTestCase {
     func testPreferencesAutomaticallyPersisted() {
         let expectation1 = expectation(description: "Wait for persistence")
         
-        let path = tempPath()
-        
         let testKey1 = "TestData"
         let testData = Data.randomData(length: 32)
         let testKey2 = "TestString"
         let testString = UUID().uuidString
         
-        var persistence = PropertyListPersistence(path: path)
+        var persistence = UserDefaultsPersistence()
         persistence[testKey1] = testData
         persistence[testKey2] = testString
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-            XCTAssertTrue(FileManager.default.fileExists(atPath: path.path))
-            
             // Reload from disk
-            persistence = PropertyListPersistence(path: path)
+            persistence = UserDefaultsPersistence()
             
             XCTAssertEqual(persistence[testKey1] as? Data, testData)
             XCTAssertEqual(persistence[testKey2] as? String, testString)
@@ -105,9 +78,7 @@ class PreferencesPersistenceTests: XCTestCase {
     }
     
     func testResetPreferencesPersistence() {
-        let path = tempPath()
-        
-        let persistence = PropertyListPersistence(path: path)
+        let persistence = UserDefaultsPersistence()
         persistence["TestData"] = Data.randomData(length: 32)
         persistence["TestString"] = UUID().uuidString
         
@@ -119,7 +90,6 @@ class PreferencesPersistenceTests: XCTestCase {
         
         XCTAssertNil(persistence["TestData"])
         XCTAssertNil(persistence["TestString"])
-        XCTAssertFalse(FileManager.default.fileExists(atPath: path.path))
     }
-    
+
 }

@@ -173,26 +173,43 @@ extension APIMessageResponse: Codable {
         userEventID = try container.decodeIfPresent(Int64.self, forKey: .userEventID)
         
         switch contentType {
-        case .html5:
-            let contents = try container.decode(Content.HTML.self, forKey: .content)
-            self.content = .html(contents)
+            case .html5:
+                let contents = try container.decode(Content.HTML.self, forKey: .content)
+                self.content = .html(contents)
             
-        case .textAndImage:
-            let contents = try container.decode(Content.Image.self, forKey: .content)
-            self.content = .image(contents)
+            case .textAndImage:
+                let contents = try container.decode(Content.Image.self, forKey: .content)
+                self.content = .image(contents)
             
-        case .text:
-            let contents = try container.decode(Content.Text.self, forKey: .content)
-            self.content = .text(contents)
+            case .text:
+                let contents = try container.decode(Content.Text.self, forKey: .content)
+                self.content = .text(contents)
             
-        case .video:
-            let contents = try container.decode(Content.Video.self, forKey: .content)
-            content = .video(contents)
+            case .video:
+                let contents = try container.decode(Content.Video.self, forKey: .content)
+                content = .video(contents)
         }
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(id, forKey: .id)
+        try container.encodeIfPresent(action, forKey: .action)
+        try container.encodeIfPresent(button, forKey: .button)
+        try container.encode(clicked, forKey: .clicked)
+        try container.encode(contentType, forKey: .contentType)
+        try container.encode(designType, forKey: .designType)
+        try container.encodeIfPresent(footer, forKey: .footer)
+        try container.encodeIfPresent(header, forKey: .header)
+        try container.encode(event, forKey: .event)
+        try container.encodeIfPresent(iconURL, forKey: .iconURL)
+        try container.encode(messageTypes, forKey: .messageTypes)
+        try container.encode(persists, forKey: .persists)
+        try container.encode(placement, forKey: .placement)
+        try container.encode(read, forKey: .read)
+        try container.encodeIfPresent(title, forKey: .title)
+        try container.encodeIfPresent(userEventID, forKey: .userEventID)
         
         if let contents = content {
             switch contents {

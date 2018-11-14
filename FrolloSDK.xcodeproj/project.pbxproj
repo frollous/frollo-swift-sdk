@@ -44,6 +44,12 @@
 		011F812B219BF4E100A1495F /* FrolloSDKDataModel-1.1.0.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 011F8124219BF4E000A1495F /* FrolloSDKDataModel-1.1.0.sqlite */; };
 		011F812C219BF4E100A1495F /* FrolloSDKDataModel-1.1.0.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 011F8124219BF4E000A1495F /* FrolloSDKDataModel-1.1.0.sqlite */; };
 		011F812D219BF4E100A1495F /* FrolloSDKDataModel-1.1.0.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 011F8124219BF4E000A1495F /* FrolloSDKDataModel-1.1.0.sqlite */; };
+		011F8133219CDCD900A1495F /* APIMessageResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8132219CDCD900A1495F /* APIMessageResponseTests.swift */; };
+		011F8134219CDCD900A1495F /* APIMessageResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8132219CDCD900A1495F /* APIMessageResponseTests.swift */; };
+		011F8135219CDCD900A1495F /* APIMessageResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8132219CDCD900A1495F /* APIMessageResponseTests.swift */; };
+		011F8137219CE5D100A1495F /* UserDefaultsPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8136219CE5D100A1495F /* UserDefaultsPersistenceTests.swift */; };
+		011F8138219CE5D100A1495F /* UserDefaultsPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8136219CE5D100A1495F /* UserDefaultsPersistenceTests.swift */; };
+		011F8139219CE5D100A1495F /* UserDefaultsPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8136219CE5D100A1495F /* UserDefaultsPersistenceTests.swift */; };
 		0126068321990377005D8377 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068221990377005D8377 /* Messages.swift */; };
 		0126068821991963005D8377 /* Message+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068621991963005D8377 /* Message+CoreDataClass.swift */; };
 		0126068921991963005D8377 /* Message+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068721991963005D8377 /* Message+CoreDataProperties.swift */; };
@@ -344,8 +350,8 @@
 		017B486D2105433B00447E65 /* PreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B486C2105433B00447E65 /* PreferencesTests.swift */; };
 		017B486E2105433B00447E65 /* PreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B486C2105433B00447E65 /* PreferencesTests.swift */; };
 		017B487021054F0B00447E65 /* PreferencesPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B486F21054F0B00447E65 /* PreferencesPersistence.swift */; };
-		017B487221055FBA00447E65 /* PreferencesPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B487121055FBA00447E65 /* PreferencesPersistenceTests.swift */; };
-		017B487321055FBA00447E65 /* PreferencesPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B487121055FBA00447E65 /* PreferencesPersistenceTests.swift */; };
+		017B487221055FBA00447E65 /* PropertyListPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B487121055FBA00447E65 /* PropertyListPersistenceTests.swift */; };
+		017B487321055FBA00447E65 /* PropertyListPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B487121055FBA00447E65 /* PropertyListPersistenceTests.swift */; };
 		017B487B2105950F00447E65 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B487A2105950F00447E65 /* AppDelegate.swift */; };
 		017B487D2105950F00447E65 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B487C2105950F00447E65 /* ViewController.swift */; };
 		017B48802105950F00447E65 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 017B487E2105950F00447E65 /* Main.storyboard */; };
@@ -362,7 +368,7 @@
 		017B48962105958100447E65 /* PreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B486C2105433B00447E65 /* PreferencesTests.swift */; };
 		017B48972105958100447E65 /* UserRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B7A20F834D1005A7D0C /* UserRequestTests.swift */; };
 		017B48982105958100447E65 /* TestInvalidDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0160953C20F47FE10060791B /* TestInvalidDataModel.xcdatamodeld */; };
-		017B48992105958100447E65 /* PreferencesPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B487121055FBA00447E65 /* PreferencesPersistenceTests.swift */; };
+		017B48992105958100447E65 /* PropertyListPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B487121055FBA00447E65 /* PropertyListPersistenceTests.swift */; };
 		017B489A2105958100447E65 /* FileLoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824F620EC7AC30093400E /* FileLoggerTests.swift */; };
 		017B489B2105958100447E65 /* LogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824F220EC4D600093400E /* LogTests.swift */; };
 		017B489C2105958100447E65 /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136D227210067B20062EAEA /* KeychainTests.swift */; };
@@ -609,6 +615,8 @@
 		011F8122219BF4E000A1495F /* FrolloSDKDataModel-1.1.0.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.1.0.sqlite-shm"; sourceTree = "<group>"; };
 		011F8123219BF4E000A1495F /* FrolloSDKDataModel-1.1.0.sqlite-wal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FrolloSDKDataModel-1.1.0.sqlite-wal"; sourceTree = "<group>"; };
 		011F8124219BF4E000A1495F /* FrolloSDKDataModel-1.1.0.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.1.0.sqlite"; sourceTree = "<group>"; };
+		011F8132219CDCD900A1495F /* APIMessageResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIMessageResponseTests.swift; sourceTree = "<group>"; };
+		011F8136219CE5D100A1495F /* UserDefaultsPersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsPersistenceTests.swift; sourceTree = "<group>"; };
 		0126068221990377005D8377 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		0126068521990449005D8377 /* FrolloSDKDataModel-1.1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.1.0.xcdatamodel"; sourceTree = "<group>"; };
 		0126068621991963005D8377 /* Message+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -751,7 +759,7 @@
 		017B48682101B4FE00447E65 /* FrolloSDK macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FrolloSDK macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		017B486C2105433B00447E65 /* PreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesTests.swift; sourceTree = "<group>"; };
 		017B486F21054F0B00447E65 /* PreferencesPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesPersistence.swift; sourceTree = "<group>"; };
-		017B487121055FBA00447E65 /* PreferencesPersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesPersistenceTests.swift; sourceTree = "<group>"; };
+		017B487121055FBA00447E65 /* PropertyListPersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyListPersistenceTests.swift; sourceTree = "<group>"; };
 		017B48782105950F00447E65 /* FrolloSDK tvOS Test Host.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FrolloSDK tvOS Test Host.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		017B487A2105950F00447E65 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		017B487C2105950F00447E65 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -984,6 +992,7 @@
 			isa = PBXGroup;
 			children = (
 				012606D3219BC2BE005D8377 /* APIMessageReponse+Test.swift */,
+				011F8132219CDCD900A1495F /* APIMessageResponseTests.swift */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
@@ -1406,7 +1415,8 @@
 			isa = PBXGroup;
 			children = (
 				017B486C2105433B00447E65 /* PreferencesTests.swift */,
-				017B487121055FBA00447E65 /* PreferencesPersistenceTests.swift */,
+				017B487121055FBA00447E65 /* PropertyListPersistenceTests.swift */,
+				011F8136219CE5D100A1495F /* UserDefaultsPersistenceTests.swift */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -2406,10 +2416,12 @@
 				01C824F920EC8EF90093400E /* ConsoleLoggerTests.swift in Sources */,
 				013A32CB2112BE6600B0590B /* ProviderAccountTests.swift in Sources */,
 				013D2D90210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */,
+				011F8137219CE5D100A1495F /* UserDefaultsPersistenceTests.swift in Sources */,
 				01483BA02119318D00D0DA87 /* APITransactionCategoryResponse+Test.swift in Sources */,
 				01EEDB1D20EAEA2000F4516B /* DatabaseMigrationTests.swift in Sources */,
 				01ED8FD4211A684E00ACE691 /* TransactionTests.swift in Sources */,
 				01BC3D132166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift in Sources */,
+				011F8133219CDCD900A1495F /* APIMessageResponseTests.swift in Sources */,
 				01483B732117D80100D0DA87 /* APIAccountResponse+Test.swift in Sources */,
 				016097EE210EA27E0034E857 /* Keychain+Test.swift in Sources */,
 				012606D4219BC2BE005D8377 /* APIMessageReponse+Test.swift in Sources */,
@@ -2425,7 +2437,7 @@
 				011E87D2213767F00026E047 /* SecKeyPEMTests.swift in Sources */,
 				01483BBB2119706D00D0DA87 /* Merchant+Test.swift in Sources */,
 				011F8113219BE31B00A1495F /* MessageVideo+Test.swift in Sources */,
-				017B487221055FBA00447E65 /* PreferencesPersistenceTests.swift in Sources */,
+				017B487221055FBA00447E65 /* PropertyListPersistenceTests.swift in Sources */,
 				015EEDE2210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */,
 				017E58D2217FF86F00DC56FF /* DateExtensionsTests.swift in Sources */,
 				013BC1E3218A81E2005A2714 /* ProviderLoginFormViewModelTests.swift in Sources */,
@@ -2484,10 +2496,12 @@
 				017B48372101B4FE00447E65 /* ConsoleLoggerTests.swift in Sources */,
 				013A32CC2112BE6600B0590B /* ProviderAccountTests.swift in Sources */,
 				013D2D91210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */,
+				011F8138219CE5D100A1495F /* UserDefaultsPersistenceTests.swift in Sources */,
 				01483BA12119318D00D0DA87 /* APITransactionCategoryResponse+Test.swift in Sources */,
 				017B48382101B4FE00447E65 /* DatabaseMigrationTests.swift in Sources */,
 				01ED8FD5211A684E00ACE691 /* TransactionTests.swift in Sources */,
 				01BC3D142166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift in Sources */,
+				011F8134219CDCD900A1495F /* APIMessageResponseTests.swift in Sources */,
 				01483B742117D80100D0DA87 /* APIAccountResponse+Test.swift in Sources */,
 				016097EF210EA27E0034E857 /* Keychain+Test.swift in Sources */,
 				012606D5219BC2BE005D8377 /* APIMessageReponse+Test.swift in Sources */,
@@ -2503,7 +2517,7 @@
 				011E87D3213767F00026E047 /* SecKeyPEMTests.swift in Sources */,
 				01483BBC2119706D00D0DA87 /* Merchant+Test.swift in Sources */,
 				011F8114219BE31C00A1495F /* MessageVideo+Test.swift in Sources */,
-				017B487321055FBA00447E65 /* PreferencesPersistenceTests.swift in Sources */,
+				017B487321055FBA00447E65 /* PropertyListPersistenceTests.swift in Sources */,
 				015EEDE3210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */,
 				017E58D3217FF86F00DC56FF /* DateExtensionsTests.swift in Sources */,
 				013BC1E4218A81E2005A2714 /* ProviderLoginFormViewModelTests.swift in Sources */,
@@ -2571,10 +2585,12 @@
 				013D2D92210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */,
 				017B48932105958100447E65 /* DatabaseMigrationTests.swift in Sources */,
 				01483B752117D80100D0DA87 /* APIAccountResponse+Test.swift in Sources */,
+				011F8139219CE5D100A1495F /* UserDefaultsPersistenceTests.swift in Sources */,
 				016097F0210EA27E0034E857 /* Keychain+Test.swift in Sources */,
 				017B48942105958100447E65 /* NetworkTests.swift in Sources */,
 				01ED8FD6211A684E00ACE691 /* TransactionTests.swift in Sources */,
 				01BC3D152166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift in Sources */,
+				011F8135219CDCD900A1495F /* APIMessageResponseTests.swift in Sources */,
 				017B48952105958100447E65 /* DataErrorTests.swift in Sources */,
 				017B48962105958100447E65 /* PreferencesTests.swift in Sources */,
 				012606D6219BC2BE005D8377 /* APIMessageReponse+Test.swift in Sources */,
@@ -2585,7 +2601,7 @@
 				012C4514212A88CD00799A0A /* ProviderLoginForm+Test.swift in Sources */,
 				012C4511212A88C600799A0A /* ProviderLoginFormTests.swift in Sources */,
 				01616B102186C4E8003EF2D0 /* NetworkLoggerTests.swift in Sources */,
-				017B48992105958100447E65 /* PreferencesPersistenceTests.swift in Sources */,
+				017B48992105958100447E65 /* PropertyListPersistenceTests.swift in Sources */,
 				015EEDE4210FDA760081AD76 /* APIProviderResponse+Test.swift in Sources */,
 				011E87D4213767F00026E047 /* SecKeyPEMTests.swift in Sources */,
 				01483BBD2119706D00D0DA87 /* Merchant+Test.swift in Sources */,
