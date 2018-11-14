@@ -12,5 +12,21 @@ import CoreData
 
 
 public class MessageVideo: Message {
+    
+    internal override func update(response: APIMessageResponse, context: NSManagedObjectContext) {
+        super.update(response: response, context: context)
+        
+        guard case let .video(contents)? = response.content
+            else {
+                return
+        }
+        
+        autoplay = contents.autoplay
+        autoplayCellular = contents.autoplayCellular
+        muted = contents.muted
+        height = contents.height ?? -1
+        urlString = contents.url
+        width = contents.width ?? -1
+    }
 
 }

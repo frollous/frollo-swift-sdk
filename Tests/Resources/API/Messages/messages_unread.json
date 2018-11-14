@@ -42,7 +42,7 @@
 	"title": "Video",
 	"content_type": "video",
 	"content": {
-		"url": "dsafsdafasd",
+		"url": "https://example.com/video.mp4",
 		"autoplay": true,
 		"autoplay_cellular": true,
 		"muted": false
@@ -67,7 +67,7 @@
 	"message_types": ["home_nudge"],
 	"design_type": "information",
 	"title": "Oops!",
-	"content_type": "text_and_image",
+	"content_type": "text",
 	"content":  { "body": "Looks like you might have an overspend.\r\nView your spending now!" },
 	"action": {
 		"link": "frollo://spend/tag/lifestyle?period=history",
@@ -85,7 +85,11 @@
 	"design_type": "information",
 	"title": "Test WebView Auth",
 	"content_type": "text_and_image",
-	"content":  { "body": "Test WebView Auth" },
+	"content":  { 
+		"url": "https://example.com/image.png",
+		"height": 400,
+		"width": 100
+	},
 	"action": {
 		"link": "https://api-sandbox.frollo.us/api/pages/auth_test",
 		"open_external": false
@@ -107,7 +111,11 @@
 	"design_type": "information",
 	"title": "Test Deep Links",
 	"content_type": "text_and_image",
-	"content":  { "body": "Test Deep Links" },
+	"content":  { 
+		"url": "https://example.com/image.png",
+		"height": 400,
+		"width": 100
+	},
 	"action": {
 		"link": "https://api-sandbox.frollo.us/pages/deep-links",
 		"open_external": false
@@ -128,7 +136,7 @@
 	"message_types": ["home_nudge"],
 	"design_type": "information",
 	"title": "Test - Show Transactions List",
-	"content_type": "text_and_image",
+	"content_type": "text",
 	"content":  { "body": "Test - Show Transactions List" },
 	"button": {
 		"title": "Show Transactions",

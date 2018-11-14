@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct APIMessageResponse: APIUniqueResponse, Codable {
+struct APIMessageResponse: APIUniqueResponse {
     
     enum CodingKeys: String, CodingKey {
         
@@ -44,6 +44,14 @@ struct APIMessageResponse: APIUniqueResponse, Codable {
             
         }
         
+        struct Image: Codable, Equatable {
+            
+            let height: Double
+            let url: String
+            let width: Double
+            
+        }
+        
         struct Text: Codable, Equatable {
             
             enum CodingKeys: String, CodingKey {
@@ -59,24 +67,31 @@ struct APIMessageResponse: APIUniqueResponse, Codable {
             enum CodingKeys: String, CodingKey {
                 case autoplay
                 case autoplayCellular = "autoplay_cellular"
+                case height
                 case muted
                 case url
+                case width
             }
             
             let autoplay: Bool
             let autoplayCellular: Bool
+            let height: Double?
             let muted: Bool
             let url: String
+            let width: Double?
             
         }
         
         case html(HTML)
+        case image(Image)
         case text(Text)
         case video(Video)
         
         static func == (lhs: APIMessageResponse.Content, rhs: APIMessageResponse.Content) -> Bool {
             switch (lhs, rhs) {
                 case (let .html(lhsPayload), let .html(rhsPayload)):
+                    return lhsPayload == rhsPayload
+                case (let .image(lhsPayload), let .image(rhsPayload)):
                     return lhsPayload == rhsPayload
                 case (let .text(lhsPayload), let .text(rhsPayload)):
                     return lhsPayload == rhsPayload
@@ -133,6 +148,10 @@ struct APIMessageResponse: APIUniqueResponse, Codable {
     let title: String?
     let userEventID: Int64?
     
+}
+
+extension APIMessageResponse: Codable {
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -154,37 +173,41 @@ struct APIMessageResponse: APIUniqueResponse, Codable {
         userEventID = try container.decodeIfPresent(Int64.self, forKey: .userEventID)
         
         switch contentType {
-            case .html5:
-                let contents = try container.decode(Content.HTML.self, forKey: .content)
-                self.content = .html(contents)
+        case .html5:
+            let contents = try container.decode(Content.HTML.self, forKey: .content)
+            self.content = .html(contents)
             
-            case .text:
-                let contents = try container.decode(Content.Text.self, forKey: .content)
-                self.content = .text(contents)
+        case .textAndImage:
+            let contents = try container.decode(Content.Image.self, forKey: .content)
+            self.content = .image(contents)
             
-            case .video:
-                let contents = try container.decode(Content.Video.self, forKey: .content)
-                content = .video(contents)
+        case .text:
+            let contents = try container.decode(Content.Text.self, forKey: .content)
+            self.content = .text(contents)
             
-            default:
-                content = nil
+        case .video:
+            let contents = try container.decode(Content.Video.self, forKey: .content)
+            content = .video(contents)
         }
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-
+        
         if let contents = content {
             switch contents {
-                case .html(let payload):
-                    try container.encode(payload, forKey: .content)
+            case .html(let payload):
+                try container.encode(payload, forKey: .content)
                 
-                case .text(let payload):
-                    try container.encode(payload, forKey: .content)
+            case .image(let payload):
+                try container.encode(payload, forKey: .content)
                 
-                case .video(let payload):
-                    try container.encode(payload, forKey: .content)
-
+            case .text(let payload):
+                try container.encode(payload, forKey: .content)
+                
+            case .video(let payload):
+                try container.encode(payload, forKey: .content)
+                
             }
         }
     }

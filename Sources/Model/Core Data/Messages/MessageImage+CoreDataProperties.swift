@@ -19,5 +19,6 @@ extension MessageImage {
 
     @NSManaged public var height: Double
     @NSManaged public var width: Double
+    @NSManaged public var urlString: String
 
 }

@@ -102,6 +102,7 @@
         <attribute name="typeHome" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="typePopup" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="typeSetup" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="typeWelcome" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="userEventID" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <fetchIndex name="byMessageIDIndex">
             <fetchIndexElement property="messageID" type="Binary" order="ascending"/>
@@ -118,6 +119,7 @@
     </entity>
     <entity name="MessageImage" representedClassName=".MessageImage" parentEntity="Message" syncable="YES">
         <attribute name="height" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="urlString" attributeType="String" syncable="YES"/>
         <attribute name="width" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="MessageText" representedClassName=".MessageText" parentEntity="Message" syncable="YES">
@@ -132,6 +134,7 @@
         <attribute name="autoplayCellular" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="height" optional="YES" attributeType="Double" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="muted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="urlString" attributeType="String" syncable="YES"/>
         <attribute name="width" optional="YES" attributeType="Double" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="Provider" representedClassName=".Provider" syncable="YES">
@@ -299,9 +302,9 @@
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="330"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="165"/>
         <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="300"/>
-        <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="360"/>
-        <element name="MessageVideo" positionX="-317.34375" positionY="1145.10546875" width="128" height="118"/>
-        <element name="MessageImage" positionX="-319.14453125" positionY="879.53515625" width="128" height="73"/>
+        <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="28"/>
+        <element name="MessageVideo" positionX="-317.34375" positionY="1145.10546875" width="128" height="28"/>
+        <element name="MessageImage" positionX="-319.14453125" positionY="879.53515625" width="128" height="28"/>
         <element name="MessageText" positionX="-319.734375" positionY="990.58203125" width="128" height="118"/>
         <element name="MessageHTML" positionX="-317.359375" positionY="757.66015625" width="128" height="73"/>
     </elements>

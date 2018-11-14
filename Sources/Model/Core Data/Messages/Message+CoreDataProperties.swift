@@ -38,5 +38,6 @@ extension Message {
     @NSManaged public var typeGoal: Bool
     @NSManaged public var typeFeed: Bool
     @NSManaged public var typeCreditScore: Bool
+    @NSManaged public var typeWelcome: Bool
 
 }

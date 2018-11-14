@@ -34,7 +34,7 @@ public class Message: NSManagedObject, CacheableManagedObject {
      
      Indicates the content type of the message and how it should be rendered
     */
-    public enum ContentType: String, Codable {
+    public enum ContentType: String, CaseIterable, Codable {
         
         /// The content is HTML and should be rendered in a `WKWebView`
         case html5
@@ -55,7 +55,7 @@ public class Message: NSManagedObject, CacheableManagedObject {
      
      Indicates what design should be used to render the image
     */
-    public enum Design: String, Codable {
+    public enum Design: String, CaseIterable, Codable {
         
         /// Error banner
         case error
@@ -68,10 +68,28 @@ public class Message: NSManagedObject, CacheableManagedObject {
         
     }
     
-    
-    
     /// Core Data entity description name
     static var entityName = "Message"
+    
+    /// Type of content the message contains, indicates `Message` subentity
+    public var contentType: ContentType {
+        get {
+            return ContentType(rawValue: contentTypeRawValue!)!
+        }
+        set {
+            contentTypeRawValue = newValue.rawValue
+        }
+    }
+    
+    /// Design type of text nudges
+    public var designType: Design {
+        get {
+            return Design(rawValue: designTypeRawValue!)!
+        }
+        set {
+            designTypeRawValue = newValue.rawValue
+        }
+    }
     
     // MARK: Updating Object
     
@@ -80,7 +98,61 @@ public class Message: NSManagedObject, CacheableManagedObject {
     }
     
     internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
-        // TODO: Implement
+        if let messageResponse = response as? APIMessageResponse {
+            update(response: messageResponse, context: context)
+        }
+    }
+    
+    internal func update(response: APIMessageResponse, context: NSManagedObjectContext) {
+        messageID = response.id
+        clicked = response.clicked
+        contentType = response.contentType
+        designType = response.designType
+        event = response.event
+        persists = response.persists
+        placement = response.placement
+        read = response.read
+        userEventID = response.userEventID ?? -1
+        
+        actionURLString = response.action?.link
+        actionOpenExternal = response.action?.openExternal ?? false
+        actionTitle = response.action?.title
+        
+        buttonURLString = response.button?.link
+        buttonOpenExternal = response.button?.openExternal ?? false
+        buttonTitle = response.button?.title
+        
+        typeCreditScore = false
+        typeFeed = false
+        typeGoal = false
+        typeHome = false
+        typePopup = false
+        typeSetup = false
+        typeWelcome = false
+        
+        for messageType in response.messageTypes {
+            switch messageType {
+                case .creditScore:
+                    typeCreditScore = true
+                case .feed:
+                    typeFeed = true
+                case .goalNudge:
+                    typeGoal = true
+                case .homeNudge:
+                    typeHome = true
+                case .popup:
+                    typePopup = true
+                case .setupNudge:
+                    typeSetup = true
+                case .welcomeNudge:
+                    typeWelcome = true
+            }
+        }
+    }
+    
+    internal func updateRequest() -> APIMessageUpdateRequest {
+        return APIMessageUpdateRequest(clicked: clicked,
+                                       read: read)
     }
 
 }

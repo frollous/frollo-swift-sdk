@@ -13,4 +13,15 @@ import CoreData
 
 public class MessageText: Message {
 
+    internal override func update(response: APIMessageResponse, context: NSManagedObjectContext) {
+        super.update(response: response, context: context)
+        
+        guard case let .text(contents)? = response.content
+            else {
+                return
+        }
+        
+        body = contents.body
+    }
+    
 }

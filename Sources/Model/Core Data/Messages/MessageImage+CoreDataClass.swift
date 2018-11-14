@@ -13,4 +13,17 @@ import CoreData
 
 public class MessageImage: Message {
 
+    internal override func update(response: APIMessageResponse, context: NSManagedObjectContext) {
+        super.update(response: response, context: context)
+        
+        guard case let .image(contents)? = response.content
+            else {
+                return
+        }
+        
+        urlString = contents.url
+        height = contents.height
+        width = contents.width
+    }
+    
 }

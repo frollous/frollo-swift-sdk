@@ -41,7 +41,7 @@ class MessagesRequestTests: XCTestCase {
             XCTAssertNil(error)
             
             if let messagesResponse = response {
-                XCTAssertEqual(messagesResponse.count, 100)
+                XCTAssertEqual(messagesResponse.count, 74)
                 
                 if let firstMessage = messagesResponse.first {
                     XCTAssertEqual(firstMessage.id, 52473)
@@ -90,7 +90,7 @@ class MessagesRequestTests: XCTestCase {
             XCTAssertNil(error)
             
             if let messagesResponse = response {
-                XCTAssertEqual(messagesResponse.count, 96)
+                XCTAssertEqual(messagesResponse.count, 72)
                 
                 let message = messagesResponse[1]
                 XCTAssertEqual(message.id, 52432)
