@@ -50,6 +50,7 @@
 		011F8137219CE5D100A1495F /* UserDefaultsPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8136219CE5D100A1495F /* UserDefaultsPersistenceTests.swift */; };
 		011F8138219CE5D100A1495F /* UserDefaultsPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8136219CE5D100A1495F /* UserDefaultsPersistenceTests.swift */; };
 		011F8139219CE5D100A1495F /* UserDefaultsPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8136219CE5D100A1495F /* UserDefaultsPersistenceTests.swift */; };
+		011F813B219CECA200A1495F /* APIDeviceUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F813A219CECA200A1495F /* APIDeviceUpdateRequest.swift */; };
 		0126068321990377005D8377 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068221990377005D8377 /* Messages.swift */; };
 		0126068821991963005D8377 /* Message+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068621991963005D8377 /* Message+CoreDataClass.swift */; };
 		0126068921991963005D8377 /* Message+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068721991963005D8377 /* Message+CoreDataProperties.swift */; };
@@ -617,6 +618,7 @@
 		011F8124219BF4E000A1495F /* FrolloSDKDataModel-1.1.0.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.1.0.sqlite"; sourceTree = "<group>"; };
 		011F8132219CDCD900A1495F /* APIMessageResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIMessageResponseTests.swift; sourceTree = "<group>"; };
 		011F8136219CE5D100A1495F /* UserDefaultsPersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsPersistenceTests.swift; sourceTree = "<group>"; };
+		011F813A219CECA200A1495F /* APIDeviceUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIDeviceUpdateRequest.swift; sourceTree = "<group>"; };
 		0126068221990377005D8377 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		0126068521990449005D8377 /* FrolloSDKDataModel-1.1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.1.0.xcdatamodel"; sourceTree = "<group>"; };
 		0126068621991963005D8377 /* Message+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -1096,6 +1098,7 @@
 		013D2D84210A889200EEDEC5 /* Device */ = {
 			isa = PBXGroup;
 			children = (
+				011F813A219CECA200A1495F /* APIDeviceUpdateRequest.swift */,
 				01616B0B2186BFD5003EF2D0 /* APILogRequest.swift */,
 				01F220E220FEAC7600C70B00 /* APITokenResponse.swift */,
 			);
@@ -2353,6 +2356,7 @@
 				01F220E320FEAC7600C70B00 /* APITokenResponse.swift in Sources */,
 				012606B6219A784D005D8377 /* MessageImage+CoreDataProperties.swift in Sources */,
 				01819149211178D2000E0F80 /* ResponseHandler.swift in Sources */,
+				011F813B219CECA200A1495F /* APIDeviceUpdateRequest.swift in Sources */,
 				0159E47621926949002CC3BB /* PropertyListPersistence.swift in Sources */,
 				01874B7D20FD6FB9005A7D0C /* Network+User.swift in Sources */,
 				012606B3219A784D005D8377 /* MessageHTML+CoreDataClass.swift in Sources */,

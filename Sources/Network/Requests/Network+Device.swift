@@ -45,4 +45,22 @@ extension Network {
         }
     }
     
+    internal func updateDevice(request: APIDeviceUpdateRequest, completion: @escaping NetworkCompletion) {
+        requestQueue.async {
+            let url = URL(string: DeviceEndpoint.device.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.contentRequest(url: url, method: .put, content: request)
+                else {
+                    let dataError = DataError(type: .api, subType: .invalidData)
+                    
+                    completion(nil, dataError)
+                    return
+            }
+            
+            self.sessionManager.request(urlRequest).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { (response) in
+                self.handleEmptyResponse(response: response, completion: completion)
+            }
+        }
+    }
+    
 }

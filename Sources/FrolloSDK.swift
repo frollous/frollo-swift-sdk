@@ -278,6 +278,7 @@ public class FrolloSDK: NetworkDelegate {
         aggregation.refreshProviders()
         aggregation.refreshTransactionCategories()
         aggregation.refreshMerchants()
+        authentication.updateDevice()
     }
     
     // MARK: - Scheduled Refresh

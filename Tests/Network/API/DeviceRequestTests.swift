@@ -21,7 +21,7 @@ class DeviceRequestTests: XCTestCase {
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        OHHTTPStubs.removeAllStubs()
     }
 
     func testRefreshTokens() {
@@ -50,8 +50,6 @@ class DeviceRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testLog() {
@@ -77,8 +75,33 @@ class DeviceRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testUpdateDevice() {
+        let expectation1 = expectation(description: "Network Request")
         
-        OHHTTPStubs.removeAllStubs()
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.device.path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        let request = APIDeviceUpdateRequest(deviceName: "Device Name",
+                                             notificationToken: "SomeToken123",
+                                             timezone: TimeZone.current.identifier)
+        
+        network.updateDevice(request: request) { (response, error) in
+            XCTAssertNil(error)
+            XCTAssertNil(response)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
     }
 
 }

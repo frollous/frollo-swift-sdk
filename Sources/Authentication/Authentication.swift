@@ -320,6 +320,33 @@ public class Authentication {
         }
     }
     
+    // MARK: - Device
+    
+    /**
+     Update information about the current device. Updates the current device name and timezone automatically.
+     
+     - parameters:
+        - notificationToken: Push notification token for the device (optional)
+        - completion: Completion handler with any error that occurred (optional)
+    */
+    internal func updateDevice(notificationToken: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        let deviceInfo = DeviceInfo.current()
+        
+        let request = APIDeviceUpdateRequest(deviceName: deviceInfo.deviceName,
+                                             notificationToken: notificationToken,
+                                             timezone: TimeZone.current.identifier)
+        
+        network.updateDevice(request: request) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            }
+            
+            DispatchQueue.main.async {
+                completion?(error)
+            }
+        }
+    }
+    
     // MARK: - Logout
     
     /**
