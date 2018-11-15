@@ -57,6 +57,10 @@
 		011F8144219D2A3E00A1495F /* EventsRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8143219D2A3E00A1495F /* EventsRequestTests.swift */; };
 		011F8145219D2A3E00A1495F /* EventsRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8143219D2A3E00A1495F /* EventsRequestTests.swift */; };
 		011F8146219D2A3E00A1495F /* EventsRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8143219D2A3E00A1495F /* EventsRequestTests.swift */; };
+		011F814A219D31C000A1495F /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8149219D31C000A1495F /* Events.swift */; };
+		011F814C219D35ED00A1495F /* EventsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F814B219D35ED00A1495F /* EventsTests.swift */; };
+		011F814D219D35ED00A1495F /* EventsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F814B219D35ED00A1495F /* EventsTests.swift */; };
+		011F814E219D35ED00A1495F /* EventsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F814B219D35ED00A1495F /* EventsTests.swift */; };
 		0126068321990377005D8377 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068221990377005D8377 /* Messages.swift */; };
 		0126068821991963005D8377 /* Message+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068621991963005D8377 /* Message+CoreDataClass.swift */; };
 		0126068921991963005D8377 /* Message+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068721991963005D8377 /* Message+CoreDataProperties.swift */; };
@@ -629,6 +633,8 @@
 		011F813F219D25F000A1495F /* EventsEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsEndpoint.swift; sourceTree = "<group>"; };
 		011F8141219D282400A1495F /* Network+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+Events.swift"; sourceTree = "<group>"; };
 		011F8143219D2A3E00A1495F /* EventsRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsRequestTests.swift; sourceTree = "<group>"; };
+		011F8149219D31C000A1495F /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
+		011F814B219D35ED00A1495F /* EventsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsTests.swift; sourceTree = "<group>"; };
 		0126068221990377005D8377 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		0126068521990449005D8377 /* FrolloSDKDataModel-1.1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.1.0.xcdatamodel"; sourceTree = "<group>"; };
 		0126068621991963005D8377 /* Message+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -942,6 +948,22 @@
 			path = Events;
 			sourceTree = "<group>";
 		};
+		011F8147219D317900A1495F /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				011F814B219D35ED00A1495F /* EventsTests.swift */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		011F8148219D31AB00A1495F /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				011F8149219D31C000A1495F /* Events.swift */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
 		0126068121990158005D8377 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
@@ -1200,6 +1222,7 @@
 				01EED85B20E5A7EA00F4516B /* Authentication */,
 				01EED86C20E5AA8B00F4516B /* Database */,
 				01C824FB20EDD64E0093400E /* Error */,
+				011F8148219D31AB00A1495F /* Events */,
 				01C8251020EDF56E0093400E /* Extensions */,
 				0136D223210011D90062EAEA /* Keychain */,
 				01C824EA20EC32DE0093400E /* Logging */,
@@ -1221,6 +1244,7 @@
 				017B48FA21084B8D00447E65 /* Authentication */,
 				01EEDB1920EAE2A900F4516B /* Database */,
 				016DD0A220EF356D00F41919 /* Error */,
+				011F8147219D317900A1495F /* Events */,
 				01C824E720EB2F4A0093400E /* Extensions */,
 				015EEDED210FDF1A0081AD76 /* Hosts */,
 				0136D2262100679A0062EAEA /* Keychain */,
@@ -2399,6 +2423,7 @@
 				0126068921991963005D8377 /* Message+CoreDataProperties.swift in Sources */,
 				0159E4872193CBAD002CC3BB /* Provider+CoreDataProperties.swift in Sources */,
 				01483B9921192C3900D0DA87 /* TransactionCategory+CoreDataClass.swift in Sources */,
+				011F814A219D31C000A1495F /* Events.swift in Sources */,
 				01C824EC20EC34BA0093400E /* Log.swift in Sources */,
 				011F8140219D25F000A1495F /* EventsEndpoint.swift in Sources */,
 				012606B0219A784D005D8377 /* MessageVideo+CoreDataProperties.swift in Sources */,
@@ -2483,6 +2508,7 @@
 				017B48F721083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				013A32CF2112C3A900B0590B /* ProviderAccount+Test.swift in Sources */,
 				017B48F12108356C00447E65 /* User+Test.swift in Sources */,
+				011F814C219D35ED00A1495F /* EventsTests.swift in Sources */,
 				01483BA821194AEC00D0DA87 /* TransactionCategoryTests.swift in Sources */,
 				01483BA42119321A00D0DA87 /* TransactionCategory+Test.swift in Sources */,
 				012606C7219BA9B7005D8377 /* Message+Test.swift in Sources */,
@@ -2564,6 +2590,7 @@
 				017B48F821083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				013A32D02112C3A900B0590B /* ProviderAccount+Test.swift in Sources */,
 				017B48F22108356C00447E65 /* User+Test.swift in Sources */,
+				011F814D219D35ED00A1495F /* EventsTests.swift in Sources */,
 				01483BA921194AEC00D0DA87 /* TransactionCategoryTests.swift in Sources */,
 				01483BA52119321A00D0DA87 /* TransactionCategory+Test.swift in Sources */,
 				012606C8219BA9B7005D8377 /* Message+Test.swift in Sources */,
@@ -2654,6 +2681,7 @@
 				017B48F921083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				013A32D12112C3A900B0590B /* ProviderAccount+Test.swift in Sources */,
 				01483BA62119321A00D0DA87 /* TransactionCategory+Test.swift in Sources */,
+				011F814E219D35ED00A1495F /* EventsTests.swift in Sources */,
 				017B48F32108356C00447E65 /* User+Test.swift in Sources */,
 				01483BAA21194AEC00D0DA87 /* TransactionCategoryTests.swift in Sources */,
 				012606C9219BA9B7005D8377 /* Message+Test.swift in Sources */,

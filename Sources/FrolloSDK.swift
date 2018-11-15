@@ -82,6 +82,28 @@ public class FrolloSDK: NetworkDelegate {
             return _database
         }
     }
+    /// Events - Triggering and handling of events. See `Events` for details
+    public var events: Events {
+        get {
+            guard setup
+                else {
+                    fatalError("SDK not setup.")
+            }
+            
+            return _events
+        }
+    }
+    /// Messages - All messages management. See `Messages` for details
+    public var messages: Messages {
+        get {
+            guard setup
+                else {
+                    fatalError("SDK not setup.")
+            }
+            
+            return _messages
+        }
+    }
     
     internal let _database: Database
     internal let keychain: Keychain
@@ -90,6 +112,8 @@ public class FrolloSDK: NetworkDelegate {
     
     internal var _aggregation: Aggregation!
     internal var _authentication: Authentication!
+    internal var _events: Events!
+    internal var _messages: Messages!
     internal var network: Network!
     internal var refreshTimer: Timer?
     internal var setup = false
@@ -173,6 +197,8 @@ public class FrolloSDK: NetworkDelegate {
         
         _aggregation = Aggregation(database: _database, network: network)
         _authentication = Authentication(database: _database, network: network, preferences: preferences)
+        _events = Events(network: network)
+        _messages = Messages(database: _database, network: network)
         
         _database.setup { (error) in
             if error == nil {
