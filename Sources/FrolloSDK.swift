@@ -295,6 +295,7 @@ public class FrolloSDK: NetworkDelegate {
         aggregation.refreshAccounts()
         aggregation.refreshTransactions(from: Date().startOfLastMonth(), to: Date().endOfMonth())
         authentication.refreshUser()
+        messages.refreshUnreadMessages()
     }
     
     /**
