@@ -5,6 +5,7 @@
 //  Created by Nick Dawson on 26/6/18.
 //
 
+import CoreData
 import XCTest
 @testable import FrolloSDK
 
