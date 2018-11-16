@@ -46,5 +46,51 @@ class EventsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testHandleEventHandled() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        let events = Events(network: network)
+        
+        let eventName = "TEST_EVENT"
+        
+        events.handleEvent(eventName) { (handled, error) in
+            XCTAssertTrue(handled)
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testHandleEventNotHandled() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        let events = Events(network: network)
+        
+        let eventName = "UNKNOWN_EVENT"
+        
+        events.handleEvent(eventName) { (handled, error) in
+            XCTAssertFalse(handled)
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
 
 }
