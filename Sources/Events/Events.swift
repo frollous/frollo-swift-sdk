@@ -53,9 +53,10 @@ public class Events {
      
      - parameters:
         - eventName: Name of the event to be handled. Unrecognised ones will be ignored
+        - notification: Payload of the associated notification (optional)
         - completion: Completion handler indicating if the event was handled and any error that may have occurred (optional)
     */
-    internal func handleEvent(_ eventName: String, completion: ((_ handled: Bool, _ error: Error?) -> Void)? = nil) {
+    internal func handleEvent(_ eventName: String, notification: NotificationPayload? = nil, completion: ((_ handled: Bool, _ error: Error?) -> Void)? = nil) {
         switch eventName {
             case EventNames.test:
                 Log.info("Test event received")

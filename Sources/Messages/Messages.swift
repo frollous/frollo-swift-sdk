@@ -34,6 +34,30 @@ public class Messages: CachedObjects, ResponseHandler {
         return cachedObject(type: Message.self, context: context, objectID: messageID, objectKey: #keyPath(Message.messageID))
     }
     
+    /**
+     Fetch messages from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `Message` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to messageID ascending (Optional)
+     */
+    public func messages(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Message.messageID), ascending: true)]) -> [Message]? {
+        return cachedObjects(type: Message.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    }
+    
+    /**
+     Fetched results controller of Messages from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `Message` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to messageID ascending (Optional)
+     */
+    public func messagesFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Message.messageID), ascending: true)]) -> NSFetchedResultsController<Message>? {
+        return fetchedResultsController(type: Message.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    }
+    
     public func refreshMessages(completion: FrolloSDKCompletionHandler? = nil) {
         network.fetchMessages { (response, error) in
             if let responseError = error {
@@ -115,6 +139,21 @@ public class Messages: CachedObjects, ResponseHandler {
             DispatchQueue.main.async {
                 completion?(error)
             }
+        }
+    }
+    
+    // MARK: - Push Notification Handling
+    
+    internal func handleMessageNotification(_ notification: NotificationPayload) {
+        guard let messageID = notification.userMessageID
+            else {
+                return
+        }
+        
+        let managedObjectContext = self.database.newBackgroundContext()
+        
+        if message(context: managedObjectContext, messageID: messageID) == nil {
+            refreshUnreadMessages()
         }
     }
     
