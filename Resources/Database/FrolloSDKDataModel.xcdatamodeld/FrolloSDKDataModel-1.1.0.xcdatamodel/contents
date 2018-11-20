@@ -22,6 +22,7 @@
         <attribute name="currentBalanceCurrency" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="favourite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="groupRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="hidden" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="included" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="interestRate" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
@@ -294,18 +295,18 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="705"/>
+        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="720"/>
         <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
         <element name="Merchant" positionX="498.47265625" positionY="19.75" width="128" height="118"/>
+        <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="28"/>
+        <element name="MessageHTML" positionX="-317.359375" positionY="757.66015625" width="128" height="73"/>
+        <element name="MessageImage" positionX="-319.14453125" positionY="879.53515625" width="128" height="28"/>
+        <element name="MessageText" positionX="-319.734375" positionY="990.58203125" width="128" height="118"/>
+        <element name="MessageVideo" positionX="-317.34375" positionY="1145.10546875" width="128" height="28"/>
         <element name="Provider" positionX="-385.3984375" positionY="11.875" width="128" height="480"/>
         <element name="ProviderAccount" positionX="-164.078125" positionY="13.7109375" width="128" height="210"/>
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="330"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="165"/>
         <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="300"/>
-        <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="28"/>
-        <element name="MessageVideo" positionX="-317.34375" positionY="1145.10546875" width="128" height="28"/>
-        <element name="MessageImage" positionX="-319.14453125" positionY="879.53515625" width="128" height="28"/>
-        <element name="MessageText" positionX="-319.734375" positionY="990.58203125" width="128" height="118"/>
-        <element name="MessageHTML" positionX="-317.359375" positionY="757.66015625" width="128" height="73"/>
     </elements>
 </model>
