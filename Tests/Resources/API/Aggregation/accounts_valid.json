@@ -4,8 +4,12 @@
 	"provider_name": "ME Bank (demo)",
 	"account_name": "Personal Account",
 	"account_status": "active",
-	"account_type": "checking",
-	"container": "bank",
+	"account_attributes": {
+		"container": "bank",
+		"account_type": "bank_account",
+		"group": "bank",
+		"classification": "personal"
+	},
 	"included": true,
 	"favourite": true,
 	"hidden": false,
@@ -76,8 +80,11 @@
 	"provider_name": "ME Bank (demo)",
 	"account_name": "Savings Account",
 	"account_status": "active",
-	"account_type": "savings",
-	"container": "bank",
+	"account_attributes": {
+		"container": "bank",
+		"account_type": "savings",
+		"group": "savings"
+	},
 	"included": true,
 	"favourite": false,
 	"hidden": false,
@@ -99,8 +106,11 @@
 	"provider_name": "ANZ (demo)",
 	"account_name": "Credit Card",
 	"account_status": "active",
-	"account_type": "credit",
-	"container": "credit_card",
+	"account_attributes": {
+		"container": "credit_card",
+		"account_type": "credit_card",
+		"group": "credit_card"
+	},
 	"included": true,
 	"favourite": true,
 	"hidden": false,
@@ -123,8 +133,11 @@
 	"provider_name": "AustralianSuper (demo)",
 	"account_name": "Super investment",
 	"account_status": "active",
-	"account_type": "individual",
-	"container": "investment",
+	"account_attributes": {
+		"container": "investment",
+		"account_type": "super_annuation",
+		"group": "super_annuation"
+	},
 	"included": true,
 	"favourite": true,
 	"hidden": false,

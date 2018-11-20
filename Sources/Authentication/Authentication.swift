@@ -47,7 +47,7 @@ public class Authentication {
     /**
      Indicates if the user is currently authorised with Frollo
     */
-    public var loggedIn: Bool {
+    public internal(set) var loggedIn: Bool {
         get {
             return preferences.loggedIn
         }

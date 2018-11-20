@@ -85,6 +85,9 @@ extension Account {
     /// Favourited
     @NSManaged public var favourite: Bool
     
+    /// Raw value for the account group. Use only in predicates
+    @NSManaged public var groupRawValue: String
+    
     /// Hidden. Used to hide the account in the UI
     @NSManaged public var hidden: Bool
     
@@ -127,8 +130,8 @@ extension Account {
     /// Raw value of the refresh additional status. Use only in predicate (optional)
     @NSManaged public var refreshAdditionalStatusRawValue: String?
     
-    /// Raw value of the refresh status. Use only in predicates (optional)
-    @NSManaged public var refreshStatusRawValue: String?
+    /// Raw value of the refresh status. Use only in predicates
+    @NSManaged public var refreshStatusRawValue: String
     
     /// Raw value of the refresh sub status. Use only in predicate (optional)
     @NSManaged public var refreshSubStatusRawValue: String?

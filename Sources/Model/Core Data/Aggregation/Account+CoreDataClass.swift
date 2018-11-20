@@ -34,7 +34,7 @@ public class Account: NSManagedObject, CacheableManagedObject {
      
      Status of the account according to the `Provider`
     */
-    public enum AccountStatus: String, Codable {
+    public enum AccountStatus: String, Codable, CaseIterable {
         
         /// Account is fully active
         case active
@@ -55,93 +55,115 @@ public class Account: NSManagedObject, CacheableManagedObject {
      
      Sub type of the account indicating more detail what the account is
     */
-    public enum AccountSubType: String, Codable {
+    public enum AccountSubType: String, Codable, CaseIterable {
         
-        /// Bank - CD
-        case cd
+        /// Other or unknown sub type
+        case other
         
-        /// Bank - Checking
-        case checking
+        /// Bank account
+        case bankAccount = "bank_account"
         
-        /// Bank - Savings
+        /// Savings account
         case savings
         
+        /// Emergency savings fund
+        case emergencyFund = "emegency_fund"
         
+        /// Term deposit
+        case termDeposit = "term_deposit"
         
-        /// Credit Card - Credit
-        case credit
+        /// Bills fund
+        case bills
         
-        /// Credit Card - Charge
-        case charge
+        /// Offset account
+        case offset
         
+        /// Travel Card
+        case travel
         
+        /// Prepaid Card
+        case prepaid
         
-        /// Credit Score - Experian
-        case experian
+        /// Balance transfer card
+        case balanceTransferCard = "balance_transfer_card"
         
+        /// Reward points card
+        case rewardsCard = "rewards_card"
         
+        /// Generic credit card
+        case creditCard = "credit_card"
         
-        /// Insurance
+        /// Super Annuation
+        case superAnnuation = "super_annuation"
+        
+        /// Shares and Stocks
+        case shares
+        
+        /// Business account
+        case business
+        
+        /// Bonds
+        case bonds
+        
+        /// Pension
+        case pension
+        
+        /// Generic Mortgage
+        case mortgage
+        
+        /// Mortgage - Fixed Rate
+        case mortgageFixed = "mortgage_fixed"
+        
+        /// Mortgage - Variable Rate
+        case mortgageVariable = "mortgage_variable"
+        
+        /// Investment Home Loan - Fixed Rate
+        case investmentHomeLoanFixed = "investment_home_loan_fixed"
+        
+        /// Investment Home Loan - Variable
+        case investmentHomeLoanVariable = "investment_home_loan_variable"
+        
+        /// Student Loan
+        case studentLoan = "student_loan"
+        
+        /// Car Loan
+        case carLoan = "car_loan"
+        
+        /// Line of Credit
+        case lineOfCredit = "line_of_credit"
+        
+        /// Peer to Peer Loan
+        case p2pLending = "p2p_lending"
+        
+        /// Personal Loan
+        case personal
+        
+        /// Car insurance
+        case autoInsurance = "auto_insurance"
+        
+        /// Health insurance
+        case healthInsurance = "health_insurance"
+        
+        /// Home insurnace
+        case homeInsurance = "home_insurance"
+        
+        /// Life insurance
+        case lifeInsurance = "life_insurance"
+        
+        /// Travel Insurance
+        case travelInsurance = "travel_insurance"
+        
+        /// Generic Insurance
         case insurance
         
+        /// Reward or Loyalty
+        case reward
         
+        /// Credit Score
+        case creditScore = "credit_score"
         
-        /// Bill
-        case bill
-        
-        
-        
-        /// Loan
-        case loan
-        
-        
-        
-        /// Investment - 401K
-        case t401k
-        
-        /// Investment - 403B
-        case t403b
-        
-        /// Investment - Annuity
-        case annuity
-        
-        /// Investment - Brokerage Cash
-        case brokerageCash = "brokerage_cash"
-        
-        /// Investment - Brokerage Margin
-        case brokerageMargin = "brokerage_margin"
-        
-        /// Investment - Custodial
-        case custodial
-        
-        /// Investment - IRA
-        case ira
-        
-        /// Investment - Individual
-        case individual
-        
-        /// Investment - Market
-        case market
-        
-        /// Investment - Money
-        case money
-        
-        /// Investment - Money Market
-        case moneyMarket = "money_market"
-        
-        /// Invesmtent - Simple
-        case simple
-        
-        /// Investment - Trust
-        case trust
-
-        
-        
-        /// Unknown
-        case unknown
-        
-        /// Other
-        case other
+        /// Financial Health Score
+        case healthScore = "health_score"
         
     }
     
@@ -150,7 +172,7 @@ public class Account: NSManagedObject, CacheableManagedObject {
      
      Main type of the account as determined by container
     */
-    public enum AccountType: String, Codable {
+    public enum AccountType: String, Codable, CaseIterable {
         
         /// Bank account
         case bank
@@ -186,7 +208,7 @@ public class Account: NSManagedObject, CacheableManagedObject {
      
      More detailed classification of the type of account
     */
-    public enum Classification: String, Codable {
+    public enum Classification: String, Codable, CaseIterable {
         
         /// Add on card account
         case addOnCard = "add_on_card"
@@ -208,6 +230,48 @@ public class Account: NSManagedObject, CacheableManagedObject {
         
         /// Virtual card account
         case virtualCard = "virtual_card"
+        
+    }
+    
+    /**
+     Grouping of Accounts
+     
+     What account group the account should appear in
+    */
+    public enum Group: String, Codable, CaseIterable {
+        
+        /// Bank accounts
+        case bank
+        
+        /// Savings accounts
+        case savings
+        
+        /// Credit cards
+        case creditCard = "credit_card"
+        
+        /// Super Annuation
+        case superAnnuation = "super_annuation"
+        
+        /// Investments
+        case investment
+        
+        /// Loans and mortgages
+        case loan
+        
+        /// Insurance
+        case insurance
+        
+        /// Rewards and Loyalty
+        case reward
+        
+        /// Scores
+        case score
+        
+        /// Custom section (as defined per tenant)
+        case custom
+        
+        /// Other or unknown
+        case other
         
     }
     
@@ -257,10 +321,20 @@ public class Account: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Account Grouping
+    public var group: Group {
+        get {
+            return Group(rawValue: groupRawValue)!
+        }
+        set {
+            groupRawValue = newValue.rawValue
+        }
+    }
+    
     /// Account Refresh Status
     public var refreshStatus: AccountRefreshStatus {
         get {
-            return AccountRefreshStatus(rawValue: refreshStatusRawValue!)!
+            return AccountRefreshStatus(rawValue: refreshStatusRawValue)!
         }
         set {
             refreshStatusRawValue = newValue.rawValue
@@ -313,8 +387,8 @@ public class Account: NSManagedObject, CacheableManagedObject {
         providerName = response.providerName
         accountName = response.accountName
         accountStatus = response.accountStatus
-        accountSubType = response.accountType
-        accountType = response.container
+        accountSubType = response.accountAttributes.accountType
+        accountType = response.accountAttributes.container
         favourite = response.favourite
         hidden = response.hidden
         included = response.included
@@ -389,7 +463,8 @@ public class Account: NSManagedObject, CacheableManagedObject {
         
         accountHolderName = response.holderProfile?.name
         balanceDescription = response.balanceDetails?.currentDescription
-        classification = response.classification
+        classification = response.accountAttributes.classification
+        group = response.accountAttributes.group
         dueDate = response.dueDate
         lastPaymentDate = response.lastPaymentDate
         lastRefreshed = response.refreshStatus.lastRefreshed
