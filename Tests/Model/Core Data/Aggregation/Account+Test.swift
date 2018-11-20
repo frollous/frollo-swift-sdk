@@ -49,6 +49,7 @@ extension Account: TestableCoreData {
         accountType = .bank
         accountSubType = .savings
         classification = .personal
+        group = .bank
         hidden = false
         included = true
         favourite = true

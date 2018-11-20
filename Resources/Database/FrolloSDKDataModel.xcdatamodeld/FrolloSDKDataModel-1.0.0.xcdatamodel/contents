@@ -22,6 +22,7 @@
         <attribute name="currentBalanceCurrency" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="favourite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="groupRawValue" attributeType="String" syncable="YES"/>
         <attribute name="hidden" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="included" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="interestRate" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
@@ -238,7 +239,7 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="705"/>
+        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="720"/>
         <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
         <element name="Merchant" positionX="498.47265625" positionY="19.75" width="128" height="120"/>
         <element name="Provider" positionX="-385.3984375" positionY="11.875" width="128" height="480"/>

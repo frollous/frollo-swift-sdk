@@ -11,17 +11,15 @@ import Foundation
 struct APIAccountResponse: APIUniqueResponse, Codable {
     
     enum CodingKeys: String, CodingKey {
+        case accountAttributes = "account_attributes"
         case accountName = "account_name"
         case accountStatus = "account_status"
-        case accountType = "account_type"
         case amountDue = "amount_due"
         case availableBalance = "available_balance"
         case availableCash = "available_cash"
         case availableCredit = "available_credit"
         case apr
         case balanceDetails = "balance_details"
-        case classification
-        case container
         case currentBalance = "current_balance"
         case dueDate = "due_date"
         case favourite
@@ -39,6 +37,22 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
         case refreshStatus = "refresh_status"
         case totalCashLimit = "total_cash_limit"
         case totalCreditLine = "total_credit_line"
+    }
+    
+    struct Attributes: Codable {
+        
+        enum CodingKeys: String, CodingKey {
+            case accountType = "account_type"
+            case classification
+            case container
+            case group
+        }
+        
+        let accountType: Account.AccountSubType
+        let classification: Account.Classification?
+        let container: Account.AccountType
+        let group: Account.Group
+        
     }
     
     struct Balance: Codable {
@@ -106,10 +120,9 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
     }
     
     var id: Int64
+    let accountAttributes: Attributes
     let accountName: String
     let accountStatus: Account.AccountStatus
-    let accountType: Account.AccountSubType
-    let container: Account.AccountType
     let favourite: Bool
     let hidden: Bool
     let included: Bool
@@ -123,7 +136,6 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
     var availableCash: Balance?
     var availableCredit: Balance?
     var balanceDetails: BalanceDetails?
-    var classification: Account.Classification?
     var currentBalance: Balance?
     var dueDate: Date?
     var holderProfile: HolderProfile?

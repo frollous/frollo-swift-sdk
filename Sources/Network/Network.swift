@@ -51,7 +51,7 @@ class Network: SessionDelegate {
     internal var authenticator: NetworkAuthenticator!
     internal var sessionManager: SessionManager!
     
-    private let APIVersion = "1.16"
+    private let APIVersion = "1.17"
     
     /**
      Initialise a network stack pointing to an API at a specific URL

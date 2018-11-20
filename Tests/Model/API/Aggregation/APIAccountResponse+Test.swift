@@ -22,11 +22,15 @@ extension APIAccountResponse {
                                           nextRefresh: Date(timeIntervalSince1970: 1533183224),
                                           subStatus: .inputRequired)
         
+        let attributes = Attributes(accountType: Account.AccountSubType.allCases.randomElement()!,
+                                    classification: Account.Classification.allCases.randomElement(),
+                                    container: Account.AccountType.allCases.randomElement()!,
+                                    group: Account.Group.allCases.randomElement()!)
+        
         return APIAccountResponse(id: 547891,
+                                  accountAttributes: attributes,
                                   accountName: UUID().uuidString,
                                   accountStatus: .active,
-                                  accountType: .savings,
-                                  container: .bank,
                                   favourite: true,
                                   hidden: false,
                                   included: true,
@@ -39,7 +43,6 @@ extension APIAccountResponse {
                                   availableCash: Balance(amount: String(arc4random()), currency: "AUD"),
                                   availableCredit: Balance(amount: String(arc4random()), currency: "AUD"),
                                   balanceDetails: balanceDetails,
-                                  classification: .personal,
                                   currentBalance: Balance(amount: String(arc4random()), currency: "AUD"),
                                   dueDate: Date(timeIntervalSinceNow: 10000),
                                   holderProfile: holderProfile,

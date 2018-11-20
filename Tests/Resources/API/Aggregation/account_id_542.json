@@ -4,8 +4,11 @@
 	"provider_name": "ME Bank (demo)",
 	"account_name": "Personal Account",
 	"account_status": "active",
-	"account_type": "checking",
-	"container": "bank",
+	"account_attributes": {
+		"container": "bank",
+		"account_type": "bank_account",
+		"group": "bank"
+	},
 	"included": true,
 	"favourite": true,
 	"hidden": false,
