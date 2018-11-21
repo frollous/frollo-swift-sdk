@@ -112,6 +112,17 @@ public class FrolloSDK: NetworkDelegate {
             return _messages
         }
     }
+    /// Notifications - Registering and handling of push notifications
+    public var notifications: Notifications {
+        get {
+            guard setup
+                else {
+                    fatalError("SDK not setup.")
+            }
+            
+            return _notifications
+        }
+    }
     
     internal let _database: Database
     internal let keychain: Keychain
@@ -122,6 +133,7 @@ public class FrolloSDK: NetworkDelegate {
     internal var _authentication: Authentication!
     internal var _events: Events!
     internal var _messages: Messages!
+    internal var _notifications: Notifications!
     internal var network: Network!
     internal var refreshTimer: Timer?
     internal var setup = false
@@ -207,6 +219,7 @@ public class FrolloSDK: NetworkDelegate {
         _authentication = Authentication(database: _database, network: network, preferences: preferences)
         _events = Events(network: network)
         _messages = Messages(database: _database, network: network)
+        _notifications = Notifications(authentication: _authentication, events: _events, messages: _messages)
         
         _events.delegate = delegate
         _messages.delegate = delegate
