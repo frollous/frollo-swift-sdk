@@ -19,6 +19,8 @@ public class Events {
         static let test = "TEST_EVENT"
     }
     
+    internal weak var delegate: FrolloSDKDelegate?
+    
     private let network: Network
     
     internal init(network: Network) {
@@ -57,6 +59,12 @@ public class Events {
         - completion: Completion handler indicating if the event was handled and any error that may have occurred (optional)
     */
     internal func handleEvent(_ eventName: String, notification: NotificationPayload? = nil, completion: ((_ handled: Bool, _ error: Error?) -> Void)? = nil) {
+        defer {
+            DispatchQueue.main.async {
+                self.delegate?.eventTriggered(eventName: eventName)
+            }
+        }
+        
         switch eventName {
             case EventNames.test:
                 Log.info("Test event received")

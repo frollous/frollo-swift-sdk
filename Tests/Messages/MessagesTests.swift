@@ -12,9 +12,11 @@ import XCTest
 
 import OHHTTPStubs
 
-class MessagesTests: XCTestCase {
+class MessagesTests: XCTestCase, FrolloSDKDelegate {
     
     let keychainService = "MessagesTests"
+    
+    private var expectations = [XCTestExpectation]()
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -22,6 +24,8 @@ class MessagesTests: XCTestCase {
 
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+        expectations = []
+        
         OHHTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
@@ -270,6 +274,52 @@ class MessagesTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testHandlingPushMessageTriggersDelegate() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let notificationPayload = NotificationPayload.testMessageData()
+        
+        stub(condition: isHost(url.host!) && isPath("/" + MessagesEndpoint.message(messageID: notificationPayload.userMessageID!).path)) { (request) -> OHHTTPStubsResponse in
+            expectation1.fulfill()
+            
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        let network = Network(serverURL: url, keychain: keychain)
+        let messages = Messages(database: database, network: network)
+        messages.delegate = self
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.expectations.append(expectation1)
+            
+            messages.handleMessageNotification(notificationPayload)
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    // MARK: - Delegate
+    
+    func messageReceived(_ messageID: Int64) {
+        guard let expectation = expectations.first
+            else {
+                return
+        }
+        
+        expectation.fulfill()
+    }
+    
+    func eventTriggered(eventName: String) {
+        // Stub
     }
 
 }

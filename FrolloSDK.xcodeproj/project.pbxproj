@@ -140,6 +140,10 @@
 		0135D30D21A2628F00318142 /* notification_message.json in Resources */ = {isa = PBXBuildFile; fileRef = 0135D30921A2628F00318142 /* notification_message.json */; };
 		0135D30E21A2628F00318142 /* notification_message.json in Resources */ = {isa = PBXBuildFile; fileRef = 0135D30921A2628F00318142 /* notification_message.json */; };
 		0135D30F21A2628F00318142 /* notification_message.json in Resources */ = {isa = PBXBuildFile; fileRef = 0135D30921A2628F00318142 /* notification_message.json */; };
+		0135D31821A3D74500318142 /* FrolloSDKDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135D31721A3D74500318142 /* FrolloSDKDelegate.swift */; };
+		0135D31A21A4C03000318142 /* FrolloSDKDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135D31921A4C03000318142 /* FrolloSDKDelegateTests.swift */; };
+		0135D31B21A4C03000318142 /* FrolloSDKDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135D31921A4C03000318142 /* FrolloSDKDelegateTests.swift */; };
+		0135D31C21A4C03000318142 /* FrolloSDKDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135D31921A4C03000318142 /* FrolloSDKDelegateTests.swift */; };
 		0136D225210011E70062EAEA /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136D224210011E70062EAEA /* Keychain.swift */; };
 		0136D229210067DF0062EAEA /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136D227210067B20062EAEA /* KeychainTests.swift */; };
 		0136D2332101775B0062EAEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136D2322101775B0062EAEA /* AppDelegate.swift */; };
@@ -689,6 +693,8 @@
 		0135D30321A25D5000318142 /* NotificationPayload+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationPayload+Test.swift"; sourceTree = "<group>"; };
 		0135D30821A2628F00318142 /* notification_event.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = notification_event.json; sourceTree = "<group>"; };
 		0135D30921A2628F00318142 /* notification_message.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = notification_message.json; sourceTree = "<group>"; };
+		0135D31721A3D74500318142 /* FrolloSDKDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrolloSDKDelegate.swift; sourceTree = "<group>"; };
+		0135D31921A4C03000318142 /* FrolloSDKDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrolloSDKDelegateTests.swift; sourceTree = "<group>"; };
 		0136D224210011E70062EAEA /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		0136D227210067B20062EAEA /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
 		0136D2302101775B0062EAEA /* FrolloSDK iOS Test Host.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FrolloSDK iOS Test Host.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1262,6 +1268,7 @@
 			children = (
 				01527CC220E1B5C300B5042A /* FrolloSDK.h */,
 				01527CD820E1C5A600B5042A /* FrolloSDK.swift */,
+				0135D31721A3D74500318142 /* FrolloSDKDelegate.swift */,
 				01527CC320E1B5C300B5042A /* Info.plist */,
 				01EED85D20E5A7EA00F4516B /* Aggregation */,
 				01EED85B20E5A7EA00F4516B /* Authentication */,
@@ -1286,6 +1293,7 @@
 			isa = PBXGroup;
 			children = (
 				01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */,
+				0135D31921A4C03000318142 /* FrolloSDKDelegateTests.swift */,
 				0181914A21117B42000E0F80 /* Aggregation */,
 				017B48FA21084B8D00447E65 /* Authentication */,
 				01EEDB1920EAE2A900F4516B /* Database */,
@@ -2490,6 +2498,7 @@
 				01EED86320E5A7EB00F4516B /* Network.swift in Sources */,
 				0159E4892193CBAD002CC3BB /* Account+CoreDataProperties.swift in Sources */,
 				01C8250320EDDB340093400E /* APIError.swift in Sources */,
+				0135D31821A3D74500318142 /* FrolloSDKDelegate.swift in Sources */,
 				0135D2FD21A2202400318142 /* NotificationPayload.swift in Sources */,
 				01819146211168C8000E0F80 /* APIUniqueResponse.swift in Sources */,
 			);
@@ -2514,6 +2523,7 @@
 				012606CB219BA9C5005D8377 /* MessageTests.swift in Sources */,
 				012606C2219B8B5F005D8377 /* MessagesTests.swift in Sources */,
 				013A32C32112BBDE00B0590B /* APIProviderAccountResponse+Test.swift in Sources */,
+				0135D31A21A4C03000318142 /* FrolloSDKDelegateTests.swift in Sources */,
 				01483B94211913F200D0DA87 /* APIAccountUpdateRequest+Test.swift in Sources */,
 				01483B7E2117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */,
 				01BC3D0D2165C5500065A4B8 /* OTPTests.swift in Sources */,
@@ -2598,6 +2608,7 @@
 				012606CC219BA9C5005D8377 /* MessageTests.swift in Sources */,
 				012606C3219B8B5F005D8377 /* MessagesTests.swift in Sources */,
 				013A32C42112BBDE00B0590B /* APIProviderAccountResponse+Test.swift in Sources */,
+				0135D31B21A4C03000318142 /* FrolloSDKDelegateTests.swift in Sources */,
 				01483B95211913F200D0DA87 /* APIAccountUpdateRequest+Test.swift in Sources */,
 				01483B7F2117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */,
 				01BC3D0E2165C5500065A4B8 /* OTPTests.swift in Sources */,
@@ -2691,6 +2702,7 @@
 				012606CD219BA9C5005D8377 /* MessageTests.swift in Sources */,
 				012606C4219B8B5F005D8377 /* MessagesTests.swift in Sources */,
 				01483BA22119318D00D0DA87 /* APITransactionCategoryResponse+Test.swift in Sources */,
+				0135D31C21A4C03000318142 /* FrolloSDKDelegateTests.swift in Sources */,
 				017B48902105958100447E65 /* VersionTests.swift in Sources */,
 				015EEDFF211018420081AD76 /* ProviderTests.swift in Sources */,
 				01BC3D0F2165C5500065A4B8 /* OTPTests.swift in Sources */,

@@ -49,6 +49,14 @@ public class FrolloSDK: NetworkDelegate {
         return appDataURL
     }()
     
+    /// Delegate to get callbacks from certain events within the SDK such as messages being received
+    public weak var delegate: FrolloSDKDelegate? {
+        didSet {
+            _events?.delegate = delegate
+            _messages?.delegate = delegate
+        }
+    }
+    
     /// Aggregation - All account and transaction related data see `Aggregation` for details
     public var aggregation: Aggregation {
         get {
@@ -199,6 +207,9 @@ public class FrolloSDK: NetworkDelegate {
         _authentication = Authentication(database: _database, network: network, preferences: preferences)
         _events = Events(network: network)
         _messages = Messages(database: _database, network: network)
+        
+        _events.delegate = delegate
+        _messages.delegate = delegate
         
         _database.setup { (error) in
             if error == nil {

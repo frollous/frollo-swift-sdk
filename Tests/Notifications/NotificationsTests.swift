@@ -102,10 +102,10 @@ class NotificationsTests: XCTestCase {
         
         let url = URL(string: "https://api.example.com")!
         
-        stub(condition: isHost(url.host!) && isPath("/" + MessagesEndpoint.unread.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(url.host!) && isPath("/" + MessagesEndpoint.message(messageID: 98765).path)) { (request) -> OHHTTPStubsResponse in
             expectation1.fulfill()
             
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_unread", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let path = tempFolderPath()

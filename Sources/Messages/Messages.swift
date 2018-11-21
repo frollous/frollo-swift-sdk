@@ -11,6 +11,8 @@ import Foundation
 
 public class Messages: CachedObjects, ResponseHandler {
     
+    internal weak var delegate: FrolloSDKDelegate?
+    
     private let database: Database
     private let network: Network
     
@@ -153,7 +155,19 @@ public class Messages: CachedObjects, ResponseHandler {
         let managedObjectContext = self.database.newBackgroundContext()
         
         if message(context: managedObjectContext, messageID: messageID) == nil {
-            refreshUnreadMessages()
+            refreshMessage(messageID: messageID) { (error) in
+                if let refreshError = error {
+                    Log.error(refreshError.localizedDescription)
+                } else {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.delegate?.messageReceived(messageID)
+                    }
+                }
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.delegate?.messageReceived(messageID)
+            }
         }
     }
     
