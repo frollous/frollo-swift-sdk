@@ -10,7 +10,7 @@ import Foundation
 
 struct APIMessageUpdateRequest: Codable {
     
-    let clicked: Bool
+    let interacted: Bool
     let read: Bool
     
 }

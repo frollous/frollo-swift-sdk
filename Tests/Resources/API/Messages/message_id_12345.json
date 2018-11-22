@@ -5,7 +5,7 @@
 	"placement": 1,
 	"persists": true,
 	"read": false,
-	"clicked": false,
+	"interacted": false,
 	"message_types": ["home_nudge"],
 	"title": "Test WebView Auth",
 	"content_type": "text",

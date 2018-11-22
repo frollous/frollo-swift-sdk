@@ -86,9 +86,9 @@
         <attribute name="actionOpenExternal" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="actionTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="actionURLString" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="clicked" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="contentTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="event" attributeType="String" syncable="YES"/>
+        <attribute name="interacted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="messageID" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="persists" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="placement" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
@@ -294,7 +294,7 @@
         <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="720"/>
         <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
         <element name="Merchant" positionX="498.47265625" positionY="19.75" width="128" height="118"/>
-        <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="30"/>
+        <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="240"/>
         <element name="MessageHTML" positionX="-317.359375" positionY="757.66015625" width="128" height="90"/>
         <element name="MessageImage" positionX="-319.14453125" positionY="879.53515625" width="128" height="28"/>
         <element name="MessageText" positionX="-319.734375" positionY="990.58203125" width="128" height="30"/>

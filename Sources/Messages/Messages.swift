@@ -9,6 +9,11 @@
 import CoreData
 import Foundation
 
+/**
+ Messages
+ 
+ Manages caching and refreshing of messages
+ */
 public class Messages: CachedObjects, ResponseHandler {
     
     internal weak var delegate: FrolloSDKDelegate?
@@ -60,6 +65,12 @@ public class Messages: CachedObjects, ResponseHandler {
         return fetchedResultsController(type: Message.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
     }
     
+    /**
+     Refresh all available messages from the host.
+     
+     - parameters:
+        - completion: Optional completion handler with optional error if the request fails
+     */
     public func refreshMessages(completion: FrolloSDKCompletionHandler? = nil) {
         network.fetchMessages { (response, error) in
             if let responseError = error {
@@ -78,6 +89,13 @@ public class Messages: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Refresh a specific message by ID from the host
+     
+     - parameters:
+        - messageID: ID of the message to fetch
+        - completion: Optional completion handler with optional error if the request fails
+     */
     public func refreshMessage(messageID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
         network.fetchMessage(messageID: messageID) { (response, error) in
             if let responseError = error {
@@ -96,6 +114,13 @@ public class Messages: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Update a message on the host
+     
+     - parameters:
+        - messageID: ID of the message to be updated
+        - completion: Optional completion handler with optional error if the request fails
+     */
     public func updateMessage(messageID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
         guard let message = message(context: database.newBackgroundContext(), messageID: messageID)
             else {
@@ -126,6 +151,12 @@ public class Messages: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Refresh all unread messages from the host.
+     
+     - parameters:
+        - completion: Optional completion handler with optional error if the request fails
+     */
     public func refreshUnreadMessages(completion: FrolloSDKCompletionHandler? = nil) {
         network.fetchUnreadMessages { (response, error) in
             if let responseError = error {

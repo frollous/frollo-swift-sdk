@@ -2,16 +2,20 @@
 
 # Frollo Swift SDK
 
-**V1.0.0**
+**V1.1.0**
 
 - [Features](#features)
 - [Requirements](#requirements)
 - [Getting Started](getting-started.html)
+- [Push Notifications](push-notifications.html)
 
 ## Features
 
 - Authentication
 - Aggregation
+- Events
+- Messages
+- Notifications
 - User
 
 ## Requirements

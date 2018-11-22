@@ -13,7 +13,6 @@ struct APIMessageResponse: APIUniqueResponse {
     enum CodingKeys: String, CodingKey {
         
         case action
-        case clicked
         case content
         case contentType = "content_type"
         case event
@@ -21,6 +20,7 @@ struct APIMessageResponse: APIUniqueResponse {
         case header
         case iconURL = "icon_url"
         case id
+        case interacted
         case messageTypes = "message_types"
         case persists
         case placement
@@ -132,10 +132,10 @@ struct APIMessageResponse: APIUniqueResponse {
     
     var id: Int64
     let action: Link?
-    let clicked: Bool
     let content: Content?
     let contentType: Message.ContentType
     let event: String
+    let interacted: Bool
     let messageTypes: [String]
     let persists: Bool
     let placement: Int64
@@ -152,9 +152,9 @@ extension APIMessageResponse: Codable {
         
         id = try container.decode(Int64.self, forKey: .id)
         action = try container.decodeIfPresent(Link.self, forKey: .action)
-        clicked = try container.decode(Bool.self, forKey: .clicked)
         contentType = try container.decode(Message.ContentType.self, forKey: .contentType)
         event = try container.decode(String.self, forKey: .event)
+        interacted = try container.decode(Bool.self, forKey: .interacted)
         messageTypes = try container.decode([String].self, forKey: .messageTypes)
         persists = try container.decode(Bool.self, forKey: .persists)
         placement = try container.decode(Int64.self, forKey: .placement)
@@ -186,9 +186,9 @@ extension APIMessageResponse: Codable {
         
         try container.encode(id, forKey: .id)
         try container.encodeIfPresent(action, forKey: .action)
-        try container.encode(clicked, forKey: .clicked)
         try container.encode(contentType, forKey: .contentType)
         try container.encode(event, forKey: .event)
+        try container.encode(interacted, forKey: .interacted)
         try container.encode(messageTypes, forKey: .messageTypes)
         try container.encode(persists, forKey: .persists)
         try container.encode(placement, forKey: .placement)

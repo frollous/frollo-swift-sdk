@@ -39,10 +39,10 @@ extension APIMessageResponse {
         
         return APIMessageResponse(id: Int64.random(in: 1...100000),
                                   action: actionLink,
-                                  clicked: Bool.random(),
                                   content: content,
                                   contentType: contentType,
                                   event: String.randomString(range: 1...30),
+                                  interacted: Bool.random(),
                                   messageTypes: ["home_nudge"],
                                   persists: Bool.random(),
                                   placement: Int64.random(in: 1...1000),

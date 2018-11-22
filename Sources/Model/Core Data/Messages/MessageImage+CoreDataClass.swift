@@ -10,8 +10,22 @@
 import Foundation
 import CoreData
 
-
+/**
+ Message Image
+ 
+ Message with image content type and associated properties
+ */
 public class MessageImage: Message {
+    
+    /// Image URL. URL of the image to be displayed
+    public var url: URL {
+        get {
+            return URL(string: urlString)!
+        }
+        set {
+            urlString = newValue.absoluteString
+        }
+    }
 
     internal override func update(response: APIMessageResponse, context: NSManagedObjectContext) {
         super.update(response: response, context: context)

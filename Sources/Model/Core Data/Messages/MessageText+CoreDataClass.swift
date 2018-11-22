@@ -10,7 +10,11 @@
 import Foundation
 import CoreData
 
-
+/**
+ Message Text
+ 
+ Message with text content type and associated properties
+ */
 public class MessageText: Message {
     
     /// Design type of text nudges
@@ -20,6 +24,19 @@ public class MessageText: Message {
         }
         set {
             designTypeRawValue = newValue.rawValue
+        }
+    }
+    
+    /// Image URL. The URL of an image to be displayed
+    public var imageURL: URL? {
+        get {
+            if let rawValue = imageURLString {
+                return URL(string: rawValue)
+            }
+            return nil
+        }
+        set {
+            imageURLString = newValue?.absoluteString
         }
     }
 

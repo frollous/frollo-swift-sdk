@@ -13,17 +13,22 @@ import CoreData
 
 extension MessageHTML {
 
+    /**
+     Fetch Request
+     
+     - returns: Fetch request for `MessageHTML` type
+     */
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MessageHTML> {
         return NSFetchRequest<MessageHTML>(entityName: "MessageHTML")
     }
 
-    
+    /// Footer content (optional)
     @NSManaged public var footer: String?
     
-    
+    /// Header content (optional)
     @NSManaged public var header: String?
     
-    
+    /// HTML content to be rendered
     @NSManaged public var main: String
 
 }

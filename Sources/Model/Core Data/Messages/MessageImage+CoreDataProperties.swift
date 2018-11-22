@@ -13,12 +13,22 @@ import CoreData
 
 extension MessageImage {
 
+    /**
+     Fetch Request
+     
+     - returns: Fetch request for `MessageImage` type
+     */
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MessageImage> {
         return NSFetchRequest<MessageImage>(entityName: "MessageImage")
     }
 
+    /// Height of the image in pixels
     @NSManaged public var height: Double
+    
+    /// Width of the image in pixels
     @NSManaged public var width: Double
+    
+    /// Raw value for the image URL
     @NSManaged public var urlString: String
 
 }

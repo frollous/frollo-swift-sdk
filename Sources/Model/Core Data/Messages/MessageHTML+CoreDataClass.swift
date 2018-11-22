@@ -10,7 +10,11 @@
 import Foundation
 import CoreData
 
-
+/**
+ Message HTML
+ 
+ Message with HTML content type and associated properties
+ */
 public class MessageHTML: Message {
 
     internal override func update(response: APIMessageResponse, context: NSManagedObjectContext) {

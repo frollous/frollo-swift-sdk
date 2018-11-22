@@ -50,7 +50,7 @@ class MessagesRequestTests: XCTestCase {
                     XCTAssertEqual(firstMessage.placement, 1020)
                     XCTAssertFalse(firstMessage.persists)
                     XCTAssertFalse(firstMessage.read)
-                    XCTAssertFalse(firstMessage.clicked)
+                    XCTAssertFalse(firstMessage.interacted)
                     XCTAssertEqual(firstMessage.messageTypes, ["home_nudge"])
                     XCTAssertEqual(firstMessage.title, "Well done Jacob!")
                     XCTAssertEqual(firstMessage.contentType, .text)
@@ -126,7 +126,7 @@ class MessagesRequestTests: XCTestCase {
                     XCTAssertEqual(firstMessage.placement, 1020)
                     XCTAssertFalse(firstMessage.persists)
                     XCTAssertFalse(firstMessage.read)
-                    XCTAssertFalse(firstMessage.clicked)
+                    XCTAssertFalse(firstMessage.interacted)
                     XCTAssertEqual(firstMessage.messageTypes, ["home_nudge"])
                     XCTAssertEqual(firstMessage.title, "Well done Jacob!")
                     XCTAssertEqual(firstMessage.contentType, .html)
@@ -175,7 +175,7 @@ class MessagesRequestTests: XCTestCase {
                 XCTAssertEqual(message.placement, 1)
                 XCTAssertTrue(message.persists)
                 XCTAssertFalse(message.read)
-                XCTAssertFalse(message.clicked)
+                XCTAssertFalse(message.interacted)
                 XCTAssertEqual(message.messageTypes, ["home_nudge"])
                 XCTAssertEqual(message.title, "Test WebView Auth")
                 XCTAssertEqual(message.contentType, .text)
@@ -207,7 +207,7 @@ class MessagesRequestTests: XCTestCase {
 
         let network = Network(serverURL: url, keychain: keychain)
 
-        let request = APIMessageUpdateRequest(clicked: false, read: true)
+        let request = APIMessageUpdateRequest(interacted: false, read: true)
         network.updateMessage(messageID: id, request: request) { (response, error) in
             XCTAssertNil(error)
 

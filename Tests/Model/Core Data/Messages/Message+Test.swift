@@ -18,7 +18,7 @@ extension Message: TestableCoreData {
         placement = Int64.random(in: 1...100000)
         persists = Bool.random()
         read = Bool.random()
-        clicked = Bool.random()
+        interacted = Bool.random()
         title = String.randomString(range: 1...20)
         messageTypes = [String.randomString(range: 1...10), String.randomString(range: 1...10), String.randomString(range: 1...10)]
         contentType = ContentType.allCases.randomElement()!

@@ -8,6 +8,11 @@
 
 import Foundation
 
+/**
+ Notifications
+ 
+ Register for push notifications and handles incoming push notification payloads.
+ */
 public class Notifications {
     
     private let authentication: Authentication
@@ -20,12 +25,28 @@ public class Notifications {
         self.messages = messages
     }
     
+    /**
+     Register Push Notification Token
+     
+     Registers the device token received from APNS to the host to allow for push notifications to be sent
+     
+     - parameters:
+        - token: Raw token data received from APNS to be sent to the host
+    */
     public func registerPushNotificationToken(_ token: Data) {
         let notificationToken = token.hexEncodedString()
         
         authentication.updateDevice(notificationToken: notificationToken)
     }
     
+    /**
+     Handle Push Notification
+     
+     Handles the userInfo payload on a push notification. Any custom data or message content will be processed by the SDK.
+     
+     - parameters:
+        - userInfo: Notification user info payload received from the push
+    */
     public func handlePushNotification(userInfo: [String: Any]) {
         guard let jsonData = try? JSONSerialization.data(withJSONObject: userInfo, options: [])
             else {

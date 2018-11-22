@@ -71,6 +71,19 @@ public class Message: NSManagedObject, CacheableManagedObject {
     /// Core Data entity description name
     static var entityName = "Message"
     
+    /// Action URL. The URL the user should be taken to when interacting with a message. Can be a deeplink or web URL.
+    public var actionURL: URL? {
+        get {
+            if let rawValue = actionURLString {
+                return URL(string: rawValue)
+            }
+            return nil
+        }
+        set {
+            actionURLString = newValue?.absoluteString
+        }
+    }
+    
     /// Type of content the message contains, indicates `Message` subentity
     public var contentType: ContentType {
         get {
@@ -109,9 +122,9 @@ public class Message: NSManagedObject, CacheableManagedObject {
     
     internal func update(response: APIMessageResponse, context: NSManagedObjectContext) {
         messageID = response.id
-        clicked = response.clicked
         contentType = response.contentType
         event = response.event
+        interacted = response.interacted
         messageTypes = response.messageTypes
         persists = response.persists
         placement = response.placement
@@ -125,7 +138,7 @@ public class Message: NSManagedObject, CacheableManagedObject {
     }
     
     internal func updateRequest() -> APIMessageUpdateRequest {
-        return APIMessageUpdateRequest(clicked: clicked,
+        return APIMessageUpdateRequest(interacted: interacted,
                                        read: read)
     }
 

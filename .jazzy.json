@@ -11,15 +11,18 @@
   		"name": "Documentation",
   		"children": [
   			"Changelog",
-			"Getting Started"
+			  "Getting Started",
+        "Push Notifications"
   		]
   	},
   	{
   		"name": "SDK",
   		"children": [
   			"FrolloSDK",
+        "FrolloSDKDelegate",
   			"FrolloSDKCompletionHandler",
-  			"FrolloSDKAuthenticationNotification"
+  			"FrolloSDKAuthenticationNotification",
+        "LogLevel"
   		]
   	},
   	{
@@ -53,6 +56,29 @@
 		"children": [
 			"Database"
 		]
-	}
+	},
+  {
+    "name": "Events",
+    "children": [
+      "Events"
+    ]
+  },
+  {
+    "name": "Messages",
+    "children": [
+      "Messages",
+      "Message",
+      "MessageHTML",
+      "MessageImage",
+      "MessageText",
+      "MessageVideo"
+    ]
+  },
+  {
+    "name": "Notifications",
+    "children": [
+      "Notifications"
+    ]
+  }
   ]
 }

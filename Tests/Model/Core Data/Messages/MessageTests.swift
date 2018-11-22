@@ -46,7 +46,7 @@ class MessageTests: XCTestCase {
         XCTAssertEqual(messageResponse.placement, message.placement)
         XCTAssertEqual(messageResponse.persists, message.persists)
         XCTAssertEqual(messageResponse.read, message.read)
-        XCTAssertEqual(messageResponse.clicked, message.clicked)
+        XCTAssertEqual(messageResponse.interacted, message.interacted)
         XCTAssertEqual(messageResponse.title, message.title)
         XCTAssertEqual(messageResponse.contentType, message.contentType)
         XCTAssertEqual(messageResponse.messageTypes, message.messageTypes)
