@@ -47,7 +47,7 @@ public class Notifications {
      - parameters:
         - userInfo: Notification user info payload received from the push
     */
-    public func handlePushNotification(userInfo: [String: Any]) {
+    public func handlePushNotification(userInfo: [AnyHashable: Any]) {
         guard let jsonData = try? JSONSerialization.data(withJSONObject: userInfo, options: [])
             else {
                 return
