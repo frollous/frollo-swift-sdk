@@ -22,6 +22,7 @@ extension MessageVideo {
     @NSManaged public var muted: Bool
     @NSManaged public var autoplay: Bool
     @NSManaged public var autoplayCellular: Bool
+    @NSManaged public var iconURLString: String?
     @NSManaged public var urlString: String
 
 }

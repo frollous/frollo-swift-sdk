@@ -41,7 +41,7 @@ class MessagesRequestTests: XCTestCase {
             XCTAssertNil(error)
             
             if let messagesResponse = response {
-                XCTAssertEqual(messagesResponse.count, 74)
+                XCTAssertEqual(messagesResponse.count, 39)
                 
                 if let firstMessage = messagesResponse.first {
                     XCTAssertEqual(firstMessage.id, 52473)
@@ -51,17 +51,13 @@ class MessagesRequestTests: XCTestCase {
                     XCTAssertFalse(firstMessage.persists)
                     XCTAssertFalse(firstMessage.read)
                     XCTAssertFalse(firstMessage.clicked)
-                    XCTAssertEqual(firstMessage.messageTypes, [.homeNudge])
-                    XCTAssertEqual(firstMessage.designType, .information)
+                    XCTAssertEqual(firstMessage.messageTypes, ["home_nudge"])
                     XCTAssertEqual(firstMessage.title, "Well done Jacob!")
                     XCTAssertEqual(firstMessage.contentType, .text)
-                    XCTAssertEqual(firstMessage.content!, APIMessageResponse.Content.text(APIMessageResponse.Content.Text(body: "Some body")))
+                    XCTAssertEqual(firstMessage.content!, .text(APIMessageResponse.Content.Text(designType: .information, footer: "Footer", header: "Header", imageURL: nil, text: "Some body")))
                     XCTAssertEqual(firstMessage.action?.title, "Claim Points")
                     XCTAssertEqual(firstMessage.action?.link, "frollo://dashboard/")
                     XCTAssertEqual(firstMessage.action?.openExternal, false)
-                    XCTAssertNil(firstMessage.button)
-                    XCTAssertNil(firstMessage.header)
-                    XCTAssertNil(firstMessage.footer)
                 }
             } else {
                 XCTFail("No response object")
@@ -90,7 +86,7 @@ class MessagesRequestTests: XCTestCase {
             XCTAssertNil(error)
             
             if let messagesResponse = response {
-                XCTAssertEqual(messagesResponse.count, 72)
+                XCTAssertEqual(messagesResponse.count, 35)
                 
                 let message = messagesResponse[1]
                 XCTAssertEqual(message.id, 52432)
@@ -131,17 +127,13 @@ class MessagesRequestTests: XCTestCase {
                     XCTAssertFalse(firstMessage.persists)
                     XCTAssertFalse(firstMessage.read)
                     XCTAssertFalse(firstMessage.clicked)
-                    XCTAssertEqual(firstMessage.messageTypes, [.homeNudge])
-                    XCTAssertEqual(firstMessage.designType, .information)
+                    XCTAssertEqual(firstMessage.messageTypes, ["home_nudge"])
                     XCTAssertEqual(firstMessage.title, "Well done Jacob!")
-                    XCTAssertEqual(firstMessage.contentType, .html5)
-                    XCTAssertEqual(firstMessage.content!, APIMessageResponse.Content.html(APIMessageResponse.Content.HTML(body: "<html></html>")))
+                    XCTAssertEqual(firstMessage.contentType, .html)
+                    XCTAssertEqual(firstMessage.content!, APIMessageResponse.Content.html(APIMessageResponse.Content.HTML(footer: nil, header: nil, main: "<html></html>")))
                     XCTAssertEqual(firstMessage.action?.title, "Claim Points")
                     XCTAssertEqual(firstMessage.action?.link, "frollo://dashboard/")
                     XCTAssertEqual(firstMessage.action?.openExternal, false)
-                    XCTAssertNil(firstMessage.button)
-                    XCTAssertNil(firstMessage.header)
-                    XCTAssertNil(firstMessage.footer)
                 }
                 
                 for message in messagesResponse {
@@ -184,19 +176,13 @@ class MessagesRequestTests: XCTestCase {
                 XCTAssertTrue(message.persists)
                 XCTAssertFalse(message.read)
                 XCTAssertFalse(message.clicked)
-                XCTAssertEqual(message.messageTypes, [.homeNudge])
-                XCTAssertEqual(message.designType, .information)
+                XCTAssertEqual(message.messageTypes, ["home_nudge"])
                 XCTAssertEqual(message.title, "Test WebView Auth")
                 XCTAssertEqual(message.contentType, .text)
-                XCTAssertEqual(message.content!, APIMessageResponse.Content.text(APIMessageResponse.Content.Text(body: "Test WebView Auth")))
+                XCTAssertEqual(message.content!, .text(APIMessageResponse.Content.Text(designType: .information, footer: "Footer", header: "Header", imageURL: nil, text: "Some body")))
                 XCTAssertNil(message.action?.title)
                 XCTAssertEqual(message.action?.link, "https://example.com")
                 XCTAssertEqual(message.action?.openExternal, false)
-                XCTAssertEqual(message.button?.title, "Test Page")
-                XCTAssertEqual(message.button?.link, "https://example.com")
-                XCTAssertEqual(message.button?.openExternal, false)
-                XCTAssertNil(message.header)
-                XCTAssertNil(message.footer)
             } else {
                 XCTFail("No response object")
             }

@@ -182,9 +182,9 @@ public class Messages: CachedObjects, ResponseHandler {
         
         let type: Message.Type
         switch messageResponse.contentType {
-            case .html5:
+            case .html:
                 type = MessageHTML.self
-            case .textAndImage:
+            case .image:
                 type = MessageImage.self
             case .text:
                 type = MessageText.self
@@ -261,9 +261,9 @@ public class Messages: CachedObjects, ResponseHandler {
                         index += 1
                     } else {
                         switch objectResponse.contentType {
-                            case .html5:
+                            case .html:
                                 object = MessageHTML(context: managedObjectContext)
-                            case .textAndImage:
+                            case .image:
                                 object = MessageImage(context: managedObjectContext)
                             case .text:
                                 object = MessageText(context: managedObjectContext)

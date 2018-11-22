@@ -7,10 +7,9 @@
 	"read": false,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Well done Jacob!",
 	"content_type": "text",
-	"content": { "body": "Some body" },
+	"content": { "design_type": "information", "footer": "Footer", "header": "Header", "icon_url": "https://example.com/image.png", "text": "Some body" },
 	"action": {
 		"title": "Claim Points",
 		"link": "frollo://dashboard/",
@@ -25,10 +24,8 @@
 	"read": false,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
+	"content_type": "text",
+	"content": { "design_type": "information", "footer": "Footer", "header": "Header", "icon_url": "https://example.com/image.png" }
 }, {
 	"id": 52432,
 	"event": "TEST_GRAPH",
@@ -38,7 +35,6 @@
 	"read": false,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Video",
 	"content_type": "video",
 	"content": {
@@ -51,10 +47,6 @@
 	"action": {
 		"link": "google.com.au",
 		"open_external": true
-	},
-	"button": {
-		"link": "Test",
-		"open_external": true
 	}
 }, {
 	"id": 52376,
@@ -65,10 +57,9 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
+	"content_type": "text",
+	"content": { "design_type": "information", "footer": "Footer", "header": "Header", "icon_url": "https://example.com/image.png", "text": "Some body" },
 	"action": {
 		"title": "Claim Points",
 		"link": "frollo://dashboard/",
@@ -83,9 +74,8 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
+	"content_type": "text",
+	"content": { "design_type": "information", "icon_url": "https://example.com/image.png", "text": "Some body" },
 	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
 }, {
 	"id": 52280,
@@ -96,10 +86,9 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
+	"content_type": "text",
+	"content": { "design_type": "information", "footer": "Footer", "header": "Header", "text": "Some body" },
 	"action": {
 		"title": "Claim Points",
 		"link": "frollo://dashboard/",
@@ -114,10 +103,8 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["setup_nudge", "goal_nudge", "welcome_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
+	"content_type": "text",
+	"content": { "design_type": "information", "footer": "Footer", "header": "Header", "icon_url": "https://example.com/image.png", "text": "Some body" }
 }, {
 	"id": 52183,
 	"event": "DEMO_START",
@@ -127,10 +114,9 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
+	"content_type": "text",
+	"content": { "design_type": "information", "footer": "Footer", "header": "Header", "icon_url": "https://example.com/image.png", "text": "Some body" },
 	"action": {
 		"title": "Claim Points",
 		"link": "frollo://dashboard/",
@@ -145,10 +131,8 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
+	"content_type": "text",
+	"content": { "design_type": "information", "footer": "Footer", "header": "Header", "icon_url": "https://example.com/image.png", "text": "Some body" }
 }, {
 	"id": 52073,
 	"event": "DEMO_START",
@@ -158,10 +142,9 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
+	"content_type": "text",
+	"content": { "design_type": "information", "footer": "Footer", "header": "Header", "icon_url": "https://example.com/image.png", "text": "Some body" },
 	"action": {
 		"title": "Claim Points",
 		"link": "frollo://dashboard/",
@@ -176,10 +159,8 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
+	"content_type": "text",
+	"content": { "design_type": "information", "footer": "Footer", "header": "Header", "icon_url": "https://example.com/image.png", "text": "Some body" }
 }, {
 	"id": 51976,
 	"event": "DEMO_START",
@@ -189,10 +170,9 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
+	"content_type": "text",
+	"content": { "design_type": "information", "footer": "Footer", "header": "Header", "icon_url": "https://example.com/image.png", "text": "Some body" },
 	"action": {
 		"title": "Claim Points",
 		"link": "frollo://dashboard/",
@@ -207,10 +187,8 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
+	"content_type": "html",
+	"content": { "main": "<html></html>" }
 }, {
 	"id": 51891,
 	"event": "B_LIFESTYLE",
@@ -220,12 +198,9 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Lifestyle Spending",
-	"content_type": "text_and_image",
-	"footer": "Footer Stuff",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/1036/icon/app/1529296593.png?1529296593",
+	"content_type": "image",
+	"content": { "url": "https://example.com/image.png", "height": 1000, "width": 800 },
 	"action": {
 		"link": "frollo://spend/tag/lifestyle?period=current",
 		"open_external": false
@@ -239,10 +214,9 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
+	"content_type": "html",
+	"content": { "main": "<html></html>" },
 	"action": {
 		"title": "Claim Points",
 		"link": "frollo://dashboard/",
@@ -257,10 +231,8 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
+	"content_type": "html",
+	"content": { "main": "<html></html>" }
 }, {
 	"id": 51690,
 	"event": "DEMO_START",
@@ -270,10 +242,9 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
+	"content_type": "html",
+	"content": { "main": "<html></html>" },
 	"action": {
 		"title": "Claim Points",
 		"link": "frollo://dashboard/",
@@ -288,10 +259,8 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
+	"content_type": "html",
+	"content": { "main": "<html></html>" }
 }, {
 	"id": 51617,
 	"event": "B_END_OVERSPEND_2",
@@ -303,10 +272,8 @@
 	"message_types": ["home_nudge"],
 	"design_type": "information",
 	"title": "Budget Alert!",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"footer": "Footer Stuff",
-	"header": "Header Stuff",
+	"content_type": "text",
+	"content": { "design_type": "information", "footer": "Footer", "header": "Header", "icon_url": "https://example.com/image.png", "text": "Some body" },
 	"action": {
 		"link": "frollo://budget/edit",
 		"open_external": false
@@ -320,10 +287,9 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
+	"content_type": "html",
+	"content": { "main": "<html></html>" },
 	"action": {
 		"title": "Claim Points",
 		"link": "frollo://dashboard/",
@@ -338,10 +304,8 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
+	"content_type": "html",
+	"content": { "main": "<html></html>" }
 }, {
 	"id": 51507,
 	"event": "BILL_DUE",
@@ -351,11 +315,9 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Bill reminder",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/806/icon/app/1523277074.png?1523277074",
+	"content_type": "image",
+	"content": { "url": "https://example.com/image.png", "height": 1000, "width": 800 },
 	"action": {
 		"title": "See more details or mark as paid.",
 		"link": "frollo://bills/payments",
@@ -370,10 +332,9 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
+	"content_type": "html",
+	"content": { "main": "<html></html>" },
 	"action": {
 		"title": "Claim Points",
 		"link": "frollo://dashboard/",
@@ -388,10 +349,8 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
+	"content_type": "html",
+	"content": { "main": "<html></html>" }
 }, {
 	"id": 51349,
 	"event": "DEMO_START",
@@ -401,10 +360,9 @@
 	"read": true,
 	"clicked": true,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
+	"content_type": "html",
+	"content": { "main": "<html></html>" },
 	"action": {
 		"title": "Claim Points",
 		"link": "frollo://dashboard/",
@@ -419,10 +377,8 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
+	"content_type": "html",
+	"content": { "main": "<html></html>" }
 }, {
 	"id": 51291,
 	"event": "B_OVERSPEND",
@@ -432,10 +388,9 @@
 	"read": false,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Oops!",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
+	"content_type": "image",
+	"content": { "url": "https://example.com/image.png", "height": 1000, "width": 800 },
 	"action": {
 		"link": "frollo://spend/tag/lifestyle?period=history",
 		"open_external": false
@@ -449,10 +404,9 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
+	"content_type": "html",
+	"content": { "main": "<html></html>" },
 	"action": {
 		"title": "Claim Points",
 		"link": "frollo://dashboard/",
@@ -467,10 +421,8 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
+	"content_type": "html",
+	"content": { "main": "<html></html>" }
 }, {
 	"id": 51173,
 	"event": "G_REVIEW",
@@ -480,17 +432,10 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge", "goal_nudge"],
-	"design_type": "information",
 	"title": "Save for a wedding",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/goals/21/small/app/1491901720.png?1491901720",
+	"content_type": "image",
+	"content": { "url": "https://example.com/image.png", "height": 1000, "width": 800 },
 	"action": {
-		"link": "frollo://goal/user/122",
-		"open_external": false
-	},
-	"button": {
-		"title": "Update your goal and save!",
 		"link": "frollo://goal/user/122",
 		"open_external": false
 	}
@@ -503,10 +448,9 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
+	"content_type": "html",
+	"content": { "main": "<html></html>" },
 	"action": {
 		"title": "Claim Points",
 		"link": "frollo://dashboard/",
@@ -521,10 +465,8 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
+	"content_type": "html",
+	"content": { "main": "<html></html>" }
 }, {
 	"id": 50930,
 	"event": "DEMO_START",
@@ -534,10 +476,9 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
+	"content_type": "html",
+	"content": { "main": "<html></html>" },
 	"action": {
 		"title": "Claim Points",
 		"link": "frollo://dashboard/",
@@ -552,10 +493,8 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
+	"content_type": "html",
+	"content": { "main": "<html></html>" }
 }, {
 	"id": 50757,
 	"event": "DEMO_START",
@@ -565,10 +504,9 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
+	"content_type": "html",
+	"content": { "main": "<html></html>" },
 	"action": {
 		"title": "Claim Points",
 		"link": "frollo://dashboard/",
@@ -583,10 +521,8 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
+	"content_type": "html",
+	"content": { "main": "<html></html>" }
 }, {
 	"id": 50652,
 	"event": "DEMO_START",
@@ -596,10 +532,9 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
 	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
+	"content_type": "html",
+	"content": { "main": "<html></html>" },
 	"action": {
 		"title": "Claim Points",
 		"link": "frollo://dashboard/",
@@ -614,1052 +549,8 @@
 	"read": true,
 	"clicked": false,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 50549,
-	"event": "DEMO_START",
-	"user_event_id": 48740,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 50525,
-	"event": "DEMO_OFFER",
-	"user_event_id": 48741,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 50442,
-	"event": "DEMO_START",
-	"user_event_id": 48637,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 50418,
-	"event": "DEMO_OFFER",
-	"user_event_id": 48638,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 50310,
-	"event": "DEMO_START",
-	"user_event_id": 48492,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 50286,
-	"event": "DEMO_OFFER",
-	"user_event_id": 48493,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 50162,
-	"event": "DEMO_START",
-	"user_event_id": 48342,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 50138,
-	"event": "DEMO_OFFER",
-	"user_event_id": 48343,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 50060,
-	"event": "U_STREAK",
-	"user_event_id": 48241,
-	"placement": 800,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/615/icon/app/1518778811.png?1518778811"
-}, {
-	"id": 49992,
-	"event": "DEMO_START",
-	"user_event_id": 48168,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 49961,
-	"event": "DEMO_OFFER",
-	"user_event_id": 48170,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 49801,
-	"event": "DEMO_START",
-	"user_event_id": 47976,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 49777,
-	"event": "DEMO_OFFER",
-	"user_event_id": 47977,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 49748,
-	"event": "TEST_WEBVIEW_AUTH",
-	"user_event_id": 47936,
-	"placement": 1,
-	"persists": true,
-	"read": false,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Test WebView Auth",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"action": {
-		"link": "https://api-sandbox.frollo.us/api/pages/auth_test",
-		"open_external": false
-	},
-	"button": {
-		"title": "Test Page",
-		"link": "https://api-sandbox.frollo.us/api/pages/auth_test",
-		"open_external": false
-	}
-}, {
-	"id": 49747,
-	"event": "TEST_WEBVIEW_AUTH",
-	"user_event_id": 47936,
-	"placement": 1,
-	"persists": true,
-	"read": false,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Test Deep Links",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"action": {
-		"link": "https://api-sandbox.frollo.us/pages/deep-links",
-		"open_external": false
-	},
-	"button": {
-		"title": "Deep Links",
-		"link": "https://api-sandbox.frollo.us/pages/deep-links",
-		"open_external": false
-	}
-}, {
-	"id": 49745,
-	"event": "PA_FAILED",
-	"user_event_id": 47935,
-	"placement": 910,
-	"persists": true,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "error",
-	"title": "Account sync!",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8347/small/iMlwBzLy.png?1519087566",
-	"action": {
-		"link": "frollo://provider_accounts/1058",
-		"open_external": false
-	}
-}, {
-	"id": 49744,
-	"event": "PA_LINKING",
-	"user_event_id": 47934,
-	"placement": 902,
-	"persists": true,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "warning",
-	"title": "Linking your accounts",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8347/small/iMlwBzLy.png?1519087566",
-	"action": {
-		"link": "frollo://provider_accounts/1058",
-		"open_external": false
-	}
-}, {
-	"id": 49736,
-	"event": "TEST_WEBVIEW_AUTH",
-	"user_event_id": 47922,
-	"placement": 1,
-	"persists": true,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Test Deep Links",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"action": {
-		"link": "https://api-sandbox.frollo.us/pages/deep-links",
-		"open_external": false
-	},
-	"button": {
-		"title": "Deep Links",
-		"link": "https://api-sandbox.frollo.us/pages/deep-links",
-		"open_external": false
-	}
-}, {
-	"id": 49735,
-	"event": "TEST_WEBVIEW_AUTH",
-	"user_event_id": 47922,
-	"placement": 1,
-	"persists": true,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Test WebView Auth",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"action": {
-		"link": "https://admin-sandbox.frollo.us/api/pages/auth_test",
-		"open_external": false
-	},
-	"button": {
-		"title": "Test Page",
-		"link": "https://admin-sandbox.frollo.us/api/pages/auth_test",
-		"open_external": false
-	}
-}, {
-	"id": 49734,
-	"event": "TEST_WEBVIEW_AUTH",
-	"user_event_id": 47921,
-	"placement": 1,
-	"persists": true,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Test Deep Links",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"action": {
-		"link": "https://admin-sandbox.frollo.us/pages/deep-links",
-		"open_external": false
-	},
-	"button": {
-		"title": "Deep Links",
-		"link": "https://admin-sandbox.frollo.us/pages/deep-links",
-		"open_external": false
-	}
-}, {
-	"id": 49733,
-	"event": "TEST_WEBVIEW_AUTH",
-	"user_event_id": 47921,
-	"placement": 1,
-	"persists": true,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Test WebView Auth",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"action": {
-		"link": "https://admin-sandbox.frollo.us/api/pages/auth_test",
-		"open_external": false
-	},
-	"button": {
-		"title": "Test Page",
-		"link": "https://admin-sandbox.frollo.us/api/pages/auth_test",
-		"open_external": false
-	}
-}, {
-	"id": 49732,
-	"event": "TEST_WEBVIEW_AUTH",
-	"user_event_id": 47920,
-	"placement": 1,
-	"persists": true,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Test Deep Links",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"action": {
-		"link": "https://admin-sandbox.frollo.us/api/pages/deep-links",
-		"open_external": false
-	},
-	"button": {
-		"title": "Deep Links",
-		"link": "https://admin-sandbox.frollo.us/api/pages/deep-links",
-		"open_external": false
-	}
-}, {
-	"id": 49731,
-	"event": "TEST_WEBVIEW_AUTH",
-	"user_event_id": 47920,
-	"placement": 1,
-	"persists": true,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Test WebView Auth",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"action": {
-		"link": "https://admin-sandbox.frollo.us/api/pages/auth_test",
-		"open_external": false
-	},
-	"button": {
-		"title": "Test Page",
-		"link": "https://admin-sandbox.frollo.us/api/pages/auth_test",
-		"open_external": false
-	}
-}, {
-	"id": 49730,
-	"event": "TEST_WEBVIEW_AUTH",
-	"user_event_id": 47919,
-	"placement": 1,
-	"persists": true,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Test Deep Links",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"button": {
-		"title": "Deep Links",
-		"link": "https://api-sandbox.frollo.us/api/pages/deep-links",
-		"open_external": false
-	}
-}, {
-	"id": 49729,
-	"event": "TEST_WEBVIEW_AUTH",
-	"user_event_id": 47919,
-	"placement": 1,
-	"persists": true,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Test WebView Auth",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"action": {
-		"link": "https://admin-sandbox.frollo.us/api/pages/auth_test",
-		"open_external": false
-	},
-	"button": {
-		"title": "Test Page",
-		"link": "https://admin-sandbox.frollo.us/api/pages/auth_test",
-		"open_external": false
-	}
-}, {
-	"id": 49728,
-	"event": "TEST_WEBVIEW_AUTH",
-	"user_event_id": 47918,
-	"placement": 1,
-	"persists": true,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "error",
-	"title": "Test Deep Links",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"button": {
-		"title": "Deep Links",
-		"link": "https://api-sandbox.frollo.us/api/pages/deep-links",
-		"open_external": false
-	}
-}, {
-	"id": 49727,
-	"event": "TEST_WEBVIEW_AUTH",
-	"user_event_id": 47918,
-	"placement": 1,
-	"persists": true,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Test WebView Auth",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"action": {
-		"link": "https://admin-sandbox.frollo.us/api/pages/auth_test",
-		"open_external": false
-	},
-	"button": {
-		"title": "Test Page",
-		"link": "https://admin-sandbox.frollo.us/api/pages/auth_test",
-		"open_external": false
-	}
-}, {
-	"id": 49726,
-	"event": "TEST_WEBVIEW_AUTH",
-	"user_event_id": 47917,
-	"placement": 1,
-	"persists": true,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "error",
-	"title": "Test Deep Links",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"button": {
-		"title": "Deep Links",
-		"link": "https://api-sandbox.frollo.us/api/pages/deep-links",
-		"open_external": false
-	}
-}, {
-	"id": 49725,
-	"event": "TEST_WEBVIEW_AUTH",
-	"user_event_id": 47917,
-	"placement": 1,
-	"persists": true,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Test WebView Auth",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"action": {
-		"link": "https://admin-sandbox.frollo.us/api/pages/auth_test",
-		"open_external": false
-	},
-	"button": {
-		"title": "Test Page",
-		"link": "https://admin-sandbox.frollo.us/api/pages/auth_test",
-		"open_external": false
-	}
-}, {
-	"id": 49724,
-	"event": "TEST_WEBVIEW_AUTH",
-	"user_event_id": 47916,
-	"placement": 1,
-	"persists": true,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Test WebView Auth",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"action": {
-		"link": "https://admin-sandbox.frollo.us/api/pages/auth_test",
-		"open_external": false
-	},
-	"button": {
-		"title": "Test Page",
-		"link": "https://admin-sandbox.frollo.us/api/pages/auth_test",
-		"open_external": false
-	}
-}, {
-	"id": 49723,
-	"event": "PA_LINKING",
-	"user_event_id": 47913,
-	"placement": 902,
-	"persists": true,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "warning",
-	"title": "Linking your accounts",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"icon_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_3873.PNG",
-	"action": {
-		"link": "frollo://provider_accounts/1054",
-		"open_external": false
-	}
-}, {
-	"id": 49665,
-	"event": "DEMO_START",
-	"user_event_id": 47845,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 49641,
-	"event": "DEMO_OFFER",
-	"user_event_id": 47846,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": true,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 49580,
-	"event": "B_GOALS",
-	"user_event_id": 47792,
-	"placement": 100,
-	"persists": false,
-	"read": true,
-	"clicked": true,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Savings Goal Update",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/1085/icon/app/1532303013.png?1532303013",
-	"action": {
-		"link": "frollo://spend/tag/goals?period=current",
-		"open_external": false
-	}
-}, {
-	"id": 49498,
-	"event": "DEMO_START",
-	"user_event_id": 47713,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 49474,
-	"event": "DEMO_OFFER",
-	"user_event_id": 47715,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 49401,
-	"event": "DEMO_START",
-	"user_event_id": 47616,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 49377,
-	"event": "DEMO_OFFER",
-	"user_event_id": 47617,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 49288,
-	"event": "DEMO_START",
-	"user_event_id": 47507,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 49264,
-	"event": "DEMO_OFFER",
-	"user_event_id": 47508,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 49177,
-	"event": "DEMO_START",
-	"user_event_id": 47382,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 49153,
-	"event": "DEMO_OFFER",
-	"user_event_id": 47383,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 49055,
-	"event": "U_STREAK",
-	"user_event_id": 47300,
-	"placement": 800,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/615/icon/app/1518778811.png?1518778811"
-}, {
-	"id": 48994,
-	"event": "DEMO_START",
-	"user_event_id": 47231,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 48970,
-	"event": "DEMO_OFFER",
-	"user_event_id": 47232,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 48855,
-	"event": "DEMO_START",
-	"user_event_id": 47101,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 48831,
-	"event": "DEMO_OFFER",
-	"user_event_id": 47102,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 48775,
-	"event": "B_HALFWAY",
-	"user_event_id": 47049,
-	"placement": 1,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Test this kris",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/715/icon/app/1522903303.png?1522903303",
-	"action": {
-		"link": "https://www.youtube.com/embed/iyGFgZmmFMI?rel=0\u0026autoplay=1",
-		"open_external": false
-	}
-}, {
-	"id": 48774,
-	"event": "B_HALFWAY",
-	"user_event_id": 47049,
-	"placement": 500,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Are you on track?",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"action": {
-		"link": "frollo://spend/tag?period=current",
-		"open_external": false
-	}
-}, {
-	"id": 48737,
-	"event": "U_MONTHLY_USAGE_8",
-	"user_event_id": 47029,
-	"placement": 801,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/616/icon/app/1518779548.png?1518779548"
-}, {
-	"id": 48691,
-	"event": "DEMO_START",
-	"user_event_id": 46960,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 48655,
-	"event": "DEMO_OFFER",
-	"user_event_id": 46961,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 48621,
-	"event": "B_LIVING",
-	"user_event_id": 46920,
-	"placement": 100,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Living Expenses",
-	"content_type": "text_and_image",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/1035/icon/app/1529296546.png?1529296546",
-	"action": {
-		"link": "frollo://spend/tag/living?period=current",
-		"open_external": false
-	}
-}, {
-	"id": 48500,
-	"event": "DEMO_START",
-	"user_event_id": 46820,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 48476,
-	"event": "DEMO_OFFER",
-	"user_event_id": 46821,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 48405,
-	"event": "DEMO_START",
-	"user_event_id": 46725,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 48381,
-	"event": "DEMO_OFFER",
-	"user_event_id": 46726,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 48271,
-	"event": "DEMO_START",
-	"user_event_id": 46585,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 48243,
-	"event": "DEMO_OFFER",
-	"user_event_id": 46586,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
-}, {
-	"id": 48151,
-	"event": "DEMO_START",
-	"user_event_id": 46469,
-	"placement": 1020,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"title": "Well done Jacob!",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"action": {
-		"title": "Claim Points",
-		"link": "frollo://dashboard/",
-		"open_external": false
-	}
-}, {
-	"id": 48127,
-	"event": "DEMO_OFFER",
-	"user_event_id": 46471,
-	"placement": 149,
-	"persists": false,
-	"read": true,
-	"clicked": false,
-	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/935/icon/app/1526968393.png?1526968393"
+	"content_type": "html",
+	"content": { "main": "<html></html>" }
 }, {
 	"id": 48097,
 	"event": "O_HERO_HOME_LOAN",
@@ -1669,10 +560,8 @@
 	"read": true,
 	"clicked": true,
 	"message_types": ["home_nudge"],
-	"design_type": "information",
-	"content_type": "html5",
-	"content": { "body": "Some body" },
-	"icon_url": "https://frollo-sandbox.s3.amazonaws.com/messages/880/icon/app/1525934699.png?1525934699",
+	"content_type": "html",
+	"content": { "main": "<html></html>" },
 	"action": {
 		"link": "https://api.frollo.us/api/pages/redirect?path=https://www.ratecity.com.au/home-loans/homestar-finance/variable-rate-home-loan-principal-and-interest-amounts-750k-lvr-70-80-a.basic?b_slug=homestar\u0026utm_source=Frollo\u0026utm_medium=referral\u0026utm_campaign=App",
 		"open_external": false

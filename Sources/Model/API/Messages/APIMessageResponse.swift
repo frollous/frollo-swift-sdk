@@ -13,11 +13,9 @@ struct APIMessageResponse: APIUniqueResponse {
     enum CodingKeys: String, CodingKey {
         
         case action
-        case button
         case clicked
         case content
         case contentType = "content_type"
-        case designType = "design_type"
         case event
         case footer
         case header
@@ -37,10 +35,14 @@ struct APIMessageResponse: APIUniqueResponse {
         struct HTML: Codable, Equatable {
             
             enum CodingKeys: String, CodingKey {
-                case body
+                case footer
+                case header
+                case main
             }
             
-            let body: String
+            let footer: String?
+            let header: String?
+            let main: String
             
         }
         
@@ -55,10 +57,18 @@ struct APIMessageResponse: APIUniqueResponse {
         struct Text: Codable, Equatable {
             
             enum CodingKeys: String, CodingKey {
-                case body
+                case designType = "design_type"
+                case footer
+                case header
+                case imageURL = "image_url"
+                case text
             }
             
-            let body: String
+            let designType: Message.Design
+            let footer: String?
+            let header: String?
+            let imageURL: String?
+            let text: String?
             
         }
         
@@ -68,6 +78,7 @@ struct APIMessageResponse: APIUniqueResponse {
                 case autoplay
                 case autoplayCellular = "autoplay_cellular"
                 case height
+                case iconURL = "icon_url"
                 case muted
                 case url
                 case width
@@ -76,6 +87,7 @@ struct APIMessageResponse: APIUniqueResponse {
             let autoplay: Bool
             let autoplayCellular: Bool
             let height: Double?
+            let iconURL: String?
             let muted: Bool
             let url: String
             let width: Double?
@@ -104,18 +116,6 @@ struct APIMessageResponse: APIUniqueResponse {
         
     }
     
-    enum MessageType: String, Codable {
-        
-        case creditScore = "credit_score"
-        case feed
-        case goalNudge = "goal_nudge"
-        case homeNudge = "home_nudge"
-        case popup
-        case setupNudge = "setup_nudge"
-        case welcomeNudge = "welcome_nudge"
-        
-    }
-    
     struct Link: Codable {
         
         enum CodingKeys: String, CodingKey {
@@ -132,16 +132,11 @@ struct APIMessageResponse: APIUniqueResponse {
     
     var id: Int64
     let action: Link?
-    let button: Link?
     let clicked: Bool
     let content: Content?
     let contentType: Message.ContentType
-    let designType: Message.Design
-    let footer: String?
-    let header: String?
     let event: String
-    let iconURL: String?
-    let messageTypes: [MessageType]
+    let messageTypes: [String]
     let persists: Bool
     let placement: Int64
     let read: Bool
@@ -157,15 +152,10 @@ extension APIMessageResponse: Codable {
         
         id = try container.decode(Int64.self, forKey: .id)
         action = try container.decodeIfPresent(Link.self, forKey: .action)
-        button = try container.decodeIfPresent(Link.self, forKey: .button)
         clicked = try container.decode(Bool.self, forKey: .clicked)
         contentType = try container.decode(Message.ContentType.self, forKey: .contentType)
-        designType = try container.decode(Message.Design.self, forKey: .designType)
-        footer = try container.decodeIfPresent(String.self, forKey: .footer)
-        header = try container.decodeIfPresent(String.self, forKey: .header)
         event = try container.decode(String.self, forKey: .event)
-        iconURL = try container.decodeIfPresent(String.self, forKey: .iconURL)
-        messageTypes = try container.decode([MessageType].self, forKey: .messageTypes)
+        messageTypes = try container.decode([String].self, forKey: .messageTypes)
         persists = try container.decode(Bool.self, forKey: .persists)
         placement = try container.decode(Int64.self, forKey: .placement)
         read = try container.decode(Bool.self, forKey: .read)
@@ -173,11 +163,11 @@ extension APIMessageResponse: Codable {
         userEventID = try container.decodeIfPresent(Int64.self, forKey: .userEventID)
         
         switch contentType {
-            case .html5:
+            case .html:
                 let contents = try container.decode(Content.HTML.self, forKey: .content)
                 self.content = .html(contents)
             
-            case .textAndImage:
+            case .image:
                 let contents = try container.decode(Content.Image.self, forKey: .content)
                 self.content = .image(contents)
             
@@ -196,14 +186,9 @@ extension APIMessageResponse: Codable {
         
         try container.encode(id, forKey: .id)
         try container.encodeIfPresent(action, forKey: .action)
-        try container.encodeIfPresent(button, forKey: .button)
         try container.encode(clicked, forKey: .clicked)
         try container.encode(contentType, forKey: .contentType)
-        try container.encode(designType, forKey: .designType)
-        try container.encodeIfPresent(footer, forKey: .footer)
-        try container.encodeIfPresent(header, forKey: .header)
         try container.encode(event, forKey: .event)
-        try container.encodeIfPresent(iconURL, forKey: .iconURL)
         try container.encode(messageTypes, forKey: .messageTypes)
         try container.encode(persists, forKey: .persists)
         try container.encode(placement, forKey: .placement)

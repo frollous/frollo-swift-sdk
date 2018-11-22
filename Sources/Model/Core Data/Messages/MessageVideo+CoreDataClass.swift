@@ -25,6 +25,7 @@ public class MessageVideo: Message {
         autoplayCellular = contents.autoplayCellular
         muted = contents.muted
         height = contents.height ?? -1
+        iconURLString = contents.iconURL
         urlString = contents.url
         width = contents.width ?? -1
     }

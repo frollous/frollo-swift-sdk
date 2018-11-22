@@ -15,6 +15,8 @@ extension MessageImage {
     override func populateTestData() {
         super.populateTestData()
         
+        height = Double.random(in: 1...1000)
+        width = Double.random(in: 1...1000)
         urlString = "https://example.com/image.png"
     }
     

@@ -15,7 +15,9 @@ extension MessageHTML {
     override func populateTestData() {
         super.populateTestData()
         
-        body = "<html></html>"
+        footer = String.randomString(range: 1...20)
+        header = String.randomString(range: 1...20)
+        main = "<html></html>"
     }
     
 }

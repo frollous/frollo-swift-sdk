@@ -20,6 +20,7 @@ extension MessageVideo {
         autoplay = Bool.random()
         autoplayCellular = Bool.random()
         muted = Bool.random()
+        iconURLString = "https://example.com/thumbnail.png"
         urlString = "https://example.com/video.mp4"
     }
     

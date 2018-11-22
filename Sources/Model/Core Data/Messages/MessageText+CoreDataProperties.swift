@@ -17,10 +17,19 @@ extension MessageText {
         return NSFetchRequest<MessageText>(entityName: "MessageText")
     }
 
+    
+    @NSManaged public var designTypeRawValue: String
+    
+    
     @NSManaged public var footer: String?
+    
+    
     @NSManaged public var header: String?
-    @NSManaged public var body: String?
-    @NSManaged public var title: String?
-    @NSManaged public var iconURLString: String?
+    
+    
+    @NSManaged public var imageURLString: String?
+    
+    
+    @NSManaged public var text: String?
 
 }

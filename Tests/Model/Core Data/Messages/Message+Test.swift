@@ -19,21 +19,12 @@ extension Message: TestableCoreData {
         persists = Bool.random()
         read = Bool.random()
         clicked = Bool.random()
-        designType = Design.allCases.randomElement()!
+        title = String.randomString(range: 1...20)
+        messageTypes = [String.randomString(range: 1...10), String.randomString(range: 1...10), String.randomString(range: 1...10)]
         contentType = ContentType.allCases.randomElement()!
         actionTitle = String.randomString(range: 1...50)
         actionURLString = "frollo://dashboard"
         actionOpenExternal = Bool.random()
-        buttonTitle = String.randomString(range: 1...50)
-        buttonURLString = "https://example.com"
-        buttonOpenExternal = Bool.random()
-        typeCreditScore = Bool.random()
-        typeFeed = Bool.random()
-        typeGoal = Bool.random()
-        typeHome = Bool.random()
-        typePopup = Bool.random()
-        typeSetup = Bool.random()
-        typeWelcome = Bool.random()
     }
     
 }

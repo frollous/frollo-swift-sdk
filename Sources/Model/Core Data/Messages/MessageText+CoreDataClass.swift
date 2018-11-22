@@ -12,6 +12,16 @@ import CoreData
 
 
 public class MessageText: Message {
+    
+    /// Design type of text nudges
+    public var designType: Design {
+        get {
+            return Design(rawValue: designTypeRawValue)!
+        }
+        set {
+            designTypeRawValue = newValue.rawValue
+        }
+    }
 
     internal override func update(response: APIMessageResponse, context: NSManagedObjectContext) {
         super.update(response: response, context: context)
@@ -21,7 +31,11 @@ public class MessageText: Message {
                 return
         }
         
-        body = contents.body
+        designType = contents.designType
+        footer = contents.footer
+        header = contents.header
+        imageURLString = contents.imageURL
+        text = contents.text
     }
     
 }

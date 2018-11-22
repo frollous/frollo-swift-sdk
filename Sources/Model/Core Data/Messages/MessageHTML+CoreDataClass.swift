@@ -21,7 +21,9 @@ public class MessageHTML: Message {
                 return
         }
         
-        body = contents.body
+        footer = contents.footer
+        header = contents.header
+        main = contents.main
     }
     
 }

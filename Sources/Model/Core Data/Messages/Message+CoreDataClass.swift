@@ -37,13 +37,13 @@ public class Message: NSManagedObject, CacheableManagedObject {
     public enum ContentType: String, CaseIterable, Codable {
         
         /// The content is HTML and should be rendered in a `WKWebView`
-        case html5
+        case html
+        
+        /// The content contains an image. Fetch the image from the URL
+        case image
         
         /// The content contains text only and no image. Uses a standard `Design` type
         case text
-        
-        /// The content contains text and image. Uses a standard `Design` type
-        case textAndImage = "text_and_image"
         
         /// The content contains a link to video content to be played
         case video
@@ -81,13 +81,17 @@ public class Message: NSManagedObject, CacheableManagedObject {
         }
     }
     
-    /// Design type of text nudges
-    public var designType: Design {
+    /// All message types the message should be displayed in
+    public var messageTypes: [String] {
         get {
-            return Design(rawValue: designTypeRawValue!)!
+            let types = typesRawValue.components(separatedBy: "|")
+            return types.filter({ (type) -> Bool in
+                return !type.isEmpty
+            })
         }
         set {
-            designTypeRawValue = newValue.rawValue
+            let typesString = newValue.joined(separator: "|")
+            typesRawValue = "|" + typesString + "|"
         }
     }
     
@@ -107,47 +111,17 @@ public class Message: NSManagedObject, CacheableManagedObject {
         messageID = response.id
         clicked = response.clicked
         contentType = response.contentType
-        designType = response.designType
         event = response.event
+        messageTypes = response.messageTypes
         persists = response.persists
         placement = response.placement
         read = response.read
+        title = response.title
         userEventID = response.userEventID ?? -1
         
         actionURLString = response.action?.link
         actionOpenExternal = response.action?.openExternal ?? false
         actionTitle = response.action?.title
-        
-        buttonURLString = response.button?.link
-        buttonOpenExternal = response.button?.openExternal ?? false
-        buttonTitle = response.button?.title
-        
-        typeCreditScore = false
-        typeFeed = false
-        typeGoal = false
-        typeHome = false
-        typePopup = false
-        typeSetup = false
-        typeWelcome = false
-        
-        for messageType in response.messageTypes {
-            switch messageType {
-                case .creditScore:
-                    typeCreditScore = true
-                case .feed:
-                    typeFeed = true
-                case .goalNudge:
-                    typeGoal = true
-                case .homeNudge:
-                    typeHome = true
-                case .popup:
-                    typePopup = true
-                case .setupNudge:
-                    typeSetup = true
-                case .welcomeNudge:
-                    typeWelcome = true
-            }
-        }
     }
     
     internal func updateRequest() -> APIMessageUpdateRequest {

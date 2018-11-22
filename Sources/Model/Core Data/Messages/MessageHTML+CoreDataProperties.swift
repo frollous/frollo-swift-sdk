@@ -17,7 +17,13 @@ extension MessageHTML {
         return NSFetchRequest<MessageHTML>(entityName: "MessageHTML")
     }
 
-    @NSManaged public var body: String?
-    @NSManaged public var title: String?
+    
+    @NSManaged public var footer: String?
+    
+    
+    @NSManaged public var header: String?
+    
+    
+    @NSManaged public var main: String
 
 }

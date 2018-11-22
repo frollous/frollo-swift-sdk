@@ -59,18 +59,18 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 do {
                     let fetchedMessages = try context.fetch(fetchRequest)
                     
-                    XCTAssertEqual(fetchedMessages.count, 74)
+                    XCTAssertEqual(fetchedMessages.count, 39)
                     
                     for message in fetchedMessages {
                         switch message.contentType {
-                        case .html5:
-                            XCTAssertTrue(message.isKind(of: MessageHTML.self))
-                        case .textAndImage:
-                            XCTAssertTrue(message.isKind(of: MessageImage.self))
-                        case .text:
-                            XCTAssertTrue(message.isKind(of: MessageText.self))
-                        case .video:
-                            XCTAssertTrue(message.isKind(of: MessageVideo.self))
+                            case .html:
+                                XCTAssertTrue(message.isKind(of: MessageHTML.self))
+                            case .image:
+                                XCTAssertTrue(message.isKind(of: MessageImage.self))
+                            case .text:
+                                XCTAssertTrue(message.isKind(of: MessageText.self))
+                            case .video:
+                                XCTAssertTrue(message.isKind(of: MessageVideo.self))
                         }
                     }
                 } catch {
@@ -253,9 +253,9 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                     
                     for message in fetchedMessages {
                         switch message.contentType {
-                            case .html5:
+                            case .html:
                                 XCTAssertTrue(message.isKind(of: MessageHTML.self))
-                            case .textAndImage:
+                            case .image:
                                 XCTAssertTrue(message.isKind(of: MessageImage.self))
                             case .text:
                                 XCTAssertTrue(message.isKind(of: MessageText.self))

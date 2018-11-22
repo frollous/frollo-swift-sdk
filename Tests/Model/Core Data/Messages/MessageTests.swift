@@ -28,9 +28,9 @@ class MessageTests: XCTestCase {
         
         let message: Message
         switch type {
-            case .html5:
+            case .html:
                 message = MessageHTML(context: managedObjectContext)
-            case .textAndImage:
+            case .image:
                 message = MessageImage(context: managedObjectContext)
             case .text:
                 message = MessageText(context: managedObjectContext)
@@ -47,39 +47,20 @@ class MessageTests: XCTestCase {
         XCTAssertEqual(messageResponse.persists, message.persists)
         XCTAssertEqual(messageResponse.read, message.read)
         XCTAssertEqual(messageResponse.clicked, message.clicked)
-        XCTAssertEqual(messageResponse.designType, message.designType)
+        XCTAssertEqual(messageResponse.title, message.title)
         XCTAssertEqual(messageResponse.contentType, message.contentType)
+        XCTAssertEqual(messageResponse.messageTypes, message.messageTypes)
         XCTAssertEqual(messageResponse.action?.title, message.actionTitle)
         XCTAssertEqual(messageResponse.action?.link, message.actionURLString)
         XCTAssertEqual(messageResponse.action?.openExternal, message.actionOpenExternal)
-        XCTAssertEqual(messageResponse.button?.title, message.buttonTitle)
-        XCTAssertEqual(messageResponse.button?.link, message.buttonURLString)
-        XCTAssertEqual(messageResponse.button?.openExternal, message.buttonOpenExternal)
-        
-        for messageType in messageResponse.messageTypes {
-            switch messageType {
-                case .creditScore:
-                    XCTAssertTrue(message.typeCreditScore)
-                case .feed:
-                    XCTAssertTrue(message.typeFeed)
-                case .goalNudge:
-                    XCTAssertTrue(message.typeGoal)
-                case .homeNudge:
-                    XCTAssertTrue(message.typeHome)
-                case .popup:
-                    XCTAssertTrue(message.typePopup)
-                case .setupNudge:
-                    XCTAssertTrue(message.typeSetup)
-                case .welcomeNudge:
-                    XCTAssertTrue(message.typeWelcome)
-            }
-        }
         
         if let contents = messageResponse.content {
             switch contents {
                 case .html(let htmlContent):
                     if let htmlMessage = message as? MessageHTML {
-                        XCTAssertEqual(htmlMessage.body, htmlContent.body)
+                        XCTAssertEqual(htmlMessage.footer, htmlContent.footer)
+                        XCTAssertEqual(htmlMessage.header, htmlContent.header)
+                        XCTAssertEqual(htmlMessage.main, htmlContent.main)
                     } else {
                         XCTFail("Wrong message type")
                     }
@@ -93,8 +74,11 @@ class MessageTests: XCTestCase {
                     }
                 case .text(let textContent):
                     if let textMessage = message as? MessageText {
-                        XCTAssertEqual(textMessage.body, textContent.body)
-                        // TODO: More checks
+                        XCTAssertEqual(textMessage.footer, textContent.footer)
+                        XCTAssertEqual(textMessage.header, textContent.header)
+                        XCTAssertEqual(textMessage.imageURLString, textContent.imageURL)
+                        XCTAssertEqual(textMessage.text, textContent.text)
+                        XCTAssertEqual(textMessage.designType, textContent.designType)
                     } else {
                         XCTFail("Wrong message type")
                     }
@@ -103,6 +87,7 @@ class MessageTests: XCTestCase {
                         XCTAssertEqual(videoMessage.autoplay, videoContent.autoplay)
                         XCTAssertEqual(videoMessage.autoplayCellular, videoContent.autoplayCellular)
                         XCTAssertEqual(videoMessage.muted, videoContent.muted)
+                        XCTAssertEqual(videoMessage.iconURLString, videoContent.iconURL)
                         XCTAssertEqual(videoMessage.urlString, videoContent.url)
                         XCTAssertEqual(videoMessage.height, videoContent.height)
                         XCTAssertEqual(videoMessage.width, videoContent.width)
@@ -116,11 +101,11 @@ class MessageTests: XCTestCase {
     }
     
     func testUpdatingHTMLMessage() {
-        updateMessageTest(type: .html5)
+        updateMessageTest(type: .html)
     }
     
     func testUpdatingImageMessage() {
-        updateMessageTest(type: .textAndImage)
+        updateMessageTest(type: .image)
     }
     
     func testUpdatingTextMessage() {

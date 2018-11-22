@@ -15,7 +15,11 @@ extension MessageText {
     override func populateTestData() {
         super.populateTestData()
         
-        body = String.randomString(range: 1...100)
+        designType = Message.Design.allCases.randomElement()!
+        footer = String.randomString(range: 1...100)
+        header = String.randomString(range: 1...100)
+        imageURLString = "https://example.com/image.png"
+        text = String.randomString(range: 1...100)
     }
     
 }
