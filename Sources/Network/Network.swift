@@ -21,12 +21,16 @@ class Network: SessionDelegate {
     internal typealias NetworkCompletion = (_ data: Data?, _ error: FrolloSDKError?) -> Void
     internal typealias RequestCompletion<T> = (_: T?, _: Error?) -> Void
     
-    internal enum HTTPHeader: String {
+    internal enum HTTPHeader: String, CaseIterable {
+        case apiVersion = "X-Api-Version"
         case authorization = "Authorization"
+        case background = "X-Background"
+        case bundleID = "X-Bundle-Id"
         case contentType = "Content-Type"
+        case deviceVersion = "X-Device-Version"
         case etag = "Etag"
+        case softwareVersion = "X-Software-Version"
         case userAgent = "User-Agent"
-        case xBackground = "X-Background"
     }
     
     #if !os(watchOS)
@@ -51,7 +55,7 @@ class Network: SessionDelegate {
     internal var authenticator: NetworkAuthenticator!
     internal var sessionManager: SessionManager!
     
-    private let APIVersion = "1.17"
+    private let APIVersion = "2.0"
     
     /**
      Initialise a network stack pointing to an API at a specific URL
@@ -80,8 +84,9 @@ class Network: SessionDelegate {
         
         let appBuild = Bundle(for: Network.self).object(forInfoDictionaryKey: VersionConstants.bundleVersion) as! String
         let appVersion = Bundle(for: Network.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
+        let bundleID = Bundle(for: Network.self).bundleIdentifier!
         let systemVersion = ProcessInfo.processInfo.operatingSystemVersionString
-        let userAgent = String(format: "%@|V%@|B%@|%@%@|API%@", arguments: [Bundle(for: Network.self).bundleIdentifier!, appVersion, appBuild, osVersion, systemVersion, APIVersion])
+        let userAgent = String(format: "%@|V%@|B%@|%@%@|API%@", arguments: [bundleID, appVersion, appBuild, osVersion, systemVersion, APIVersion])
         
         #if !os(watchOS)
         reachability = NetworkReachabilityManager(host: serverURL.host!)!
@@ -89,7 +94,11 @@ class Network: SessionDelegate {
         
         let configuration = URLSessionConfiguration.default
         configuration.allowsCellularAccess = true
-        configuration.httpAdditionalHeaders = [HTTPHeader.userAgent.rawValue: userAgent]
+        configuration.httpAdditionalHeaders = [HTTPHeader.apiVersion.rawValue: APIVersion,
+                                               HTTPHeader.bundleID.rawValue: bundleID,
+                                               HTTPHeader.deviceVersion.rawValue: osVersion + systemVersion,
+                                               HTTPHeader.softwareVersion.rawValue: String(format: "V%@-B%@", arguments: [appVersion, appBuild]),
+                                               HTTPHeader.userAgent.rawValue: userAgent]
         
         var serverTrustManager: ServerTrustPolicyManager?
         

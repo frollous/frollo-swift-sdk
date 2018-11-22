@@ -135,6 +135,37 @@ class NetworkTests: XCTestCase {
         wait(for: [expectation1], timeout: 30.0)
     }
     
+    func testRequestHeaders() {
+        let expectation1 = expectation(description: "API Response")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+            XCTAssertEqual(request.allHTTPHeaderFields?["X-Api-Version"], "2.0")
+            XCTAssertEqual(request.allHTTPHeaderFields?["X-Bundle-Id"], "us.frollo.FrolloSDK")
+            XCTAssertTrue(request.allHTTPHeaderFields?["X-Device-Version"]?.contains(ProcessInfo.processInfo.operatingSystemVersionString) == true)
+            XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "V1.1-B100")
+            
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        network.authenticator.refreshToken = "AnExistingRefreshToken"
+        network.authenticator.accessToken = "AnExistingAccessToken"
+        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        
+        network.fetchUser { (response, error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     // MARK: - System Error Tests
     
     func testInvalidDomainRaisesNetworkError() {
