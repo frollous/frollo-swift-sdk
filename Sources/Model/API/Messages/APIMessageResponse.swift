@@ -64,7 +64,7 @@ struct APIMessageResponse: APIUniqueResponse {
                 case text
             }
             
-            let designType: Message.Design
+            let designType: String
             let footer: String?
             let header: String?
             let imageURL: String?

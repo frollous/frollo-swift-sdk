@@ -30,6 +30,136 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         Keychain(service: keychainService).removeAll()
     }
     
+    func testFetchMessageByID() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            let id: Int64 = 12345
+            
+            managedObjectContext.performAndWait {
+                let testMessage = Message(context: managedObjectContext)
+                testMessage.populateTestData()
+                testMessage.messageID = id
+                
+                try! managedObjectContext.save()
+            }
+            
+            let messages = Messages(database: database, network: network)
+            
+            let message = messages.message(context: database.viewContext, messageID: id)
+            
+            XCTAssertNotNil(message)
+            XCTAssertEqual(message?.messageID, id)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchMessages() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testMessage1 = Message(context: managedObjectContext)
+                testMessage1.populateTestData()
+                
+                let testMessage2 = Message(context: managedObjectContext)
+                testMessage2.populateTestData()
+                
+                let testMessage3 = Message(context: managedObjectContext)
+                testMessage3.populateTestData()
+                testMessage3.messageTypes = ["derp", "test"]
+                
+                try! managedObjectContext.save()
+            }
+            
+            let messages = Messages(database: database, network: network)
+            
+            let fetchedMessages = messages.messages(context: database.viewContext, messageTypes: ["information", "warning"])
+            
+            XCTAssertNotNil(fetchedMessages)
+            XCTAssertEqual(fetchedMessages?.count, 2)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testMessagesFetchedResultsController() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testMessage1 = Message(context: managedObjectContext)
+                testMessage1.populateTestData()
+                
+                let testMessage2 = Message(context: managedObjectContext)
+                testMessage2.populateTestData()
+                testMessage2.messageTypes = ["derp", "test"]
+                
+                let testMessage3 = Message(context: managedObjectContext)
+                testMessage3.populateTestData()
+                
+                try! managedObjectContext.save()
+            }
+            
+            let messages = Messages(database: database, network: network)
+            
+            let fetchedResultsController = messages.messagesFetchedResultsController(context: database.viewContext, messageTypes: ["information", "warning"])
+            
+            do {
+                try fetchedResultsController?.performFetch()
+                
+                XCTAssertNotNil(fetchedResultsController?.fetchedObjects)
+                XCTAssertEqual(fetchedResultsController?.fetchedObjects?.count, 2)
+                
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testRefreshMessages() {
         let expectation1 = expectation(description: "Network Request 1")
         

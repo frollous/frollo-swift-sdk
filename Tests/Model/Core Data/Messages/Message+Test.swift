@@ -20,7 +20,7 @@ extension Message: TestableCoreData {
         read = Bool.random()
         interacted = Bool.random()
         title = String.randomString(range: 1...20)
-        messageTypes = [String.randomString(range: 1...10), String.randomString(range: 1...10), String.randomString(range: 1...10)]
+        messageTypes = [String.randomString(range: 1...10), String.randomString(range: 1...10), "information", String.randomString(range: 1...10), "warning"]
         contentType = ContentType.allCases.randomElement()!
         actionTitle = String.randomString(range: 1...50)
         actionURLString = "frollo://dashboard"

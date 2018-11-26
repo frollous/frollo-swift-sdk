@@ -17,16 +17,6 @@ import CoreData
  */
 public class MessageText: Message {
     
-    /// Design type of text nudges
-    public var designType: Design {
-        get {
-            return Design(rawValue: designTypeRawValue)!
-        }
-        set {
-            designTypeRawValue = newValue.rawValue
-        }
-    }
-    
     /// Image URL. The URL of an image to be displayed
     public var imageURL: URL? {
         get {

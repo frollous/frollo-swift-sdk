@@ -110,10 +110,10 @@ class DatabaseMigrationTests: XCTestCase {
     // MARK: - Test Data
     
     // Uncomment to generate test data for each data model. Do this whenever adding a new Core Data model version
-//    func testGenerateTestCoreDataDatabases() {
-//        generateCoreDataModelTestDatabases()
-//        generateFakeCoreDataModelTestDatabase()
-//    }
+    func testGenerateTestCoreDataDatabases() {
+        generateCoreDataModelTestDatabases()
+        generateFakeCoreDataModelTestDatabase()
+    }
     
     // MARK: - Migration Tests
     

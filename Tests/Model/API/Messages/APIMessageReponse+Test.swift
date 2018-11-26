@@ -16,7 +16,7 @@ extension APIMessageResponse {
         
         let htmlContent = APIMessageResponse.Content.HTML(footer: String.randomString(range: 1...10), header: String.randomString(range: 1...20), main: "<html></html>")
         let imageContent = APIMessageResponse.Content.Image(height: Double.random(in: 1...1000), url: "https://example.com/image.png", width: Double.random(in: 1...1000))
-        let textContent = APIMessageResponse.Content.Text(designType: Message.Design.allCases.randomElement()!, footer: String.randomString(range: 1...20), header: String.randomString(range: 1...20), imageURL: "https://example.com/image.png", text: String.randomString(range: 1...200))
+        let textContent = APIMessageResponse.Content.Text(designType: "information", footer: String.randomString(range: 1...20), header: String.randomString(range: 1...20), imageURL: "https://example.com/image.png", text: String.randomString(range: 1...200))
         let videoContent = APIMessageResponse.Content.Video(autoplay: Bool.random(), autoplayCellular: Bool.random(), height: Double.random(in: 1...1000), iconURL: "https://example.com/image.png", muted: Bool.random(), url: "https://example.com/video.mp4", width: Double.random(in: 1...1000))
         
         let contentType: Message.ContentType

@@ -50,24 +50,6 @@ public class Message: NSManagedObject, CacheableManagedObject {
         
     }
     
-    /**
-     Design of the message
-     
-     Indicates what design should be used to render the image
-    */
-    public enum Design: String, CaseIterable, Codable {
-        
-        /// Error banner
-        case error
-        
-        /// Basic information
-        case information
-        
-        /// Warning banner
-        case warning
-        
-    }
-    
     /// Core Data entity description name
     static var entityName = "Message"
     

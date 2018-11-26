@@ -22,8 +22,8 @@ extension MessageText {
         return NSFetchRequest<MessageText>(entityName: "MessageText")
     }
 
-    /// Raw value of the design type. Use only in predicates
-    @NSManaged public var designTypeRawValue: String
+    /// Design type indicating how the message should be rendered
+    @NSManaged public var designType: String
     
     /// Footer content (optional)
     @NSManaged public var footer: String?

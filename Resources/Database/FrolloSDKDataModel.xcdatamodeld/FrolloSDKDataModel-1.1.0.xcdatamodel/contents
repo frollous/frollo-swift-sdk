@@ -119,7 +119,7 @@
         <attribute name="width" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="MessageText" representedClassName=".MessageText" parentEntity="Message" syncable="YES">
-        <attribute name="designTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="designType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="footer" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="header" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="imageURLString" optional="YES" attributeType="String" syncable="YES"/>
@@ -297,7 +297,7 @@
         <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="240"/>
         <element name="MessageHTML" positionX="-317.359375" positionY="757.66015625" width="128" height="90"/>
         <element name="MessageImage" positionX="-319.14453125" positionY="879.53515625" width="128" height="28"/>
-        <element name="MessageText" positionX="-319.734375" positionY="990.58203125" width="128" height="30"/>
+        <element name="MessageText" positionX="-319.734375" positionY="990.58203125" width="128" height="120"/>
         <element name="MessageVideo" positionX="-317.34375" positionY="1145.10546875" width="128" height="30"/>
         <element name="Provider" positionX="-385.3984375" positionY="11.875" width="128" height="480"/>
         <element name="ProviderAccount" positionX="-164.078125" positionY="13.7109375" width="128" height="210"/>

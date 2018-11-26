@@ -46,11 +46,27 @@ public class Messages: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - messageTypes: Array of message types to find matching Messages for (optional)
         - filteredBy: Predicate of properties to match for fetching. See `Message` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to messageID ascending (Optional)
      */
-    public func messages(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Message.messageID), ascending: true)]) -> [Message]? {
-        return cachedObjects(type: Message.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    public func messages(context: NSManagedObjectContext, messageTypes: [String]? = nil, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Message.messageID), ascending: true)]) -> [Message]? {
+        var predicates = [NSPredicate]()
+        if let types = messageTypes {
+            var messageTypePredicates = [NSPredicate]()
+            
+            for type in types {
+                messageTypePredicates.append(NSPredicate(format: #keyPath(Message.typesRawValue) + " CONTAINS %@", argumentArray: ["|" + type + "|"]))
+            }
+            
+            let compoundPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: messageTypePredicates)
+            predicates.append(compoundPredicate)
+        }
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: Message.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors)
     }
     
     /**
@@ -58,11 +74,27 @@ public class Messages: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - messageTypes: Array of message types to find matching Messages for (optional)
         - filteredBy: Predicate of properties to match for fetching. See `Message` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to messageID ascending (Optional)
      */
-    public func messagesFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Message.messageID), ascending: true)]) -> NSFetchedResultsController<Message>? {
-        return fetchedResultsController(type: Message.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    public func messagesFetchedResultsController(context: NSManagedObjectContext, messageTypes: [String]? = nil, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Message.messageID), ascending: true)]) -> NSFetchedResultsController<Message>? {
+        var predicates = [NSPredicate]()
+        if let types = messageTypes {
+            var messageTypePredicates = [NSPredicate]()
+            
+            for type in types {
+                messageTypePredicates.append(NSPredicate(format: #keyPath(Message.typesRawValue) + " CONTAINS %@", argumentArray: ["|" + type + "|"]))
+            }
+            
+            let compoundPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: messageTypePredicates)
+            predicates.append(compoundPredicate)
+        }
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return fetchedResultsController(type: Message.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors)
     }
     
     /**
