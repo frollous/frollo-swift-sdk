@@ -154,11 +154,12 @@ public class Authentication {
      - parameters:
         - firstName: Given name of the user
         - lastName: Family name of the user, if provided (optional)
+        - mobileNumber: Mobile phone number of the user, if provided (optional)
         - email: Email address of the user
         - password: Password for the user
         - completion: Completion handler with any error that occurred
      */
-    public func registerUser(firstName: String, lastName: String?, email: String, password: String, completion: @escaping FrolloSDKCompletionHandler) {
+    public func registerUser(firstName: String, lastName: String?, mobileNumber: String?, email: String, password: String, completion: @escaping FrolloSDKCompletionHandler) {
         let deviceInfo = DeviceInfo.current()
         
         let userRegisterRequest = APIUserRegisterRequest(deviceID: deviceInfo.deviceID,
@@ -167,7 +168,8 @@ public class Authentication {
                                                          email: email,
                                                          firstName: firstName,
                                                          password: password,
-                                                         lastName: lastName)
+                                                         lastName: lastName,
+                                                         mobileNumber: mobileNumber)
         
         network.registerUser(request: userRegisterRequest) { (response, error) in
             if let responseError = error {

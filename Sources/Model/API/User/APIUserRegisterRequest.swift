@@ -17,6 +17,7 @@ struct APIUserRegisterRequest: Codable {
         case email
         case firstName = "first_name"
         case lastName = "last_name"
+        case mobileNumber = "mobile_number"
         case password
     }
     
@@ -27,6 +28,7 @@ struct APIUserRegisterRequest: Codable {
     let firstName: String
     let password: String
     
-    var lastName: String?
+    let lastName: String?
+    let mobileNumber: String?
     
 }

@@ -13,6 +13,7 @@ struct APIUserResponse: Codable {
     enum CodingKeys: String, CodingKey {
         
         case address
+        case attribution
         case dateOfBirth = "date_of_birth"
         case email
         case emailVerified = "email_verified"
@@ -24,6 +25,7 @@ struct APIUserResponse: Codable {
         case householdType = "marital_status"
         case industry
         case lastName = "last_name"
+        case mobileNumber = "mobile_number"
         case occupation
         case primaryCurrency = "primary_currency"
         case previousAddress = "previous_address"
@@ -51,6 +53,24 @@ struct APIUserResponse: Codable {
         
     }
     
+    struct Attribution: Codable {
+        
+        enum CodingKeys: String, CodingKey {
+            
+            case adGroup = "ad_group"
+            case campaign
+            case creative
+            case network
+            
+        }
+        
+        let adGroup: String?
+        let campaign: String?
+        let creative: String?
+        let network: String?
+        
+    }
+    
     let email: String
     let emailVerified: Bool
     let firstName: String
@@ -60,6 +80,7 @@ struct APIUserResponse: Codable {
     let validPassword: Bool
     
     let address: Address?
+    let attribution: Attribution?
     let dateOfBirth: Date?
     let facebookID: String?
     let features: [User.FeatureFlag]?
@@ -68,6 +89,7 @@ struct APIUserResponse: Codable {
     let householdType: User.HouseholdType?
     let industry: User.Industry?
     let lastName: String?
+    let mobileNumber: String?
     let occupation: User.Occupation?
     let previousAddress: Address?
 

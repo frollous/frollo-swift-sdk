@@ -83,7 +83,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.registerUser(firstName: "Frollo", lastName: "User", email: "user@frollo.us", password: "password") { (error) in
+            authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", email: "user@frollo.us", password: "password") { (error) in
                 XCTAssertNil(error)
                 
                 XCTAssertNotNil(authentication.user)

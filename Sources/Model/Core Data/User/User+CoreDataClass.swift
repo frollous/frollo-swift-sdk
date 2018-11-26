@@ -287,6 +287,12 @@ public class User: NSManagedObject {
         status = response.status
         validPassword = response.validPassword
         
+        addressLine1 = response.address?.line1
+        addressLine2 = response.address?.line2
+        attributionAdGroup = response.attribution?.adGroup
+        attributionCampaign = response.attribution?.campaign
+        attributionCreative = response.attribution?.creative
+        attributionNetwork = response.attribution?.network
         facebookID = response.facebookID
         features = response.features
         gender = response.gender
@@ -294,28 +300,40 @@ public class User: NSManagedObject {
         householdType = response.householdType
         industry = response.industry
         lastName = response.lastName
+        mobileNumber = response.mobileNumber
         occupation = response.occupation
         postcode = response.address?.postcode
+        suburb = response.address?.suburb
     }
     
     // MARK: - Update request
     
     internal func updateRequest() -> APIUserUpdateRequest {
         var address: APIUserUpdateRequest.Address?
-        if let code = postcode {
-            address = APIUserUpdateRequest.Address(postcode: code)
+        if addressLine1 != nil || addressLine2 != nil || postcode != nil || suburb != nil {
+            address = APIUserUpdateRequest.Address(line1: addressLine1, line2: addressLine2, postcode: postcode, suburb: suburb)
+        }
+        
+        var attribution: APIUserUpdateRequest.Attribution?
+        if attributionAdGroup != nil || attributionCampaign != nil || attributionCreative != nil || attributionNetwork != nil {
+            attribution = APIUserUpdateRequest.Attribution(adGroup: attributionAdGroup,
+                                                           campaign: attributionCampaign,
+                                                           creative: attributionCreative,
+                                                           network: attributionNetwork)
         }
         
         return APIUserUpdateRequest(email: email,
                                     firstName: firstName,
                                     primaryCurrency: primaryCurrency,
                                     address: address,
+                                    attribution: attribution,
                                     dateOfBirth: dateOfBirth,
                                     gender: gender,
                                     householdSize: householdSize,
                                     householdType: householdType,
                                     industry: industry,
                                     lastName: lastName,
+                                    mobileNumber: mobileNumber,
                                     occupation: occupation)
     }
     

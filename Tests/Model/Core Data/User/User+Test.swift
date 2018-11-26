@@ -26,12 +26,20 @@ extension User: TestableCoreData {
         primaryCurrency = "AUD"
         gender = .male
         dateOfBirth = date
+        addressLine1 = "41 McLaren Street"
+        addressLine2 = "Frollo Level 1"
         postcode = "2060"
+        suburb = "North Sydney"
+        mobileNumber = "0412345678"
         householdType = .single
         householdSize = 1
         occupation = .communityAndPersonalServiceWorkers
         industry = .electricityGasWaterAndWasteServices
         facebookID = String(arc4random())
+        attributionAdGroup = String.randomString(range: 1...10)
+        attributionCampaign = String.randomString(range: 1...10)
+        attributionCreative = String.randomString(range: 1...10)
+        attributionNetwork = String.randomString(range: 1...10)
         validPassword = true
     }
     

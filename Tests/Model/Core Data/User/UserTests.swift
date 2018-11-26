@@ -59,6 +59,14 @@ class UserTests: XCTestCase {
             XCTAssertEqual(userModel.facebookID, userResponseModel.facebookID)
             XCTAssertEqual(userModel.validPassword, userResponseModel.validPassword)
             XCTAssertEqual(userModel.features, userResponseModel.features)
+            XCTAssertEqual(userModel.mobileNumber, userResponseModel.mobileNumber)
+            XCTAssertEqual(userModel.addressLine1, userResponseModel.address?.line1)
+            XCTAssertEqual(userModel.addressLine2, userResponseModel.address?.line2)
+            XCTAssertEqual(userModel.suburb, userResponseModel.address?.suburb)
+            XCTAssertEqual(userModel.attributionAdGroup, userResponseModel.attribution?.adGroup)
+            XCTAssertEqual(userModel.attributionCampaign, userResponseModel.attribution?.campaign)
+            XCTAssertEqual(userModel.attributionCreative, userResponseModel.attribution?.creative)
+            XCTAssertEqual(userModel.attributionNetwork, userResponseModel.attribution?.network)
             
             expectation1.fulfill()
         }

@@ -21,6 +21,24 @@ extension User {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<User> {
         return NSFetchRequest<User>(entityName: "User")
     }
+    
+    /// Address first line of the user (optional)
+    @NSManaged public var addressLine1: String?
+    
+    /// Address second line of the user (optional)
+    @NSManaged public var addressLine2: String?
+    
+    /// Attribution ad group of the user (optional)
+    @NSManaged public var attributionAdGroup: String?
+    
+    /// Attribution campaign of the user (optional)
+    @NSManaged public var attributionCampaign: String?
+    
+    /// Attribution creative of the user (optional)
+    @NSManaged public var attributionCreative: String?
+    
+    /// Attribution network of the user (optional)
+    @NSManaged public var attributionNetwork: String?
 
     /// Date of birth of the user (optional)
     @NSManaged public var dateOfBirth: Date?
@@ -55,6 +73,9 @@ extension User {
     /// Last name of the user (optional)
     @NSManaged public var lastName: String?
     
+    /// Mobile phone number of the user (optional)
+    @NSManaged public var mobileNumber: String?
+    
     /// Raw value of occupation. Use only in predicates (optional)
     @NSManaged public var occupationRawValue: String?
     
@@ -66,6 +87,9 @@ extension User {
     
     /// Raw value of the user status. Use only in predicates
     @NSManaged public var statusRawValue: String
+    
+    /// Suburb of the user (optional)
+    @NSManaged public var suburb: String?
     
     /// Unique ID of the user
     @NSManaged public var userID: Int64

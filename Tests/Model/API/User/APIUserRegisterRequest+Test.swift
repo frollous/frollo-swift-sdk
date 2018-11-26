@@ -13,12 +13,13 @@ extension APIUserRegisterRequest {
     
     static func testData() -> APIUserRegisterRequest {
         return APIUserRegisterRequest(deviceID: UUID().uuidString,
-                                      deviceName: UUID().uuidString,
+                                      deviceName: String.randomString(range: 1...20),
                                       deviceType: "iPhone Xs",
-                                      email: UUID().uuidString.lowercased() + "@frollo.us",
-                                      firstName: UUID().uuidString,
-                                      password: UUID().uuidString,
-                                      lastName: UUID().uuidString)
+                                      email: String.randomString(range: 1...10) + "@frollo.us",
+                                      firstName: String.randomString(range: 1...20),
+                                      password: String.randomString(range: 1...20),
+                                      lastName: String.randomString(range: 1...20),
+                                      mobileNumber: "0412345678")
     }
     
 }

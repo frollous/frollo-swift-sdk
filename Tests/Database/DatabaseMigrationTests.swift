@@ -71,9 +71,9 @@ class DatabaseMigrationTests: XCTestCase {
             return urlAVersion.compare(urlBVersion, options: .numeric, range: nil, locale: nil) == .orderedAscending
         }
         
-        for path in subPaths {
-            let model = NSManagedObjectModel(contentsOf: path)!
-            generateCoreDataTestDatabase(for: model, named: path.deletingPathExtension().lastPathComponent)
+        if let lastPath = subPaths.last {
+            let model = NSManagedObjectModel(contentsOf: lastPath)!
+            generateCoreDataTestDatabase(for: model, named: lastPath.deletingPathExtension().lastPathComponent)
         }
     }
     

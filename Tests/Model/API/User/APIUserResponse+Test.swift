@@ -27,6 +27,7 @@ extension APIUserResponse {
                                userID: Int64(arc4random()),
                                validPassword: true,
                                address: Address(line1: "41 McLaren Street", line2: "Frollo Level 1", postcode: "2060", suburb: "North Sydney"),
+                               attribution: Attribution(adGroup: String.randomString(range: 1...10), campaign: String.randomString(range: 1...10), creative: String.randomString(range: 1...10), network: String.randomString(range: 1...10)),
                                dateOfBirth: date,
                                facebookID: String(arc4random()),
                                features: [User.FeatureFlag(enabled: true, feature: "aggregation")],
@@ -35,6 +36,7 @@ extension APIUserResponse {
                                householdType: .single,
                                industry: .electricityGasWaterAndWasteServices,
                                lastName: UUID().uuidString,
+                               mobileNumber: "0412345678",
                                occupation: .communityAndPersonalServiceWorkers,
                                previousAddress: Address(line1: "Bay 9 Middlemiss St", line2: "Frollo Unit 13", postcode: "2060", suburb: "Lavender Bay"))
     }

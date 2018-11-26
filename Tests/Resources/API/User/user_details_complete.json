@@ -20,6 +20,13 @@
 		"postcode": "2060",
 		"suburb": "Lavender Bay"
 	},
+	"attribution": {
+		"ad_group": "ADGROUP1",
+		"campaign": "CAMPAIGN1",
+		"creative": "CREATIVE1",
+		"network": "FACEBOOK"
+	},
+	"mobile_number": "0412345678",
 	"marital_status": "single",
     "occupation": "community_and_personal_service_workers",
     "industry": "electricity_gas_water_and_waste_services",
@@ -31,9 +38,6 @@
 	"facebook_id": "1234567890",
 	"register_complete": true,
 	"valid_password": true,
-	"attribution": {
-		"network": "Organic"
-	},
 	"refresh_token": "sdjfnlasdjknfldskjngdflskjgnldsjkfnoa;nfeiansvijnasdvijda;nfgi;ej",
 	"access_token": "sdjfnlasdjknfldskjngdflskjgnldsjkfnoa;nfeiansvijnasdvijda;nfgi;ej",
 	"access_token_exp": 1939911061

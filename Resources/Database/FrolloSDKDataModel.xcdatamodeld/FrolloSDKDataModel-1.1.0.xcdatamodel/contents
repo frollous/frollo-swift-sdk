@@ -267,6 +267,12 @@
         </uniquenessConstraints>
     </entity>
     <entity name="User" representedClassName=".User" syncable="YES">
+        <attribute name="addressLine1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="addressLine2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attributionAdGroup" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attributionCampaign" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attributionCreative" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attributionNetwork" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dateOfBirth" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="email" attributeType="String" syncable="YES"/>
         <attribute name="emailVerified" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
@@ -278,10 +284,12 @@
         <attribute name="householdTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="industryRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mobileNumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="occupationRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="postcode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="primaryCurrency" attributeType="String" syncable="YES"/>
         <attribute name="statusRawValue" attributeType="String" defaultValueString="registered" syncable="YES"/>
+        <attribute name="suburb" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="validPassword" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
         <uniquenessConstraints>
@@ -303,6 +311,6 @@
         <element name="ProviderAccount" positionX="-164.078125" positionY="13.7109375" width="128" height="210"/>
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="330"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="165"/>
-        <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="300"/>
+        <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>
     </elements>
 </model>
