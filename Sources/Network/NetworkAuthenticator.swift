@@ -155,7 +155,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         return urlRequest
     }
     
-    private func validateAndAppendAccessToken(request: URLRequest) throws -> URLRequest {
+    internal func validateAndAppendAccessToken(request: URLRequest) throws -> URLRequest {
         if !validToken() {
             guard refreshToken != nil
                 else {

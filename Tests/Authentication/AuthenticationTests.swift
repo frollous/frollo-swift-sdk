@@ -461,6 +461,41 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testAuthenticatingRequestManually() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let network = Network(serverURL: serverURL, keychain: validKeychain())
+        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        
+        let requestURL = URL(string: "https://api.example.com/somewhere")!
+        let request = URLRequest(url: requestURL)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            do {
+                let adaptedRequest = try authentication.authenticateRequest(request)
+                
+                guard let authHeader = adaptedRequest.allHTTPHeaderFields?["Authorization"]
+                    else {
+                        XCTFail("No auth header")
+                        return
+                }
+                
+                XCTAssertTrue(authHeader.contains("Bearer"))
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     // MARK: - Network logged out delegate
     
     func forcedLogout() {

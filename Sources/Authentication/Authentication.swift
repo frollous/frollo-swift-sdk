@@ -75,10 +75,6 @@ public class Authentication {
         self.preferences = preferences
     }
     
-    internal func authenticate(_ authToken: String, completion: FrolloSDKCompletionHandler) {
-        completion(nil)
-    }
-    
     // MARK: - Cache
     
     /**
@@ -320,6 +316,20 @@ public class Authentication {
                 completion(error)
             }
         }
+    }
+    
+    // MARK: - Web Request Authentication
+    
+    /**
+     Authenticate a web request
+     
+     Allows authenticating a `URLRequest` manually with the user's current access token. For advanced usage such as authenticating calls to web content.
+     
+     - parameters:
+        - request: URL Request to be authenticated and provided the access token
+    */
+    public func authenticateRequest(_ request: URLRequest) throws -> URLRequest {
+        return try network.authenticator.validateAndAppendAccessToken(request: request)
     }
     
     // MARK: - Device
