@@ -12,8 +12,8 @@ import Foundation
 protocol CachedObjects {
     
     func cachedObject<T: CacheableManagedObject & NSManagedObject>(type: T.Type, context: NSManagedObjectContext, objectID: Int64, objectKey: String) -> T?
-    func cachedObjects<T: CacheableManagedObject & NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) -> [T]?
-    func fetchedResultsController<T: NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) -> NSFetchedResultsController<T>
+    func cachedObjects<T: CacheableManagedObject & NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, limit: Int?) -> [T]?
+    func fetchedResultsController<T: NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, limit: Int?) -> NSFetchedResultsController<T>
     
 }
 
@@ -34,10 +34,14 @@ extension CachedObjects {
         return nil
     }
     
-    func cachedObjects<T: CacheableManagedObject & NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) -> [T]? {
+    func cachedObjects<T: CacheableManagedObject & NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, limit: Int?) -> [T]? {
         let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
         fetchRequest.predicate = predicate
         fetchRequest.sortDescriptors = sortDescriptors
+        
+        if let fetchLimit = limit {
+            fetchRequest.fetchLimit = fetchLimit
+        }
         
         do {
             return try context.fetch(fetchRequest)
@@ -48,10 +52,14 @@ extension CachedObjects {
         return nil
     }
     
-    internal func fetchedResultsController<T: NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) -> NSFetchedResultsController<T> {
+    internal func fetchedResultsController<T: NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, limit: Int?) -> NSFetchedResultsController<T> {
         let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
         fetchRequest.predicate = predicate
         fetchRequest.sortDescriptors = sortDescriptors
+        
+        if let fetchLimit = limit {
+            fetchRequest.fetchLimit = fetchLimit
+        }
         
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
     }

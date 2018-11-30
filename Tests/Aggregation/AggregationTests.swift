@@ -324,10 +324,10 @@ class AggregationTests: XCTestCase {
             let aggregation = Aggregation(database: database, network: network)
             
             let predicate = NSPredicate(format: "providerID == 69", argumentArray: nil)
-            let providerAccounts = aggregation.providerAccounts(context: database.viewContext, filteredBy: predicate)
+            let providerAccounts = aggregation.providerAccounts(context: database.viewContext, filteredBy: predicate, limit: 1)
             
             XCTAssertNotNil(providerAccounts)
-            XCTAssertEqual(providerAccounts?.count, 2)
+            XCTAssertEqual(providerAccounts?.count, 1)
             
             expectation1.fulfill()
         }

@@ -56,8 +56,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - filteredBy: Predicate of properties to match for fetching. See `Provider` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerID ascending (Optional)
      */
-    public func providers(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Provider.providerID), ascending: true)]) -> [Provider]? {
-        return cachedObjects(type: Provider.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    public func providers(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Provider.providerID), ascending: true)], limit: Int? = nil) -> [Provider]? {
+        return cachedObjects(type: Provider.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -68,8 +68,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - filteredBy: Predicate of properties to match for fetching. See `Provider` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerID ascending (Optional)
      */
-    public func providersFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Provider.providerID), ascending: true)]) -> NSFetchedResultsController<Provider>? {
-        return fetchedResultsController(type: Provider.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    public func providersFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Provider.providerID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Provider>? {
+        return fetchedResultsController(type: Provider.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -152,8 +152,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - filteredBy: Predicate of properties to match for fetching. See `ProviderAccount` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerAccountID ascending (Optional)
     */
-    public func providerAccounts(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)]) -> [ProviderAccount]? {
-        return cachedObjects(type: ProviderAccount.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    public func providerAccounts(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)], limit: Int? = nil) -> [ProviderAccount]? {
+        return cachedObjects(type: ProviderAccount.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -164,8 +164,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - filteredBy: Predicate of properties to match for fetching. See `ProviderAccount` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerAccountID ascending (Optional)
     */
-    public func providerAccountsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)]) -> NSFetchedResultsController<ProviderAccount>? {
-        return fetchedResultsController(type: ProviderAccount.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    public func providerAccountsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<ProviderAccount>? {
+        return fetchedResultsController(type: ProviderAccount.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -302,8 +302,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - filteredBy: Predicate of properties to match for fetching. See `Account` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to accountID ascending (Optional)
      */
-    public func accounts(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Account.accountID), ascending: true)]) -> [Account]? {
-        return cachedObjects(type: Account.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    public func accounts(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Account.accountID), ascending: true)], limit: Int? = nil) -> [Account]? {
+        return cachedObjects(type: Account.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -314,8 +314,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - filteredBy: Predicate of properties to match for fetching. See `Account` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to accountID ascending (Optional)
      */
-    public func accountsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Account.accountID), ascending: true)]) -> NSFetchedResultsController<Account>? {
-        return fetchedResultsController(type: Account.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    public func accountsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Account.accountID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Account>? {
+        return fetchedResultsController(type: Account.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -432,8 +432,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - filteredBy: Predicate of properties to match for fetching. See `Transaction` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionID ascending (Optional)
      */
-    public func transactions(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)]) -> [Transaction]? {
-        return cachedObjects(type: Transaction.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    public func transactions(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)], limit: Int? = nil) -> [Transaction]? {
+        return cachedObjects(type: Transaction.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -444,8 +444,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - filteredBy: Predicate of properties to match for fetching. See `Transaction` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionID ascending (Optional)
      */
-    public func transactionsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)]) -> NSFetchedResultsController<Transaction>? {
-        return fetchedResultsController(type: Transaction.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    public func transactionsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Transaction>? {
+        return fetchedResultsController(type: Transaction.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -598,8 +598,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - filteredBy: Predicate of properties to match for fetching. See `TransactionCategory` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionCategoryID ascending (Optional)
      */
-    public func transactionCategories(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(TransactionCategory.transactionCategoryID), ascending: true)]) -> [TransactionCategory]? {
-        return cachedObjects(type: TransactionCategory.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    public func transactionCategories(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(TransactionCategory.transactionCategoryID), ascending: true)], limit: Int? = nil) -> [TransactionCategory]? {
+        return cachedObjects(type: TransactionCategory.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -610,8 +610,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - filteredBy: Predicate of properties to match for fetching. See `TransactionCategory` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionCategoryID ascending (Optional)
      */
-    public func transactionCategoriesFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(TransactionCategory.transactionCategoryID), ascending: true)]) -> NSFetchedResultsController<TransactionCategory>? {
-        return fetchedResultsController(type: TransactionCategory.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    public func transactionCategoriesFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(TransactionCategory.transactionCategoryID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<TransactionCategory>? {
+        return fetchedResultsController(type: TransactionCategory.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -661,8 +661,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - filteredBy: Predicate of properties to match for fetching. See `Merchant` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to merchantID ascending (Optional)
      */
-    public func merchants(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)]) -> [Merchant]? {
-        return cachedObjects(type: Merchant.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    public func merchants(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)], limit: Int? = nil) -> [Merchant]? {
+        return cachedObjects(type: Merchant.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -673,8 +673,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - filteredBy: Predicate of properties to match for fetching. See `Merchant` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to merchantID ascending (Optional)
      */
-    public func merchantsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)]) -> NSFetchedResultsController<Merchant>? {
-        return fetchedResultsController(type: Merchant.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors)
+    public func merchantsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Merchant>? {
+        return fetchedResultsController(type: Merchant.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**

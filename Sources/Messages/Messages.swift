@@ -50,7 +50,7 @@ public class Messages: CachedObjects, ResponseHandler {
         - filteredBy: Predicate of properties to match for fetching. See `Message` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to messageID ascending (Optional)
      */
-    public func messages(context: NSManagedObjectContext, messageTypes: [String]? = nil, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Message.messageID), ascending: true)]) -> [Message]? {
+    public func messages(context: NSManagedObjectContext, messageTypes: [String]? = nil, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Message.messageID), ascending: true)], limit: Int? = nil) -> [Message]? {
         var predicates = [NSPredicate]()
         if let types = messageTypes {
             var messageTypePredicates = [NSPredicate]()
@@ -66,7 +66,7 @@ public class Messages: CachedObjects, ResponseHandler {
             predicates.append(filterPredicate)
         }
         
-        return cachedObjects(type: Message.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors)
+        return cachedObjects(type: Message.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -78,7 +78,7 @@ public class Messages: CachedObjects, ResponseHandler {
         - filteredBy: Predicate of properties to match for fetching. See `Message` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to messageID ascending (Optional)
      */
-    public func messagesFetchedResultsController(context: NSManagedObjectContext, messageTypes: [String]? = nil, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Message.messageID), ascending: true)]) -> NSFetchedResultsController<Message>? {
+    public func messagesFetchedResultsController(context: NSManagedObjectContext, messageTypes: [String]? = nil, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Message.messageID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Message>? {
         var predicates = [NSPredicate]()
         if let types = messageTypes {
             var messageTypePredicates = [NSPredicate]()
@@ -94,7 +94,7 @@ public class Messages: CachedObjects, ResponseHandler {
             predicates.append(filterPredicate)
         }
         
-        return fetchedResultsController(type: Message.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors)
+    return fetchedResultsController(type: Message.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
