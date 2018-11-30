@@ -56,15 +56,6 @@ public class Authentication {
         }
     }
     
-    /**
-     User model from cache if available
-    */
-    public var user: User? {
-        get {
-            return fetchUser()
-        }
-    }
-    
     private let database: Database
     private let network: Network
     private let preferences: Preferences
@@ -82,24 +73,18 @@ public class Authentication {
      
      - Returns: User object if found
     */
-    private func fetchUser() -> User? {
-        var fetchedUser: User?
+    public func fetchUser(context: NSManagedObjectContext) -> User? {
+        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
         
-        let managedObjectContext = database.viewContext
-        
-        managedObjectContext.performAndWait {
-            let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+        do {
+            let fetchedUsers = try context.fetch(fetchRequest)
             
-            do {
-                let fetchedUsers = try managedObjectContext.fetch(fetchRequest)
-                
-                fetchedUser = fetchedUsers.first
-            } catch {
-                Log.error(error.localizedDescription)
-            }
+            return fetchedUsers.first
+        } catch {
+            Log.error(error.localizedDescription)
         }
         
-        return fetchedUser
+        return nil
     }
     
     // MARK: - Login
@@ -240,7 +225,7 @@ public class Authentication {
         - completion: A completion handler once the API has returned and the cache has been updated. Returns any error that occurred during the process.
      */
     public func updateUser(completion: @escaping FrolloSDKCompletionHandler) {
-        guard let request = user?.updateRequest()
+        guard let user = fetchUser(context: database.newBackgroundContext())
             else {
                 let error = DataError(type: .database, subType: .notFound)
                 
@@ -249,6 +234,8 @@ public class Authentication {
                 }
                 return
         }
+        
+        let request = user.updateRequest()
         
         network.updateUser(request: request) { (response, error) in
             if let responseError = error {

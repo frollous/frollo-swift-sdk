@@ -58,7 +58,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
             authentication.loginUser(method: .email, email: "user@frollo.us", password: "password") { (error) in
                 XCTAssertNil(error)
                 
-                XCTAssertNotNil(authentication.user)
+                XCTAssertNotNil(authentication.fetchUser(context: database.newBackgroundContext()))
                 
                 expectation1.fulfill()
             }
@@ -86,7 +86,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
             authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", email: "user@frollo.us", password: "password") { (error) in
                 XCTAssertNil(error)
                 
-                XCTAssertNotNil(authentication.user)
+                XCTAssertNotNil(authentication.fetchUser(context: database.newBackgroundContext()))
                 
                 expectation1.fulfill()
             }
@@ -114,7 +114,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
             authentication.refreshUser { (error) in
                 XCTAssertNil(error)
                 
-                XCTAssertNotNil(authentication.user)
+                XCTAssertNotNil(authentication.fetchUser(context: database.newBackgroundContext()))
                 
                 expectation1.fulfill()
             }
@@ -151,7 +151,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
             authentication.updateUser { (error) in
                 XCTAssertNil(error)
                 
-                XCTAssertNotNil(authentication.user)
+                XCTAssertNotNil(authentication.fetchUser(context: database.newBackgroundContext()))
                 
                 expectation1.fulfill()
             }
