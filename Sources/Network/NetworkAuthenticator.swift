@@ -131,7 +131,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     private func appendOTPHeader(request: URLRequest) -> URLRequest {
         var urlRequest = request
         
-        let bundleID = String(repeating: Bundle.main.bundleIdentifier ?? "FrolloSDK", count: 2)
+        let bundleID = String(repeating: Bundle(for: NetworkAuthenticator.self).bundleIdentifier ?? "FrolloSDK", count: 2)
 
         let generator = OTP(factor: .timer(period: 30), secret: bundleID.data(using: .utf8)!, algorithm: .sha256, digits: 8)
         let password = try! generator?.password(at: Date())

@@ -370,7 +370,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        let bundleID = Bundle.main.bundleIdentifier ?? "FrolloSDK"
+        let bundleID = "us.frollo.FrolloSDK"
         let seed = String(repeating: bundleID, count: 2)
         
         let generator = OTP(factor: .timer(period: 30), secret: seed.data(using: .utf8)!, algorithm: .sha256, digits: 8)
@@ -402,7 +402,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        let bundleID = Bundle.main.bundleIdentifier ?? "FrolloSDK"
+        let bundleID = "us.frollo.FrolloSDK"
         let seed = String(repeating: bundleID, count: 2)
         
         let generator = OTP(factor: .timer(period: 30), secret: seed.data(using: .utf8)!, algorithm: .sha256, digits: 8)
