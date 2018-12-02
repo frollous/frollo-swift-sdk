@@ -129,7 +129,7 @@ extension Network {
                     return
             }
             
-            self.sessionManager.request(urlRequest).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { (response) in
+            self.sessionManager.request(urlRequest).validate(statusCode: 202...202).responseData(queue: self.responseQueue) { (response) in
                 self.handleEmptyResponse(response: response, completion: completion)
             }
         }

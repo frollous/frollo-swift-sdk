@@ -358,7 +358,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let expectation1 = expectation(description: "Network Request")
         
         stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.resetPassword.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+            return OHHTTPStubsResponse(data: Data(), statusCode: 202, headers: nil)
         }
         
         let path = tempFolderPath()
