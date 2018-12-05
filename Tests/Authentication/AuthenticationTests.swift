@@ -185,7 +185,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1], timeout: 5.0)
     }
     
     func testLogoutUser() {
