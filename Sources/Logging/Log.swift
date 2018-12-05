@@ -15,16 +15,16 @@ internal protocol Logger: class {
 }
 
 /// Logging level
-public enum LogLevel: String, Codable {
+public enum LogLevel: Int, Codable {
     
     /// Log all messages including verbose debug statements
-    case debug
+    case debug = 1
     
     /// Log only the most significant errors
-    case error
+    case error = 16
     
     /// Log additional information
-    case info
+    case info = 2
     
 }
 
