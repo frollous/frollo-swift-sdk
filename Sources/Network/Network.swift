@@ -127,11 +127,15 @@ class Network: SessionDelegate {
     
     // MARK: - Requests
     
-    internal func contentRequest<T: Codable>(url: URL, method: HTTPMethod, content: T) -> URLRequest? {
+    internal func contentRequest<T: Codable>(url: URL, method: HTTPMethod, content: T, dateEncodingStrategy: JSONEncoder.DateEncodingStrategy? = nil) -> URLRequest? {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
         
         let encoder = JSONEncoder()
+        
+        if let encodingStrategy = dateEncodingStrategy {
+            encoder.dateEncodingStrategy = encodingStrategy
+        }
         
         do {
             let requestData = try encoder.encode(content)

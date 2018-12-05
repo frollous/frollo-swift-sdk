@@ -98,7 +98,10 @@ extension Network {
         requestQueue.async {
             let url = URL(string: UserEndpoint.register.path, relativeTo: self.serverURL)!
             
-            guard let urlRequest = self.contentRequest(url: url, method: .post, content: request)
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM"
+            
+            guard let urlRequest = self.contentRequest(url: url, method: .post, content: request, dateEncodingStrategy: .formatted(dateFormatter))
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
@@ -139,7 +142,10 @@ extension Network {
         requestQueue.async {
             let url = URL(string: UserEndpoint.details.path, relativeTo: self.serverURL)!
             
-            guard let urlRequest = self.contentRequest(url: url, method: .put, content: request)
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM"
+            
+            guard let urlRequest = self.contentRequest(url: url, method: .put, content: request, dateEncodingStrategy: .formatted(dateFormatter))
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
