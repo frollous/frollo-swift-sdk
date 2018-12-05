@@ -226,7 +226,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         keychain.removeAll()
     }
     
-    private func refreshTokens() {
+    internal func refreshTokens() {
         guard !refreshing
             else {
                 return

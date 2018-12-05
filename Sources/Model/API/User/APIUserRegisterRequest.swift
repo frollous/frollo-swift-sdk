@@ -11,6 +11,9 @@ import Foundation
 struct APIUserRegisterRequest: Codable {
     
     enum CodingKeys: String, CodingKey {
+        
+        case address
+        case dateOfBirth = "date_of_birth"
         case deviceID = "device_id"
         case deviceName = "device_name"
         case deviceType = "device_type"
@@ -19,6 +22,13 @@ struct APIUserRegisterRequest: Codable {
         case lastName = "last_name"
         case mobileNumber = "mobile_number"
         case password
+        
+    }
+    
+    struct Address: Codable {
+        
+        let postcode: String
+        
     }
     
     let deviceID: String
@@ -28,6 +38,8 @@ struct APIUserRegisterRequest: Codable {
     let firstName: String
     let password: String
     
+    let address: Address?
+    let dateOfBirth: Date?
     let lastName: String?
     let mobileNumber: String?
     

@@ -136,12 +136,19 @@ public class Authentication {
         - firstName: Given name of the user
         - lastName: Family name of the user, if provided (optional)
         - mobileNumber: Mobile phone number of the user, if provided (optional)
+        - postcode: Postcode of the user, if provided (optional)
+        - dateOfBirth: Date of birth of the user, if provided (optional)
         - email: Email address of the user
         - password: Password for the user
         - completion: Completion handler with any error that occurred
      */
-    public func registerUser(firstName: String, lastName: String?, mobileNumber: String?, email: String, password: String, completion: @escaping FrolloSDKCompletionHandler) {
+    public func registerUser(firstName: String, lastName: String?, mobileNumber: String?, postcode: String?, dateOfBirth: Date?, email: String, password: String, completion: @escaping FrolloSDKCompletionHandler) {
         let deviceInfo = DeviceInfo.current()
+        
+        var address: APIUserRegisterRequest.Address?
+        if let registerPostcode = postcode {
+            address = APIUserRegisterRequest.Address(postcode: registerPostcode)
+        }
         
         let userRegisterRequest = APIUserRegisterRequest(deviceID: deviceInfo.deviceID,
                                                          deviceName: deviceInfo.deviceName,
@@ -149,6 +156,8 @@ public class Authentication {
                                                          email: email,
                                                          firstName: firstName,
                                                          password: password,
+                                                         address: address,
+                                                         dateOfBirth: dateOfBirth,
                                                          lastName: lastName,
                                                          mobileNumber: mobileNumber)
         
@@ -303,6 +312,15 @@ public class Authentication {
                 completion(error)
             }
         }
+    }
+    
+    /**
+     Refresh Access and Refresh Tokens
+     
+     Forces a refresh of the access and refresh tokens if a 401 was encountered. For advanced usage only in combination with web request authentication.
+    */
+    public func refreshTokens() {
+        network.authenticator.refreshTokens()
     }
     
     // MARK: - Web Request Authentication

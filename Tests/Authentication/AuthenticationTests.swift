@@ -67,6 +67,34 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testInvalidLoginUser() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.login.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_username_password", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let network = Network(serverURL: serverURL, keychain: validKeychain())
+        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            authentication.loginUser(method: .email, email: "user@frollo.us", password: "wrong_password") { (error) in
+                XCTAssertNotNil(error)
+                
+                XCTAssertNil(authentication.fetchUser(context: database.newBackgroundContext()))
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testRegisterUser() {
         let expectation1 = expectation(description: "Network Request")
         
@@ -83,7 +111,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", email: "user@frollo.us", password: "password") { (error) in
+            authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password") { (error) in
                 XCTAssertNil(error)
                 
                 XCTAssertNotNil(authentication.fetchUser(context: database.newBackgroundContext()))

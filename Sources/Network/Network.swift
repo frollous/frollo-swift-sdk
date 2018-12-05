@@ -165,7 +165,7 @@ class Network: SessionDelegate {
                 } else if let statusCode = response.response?.statusCode {
                     let apiError = APIError(statusCode: statusCode, response: response.data)
                     
-                    let clearTokenStatuses: [APIError.APIErrorType] = [.invalidRefreshToken, .suspendedDevice, .suspendedUser, .invalidUsernamePassword, .otherAuthorisation]
+                    let clearTokenStatuses: [APIError.APIErrorType] = [.invalidRefreshToken, .suspendedDevice, .suspendedUser, .otherAuthorisation]
                     if clearTokenStatuses.contains(apiError.type) {
                         reset()
                         
