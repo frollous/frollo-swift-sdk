@@ -1,3 +1,5 @@
 {
-  "errors": [{"error_code": "F9999"}]
+    "error": {
+        "error_code": "F9999"
+    }
 }

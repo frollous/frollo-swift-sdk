@@ -1,4 +1,6 @@
 {
-  "error_code": "F0200",
-  "error_message": "ID not allowed"
+    "error": {
+        "error_code": "F0200",
+        "error_message": "ID not allowed"
+    }
 }

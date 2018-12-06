@@ -1,4 +1,6 @@
 {
-  "error_code": "F9999",
-  "error_message": "Internal exception"
+    "error": {
+        "error_code": "F9999",
+        "error_message": "Internal exception"
+    }
 }

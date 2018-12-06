@@ -1,4 +1,6 @@
 {
-  "error_code": "F0300",
-  "error_message": "ID not found"
+    "error": {
+        "error_code": "F0300",
+        "error_message": "ID not found"
+    }
 }

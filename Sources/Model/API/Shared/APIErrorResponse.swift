@@ -31,12 +31,18 @@ struct APIErrorResponse: Codable {
         case internalException = "F9999"
     }
     
-    enum CodingKeys: String, CodingKey {
-        case errorCode = "error_code"
-        case errorMessage = "error_message"
+    struct ErrorBody: Codable {
+        
+        enum CodingKeys: String, CodingKey {
+            case errorCode = "error_code"
+            case errorMessage = "error_message"
+        }
+        
+        let errorCode: APIErrorCode
+        let errorMessage: String
+        
     }
     
-    let errorCode: APIErrorCode
-    let errorMessage: String
+    let error: ErrorBody
     
 }

@@ -1,4 +1,6 @@
 {
-  "error_code": "F0113",
-  "error_message": "Suspended device"
+    "error": {
+        "error_code": "F0113",
+        "error_message": "Suspended device"
+    }
 }

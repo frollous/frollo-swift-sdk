@@ -1,4 +1,6 @@
 {
-  "error_code": "F0001",
-  "error_message": "Invalid value for ID"
+    "error": {
+        "error_code": "F0001",
+        "error_message": "Invalid value for ID"
+    }
 }

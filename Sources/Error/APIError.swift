@@ -68,12 +68,12 @@ class APIError: FrolloSDKError {
             }
         }
         
-        message = errorResponse?.errorMessage
-        errorCode = errorResponse?.errorCode
+        message = errorResponse?.error.errorMessage
+        errorCode = errorResponse?.error.errorCode
         
         switch statusCode {
             case 400:
-                if let errorCode = errorResponse?.errorCode {
+                if let errorCode = errorResponse?.error.errorCode {
                     switch errorCode {
                         case .invalidMustBeDifferent:
                             type = .passwordMustBeDifferent
@@ -85,7 +85,7 @@ class APIError: FrolloSDKError {
                 }
             
             case 401:
-                if let errorCode = errorResponse?.errorCode {
+                if let errorCode = errorResponse?.error.errorCode {
                     switch errorCode {
                         case .invalidAccessToken:
                             type = .invalidAccessToken

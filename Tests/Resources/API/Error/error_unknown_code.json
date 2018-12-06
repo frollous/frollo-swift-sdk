@@ -1,4 +1,6 @@
 {
-  "error_code": "H2134",
-  "error_message": "Some weird error"
+    "error": {
+        "error_code": "H2134",
+        "error_message": "Some weird error"
+    }
 }

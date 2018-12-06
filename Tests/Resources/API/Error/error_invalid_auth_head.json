@@ -1,4 +1,6 @@
 {
-  "error_code": "F0003",
-  "error_message": "Invalid Authorisation header"
+    "error": {
+        "error_code": "F0003",
+        "error_message": "Invalid Authorisation header"
+    }
 }

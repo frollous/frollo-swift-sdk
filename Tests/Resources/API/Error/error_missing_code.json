@@ -1,3 +1,5 @@
 {
-  "error_message": "Some unknown error"
+    "error": {
+        "error_message": "Some unknown error"
+    }
 }

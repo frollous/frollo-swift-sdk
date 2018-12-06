@@ -1,4 +1,6 @@
 {
-  "error_code": "F0005",
-  "error_message": "ID must be different"
+    "error": {
+        "error_code": "F0005",
+        "error_message": "ID must be different"
+    }
 }
