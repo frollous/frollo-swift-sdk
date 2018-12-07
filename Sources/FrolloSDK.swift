@@ -60,7 +60,7 @@ public class FrolloSDK: NetworkDelegate {
     /// Aggregation - All account and transaction related data see `Aggregation` for details
     public var aggregation: Aggregation {
         get {
-            guard setup
+            guard _setup
                 else {
                     fatalError("SDK not setup.")
             }
@@ -71,7 +71,7 @@ public class FrolloSDK: NetworkDelegate {
     /// Authentication - All authentication and user related data see `Authentication` for details
     public var authentication: Authentication {
         get {
-            guard setup
+            guard _setup
                 else {
                     fatalError("SDK not setup.")
             }
@@ -82,7 +82,7 @@ public class FrolloSDK: NetworkDelegate {
     /// Database - Core Data management and contexts for fetching data. See `Database` for details
     public var database: Database {
         get {
-            guard setup
+            guard _setup
                 else {
                     fatalError("SDK not setup.")
             }
@@ -93,7 +93,7 @@ public class FrolloSDK: NetworkDelegate {
     /// Events - Triggering and handling of events. See `Events` for details
     public var events: Events {
         get {
-            guard setup
+            guard _setup
                 else {
                     fatalError("SDK not setup.")
             }
@@ -104,7 +104,7 @@ public class FrolloSDK: NetworkDelegate {
     /// Messages - All messages management. See `Messages` for details
     public var messages: Messages {
         get {
-            guard setup
+            guard _setup
                 else {
                     fatalError("SDK not setup.")
             }
@@ -115,12 +115,19 @@ public class FrolloSDK: NetworkDelegate {
     /// Notifications - Registering and handling of push notifications
     public var notifications: Notifications {
         get {
-            guard setup
+            guard _setup
                 else {
                     fatalError("SDK not setup.")
             }
             
             return _notifications
+        }
+    }
+    
+    /// Indicates if the SDK has completed setup or not
+    public var setup: Bool {
+        get {
+            return _setup
         }
     }
     
@@ -136,7 +143,7 @@ public class FrolloSDK: NetworkDelegate {
     internal var _notifications: Notifications!
     internal var network: Network!
     internal var refreshTimer: Timer?
-    internal var setup = false
+    internal var _setup = false
     
     private let frolloHost = "frollo.us"
     
@@ -175,7 +182,7 @@ public class FrolloSDK: NetworkDelegate {
         - completion: Completion handler with optional error if something goes wrong during the setup process
     */
     public func setup(serverURL: URL, logLevel: LogLevel = .error, publicKeyPinningEnabled: Bool = true, completion: @escaping (Error?) -> Void) {
-        guard !setup
+        guard !_setup
             else {
                 fatalError("SDK already setup")
         }
@@ -226,7 +233,7 @@ public class FrolloSDK: NetworkDelegate {
         
         _database.setup { (error) in
             if error == nil {
-                self.setup = true
+                self._setup = true
             }
             
             completion(error)
