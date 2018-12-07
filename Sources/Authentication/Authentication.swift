@@ -64,6 +64,8 @@ public class Authentication {
         self.database = database
         self.network = network
         self.preferences = preferences
+        
+        _ = fetchUser(context: database.viewContext)
     }
     
     // MARK: - Cache
@@ -234,7 +236,7 @@ public class Authentication {
         - completion: A completion handler once the API has returned and the cache has been updated. Returns any error that occurred during the process.
      */
     public func updateUser(completion: @escaping FrolloSDKCompletionHandler) {
-        guard let user = fetchUser(context: database.newBackgroundContext())
+        guard let user = fetchUser(context: database.viewContext)
             else {
                 let error = DataError(type: .database, subType: .notFound)
                 
