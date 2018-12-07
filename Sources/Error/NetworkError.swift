@@ -21,7 +21,7 @@ class NetworkError: FrolloSDKError {
             return debugNetworkErrorDescription()
         }
     }
-    public var localizedDescription: String {
+    public var errorDescription: String? {
         get {
             return localizedNetworkErrorDescription()
         }

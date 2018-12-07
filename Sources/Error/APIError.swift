@@ -39,7 +39,7 @@ class APIError: FrolloSDKError {
             return localizedAPIErrorDebugDescription()
         }
     }
-    public var localizedDescription: String {
+    public var errorDescription: String? {
         get {
             return localizedAPIErrorDescription()
         }

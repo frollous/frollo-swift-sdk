@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol FrolloSDKError: Error, CustomDebugStringConvertible {
+protocol FrolloSDKError: LocalizedError, CustomDebugStringConvertible {
     
     
     

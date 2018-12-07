@@ -32,7 +32,7 @@ class LoginFormError: FrolloSDKError {
             return debugDataErrorDescription()
         }
     }
-    public var localizedDescription: String {
+    public var errorDescription: String? {
         get {
             return localizedDataErrorDescription()
         }
