@@ -86,7 +86,7 @@ class Network: SessionDelegate {
         let appVersion = Bundle(for: Network.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
         let bundleID = Bundle(for: Network.self).bundleIdentifier!
         let systemVersion = ProcessInfo.processInfo.operatingSystemVersionString
-        let userAgent = String(format: "%@|V%@|B%@|%@%@|API%@", arguments: [bundleID, appVersion, appBuild, osVersion, systemVersion, APIVersion])
+        let userAgent = String(format: "%@|SDK%@|B%@|%@%@|API%@", arguments: [bundleID, appVersion, appBuild, osVersion, systemVersion, APIVersion])
         
         #if !os(watchOS)
         reachability = NetworkReachabilityManager(host: serverURL.host!)!
@@ -97,7 +97,7 @@ class Network: SessionDelegate {
         configuration.httpAdditionalHeaders = [HTTPHeader.apiVersion.rawValue: APIVersion,
                                                HTTPHeader.bundleID.rawValue: bundleID,
                                                HTTPHeader.deviceVersion.rawValue: osVersion + systemVersion,
-                                               HTTPHeader.softwareVersion.rawValue: String(format: "V%@-B%@", arguments: [appVersion, appBuild]),
+                                               HTTPHeader.softwareVersion.rawValue: String(format: "SDK%@-B%@", arguments: [appVersion, appBuild]),
                                                HTTPHeader.userAgent.rawValue: userAgent]
         
         var serverTrustManager: ServerTrustPolicyManager?
