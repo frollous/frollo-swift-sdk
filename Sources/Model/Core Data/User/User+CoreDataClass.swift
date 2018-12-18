@@ -293,6 +293,7 @@ public class User: NSManagedObject {
         attributionCampaign = response.attribution?.campaign
         attributionCreative = response.attribution?.creative
         attributionNetwork = response.attribution?.network
+        dateOfBirth = response.dateOfBirth
         facebookID = response.facebookID
         features = response.features
         gender = response.gender

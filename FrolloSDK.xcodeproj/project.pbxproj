@@ -1622,9 +1622,9 @@
 			children = (
 				015EEDD9210FC8760081AD76 /* Network+Aggregation.swift */,
 				01874B7E20FD9F21005A7D0C /* Network+Device.swift */,
-				01874B7C20FD6FB9005A7D0C /* Network+User.swift */,
-				0126069221992A36005D8377 /* Network+Messages.swift */,
 				011F8141219D282400A1495F /* Network+Events.swift */,
+				0126069221992A36005D8377 /* Network+Messages.swift */,
+				01874B7C20FD6FB9005A7D0C /* Network+User.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
