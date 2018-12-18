@@ -8,19 +8,39 @@
 
 import Foundation
 
-class NetworkError: FrolloSDKError {
+/**
+ Network Error
+ 
+ Error occuring at the network layer
+ */
+public class NetworkError: FrolloSDKError {
     
-    enum NetworkErrorType: String {
+    /**
+     Network error type
+     
+     Indicates the type of error
+    */
+    public enum NetworkErrorType: String {
+        
+        /// Connection failure - usually poor connectivity
         case connectionFailure
+        
+        /// Invalid SSL - TLS public key pinning has failed or the certificate provided is invalid. Usually indicates a MITM attack
         case invalidSSL
+        
+        /// Unknown
         case unknown
+        
     }
     
+    /// Debug description
     public var debugDescription: String {
         get {
             return debugNetworkErrorDescription()
         }
     }
+    
+    /// Error description
     public var errorDescription: String? {
         get {
             return localizedNetworkErrorDescription()
@@ -29,10 +49,11 @@ class NetworkError: FrolloSDKError {
     
     /// Underlying system error that triggered this error
     public var systemError: NSError
+    
     /// Type of error for common scenarios
     public var type: NetworkErrorType
     
-    init(error: NSError) {
+    internal init(error: NSError) {
         self.systemError = error
         
         switch error.domain {
@@ -44,6 +65,8 @@ class NetworkError: FrolloSDKError {
                 type = .unknown
         }
     }
+    
+    // MARK: - Error description handling
     
     private func localizedNetworkErrorDescription() -> String {
         switch type {

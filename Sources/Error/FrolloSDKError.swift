@@ -8,8 +8,11 @@
 
 import Foundation
 
-protocol FrolloSDKError: LocalizedError, CustomDebugStringConvertible {
-    
-    
+/**
+ Frollo SDK Error Protocol
+ 
+ Conforms to localizable error and debug description
+ */
+public protocol FrolloSDKError: LocalizedError, CustomDebugStringConvertible {
     
 }

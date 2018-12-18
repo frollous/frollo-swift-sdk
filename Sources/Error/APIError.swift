@@ -8,37 +8,80 @@
 
 import Foundation
 
-class APIError: FrolloSDKError {
+/**
+ API Error
+ 
+ Represents errors that can be returned from the API
+ */
+public class APIError: FrolloSDKError {
     
-    enum APIErrorType: String {
+    /**
+     API Error Type
+     
+     Type of error that has occurred on the API
+    */
+    public enum APIErrorType: String {
+        
+        /// Deprecated API
         case deprecated
         
+        /// Server is under maintenance
         case maintenance
+        
+        /// API is not implemented
         case notImplemented
+        
+        /// Rate limit for the API has been exceeded. Back off and try again
         case rateLimit
+        
+        /// Server has encountered a critical error
         case serverError
         
+        /// Bad request
         case badRequest
+        
+        /// Unauthorised
         case unauthorised
+        
+        /// Object not found
         case notFound
+        
+        /// Object already exists
         case alreadyExists
+        
+        /// New password must be different from old password
         case passwordMustBeDifferent
         
+        /// Invalid access token
         case invalidAccessToken
+        
+        /// Invalid refresh token
         case invalidRefreshToken
+        
+        /// Username and/or password is wrong
         case invalidUsernamePassword
+        
+        /// Device has been suspended
         case suspendedDevice
+        
+        /// User has been suspended
         case suspendedUser
+        
+        /// An unknown issue with authorisation has occurred
         case otherAuthorisation
         
+        /// Unknown error
         case unknown
+        
     }
     
+    /// Debug description
     public var debugDescription: String {
         get {
             return localizedAPIErrorDebugDescription()
         }
     }
+    /// Localized description
     public var errorDescription: String? {
         get {
             return localizedAPIErrorDescription()
@@ -47,10 +90,13 @@ class APIError: FrolloSDKError {
     
     /// Type of API Error
     public var type: APIErrorType
+    
     /// Error code returned by the API if available and recognised
-    public var errorCode: APIErrorResponse.APIErrorCode?
+    public var errorCode: APIErrorCode?
+    
     /// Error message returned by the API if available
     public var message: String?
+    
     /// Status code received from the API
     public var statusCode: Int
     

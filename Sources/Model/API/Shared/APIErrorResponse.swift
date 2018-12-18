@@ -8,30 +8,72 @@
 
 import Foundation
 
-struct APIErrorResponse: Codable {
+/**
+ API Error Code
+ 
+ Frollo API Error Codes
+ */
+public enum APIErrorCode: String, Codable {
     
-    enum APIErrorCode: String, Codable {
-        case invalidValue = "F0001"
-        case invalidLength = "F0002"
-        case invalidAuthorisationHeader = "F0003"
-        case invalidUserAgentHeader = "F0004"
-        case invalidMustBeDifferent = "F0005"
-        case invalidOverLimit = "F0006"
-        case invalidCount = "F0007"
-        case invalidAccessToken = "F0101"
-        case invalidRefreshToken = "F0110"
-        case invalidUsernamePassword = "F0111"
-        case suspendedUser = "F0112"
-        case suspendedDevice = "F0113"
-        case unauthorised = "F0200"
-        case notFound = "F0300"
-        case alreadyExists = "F0400"
-        case aggregatorError = "F9000"
-        case unknownServer = "F9998"
-        case internalException = "F9999"
-    }
+    /// F0001 - Invalid Value
+    case invalidValue = "F0001"
     
-    struct ErrorBody: Codable {
+    /// F0002 - Invalid Length
+    case invalidLength = "F0002"
+    
+    /// F0003 - Invalid Authorisation Header
+    case invalidAuthorisationHeader = "F0003"
+    
+    /// F0004 - Invalid User Agent Header
+    case invalidUserAgentHeader = "F0004"
+    
+    /// F0005 - Invalid Must Be Different
+    case invalidMustBeDifferent = "F0005"
+    
+    /// F0006 - Invalid Over Limit
+    case invalidOverLimit = "F0006"
+    
+    /// F0007 - Invalid Count
+    case invalidCount = "F0007"
+    
+    /// F0101 - Invalid Access Token
+    case invalidAccessToken = "F0101"
+    
+    /// F0110 - Invalid Refresh Token
+    case invalidRefreshToken = "F0110"
+    
+    /// F0111 - Invalid Username Password
+    case invalidUsernamePassword = "F0111"
+    
+    /// F0112 - Suspended User
+    case suspendedUser = "F0112"
+    
+    /// F0113 - Suspended Device
+    case suspendedDevice = "F0113"
+    
+    /// F0200 - Unauthorised
+    case unauthorised = "F0200"
+    
+    /// F0300 - Not Found
+    case notFound = "F0300"
+    
+    /// F0400 - Already Exists
+    case alreadyExists = "F0400"
+    
+    /// F9000 - Aggregator Error
+    case aggregatorError = "F9000"
+    
+    /// F9998 - Unknown Server Error
+    case unknownServer = "F9998"
+    
+    /// F9999 - Internal Exception
+    case internalException = "F9999"
+    
+}
+
+internal struct APIErrorResponse: Codable {
+    
+    internal struct ErrorBody: Codable {
         
         enum CodingKeys: String, CodingKey {
             case errorCode = "error_code"
@@ -43,6 +85,6 @@ struct APIErrorResponse: Codable {
         
     }
     
-    let error: ErrorBody
+    internal let error: ErrorBody
     
 }

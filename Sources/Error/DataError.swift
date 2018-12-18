@@ -8,47 +8,90 @@
 
 import Foundation
 
-class DataError: FrolloSDKError {
+/**
+ Data Error
+ 
+ Error caused by an issue with data or data storage
+ */
+public class DataError: FrolloSDKError {
     
-    enum DataErrorType: String {
+    /**
+     Data Error Type
+     
+     High level type of the error
+    */
+    public enum DataErrorType: String {
+        
+        /// API data error - intercepts potential issues before being sent to API
         case api
+        
+        /// Authentication error
         case authentication
+        
+        /// Database error - issues with the Core Data
         case database
+        
+        /// Unknown
         case unknown
+        
     }
     
-    enum DataErrorSubType: String {
+    /**
+     Data Error Sub Type
+     
+     Detailed type of the error
+    */
+    public enum DataErrorSubType: String {
+        
+        /// API - Invalid Data
         case invalidData
+        
+        /// API - Password too short
         case passwordTooShort
         
+        /// Authentication - Missing access token from keychain
         case missingAccessToken
+        
+        /// Authentication - Missing refresh token from keychain
         case missingRefreshToken
         
+        /// Database - Corrupted
         case corrupt
+        
+        /// Database - Disk full, no free space to continue operating
         case diskFull
+        
+        /// Database - Migration upgrade failed
         case migrationFailed
+        
+        /// Database - Store not found
         case notFound
         
+        /// Unknown
         case unknown
     }
     
     /// Data error type
     public var type: DataErrorType
+    
     /// More detailed sub type of the error
     public var subType: DataErrorSubType
     
+    /// Debug description
     public var debugDescription: String {
         get {
             return debugDataErrorDescription()
         }
     }
+    
+    /// Error description
     public var errorDescription: String? {
         get {
             return localizedDataErrorDescription()
         }
     }
     
-    init(type: DataErrorType, subType: DataErrorSubType) {
+    internal init(type: DataErrorType, subType: DataErrorSubType) {
         self.type = type
         self.subType = subType
     }

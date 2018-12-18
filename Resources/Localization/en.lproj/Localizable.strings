@@ -15,19 +15,19 @@
 "Error.API.NotFound" = "Object not found on the API";
 "Error.API.NotImplemented" = "API has not been implemented.";
 "Error.API.PasscodeError" = "You entered an incorrect passcode too many times and have been logged out.";
-"Error.API.PasswordMustBeDifferent" = "New password must be different to the current password.";
+"Error.API.PasswordMustBeDifferent" = "Your new password must be different to the current password.";
 "Error.API.RateLimit" = "The app has been rate limited. Wait before trying your request again.";
-"Error.API.ServerError" = "Something went wrong at our end. Please try again later. Contact support if this issue persists.";
+"Error.API.ServerError" = "Hmmm. Something went wrong at our end. Please try again later. You can contact support if this issue persists.";
 "Error.API.SuspendedDevice" = "This device has been logged out. Please login again to continue.";
 "Error.API.SuspendedUser" = "This account has been disabled. Please contact support for details.";
 "Error.API.Unauthorised" = "User is not authorised to do this.";
 "Error.API.UnknownAuthorisation" = "Unknown authorisation error occurred.";
 "Error.API.UnknownError" = "Unknown error occurred on the API.";
-"Error.API.UserAlreadyExists" = "A user account already exists with this identifier.";
-"Error.API.UserLoggedOut" = "User is already logged out.";
+"Error.API.UserAlreadyExists" = "Hmmm. An account already exists with these details.";
+"Error.API.UserLoggedOut" = "You are already logged out.";
 
 "Error.Data.API.InvalidData" = "API request or response data was invalid.";
-"Error.Data.API.PasswordTooShort" = "Password must be at least 8 characters long.";
+"Error.Data.API.PasswordTooShort" = "Your password must be at least 8 characters long.";
 "Error.Data.API.Unknown" = "Unknown error occurred in the API request or response.";
 
 "Error.Data.Authentication.MissingAccessToken" = "Access token is missing after refresh.";
@@ -44,7 +44,7 @@
 "Error.LoginForm.MaxLengthExceededFormat" = "The maximum length for %@ has been exceeded.";
 "Error.LoginForm.MissingRequiredFieldFormat" = "%@ is required.";
 "Error.LoginForm.ValidationFailedFormat" = "Validation failed for %@.";
-"Error.LoginForm.UnknownError" = "Unknown error occurred validating the login form.";
+"Error.LoginForm.UnknownError" = "Oops. Unknown error occurred validating the login form.";
 
 "Error.Generic.UnknownError" = "Unknown error occurred.";
 

@@ -8,14 +8,35 @@
 
 import Foundation
 
-class LoginFormError: FrolloSDKError {
+/**
+ Login Form Error
+ 
+ Error occuring when using the aggregation provider login forms
+ */
+public class LoginFormError: FrolloSDKError {
     
-    enum LoginFormErrorType: String {
+    /**
+     Login Form Error Type
+     
+     Indicates the issue of the error
+    */
+    public enum LoginFormErrorType: String {
+        
+        /// A required multiple choice field has not been selected
         case fieldChoiceNotSelected
+        
+        /// Maximum length of the field has been exceeded
         case maxLengthExceeded
+        
+        /// A required field is missing a value
         case missingRequiredField
+        
+        /// Regex validation has failed for a field
         case validationFailed
+        
+        /// Unknown
         case unknown
+        
     }
     
     /// Additional error information
@@ -27,18 +48,21 @@ class LoginFormError: FrolloSDKError {
     /// Login form error type
     public var type: LoginFormErrorType
     
+    /// Debug description
     public var debugDescription: String {
         get {
             return debugDataErrorDescription()
         }
     }
+    
+    /// Error description
     public var errorDescription: String? {
         get {
             return localizedDataErrorDescription()
         }
     }
     
-    init(type: LoginFormErrorType, fieldName: String) {
+    internal init(type: LoginFormErrorType, fieldName: String) {
         self.type = type
         self.fieldName = fieldName
     }
