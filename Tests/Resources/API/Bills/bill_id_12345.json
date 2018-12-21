@@ -1,0 +1,20 @@
+{
+		"id": 12345,
+		"name": "Netflix",
+		"description": "NETFLIX.COM LOS GATOS CA   Cable and Other Pay Television Services",
+		"bill_type": "subscription",
+		"status": "confirmed",
+		"due_amount": "11.99",
+		"average_amount": "11.99",
+		"frequency": "monthly",
+		"payment_status": "overdue",
+		"next_payment_date": "2018-05-20",
+		"category": {
+			"id": 64,
+			"name": "Entertainment/Recreation"
+		},
+		"merchant": {
+			"id": 40,
+			"name": "Netflix"
+		}
+	}

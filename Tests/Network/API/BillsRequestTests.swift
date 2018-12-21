@@ -89,7 +89,24 @@ class BillsRequestTests: XCTestCase {
             XCTAssertNil(error)
             
             if let billResponse = response {
-                
+                XCTAssertEqual(billResponse.id, 12345)
+                XCTAssertEqual(billResponse.name, "Netflix")
+                XCTAssertEqual(billResponse.description, "NETFLIX.COM LOS GATOS CA   Cable and Other Pay Television Services")
+                XCTAssertEqual(billResponse.billType, .subscription)
+                XCTAssertEqual(billResponse.status, .confirmed)
+                XCTAssertEqual(billResponse.dueAmount, "11.99")
+                XCTAssertEqual(billResponse.averageAmount, "11.99")
+                XCTAssertEqual(billResponse.frequency, .monthly)
+                XCTAssertEqual(billResponse.paymentStatus, .overdue)
+                XCTAssertEqual(billResponse.nextPaymentDate, "2018-05-20")
+                XCTAssertEqual(billResponse.category?.id, 64)
+                XCTAssertEqual(billResponse.category?.name, "Entertainment/Recreation")
+                XCTAssertEqual(billResponse.merchant?.id, 40)
+                XCTAssertEqual(billResponse.merchant?.name, "Netflix")
+                XCTAssertNil(billResponse.note)
+                XCTAssertNil(billResponse.accountID)
+                XCTAssertNil(billResponse.lastPaymentDate)
+                XCTAssertNil(billResponse.lastAmount)
             } else {
                 XCTFail("No response object")
             }

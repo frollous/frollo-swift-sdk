@@ -38,6 +38,9 @@
 		0101A90421CC8ABA00DCFCEB /* BillsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101A90321CC8ABA00DCFCEB /* BillsTests.swift */; };
 		0101A90521CC8ABA00DCFCEB /* BillsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101A90321CC8ABA00DCFCEB /* BillsTests.swift */; };
 		0101A90621CC8ABA00DCFCEB /* BillsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101A90321CC8ABA00DCFCEB /* BillsTests.swift */; };
+		0101A90821CC90E000DCFCEB /* bill_id_12345.json in Resources */ = {isa = PBXBuildFile; fileRef = 0101A90721CC90DF00DCFCEB /* bill_id_12345.json */; };
+		0101A90921CC90E000DCFCEB /* bill_id_12345.json in Resources */ = {isa = PBXBuildFile; fileRef = 0101A90721CC90DF00DCFCEB /* bill_id_12345.json */; };
+		0101A90A21CC90E000DCFCEB /* bill_id_12345.json in Resources */ = {isa = PBXBuildFile; fileRef = 0101A90721CC90DF00DCFCEB /* bill_id_12345.json */; };
 		010EB42B211BF92A005A926A /* APITransactionUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010EB42A211BF92A005A926A /* APITransactionUpdateRequest.swift */; };
 		010EB42D211C00D0005A926A /* APITransactionUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010EB42C211C00D0005A926A /* APITransactionUpdateRequest+Test.swift */; };
 		010EB42E211C00D0005A926A /* APITransactionUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010EB42C211C00D0005A926A /* APITransactionUpdateRequest+Test.swift */; };
@@ -670,6 +673,7 @@
 		0101A8FA21CC649000DCFCEB /* Bills.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bills.swift; sourceTree = "<group>"; };
 		0101A8FC21CC832600DCFCEB /* BillTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillTests.swift; sourceTree = "<group>"; };
 		0101A90321CC8ABA00DCFCEB /* BillsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillsTests.swift; sourceTree = "<group>"; };
+		0101A90721CC90DF00DCFCEB /* bill_id_12345.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bill_id_12345.json; sourceTree = "<group>"; };
 		010EB42A211BF92A005A926A /* APITransactionUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionUpdateRequest.swift; sourceTree = "<group>"; };
 		010EB42C211C00D0005A926A /* APITransactionUpdateRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APITransactionUpdateRequest+Test.swift"; sourceTree = "<group>"; };
 		011E87CF213766550026E047 /* SecKeyPEM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecKeyPEM.swift; sourceTree = "<group>"; };
@@ -1012,6 +1016,7 @@
 		0101A8E121C9C24700DCFCEB /* Bills */ = {
 			isa = PBXGroup;
 			children = (
+				0101A90721CC90DF00DCFCEB /* bill_id_12345.json */,
 				0101A8E221C9C24700DCFCEB /* bills_valid.json */,
 			);
 			path = Bills;
@@ -2252,6 +2257,7 @@
 				01483BB02119564600D0DA87 /* transaction_categories_valid.json in Resources */,
 				01743B14212BC3280082DA00 /* provider_login_form_options.json in Resources */,
 				01ED8FE0211A868F00ACE691 /* transaction_id_99703.json in Resources */,
+				0101A90821CC90E000DCFCEB /* bill_id_12345.json in Resources */,
 				0126069F219A5409005D8377 /* messages_unread.json in Resources */,
 				012606BE219A8BAD005D8377 /* message_id_12345.json in Resources */,
 				01B896BB20F2EDA30068069A /* error_invalid_username_password.json in Resources */,
@@ -2328,6 +2334,7 @@
 				01483BB12119564600D0DA87 /* transaction_categories_valid.json in Resources */,
 				01743B15212BC3280082DA00 /* provider_login_form_options.json in Resources */,
 				01ED8FE1211A868F00ACE691 /* transaction_id_99703.json in Resources */,
+				0101A90921CC90E000DCFCEB /* bill_id_12345.json in Resources */,
 				012606A0219A5409005D8377 /* messages_unread.json in Resources */,
 				012606BF219A8BAD005D8377 /* message_id_12345.json in Resources */,
 				017B485F2101B4FE00447E65 /* error_invalid_username_password.json in Resources */,
@@ -2413,6 +2420,7 @@
 				01483BB22119564600D0DA87 /* transaction_categories_valid.json in Resources */,
 				01743B16212BC3280082DA00 /* provider_login_form_options.json in Resources */,
 				01ED8FE2211A868F00ACE691 /* transaction_id_99703.json in Resources */,
+				0101A90A21CC90E000DCFCEB /* bill_id_12345.json in Resources */,
 				012606A1219A5409005D8377 /* messages_unread.json in Resources */,
 				012606C0219A8BAD005D8377 /* message_id_12345.json in Resources */,
 				017B48BC2105958100447E65 /* error_invalid_username_password.json in Resources */,

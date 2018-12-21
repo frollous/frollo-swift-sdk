@@ -22,8 +22,8 @@ struct APIBillsResponse: Codable {
             case amountRemaining = "amount_remaining"
         }
         
-        let amountPaid: String
-        let amountRemaining: String
+        let amountPaid: Int64
+        let amountRemaining: Int64
         
     }
     

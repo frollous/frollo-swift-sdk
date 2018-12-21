@@ -12,8 +12,8 @@ import Foundation
 extension APIBillsResponse {
     
     static func testCompleteData() -> APIBillsResponse {
-        let period = BudgetPeriod(amountPaid: "100.5",
-                                  amountRemaining: "49.5")
+        let period = BudgetPeriod(amountPaid: 100,
+                                  amountRemaining: 49)
         
         var bills = [APIBillResponse]()
         for _ in 0...20 {
