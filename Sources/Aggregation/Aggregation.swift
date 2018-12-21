@@ -55,6 +55,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - context: Managed object context to fetch these from; background or main thread
         - filteredBy: Predicate of properties to match for fetching. See `Provider` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func providers(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Provider.providerID), ascending: true)], limit: Int? = nil) -> [Provider]? {
         return cachedObjects(type: Provider.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
@@ -67,6 +68,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - context: Managed object context to fetch these from; background or main thread
         - filteredBy: Predicate of properties to match for fetching. See `Provider` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func providersFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Provider.providerID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Provider>? {
         return fetchedResultsController(type: Provider.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
@@ -151,6 +153,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - context: Managed object context to fetch these from; background or main thread
         - filteredBy: Predicate of properties to match for fetching. See `ProviderAccount` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerAccountID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
     */
     public func providerAccounts(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)], limit: Int? = nil) -> [ProviderAccount]? {
         return cachedObjects(type: ProviderAccount.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
@@ -163,6 +166,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - context: Managed object context to fetch these from; background or main thread
         - filteredBy: Predicate of properties to match for fetching. See `ProviderAccount` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerAccountID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
     */
     public func providerAccountsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<ProviderAccount>? {
         return fetchedResultsController(type: ProviderAccount.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
@@ -301,6 +305,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - context: Managed object context to fetch these from; background or main thread
         - filteredBy: Predicate of properties to match for fetching. See `Account` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to accountID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func accounts(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Account.accountID), ascending: true)], limit: Int? = nil) -> [Account]? {
         return cachedObjects(type: Account.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
@@ -313,6 +318,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - context: Managed object context to fetch these from; background or main thread
         - filteredBy: Predicate of properties to match for fetching. See `Account` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to accountID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func accountsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Account.accountID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Account>? {
         return fetchedResultsController(type: Account.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
@@ -431,6 +437,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - context: Managed object context to fetch these from; background or main thread
         - filteredBy: Predicate of properties to match for fetching. See `Transaction` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func transactions(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)], limit: Int? = nil) -> [Transaction]? {
         return cachedObjects(type: Transaction.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
@@ -443,6 +450,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - context: Managed object context to fetch these from; background or main thread
         - filteredBy: Predicate of properties to match for fetching. See `Transaction` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func transactionsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Transaction>? {
         return fetchedResultsController(type: Transaction.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
@@ -597,6 +605,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - context: Managed object context to fetch these from; background or main thread
         - filteredBy: Predicate of properties to match for fetching. See `TransactionCategory` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionCategoryID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func transactionCategories(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(TransactionCategory.transactionCategoryID), ascending: true)], limit: Int? = nil) -> [TransactionCategory]? {
         return cachedObjects(type: TransactionCategory.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
@@ -609,6 +618,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - context: Managed object context to fetch these from; background or main thread
         - filteredBy: Predicate of properties to match for fetching. See `TransactionCategory` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionCategoryID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func transactionCategoriesFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(TransactionCategory.transactionCategoryID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<TransactionCategory>? {
         return fetchedResultsController(type: TransactionCategory.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
@@ -660,6 +670,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - context: Managed object context to fetch these from; background or main thread
         - filteredBy: Predicate of properties to match for fetching. See `Merchant` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to merchantID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func merchants(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)], limit: Int? = nil) -> [Merchant]? {
         return cachedObjects(type: Merchant.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
@@ -672,6 +683,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - context: Managed object context to fetch these from; background or main thread
         - filteredBy: Predicate of properties to match for fetching. See `Merchant` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to merchantID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func merchantsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Merchant>? {
         return fetchedResultsController(type: Merchant.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
@@ -815,6 +827,42 @@ public class Aggregation: CachedObjects, ResponseHandler {
         linkObjectToParentObject(type: Transaction.self, parentType: TransactionCategory.self, managedObjectContext: managedObjectContext, linkedIDs: linkingTransactionCategoryIDs, linkedKey: \Transaction.transactionCategoryID, linkedKeyName: #keyPath(Transaction.transactionCategoryID))
         
         linkingTransactionCategoryIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    internal func linkObjectsToAccounts<T: CacheableManagedObject & NSManagedObject>(type: T.Type, managedObjectContext: NSManagedObjectContext, linkingIDs: Set<Int64>, linkedKey: KeyPath<T, Int64>, linkedKeyName: String) {
+        accountLock.lock()
+        
+        defer {
+            accountLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: type, parentType: Account.self, managedObjectContext: managedObjectContext, linkedIDs: linkingIDs, linkedKey: linkedKey, linkedKeyName: linkedKeyName)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    internal func linkObjectsToMerchants<T: CacheableManagedObject & NSManagedObject>(type: T.Type, managedObjectContext: NSManagedObjectContext, linkingIDs: Set<Int64>, linkedKey: KeyPath<T, Int64>, linkedKeyName: String) {
+        merchantLock.lock()
+        
+        defer {
+            merchantLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: type, parentType: Merchant.self, managedObjectContext: managedObjectContext, linkedIDs: linkingIDs, linkedKey: linkedKey, linkedKeyName: linkedKeyName)
         
         managedObjectContext.performAndWait {
             do {
