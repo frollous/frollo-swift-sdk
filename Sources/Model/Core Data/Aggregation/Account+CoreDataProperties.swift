@@ -151,6 +151,9 @@ extension Account {
     /// Account balance tiers (optional)
     @NSManaged public var balanceTiers: Set<AccountBalanceTier>?
     
+    /// Associated bills (optional)
+    @NSManaged public var bills: Set<Bill>?
+    
     /// Parent provider account
     @NSManaged public var providerAccount: ProviderAccount?
     
@@ -178,6 +181,27 @@ extension Account {
     @objc(removeBalanceTiers:)
     @NSManaged public func removeFromBalanceTiers(_ values: Set<AccountBalanceTier>)
 
+}
+
+// MARK: Generated accessors for bills
+extension Account {
+    
+    /// Add a bill relationship
+    @objc(addBillsObject:)
+    @NSManaged public func addToBills(_ value: Bill)
+    
+    /// Remove a bill relationship
+    @objc(removeBillsObject:)
+    @NSManaged public func removeFromBills(_ value: Bill)
+    
+    /// Add bill relationships
+    @objc(addBills:)
+    @NSManaged public func addToBills(_ values: Set<Bill>)
+    
+    /// Remove bill relationships
+    @objc(removeBills:)
+    @NSManaged public func removeFromBills(_ values: Set<Bill>)
+    
 }
 
 // MARK: Generated accessors for transactions

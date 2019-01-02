@@ -2,8 +2,8 @@
 //  Bill+CoreDataProperties.swift
 //  FrolloSDK
 //
-//  Created by Nick Dawson on 21/12/18.
-//  Copyright © 2018 Frollo. All rights reserved.
+//  Created by Nick Dawson on 2/1/19.
+//  Copyright © 2019 Frollo. All rights reserved.
 //
 //
 
@@ -27,11 +27,14 @@ extension Bill {
     @NSManaged public var lastAmount: NSDecimalNumber?
     @NSManaged public var lastPaymentDateString: String?
     @NSManaged public var merchantID: Int64
-    @NSManaged public var name: String
+    @NSManaged public var name: String?
     @NSManaged public var nextPaymentDateString: String
     @NSManaged public var notes: String?
     @NSManaged public var paymentStatusRawValue: String
     @NSManaged public var statusRawValue: String
     @NSManaged public var transactionCategoryID: Int64
+    @NSManaged public var account: Account?
+    @NSManaged public var merchant: Merchant?
+    @NSManaged public var transactionCategory: TransactionCategory?
 
 }

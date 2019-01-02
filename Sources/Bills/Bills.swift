@@ -19,6 +19,7 @@ public class Bills: CachedObjects, ResponseHandler  {
     
     private var linkingAccountIDs = Set<Int64>()
     private var linkingMerchantIDs = Set<Int64>()
+    private var linkingTransactionCategoryIDs = Set<Int64>()
     
     internal init(database: Database, network: Network, aggregation: Aggregation) {
         self.database = database
@@ -85,6 +86,7 @@ public class Bills: CachedObjects, ResponseHandler  {
                     
                     self.linkBillsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkBillsToMerchants(managedObjectContext: managedObjectContext)
+                    self.linkBillsToTransactionCategories(managedObjectContext: managedObjectContext)
                 }
             }
             
@@ -112,6 +114,8 @@ public class Bills: CachedObjects, ResponseHandler  {
                     self.handleBillResponse(billResponse, managedObjectContext: managedObjectContext)
                     
                     self.linkBillsToAccounts(managedObjectContext: managedObjectContext)
+                    self.linkBillsToMerchants(managedObjectContext: managedObjectContext)
+                    self.linkBillsToTransactionCategories(managedObjectContext: managedObjectContext)
                 }
             }
             
@@ -143,6 +147,16 @@ public class Bills: CachedObjects, ResponseHandler  {
         aggregation.linkObjectsToMerchants(type: Bill.self, managedObjectContext: managedObjectContext, linkingIDs: linkingMerchantIDs, linkedKey: \Bill.merchantID, linkedKeyName: #keyPath(Bill.merchantID))
     }
     
+    private func linkBillsToTransactionCategories(managedObjectContext: NSManagedObjectContext) {
+        billsLock.lock()
+        
+        defer {
+            billsLock.unlock()
+        }
+        
+        aggregation.linkObjectsToTransactionCategories(type: Bill.self, managedObjectContext: managedObjectContext, linkingIDs: linkingTransactionCategoryIDs, linkedKey: \Bill.transactionCategoryID, linkedKeyName: #keyPath(Bill.transactionCategoryID))
+    }
+    
     // MARK: - Response Handling
     
     private func handleBillsResponse(_ billsResponse: [APIBillResponse], managedObjectContext: NSManagedObjectContext) {
@@ -152,10 +166,16 @@ public class Bills: CachedObjects, ResponseHandler  {
             billsLock.unlock()
         }
         
-        let updatedLinkedIDs = updateObjectsWithResponse(type: Bill.self, objectsResponse: billsResponse, primaryKey: #keyPath(Bill.billID), linkedKeys: [\Bill.accountID], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        let updatedLinkedIDs = updateObjectsWithResponse(type: Bill.self, objectsResponse: billsResponse, primaryKey: #keyPath(Bill.billID), linkedKeys: [\Bill.accountID, \Bill.merchantID, \Bill.transactionCategoryID], filterPredicate: nil, managedObjectContext: managedObjectContext)
         
         if let accountIDs = updatedLinkedIDs[\Bill.accountID] {
             linkingAccountIDs = linkingAccountIDs.union(accountIDs)
+        }
+        if let merchantIDs = updatedLinkedIDs[\Bill.merchantID] {
+            linkingMerchantIDs = linkingMerchantIDs.union(merchantIDs)
+        }
+        if let transactionCategoryIDs = updatedLinkedIDs[\Bill.transactionCategoryID] {
+            linkingTransactionCategoryIDs = linkingTransactionCategoryIDs.union(transactionCategoryIDs)
         }
         
         managedObjectContext.performAndWait {
@@ -178,6 +198,12 @@ public class Bills: CachedObjects, ResponseHandler  {
         
         if let accountID = billResponse.accountID {
             linkingAccountIDs.insert(accountID)
+        }
+        if let merchantID = billResponse.merchant?.id {
+            linkingMerchantIDs.insert(merchantID)
+        }
+        if let transactionCategoryID = billResponse.category?.id {
+            linkingTransactionCategoryIDs.insert(transactionCategoryID)
         }
         
         managedObjectContext.performAndWait {

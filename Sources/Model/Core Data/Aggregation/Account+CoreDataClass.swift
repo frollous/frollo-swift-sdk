@@ -370,6 +370,9 @@ public class Account: NSManagedObject, CacheableManagedObject {
     // MARK: - Updating object
     
     internal func linkObject(object: CacheableManagedObject) {
+        if let bill = object as? Bill {
+            addToBills(bill)
+        }
         if let transaction = object as? Transaction {
             addToTransactions(transaction)
         }

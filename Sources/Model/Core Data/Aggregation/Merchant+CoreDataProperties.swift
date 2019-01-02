@@ -34,9 +34,33 @@ extension Merchant {
     /// Raw value of the small logo URL string (optional)
     @NSManaged public var smallLogoURLString: String?
     
+    /// Associated bills (optional)
+    @NSManaged public var bills: Set<Bill>?
+    
     /// Related transactions
     @NSManaged public var transactions: Set<Transaction>?
 
+}
+
+// MARK: Generated accessors for bills
+extension Merchant {
+    
+    /// Add a bill relationship
+    @objc(addBillsObject:)
+    @NSManaged public func addToBills(_ value: Bill)
+    
+    /// Remove a bill relationship
+    @objc(removeBillsObject:)
+    @NSManaged public func removeFromBills(_ value: Bill)
+    
+    /// Add bill relationships
+    @objc(addBills:)
+    @NSManaged public func addToBills(_ values: Set<Bill>)
+    
+    /// Remove bill relationships
+    @objc(removeBills:)
+    @NSManaged public func removeFromBills(_ values: Set<Bill>)
+    
 }
 
 // MARK: Generated accessors for transactions

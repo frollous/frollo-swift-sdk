@@ -44,6 +44,7 @@
         <attribute name="totalCreditLine" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="totalCreditLineCurrency" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="balanceTiers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AccountBalanceTier" inverseName="account" inverseEntity="AccountBalanceTier" syncable="YES"/>
+        <relationship name="bills" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Bill" inverseName="account" inverseEntity="Bill" syncable="YES"/>
         <relationship name="providerAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProviderAccount" inverseName="accounts" inverseEntity="ProviderAccount" syncable="YES"/>
         <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Transaction" inverseName="account" inverseEntity="Transaction" syncable="YES"/>
         <fetchIndex name="byAccountIDIndex">
@@ -84,6 +85,9 @@
         <attribute name="paymentStatusRawValue" attributeType="String" syncable="YES"/>
         <attribute name="statusRawValue" attributeType="String" syncable="YES"/>
         <attribute name="transactionCategoryID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="bills" inverseEntity="Account" syncable="YES"/>
+        <relationship name="merchant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Merchant" inverseName="bills" inverseEntity="Merchant" syncable="YES"/>
+        <relationship name="transactionCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TransactionCategory" inverseName="bills" inverseEntity="TransactionCategory" syncable="YES"/>
         <fetchIndex name="byBillIDIndex">
             <fetchIndexElement property="billID" type="Binary" order="ascending"/>
         </fetchIndex>
@@ -101,6 +105,7 @@
         <attribute name="merchantTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="smallLogoURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="bills" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Bill" inverseName="merchant" inverseEntity="Bill" syncable="YES"/>
         <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="merchant" inverseEntity="Transaction" syncable="YES"/>
         <fetchIndex name="byMerchantIDIndex">
             <fetchIndexElement property="merchantID" type="Binary" order="ascending"/>
@@ -285,6 +290,7 @@
         <attribute name="placement" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="transactionCategoryID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="userDefined" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="bills" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Bill" inverseName="transactionCategory" inverseEntity="Bill" syncable="YES"/>
         <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="transactionCategory" inverseEntity="Transaction" syncable="YES"/>
         <fetchIndex name="byTransactionCategoryIndex">
             <fetchIndexElement property="transactionCategoryID" type="Binary" order="ascending"/>
@@ -328,10 +334,10 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="720"/>
+        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="735"/>
         <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
-        <element name="Bill" positionX="-378" positionY="162" width="128" height="285"/>
-        <element name="Merchant" positionX="498.47265625" positionY="19.75" width="128" height="118"/>
+        <element name="Bill" positionX="-378" positionY="162" width="128" height="330"/>
+        <element name="Merchant" positionX="498.47265625" positionY="19.75" width="128" height="135"/>
         <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="240"/>
         <element name="MessageHTML" positionX="-317.359375" positionY="757.66015625" width="128" height="90"/>
         <element name="MessageImage" positionX="-319.14453125" positionY="879.53515625" width="128" height="28"/>
@@ -340,7 +346,7 @@
         <element name="Provider" positionX="-385.3984375" positionY="11.875" width="128" height="480"/>
         <element name="ProviderAccount" positionX="-164.078125" positionY="13.7109375" width="128" height="210"/>
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="330"/>
-        <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="165"/>
+        <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="180"/>
         <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>
     </elements>
 </model>

@@ -873,6 +873,24 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
+    internal func linkObjectsToTransactionCategories<T: CacheableManagedObject & NSManagedObject>(type: T.Type, managedObjectContext: NSManagedObjectContext, linkingIDs: Set<Int64>, linkedKey: KeyPath<T, Int64>, linkedKeyName: String) {
+        transactionCategoryLock.lock()
+        
+        defer {
+            transactionCategoryLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: type, parentType: TransactionCategory.self, managedObjectContext: managedObjectContext, linkedIDs: linkingIDs, linkedKey: linkedKey, linkedKeyName: linkedKeyName)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
     // MARK: - Response Handling
     
     private func handleProviderResponse(_ providerResponse: APIProviderResponse, managedObjectContext: NSManagedObjectContext) {
