@@ -14,6 +14,34 @@ extension Network {
     
     // MARK: - Bills
     
+    internal func createBill(request: APIBillCreateRequest, completion: @escaping RequestCompletion<APIBillResponse>) {
+        requestQueue.async {
+            let url = URL(string: BillsEndpoint.bills.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.contentRequest(url: url, method: .post, content: request)
+                else {
+                    let dataError = DataError(type: .api, subType: .invalidData)
+                    
+                    completion(nil, dataError)
+                    return
+            }
+            
+            self.sessionManager.request(urlRequest).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { (response) in
+                self.handleResponse(type: APIBillResponse.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func deleteBill(billID: Int64, completion: @escaping NetworkCompletion) {
+        requestQueue.async {
+            let url = URL(string: BillsEndpoint.bill(billID: billID).path, relativeTo: self.serverURL)!
+            
+            self.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { (response) in
+                self.handleEmptyResponse(response: response, completion: completion)
+            }
+        }
+    }
+    
     internal func fetchBills(completion: @escaping RequestCompletion<[APIBillResponse]>) {
         requestQueue.async {
             let url = URL(string: BillsEndpoint.bills.path, relativeTo: self.serverURL)!

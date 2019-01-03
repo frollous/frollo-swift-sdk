@@ -67,6 +67,68 @@ public class Bills: CachedObjects, ResponseHandler  {
     }
     
     /**
+     Create a new bill on the host
+     
+     - parameters:
+        - transactionID: ID of the transaction representing a bill payment
+        - frequency: How often the bill recurrs
+        - nextPaymentDate: Date of the next payment is due
+        - name: Custom name for the bill (Optional: defaults to the transaction name)
+        - notes: Notes attached to the bill (Optional)
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func createBill(transactionID: Int64, frequency: Bill.Frequency, nextPaymentDate: Date, name: String? = nil, notes: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        let date = Bill.billDateFormatter.string(from: nextPaymentDate)
+        
+        let request = APIBillCreateRequest(frequency: frequency,
+                             name: name,
+                             nextPaymentDate: date,
+                             notes: notes,
+                             transactionID: transactionID)
+        
+        network.createBill(request: request) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let billResponse = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleBillResponse(billResponse, managedObjectContext: managedObjectContext)
+                    
+                    self.linkBillsToAccounts(managedObjectContext: managedObjectContext)
+                    self.linkBillsToMerchants(managedObjectContext: managedObjectContext)
+                    self.linkBillsToTransactionCategories(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                completion?(error)
+            }
+        }
+    }
+    
+    /**
+     Delete a specific bill by ID from the host
+     
+     - parameters:
+        - billID: ID of the bill to be deleted
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func deleteBill(billID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        network.deleteBill(billID: billID) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                self.removeCachedBill(billID: billID)
+            }
+            
+            DispatchQueue.main.async {
+                completion?(error)
+            }
+        }
+    }
+
+    /**
      Refresh all available bills from the host.
      
      Includes both estimated and confirmed bills.
@@ -250,6 +312,33 @@ public class Bills: CachedObjects, ResponseHandler  {
         managedObjectContext.performAndWait {
             do {
                 try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func removeCachedBill(billID: Int64) {
+        let managedObjectContext = database.newBackgroundContext()
+        
+        managedObjectContext.performAndWait {
+            let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "billID == %ld", billID)
+            
+            do {
+                let fetchedBills = try managedObjectContext.fetch(fetchRequest)
+                
+                if let bill = fetchedBills.first {
+                    managedObjectContext.performAndWait {
+                        managedObjectContext.delete(bill)
+                        
+                        do {
+                            try managedObjectContext.save()
+                        } catch {
+                            Log.error(error.localizedDescription)
+                        }
+                    }
+                }
             } catch {
                 Log.error(error.localizedDescription)
             }

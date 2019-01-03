@@ -225,6 +225,10 @@
 		01405E4C21DD6A62009356CC /* APIBillUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E4B21DD6A62009356CC /* APIBillUpdateRequest+Test.swift */; };
 		01405E4D21DD6A62009356CC /* APIBillUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E4B21DD6A62009356CC /* APIBillUpdateRequest+Test.swift */; };
 		01405E4E21DD6A62009356CC /* APIBillUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E4B21DD6A62009356CC /* APIBillUpdateRequest+Test.swift */; };
+		01405E5021DDA9CE009356CC /* APIBillCreateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E4F21DDA9CE009356CC /* APIBillCreateRequest.swift */; };
+		01405E5221DDB0AF009356CC /* APIBillCreateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E5121DDB0AF009356CC /* APIBillCreateRequest+Test.swift */; };
+		01405E5321DDB0AF009356CC /* APIBillCreateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E5121DDB0AF009356CC /* APIBillCreateRequest+Test.swift */; };
+		01405E5421DDB0AF009356CC /* APIBillCreateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E5121DDB0AF009356CC /* APIBillCreateRequest+Test.swift */; };
 		01483B6C2117C70600D0DA87 /* Account+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B682117C70600D0DA87 /* Account+CoreDataClass.swift */; };
 		01483B6E2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B6A2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift */; };
 		01483B712117C7E900D0DA87 /* APIAccountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B702117C7E900D0DA87 /* APIAccountResponse.swift */; };
@@ -781,6 +785,8 @@
 		01405E3D21DC2618009356CC /* FrolloSDKDataModel-1.2.0.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.2.0.sqlite"; sourceTree = "<group>"; };
 		01405E4921DC43A8009356CC /* APIBillUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIBillUpdateRequest.swift; sourceTree = "<group>"; };
 		01405E4B21DD6A62009356CC /* APIBillUpdateRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIBillUpdateRequest+Test.swift"; sourceTree = "<group>"; };
+		01405E4F21DDA9CE009356CC /* APIBillCreateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIBillCreateRequest.swift; sourceTree = "<group>"; };
+		01405E5121DDB0AF009356CC /* APIBillCreateRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIBillCreateRequest+Test.swift"; sourceTree = "<group>"; };
 		01483B682117C70600D0DA87 /* Account+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Account+CoreDataClass.swift"; sourceTree = "<group>"; };
 		01483B6A2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccountBalanceTier+CoreDataClass.swift"; sourceTree = "<group>"; };
 		01483B702117C7E900D0DA87 /* APIAccountResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIAccountResponse.swift; sourceTree = "<group>"; };
@@ -1043,6 +1049,7 @@
 		0101A8EA21CC4F6B00DCFCEB /* Bills */ = {
 			isa = PBXGroup;
 			children = (
+				01405E5121DDB0AF009356CC /* APIBillCreateRequest+Test.swift */,
 				0101A8ED21CC4FBD00DCFCEB /* APIBillResponse+Test.swift */,
 				0101A8EB21CC4F9300DCFCEB /* APIBillsResponse+Test.swift */,
 				01405E4B21DD6A62009356CC /* APIBillUpdateRequest+Test.swift */,
@@ -1724,6 +1731,7 @@
 		018240DF21C8BA55005705F9 /* Bills */ = {
 			isa = PBXGroup;
 			children = (
+				01405E4F21DDA9CE009356CC /* APIBillCreateRequest.swift */,
 				018240E021C8BAE3005705F9 /* APIBillResponse.swift */,
 				018240E221C8BB6A005705F9 /* APIBillsResponse.swift */,
 				01405E4921DC43A8009356CC /* APIBillUpdateRequest.swift */,
@@ -2577,6 +2585,7 @@
 				01405E4A21DC43A8009356CC /* APIBillUpdateRequest.swift in Sources */,
 				016097F8210EE3300034E857 /* Provider+CoreDataClass.swift in Sources */,
 				01483B9E21192F1600D0DA87 /* BudgetCategory.swift in Sources */,
+				01405E5021DDA9CE009356CC /* APIBillCreateRequest.swift in Sources */,
 				017B487021054F0B00447E65 /* PreferencesPersistence.swift in Sources */,
 				013A32AA211273A300B0590B /* ProviderAccount+CoreDataClass.swift in Sources */,
 				0159E48A2193CBAD002CC3BB /* AccountBalanceTier+CoreDataProperties.swift in Sources */,
@@ -2757,6 +2766,7 @@
 				01527CCE20E1B5C300B5042A /* FrolloSDKTests.swift in Sources */,
 				011F8117219BE3B800A1495F /* MessageHTML+Test.swift in Sources */,
 				01C824E920EB2F570093400E /* Data+Random.swift in Sources */,
+				01405E5221DDB0AF009356CC /* APIBillCreateRequest+Test.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2849,6 +2859,7 @@
 				017B48402101B4FE00447E65 /* FrolloSDKTests.swift in Sources */,
 				011F8118219BE3B800A1495F /* MessageHTML+Test.swift in Sources */,
 				017B48412101B4FE00447E65 /* Data+Random.swift in Sources */,
+				01405E5321DDB0AF009356CC /* APIBillCreateRequest+Test.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2950,6 +2961,7 @@
 				017B489D2105958100447E65 /* FrolloSDKTests.swift in Sources */,
 				011F8119219BE3B800A1495F /* MessageHTML+Test.swift in Sources */,
 				017B489E2105958100447E65 /* Data+Random.swift in Sources */,
+				01405E5421DDB0AF009356CC /* APIBillCreateRequest+Test.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
