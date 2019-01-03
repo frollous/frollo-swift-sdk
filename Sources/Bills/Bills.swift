@@ -125,6 +125,47 @@ public class Bills: CachedObjects, ResponseHandler  {
         }
     }
     
+    /**
+     Update a bill on the host
+     
+     - parameters:
+        - billID: ID of the bill to be updated
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func updateBill(billID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard let bill = bill(context: database.newBackgroundContext(), billID: billID)
+            else {
+                let error = DataError(type: .database, subType: .notFound)
+                
+                DispatchQueue.main.async {
+                    completion?(error)
+                }
+                return
+        }
+        
+        let request = bill.updateRequest()
+        
+        network.updateBill(billID: billID, request: request) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let billResponse = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleBillResponse(billResponse, managedObjectContext: managedObjectContext)
+                    
+                    self.linkBillsToAccounts(managedObjectContext: managedObjectContext)
+                    self.linkBillsToMerchants(managedObjectContext: managedObjectContext)
+                    self.linkBillsToTransactionCategories(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                completion?(error)
+            }
+        }
+    }
+    
     // MARK: - Linking Objects
     
     private func linkBillsToAccounts(managedObjectContext: NSManagedObjectContext) {

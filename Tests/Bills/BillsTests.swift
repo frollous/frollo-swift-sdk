@@ -251,6 +251,113 @@ class BillsTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testUpdateBill() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.bill(billID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let bill = Bill(context: managedObjectContext)
+                bill.populateTestData()
+                bill.billID = 12345
+                
+                try? managedObjectContext.save()
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                let aggregation = Aggregation(database: database, network: network)
+                let bills = Bills(database: database, network: network, aggregation: aggregation)
+                
+                bills.updateBill(billID: 12345) { (error) in
+                    XCTAssertNil(error)
+                    
+                    let context = database.viewContext
+                    
+                    let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
+                    fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [12345])
+                    
+                    do {
+                        let fetchedBills = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedBills.first?.billID, 12345)
+                        XCTAssertEqual(fetchedBills.first?.name, "Netflix")
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testUpdateBillNotFound() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.bill(billID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let bill = Bill(context: managedObjectContext)
+                bill.populateTestData()
+                bill.billID = 666
+                
+                try? managedObjectContext.save()
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                let aggregation = Aggregation(database: database, network: network)
+                let bills = Bills(database: database, network: network, aggregation: aggregation)
+                
+                bills.updateBill(billID: 12345) { (error) in
+                    XCTAssertNotNil(error)
+                    
+                    if let dataError = error as? DataError {
+                        XCTAssertEqual(dataError.type, .database)
+                        XCTAssertEqual(dataError.subType, .notFound)
+                    } else {
+                        XCTFail("Wrong error type")
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testBillsLinkToAccounts() {
         let expectation1 = expectation(description: "Network Account Request")
         let expectation2 = expectation(description: "Network Bill Request")
