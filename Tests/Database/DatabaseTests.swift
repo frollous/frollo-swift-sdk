@@ -120,13 +120,15 @@ class DatabaseTests: XCTestCase {
             
             self.insertTestData(database: database)
             
-            database.reset(completionHandler: { (error) in
-                XCTAssertNil(error)
-                
-                self.checkDatabaseEmpty(database: database)
-                
-                expectation1.fulfill()
-            })
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                database.reset() { (error) in
+                    XCTAssertNil(error)
+                    
+                    self.checkDatabaseEmpty(database: database)
+                    
+                    expectation1.fulfill()
+                }
+            }
         }
         
         wait(for: [expectation1], timeout: 10.0)
