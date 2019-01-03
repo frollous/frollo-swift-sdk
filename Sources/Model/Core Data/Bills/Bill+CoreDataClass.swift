@@ -130,7 +130,9 @@ public class Bill: NSManagedObject, CacheableManagedObject {
     // MARK: - Updating object
     
     internal func linkObject(object: CacheableManagedObject) {
-        // Not used
+        if let billPayment = object as? BillPayment {
+            addToPayments(billPayment)
+        }
     }
     
     internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {

@@ -229,6 +229,9 @@
 		01405E5221DDB0AF009356CC /* APIBillCreateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E5121DDB0AF009356CC /* APIBillCreateRequest+Test.swift */; };
 		01405E5321DDB0AF009356CC /* APIBillCreateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E5121DDB0AF009356CC /* APIBillCreateRequest+Test.swift */; };
 		01405E5421DDB0AF009356CC /* APIBillCreateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E5121DDB0AF009356CC /* APIBillCreateRequest+Test.swift */; };
+		01405E5721DDCD65009356CC /* BillPayment+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E5521DDCD65009356CC /* BillPayment+CoreDataClass.swift */; };
+		01405E5821DDCD65009356CC /* BillPayment+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E5621DDCD65009356CC /* BillPayment+CoreDataProperties.swift */; };
+		01405E5A21DDCF38009356CC /* APIBillPaymentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E5921DDCF38009356CC /* APIBillPaymentResponse.swift */; };
 		01483B6C2117C70600D0DA87 /* Account+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B682117C70600D0DA87 /* Account+CoreDataClass.swift */; };
 		01483B6E2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B6A2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift */; };
 		01483B712117C7E900D0DA87 /* APIAccountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B702117C7E900D0DA87 /* APIAccountResponse.swift */; };
@@ -787,6 +790,9 @@
 		01405E4B21DD6A62009356CC /* APIBillUpdateRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIBillUpdateRequest+Test.swift"; sourceTree = "<group>"; };
 		01405E4F21DDA9CE009356CC /* APIBillCreateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIBillCreateRequest.swift; sourceTree = "<group>"; };
 		01405E5121DDB0AF009356CC /* APIBillCreateRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIBillCreateRequest+Test.swift"; sourceTree = "<group>"; };
+		01405E5521DDCD65009356CC /* BillPayment+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BillPayment+CoreDataClass.swift"; sourceTree = "<group>"; };
+		01405E5621DDCD65009356CC /* BillPayment+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BillPayment+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		01405E5921DDCF38009356CC /* APIBillPaymentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIBillPaymentResponse.swift; sourceTree = "<group>"; };
 		01483B682117C70600D0DA87 /* Account+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Account+CoreDataClass.swift"; sourceTree = "<group>"; };
 		01483B6A2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccountBalanceTier+CoreDataClass.swift"; sourceTree = "<group>"; };
 		01483B702117C7E900D0DA87 /* APIAccountResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIAccountResponse.swift; sourceTree = "<group>"; };
@@ -1724,6 +1730,8 @@
 			children = (
 				018240DB21C8B80B005705F9 /* Bill+CoreDataClass.swift */,
 				018240DC21C8B80B005705F9 /* Bill+CoreDataProperties.swift */,
+				01405E5521DDCD65009356CC /* BillPayment+CoreDataClass.swift */,
+				01405E5621DDCD65009356CC /* BillPayment+CoreDataProperties.swift */,
 			);
 			path = Bills;
 			sourceTree = "<group>";
@@ -1735,6 +1743,7 @@
 				018240E021C8BAE3005705F9 /* APIBillResponse.swift */,
 				018240E221C8BB6A005705F9 /* APIBillsResponse.swift */,
 				01405E4921DC43A8009356CC /* APIBillUpdateRequest.swift */,
+				01405E5921DDCF38009356CC /* APIBillPaymentResponse.swift */,
 			);
 			path = Bills;
 			sourceTree = "<group>";
@@ -2586,7 +2595,9 @@
 				016097F8210EE3300034E857 /* Provider+CoreDataClass.swift in Sources */,
 				01483B9E21192F1600D0DA87 /* BudgetCategory.swift in Sources */,
 				01405E5021DDA9CE009356CC /* APIBillCreateRequest.swift in Sources */,
+				01405E5A21DDCF38009356CC /* APIBillPaymentResponse.swift in Sources */,
 				017B487021054F0B00447E65 /* PreferencesPersistence.swift in Sources */,
+				01405E5821DDCD65009356CC /* BillPayment+CoreDataProperties.swift in Sources */,
 				013A32AA211273A300B0590B /* ProviderAccount+CoreDataClass.swift in Sources */,
 				0159E48A2193CBAD002CC3BB /* AccountBalanceTier+CoreDataProperties.swift in Sources */,
 				018240DE21C8B80B005705F9 /* Bill+CoreDataProperties.swift in Sources */,
@@ -2604,6 +2615,7 @@
 				01C8250520EDDB410093400E /* NetworkError.swift in Sources */,
 				012606B8219A7EF1005D8377 /* APIMessageUpdateRequest.swift in Sources */,
 				01874B7620F82158005A7D0C /* Endpoint.swift in Sources */,
+				01405E5721DDCD65009356CC /* BillPayment+CoreDataClass.swift in Sources */,
 				011F8142219D282400A1495F /* Network+Events.swift in Sources */,
 				015EEE03211030F30081AD76 /* Aggregation.swift in Sources */,
 				01483B9C21192D4A00D0DA87 /* APITransactionCategoryResponse.swift in Sources */,

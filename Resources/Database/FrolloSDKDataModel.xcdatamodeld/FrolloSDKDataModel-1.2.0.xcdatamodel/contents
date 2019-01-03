@@ -87,6 +87,7 @@
         <attribute name="transactionCategoryID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="bills" inverseEntity="Account" syncable="YES"/>
         <relationship name="merchant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Merchant" inverseName="bills" inverseEntity="Merchant" syncable="YES"/>
+        <relationship name="payments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BillPayment" inverseName="bill" inverseEntity="BillPayment" syncable="YES"/>
         <relationship name="transactionCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TransactionCategory" inverseName="bills" inverseEntity="TransactionCategory" syncable="YES"/>
         <fetchIndex name="byBillIDIndex">
             <fetchIndexElement property="billID" type="Binary" order="ascending"/>
@@ -97,6 +98,22 @@
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="billID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="BillPayment" representedClassName=".BillPayment" syncable="YES">
+        <attribute name="amount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="billID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="billPaymentID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="dateString" attributeType="String" syncable="YES"/>
+        <attribute name="frequencyRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="merchantID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="paymentStatusRawValue" attributeType="String" syncable="YES"/>
+        <relationship name="bill" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Bill" inverseName="payments" inverseEntity="Bill" syncable="YES"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="billPaymentID"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
@@ -336,7 +353,7 @@
     <elements>
         <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="735"/>
         <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
-        <element name="Bill" positionX="-378" positionY="162" width="128" height="330"/>
+        <element name="Bill" positionX="-378" positionY="162" width="128" height="345"/>
         <element name="Merchant" positionX="498.47265625" positionY="19.75" width="128" height="135"/>
         <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="240"/>
         <element name="MessageHTML" positionX="-317.359375" positionY="757.66015625" width="128" height="90"/>
@@ -348,5 +365,6 @@
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="330"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="180"/>
         <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>
+        <element name="BillPayment" positionX="-378" positionY="162" width="128" height="180"/>
     </elements>
 </model>

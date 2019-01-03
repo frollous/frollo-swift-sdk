@@ -36,5 +36,27 @@ extension Bill {
     @NSManaged public var account: Account?
     @NSManaged public var merchant: Merchant?
     @NSManaged public var transactionCategory: TransactionCategory?
+    @NSManaged public var payments: Set<BillPayment>?
 
+}
+
+// MARK: Generated accessors for payments
+extension Bill {
+    
+    /// Add a payment relationship
+    @objc(addPaymentsObject:)
+    @NSManaged public func addToPayments(_ value: BillPayment)
+    
+    /// Remove a payment relationship
+    @objc(removePaymentsObject:)
+    @NSManaged public func removeFromPayments(_ value: BillPayment)
+    
+    /// Add payment relationships
+    @objc(addPayments:)
+    @NSManaged public func addToPayments(_ values: Set<BillPayment>)
+    
+    /// Remove payment relationships
+    @objc(removePayments:)
+    @NSManaged public func removeFromPayments(_ values: Set<BillPayment>)
+    
 }
