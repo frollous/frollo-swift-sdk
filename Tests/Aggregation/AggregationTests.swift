@@ -594,6 +594,47 @@ class AggregationTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testDeleteProviderAccount() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.providerAccount(providerAccountID: 12345).path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        let aggregation = Aggregation(database: database, network: network)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let providerAccount = ProviderAccount(context: managedObjectContext)
+                providerAccount.populateTestData()
+                providerAccount.providerAccountID = 12345
+                
+                try? managedObjectContext.save()
+            }
+            
+            aggregation.deleteProviderAccount(providerAccountID: 12345) { (error) in
+                XCTAssertNil(error)
+                
+                XCTAssertNil(aggregation.providerAccount(context: database.viewContext, providerAccountID: 12345))
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testUpdateProviderAccount() {
         let expectation1 = expectation(description: "Network Request 1")
         

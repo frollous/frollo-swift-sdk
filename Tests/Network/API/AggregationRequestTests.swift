@@ -282,6 +282,30 @@ class AggregationRequestTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testDeleteProviderAccount() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.providerAccount(providerAccountID: 12345).path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        network.deleteProviderAccount(providerAccountID: 12345) { (response, error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testFetchAccounts() {
         let expectation1 = expectation(description: "Network Request")
         

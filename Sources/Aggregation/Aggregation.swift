@@ -257,6 +257,27 @@ public class Aggregation: CachedObjects, ResponseHandler {
     }
     
     /**
+     Delete a provider account from the host
+     
+     - parameters:
+        - providerAccountID: ID of the provider account to be deleted
+        - completion: Optional completion handler with optional error if the request fails
+    */
+    public func deleteProviderAccount(providerAccountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        network.deleteProviderAccount(providerAccountID: providerAccountID) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                self.removeCachedProviderAccount(providerAccountID: providerAccountID)
+            }
+            
+            DispatchQueue.main.async {
+                completion?(error)
+            }
+        }
+    }
+    
+    /**
      Update a provider account on the host
      
      - parameters:
@@ -1106,6 +1127,33 @@ public class Aggregation: CachedObjects, ResponseHandler {
         managedObjectContext.performAndWait {
             do {
                 try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func removeCachedProviderAccount(providerAccountID: Int64) {
+        let managedObjectContext = database.newBackgroundContext()
+        
+        managedObjectContext.performAndWait {
+            let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "providerAccountID == %ld", providerAccountID)
+            
+            do {
+                let fetchedProviderAccounts = try managedObjectContext.fetch(fetchRequest)
+                
+                if let providerAccount = fetchedProviderAccounts.first {
+                    managedObjectContext.performAndWait {
+                        managedObjectContext.delete(providerAccount)
+                        
+                        do {
+                            try managedObjectContext.save()
+                        } catch {
+                            Log.error(error.localizedDescription)
+                        }
+                    }
+                }
             } catch {
                 Log.error(error.localizedDescription)
             }

@@ -74,6 +74,16 @@ extension Network {
         }
     }
     
+    internal func deleteProviderAccount(providerAccountID: Int64, completion: @escaping NetworkCompletion) {
+        requestQueue.async {
+            let url = URL(string: AggregationEndpoint.providerAccount(providerAccountID: providerAccountID).path, relativeTo: self.serverURL)!
+            
+            self.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { (response) in
+                self.handleEmptyResponse(response: response, completion: completion)
+            }
+        }
+    }
+    
     internal func updateProviderAccount(providerAccountID: Int64, request: APIProviderAccountUpdateRequest, completion: @escaping RequestCompletion<APIProviderAccountResponse>) {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.providerAccount(providerAccountID: providerAccountID).path, relativeTo: self.serverURL)!
