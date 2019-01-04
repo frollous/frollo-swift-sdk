@@ -246,5 +246,40 @@ class BillsRequestTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testFetchBillPaymentByID() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.billPayment(billPaymentID: 12345).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payment_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        network.fetchBillPayment(billPaymentID: 12345) { (response, error) in
+            XCTAssertNil(error)
+            
+            if let billPaymentResponse = response {
+                XCTAssertEqual(billPaymentResponse.id, 12345)
+                XCTAssertEqual(billPaymentResponse.billID, 1249)
+                XCTAssertEqual(billPaymentResponse.name, "Optus Internet")
+                XCTAssertEqual(billPaymentResponse.merchantID, 19)
+                XCTAssertEqual(billPaymentResponse.date, "2019-01-07")
+                XCTAssertEqual(billPaymentResponse.paymentStatus, .due)
+                XCTAssertEqual(billPaymentResponse.frequency, .monthly)
+                XCTAssertEqual(billPaymentResponse.amount, "70.0")
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
 
 }

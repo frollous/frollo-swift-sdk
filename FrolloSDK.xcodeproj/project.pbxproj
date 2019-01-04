@@ -244,6 +244,9 @@
 		01405E6A21DEE067009356CC /* APIBillPaymentResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E6921DEE067009356CC /* APIBillPaymentResponse+Test.swift */; };
 		01405E6B21DEE067009356CC /* APIBillPaymentResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E6921DEE067009356CC /* APIBillPaymentResponse+Test.swift */; };
 		01405E6C21DEE067009356CC /* APIBillPaymentResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E6921DEE067009356CC /* APIBillPaymentResponse+Test.swift */; };
+		01405E6E21DF1D2E009356CC /* bill_payment_id_12345.json in Resources */ = {isa = PBXBuildFile; fileRef = 01405E6D21DF1D2D009356CC /* bill_payment_id_12345.json */; };
+		01405E6F21DF1D2E009356CC /* bill_payment_id_12345.json in Resources */ = {isa = PBXBuildFile; fileRef = 01405E6D21DF1D2D009356CC /* bill_payment_id_12345.json */; };
+		01405E7021DF1D2E009356CC /* bill_payment_id_12345.json in Resources */ = {isa = PBXBuildFile; fileRef = 01405E6D21DF1D2D009356CC /* bill_payment_id_12345.json */; };
 		01483B6C2117C70600D0DA87 /* Account+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B682117C70600D0DA87 /* Account+CoreDataClass.swift */; };
 		01483B6E2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B6A2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift */; };
 		01483B712117C7E900D0DA87 /* APIAccountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B702117C7E900D0DA87 /* APIAccountResponse.swift */; };
@@ -809,6 +812,7 @@
 		01405E6021DEDFD2009356CC /* BillPayment+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BillPayment+Test.swift"; sourceTree = "<group>"; };
 		01405E6221DEDFE9009356CC /* BillPaymentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillPaymentTests.swift; sourceTree = "<group>"; };
 		01405E6921DEE067009356CC /* APIBillPaymentResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIBillPaymentResponse+Test.swift"; sourceTree = "<group>"; };
+		01405E6D21DF1D2D009356CC /* bill_payment_id_12345.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bill_payment_id_12345.json; sourceTree = "<group>"; };
 		01483B682117C70600D0DA87 /* Account+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Account+CoreDataClass.swift"; sourceTree = "<group>"; };
 		01483B6A2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccountBalanceTier+CoreDataClass.swift"; sourceTree = "<group>"; };
 		01483B702117C7E900D0DA87 /* APIAccountResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIAccountResponse.swift; sourceTree = "<group>"; };
@@ -1063,6 +1067,7 @@
 			isa = PBXGroup;
 			children = (
 				0101A90721CC90DF00DCFCEB /* bill_id_12345.json */,
+				01405E6D21DF1D2D009356CC /* bill_payment_id_12345.json */,
 				01405E5B21DED30E009356CC /* bill_payments_2018-12-01_valid.json */,
 				0101A8E221C9C24700DCFCEB /* bills_valid.json */,
 			);
@@ -2336,6 +2341,7 @@
 				015EEDF1210FE51C0081AD76 /* providers_invalid.json in Resources */,
 				01743B18212BCF9A0082DA00 /* provider_login_form_validation.json in Resources */,
 				01B896B920F2EDA30068069A /* error_value_over_limit.json in Resources */,
+				01405E6E21DF1D2E009356CC /* bill_payment_id_12345.json in Resources */,
 				013A32B92112994C00B0590B /* provider_accounts_invalid.json in Resources */,
 				013A32B32112994C00B0590B /* provider_accounts_valid.json in Resources */,
 			);
@@ -2417,6 +2423,7 @@
 				015EEDF2210FE51C0081AD76 /* providers_invalid.json in Resources */,
 				01743B19212BCF9A0082DA00 /* provider_login_form_validation.json in Resources */,
 				017B48632101B4FE00447E65 /* error_value_over_limit.json in Resources */,
+				01405E6F21DF1D2E009356CC /* bill_payment_id_12345.json in Resources */,
 				013A32BA2112994C00B0590B /* provider_accounts_invalid.json in Resources */,
 				013A32B42112994C00B0590B /* provider_accounts_valid.json in Resources */,
 			);
@@ -2507,6 +2514,7 @@
 				015EEDF3210FE51C0081AD76 /* providers_invalid.json in Resources */,
 				01743B1A212BCF9A0082DA00 /* provider_login_form_validation.json in Resources */,
 				017B48C02105958100447E65 /* error_value_over_limit.json in Resources */,
+				01405E7021DF1D2E009356CC /* bill_payment_id_12345.json in Resources */,
 				013A32BB2112994C00B0590B /* provider_accounts_invalid.json in Resources */,
 				013A32B52112994C00B0590B /* provider_accounts_valid.json in Resources */,
 			);

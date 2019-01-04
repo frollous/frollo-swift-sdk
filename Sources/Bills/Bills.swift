@@ -233,6 +233,43 @@ public class Bills: CachedObjects, ResponseHandler  {
     // MARK: - Bill Payments
     
     /**
+     Fetch bill payment by ID from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - billPaymentID: Unique bill payment ID to fetch
+     */
+    public func billPayment(context: NSManagedObjectContext, billPaymentID: Int64) -> BillPayment? {
+        return cachedObject(type: BillPayment.self, context: context, objectID: billPaymentID, objectKey: #keyPath(BillPayment.billPaymentID))
+    }
+    
+    /**
+     Fetch bill payments from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `BillPayment` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to billPaymentID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func billPayments(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(BillPayment.billPaymentID), ascending: true)], limit: Int? = nil) -> [BillPayment]? {
+        return cachedObjects(type: BillPayment.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Fetched results controller of Bill Payments from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `BillPayment` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to billPaymentID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func billPaymentsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(BillPayment.billPaymentID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<BillPayment>? {
+        return fetchedResultsController(type: BillPayment.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
      Refresh bill payments from a certain period from the host
      
      - parameters:
@@ -249,6 +286,33 @@ public class Bills: CachedObjects, ResponseHandler  {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleBillPaymentsResponse(billPaymentsResponse, from: fromDate, to: toDate, managedObjectContext: managedObjectContext)
+                    
+                    self.linkBillPaymentsToBills(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                completion?(error)
+            }
+        }
+    }
+    
+    /**
+     Refresh a specific bill payment by ID from the host
+     
+     - parameters:
+        - billPaymentID: ID of the bill payment to fetch
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshBillPayment(billPaymentID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        network.fetchBillPayment(billPaymentID: billPaymentID) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let billResponse = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleBillPaymentResponse(billResponse, managedObjectContext: managedObjectContext)
                     
                     self.linkBillPaymentsToBills(managedObjectContext: managedObjectContext)
                 }
@@ -395,6 +459,26 @@ public class Bills: CachedObjects, ResponseHandler  {
         if let billIDs = updatedLinkedIDs[\BillPayment.billID] {
             linkingBillIDs = linkingBillIDs.union(billIDs)
         }
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleBillPaymentResponse(_ billPaymentResponse: APIBillPaymentResponse, managedObjectContext: NSManagedObjectContext) {
+        billPaymentsLock.lock()
+        
+        defer {
+            billPaymentsLock.unlock()
+        }
+        
+        updateObjectWithResponse(type: BillPayment.self, objectResponse: billPaymentResponse, primaryKey: #keyPath(BillPayment.billPaymentID), managedObjectContext: managedObjectContext)
+        
+        linkingBillIDs.insert(billPaymentResponse.billID)
         
         managedObjectContext.performAndWait {
             do {
