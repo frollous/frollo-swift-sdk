@@ -80,6 +80,23 @@ extension Network {
         }
     }
     
+    // MARK: - Bill Payments
+    
+    internal func fetchBillPayments(from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<[APIBillPaymentResponse]>) {
+        requestQueue.async {
+            let url = URL(string: BillsEndpoint.billPayments.path, relativeTo: self.serverURL)!
+            
+            let dateFormatter = Transaction.transactionDateFormatter
+            
+            let parameters = [BillsEndpoint.QueryParameters.fromDate.rawValue: dateFormatter.string(from: fromDate),
+                              BillsEndpoint.QueryParameters.toDate.rawValue: dateFormatter.string(from: toDate)]
+            
+            self.sessionManager.request(url, method: .get, parameters: parameters, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.handleArrayResponse(type: APIBillPaymentResponse.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     // MARK: - Response Handling
     
     private func handleBillsReponse(response: DataResponse<Data>, completion: RequestCompletion<[APIBillResponse]>) {

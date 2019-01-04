@@ -11,9 +11,7 @@ import Foundation
 enum BillsEndpoint: Endpoint {
     
     enum QueryParameters: String, Codable {
-        case count
         case fromDate = "from_date"
-        case skip
         case toDate = "to_date"
     }
     
@@ -25,8 +23,8 @@ enum BillsEndpoint: Endpoint {
     
     case bill(billID: Int64)
     case bills
-    case payment(billPaymentID: Int64)
-    case payments
+    case billPayment(billPaymentID: Int64)
+    case billPayments
     
     private func urlPath() -> String {
         switch self {
@@ -34,9 +32,9 @@ enum BillsEndpoint: Endpoint {
                 return "bills/" + String(billID)
             case .bills:
                 return "bills"
-            case .payment(let billPaymentID):
+            case .billPayment(let billPaymentID):
                 return "bills/payments/" + String(billPaymentID)
-            case .payments:
+            case .billPayments:
                 return "bills/payments"
         }
     }

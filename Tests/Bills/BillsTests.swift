@@ -625,4 +625,115 @@ class BillsTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    // MARK: - Bill Payment Tests
+    
+    func testRefreshBillPayments() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.billPayments.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payments_2018-12-01_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let fromDate = BillPayment.billDateFormatter.date(from: "2018-12-01")!
+            let toDate = BillPayment.billDateFormatter.date(from: "2021-01-01")!
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let bills = Bills(database: database, network: network, aggregation: aggregation)
+            
+            bills.refreshBillPayments(from: fromDate, to: toDate) { (error) in
+                XCTAssertNil(error)
+                
+                let context = database.viewContext
+                
+                let fetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
+                
+                do {
+                    let fetchedBillPayments = try context.fetch(fetchRequest)
+                    
+                    XCTAssertEqual(fetchedBillPayments.count, 7)
+                } catch {
+                    XCTFail(error.localizedDescription)
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testBillPaymentsLinkToBills() {
+        let expectation1 = expectation(description: "Network Bills Request")
+        let expectation2 = expectation(description: "Network Bill Payments Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.bills.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bills_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.billPayments.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payments_2018-12-01_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let bills = Bills(database: database, network: network, aggregation: aggregation)
+            
+            bills.refreshBills() { (error) in
+                XCTAssertNil(error)
+                
+                let fromDate = BillPayment.billDateFormatter.date(from: "2018-12-01")!
+                let toDate = BillPayment.billDateFormatter.date(from: "2021-01-01")!
+                
+                bills.refreshBillPayments(from: fromDate, to: toDate) { (error) in
+                    XCTAssertNil(error)
+                    
+                    let context = database.viewContext
+                    
+                    let fetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
+                    fetchRequest.predicate = NSPredicate(format: "billPaymentID == %ld", argumentArray: [7991])
+                    
+                    do {
+                        let fetchedBillPayments = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedBillPayments.count, 1)
+                        
+                        if let billPayment = fetchedBillPayments.first {
+                            XCTAssertNotNil(billPayment.billID)
+                            
+                            XCTAssertEqual(billPayment.billID, billPayment.bill?.billID)
+                        }
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation2.fulfill()
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1, expectation2], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
 }

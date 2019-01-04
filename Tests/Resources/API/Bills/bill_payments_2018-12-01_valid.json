@@ -1,0 +1,64 @@
+[{
+	"id": 7991,
+	"bill_id": 1249,
+	"name": "Optus Internet",
+	"merchant_id": 19,
+	"date": "2019-01-07",
+	"payment_status": "due",
+	"frequency": "monthly",
+	"amount": "70.0"
+}, {
+	"id": 8052,
+	"bill_id": 1252,
+	"name": "Rent",
+	"merchant_id": 1,
+	"date": "2018-12-30",
+	"payment_status": "overdue",
+	"frequency": "fortnightly",
+	"amount": "185.0"
+}, {
+	"id": 7998,
+	"bill_id": 1250,
+	"name": "AGL",
+	"merchant_id": 57,
+	"date": "2018-12-25",
+	"payment_status": "overdue",
+	"frequency": "monthly",
+	"amount": "70.0"
+}, {
+	"id": 8026,
+	"bill_id": 1252,
+	"name": "Rent",
+	"merchant_id": 1,
+	"date": "2018-12-16",
+	"payment_status": "paid",
+	"frequency": "fortnightly",
+	"amount": "185.0"
+}, {
+	"id": 8027,
+	"bill_id": 1252,
+	"name": "Rent",
+	"merchant_id": 1,
+	"date": "2018-12-09",
+	"payment_status": "paid",
+	"frequency": "fortnightly",
+	"amount": "185.0"
+}, {
+	"id": 7985,
+	"bill_id": 1249,
+	"name": "Optus Internet",
+	"merchant_id": 19,
+	"date": "2018-12-07",
+	"payment_status": "paid",
+	"frequency": "monthly",
+	"amount": "70.0"
+}, {
+	"id": 8028,
+	"bill_id": 1252,
+	"name": "Rent",
+	"merchant_id": 1,
+	"date": "2021-12-02",
+	"payment_status": "future",
+	"frequency": "fortnightly",
+	"amount": "185.0"
+}]

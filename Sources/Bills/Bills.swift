@@ -16,8 +16,10 @@ public class Bills: CachedObjects, ResponseHandler  {
     private let network: Network
     
     private let billsLock = NSLock()
+    private let billPaymentsLock = NSLock()
     
     private var linkingAccountIDs = Set<Int64>()
+    private var linkingBillIDs = Set<Int64>()
     private var linkingMerchantIDs = Set<Int64>()
     private var linkingTransactionCategoryIDs = Set<Int64>()
     
@@ -228,6 +230,36 @@ public class Bills: CachedObjects, ResponseHandler  {
         }
     }
     
+    // MARK: - Bill Payments
+    
+    /**
+     Refresh bill payments from a certain period from the host
+     
+     - parameters:
+        - fromDate: Start date to fetch bill payments from (inclusive)
+        - toDate: End date to fetch bill payments up to (inclusive)
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshBillPayments(from fromDate: Date, to toDate: Date, completion: FrolloSDKCompletionHandler? = nil) {
+        network.fetchBillPayments(from: fromDate, to: toDate) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let billPaymentsResponse = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleBillPaymentsResponse(billPaymentsResponse, from: fromDate, to: toDate, managedObjectContext: managedObjectContext)
+                    
+                    self.linkBillPaymentsToBills(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                completion?(error)
+            }
+        }
+    }
+    
     // MARK: - Linking Objects
     
     private func linkBillsToAccounts(managedObjectContext: NSManagedObjectContext) {
@@ -238,6 +270,8 @@ public class Bills: CachedObjects, ResponseHandler  {
         }
         
         aggregation.linkObjectsToAccounts(type: Bill.self, managedObjectContext: managedObjectContext, linkingIDs: linkingAccountIDs, linkedKey: \Bill.accountID, linkedKeyName: #keyPath(Bill.accountID))
+        
+        linkingAccountIDs = Set()
     }
     
     private func linkBillsToMerchants(managedObjectContext: NSManagedObjectContext) {
@@ -248,6 +282,8 @@ public class Bills: CachedObjects, ResponseHandler  {
         }
         
         aggregation.linkObjectsToMerchants(type: Bill.self, managedObjectContext: managedObjectContext, linkingIDs: linkingMerchantIDs, linkedKey: \Bill.merchantID, linkedKeyName: #keyPath(Bill.merchantID))
+        
+        linkingMerchantIDs = Set()
     }
     
     private func linkBillsToTransactionCategories(managedObjectContext: NSManagedObjectContext) {
@@ -258,6 +294,30 @@ public class Bills: CachedObjects, ResponseHandler  {
         }
         
         aggregation.linkObjectsToTransactionCategories(type: Bill.self, managedObjectContext: managedObjectContext, linkingIDs: linkingTransactionCategoryIDs, linkedKey: \Bill.transactionCategoryID, linkedKeyName: #keyPath(Bill.transactionCategoryID))
+        
+        linkingTransactionCategoryIDs = Set()
+    }
+    
+    private func linkBillPaymentsToBills(managedObjectContext: NSManagedObjectContext) {
+        billsLock.lock()
+        billPaymentsLock.lock()
+        
+        defer {
+            billsLock.unlock()
+            billPaymentsLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: BillPayment.self, parentType: Bill.self, managedObjectContext: managedObjectContext, linkedIDs: linkingBillIDs, linkedKey: \BillPayment.billID, linkedKeyName: #keyPath(BillPayment.billID))
+        
+        linkingBillIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
     }
     
     // MARK: - Response Handling
@@ -307,6 +367,33 @@ public class Bills: CachedObjects, ResponseHandler  {
         }
         if let transactionCategoryID = billResponse.category?.id {
             linkingTransactionCategoryIDs.insert(transactionCategoryID)
+        }
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleBillPaymentsResponse(_ billPaymentsResponse: [APIBillPaymentResponse], from fromDate: Date, to toDate: Date, managedObjectContext: NSManagedObjectContext) {
+        let fromDateString = BillPayment.billDateFormatter.string(from: fromDate)
+        let toDateString = BillPayment.billDateFormatter.string(from: toDate)
+            
+        let predicate = NSPredicate(format: #keyPath(BillPayment.dateString) + " >= %@ && " + #keyPath(BillPayment.dateString) + " <= %@", argumentArray: [fromDateString, toDateString])
+        
+        billPaymentsLock.lock()
+        
+        defer {
+            billPaymentsLock.unlock()
+        }
+        
+        let updatedLinkedIDs = updateObjectsWithResponse(type: BillPayment.self, objectsResponse: billPaymentsResponse, primaryKey: #keyPath(BillPayment.billPaymentID), linkedKeys: [\BillPayment.billID], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        
+        if let billIDs = updatedLinkedIDs[\BillPayment.billID] {
+            linkingBillIDs = linkingBillIDs.union(billIDs)
         }
         
         managedObjectContext.performAndWait {

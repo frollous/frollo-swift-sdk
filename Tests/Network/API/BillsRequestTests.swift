@@ -24,6 +24,8 @@ class BillsRequestTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    // MARK: - Bills Tests
+    
     func testCreateBill() {
         let expectation1 = expectation(description: "Network Request")
         
@@ -191,6 +193,50 @@ class BillsRequestTests: XCTestCase {
             if let billResponse = response {
                 XCTAssertEqual(billResponse.id, 12345)
                 XCTAssertEqual(billResponse.name, "Netflix")
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    // MARK: - Bill Payment Tests
+    
+    func testFetchBillPayments() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.billPayments.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payments_2018-12-01_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        let fromDate = BillPayment.billDateFormatter.date(from: "2018-12-01")!
+        let toDate = BillPayment.billDateFormatter.date(from: "2021-01-01")!
+        
+        network.fetchBillPayments(from: fromDate, to: toDate) { (response, error) in
+            XCTAssertNil(error)
+            
+            if let billPaymentsResponse = response {
+                XCTAssertEqual(billPaymentsResponse.count, 7)
+                
+                if let firstBillPayment = billPaymentsResponse.first {
+                    XCTAssertEqual(firstBillPayment.id, 7991)
+                    XCTAssertEqual(firstBillPayment.billID, 1249)
+                    XCTAssertEqual(firstBillPayment.name, "Optus Internet")
+                    XCTAssertEqual(firstBillPayment.merchantID, 19)
+                    XCTAssertEqual(firstBillPayment.date, "2019-01-07")
+                    XCTAssertEqual(firstBillPayment.paymentStatus, .due)
+                    XCTAssertEqual(firstBillPayment.frequency, .monthly)
+                    XCTAssertEqual(firstBillPayment.amount, "70.0")
+                }
             } else {
                 XCTFail("No response object")
             }
