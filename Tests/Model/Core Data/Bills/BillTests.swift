@@ -46,5 +46,23 @@ class BillTests: XCTestCase {
         XCTAssertEqual(billResponse.status, bill.status)
         XCTAssertEqual(billResponse.category?.id, bill.transactionCategoryID)
     }
+    
+    func testUpdateBillRequest() {
+        let database = Database(path: tempFolderPath())
+        
+        let managedObjectContext = database.newBackgroundContext()
+        
+        let bill = Bill(context: managedObjectContext)
+        bill.populateTestData()
+        
+        let updateRequest = bill.updateRequest()
+        
+        XCTAssertEqual(bill.billType, updateRequest.billType)
+        XCTAssertEqual(bill.dueAmount.stringValue, updateRequest.dueAmount)
+        XCTAssertEqual(bill.frequency, updateRequest.frequency)
+        XCTAssertEqual(bill.name, updateRequest.name)
+        XCTAssertEqual(bill.nextPaymentDateString, updateRequest.nextPaymentDate)
+        XCTAssertEqual(bill.notes, updateRequest.note)
+    }
 
 }

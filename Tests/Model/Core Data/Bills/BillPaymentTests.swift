@@ -38,5 +38,19 @@ class BillPaymentTests: XCTestCase {
         XCTAssertEqual(billPaymentResponse.frequency, billPayment.frequency)
         XCTAssertEqual(billPaymentResponse.amount, billPayment.amount?.stringValue)        
     }
+    
+    func testUpdateBillPaymentRequest() {
+        let database = Database(path: tempFolderPath())
+        
+        let managedObjectContext = database.newBackgroundContext()
+        
+        let billPayment = BillPayment(context: managedObjectContext)
+        billPayment.populateTestData()
+        
+        let updateRequest = billPayment.updateRequest()
+        
+        XCTAssertEqual(billPayment.dateString, updateRequest.date)
+        XCTAssertEqual(billPayment.paymentStatus, updateRequest.status)
+    }
 
 }
