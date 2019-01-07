@@ -74,4 +74,33 @@ class UserTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testUpdateUserRequest() {
+        let database = Database(path: tempFolderPath())
+        
+        let managedObjectContext = database.newBackgroundContext()
+        
+        let user = User(context: managedObjectContext)
+        user.populateTestData()
+        
+        let updateRequest = user.updateRequest()
+        
+        XCTAssertEqual(user.firstName, updateRequest.firstName)
+        XCTAssertEqual(user.lastName, updateRequest.lastName)
+        XCTAssertEqual(user.email, updateRequest.email)
+        XCTAssertEqual(user.mobileNumber, updateRequest.mobileNumber)
+        XCTAssertEqual(user.gender, updateRequest.gender)
+        XCTAssertEqual(user.dateOfBirth, updateRequest.dateOfBirth)
+        XCTAssertEqual(user.addressLine1, updateRequest.address?.line1)
+        XCTAssertEqual(user.addressLine2, updateRequest.address?.line2)
+        XCTAssertEqual(user.householdType, updateRequest.householdType)
+        XCTAssertEqual(user.householdSize, updateRequest.householdSize)
+        XCTAssertEqual(user.occupation, updateRequest.occupation)
+        XCTAssertEqual(user.industry, updateRequest.industry)
+        XCTAssertEqual(user.primaryCurrency, updateRequest.primaryCurrency)
+        XCTAssertEqual(user.attributionAdGroup, updateRequest.attribution?.adGroup)
+        XCTAssertEqual(user.attributionCampaign, updateRequest.attribution?.campaign)
+        XCTAssertEqual(user.attributionCreative, updateRequest.attribution?.creative)
+        XCTAssertEqual(user.attributionNetwork, updateRequest.attribution?.network)
+    }
+    
 }

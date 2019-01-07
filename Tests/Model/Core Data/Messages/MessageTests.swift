@@ -115,5 +115,19 @@ class MessageTests: XCTestCase {
     func testUpdatingVideoMessage() {
         updateMessageTest(type: .video)
     }
+    
+    func testMessageUpdateRequest() {
+        let database = Database(path: tempFolderPath())
+        
+        let managedObjectContext = database.newBackgroundContext()
+        
+        let message = Message(context: managedObjectContext)
+        message.populateTestData()
+        
+        let updateRequest = message.updateRequest()
+        
+        XCTAssertEqual(message.interacted, updateRequest.interacted)
+        XCTAssertEqual(message.read, updateRequest.read)
+    }
 
 }

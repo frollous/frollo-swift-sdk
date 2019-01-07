@@ -67,7 +67,7 @@ class NetworkTests: XCTestCase {
         
         let keychain = Keychain(service: keychainService)
         
-        let serverURL = URL(string: "https://api.frollo.us/api/v1/")!
+        let serverURL = URL(string: "https://api.frollo.us/api/")!
         let testURL = serverURL.appendingPathComponent("pages/terms")
         
         let network = Network(serverURL: serverURL, keychain: keychain, pinnedPublicKeys: [realPublicKey])
@@ -91,7 +91,7 @@ class NetworkTests: XCTestCase {
         
         let keychain = Keychain(service: keychainService)
         
-        let serverURL = URL(string: "https://api.frollo.us/api/v1/")!
+        let serverURL = URL(string: "https://api.frollo.us/api/")!
         let testURL = serverURL.appendingPathComponent("pages/terms")
         
         let network = Network(serverURL: serverURL, keychain: keychain, pinnedPublicKeys: [fakePublicKey])

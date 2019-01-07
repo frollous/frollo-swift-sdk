@@ -75,4 +75,21 @@ class TransactionTests: XCTestCase {
         XCTAssertNil(transaction.userDescription)
     }
     
+    func testUpdateTransactionRequest() {
+        let database = Database(path: tempFolderPath())
+        
+        let managedObjectContext = database.newBackgroundContext()
+        
+        let transaction = Transaction(context: managedObjectContext)
+        transaction.populateTestData()
+        
+        let updateRequest = transaction.updateRequest()
+        
+        XCTAssertEqual(transaction.budgetCategory, updateRequest.budgetCategory)
+        XCTAssertEqual(transaction.transactionCategoryID, updateRequest.categoryID)
+        XCTAssertEqual(transaction.included, updateRequest.included)
+        XCTAssertEqual(transaction.memo, updateRequest.memo)
+        XCTAssertEqual(transaction.userDescription, updateRequest.userDescription)
+    }
+    
 }
