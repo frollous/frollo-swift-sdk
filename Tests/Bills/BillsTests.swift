@@ -766,6 +766,48 @@ class BillsTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testDeleteBillPayment() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.billPayment(billPaymentID: 12345).path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        let aggregation = Aggregation(database: database, network: network)
+        let bills = Bills(database: database, network: network, aggregation: aggregation)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let billPayment = BillPayment(context: managedObjectContext)
+                billPayment.populateTestData()
+                billPayment.billID = 12345
+                
+                try? managedObjectContext.save()
+            }
+            
+            bills.deleteBillPayment(billPaymentID: 12345) { (error) in
+                XCTAssertNil(error)
+                
+                XCTAssertNil(bills.billPayment(context: database.viewContext, billPaymentID: 12345))
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testRefreshBillPayments() {
         let expectation1 = expectation(description: "Network Request 1")
         

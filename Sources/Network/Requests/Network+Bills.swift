@@ -82,6 +82,16 @@ extension Network {
     
     // MARK: - Bill Payments
     
+    internal func deleteBillPayment(billPaymentID: Int64, completion: @escaping NetworkCompletion) {
+        requestQueue.async {
+            let url = URL(string: BillsEndpoint.billPayment(billPaymentID: billPaymentID).path, relativeTo: self.serverURL)!
+            
+            self.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { (response) in
+                self.handleEmptyResponse(response: response, completion: completion)
+            }
+        }
+    }
+    
     internal func fetchBillPayments(from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<[APIBillPaymentResponse]>) {
         requestQueue.async {
             let url = URL(string: BillsEndpoint.billPayments.path, relativeTo: self.serverURL)!

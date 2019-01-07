@@ -270,6 +270,27 @@ public class Bills: CachedObjects, ResponseHandler  {
     }
     
     /**
+     Delete a specific bill payment by ID from the host
+     
+     - parameters:
+        - billPaymentID: ID of the bill payment to be deleted
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func deleteBillPayment(billPaymentID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        network.deleteBillPayment(billPaymentID: billPaymentID) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                self.removeCachedBillPayment(billPaymentID: billPaymentID)
+            }
+            
+            DispatchQueue.main.async {
+                completion?(error)
+            }
+        }
+    }
+    
+    /**
      Refresh bill payments from a certain period from the host
      
      - parameters:
@@ -541,6 +562,33 @@ public class Bills: CachedObjects, ResponseHandler  {
                 if let bill = fetchedBills.first {
                     managedObjectContext.performAndWait {
                         managedObjectContext.delete(bill)
+                        
+                        do {
+                            try managedObjectContext.save()
+                        } catch {
+                            Log.error(error.localizedDescription)
+                        }
+                    }
+                }
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func removeCachedBillPayment(billPaymentID: Int64) {
+        let managedObjectContext = database.newBackgroundContext()
+        
+        managedObjectContext.performAndWait {
+            let fetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "billPaymentID == %ld", billPaymentID)
+            
+            do {
+                let fetchedBillPayments = try managedObjectContext.fetch(fetchRequest)
+                
+                if let billPayment = fetchedBillPayments.first {
+                    managedObjectContext.performAndWait {
+                        managedObjectContext.delete(billPayment)
                         
                         do {
                             try managedObjectContext.save()
