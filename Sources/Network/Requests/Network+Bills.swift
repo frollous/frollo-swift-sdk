@@ -107,6 +107,24 @@ extension Network {
         }
     }
     
+    internal func updateBillPayment(billPaymentID: Int64, request: APIBillPaymentUpdateRequest, completion: @escaping RequestCompletion<APIBillPaymentResponse>) {
+        requestQueue.async {
+            let url = URL(string: BillsEndpoint.billPayment(billPaymentID: billPaymentID).path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.contentRequest(url: url, method: .put, content: request)
+                else {
+                    let dataError = DataError(type: .api, subType: .invalidData)
+                    
+                    completion(nil, dataError)
+                    return
+            }
+            
+            self.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.handleResponse(type: APIBillPaymentResponse.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     // MARK: - Response Handling
     
     private func handleBillsReponse(response: DataResponse<Data>, completion: RequestCompletion<[APIBillResponse]>) {

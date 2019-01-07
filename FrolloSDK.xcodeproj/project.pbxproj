@@ -45,6 +45,10 @@
 		010EB42D211C00D0005A926A /* APITransactionUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010EB42C211C00D0005A926A /* APITransactionUpdateRequest+Test.swift */; };
 		010EB42E211C00D0005A926A /* APITransactionUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010EB42C211C00D0005A926A /* APITransactionUpdateRequest+Test.swift */; };
 		010EB42F211C00D0005A926A /* APITransactionUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010EB42C211C00D0005A926A /* APITransactionUpdateRequest+Test.swift */; };
+		011C198921E3063600490EDD /* APIBillPaymentUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011C198821E3063600490EDD /* APIBillPaymentUpdateRequest.swift */; };
+		011C198B21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011C198A21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift */; };
+		011C198C21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011C198A21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift */; };
+		011C198D21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011C198A21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift */; };
 		011E87D0213766550026E047 /* SecKeyPEM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011E87CF213766550026E047 /* SecKeyPEM.swift */; };
 		011E87D2213767F00026E047 /* SecKeyPEMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011E87D1213767F00026E047 /* SecKeyPEMTests.swift */; };
 		011E87D3213767F00026E047 /* SecKeyPEMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011E87D1213767F00026E047 /* SecKeyPEMTests.swift */; };
@@ -711,6 +715,8 @@
 		0101A90721CC90DF00DCFCEB /* bill_id_12345.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bill_id_12345.json; sourceTree = "<group>"; };
 		010EB42A211BF92A005A926A /* APITransactionUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionUpdateRequest.swift; sourceTree = "<group>"; };
 		010EB42C211C00D0005A926A /* APITransactionUpdateRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APITransactionUpdateRequest+Test.swift"; sourceTree = "<group>"; };
+		011C198821E3063600490EDD /* APIBillPaymentUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIBillPaymentUpdateRequest.swift; sourceTree = "<group>"; };
+		011C198A21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIBillPaymentUpdateRequest+Test.swift"; sourceTree = "<group>"; };
 		011E87CF213766550026E047 /* SecKeyPEM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecKeyPEM.swift; sourceTree = "<group>"; };
 		011E87D1213767F00026E047 /* SecKeyPEMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecKeyPEMTests.swift; sourceTree = "<group>"; };
 		011F1A5F216B289B00119474 /* APIUserResetPasswordRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserResetPasswordRequest.swift; sourceTree = "<group>"; };
@@ -1082,6 +1088,7 @@
 				0101A8EB21CC4F9300DCFCEB /* APIBillsResponse+Test.swift */,
 				01405E4B21DD6A62009356CC /* APIBillUpdateRequest+Test.swift */,
 				01405E6921DEE067009356CC /* APIBillPaymentResponse+Test.swift */,
+				011C198A21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift */,
 			);
 			path = Bills;
 			sourceTree = "<group>";
@@ -1769,6 +1776,7 @@
 				018240E221C8BB6A005705F9 /* APIBillsResponse.swift */,
 				01405E4921DC43A8009356CC /* APIBillUpdateRequest.swift */,
 				01405E5921DDCF38009356CC /* APIBillPaymentResponse.swift */,
+				011C198821E3063600490EDD /* APIBillPaymentUpdateRequest.swift */,
 			);
 			path = Bills;
 			sourceTree = "<group>";
@@ -2604,6 +2612,7 @@
 				018240DD21C8B80B005705F9 /* Bill+CoreDataClass.swift in Sources */,
 				01C8250720EDDB4F0093400E /* DataError.swift in Sources */,
 				01ED8FC7211A5DE800ACE691 /* Transaction+CoreDataClass.swift in Sources */,
+				011C198921E3063600490EDD /* APIBillPaymentUpdateRequest.swift in Sources */,
 				012C450A212A775D00799A0A /* ProviderLoginForm.swift in Sources */,
 				01EED86E20E5AAAB00F4516B /* Database.swift in Sources */,
 				01874B8120FDA1DD005A7D0C /* NetworkAuthenticator.swift in Sources */,
@@ -2791,6 +2800,7 @@
 				01C824F720EC7AC30093400E /* FileLoggerTests.swift in Sources */,
 				01405E6A21DEE067009356CC /* APIBillPaymentResponse+Test.swift in Sources */,
 				0101A8EE21CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
+				011C198B21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */,
 				01C824F320EC4D600093400E /* LogTests.swift in Sources */,
 				0101A8F621CC54F000DCFCEB /* Bill+Test.swift in Sources */,
 				016097EA210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
@@ -2887,6 +2897,7 @@
 				017B483D2101B4FE00447E65 /* FileLoggerTests.swift in Sources */,
 				01405E6B21DEE067009356CC /* APIBillPaymentResponse+Test.swift in Sources */,
 				0101A8EF21CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
+				011C198C21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */,
 				017B483E2101B4FE00447E65 /* LogTests.swift in Sources */,
 				0101A8F721CC54F000DCFCEB /* Bill+Test.swift in Sources */,
 				016097EB210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
@@ -2992,6 +3003,7 @@
 				01483B802117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */,
 				01405E6C21DEE067009356CC /* APIBillPaymentResponse+Test.swift in Sources */,
 				0101A8F021CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
+				011C198D21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */,
 				016097EC210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
 				0101A8F821CC54F000DCFCEB /* Bill+Test.swift in Sources */,
 				01483BB321195A8000D0DA87 /* AccountTests.swift in Sources */,
