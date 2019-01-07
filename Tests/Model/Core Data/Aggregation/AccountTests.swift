@@ -84,4 +84,21 @@ class AccountTests: XCTestCase {
         }
     }
     
+    func testUpdateAccountRequest() {
+        let database = Database(path: tempFolderPath())
+        
+        let managedObjectContext = database.newBackgroundContext()
+        
+        let account = Account(context: managedObjectContext)
+        account.populateTestData()
+        
+        let updateRequest = account.updateRequest()
+        
+        XCTAssertEqual(account.accountSubType, updateRequest.accountType)
+        XCTAssertEqual(account.favourite, updateRequest.favourite)
+        XCTAssertEqual(account.included, updateRequest.included)
+        XCTAssertEqual(account.hidden, updateRequest.hidden)
+        XCTAssertEqual(account.nickName, updateRequest.nickName)
+    }
+    
 }

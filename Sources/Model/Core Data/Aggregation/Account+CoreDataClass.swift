@@ -508,7 +508,8 @@ public class Account: NSManagedObject, CacheableManagedObject {
     }
     
     internal func updateRequest() -> APIAccountUpdateRequest {
-        return APIAccountUpdateRequest(favourite: favourite,
+        return APIAccountUpdateRequest(accountType: accountSubType,
+                                       favourite: favourite,
                                        hidden: hidden,
                                        included: included,
                                        nickName: nickName)

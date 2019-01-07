@@ -11,17 +11,18 @@ import Foundation
 struct APIAccountUpdateRequest: Codable {
     
     enum CodingKeys: String, CodingKey {
+        case accountType = "account_type"
         case favourite
         case hidden
         case included
         case nickName = "nick_name"
     }
     
-    let favourite: Bool
+    let accountType: Account.AccountSubType?
+    let favourite: Bool?
     let hidden: Bool
     let included: Bool
-    
-    var nickName: String?
+    let nickName: String?
     
     var valid: Bool {
         get {
