@@ -76,17 +76,21 @@ public class Authentication {
      - Returns: User object if found
     */
     public func fetchUser(context: NSManagedObjectContext) -> User? {
-        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+        var user: User?
         
-        do {
-            let fetchedUsers = try context.fetch(fetchRequest)
+        context.performAndWait {
+            let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
             
-            return fetchedUsers.first
-        } catch {
-            Log.error(error.localizedDescription)
+            do {
+                let fetchedUsers = try context.fetch(fetchRequest)
+                
+                user = fetchedUsers.first
+            } catch {
+                Log.error(error.localizedDescription)
+            }
         }
         
-        return nil
+        return user
     }
     
     // MARK: - Login
@@ -236,7 +240,9 @@ public class Authentication {
         - completion: A completion handler once the API has returned and the cache has been updated. Returns any error that occurred during the process.
      */
     public func updateUser(completion: @escaping FrolloSDKCompletionHandler) {
-        guard let user = fetchUser(context: database.viewContext)
+        let managedObjectContext = database.newBackgroundContext()
+        
+        guard let user = fetchUser(context: managedObjectContext)
             else {
                 let error = DataError(type: .database, subType: .notFound)
                 
@@ -246,7 +252,11 @@ public class Authentication {
                 return
         }
         
-        let request = user.updateRequest()
+        var request: APIUserUpdateRequest!
+        
+        managedObjectContext.performAndWait {
+            request = user.updateRequest()
+        }
         
         network.updateUser(request: request) { (response, error) in
             if let responseError = error {
@@ -392,33 +402,37 @@ public class Authentication {
     private func handleUserResponse(userResponse: APIUserResponse) {
         let managedObjectContext = self.database.newBackgroundContext()
         
-        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
-        
-        do {
-            let fetchedUsers = try managedObjectContext.fetch(fetchRequest)
-            
-            let user: User
-            if let fetchedUser = fetchedUsers.first {
-                user = fetchedUser
-            } else {
-                user = User(context: managedObjectContext)
-            }
-            
-            loggedIn = true
-            
-            user.update(response: userResponse)
-            
-            preferences.refreshFeatures(user: user)
+        managedObjectContext.performAndWait {
+            let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
             
             do {
-                try managedObjectContext.save()
+                let fetchedUsers = try managedObjectContext.fetch(fetchRequest)
+                
+                let user: User
+                if let fetchedUser = fetchedUsers.first {
+                    user = fetchedUser
+                } else {
+                    user = User(context: managedObjectContext)
+                }
+                
+                loggedIn = true
+                
+                user.update(response: userResponse)
+                
+                preferences.refreshFeatures(user: user)
+                
+                do {
+                    try managedObjectContext.save()
+                } catch {
+                    Log.error(error.localizedDescription)
+                }
+                
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: AuthenticationNotification.userUpdated, object: user)
+                }
             } catch {
                 Log.error(error.localizedDescription)
             }
-            
-            NotificationCenter.default.post(name: AuthenticationNotification.userUpdated, object: user)
-        } catch {
-            Log.error(error.localizedDescription)
         }
     }
     

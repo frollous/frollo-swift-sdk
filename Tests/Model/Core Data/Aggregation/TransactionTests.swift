@@ -26,26 +26,28 @@ class TransactionTests: XCTestCase {
         
         let managedObjectContext = database.newBackgroundContext()
         
-        let transactionResponse = APITransactionResponse.testCompleteData()
-        
-        let transaction = Transaction(context: managedObjectContext)
-        transaction.update(response: transactionResponse, context: managedObjectContext)
-        
-        XCTAssertEqual(transaction.transactionID, transactionResponse.id)
-        XCTAssertEqual(transaction.accountID, transactionResponse.accountID)
-        XCTAssertEqual(transaction.amount,  NSDecimalNumber(string:  transactionResponse.amount.amount))
-        XCTAssertEqual(transaction.baseType, transactionResponse.baseType)
-        XCTAssertEqual(transaction.budgetCategory, transactionResponse.budgetCategory)
-        XCTAssertEqual(transaction.currency, transactionResponse.amount.currency)
-        XCTAssertEqual(transaction.included, transactionResponse.included)
-        XCTAssertEqual(transaction.memo, transactionResponse.memo)
-        XCTAssertEqual(transaction.merchantID, transactionResponse.merchantID)
-        XCTAssertEqual(transaction.originalDescription, transactionResponse.description.original)
-        XCTAssertEqual(transaction.postDate, Transaction.transactionDateFormatter.date(from: transactionResponse.postDate!))
-        XCTAssertEqual(transaction.simpleDescription, transactionResponse.description.simple)
-        XCTAssertEqual(transaction.status, transactionResponse.status)
-        XCTAssertEqual(transaction.transactionDate, Transaction.transactionDateFormatter.date(from: transactionResponse.transactionDate))
-        XCTAssertEqual(transaction.userDescription, transactionResponse.description.user)
+        managedObjectContext.performAndWait {
+            let transactionResponse = APITransactionResponse.testCompleteData()
+            
+            let transaction = Transaction(context: managedObjectContext)
+            transaction.update(response: transactionResponse, context: managedObjectContext)
+            
+            XCTAssertEqual(transaction.transactionID, transactionResponse.id)
+            XCTAssertEqual(transaction.accountID, transactionResponse.accountID)
+            XCTAssertEqual(transaction.amount,  NSDecimalNumber(string:  transactionResponse.amount.amount))
+            XCTAssertEqual(transaction.baseType, transactionResponse.baseType)
+            XCTAssertEqual(transaction.budgetCategory, transactionResponse.budgetCategory)
+            XCTAssertEqual(transaction.currency, transactionResponse.amount.currency)
+            XCTAssertEqual(transaction.included, transactionResponse.included)
+            XCTAssertEqual(transaction.memo, transactionResponse.memo)
+            XCTAssertEqual(transaction.merchantID, transactionResponse.merchantID)
+            XCTAssertEqual(transaction.originalDescription, transactionResponse.description.original)
+            XCTAssertEqual(transaction.postDate, Transaction.transactionDateFormatter.date(from: transactionResponse.postDate!))
+            XCTAssertEqual(transaction.simpleDescription, transactionResponse.description.simple)
+            XCTAssertEqual(transaction.status, transactionResponse.status)
+            XCTAssertEqual(transaction.transactionDate, Transaction.transactionDateFormatter.date(from: transactionResponse.transactionDate))
+            XCTAssertEqual(transaction.userDescription, transactionResponse.description.user)
+        }
     }
     
     func testUpdatingTransactionIncompleteData() {
@@ -53,26 +55,28 @@ class TransactionTests: XCTestCase {
         
         let managedObjectContext = database.newBackgroundContext()
         
-        let transactionResponse = APITransactionResponse.testIncompleteData()
-        
-        let transaction = Transaction(context: managedObjectContext)
-        transaction.update(response: transactionResponse, context: managedObjectContext)
-        
-        XCTAssertEqual(transaction.transactionID, transactionResponse.id)
-        XCTAssertEqual(transaction.accountID, transactionResponse.accountID)
-        XCTAssertEqual(transaction.amount,  NSDecimalNumber(string:  transactionResponse.amount.amount))
-        XCTAssertEqual(transaction.baseType, transactionResponse.baseType)
-        XCTAssertEqual(transaction.budgetCategory, transactionResponse.budgetCategory)
-        XCTAssertEqual(transaction.currency, transactionResponse.amount.currency)
-        XCTAssertEqual(transaction.included, transactionResponse.included)
-        XCTAssertEqual(transaction.merchantID, transactionResponse.merchantID)
-        XCTAssertEqual(transaction.originalDescription, transactionResponse.description.original)
-        XCTAssertEqual(transaction.status, transactionResponse.status)
-        XCTAssertEqual(transaction.transactionDate, Transaction.transactionDateFormatter.date(from: transactionResponse.transactionDate))
-        XCTAssertNil(transaction.memo)
-        XCTAssertNil(transaction.postDate)
-        XCTAssertNil(transaction.simpleDescription)
-        XCTAssertNil(transaction.userDescription)
+        managedObjectContext.performAndWait {
+            let transactionResponse = APITransactionResponse.testIncompleteData()
+            
+            let transaction = Transaction(context: managedObjectContext)
+            transaction.update(response: transactionResponse, context: managedObjectContext)
+            
+            XCTAssertEqual(transaction.transactionID, transactionResponse.id)
+            XCTAssertEqual(transaction.accountID, transactionResponse.accountID)
+            XCTAssertEqual(transaction.amount,  NSDecimalNumber(string:  transactionResponse.amount.amount))
+            XCTAssertEqual(transaction.baseType, transactionResponse.baseType)
+            XCTAssertEqual(transaction.budgetCategory, transactionResponse.budgetCategory)
+            XCTAssertEqual(transaction.currency, transactionResponse.amount.currency)
+            XCTAssertEqual(transaction.included, transactionResponse.included)
+            XCTAssertEqual(transaction.merchantID, transactionResponse.merchantID)
+            XCTAssertEqual(transaction.originalDescription, transactionResponse.description.original)
+            XCTAssertEqual(transaction.status, transactionResponse.status)
+            XCTAssertEqual(transaction.transactionDate, Transaction.transactionDateFormatter.date(from: transactionResponse.transactionDate))
+            XCTAssertNil(transaction.memo)
+            XCTAssertNil(transaction.postDate)
+            XCTAssertNil(transaction.simpleDescription)
+            XCTAssertNil(transaction.userDescription)
+        }
     }
     
     func testUpdateTransactionRequest() {
@@ -80,16 +84,18 @@ class TransactionTests: XCTestCase {
         
         let managedObjectContext = database.newBackgroundContext()
         
-        let transaction = Transaction(context: managedObjectContext)
-        transaction.populateTestData()
-        
-        let updateRequest = transaction.updateRequest()
-        
-        XCTAssertEqual(transaction.budgetCategory, updateRequest.budgetCategory)
-        XCTAssertEqual(transaction.transactionCategoryID, updateRequest.categoryID)
-        XCTAssertEqual(transaction.included, updateRequest.included)
-        XCTAssertEqual(transaction.memo, updateRequest.memo)
-        XCTAssertEqual(transaction.userDescription, updateRequest.userDescription)
+        managedObjectContext.performAndWait {
+            let transaction = Transaction(context: managedObjectContext)
+            transaction.populateTestData()
+            
+            let updateRequest = transaction.updateRequest()
+            
+            XCTAssertEqual(transaction.budgetCategory, updateRequest.budgetCategory)
+            XCTAssertEqual(transaction.transactionCategoryID, updateRequest.categoryID)
+            XCTAssertEqual(transaction.included, updateRequest.included)
+            XCTAssertEqual(transaction.memo, updateRequest.memo)
+            XCTAssertEqual(transaction.userDescription, updateRequest.userDescription)
+        }
     }
     
 }

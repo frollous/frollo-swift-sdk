@@ -407,7 +407,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func updateAccount(accountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard let account = account(context: database.newBackgroundContext(), accountID: accountID)
+        let managedObjectContext = database.newBackgroundContext()
+        
+        guard let account = account(context: managedObjectContext, accountID: accountID)
             else {
                 let error = DataError(type: .database, subType: .notFound)
                 
@@ -417,7 +419,11 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 return
         }
         
-        let request = account.updateRequest()
+        var request: APIAccountUpdateRequest!
+        
+        managedObjectContext.performAndWait {
+            request = account.updateRequest()
+        }
         
         network.updateAccount(accountID: accountID, request: request) { (response, error) in
             if let responseError = error {
@@ -573,7 +579,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func updateTransaction(transactionID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard let transaction = transaction(context: database.newBackgroundContext(), transactionID: transactionID)
+        let managedObjectContext = database.newBackgroundContext()
+        
+        guard let transaction = transaction(context: managedObjectContext, transactionID: transactionID)
             else {
                 let error = DataError(type: .database, subType: .notFound)
                 
@@ -583,7 +591,11 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 return
         }
         
-        let request = transaction.updateRequest()
+        var request: APITransactionUpdateRequest!
+        
+        managedObjectContext.performAndWait {
+            request = transaction.updateRequest()
+        }
         
         network.updateTransaction(transactionID: transactionID, request: request) { (response, error) in
             if let responseError = error {

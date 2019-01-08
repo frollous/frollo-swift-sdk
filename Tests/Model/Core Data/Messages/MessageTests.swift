@@ -24,10 +24,11 @@ class MessageTests: XCTestCase {
         
         let managedObjectContext = database.newBackgroundContext()
         
-        let messageResponse = APIMessageResponse.testCompleteData(type: type)
-        
-        let message: Message
-        switch type {
+        managedObjectContext.performAndWait {
+            let messageResponse = APIMessageResponse.testCompleteData(type: type)
+            
+            let message: Message
+            switch type {
             case .html:
                 message = MessageHTML(context: managedObjectContext)
             case .image:
@@ -36,26 +37,26 @@ class MessageTests: XCTestCase {
                 message = MessageText(context: managedObjectContext)
             case .video:
                 message = MessageVideo(context: managedObjectContext)
-        }
-        
-        message.update(response: messageResponse, context: managedObjectContext)
-        
-        XCTAssertEqual(messageResponse.id, message.messageID)
-        XCTAssertEqual(messageResponse.event, message.event)
-        XCTAssertEqual(messageResponse.userEventID, message.userEventID)
-        XCTAssertEqual(messageResponse.placement, message.placement)
-        XCTAssertEqual(messageResponse.persists, message.persists)
-        XCTAssertEqual(messageResponse.read, message.read)
-        XCTAssertEqual(messageResponse.interacted, message.interacted)
-        XCTAssertEqual(messageResponse.title, message.title)
-        XCTAssertEqual(messageResponse.contentType, message.contentType)
-        XCTAssertEqual(messageResponse.messageTypes, message.messageTypes)
-        XCTAssertEqual(messageResponse.action?.title, message.actionTitle)
-        XCTAssertEqual(messageResponse.action?.link, message.actionURLString)
-        XCTAssertEqual(messageResponse.action?.openExternal, message.actionOpenExternal)
-        
-        if let contents = messageResponse.content {
-            switch contents {
+            }
+            
+            message.update(response: messageResponse, context: managedObjectContext)
+            
+            XCTAssertEqual(messageResponse.id, message.messageID)
+            XCTAssertEqual(messageResponse.event, message.event)
+            XCTAssertEqual(messageResponse.userEventID, message.userEventID)
+            XCTAssertEqual(messageResponse.placement, message.placement)
+            XCTAssertEqual(messageResponse.persists, message.persists)
+            XCTAssertEqual(messageResponse.read, message.read)
+            XCTAssertEqual(messageResponse.interacted, message.interacted)
+            XCTAssertEqual(messageResponse.title, message.title)
+            XCTAssertEqual(messageResponse.contentType, message.contentType)
+            XCTAssertEqual(messageResponse.messageTypes, message.messageTypes)
+            XCTAssertEqual(messageResponse.action?.title, message.actionTitle)
+            XCTAssertEqual(messageResponse.action?.link, message.actionURLString)
+            XCTAssertEqual(messageResponse.action?.openExternal, message.actionOpenExternal)
+            
+            if let contents = messageResponse.content {
+                switch contents {
                 case .html(let htmlContent):
                     if let htmlMessage = message as? MessageHTML {
                         XCTAssertEqual(htmlMessage.footer, htmlContent.footer)
@@ -94,9 +95,10 @@ class MessageTests: XCTestCase {
                     } else {
                         XCTFail("Wrong message type")
                     }
+                }
+            } else {
+                XCTFail("No content parsed")
             }
-        } else {
-            XCTFail("No content parsed")
         }
     }
     
@@ -121,13 +123,15 @@ class MessageTests: XCTestCase {
         
         let managedObjectContext = database.newBackgroundContext()
         
-        let message = Message(context: managedObjectContext)
-        message.populateTestData()
-        
-        let updateRequest = message.updateRequest()
-        
-        XCTAssertEqual(message.interacted, updateRequest.interacted)
-        XCTAssertEqual(message.read, updateRequest.read)
+        managedObjectContext.performAndWait {
+            let message = Message(context: managedObjectContext)
+            message.populateTestData()
+            
+            let updateRequest = message.updateRequest()
+            
+            XCTAssertEqual(message.interacted, updateRequest.interacted)
+            XCTAssertEqual(message.read, updateRequest.read)
+        }
     }
 
 }

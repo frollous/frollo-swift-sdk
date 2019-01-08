@@ -26,15 +26,17 @@ class MerchantTests: XCTestCase {
         
         let managedObjectContext = database.newBackgroundContext()
         
-        let merchantResponse = APIMerchantResponse.testCompleteData()
-        
-        let merchant = Merchant(context: managedObjectContext)
-        merchant.update(response: merchantResponse, context: managedObjectContext)
-        
-        XCTAssertEqual(merchant.merchantID, merchantResponse.id)
-        XCTAssertEqual(merchant.name, merchantResponse.name)
-        XCTAssertEqual(merchant.merchantType, merchantResponse.merchantType)
-        XCTAssertEqual(merchant.smallLogoURL, URL(string: merchantResponse.smallLogoURL))
+        managedObjectContext.performAndWait {
+            let merchantResponse = APIMerchantResponse.testCompleteData()
+            
+            let merchant = Merchant(context: managedObjectContext)
+            merchant.update(response: merchantResponse, context: managedObjectContext)
+            
+            XCTAssertEqual(merchant.merchantID, merchantResponse.id)
+            XCTAssertEqual(merchant.name, merchantResponse.name)
+            XCTAssertEqual(merchant.merchantType, merchantResponse.merchantType)
+            XCTAssertEqual(merchant.smallLogoURL, URL(string: merchantResponse.smallLogoURL))
+        }
     }
     
 }

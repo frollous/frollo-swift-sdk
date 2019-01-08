@@ -154,7 +154,9 @@ public class Messages: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func updateMessage(messageID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard let message = message(context: database.newBackgroundContext(), messageID: messageID)
+        let managedObjectContext = database.newBackgroundContext()
+        
+        guard let message = message(context: managedObjectContext, messageID: messageID)
             else {
                 let error = DataError(type: .database, subType: .notFound)
                 
@@ -164,7 +166,11 @@ public class Messages: CachedObjects, ResponseHandler {
                 return
         }
         
-        let request = message.updateRequest()
+        var request: APIMessageUpdateRequest!
+        
+        managedObjectContext.performAndWait {
+            request = message.updateRequest()
+        }
         
         network.updateMessage(messageID: messageID, request: request) { (response, error) in
             if let responseError = error {

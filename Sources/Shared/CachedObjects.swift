@@ -20,36 +20,44 @@ protocol CachedObjects {
 extension CachedObjects {
     
     internal func cachedObject<T: CacheableManagedObject & NSManagedObject>(type: T.Type, context: NSManagedObjectContext, objectID: Int64, objectKey: String) -> T? {
-        let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
-        fetchRequest.predicate = NSPredicate(format: objectKey + " == %ld", argumentArray: [objectID])
+        var fetchedObject: T?
         
-        do {
-            let fetchedObjects = try context.fetch(fetchRequest)
+        context.performAndWait {
+            let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
+            fetchRequest.predicate = NSPredicate(format: objectKey + " == %ld", argumentArray: [objectID])
             
-            return fetchedObjects.first
-        } catch {
-            Log.error(error.localizedDescription)
+            do {
+                let fetchedObjects = try context.fetch(fetchRequest)
+                
+                fetchedObject = fetchedObjects.first
+            } catch {
+                Log.error(error.localizedDescription)
+            }
         }
         
-        return nil
+        return fetchedObject
     }
     
     func cachedObjects<T: CacheableManagedObject & NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, limit: Int?) -> [T]? {
-        let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
-        fetchRequest.predicate = predicate
-        fetchRequest.sortDescriptors = sortDescriptors
+        var fetchedObjects: [T]?
         
-        if let fetchLimit = limit {
-            fetchRequest.fetchLimit = fetchLimit
+        context.performAndWait {
+            let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
+            fetchRequest.predicate = predicate
+            fetchRequest.sortDescriptors = sortDescriptors
+            
+            if let fetchLimit = limit {
+                fetchRequest.fetchLimit = fetchLimit
+            }
+            
+            do {
+                fetchedObjects = try context.fetch(fetchRequest)
+            } catch {
+                Log.error(error.localizedDescription)
+            }
         }
         
-        do {
-            return try context.fetch(fetchRequest)
-        } catch {
-            Log.error(error.localizedDescription)
-        }
-        
-        return nil
+        return fetchedObjects
     }
     
     internal func fetchedResultsController<T: NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, limit: Int?) -> NSFetchedResultsController<T> {

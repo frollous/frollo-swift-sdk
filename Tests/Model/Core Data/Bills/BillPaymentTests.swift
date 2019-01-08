@@ -24,19 +24,21 @@ class BillPaymentTests: XCTestCase {
         
         let managedObjectContext = database.newBackgroundContext()
         
-        let billPaymentResponse = APIBillPaymentResponse.testCompleteData()
-        
-        let billPayment = BillPayment(context: managedObjectContext)
-        billPayment.update(response: billPaymentResponse, context: managedObjectContext)
-        
-        XCTAssertEqual(billPaymentResponse.id, billPayment.billPaymentID)
-        XCTAssertEqual(billPaymentResponse.billID, billPayment.billID)
-        XCTAssertEqual(billPaymentResponse.name, billPayment.name)
-        XCTAssertEqual(billPaymentResponse.merchantID, billPayment.merchantID)
-        XCTAssertEqual(billPaymentResponse.date, billPayment.dateString)
-        XCTAssertEqual(billPaymentResponse.paymentStatus, billPayment.paymentStatus)
-        XCTAssertEqual(billPaymentResponse.frequency, billPayment.frequency)
-        XCTAssertEqual(billPaymentResponse.amount, billPayment.amount?.stringValue)        
+        managedObjectContext.performAndWait {
+            let billPaymentResponse = APIBillPaymentResponse.testCompleteData()
+            
+            let billPayment = BillPayment(context: managedObjectContext)
+            billPayment.update(response: billPaymentResponse, context: managedObjectContext)
+            
+            XCTAssertEqual(billPaymentResponse.id, billPayment.billPaymentID)
+            XCTAssertEqual(billPaymentResponse.billID, billPayment.billID)
+            XCTAssertEqual(billPaymentResponse.name, billPayment.name)
+            XCTAssertEqual(billPaymentResponse.merchantID, billPayment.merchantID)
+            XCTAssertEqual(billPaymentResponse.date, billPayment.dateString)
+            XCTAssertEqual(billPaymentResponse.paymentStatus, billPayment.paymentStatus)
+            XCTAssertEqual(billPaymentResponse.frequency, billPayment.frequency)
+            XCTAssertEqual(billPaymentResponse.amount, billPayment.amount?.stringValue)
+        }
     }
     
     func testUpdateBillPaymentRequest() {
@@ -44,13 +46,15 @@ class BillPaymentTests: XCTestCase {
         
         let managedObjectContext = database.newBackgroundContext()
         
-        let billPayment = BillPayment(context: managedObjectContext)
-        billPayment.populateTestData()
-        
-        let updateRequest = billPayment.updateRequest()
-        
-        XCTAssertEqual(billPayment.dateString, updateRequest.date)
-        XCTAssertEqual(billPayment.paymentStatus, updateRequest.status)
+        managedObjectContext.performAndWait {
+            let billPayment = BillPayment(context: managedObjectContext)
+            billPayment.populateTestData()
+            
+            let updateRequest = billPayment.updateRequest()
+            
+            XCTAssertEqual(billPayment.dateString, updateRequest.date)
+            XCTAssertEqual(billPayment.paymentStatus, updateRequest.status)
+        }
     }
 
 }

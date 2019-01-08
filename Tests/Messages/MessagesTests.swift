@@ -277,32 +277,34 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             
             let managedObjectContext = database.newBackgroundContext()
             
-            let message = Message(context: managedObjectContext)
-            message.populateTestData()
-            message.messageID = 12345
-            
-            try? managedObjectContext.save()
-            
-            let messages = Messages(database: database, network: network)
-            
-            messages.updateMessage(messageID: 12345, completion: { (error) in
-                XCTAssertNil(error)
+            managedObjectContext.performAndWait {
+                let message = Message(context: managedObjectContext)
+                message.populateTestData()
+                message.messageID = 12345
                 
-                let context = database.viewContext
+                try? managedObjectContext.save()
                 
-                let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "messageID == %ld", argumentArray: [12345])
+                let messages = Messages(database: database, network: network)
                 
-                do {
-                    let fetchedMessages = try context.fetch(fetchRequest)
+                messages.updateMessage(messageID: 12345, completion: { (error) in
+                    XCTAssertNil(error)
                     
-                    XCTAssertEqual(fetchedMessages.first?.messageID, 12345)
-                } catch {
-                    XCTFail(error.localizedDescription)
-                }
-                
-                expectation1.fulfill()
-            })
+                    let context = database.viewContext
+                    
+                    let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
+                    fetchRequest.predicate = NSPredicate(format: "messageID == %ld", argumentArray: [12345])
+                    
+                    do {
+                        let fetchedMessages = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedMessages.first?.messageID, 12345)
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation1.fulfill()
+                })
+            }
         }
         
         wait(for: [expectation1], timeout: 3.0)
@@ -327,24 +329,26 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             
             let managedObjectContext = database.newBackgroundContext()
             
-            let message = Message(context: managedObjectContext)
-            message.populateTestData()
-            message.messageID = 666
-            
-            try? managedObjectContext.save()
-            
-            let messages = Messages(database: database, network: network)
-            
-            messages.updateMessage(messageID: 12345, completion: { (error) in
-                XCTAssertNotNil(error)
+            managedObjectContext.performAndWait {
+                let message = Message(context: managedObjectContext)
+                message.populateTestData()
+                message.messageID = 666
                 
-                if let dataError = error as? DataError {
-                    XCTAssertEqual(dataError.type, .database)
-                    XCTAssertEqual(dataError.subType, .notFound)
-                }
+                try? managedObjectContext.save()
                 
-                expectation1.fulfill()
-            })
+                let messages = Messages(database: database, network: network)
+                
+                messages.updateMessage(messageID: 12345, completion: { (error) in
+                    XCTAssertNotNil(error)
+                    
+                    if let dataError = error as? DataError {
+                        XCTAssertEqual(dataError.type, .database)
+                        XCTAssertEqual(dataError.subType, .notFound)
+                    }
+                    
+                    expectation1.fulfill()
+                })
+            }
         }
         
         wait(for: [expectation1], timeout: 3.0)

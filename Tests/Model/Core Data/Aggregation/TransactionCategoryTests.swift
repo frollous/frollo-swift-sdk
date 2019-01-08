@@ -26,18 +26,20 @@ class TransactionCategoryTests: XCTestCase {
         
         let managedObjectContext = database.newBackgroundContext()
         
-        let transactionCategoryResponse = APITransactionCategoryResponse.testCompleteData()
-        
-        let transactionCategory = TransactionCategory(context: managedObjectContext)
-        transactionCategory.update(response: transactionCategoryResponse, context: managedObjectContext)
-        
-        XCTAssertEqual(transactionCategory.transactionCategoryID, transactionCategoryResponse.id)
-        XCTAssertEqual(transactionCategory.name, transactionCategoryResponse.name)
-        XCTAssertEqual(transactionCategory.placement, transactionCategoryResponse.placement)
-        XCTAssertEqual(transactionCategory.defaultBudgetCategory, transactionCategoryResponse.defaultBudgetCategory)
-        XCTAssertEqual(transactionCategory.categoryType, transactionCategoryResponse.categoryType)
-        XCTAssertEqual(transactionCategory.userDefined, transactionCategoryResponse.userDefined)
-        XCTAssertEqual(transactionCategory.iconURL, URL(string: transactionCategoryResponse.iconURL))
+        managedObjectContext.performAndWait {
+            let transactionCategoryResponse = APITransactionCategoryResponse.testCompleteData()
+            
+            let transactionCategory = TransactionCategory(context: managedObjectContext)
+            transactionCategory.update(response: transactionCategoryResponse, context: managedObjectContext)
+            
+            XCTAssertEqual(transactionCategory.transactionCategoryID, transactionCategoryResponse.id)
+            XCTAssertEqual(transactionCategory.name, transactionCategoryResponse.name)
+            XCTAssertEqual(transactionCategory.placement, transactionCategoryResponse.placement)
+            XCTAssertEqual(transactionCategory.defaultBudgetCategory, transactionCategoryResponse.defaultBudgetCategory)
+            XCTAssertEqual(transactionCategory.categoryType, transactionCategoryResponse.categoryType)
+            XCTAssertEqual(transactionCategory.userDefined, transactionCategoryResponse.userDefined)
+            XCTAssertEqual(transactionCategory.iconURL, URL(string: transactionCategoryResponse.iconURL))
+        }
     }
     
 }

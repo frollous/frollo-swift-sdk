@@ -26,16 +26,18 @@ class AccountBalanceTierTests: XCTestCase {
         
         let managedObjectContext = database.newBackgroundContext()
         
-        let accountBalanceTierResponse = APIAccountResponse.BalanceTier(description: UUID().uuidString,
-                                                                        min: Int64(arc4random()),
-                                                                        max: Int64(arc4random()))
-        
-        let accountBalanceTier = AccountBalanceTier(context: managedObjectContext)
-        accountBalanceTier.update(response: accountBalanceTierResponse)
-        
-        XCTAssertEqual(accountBalanceTier.name, accountBalanceTierResponse.description)
-        XCTAssertEqual(accountBalanceTier.maximum, Decimal(accountBalanceTierResponse.max) as NSDecimalNumber?)
-        XCTAssertEqual(accountBalanceTier.minimum, Decimal(accountBalanceTierResponse.min) as NSDecimalNumber?)
+        managedObjectContext.performAndWait {
+            let accountBalanceTierResponse = APIAccountResponse.BalanceTier(description: UUID().uuidString,
+                                                                            min: Int64(arc4random()),
+                                                                            max: Int64(arc4random()))
+            
+            let accountBalanceTier = AccountBalanceTier(context: managedObjectContext)
+            accountBalanceTier.update(response: accountBalanceTierResponse)
+            
+            XCTAssertEqual(accountBalanceTier.name, accountBalanceTierResponse.description)
+            XCTAssertEqual(accountBalanceTier.maximum, Decimal(accountBalanceTierResponse.max) as NSDecimalNumber?)
+            XCTAssertEqual(accountBalanceTier.minimum, Decimal(accountBalanceTierResponse.min) as NSDecimalNumber?)
+        }
     }
     
 }

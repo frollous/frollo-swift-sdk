@@ -26,21 +26,23 @@ class ProviderAccountTests: XCTestCase {
         
         let managedObjectContext = database.newBackgroundContext()
         
-        let providerAccountResponse = APIProviderAccountResponse.testCompleteDate()
-        
-        let providerAccount = ProviderAccount(context: managedObjectContext)
-        providerAccount.update(response: providerAccountResponse, context: managedObjectContext)
-        
-        XCTAssertEqual(providerAccount.providerAccountID, providerAccountResponse.id)
-        XCTAssertEqual(providerAccount.providerID, providerAccountResponse.providerID)
-        XCTAssertEqual(providerAccount.editable, providerAccountResponse.editable)
-        XCTAssertEqual(providerAccount.nextRefresh, providerAccountResponse.refreshStatus.nextRefresh)
-        XCTAssertEqual(providerAccount.lastRefreshed, providerAccountResponse.refreshStatus.lastRefreshed)
-        XCTAssertEqual(providerAccount.refreshStatus, providerAccountResponse.refreshStatus.status)
-        XCTAssertEqual(providerAccount.refreshSubStatus, providerAccountResponse.refreshStatus.subStatus)
-        XCTAssertEqual(providerAccount.refreshAdditionalStatus, providerAccountResponse.refreshStatus.additionalStatus)
-        XCTAssertEqual(providerAccount.loginForm?.id, providerAccountResponse.loginForm?.id)
-        XCTAssertNotNil(providerAccount.loginForm)
+        managedObjectContext.performAndWait {
+            let providerAccountResponse = APIProviderAccountResponse.testCompleteDate()
+            
+            let providerAccount = ProviderAccount(context: managedObjectContext)
+            providerAccount.update(response: providerAccountResponse, context: managedObjectContext)
+            
+            XCTAssertEqual(providerAccount.providerAccountID, providerAccountResponse.id)
+            XCTAssertEqual(providerAccount.providerID, providerAccountResponse.providerID)
+            XCTAssertEqual(providerAccount.editable, providerAccountResponse.editable)
+            XCTAssertEqual(providerAccount.nextRefresh, providerAccountResponse.refreshStatus.nextRefresh)
+            XCTAssertEqual(providerAccount.lastRefreshed, providerAccountResponse.refreshStatus.lastRefreshed)
+            XCTAssertEqual(providerAccount.refreshStatus, providerAccountResponse.refreshStatus.status)
+            XCTAssertEqual(providerAccount.refreshSubStatus, providerAccountResponse.refreshStatus.subStatus)
+            XCTAssertEqual(providerAccount.refreshAdditionalStatus, providerAccountResponse.refreshStatus.additionalStatus)
+            XCTAssertEqual(providerAccount.loginForm?.id, providerAccountResponse.loginForm?.id)
+            XCTAssertNotNil(providerAccount.loginForm)
+        }
     }
     
 }

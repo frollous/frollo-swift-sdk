@@ -35,40 +35,42 @@ class UserTests: XCTestCase {
             
             let moc = database.newBackgroundContext()
             
-            let userModel = User(context: moc)
-            userModel.populateTestData()
-            
-            let userResponseModel = APIUserResponse.testData()
-            
-            userModel.update(response: userResponseModel)
-            
-            XCTAssertEqual(userModel.userID, userResponseModel.userID)
-            XCTAssertEqual(userModel.firstName, userResponseModel.firstName)
-            XCTAssertEqual(userModel.lastName, userResponseModel.lastName)
-            XCTAssertEqual(userModel.email, userResponseModel.email)
-            XCTAssertEqual(userModel.emailVerified, userResponseModel.emailVerified)
-            XCTAssertEqual(userModel.status, userResponseModel.status)
-            XCTAssertEqual(userModel.primaryCurrency, userResponseModel.primaryCurrency)
-            XCTAssertEqual(userModel.gender, userResponseModel.gender)
-            XCTAssertEqual(userModel.dateOfBirth, userResponseModel.dateOfBirth)
-            XCTAssertEqual(userModel.postcode, userResponseModel.address?.postcode)
-            XCTAssertEqual(userModel.householdType, userResponseModel.householdType)
-            XCTAssertEqual(userModel.occupation, userResponseModel.occupation)
-            XCTAssertEqual(userModel.industry, userResponseModel.industry)
-            XCTAssertEqual(userModel.householdSize, userResponseModel.householdSize)
-            XCTAssertEqual(userModel.facebookID, userResponseModel.facebookID)
-            XCTAssertEqual(userModel.validPassword, userResponseModel.validPassword)
-            XCTAssertEqual(userModel.features, userResponseModel.features)
-            XCTAssertEqual(userModel.mobileNumber, userResponseModel.mobileNumber)
-            XCTAssertEqual(userModel.addressLine1, userResponseModel.address?.line1)
-            XCTAssertEqual(userModel.addressLine2, userResponseModel.address?.line2)
-            XCTAssertEqual(userModel.suburb, userResponseModel.address?.suburb)
-            XCTAssertEqual(userModel.attributionAdGroup, userResponseModel.attribution?.adGroup)
-            XCTAssertEqual(userModel.attributionCampaign, userResponseModel.attribution?.campaign)
-            XCTAssertEqual(userModel.attributionCreative, userResponseModel.attribution?.creative)
-            XCTAssertEqual(userModel.attributionNetwork, userResponseModel.attribution?.network)
-            
-            expectation1.fulfill()
+            moc.performAndWait {
+                let userModel = User(context: moc)
+                userModel.populateTestData()
+                
+                let userResponseModel = APIUserResponse.testData()
+                
+                userModel.update(response: userResponseModel)
+                
+                XCTAssertEqual(userModel.userID, userResponseModel.userID)
+                XCTAssertEqual(userModel.firstName, userResponseModel.firstName)
+                XCTAssertEqual(userModel.lastName, userResponseModel.lastName)
+                XCTAssertEqual(userModel.email, userResponseModel.email)
+                XCTAssertEqual(userModel.emailVerified, userResponseModel.emailVerified)
+                XCTAssertEqual(userModel.status, userResponseModel.status)
+                XCTAssertEqual(userModel.primaryCurrency, userResponseModel.primaryCurrency)
+                XCTAssertEqual(userModel.gender, userResponseModel.gender)
+                XCTAssertEqual(userModel.dateOfBirth, userResponseModel.dateOfBirth)
+                XCTAssertEqual(userModel.postcode, userResponseModel.address?.postcode)
+                XCTAssertEqual(userModel.householdType, userResponseModel.householdType)
+                XCTAssertEqual(userModel.occupation, userResponseModel.occupation)
+                XCTAssertEqual(userModel.industry, userResponseModel.industry)
+                XCTAssertEqual(userModel.householdSize, userResponseModel.householdSize)
+                XCTAssertEqual(userModel.facebookID, userResponseModel.facebookID)
+                XCTAssertEqual(userModel.validPassword, userResponseModel.validPassword)
+                XCTAssertEqual(userModel.features, userResponseModel.features)
+                XCTAssertEqual(userModel.mobileNumber, userResponseModel.mobileNumber)
+                XCTAssertEqual(userModel.addressLine1, userResponseModel.address?.line1)
+                XCTAssertEqual(userModel.addressLine2, userResponseModel.address?.line2)
+                XCTAssertEqual(userModel.suburb, userResponseModel.address?.suburb)
+                XCTAssertEqual(userModel.attributionAdGroup, userResponseModel.attribution?.adGroup)
+                XCTAssertEqual(userModel.attributionCampaign, userResponseModel.attribution?.campaign)
+                XCTAssertEqual(userModel.attributionCreative, userResponseModel.attribution?.creative)
+                XCTAssertEqual(userModel.attributionNetwork, userResponseModel.attribution?.network)
+                
+                expectation1.fulfill()
+            }
         }
         
         wait(for: [expectation1], timeout: 3.0)
@@ -79,28 +81,30 @@ class UserTests: XCTestCase {
         
         let managedObjectContext = database.newBackgroundContext()
         
-        let user = User(context: managedObjectContext)
-        user.populateTestData()
-        
-        let updateRequest = user.updateRequest()
-        
-        XCTAssertEqual(user.firstName, updateRequest.firstName)
-        XCTAssertEqual(user.lastName, updateRequest.lastName)
-        XCTAssertEqual(user.email, updateRequest.email)
-        XCTAssertEqual(user.mobileNumber, updateRequest.mobileNumber)
-        XCTAssertEqual(user.gender, updateRequest.gender)
-        XCTAssertEqual(user.dateOfBirth, updateRequest.dateOfBirth)
-        XCTAssertEqual(user.addressLine1, updateRequest.address?.line1)
-        XCTAssertEqual(user.addressLine2, updateRequest.address?.line2)
-        XCTAssertEqual(user.householdType, updateRequest.householdType)
-        XCTAssertEqual(user.householdSize, updateRequest.householdSize)
-        XCTAssertEqual(user.occupation, updateRequest.occupation)
-        XCTAssertEqual(user.industry, updateRequest.industry)
-        XCTAssertEqual(user.primaryCurrency, updateRequest.primaryCurrency)
-        XCTAssertEqual(user.attributionAdGroup, updateRequest.attribution?.adGroup)
-        XCTAssertEqual(user.attributionCampaign, updateRequest.attribution?.campaign)
-        XCTAssertEqual(user.attributionCreative, updateRequest.attribution?.creative)
-        XCTAssertEqual(user.attributionNetwork, updateRequest.attribution?.network)
+        managedObjectContext.performAndWait {
+            let user = User(context: managedObjectContext)
+            user.populateTestData()
+            
+            let updateRequest = user.updateRequest()
+            
+            XCTAssertEqual(user.firstName, updateRequest.firstName)
+            XCTAssertEqual(user.lastName, updateRequest.lastName)
+            XCTAssertEqual(user.email, updateRequest.email)
+            XCTAssertEqual(user.mobileNumber, updateRequest.mobileNumber)
+            XCTAssertEqual(user.gender, updateRequest.gender)
+            XCTAssertEqual(user.dateOfBirth, updateRequest.dateOfBirth)
+            XCTAssertEqual(user.addressLine1, updateRequest.address?.line1)
+            XCTAssertEqual(user.addressLine2, updateRequest.address?.line2)
+            XCTAssertEqual(user.householdType, updateRequest.householdType)
+            XCTAssertEqual(user.householdSize, updateRequest.householdSize)
+            XCTAssertEqual(user.occupation, updateRequest.occupation)
+            XCTAssertEqual(user.industry, updateRequest.industry)
+            XCTAssertEqual(user.primaryCurrency, updateRequest.primaryCurrency)
+            XCTAssertEqual(user.attributionAdGroup, updateRequest.attribution?.adGroup)
+            XCTAssertEqual(user.attributionCampaign, updateRequest.attribution?.campaign)
+            XCTAssertEqual(user.attributionCreative, updateRequest.attribution?.creative)
+            XCTAssertEqual(user.attributionNetwork, updateRequest.attribution?.network)
+        }
     }
     
 }

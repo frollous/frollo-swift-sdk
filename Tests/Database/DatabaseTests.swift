@@ -27,21 +27,27 @@ class DatabaseTests: XCTestCase {
     func insertTestData(database: Database) {
         let context = database.newBackgroundContext()
         
-        for entity in database.persistentContainer.managedObjectModel.entities {
-            guard let entityName = entity.name
-                else {
-                    continue
-            }
-            
-            for _ in 0..<100 {
-                let model = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
-                if let testableModel = model as? TestableCoreData {
-                    testableModel.populateTestData()
+        context.performAndWait {
+            for entity in database.persistentContainer.managedObjectModel.entities {
+                guard let entityName = entity.name
+                    else {
+                        continue
+                }
+                
+                for _ in 0..<100 {
+                    let model = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
+                    if let testableModel = model as? TestableCoreData {
+                        testableModel.populateTestData()
+                    }
                 }
             }
+            
+            do {
+                try context.save()
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
         }
-        
-        XCTAssertNoThrow(try context.save())
     }
     
     func checkDatabaseEmpty(database: Database) {
@@ -120,7 +126,7 @@ class DatabaseTests: XCTestCase {
             
             self.insertTestData(database: database)
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                 database.reset() { (error) in
                     XCTAssertNil(error)
                     

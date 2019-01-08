@@ -197,7 +197,9 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func updateBill(billID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard let bill = bill(context: database.newBackgroundContext(), billID: billID)
+        let managedObjectContext = database.newBackgroundContext()
+        
+        guard let bill = bill(context: managedObjectContext, billID: billID)
             else {
                 let error = DataError(type: .database, subType: .notFound)
                 
@@ -207,7 +209,11 @@ public class Bills: CachedObjects, ResponseHandler  {
                 return
         }
         
-        let request = bill.updateRequest()
+        var request: APIBillUpdateRequest!
+        
+        managedObjectContext.performAndWait {
+            request = bill.updateRequest()
+        }
         
         network.updateBill(billID: billID, request: request) { (response, error) in
             if let responseError = error {
@@ -353,7 +359,9 @@ public class Bills: CachedObjects, ResponseHandler  {
      - completion: Optional completion handler with optional error if the request fails
      */
     public func updateBillPayment(billPaymentID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard let billPayment = billPayment(context: database.newBackgroundContext(), billPaymentID: billPaymentID)
+        let managedObjectContext = database.newBackgroundContext()
+        
+        guard let billPayment = billPayment(context: managedObjectContext, billPaymentID: billPaymentID)
             else {
                 let error = DataError(type: .database, subType: .notFound)
                 
@@ -363,7 +371,11 @@ public class Bills: CachedObjects, ResponseHandler  {
                 return
         }
         
-        let request = billPayment.updateRequest()
+        var request: APIBillPaymentUpdateRequest!
+        
+        managedObjectContext.performAndWait {
+            request = billPayment.updateRequest()
+        }
         
         network.updateBillPayment(billPaymentID: billPaymentID, request: request) { (response, error) in
             if let responseError = error {

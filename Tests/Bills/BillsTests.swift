@@ -374,19 +374,21 @@ class BillsTests: XCTestCase {
                     
                     let context = database.viewContext
                     
-                    let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [12345])
-                    
-                    do {
-                        let fetchedBills = try context.fetch(fetchRequest)
+                    context.performAndWait {
+                        let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [12345])
                         
-                        XCTAssertEqual(fetchedBills.first?.billID, 12345)
-                        XCTAssertEqual(fetchedBills.first?.name, "Netflix")
-                    } catch {
-                        XCTFail(error.localizedDescription)
+                        do {
+                            let fetchedBills = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedBills.first?.billID, 12345)
+                            XCTAssertEqual(fetchedBills.first?.name, "Netflix")
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                        
+                        expectation1.fulfill()
                     }
-                    
-                    expectation1.fulfill()
                 }
             }
         }

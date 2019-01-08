@@ -981,31 +981,33 @@ class AggregationTests: XCTestCase {
             
             let managedObjectContext = database.newBackgroundContext()
             
-            let account = Account(context: managedObjectContext)
-            account.populateTestData()
-            account.accountID = 542
-            
-            try? managedObjectContext.save()
-            
-            let aggregation = Aggregation(database: database, network: network)
-            
-            aggregation.updateAccount(accountID: 542) { (error) in
-                XCTAssertNil(error)
+            managedObjectContext.performAndWait {
+                let account = Account(context: managedObjectContext)
+                account.populateTestData()
+                account.accountID = 542
                 
-                let context = database.viewContext
+                try? managedObjectContext.save()
                 
-                let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "accountID == %ld", argumentArray: [542])
+                let aggregation = Aggregation(database: database, network: network)
                 
-                do {
-                    let fetchedProviderAccounts = try context.fetch(fetchRequest)
+                aggregation.updateAccount(accountID: 542) { (error) in
+                    XCTAssertNil(error)
                     
-                    XCTAssertEqual(fetchedProviderAccounts.first?.accountID, 542)
-                } catch {
-                    XCTFail(error.localizedDescription)
+                    let context = database.viewContext
+                    
+                    let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
+                    fetchRequest.predicate = NSPredicate(format: "accountID == %ld", argumentArray: [542])
+                    
+                    do {
+                        let fetchedProviderAccounts = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedProviderAccounts.first?.accountID, 542)
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation1.fulfill()
                 }
-                
-                expectation1.fulfill()
             }
         }
         
@@ -1532,31 +1534,33 @@ class AggregationTests: XCTestCase {
             
             let managedObjectContext = database.newBackgroundContext()
             
-            let transaction = Transaction(context: managedObjectContext)
-            transaction.populateTestData()
-            transaction.transactionID = 99703
-            
-            try? managedObjectContext.save()
-            
-            let aggregation = Aggregation(database: database, network: network)
-            
-            aggregation.updateTransaction(transactionID: 99703) { (error) in
-                XCTAssertNil(error)
+            managedObjectContext.performAndWait {
+                let transaction = Transaction(context: managedObjectContext)
+                transaction.populateTestData()
+                transaction.transactionID = 99703
                 
-                let context = database.viewContext
+                try? managedObjectContext.save()
                 
-                let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99703])
+                let aggregation = Aggregation(database: database, network: network)
                 
-                do {
-                    let fetchedTransactions = try context.fetch(fetchRequest)
+                aggregation.updateTransaction(transactionID: 99703) { (error) in
+                    XCTAssertNil(error)
                     
-                    XCTAssertEqual(fetchedTransactions.first?.transactionID, 99703)
-                } catch {
-                    XCTFail(error.localizedDescription)
+                    let context = database.viewContext
+                    
+                    let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                    fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99703])
+                    
+                    do {
+                        let fetchedTransactions = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedTransactions.first?.transactionID, 99703)
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation1.fulfill()
                 }
-                
-                expectation1.fulfill()
             }
         }
         
