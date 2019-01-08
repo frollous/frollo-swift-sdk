@@ -430,8 +430,12 @@ public class Authentication {
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(name: AuthenticationNotification.userUpdated, object: user)
                 }
-            } catch {
+            } catch let error as NSError {
                 Log.error(error.localizedDescription)
+                
+                if error.domain == NSCocoaErrorDomain && error.code == 256, let sqliteError = error.userInfo[NSSQLiteErrorDomain] as? NSNumber, sqliteError.int32Value == 1 {
+                    Log.error("Critical database error, corrupted.")
+                }
             }
         }
     }

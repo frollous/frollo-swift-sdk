@@ -120,6 +120,10 @@ class Network: SessionDelegate {
     // MARK: - Reset
     
     internal func reset() {
+        sessionManager.session.getAllTasks { (tasks) in
+            tasks.forEach { $0.cancel() }
+        }
+        
         URLCache.shared.removeAllCachedResponses()
         
         authenticator.clearTokens()

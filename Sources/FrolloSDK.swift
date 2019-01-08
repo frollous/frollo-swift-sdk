@@ -361,6 +361,11 @@ public class FrolloSDK: NetworkDelegate {
     // MARK: - Network Delegate
     
     internal func forcedLogout() {
+        guard authentication.loggedIn
+            else {
+                return
+        }
+        
         reset()
     }
     
