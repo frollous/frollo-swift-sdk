@@ -26,6 +26,14 @@ class DatabaseMigrationTests: XCTestCase {
         super.tearDown()
     }
     
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == #keyPath(Progress.totalUnitCount), let progress = object as? Progress {
+            XCTAssertEqual(progress.totalUnitCount, 2)
+            
+            progress.removeObserver(self, forKeyPath: #keyPath(Progress.totalUnitCount))
+        }
+    }
+    
     // MARK: - Helpers
     
     private func populateTestDataNamed(name: String) -> URL {
@@ -203,7 +211,6 @@ class DatabaseMigrationTests: XCTestCase {
     
     func testMigrationProgress() {
         let expectation1 = XCTestExpectation(description: "Migration Completion")
-        let expectation2 = XCTestExpectation(description: "Progress Total")
         
         let path = populateTestDataNamed(name: "FrolloSDKDataModel-1.0.0")
         
@@ -219,15 +226,9 @@ class DatabaseMigrationTests: XCTestCase {
         
         XCTAssertNotNil(progress)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-            // Update this as we add more models
-            XCTAssertEqual(progress?.totalUnitCount, 2)
-            XCTAssertEqual(progress?.completedUnitCount, 0)
-            
-            expectation2.fulfill()
-        }
+        progress?.addObserver(self, forKeyPath: "totalUnitCount", options: .new, context: nil)
         
-        wait(for: [expectation1, expectation2], timeout: 15.0)
+        wait(for: [expectation1], timeout: 15.0)
     }
     
 }
