@@ -180,8 +180,10 @@ public class FrolloSDK: NetworkDelegate {
         - logLevel: Level of logging for debug and error messages
         - publicKeyPinningEnabled: Enable or disable public key pinning for *.frollo.us domains- useful for disabling in debug mode
         - completion: Completion handler with optional error if something goes wrong during the setup process
+     
+     - returns: Progress object indicating the migration progress so far if needed
     */
-    public func setup(serverURL: URL, logLevel: LogLevel = .error, publicKeyPinningEnabled: Bool = true, completion: @escaping (Error?) -> Void) {
+    @discardableResult public func setup(serverURL: URL, logLevel: LogLevel = .error, publicKeyPinningEnabled: Bool = true, completion: @escaping (Error?) -> Void) -> Progress? {
         guard !_setup
             else {
                 fatalError("SDK already setup")
@@ -231,13 +233,33 @@ public class FrolloSDK: NetworkDelegate {
         _events.delegate = delegate
         _messages.delegate = delegate
         
-        _database.setup { (error) in
-            if error == nil {
-                self._setup = true
+        // Check for database migration and return progress object if relevant
+        if _database.needsMigration() {
+            return _database.migrate { (success) in
+                if success {
+                    self._database.setup(completionHandler: { (error) in
+                        if error == nil {
+                            self._setup = true
+                        }
+                        
+                        completion(error)
+                    })
+                } else {
+                    let error = DataError(type: .database, subType: .migrationFailed)
+                    completion(error)
+                }
             }
-            
-            completion(error)
+        } else {
+            _database.setup { (error) in
+                if error == nil {
+                    self._setup = true
+                }
+                
+                completion(error)
+            }
         }
+        
+        return nil
     }
     
     // MARK: - Logout and Reset

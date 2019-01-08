@@ -165,8 +165,69 @@ class DatabaseMigrationTests: XCTestCase {
         wait(for: [expectation1], timeout: 5.0)
     }
     
-    func testMigrationFrom100To110() {
-        // Implement when we change the DB
+    func testMigrationFrom100() {
+        let expectation1 = XCTestExpectation(description: "Migration Completion")
+        
+        let path = populateTestDataNamed(name: "FrolloSDKDataModel-1.0.0")
+        
+        let database = Database(path: path)
+        
+        XCTAssertTrue(database.needsMigration())
+        
+        database.migrate { (success) in
+            XCTAssertTrue(success)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 15.0)
+    }
+    
+    func testMigrationFrom110() {
+        let expectation1 = XCTestExpectation(description: "Migration Completion")
+        
+        let path = populateTestDataNamed(name: "FrolloSDKDataModel-1.1.0")
+        
+        let database = Database(path: path)
+        
+        XCTAssertTrue(database.needsMigration())
+        
+        database.migrate { (success) in
+            XCTAssertTrue(success)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 15.0)
+    }
+    
+    func testMigrationProgress() {
+        let expectation1 = XCTestExpectation(description: "Migration Completion")
+        let expectation2 = XCTestExpectation(description: "Progress Total")
+        
+        let path = populateTestDataNamed(name: "FrolloSDKDataModel-1.0.0")
+        
+        let database = Database(path: path)
+        
+        XCTAssertTrue(database.needsMigration())
+        
+        let progress = database.migrate { (success) in
+            XCTAssertTrue(success)
+            
+            expectation1.fulfill()
+        }
+        
+        XCTAssertNotNil(progress)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+            // Update this as we add more models
+            XCTAssertEqual(progress?.totalUnitCount, 2)
+            XCTAssertEqual(progress?.completedUnitCount, 0)
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation1, expectation2], timeout: 15.0)
     }
     
 }

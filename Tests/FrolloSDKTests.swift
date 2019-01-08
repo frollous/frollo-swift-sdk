@@ -26,6 +26,17 @@ class FrolloSDKTests: XCTestCase {
     
     // MARK: - Helpers
     
+    private func populateTestDataNamed(name: String, atPath: URL) {
+        let databaseFileURL = Bundle(for: type(of: self)).url(forResource: name, withExtension: "sqlite")!
+        let databaseSHMFileURL = databaseFileURL.deletingPathExtension().appendingPathExtension("sqlite-shm")
+        let databaseWALFileURL = databaseFileURL.deletingPathExtension().appendingPathExtension("sqlite-wal")
+        let databaseFiles = [databaseFileURL, databaseSHMFileURL, databaseWALFileURL]
+        for file in databaseFiles {
+            let destinationURL = atPath.appendingPathComponent(Database.DatabaseConstants.storeName).appendingPathExtension(file.pathExtension)
+            try! FileManager.default.copyItem(at: file, to: destinationURL)
+        }
+    }
+    
     func removeDataFolder() {
         // Remove app data folder from disk
         try? FileManager.default.removeItem(atPath: FrolloSDK.dataFolderURL.path)
@@ -352,6 +363,26 @@ class FrolloSDKTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testSetupInvokesDatabaseMigration() {
+        let expectation1 = expectation(description: "Setup")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let sdk = FrolloSDK()
+        
+        populateTestDataNamed(name: "FrolloSDKDataModel-1.0.0", atPath: FrolloSDK.dataFolderURL)
+        
+        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (error) in
+            XCTAssertNil(error)
+            
+            XCTAssertFalse(sdk.database.needsMigration())
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 15.0)
     }
     
 }

@@ -149,6 +149,9 @@ public class Database {
             
             var previousPath: URL?
             
+            var count = 0
+            var totalFound = false
+            
             for path in subPaths {
                 do {
                     let storeMetadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: self.storeURL)
@@ -158,6 +161,12 @@ public class Database {
                         if sourceModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: storeMetadata) {
                             Log.info("Migrating model " + lastPath.path + " to " + path.path)
                             
+                            if !totalFound {
+                                totalFound = true
+                                
+                                progress.totalUnitCount = Int64(subPaths.count - count)
+                            }
+                            
                             let destinationModel = NSManagedObjectModel(contentsOf: path)!
                             if !self.performMigration(from: sourceModel, to: destinationModel) {
                                 self.migrationLock.unlock()
@@ -165,6 +174,8 @@ public class Database {
                                 
                                 break
                             }
+                            
+                            progress.completedUnitCount += 1
                         }
                     }
                     
@@ -179,6 +190,8 @@ public class Database {
                     
                     return
                 }
+                
+                count += 1
             }
             
             // Check the final model matches
