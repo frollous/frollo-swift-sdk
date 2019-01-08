@@ -6,6 +6,7 @@
   Copyright © 2018 Frollo. All rights reserved.
 */
 
+"Error.API.AccountLocked" = "User account has been locked due to too many incorrect login attempts. Please try again after one hour.";
 "Error.API.BadRequest" = "The request sent to the server was malformed.";
 "Error.API.DeprecatedError" = "This version of the app is no longer supported. Please upgrade to the latest version to continue.";
 "Error.API.InvalidAccessToken" = "Invalid access token. Use the refresh token to get a valid one.";

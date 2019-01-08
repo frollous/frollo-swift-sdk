@@ -164,6 +164,17 @@ class APIErrorTests: XCTestCase {
         XCTAssertNotNil(error.message)
     }
     
+    func testAPIErrorAccountLocked() {
+        let errorJSON = errorJSONNamed("error_account_locked")
+        
+        let error = APIError(statusCode: 401, response: errorJSON)
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.AccountLocked"))
+        XCTAssertEqual(error.statusCode, 401)
+        XCTAssertEqual(error.type, .accountLocked)
+        XCTAssertEqual(error.errorCode, .accountLocked)
+        XCTAssertNotNil(error.message)
+    }
+    
     // MARK: - Other Tests
     
     func testAPIErrorNotAuthorised() {

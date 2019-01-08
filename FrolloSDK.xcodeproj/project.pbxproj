@@ -49,6 +49,9 @@
 		011C198B21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011C198A21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift */; };
 		011C198C21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011C198A21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift */; };
 		011C198D21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011C198A21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift */; };
+		011C198F21E42AF200490EDD /* error_account_locked.json in Resources */ = {isa = PBXBuildFile; fileRef = 011C198E21E42AF200490EDD /* error_account_locked.json */; };
+		011C199021E42AF200490EDD /* error_account_locked.json in Resources */ = {isa = PBXBuildFile; fileRef = 011C198E21E42AF200490EDD /* error_account_locked.json */; };
+		011C199121E42AF200490EDD /* error_account_locked.json in Resources */ = {isa = PBXBuildFile; fileRef = 011C198E21E42AF200490EDD /* error_account_locked.json */; };
 		011E87D0213766550026E047 /* SecKeyPEM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011E87CF213766550026E047 /* SecKeyPEM.swift */; };
 		011E87D2213767F00026E047 /* SecKeyPEMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011E87D1213767F00026E047 /* SecKeyPEMTests.swift */; };
 		011E87D3213767F00026E047 /* SecKeyPEMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011E87D1213767F00026E047 /* SecKeyPEMTests.swift */; };
@@ -717,6 +720,7 @@
 		010EB42C211C00D0005A926A /* APITransactionUpdateRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APITransactionUpdateRequest+Test.swift"; sourceTree = "<group>"; };
 		011C198821E3063600490EDD /* APIBillPaymentUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIBillPaymentUpdateRequest.swift; sourceTree = "<group>"; };
 		011C198A21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIBillPaymentUpdateRequest+Test.swift"; sourceTree = "<group>"; };
+		011C198E21E42AF200490EDD /* error_account_locked.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_account_locked.json; sourceTree = "<group>"; };
 		011E87CF213766550026E047 /* SecKeyPEM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecKeyPEM.swift; sourceTree = "<group>"; };
 		011E87D1213767F00026E047 /* SecKeyPEMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecKeyPEMTests.swift; sourceTree = "<group>"; };
 		011F1A5F216B289B00119474 /* APIUserResetPasswordRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserResetPasswordRequest.swift; sourceTree = "<group>"; };
@@ -1847,6 +1851,7 @@
 		01B896A220F2EDA30068069A /* Error */ = {
 			isa = PBXGroup;
 			children = (
+				011C198E21E42AF200490EDD /* error_account_locked.json */,
 				01B896B220F2EDA30068069A /* error_aggregator.json */,
 				01B896C820F3106A0068069A /* error_bad_format.json */,
 				01B896AF20F2EDA30068069A /* error_duplicate.json */,
@@ -2349,6 +2354,7 @@
 				015EEDF1210FE51C0081AD76 /* providers_invalid.json in Resources */,
 				01743B18212BCF9A0082DA00 /* provider_login_form_validation.json in Resources */,
 				01B896B920F2EDA30068069A /* error_value_over_limit.json in Resources */,
+				011C198F21E42AF200490EDD /* error_account_locked.json in Resources */,
 				01405E6E21DF1D2E009356CC /* bill_payment_id_12345.json in Resources */,
 				013A32B92112994C00B0590B /* provider_accounts_invalid.json in Resources */,
 				013A32B32112994C00B0590B /* provider_accounts_valid.json in Resources */,
@@ -2431,6 +2437,7 @@
 				015EEDF2210FE51C0081AD76 /* providers_invalid.json in Resources */,
 				01743B19212BCF9A0082DA00 /* provider_login_form_validation.json in Resources */,
 				017B48632101B4FE00447E65 /* error_value_over_limit.json in Resources */,
+				011C199021E42AF200490EDD /* error_account_locked.json in Resources */,
 				01405E6F21DF1D2E009356CC /* bill_payment_id_12345.json in Resources */,
 				013A32BA2112994C00B0590B /* provider_accounts_invalid.json in Resources */,
 				013A32B42112994C00B0590B /* provider_accounts_valid.json in Resources */,
@@ -2522,6 +2529,7 @@
 				015EEDF3210FE51C0081AD76 /* providers_invalid.json in Resources */,
 				01743B1A212BCF9A0082DA00 /* provider_login_form_validation.json in Resources */,
 				017B48C02105958100447E65 /* error_value_over_limit.json in Resources */,
+				011C199121E42AF200490EDD /* error_account_locked.json in Resources */,
 				01405E7021DF1D2E009356CC /* bill_payment_id_12345.json in Resources */,
 				013A32BB2112994C00B0590B /* provider_accounts_invalid.json in Resources */,
 				013A32B52112994C00B0590B /* provider_accounts_valid.json in Resources */,

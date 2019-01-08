@@ -51,6 +51,9 @@ public enum APIErrorCode: String, Codable {
     /// F0113 - Suspended Device
     case suspendedDevice = "F0113"
     
+    /// F0114 - Account Locked
+    case accountLocked = "F0114"
+    
     /// F0200 - Unauthorised
     case unauthorised = "F0200"
     

@@ -67,6 +67,9 @@ public class APIError: FrolloSDKError {
         /// User has been suspended
         case suspendedUser
         
+        /// User account locked
+        case accountLocked
+        
         /// An unknown issue with authorisation has occurred
         case otherAuthorisation
         
@@ -143,6 +146,8 @@ public class APIError: FrolloSDKError {
                             type = .suspendedDevice
                         case .suspendedUser:
                             type = .suspendedUser
+                        case .accountLocked:
+                            type = .accountLocked
                         default:
                             type = .otherAuthorisation
                     }
@@ -183,6 +188,8 @@ public class APIError: FrolloSDKError {
     
     private func localizedAPIErrorDescription() -> String {
         switch type {
+            case .accountLocked:
+                return Localization.string("Error.API.AccountLocked")
             case .alreadyExists:
                 return Localization.string("Error.API.UserAlreadyExists")
             case .badRequest:
