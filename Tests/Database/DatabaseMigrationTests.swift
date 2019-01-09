@@ -90,22 +90,24 @@ class DatabaseMigrationTests: XCTestCase {
         persistentContainer.loadPersistentStores { (storeDescription, error) in
             let context = persistentContainer.newBackgroundContext()
             
-            for entity in persistentContainer.managedObjectModel.entities {
-                guard let entityName = entity.name
-                    else {
-                        continue
-                }
-                
-                for _ in 0..<100 {
-                    let model = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
+            context.performAndWait {
+                for entity in persistentContainer.managedObjectModel.entities {
+                    guard let entityName = entity.name
+                        else {
+                            continue
+                    }
                     
-                    if let testableModel = model as? TestableCoreData {
-                        testableModel.populateTestData()
+                    for _ in 0..<100 {
+                        let model = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
+                        
+                        if let testableModel = model as? TestableCoreData {
+                            testableModel.populateTestData()
+                        }
                     }
                 }
+                
+                try! context.save()
             }
-            
-            try! context.save()
         }
     }
     

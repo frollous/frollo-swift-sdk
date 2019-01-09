@@ -13,6 +13,7 @@ struct APIBillUpdateRequest: Codable {
     enum CodingKeys: String, CodingKey {
         case billType = "bill_type"
         case dueAmount = "due_amount"
+        case endDate = "end_date"
         case frequency
         case name
         case nextPaymentDate = "next_payment_date"
@@ -22,6 +23,7 @@ struct APIBillUpdateRequest: Codable {
     
     let billType: Bill.BillType
     let dueAmount: String
+    let endDate: String?
     let frequency: Bill.Frequency
     let name: String?
     let nextPaymentDate: String

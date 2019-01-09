@@ -25,6 +25,7 @@ extension APIBillResponse {
                                category: category,
                                description: String.randomString(range: 5...50),
                                dueAmount: "79.65",
+                               endDate: "2022-01-01",
                                frequency: Bill.Frequency.allCases.randomElement()!,
                                lastAmount: "101.23",
                                lastPaymentDate: "2018-12-01",

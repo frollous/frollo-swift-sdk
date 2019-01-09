@@ -17,6 +17,7 @@ struct APIBillResponse: APIUniqueResponse, Codable {
         case category
         case description
         case dueAmount = "due_amount"
+        case endDate = "end_date"
         case id
         case frequency
         case lastAmount = "last_amount"
@@ -46,6 +47,7 @@ struct APIBillResponse: APIUniqueResponse, Codable {
     let category: Category?
     let description: String
     let dueAmount: String
+    let endDate: String?
     let frequency: Bill.Frequency
     let lastAmount: String?
     let lastPaymentDate: String?

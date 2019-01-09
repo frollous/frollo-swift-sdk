@@ -164,7 +164,7 @@ class BillsTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
-    func testCreateBill() {
+    func testCreateBillWithTransaction() {
         let expectation1 = expectation(description: "Network Request 1")
         
         let url = URL(string: "https://api.example.com")!
@@ -185,6 +185,53 @@ class BillsTests: XCTestCase {
             let bills = Bills(database: database, network: network, aggregation: aggregation)
             
             bills.createBill(transactionID: 987, frequency: .monthly, nextPaymentDate: Date(timeIntervalSinceNow: 20000), name: nil, notes: nil) { (error) in
+                XCTAssertNil(error)
+                
+                let context = database.viewContext
+                
+                let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
+                fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [12345])
+                
+                do {
+                    let fetchedBills = try context.fetch(fetchRequest)
+                    
+                    XCTAssertEqual(fetchedBills.first?.billID, 12345)
+                    XCTAssertEqual(fetchedBills.first?.name, "Netflix")
+                } catch {
+                    XCTFail(error.localizedDescription)
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testCreateBillManually() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.bills.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, status: 201, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let bills = Bills(database: database, network: network, aggregation: aggregation)
+            
+            let date = Bill.billDateFormatter.date(from: "2019-02-01")!
+            
+            bills.createBill(accountID: 654, dueAmount: 50.0, frequency: .weekly, nextPaymentDate: date, name: "Stan", notes: "Cancel this") { (error) in
                 XCTAssertNil(error)
                 
                 let context = database.viewContext

@@ -18,6 +18,7 @@ extension Bill: TestableCoreData {
         billType = BillType.allCases.randomElement()!
         details = String.randomString(range: 5...50)
         dueAmount = 43.12
+        endDateString = "2022-01-01"
         frequency = Frequency.allCases.randomElement()!
         lastAmount = 61.90
         lastPaymentDateString = "2018-12-13"

@@ -36,6 +36,7 @@ class BillTests: XCTestCase {
             XCTAssertEqual(billResponse.billType, bill.billType)
             XCTAssertEqual(billResponse.description, bill.details)
             XCTAssertEqual(billResponse.dueAmount, bill.dueAmount.stringValue)
+            XCTAssertEqual(billResponse.endDate, bill.endDateString)
             XCTAssertEqual(billResponse.frequency, bill.frequency)
             XCTAssertEqual(billResponse.lastAmount, bill.lastAmount?.stringValue)
             XCTAssertEqual(billResponse.lastPaymentDate, bill.lastPaymentDateString)
@@ -62,6 +63,7 @@ class BillTests: XCTestCase {
             
             XCTAssertEqual(bill.billType, updateRequest.billType)
             XCTAssertEqual(bill.dueAmount.stringValue, updateRequest.dueAmount)
+            XCTAssertEqual(bill.endDateString, updateRequest.endDate)
             XCTAssertEqual(bill.frequency, updateRequest.frequency)
             XCTAssertEqual(bill.name, updateRequest.name)
             XCTAssertEqual(bill.nextPaymentDateString, updateRequest.nextPaymentDate)

@@ -70,7 +70,7 @@ public class Bills: CachedObjects, ResponseHandler  {
     }
     
     /**
-     Create a new bill on the host
+     Create a new bill on the host from a transaction
      
      - parameters:
         - transactionID: ID of the transaction representing a bill payment
@@ -83,12 +83,46 @@ public class Bills: CachedObjects, ResponseHandler  {
     public func createBill(transactionID: Int64, frequency: Bill.Frequency, nextPaymentDate: Date, name: String? = nil, notes: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         let date = Bill.billDateFormatter.string(from: nextPaymentDate)
         
-        let request = APIBillCreateRequest(frequency: frequency,
-                             name: name,
-                             nextPaymentDate: date,
-                             notes: notes,
-                             transactionID: transactionID)
+        let request = APIBillCreateRequest(accountID: nil,
+                                           dueAmount: nil,
+                                           frequency: frequency,
+                                           name: name,
+                                           nextPaymentDate: date,
+                                           notes: notes,
+                                           transactionID: transactionID)
         
+        createBill(request: request, completion: completion)
+    }
+    
+    /**
+     Create a new bill on the host manually
+     
+     - parameters:
+     - accountID: ID of the account the bill is paid from
+     - dueAmount: Amount the bill charges, recurring
+     - frequency: How often the bill recurrs
+     - nextPaymentDate: Date of the next payment is due
+     - name: Custom name for the bill (Optional: defaults to the transaction name)
+     - notes: Notes attached to the bill (Optional)
+     - completion: Optional completion handler with optional error if the request fails
+     */
+    public func createBill(accountID: Int64, dueAmount: Decimal, frequency: Bill.Frequency, nextPaymentDate: Date, name: String, notes: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        let date = Bill.billDateFormatter.string(from: nextPaymentDate)
+        
+        let amount = dueAmount as NSDecimalNumber
+        
+        let request = APIBillCreateRequest(accountID: accountID,
+                                           dueAmount: amount.stringValue,
+                                           frequency: frequency,
+                                           name: name,
+                                           nextPaymentDate: date,
+                                           notes: notes,
+                                           transactionID: nil)
+        
+        createBill(request: request, completion: completion)
+    }
+    
+    private func createBill(request: APIBillCreateRequest, completion: FrolloSDKCompletionHandler? = nil) {
         network.createBill(request: request) { (response, error) in
             if let responseError = error {
                 Log.error(responseError.localizedDescription)

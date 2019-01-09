@@ -173,6 +173,23 @@ public class Bill: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Date the bill terminates, e.g. a subscription (Optional)
+    public var endDate: Date? {
+        get {
+            if let rawDateString = endDateString {
+                return Bill.billDateFormatter.date(from: rawDateString)
+            }
+            return nil
+        }
+        set {
+            if let newRawDate = newValue {
+                endDateString = Bill.billDateFormatter.string(from: newRawDate)
+            } else {
+                endDateString = nil
+            }
+        }
+    }
+    
     /// Last payment date (Optional)
     public var lastPaymentDate: Date? {
         get {
@@ -221,6 +238,7 @@ public class Bill: NSManagedObject, CacheableManagedObject {
         billType = response.billType
         details = response.description
         dueAmount = NSDecimalNumber(string: response.dueAmount)
+        endDateString = response.endDate
         frequency = response.frequency
         lastAmount = NSDecimalNumber(string: response.lastAmount)
         lastPaymentDateString = response.lastPaymentDate
@@ -236,6 +254,7 @@ public class Bill: NSManagedObject, CacheableManagedObject {
     internal func updateRequest() -> APIBillUpdateRequest {
         return APIBillUpdateRequest(billType: billType,
                                     dueAmount: dueAmount.stringValue,
+                                    endDate: endDateString,
                                     frequency: frequency,
                                     name: name,
                                     nextPaymentDate: nextPaymentDateString,

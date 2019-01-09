@@ -11,6 +11,8 @@ import Foundation
 struct APIBillCreateRequest: Codable {
     
     enum CodingKeys: String, CodingKey {
+        case accountID = "account_id"
+        case dueAmount = "due_amount"
         case frequency
         case name
         case nextPaymentDate = "next_payment_date"
@@ -18,10 +20,12 @@ struct APIBillCreateRequest: Codable {
         case transactionID = "transaction_id"
     }
     
+    let accountID: Int64?
+    let dueAmount: String?
     let frequency: Bill.Frequency
     let name: String?
     let nextPaymentDate: String
     let notes: String?
-    let transactionID: Int64
+    let transactionID: Int64?
     
 }

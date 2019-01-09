@@ -14,6 +14,7 @@ extension APIBillUpdateRequest {
     static func testCompleteData() -> APIBillUpdateRequest {
         return APIBillUpdateRequest(billType: Bill.BillType.allCases.randomElement()!,
                                     dueAmount: "30.53",
+                                    endDate: "2022-01-01",
                                     frequency: Bill.Frequency.allCases.randomElement()!,
                                     name: String.randomString(range: 5...30),
                                     nextPaymentDate: "2020-01-20",

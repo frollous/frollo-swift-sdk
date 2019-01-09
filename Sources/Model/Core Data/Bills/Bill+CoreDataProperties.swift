@@ -40,6 +40,9 @@ extension Bill {
     /// Current due amount
     @NSManaged public var dueAmount: NSDecimalNumber
     
+    /// Raw value of the end date. Use only in predicates (Optional)
+    @NSManaged public var endDateString: String?
+    
     /// Raw value of the frequency. Use only in predicates
     @NSManaged public var frequencyRawValue: String
     
