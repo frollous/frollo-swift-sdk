@@ -51,12 +51,14 @@
 			"ProviderLoginFormViewModel"
 		]
 	},
-	{
-		"name": "Database",
-		"children": [
-			"Database"
-		]
-	},
+  {
+    "name": "Bills",
+    "children": [
+      "Bills",
+      "Bill",
+      "BillPayment"
+    ]
+  },
   {
     "name": "Events",
     "children": [
@@ -78,6 +80,12 @@
     "name": "Notifications",
     "children": [
       "Notifications"
+    ]
+  },
+  {
+    "name": "Database",
+    "children": [
+      "Database"
     ]
   },
   {

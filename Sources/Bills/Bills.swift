@@ -9,6 +9,7 @@
 import CoreData
 import Foundation
 
+/// Manages bills and bill payments
 public class Bills: CachedObjects, ResponseHandler  {
     
     private let aggregation: Aggregation

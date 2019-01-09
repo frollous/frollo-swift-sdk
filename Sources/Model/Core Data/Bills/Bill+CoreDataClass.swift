@@ -10,37 +10,104 @@
 import Foundation
 import CoreData
 
+/**
+ Bill
+ 
+ Core Data model of the bill.
+ */
 public class Bill: NSManagedObject, CacheableManagedObject {
     
+    /**
+     Bill Type
+     
+     Detailed type of bill
+    */
     public enum BillType: String, Codable, CaseIterable {
+        
+        /// General bill
         case bill
+        
+        /// Manually entered bill
         case manual
+        
+        /// Repayment, e.g. of a debt
         case repayment
+        
+        /// Recurring subscription
         case subscription
+        
     }
     
+    /**
+     Frequency
+     
+     How often the `BillPayment`s occur
+    */
     public enum Frequency: String, Codable, CaseIterable {
+        
+        /// Annually
         case annually
+        
+        /// Biannually - twice in a year
         case biannually
+        
+        /// Fortnightly
         case fortnightly
+        
+        /// Every four weeks
         case fourWeekly = "four_weekly"
+        
+        /// Irregularly
         case irregular
+        
+        /// Monthly
         case monthly
+        
+        /// Quarterly
         case quarterly
+        
+        /// Weekly
         case weekly
+        
+        /// Unknown
         case unknown
+        
     }
     
+    /**
+     Payment Status
+     
+     Status of the latest bill payment
+    */
     public enum PaymentStatus: String, Codable, CaseIterable {
+        
+        /// Payment is due
         case due
+        
+        /// Payment is in the future
         case future
+        
+        /// Payment is overdue
         case overdue
+        
+        /// Paid
         case paid
+        
     }
     
+    /**
+     Bill Status
+     
+     Status of the bill indicating if the user has confirmed it or not
+    */
     public enum Status: String, Codable, CaseIterable {
+        
+        /// Confirmed
         case confirmed
+        
+        /// Estimated from repeat transactions that have been detected
         case estimated
+        
     }
     
     /// Core Data entity description name
@@ -66,6 +133,7 @@ public class Bill: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Bill Type
     public var billType: BillType {
         get {
             return BillType(rawValue: billTypeRawValue)!
@@ -75,6 +143,7 @@ public class Bill: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Frequence
     public var frequency: Frequency {
         get {
             return Frequency(rawValue: frequencyRawValue)!
@@ -84,6 +153,7 @@ public class Bill: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Bill Payment Status
     public var paymentStatus: PaymentStatus {
         get {
             return PaymentStatus(rawValue: paymentStatusRawValue)!
@@ -93,6 +163,7 @@ public class Bill: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Bill Status
     public var status: Status {
         get {
             return Status(rawValue: statusRawValue)!
@@ -102,6 +173,7 @@ public class Bill: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Last payment date (Optional)
     public var lastPaymentDate: Date? {
         get {
             if let rawDateString = lastPaymentDateString {
@@ -118,6 +190,7 @@ public class Bill: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Next Payment Date
     public var nextPaymentDate: Date? {
         get {
             return Bill.billDateFormatter.date(from: nextPaymentDateString)!

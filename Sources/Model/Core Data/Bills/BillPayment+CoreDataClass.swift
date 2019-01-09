@@ -10,11 +10,15 @@
 import Foundation
 import CoreData
 
-
+/**
+ Bill Payment
+ 
+ Core Data model of the bill payment.
+ */
 public class BillPayment: NSManagedObject, CacheableManagedObject {
 
     /// Core Data entity description name
-    static var entityName = "Bill"
+    static var entityName = "BillPayment"
     
     /// Date formatter to convert from stored date string to user's current locale
     public static let billDateFormatter: DateFormatter = {
@@ -36,6 +40,7 @@ public class BillPayment: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Date of the bill payment
     public var date: Date? {
         get {
             return BillPayment.billDateFormatter.date(from: dateString)!
@@ -45,6 +50,7 @@ public class BillPayment: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Frequency the bill payment occurs
     public var frequency: Bill.Frequency {
         get {
             return Bill.Frequency(rawValue: frequencyRawValue)!
@@ -54,6 +60,7 @@ public class BillPayment: NSManagedObject, CacheableManagedObject {
         }
     }
     
+    /// Status of the bill payment
     public var paymentStatus: Bill.PaymentStatus {
         get {
             return Bill.PaymentStatus(rawValue: paymentStatusRawValue)!
