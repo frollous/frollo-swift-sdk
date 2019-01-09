@@ -162,8 +162,8 @@ class DatabaseMigrationTests: XCTestCase {
         
         XCTAssertTrue(database.needsMigration())
         
-        database.migrate { (success) in
-            XCTAssertFalse(success)
+        database.migrate { (error) in
+            XCTAssertNotNil(error)
             
             database.setup(completionHandler: { (error) in
                 XCTAssertNil(error)
@@ -184,8 +184,8 @@ class DatabaseMigrationTests: XCTestCase {
         
         XCTAssertTrue(database.needsMigration())
         
-        database.migrate { (success) in
-            XCTAssertTrue(success)
+        database.migrate { (error) in
+            XCTAssertNil(error)
             
             expectation1.fulfill()
         }
@@ -202,8 +202,8 @@ class DatabaseMigrationTests: XCTestCase {
         
         XCTAssertTrue(database.needsMigration())
         
-        database.migrate { (success) in
-            XCTAssertTrue(success)
+        database.migrate { (error) in
+            XCTAssertNil(error)
             
             expectation1.fulfill()
         }
@@ -220,8 +220,8 @@ class DatabaseMigrationTests: XCTestCase {
         
         XCTAssertTrue(database.needsMigration())
         
-        let progress = database.migrate { (success) in
-            XCTAssertTrue(success)
+        let progress = database.migrate { (error) in
+            XCTAssertNil(error)
             
             expectation1.fulfill()
         }

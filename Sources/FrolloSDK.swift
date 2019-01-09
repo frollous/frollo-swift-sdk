@@ -235,18 +235,17 @@ public class FrolloSDK: NetworkDelegate {
         
         // Check for database migration and return progress object if relevant
         if _database.needsMigration() {
-            return _database.migrate { (success) in
-                if success {
-                    self._database.setup(completionHandler: { (error) in
+            return _database.migrate { (error) in
+                if error != nil {
+                    completion(error)
+                } else {
+                    self._database.setup() { (error) in
                         if error == nil {
                             self._setup = true
                         }
                         
                         completion(error)
-                    })
-                } else {
-                    let error = DataError(type: .database, subType: .migrationFailed)
-                    completion(error)
+                    }
                 }
             }
         } else {

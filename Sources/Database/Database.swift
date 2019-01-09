@@ -124,11 +124,11 @@ public class Database {
      In the event of failure the persistent store should be reset to bring the database back to a workable state.
      
      - parameters:
-        - completionHandler: Completion handler is called with success boolean indicating success or failure
+        - completionHandler: Completion handler is called with optional error if there's an issue
      
      - returns: Progress object indicating the migration progress so far
      */
-    @discardableResult internal func migrate(completionHandler: @escaping (Bool) -> Void) -> Progress? {
+    @discardableResult internal func migrate(completionHandler: @escaping (Error?) -> Void) -> Progress? {
         migrationLock.lock()
 
         let progress = Progress(totalUnitCount: 1)
@@ -168,10 +168,16 @@ public class Database {
                             }
                             
                             let destinationModel = NSManagedObjectModel(contentsOf: path)!
-                            if !self.performMigration(from: sourceModel, to: destinationModel) {
+                            
+                            do {
+                                try self.performMigration(from: sourceModel, to: destinationModel)
+                            } catch let error as NSError {
                                 self.migrationLock.unlock()
-                                completionHandler(false)
                                 
+                                Log.error(error.localizedDescription)
+                                Log.debug(error.debugDescription)
+                                
+                                completionHandler(error)
                                 break
                             }
                             
@@ -180,13 +186,14 @@ public class Database {
                     }
                     
                     previousPath = path
-                } catch let error {
-                    Log.info("Database migration failed to find store metadata")
+                } catch let error as NSError {
+                    Log.error("Database migration failed to find store metadata")
                     
                     Log.error(error.localizedDescription)
+                    Log.debug(error.debugDescription)
                     
                     self.migrationLock.unlock()
-                    completionHandler(false)
+                    completionHandler(error)
                     
                     return
                 }
@@ -201,18 +208,22 @@ public class Database {
                 let finalModel = NSManagedObjectModel(contentsOf: previousPath!)!
                 if finalModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: finalStoreMetadata) {
                     self.migrationLock.unlock()
-                    completionHandler(true)
+                    completionHandler(nil)
                 } else {
                     self.migrationLock.unlock()
-                    completionHandler(false)
+                    
+                    let error = DataError(type: .database, subType: .migrationFailed)
+                    
+                    completionHandler(error)
                 }
-            } catch let error {
+            } catch let error as NSError {
                 Log.info("Database migration failed to find final store metadata")
                 
                 Log.error(error.localizedDescription)
+                Log.debug(error.debugDescription)
                 
                 self.migrationLock.unlock()
-                completionHandler(false)
+                completionHandler(error)
                 
                 return
             }
@@ -221,16 +232,17 @@ public class Database {
         return progress
     }
     
-    private func performMigration(from sourceModel: NSManagedObjectModel, to destinationModel: NSManagedObjectModel) -> Bool {
+    private func performMigration(from sourceModel: NSManagedObjectModel, to destinationModel: NSManagedObjectModel) throws {
         var mappingModel = NSMappingModel(from: [Bundle(for: type(of: self))], forSourceModel: sourceModel, destinationModel: destinationModel)
         
         if mappingModel == nil {
             do {
                 mappingModel = try NSMappingModel.inferredMappingModel(forSourceModel: sourceModel, destinationModel: destinationModel)
-            } catch let error {
+            } catch let error as NSError {
                 Log.error(error.localizedDescription)
+                Log.debug(error.debugDescription)
                 
-                return false
+                throw error
             }
         }
         
@@ -238,10 +250,11 @@ public class Database {
         let tempDirectory = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(UUID().uuidString)
         do {
             try FileManager.default.createDirectory(at: tempDirectory, withIntermediateDirectories: true, attributes: nil)
-        } catch let error {
+        } catch let error as NSError {
             Log.error(error.localizedDescription)
+            Log.debug(error.debugDescription)
             
-            return false
+            throw error
         }
         
         defer {
@@ -258,19 +271,18 @@ public class Database {
             Log.error(error.localizedDescription)
             Log.debug(error.debugDescription)
             
-            return false
+            throw error
         }
         
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: destinationModel)
         do {
             try persistentStoreCoordinator.replacePersistentStore(at: storeURL, destinationOptions: nil, withPersistentStoreFrom: destinationURL, sourceOptions: nil, ofType: NSSQLiteStoreType)
-        } catch let error {
+        } catch let error as NSError {
             Log.error(error.localizedDescription)
+            Log.debug(error.debugDescription)
             
-            return false
+            throw error
         }
-        
-        return true
     }
     
     // MARK: - Reset
