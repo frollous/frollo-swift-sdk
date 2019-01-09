@@ -178,7 +178,7 @@ public class Database {
                                 Log.debug(error.debugDescription)
                                 
                                 completionHandler(error)
-                                break
+                                return
                             }
                             
                             progress.completedUnitCount += 1
