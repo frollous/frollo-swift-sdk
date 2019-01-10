@@ -208,12 +208,12 @@ public class Bill: NSManagedObject, CacheableManagedObject {
     }
     
     /// Next Payment Date
-    public var nextPaymentDate: Date? {
+    public var nextPaymentDate: Date {
         get {
             return Bill.billDateFormatter.date(from: nextPaymentDateString)!
         }
         set {
-            nextPaymentDateString = Bill.billDateFormatter.string(from: newValue!)
+            nextPaymentDateString = Bill.billDateFormatter.string(from: newValue)
         }
     }
     
