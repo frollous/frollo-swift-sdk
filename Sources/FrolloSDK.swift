@@ -79,6 +79,17 @@ public class FrolloSDK: NetworkDelegate {
             return _authentication
         }
     }
+    /// Bills - All bills and bill payments see `Bills` for details
+    public var bills: Bills {
+        get {
+            guard _setup
+                else {
+                    fatalError("SDK not setup.")
+            }
+            
+            return _bills
+        }
+    }
     /// Database - Core Data management and contexts for fetching data. See `Database` for details
     public var database: Database {
         get {
@@ -138,6 +149,7 @@ public class FrolloSDK: NetworkDelegate {
     
     internal var _aggregation: Aggregation!
     internal var _authentication: Authentication!
+    internal var _bills: Bills!
     internal var _events: Events!
     internal var _messages: Messages!
     internal var _notifications: Notifications!
@@ -226,6 +238,7 @@ public class FrolloSDK: NetworkDelegate {
         
         _aggregation = Aggregation(database: _database, network: network)
         _authentication = Authentication(database: _database, network: network, preferences: preferences)
+        _bills = Bills(database: _database, network: network, aggregation: _aggregation)
         _events = Events(network: network)
         _messages = Messages(database: _database, network: network)
         _notifications = Notifications(authentication: _authentication, events: _events, messages: _messages)
@@ -328,9 +341,9 @@ public class FrolloSDK: NetworkDelegate {
         
         refreshPrimary()
         
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-//            self.refreshSecondary()
-//        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.refreshSecondary()
+        }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 20) {
             self.refreshSystem()
@@ -351,12 +364,23 @@ public class FrolloSDK: NetworkDelegate {
     }
     
     /**
+     Refresh data from other important APIs that frequently change but are less time sensitive, e.g. bill payments
+    */
+    private func refreshSecondary() {
+        let fromDate = Date().startOfLastMonth()
+        let toDate = Date().addingTimeInterval(31622400).endOfMonth()
+        
+        bills.refreshBillPayments(from: fromDate, to: toDate)
+    }
+    
+    /**
      Refresh data from long lived sources which don't change often, e.g. transaction categories, providers
     */
     private func refreshSystem() {
         aggregation.refreshProviders()
         aggregation.refreshTransactionCategories()
         aggregation.refreshMerchants()
+        bills.refreshBills()
         authentication.updateDevice()
     }
     

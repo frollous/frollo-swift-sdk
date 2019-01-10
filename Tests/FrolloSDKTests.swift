@@ -314,6 +314,23 @@ class FrolloSDKTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testBillsAfterSetup() {
+        let expectation1 = expectation(description: "Setup")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let sdk = FrolloSDK()
+        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (error) in
+            XCTAssertNil(error)
+            
+            _ = sdk.bills
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testEventsAfterSetup() {
         let expectation1 = expectation(description: "Setup")
         
