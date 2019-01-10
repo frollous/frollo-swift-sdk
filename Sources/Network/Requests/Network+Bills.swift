@@ -101,7 +101,7 @@ extension Network {
             let parameters = [BillsEndpoint.QueryParameters.fromDate.rawValue: dateFormatter.string(from: fromDate),
                               BillsEndpoint.QueryParameters.toDate.rawValue: dateFormatter.string(from: toDate)]
             
-            self.sessionManager.request(url, method: .get, parameters: parameters, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+            self.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
                 self.handleArrayResponse(type: APIBillPaymentResponse.self, response: response, completion: completion)
             }
         }
