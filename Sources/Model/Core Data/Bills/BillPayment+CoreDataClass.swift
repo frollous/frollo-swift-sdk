@@ -41,12 +41,12 @@ public class BillPayment: NSManagedObject, CacheableManagedObject {
     }
     
     /// Date of the bill payment
-    public var date: Date? {
+    public var date: Date {
         get {
             return BillPayment.billDateFormatter.date(from: dateString)!
         }
         set {
-            dateString = BillPayment.billDateFormatter.string(from: newValue!)
+            dateString = BillPayment.billDateFormatter.string(from: newValue)
         }
     }
     
