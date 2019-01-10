@@ -561,7 +561,7 @@ public class Bills: CachedObjects, ResponseHandler  {
             billPaymentsLock.unlock()
         }
         
-        let updatedLinkedIDs = updateObjectsWithResponse(type: BillPayment.self, objectsResponse: billPaymentsResponse, primaryKey: #keyPath(BillPayment.billPaymentID), linkedKeys: [\BillPayment.billID], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        let updatedLinkedIDs = updateObjectsWithResponse(type: BillPayment.self, objectsResponse: billPaymentsResponse, primaryKey: #keyPath(BillPayment.billPaymentID), linkedKeys: [\BillPayment.billID], filterPredicate: predicate, managedObjectContext: managedObjectContext)
         
         if let billIDs = updatedLinkedIDs[\BillPayment.billID] {
             linkingBillIDs = linkingBillIDs.union(billIDs)
