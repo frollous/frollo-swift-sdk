@@ -94,8 +94,7 @@ public class BillPayment: NSManagedObject, CacheableManagedObject {
     }
     
     internal func updateRequest() -> APIBillPaymentUpdateRequest {
-        return APIBillPaymentUpdateRequest(date: dateString,
-                                           status: paymentStatus)
+        return APIBillPaymentUpdateRequest(status: paymentStatus)
     }
     
 }

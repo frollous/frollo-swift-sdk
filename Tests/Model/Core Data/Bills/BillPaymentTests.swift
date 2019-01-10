@@ -52,7 +52,6 @@ class BillPaymentTests: XCTestCase {
             
             let updateRequest = billPayment.updateRequest()
             
-            XCTAssertEqual(billPayment.dateString, updateRequest.date)
             XCTAssertEqual(billPayment.paymentStatus, updateRequest.status)
         }
     }

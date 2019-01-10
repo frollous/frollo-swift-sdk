@@ -12,8 +12,7 @@ import Foundation
 extension APIBillPaymentUpdateRequest {
     
     static func testCompleteData() -> APIBillPaymentUpdateRequest {
-        return APIBillPaymentUpdateRequest(date: "2021-01-05",
-                                           status: Bill.PaymentStatus.allCases.randomElement()!)
+        return APIBillPaymentUpdateRequest(status: Bill.PaymentStatus.allCases.randomElement()!)
     }
     
 }

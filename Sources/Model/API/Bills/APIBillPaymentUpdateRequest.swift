@@ -10,7 +10,6 @@ import Foundation
 
 struct APIBillPaymentUpdateRequest: Codable {
     
-    let date: String?
     let status: Bill.PaymentStatus?
     
 }
