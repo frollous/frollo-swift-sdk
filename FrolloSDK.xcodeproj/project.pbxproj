@@ -41,6 +41,11 @@
 		0101A90821CC90E000DCFCEB /* bill_id_12345.json in Resources */ = {isa = PBXBuildFile; fileRef = 0101A90721CC90DF00DCFCEB /* bill_id_12345.json */; };
 		0101A90921CC90E000DCFCEB /* bill_id_12345.json in Resources */ = {isa = PBXBuildFile; fileRef = 0101A90721CC90DF00DCFCEB /* bill_id_12345.json */; };
 		0101A90A21CC90E000DCFCEB /* bill_id_12345.json in Resources */ = {isa = PBXBuildFile; fileRef = 0101A90721CC90DF00DCFCEB /* bill_id_12345.json */; };
+		0104E02E21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104E02A21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataClass.swift */; };
+		0104E02F21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104E02B21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataProperties.swift */; };
+		0104E03021E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104E02C21E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataClass.swift */; };
+		0104E03121E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104E02D21E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataProperties.swift */; };
+		0104E03321E8588300D98EE7 /* ReportGrouping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104E03221E8588300D98EE7 /* ReportGrouping.swift */; };
 		010EB42B211BF92A005A926A /* APITransactionUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010EB42A211BF92A005A926A /* APITransactionUpdateRequest.swift */; };
 		010EB42D211C00D0005A926A /* APITransactionUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010EB42C211C00D0005A926A /* APITransactionUpdateRequest+Test.swift */; };
 		010EB42E211C00D0005A926A /* APITransactionUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010EB42C211C00D0005A926A /* APITransactionUpdateRequest+Test.swift */; };
@@ -716,6 +721,12 @@
 		0101A8FC21CC832600DCFCEB /* BillTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillTests.swift; sourceTree = "<group>"; };
 		0101A90321CC8ABA00DCFCEB /* BillsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillsTests.swift; sourceTree = "<group>"; };
 		0101A90721CC90DF00DCFCEB /* bill_id_12345.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bill_id_12345.json; sourceTree = "<group>"; };
+		0104E02821E7F81D00D98EE7 /* FrolloSDKDataModel-1.3.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.3.0.xcdatamodel"; sourceTree = "<group>"; };
+		0104E02A21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportTransactionHistory+CoreDataClass.swift"; sourceTree = "<group>"; };
+		0104E02B21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportTransactionHistory+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0104E02C21E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportTransactionCurrent+CoreDataClass.swift"; sourceTree = "<group>"; };
+		0104E02D21E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportTransactionCurrent+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0104E03221E8588300D98EE7 /* ReportGrouping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportGrouping.swift; sourceTree = "<group>"; };
 		010EB42A211BF92A005A926A /* APITransactionUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionUpdateRequest.swift; sourceTree = "<group>"; };
 		010EB42C211C00D0005A926A /* APITransactionUpdateRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APITransactionUpdateRequest+Test.swift"; sourceTree = "<group>"; };
 		011C198821E3063600490EDD /* APIBillPaymentUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIBillPaymentUpdateRequest.swift; sourceTree = "<group>"; };
@@ -1122,6 +1133,17 @@
 				0101A90321CC8ABA00DCFCEB /* BillsTests.swift */,
 			);
 			path = Bills;
+			sourceTree = "<group>";
+		};
+		0104E02921E84EC700D98EE7 /* Reports */ = {
+			isa = PBXGroup;
+			children = (
+				0104E02C21E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataClass.swift */,
+				0104E02D21E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataProperties.swift */,
+				0104E02A21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataClass.swift */,
+				0104E02B21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataProperties.swift */,
+			);
+			path = Reports;
 			sourceTree = "<group>";
 		};
 		011F813C219D251000A1495F /* Events */ = {
@@ -1663,6 +1685,7 @@
 				013D2D93210AA38800EEDEC5 /* DeviceInfo.swift */,
 				0135D2FC21A2202400318142 /* NotificationPayload.swift */,
 				012C4509212A775D00799A0A /* ProviderLoginForm.swift */,
+				0104E03221E8588300D98EE7 /* ReportGrouping.swift */,
 			);
 			path = Transient;
 			sourceTree = "<group>";
@@ -1672,9 +1695,10 @@
 			children = (
 				016097F3210EE2820034E857 /* Aggregation */,
 				018240DA21C8B7F5005705F9 /* Bills */,
-				0126068421990397005D8377 /* Messages */,
-				016097F2210EE27B0034E857 /* User */,
 				01819143211162DD000E0F80 /* CacheableManagedObject.swift */,
+				0126068421990397005D8377 /* Messages */,
+				0104E02921E84EC700D98EE7 /* Reports */,
+				016097F2210EE27B0034E857 /* User */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
@@ -2641,6 +2665,7 @@
 				0126069321992A36005D8377 /* Network+Messages.swift in Sources */,
 				01405E4A21DC43A8009356CC /* APIBillUpdateRequest.swift in Sources */,
 				016097F8210EE3300034E857 /* Provider+CoreDataClass.swift in Sources */,
+				0104E02E21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataClass.swift in Sources */,
 				01483B9E21192F1600D0DA87 /* BudgetCategory.swift in Sources */,
 				01405E5021DDA9CE009356CC /* APIBillCreateRequest.swift in Sources */,
 				01405E5A21DDCF38009356CC /* APIBillPaymentResponse.swift in Sources */,
@@ -2680,7 +2705,9 @@
 				013D2D94210AA38800EEDEC5 /* DeviceInfo.swift in Sources */,
 				0159E4822193CBAD002CC3BB /* Merchant+CoreDataProperties.swift in Sources */,
 				0160953720F33EB10060791B /* Version.swift in Sources */,
+				0104E03021E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataClass.swift in Sources */,
 				0136D225210011E70062EAEA /* Keychain.swift in Sources */,
+				0104E03121E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataProperties.swift in Sources */,
 				0126068321990377005D8377 /* Messages.swift in Sources */,
 				0126069621992AD4005D8377 /* APIMessageResponse.swift in Sources */,
 				015EEDDE210FD7710081AD76 /* FailableCodable.swift in Sources */,
@@ -2691,6 +2718,7 @@
 				01EED86B20E5AA5B00F4516B /* FrolloSDKDataModel.xcdatamodeld in Sources */,
 				0126069121992909005D8377 /* MessagesEndpoint.swift in Sources */,
 				01483B6E2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift in Sources */,
+				0104E02F21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataProperties.swift in Sources */,
 				01EED86420E5A7EB00F4516B /* Preferences.swift in Sources */,
 				0126068821991963005D8377 /* Message+CoreDataClass.swift in Sources */,
 				01333D3F216AAF36005764A4 /* APIUserChangePasswordRequest.swift in Sources */,
@@ -2707,6 +2735,7 @@
 				01EAAEDF214B6185003D1EAC /* APIProviderAccountCreateRequest.swift in Sources */,
 				018240E121C8BAE3005705F9 /* APIBillResponse.swift in Sources */,
 				0159E4862193CBAD002CC3BB /* User+CoreDataProperties.swift in Sources */,
+				0104E03321E8588300D98EE7 /* ReportGrouping.swift in Sources */,
 				01C824F020EC410B0093400E /* NetworkLogger.swift in Sources */,
 				015EEDDC210FC9C60081AD76 /* AggregationEndpoint.swift in Sources */,
 				010EB42B211BF92A005A926A /* APITransactionUpdateRequest.swift in Sources */,
@@ -4152,11 +4181,12 @@
 		01EED86920E5AA5B00F4516B /* FrolloSDKDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				0104E02821E7F81D00D98EE7 /* FrolloSDKDataModel-1.3.0.xcdatamodel */,
 				018240D921C8B3CB005705F9 /* FrolloSDKDataModel-1.2.0.xcdatamodel */,
 				0126068521990449005D8377 /* FrolloSDKDataModel-1.1.0.xcdatamodel */,
 				01EED86A20E5AA5B00F4516B /* FrolloSDKDataModel-1.0.0.xcdatamodel */,
 			);
-			currentVersion = 018240D921C8B3CB005705F9 /* FrolloSDKDataModel-1.2.0.xcdatamodel */;
+			currentVersion = 0104E02821E7F81D00D98EE7 /* FrolloSDKDataModel-1.3.0.xcdatamodel */;
 			path = FrolloSDKDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
