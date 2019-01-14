@@ -13,7 +13,7 @@ import Foundation
  
  Indicates a budget type
  */
-public enum BudgetCategory: String, Codable {
+public enum BudgetCategory: String, Codable, CaseIterable {
     
     /// Income budget
     case income

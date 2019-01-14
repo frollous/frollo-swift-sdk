@@ -101,6 +101,23 @@
 		011F814D219D35ED00A1495F /* EventsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F814B219D35ED00A1495F /* EventsTests.swift */; };
 		011F814E219D35ED00A1495F /* EventsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F814B219D35ED00A1495F /* EventsTests.swift */; };
 		011F8153219E637E00A1495F /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8152219E637E00A1495F /* Notifications.swift */; };
+		01236D0721EBEC09008DD61A /* APITransactionHistoryReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0621EBEC09008DD61A /* APITransactionHistoryReportResponse.swift */; };
+		01236D0A21EBF4E5008DD61A /* Reports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0921EBF4E5008DD61A /* Reports.swift */; };
+		01236D0C21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0B21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift */; };
+		01236D0E21EBFA34008DD61A /* ReportsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0D21EBFA34008DD61A /* ReportsEndpoint.swift */; };
+		01236D1021EC02CC008DD61A /* Network+Reports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0F21EC02CC008DD61A /* Network+Reports.swift */; };
+		01236D1221EC0D96008DD61A /* ReportsRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D1121EC0D96008DD61A /* ReportsRequestTests.swift */; };
+		01236D1321EC0D96008DD61A /* ReportsRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D1121EC0D96008DD61A /* ReportsRequestTests.swift */; };
+		01236D1421EC0D96008DD61A /* ReportsRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D1121EC0D96008DD61A /* ReportsRequestTests.swift */; };
+		01236D1721EC2466008DD61A /* APITransactionHistoryReportResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D1621EC2466008DD61A /* APITransactionHistoryReportResponse+Test.swift */; };
+		01236D1821EC2466008DD61A /* APITransactionHistoryReportResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D1621EC2466008DD61A /* APITransactionHistoryReportResponse+Test.swift */; };
+		01236D1921EC2466008DD61A /* APITransactionHistoryReportResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D1621EC2466008DD61A /* APITransactionHistoryReportResponse+Test.swift */; };
+		01236D1C21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D1B21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift */; };
+		01236D1D21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D1B21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift */; };
+		01236D1E21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D1B21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift */; };
+		01236D2021EC32EA008DD61A /* ReportTransactionHistory+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D1F21EC32EA008DD61A /* ReportTransactionHistory+Test.swift */; };
+		01236D2121EC32EA008DD61A /* ReportTransactionHistory+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D1F21EC32EA008DD61A /* ReportTransactionHistory+Test.swift */; };
+		01236D2221EC32EA008DD61A /* ReportTransactionHistory+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D1F21EC32EA008DD61A /* ReportTransactionHistory+Test.swift */; };
 		0126068321990377005D8377 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068221990377005D8377 /* Messages.swift */; };
 		0126068821991963005D8377 /* Message+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068621991963005D8377 /* Message+CoreDataClass.swift */; };
 		0126068921991963005D8377 /* Message+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068721991963005D8377 /* Message+CoreDataProperties.swift */; };
@@ -752,6 +769,15 @@
 		011F8149219D31C000A1495F /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		011F814B219D35ED00A1495F /* EventsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsTests.swift; sourceTree = "<group>"; };
 		011F8152219E637E00A1495F /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		01236D0621EBEC09008DD61A /* APITransactionHistoryReportResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionHistoryReportResponse.swift; sourceTree = "<group>"; };
+		01236D0921EBF4E5008DD61A /* Reports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reports.swift; sourceTree = "<group>"; };
+		01236D0B21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionCurrentReportResponse.swift; sourceTree = "<group>"; };
+		01236D0D21EBFA34008DD61A /* ReportsEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsEndpoint.swift; sourceTree = "<group>"; };
+		01236D0F21EC02CC008DD61A /* Network+Reports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+Reports.swift"; sourceTree = "<group>"; };
+		01236D1121EC0D96008DD61A /* ReportsRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsRequestTests.swift; sourceTree = "<group>"; };
+		01236D1621EC2466008DD61A /* APITransactionHistoryReportResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APITransactionHistoryReportResponse+Test.swift"; sourceTree = "<group>"; };
+		01236D1B21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportTransactionCurrent+Test.swift"; sourceTree = "<group>"; };
+		01236D1F21EC32EA008DD61A /* ReportTransactionHistory+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportTransactionHistory+Test.swift"; sourceTree = "<group>"; };
 		0126068221990377005D8377 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		0126068521990449005D8377 /* FrolloSDKDataModel-1.1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.1.0.xcdatamodel"; sourceTree = "<group>"; };
 		0126068621991963005D8377 /* Message+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -1178,6 +1204,40 @@
 			path = Notifications;
 			sourceTree = "<group>";
 		};
+		01236D0521EBEBCF008DD61A /* Reports */ = {
+			isa = PBXGroup;
+			children = (
+				01236D0B21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift */,
+				01236D0621EBEC09008DD61A /* APITransactionHistoryReportResponse.swift */,
+			);
+			path = Reports;
+			sourceTree = "<group>";
+		};
+		01236D0821EBF4CD008DD61A /* Reports */ = {
+			isa = PBXGroup;
+			children = (
+				01236D0921EBF4E5008DD61A /* Reports.swift */,
+			);
+			path = Reports;
+			sourceTree = "<group>";
+		};
+		01236D1521EC2441008DD61A /* Reports */ = {
+			isa = PBXGroup;
+			children = (
+				01236D1621EC2466008DD61A /* APITransactionHistoryReportResponse+Test.swift */,
+			);
+			path = Reports;
+			sourceTree = "<group>";
+		};
+		01236D1A21EC2FA2008DD61A /* Reports */ = {
+			isa = PBXGroup;
+			children = (
+				01236D1B21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift */,
+				01236D1F21EC32EA008DD61A /* ReportTransactionHistory+Test.swift */,
+			);
+			path = Reports;
+			sourceTree = "<group>";
+		};
 		0126068121990158005D8377 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
@@ -1341,6 +1401,7 @@
 				013D2D84210A889200EEDEC5 /* Device */,
 				011F813C219D251000A1495F /* Events */,
 				0126069421992ABA005D8377 /* Messages */,
+				01236D0521EBEBCF008DD61A /* Reports */,
 				013D2D83210A888900EEDEC5 /* Shared */,
 				013D2D82210A887C00EEDEC5 /* User */,
 			);
@@ -1385,6 +1446,7 @@
 				0101A8EA21CC4F6B00DCFCEB /* Bills */,
 				013D2D88210A8AE900EEDEC5 /* Device */,
 				012606D2219BC2A2005D8377 /* Messages */,
+				01236D1521EC2441008DD61A /* Reports */,
 				013D2D8A210A8AF700EEDEC5 /* Shared */,
 				013D2D89210A8AF000EEDEC5 /* User */,
 			);
@@ -1466,6 +1528,7 @@
 				01EED85E20E5A7EA00F4516B /* Network */,
 				011F8151219E636900A1495F /* Notifications */,
 				01EED86020E5A7EA00F4516B /* Preferences */,
+				01236D0821EBF4CD008DD61A /* Reports */,
 				01819147211178AC000E0F80 /* Shared */,
 				0160953520F33E980060791B /* Version */,
 			);
@@ -1742,6 +1805,7 @@
 				015EEDFA210FE5440081AD76 /* Aggregation */,
 				0101A8F421CC54DA00DCFCEB /* Bills */,
 				012606C5219BA998005D8377 /* Messages */,
+				01236D1A21EC2FA2008DD61A /* Reports */,
 				015EEDFB210FE5490081AD76 /* User */,
 				013A32D22112C40500B0590B /* CoreData+Test.swift */,
 			);
@@ -1828,6 +1892,7 @@
 				01874B7520F82158005A7D0C /* Endpoint.swift */,
 				011F813F219D25F000A1495F /* EventsEndpoint.swift */,
 				0126069021992909005D8377 /* MessagesEndpoint.swift */,
+				01236D0D21EBFA34008DD61A /* ReportsEndpoint.swift */,
 				01874B7320F81EA8005A7D0C /* UserEndpoint.swift */,
 			);
 			path = Endpoints;
@@ -1841,6 +1906,7 @@
 				01874B7E20FD9F21005A7D0C /* Network+Device.swift */,
 				011F8141219D282400A1495F /* Network+Events.swift */,
 				0126069221992A36005D8377 /* Network+Messages.swift */,
+				01236D0F21EC02CC008DD61A /* Network+Reports.swift */,
 				01874B7C20FD6FB9005A7D0C /* Network+User.swift */,
 			);
 			path = Requests;
@@ -1855,6 +1921,7 @@
 				011F8143219D2A3E00A1495F /* EventsRequestTests.swift */,
 				0126069821994A0D005D8377 /* MessagesRequestTests.swift */,
 				01874B7A20F834D1005A7D0C /* UserRequestTests.swift */,
+				01236D1121EC0D96008DD61A /* ReportsRequestTests.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -2641,6 +2708,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01236D0C21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift in Sources */,
 				018240DD21C8B80B005705F9 /* Bill+CoreDataClass.swift in Sources */,
 				01C8250720EDDB4F0093400E /* DataError.swift in Sources */,
 				01ED8FC7211A5DE800ACE691 /* Transaction+CoreDataClass.swift in Sources */,
@@ -2678,6 +2746,7 @@
 				01C824EE20EC40FD0093400E /* ConsoleLogger.swift in Sources */,
 				012606AF219A784D005D8377 /* MessageVideo+CoreDataClass.swift in Sources */,
 				01483BB921196E2100D0DA87 /* APIMerchantResponse.swift in Sources */,
+				01236D0721EBEC09008DD61A /* APITransactionHistoryReportResponse.swift in Sources */,
 				01483B712117C7E900D0DA87 /* APIAccountResponse.swift in Sources */,
 				017B48E02107FE6A00447E65 /* APIUserResponse.swift in Sources */,
 				011F8153219E637E00A1495F /* Notifications.swift in Sources */,
@@ -2689,6 +2758,7 @@
 				012606B8219A7EF1005D8377 /* APIMessageUpdateRequest.swift in Sources */,
 				01874B7620F82158005A7D0C /* Endpoint.swift in Sources */,
 				01405E5721DDCD65009356CC /* BillPayment+CoreDataClass.swift in Sources */,
+				01236D0E21EBFA34008DD61A /* ReportsEndpoint.swift in Sources */,
 				011F8142219D282400A1495F /* Network+Events.swift in Sources */,
 				015EEE03211030F30081AD76 /* Aggregation.swift in Sources */,
 				01483B9C21192D4A00D0DA87 /* APITransactionCategoryResponse.swift in Sources */,
@@ -2758,7 +2828,9 @@
 				018240E321C8BB6A005705F9 /* APIBillsResponse.swift in Sources */,
 				01ED8FCA211A5E7A00ACE691 /* APITransactionResponse.swift in Sources */,
 				01EED86320E5A7EB00F4516B /* Network.swift in Sources */,
+				01236D1021EC02CC008DD61A /* Network+Reports.swift in Sources */,
 				0159E4892193CBAD002CC3BB /* Account+CoreDataProperties.swift in Sources */,
+				01236D0A21EBF4E5008DD61A /* Reports.swift in Sources */,
 				01C8250320EDDB340093400E /* APIError.swift in Sources */,
 				0135D31821A3D74500318142 /* FrolloSDKDelegate.swift in Sources */,
 				0135D2FD21A2202400318142 /* NotificationPayload.swift in Sources */,
@@ -2771,6 +2843,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0181914E21117BC2000E0F80 /* AggregationTests.swift in Sources */,
+				01236D1721EC2466008DD61A /* APITransactionHistoryReportResponse+Test.swift in Sources */,
 				015EEDEA210FDAB20081AD76 /* AggregationRequestTests.swift in Sources */,
 				01ED8FCC211A660900ACE691 /* APITransactionResponse+Test.swift in Sources */,
 				01483B822117F65500D0DA87 /* AccountBalanceTierTests.swift in Sources */,
@@ -2786,6 +2859,7 @@
 				01405E6621DEDFED009356CC /* BillPayment+Test.swift in Sources */,
 				012606CB219BA9C5005D8377 /* MessageTests.swift in Sources */,
 				012606C2219B8B5F005D8377 /* MessagesTests.swift in Sources */,
+				01236D2021EC32EA008DD61A /* ReportTransactionHistory+Test.swift in Sources */,
 				013A32C32112BBDE00B0590B /* APIProviderAccountResponse+Test.swift in Sources */,
 				0135D31A21A4C03000318142 /* FrolloSDKDelegateTests.swift in Sources */,
 				0101A90421CC8ABA00DCFCEB /* BillsTests.swift in Sources */,
@@ -2836,6 +2910,7 @@
 				013BC1E3218A81E2005A2714 /* ProviderLoginFormViewModelTests.swift in Sources */,
 				01C824F720EC7AC30093400E /* FileLoggerTests.swift in Sources */,
 				01405E6A21DEE067009356CC /* APIBillPaymentResponse+Test.swift in Sources */,
+				01236D1221EC0D96008DD61A /* ReportsRequestTests.swift in Sources */,
 				0101A8EE21CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
 				011C198B21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */,
 				01C824F320EC4D600093400E /* LogTests.swift in Sources */,
@@ -2853,6 +2928,7 @@
 				017B48F12108356C00447E65 /* User+Test.swift in Sources */,
 				011F814C219D35ED00A1495F /* EventsTests.swift in Sources */,
 				01483BA821194AEC00D0DA87 /* TransactionCategoryTests.swift in Sources */,
+				01236D1C21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift in Sources */,
 				01483BA42119321A00D0DA87 /* TransactionCategory+Test.swift in Sources */,
 				012606C7219BA9B7005D8377 /* Message+Test.swift in Sources */,
 				012606CF219BBD75005D8377 /* String+Random.swift in Sources */,
@@ -2868,6 +2944,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0181914F21117BC2000E0F80 /* AggregationTests.swift in Sources */,
+				01236D1821EC2466008DD61A /* APITransactionHistoryReportResponse+Test.swift in Sources */,
 				015EEDEB210FDAB20081AD76 /* AggregationRequestTests.swift in Sources */,
 				01ED8FCD211A660900ACE691 /* APITransactionResponse+Test.swift in Sources */,
 				01483B832117F65500D0DA87 /* AccountBalanceTierTests.swift in Sources */,
@@ -2883,6 +2960,7 @@
 				01405E6721DEDFEE009356CC /* BillPayment+Test.swift in Sources */,
 				012606CC219BA9C5005D8377 /* MessageTests.swift in Sources */,
 				012606C3219B8B5F005D8377 /* MessagesTests.swift in Sources */,
+				01236D2121EC32EA008DD61A /* ReportTransactionHistory+Test.swift in Sources */,
 				013A32C42112BBDE00B0590B /* APIProviderAccountResponse+Test.swift in Sources */,
 				0135D31B21A4C03000318142 /* FrolloSDKDelegateTests.swift in Sources */,
 				0101A90521CC8ABA00DCFCEB /* BillsTests.swift in Sources */,
@@ -2933,6 +3011,7 @@
 				013BC1E4218A81E2005A2714 /* ProviderLoginFormViewModelTests.swift in Sources */,
 				017B483D2101B4FE00447E65 /* FileLoggerTests.swift in Sources */,
 				01405E6B21DEE067009356CC /* APIBillPaymentResponse+Test.swift in Sources */,
+				01236D1321EC0D96008DD61A /* ReportsRequestTests.swift in Sources */,
 				0101A8EF21CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
 				011C198C21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */,
 				017B483E2101B4FE00447E65 /* LogTests.swift in Sources */,
@@ -2950,6 +3029,7 @@
 				017B48F22108356C00447E65 /* User+Test.swift in Sources */,
 				011F814D219D35ED00A1495F /* EventsTests.swift in Sources */,
 				01483BA921194AEC00D0DA87 /* TransactionCategoryTests.swift in Sources */,
+				01236D1D21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift in Sources */,
 				01483BA52119321A00D0DA87 /* TransactionCategory+Test.swift in Sources */,
 				012606C8219BA9B7005D8377 /* Message+Test.swift in Sources */,
 				012606D0219BBD75005D8377 /* String+Random.swift in Sources */,
@@ -2974,6 +3054,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0181915021117BC2000E0F80 /* AggregationTests.swift in Sources */,
+				01236D1921EC2466008DD61A /* APITransactionHistoryReportResponse+Test.swift in Sources */,
 				015EEDEC210FDAB20081AD76 /* AggregationRequestTests.swift in Sources */,
 				01ED8FCE211A660900ACE691 /* APITransactionResponse+Test.swift in Sources */,
 				017B488D2105958100447E65 /* APIErrorTests.swift in Sources */,
@@ -2989,6 +3070,7 @@
 				01405E6821DEDFEE009356CC /* BillPayment+Test.swift in Sources */,
 				012606CD219BA9C5005D8377 /* MessageTests.swift in Sources */,
 				012606C4219B8B5F005D8377 /* MessagesTests.swift in Sources */,
+				01236D2221EC32EA008DD61A /* ReportTransactionHistory+Test.swift in Sources */,
 				01483BA22119318D00D0DA87 /* APITransactionCategoryResponse+Test.swift in Sources */,
 				0135D31C21A4C03000318142 /* FrolloSDKDelegateTests.swift in Sources */,
 				0101A90621CC8ABA00DCFCEB /* BillsTests.swift in Sources */,
@@ -3039,6 +3121,7 @@
 				013BC1E5218A81E2005A2714 /* ProviderLoginFormViewModelTests.swift in Sources */,
 				01483B802117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */,
 				01405E6C21DEE067009356CC /* APIBillPaymentResponse+Test.swift in Sources */,
+				01236D1421EC0D96008DD61A /* ReportsRequestTests.swift in Sources */,
 				0101A8F021CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
 				011C198D21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */,
 				016097EC210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
@@ -3056,6 +3139,7 @@
 				01483BA62119321A00D0DA87 /* TransactionCategory+Test.swift in Sources */,
 				011F814E219D35ED00A1495F /* EventsTests.swift in Sources */,
 				017B48F32108356C00447E65 /* User+Test.swift in Sources */,
+				01236D1E21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift in Sources */,
 				01483BAA21194AEC00D0DA87 /* TransactionCategoryTests.swift in Sources */,
 				012606C9219BA9B7005D8377 /* Message+Test.swift in Sources */,
 				012606D1219BBD75005D8377 /* String+Random.swift in Sources */,

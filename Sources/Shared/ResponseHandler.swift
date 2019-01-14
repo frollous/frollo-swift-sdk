@@ -59,7 +59,7 @@ extension ResponseHandler {
         }
         
         managedObjectContext.performAndWait {
-            // Fetch existing providers for updating
+            // Fetch existing objects for updating
             let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
             
             var predicates = [NSPredicate(format: primaryKey + " IN %@", argumentArray: [objectIDs])]

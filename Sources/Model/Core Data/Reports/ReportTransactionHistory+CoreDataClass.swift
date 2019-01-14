@@ -130,11 +130,5 @@ public class ReportTransactionHistory: NSManagedObject {
             periodRawValue = newValue.rawValue
         }
     }
-    
-    // MARK: - Update object
-    
-//    internal func update(response: T, context: NSManagedObjectContext) {
-//
-//    }
 
 }
