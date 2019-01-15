@@ -37,6 +37,12 @@ extension Merchant {
     /// Associated bills (optional)
     @NSManaged public var bills: Set<Bill>?
     
+    /// Related transaction history reports
+    @NSManaged public var historyReports: NSSet?
+    
+    /// Related transaction current reports
+    @NSManaged public var currentReports: NSSet?
+    
     /// Related transactions
     @NSManaged public var transactions: Set<Transaction>?
 
@@ -83,3 +89,46 @@ extension Merchant {
     @NSManaged public func removeFromTransactions(_ values: Set<Transaction>)
 
 }
+
+// MARK: Generated accessors for historyReports
+extension Merchant {
+    
+    /// Add a transaction history report relationship
+    @objc(addHistoryReportsObject:)
+    @NSManaged public func addToHistoryReports(_ value: ReportTransactionHistory)
+    
+    /// Remove a transaction history report relationship
+    @objc(removeHistoryReportsObject:)
+    @NSManaged public func removeFromHistoryReports(_ value: ReportTransactionHistory)
+    
+    /// Add transaction history report relationships
+    @objc(addHistoryReports:)
+    @NSManaged public func addToHistoryReports(_ values: NSSet)
+    
+    /// Remove transaction history report relationships
+    @objc(removeHistoryReports:)
+    @NSManaged public func removeFromHistoryReports(_ values: NSSet)
+    
+}
+
+// MARK: Generated accessors for currentReports
+extension Merchant {
+    
+    /// Add a transaction current report relationship
+    @objc(addCurrentReportsObject:)
+    @NSManaged public func addToCurrentReports(_ value: ReportTransactionCurrent)
+    
+    /// Remove a transaction current report relationship
+    @objc(removeCurrentReportsObject:)
+    @NSManaged public func removeFromCurrentReports(_ value: ReportTransactionCurrent)
+    
+    /// Add transaction current report relationships
+    @objc(addCurrentReports:)
+    @NSManaged public func addToCurrentReports(_ values: NSSet)
+    
+    /// Remove transaction current report relationships
+    @objc(removeCurrentReports:)
+    @NSManaged public func removeFromCurrentReports(_ values: NSSet)
+    
+}
+

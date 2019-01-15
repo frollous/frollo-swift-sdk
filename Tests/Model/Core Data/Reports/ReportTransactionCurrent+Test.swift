@@ -20,7 +20,7 @@ extension ReportTransactionCurrent: TestableCoreData {
         day = Int64.random(in: 1...31)
         grouping = ReportGrouping.allCases.randomElement()!
         name = String.randomString(range: 3...30)
-        merchantID = Bool.random() ? Int64.random(in: 1...1000000) : -1
+        linkedID = Bool.random() ? Int64.random(in: 1...1000000) : -1
         previous = NSDecimalNumber(string: "31.33")
     }
     

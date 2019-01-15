@@ -11,15 +11,35 @@ import Foundation
 
 protocol ResponseHandler {
     
-    func linkObjectToParentObject<T: CacheableManagedObject & NSManagedObject, U: CacheableManagedObject & NSManagedObject>(type: T.Type, parentType: U.Type, managedObjectContext: NSManagedObjectContext, linkedIDs: Set<Int64>, linkedKey: KeyPath<T, Int64>, linkedKeyName: String) -> Set<Int64>
-    func updateObjectWithResponse<T: CacheableManagedObject & NSManagedObject>(type: T.Type, objectResponse: APIUniqueResponse, primaryKey: String, managedObjectContext: NSManagedObjectContext)
-    func updateObjectsWithResponse<T: CacheableManagedObject & NSManagedObject>(type: T.Type, objectsResponse: [APIUniqueResponse], primaryKey: String, linkedKeys: [KeyPath<T, Int64>], filterPredicate: NSPredicate?, managedObjectContext: NSManagedObjectContext) -> [KeyPath<T, Int64>: Set<Int64>]
+    func linkObjectToParentObject<T: UniqueManagedObject & NSManagedObject, U: UniqueManagedObject & NSManagedObject>(type: T.Type,
+                                                                                                                            parentType: U.Type,
+                                                                                                                            objectFilterPredicate: NSPredicate?,
+                                                                                                                            parentFilterPredicate: NSPredicate?,
+                                                                                                                            managedObjectContext: NSManagedObjectContext,
+                                                                                                                            linkedIDs: Set<Int64>,
+                                                                                                                            linkedKey: KeyPath<T, Int64>,
+                                                                                                                            linkedKeyName: String) -> Set<Int64>
+    
+    func updateObjectWithResponse<T: UniqueManagedObject & NSManagedObject>(type: T.Type,
+                                                                               objectResponse: APIUniqueResponse,
+                                                                               primaryKey: String,
+                                                                               managedObjectContext: NSManagedObjectContext)
+    
+    func updateObjectsWithResponse<T: UniqueManagedObject & NSManagedObject>(type: T.Type,
+                                                                                objectsResponse: [APIUniqueResponse],
+                                                                                primaryKey: String,
+                                                                                linkedKeys: [KeyPath<T, Int64>],
+                                                                                filterPredicate: NSPredicate?,
+                                                                                managedObjectContext: NSManagedObjectContext) -> [KeyPath<T, Int64>: Set<Int64>]
 
 }
 
 extension ResponseHandler {
     
-    internal func updateObjectWithResponse<T: CacheableManagedObject & NSManagedObject>(type: T.Type, objectResponse: APIUniqueResponse, primaryKey: String, managedObjectContext: NSManagedObjectContext) {
+    internal func updateObjectWithResponse<T: UniqueManagedObject & NSManagedObject>(type: T.Type,
+                                                                                        objectResponse: APIUniqueResponse,
+                                                                                        primaryKey: String,
+                                                                                        managedObjectContext: NSManagedObjectContext) {
         managedObjectContext.performAndWait {
             // Fetch existing providers for updating
             let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
@@ -45,7 +65,12 @@ extension ResponseHandler {
     /**
      Some of that crazy voodoo shit
     */
-    @discardableResult internal func updateObjectsWithResponse<T: CacheableManagedObject & NSManagedObject>(type: T.Type, objectsResponse: [APIUniqueResponse], primaryKey: String, linkedKeys: [KeyPath<T, Int64>], filterPredicate: NSPredicate?, managedObjectContext: NSManagedObjectContext) -> [KeyPath<T, Int64>: Set<Int64>] {
+    @discardableResult internal func updateObjectsWithResponse<T: UniqueManagedObject & NSManagedObject>(type: T.Type,
+                                                                                                            objectsResponse: [APIUniqueResponse],
+                                                                                                            primaryKey: String,
+                                                                                                            linkedKeys: [KeyPath<T, Int64>],
+                                                                                                            filterPredicate: NSPredicate?,
+                                                                                                            managedObjectContext: NSManagedObjectContext) -> [KeyPath<T, Int64>: Set<Int64>] {
         // Sort by ID
         let sortedObjectResponses = objectsResponse.sorted(by: { (responseA: APIUniqueResponse, responseB: APIUniqueResponse) -> Bool in
             return responseB.id > responseA.id
@@ -120,18 +145,35 @@ extension ResponseHandler {
         return linkedIDs
     }
     
-    @discardableResult internal func linkObjectToParentObject<T: CacheableManagedObject & NSManagedObject, U: CacheableManagedObject & NSManagedObject>(type: T.Type, parentType: U.Type, managedObjectContext: NSManagedObjectContext, linkedIDs: Set<Int64>, linkedKey: KeyPath<T, Int64>, linkedKeyName: String) -> Set<Int64> {
+    @discardableResult internal func linkObjectToParentObject<T: NSManagedObject, U: UniqueManagedObject & NSManagedObject>(type: T.Type,
+                                                                                                                                parentType: U.Type,
+                                                                                                                                objectFilterPredicate: NSPredicate? = nil,
+                                                                                                                                parentFilterPredicate: NSPredicate? = nil,
+                                                                                                                                managedObjectContext: NSManagedObjectContext,
+                                                                                                                                linkedIDs: Set<Int64>,
+                                                                                                                                linkedKey: KeyPath<T, Int64>,
+                                                                                                                                linkedKeyName: String) -> Set<Int64> {
         var missingLinkedIDs = Set<Int64>()
         
         managedObjectContext.performAndWait {
+            var objectPredicates = [NSPredicate(format: linkedKeyName + " IN %@", linkedIDs)]
+            if let filterPredicate = objectFilterPredicate {
+                objectPredicates.append(filterPredicate)
+            }
+            
             let objectFetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
-            objectFetchRequest.predicate = NSPredicate(format: linkedKeyName + " IN %@", linkedIDs)
+            objectFetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: objectPredicates)
             objectFetchRequest.sortDescriptors = [NSSortDescriptor(key: linkedKeyName, ascending: true)]
             
             let objects = try! managedObjectContext.fetch(objectFetchRequest)
             
+            var parentObjectPredicates = [NSPredicate(format: linkedKeyName + " IN %@", linkedIDs)]
+            if let filterPredicate = parentFilterPredicate {
+                parentObjectPredicates.append(filterPredicate)
+            }
+            
             let parentObjectFetchRequest: NSFetchRequest<U> = U.fetchRequest() as! NSFetchRequest<U>
-            parentObjectFetchRequest.predicate = NSPredicate(format: linkedKeyName + " IN %@", linkedIDs)
+            parentObjectFetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: parentObjectPredicates)
             parentObjectFetchRequest.sortDescriptors = [NSSortDescriptor(key: linkedKeyName, ascending: true)]
             
             let parentObjects = try! managedObjectContext.fetch(parentObjectFetchRequest)

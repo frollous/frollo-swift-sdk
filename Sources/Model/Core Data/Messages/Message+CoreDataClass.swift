@@ -15,17 +15,11 @@ import CoreData
  
  Core Data represenation of a message
  */
-public class Message: NSManagedObject, CacheableManagedObject {
+public class Message: NSManagedObject, UniqueManagedObject {
     
     internal var primaryID: Int64 {
         get {
             return messageID
-        }
-    }
-    
-    internal var linkedID: Int64? {
-        get {
-            return nil
         }
     }
     
@@ -92,7 +86,7 @@ public class Message: NSManagedObject, CacheableManagedObject {
     
     // MARK: Updating Object
     
-    internal func linkObject(object: CacheableManagedObject) {
+    internal func linkObject(object: NSManagedObject) {
         // Do nothing
     }
     

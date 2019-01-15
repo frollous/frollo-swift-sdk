@@ -15,7 +15,7 @@ import CoreData
  
  Core Data representation of a merchant object
  */
-public class Merchant: NSManagedObject, CacheableManagedObject {
+public class Merchant: NSManagedObject, UniqueManagedObject {
 
     /**
      Merchant Type
@@ -40,12 +40,6 @@ public class Merchant: NSManagedObject, CacheableManagedObject {
     internal var primaryID: Int64 {
         get {
             return merchantID
-        }
-    }
-    
-    internal var linkedID: Int64? {
-        get {
-            return nil
         }
     }
     
@@ -74,7 +68,7 @@ public class Merchant: NSManagedObject, CacheableManagedObject {
     
     // MARK: - Update Object
     
-    internal func linkObject(object: CacheableManagedObject) {
+    internal func linkObject(object: NSManagedObject) {
         if let bill = object as? Bill {
             addToBills(bill)
         }

@@ -11,15 +11,15 @@ import Foundation
 
 protocol CachedObjects {
     
-    func cachedObject<T: CacheableManagedObject & NSManagedObject>(type: T.Type, context: NSManagedObjectContext, objectID: Int64, objectKey: String) -> T?
-    func cachedObjects<T: CacheableManagedObject & NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, limit: Int?) -> [T]?
+    func cachedObject<T: UniqueManagedObject & NSManagedObject>(type: T.Type, context: NSManagedObjectContext, objectID: Int64, objectKey: String) -> T?
+    func cachedObjects<T: UniqueManagedObject & NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, limit: Int?) -> [T]?
     func fetchedResultsController<T: NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, limit: Int?) -> NSFetchedResultsController<T>
     
 }
 
 extension CachedObjects {
     
-    internal func cachedObject<T: CacheableManagedObject & NSManagedObject>(type: T.Type, context: NSManagedObjectContext, objectID: Int64, objectKey: String) -> T? {
+    internal func cachedObject<T: UniqueManagedObject & NSManagedObject>(type: T.Type, context: NSManagedObjectContext, objectID: Int64, objectKey: String) -> T? {
         var fetchedObject: T?
         
         context.performAndWait {
@@ -38,7 +38,7 @@ extension CachedObjects {
         return fetchedObject
     }
     
-    func cachedObjects<T: CacheableManagedObject & NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, limit: Int?) -> [T]? {
+    func cachedObjects<T: UniqueManagedObject & NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, limit: Int?) -> [T]? {
         var fetchedObjects: [T]?
         
         context.performAndWait {

@@ -15,17 +15,11 @@ import CoreData
  
  Core Data model of the account.
  */
-public class Account: NSManagedObject, CacheableManagedObject {
+public class Account: NSManagedObject, UniqueManagedObject {
     
     internal var primaryID: Int64 {
         get {
             return accountID
-        }
-    }
-    
-    internal var linkedID: Int64? {
-        get {
-            return providerAccountID
         }
     }
     
@@ -369,7 +363,7 @@ public class Account: NSManagedObject, CacheableManagedObject {
     
     // MARK: - Updating object
     
-    internal func linkObject(object: CacheableManagedObject) {
+    internal func linkObject(object: NSManagedObject) {
         if let bill = object as? Bill {
             addToBills(bill)
         }

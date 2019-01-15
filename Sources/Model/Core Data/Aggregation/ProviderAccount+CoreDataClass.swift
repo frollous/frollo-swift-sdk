@@ -15,17 +15,11 @@ import CoreData
  
  Core Data representation of an account login for a `Provider`
  */
-public class ProviderAccount: NSManagedObject, CacheableManagedObject {
+public class ProviderAccount: NSManagedObject, UniqueManagedObject {
     
     internal var primaryID: Int64 {
         get {
             return providerAccountID
-        }
-    }
-    
-    internal var linkedID: Int64? {
-        get {
-            return providerID
         }
     }
 
@@ -97,7 +91,7 @@ public class ProviderAccount: NSManagedObject, CacheableManagedObject {
         }
     }
     
-    internal func linkObject(object: CacheableManagedObject) {
+    internal func linkObject(object: NSManagedObject) {
         if let account = object as? Account {
             addToAccounts(account)
         }

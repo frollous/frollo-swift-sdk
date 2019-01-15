@@ -15,17 +15,11 @@ import CoreData
  
  Core Data represenation of provider of accounts
  */
-public class Provider: NSManagedObject, CacheableManagedObject {
+public class Provider: NSManagedObject, UniqueManagedObject {
     
     internal var primaryID: Int64 {
         get {
             return providerID
-        }
-    }
-    
-    internal var linkedID: Int64? {
-        get {
-            return nil
         }
     }
     
@@ -245,7 +239,7 @@ public class Provider: NSManagedObject, CacheableManagedObject {
     
     // MARK: - Relationships
     
-    internal func linkObject(object: CacheableManagedObject) {
+    internal func linkObject(object: NSManagedObject) {
         if let providerAccount = object as? ProviderAccount {
             addToProviderAccounts(providerAccount)
         }

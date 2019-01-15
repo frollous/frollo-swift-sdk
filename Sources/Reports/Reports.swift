@@ -9,16 +9,21 @@
 import CoreData
 import Foundation
 
-class Reports {
+class Reports: ResponseHandler {
     
+    private let aggregation: Aggregation
     private let database: Database
     private let network: Network
     
     private let reportsLock = NSLock()
     
+    private var linkingMerchantIDs = Set<Int64>()
+    private var linkingTransactionCategoryIDs = Set<Int64>()
+    
     internal init(database: Database, network: Network, aggregation: Aggregation) {
         self.database = database
         self.network = network
+        self.aggregation = aggregation
     }
     
     /**
@@ -41,11 +46,62 @@ class Reports {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleTransactionHistoryReportsResponse(reportsResponse, grouping: grouping, period: period, budgetCategory: budgetCategory, managedObjectContext: managedObjectContext)
+                    
+                    self.linkReportTransactionHistoryToMerchants(managedObjectContext: managedObjectContext)
+                    self.linkReportTransactionHistoryToTransactionCategories(managedObjectContext: managedObjectContext)
                 }
             }
             
             DispatchQueue.main.async {
                 completion?(error)
+            }
+        }
+    }
+    
+    // MARK: - Linking Objects
+    
+    private func linkReportTransactionHistoryToMerchants(managedObjectContext: NSManagedObjectContext) {
+        reportsLock.lock()
+        aggregation.merchantLock.lock()
+        
+        defer {
+            reportsLock.unlock()
+            aggregation.merchantLock.unlock()
+        }
+        
+        let filterPredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " != nil && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.merchant.rawValue])
+        linkObjectToParentObject(type: ReportTransactionHistory.self, parentType: Merchant.self, objectFilterPredicate: filterPredicate, managedObjectContext: managedObjectContext, linkedIDs: linkingTransactionCategoryIDs, linkedKey: \ReportTransactionHistory.linkedID, linkedKeyName: #keyPath(ReportTransactionHistory.linkedID))
+        
+        linkingTransactionCategoryIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func linkReportTransactionHistoryToTransactionCategories(managedObjectContext: NSManagedObjectContext) {
+        reportsLock.lock()
+        aggregation.transactionCategoryLock.lock()
+        
+        defer {
+            reportsLock.unlock()
+            aggregation.transactionCategoryLock.unlock()
+        }
+        
+        let filterPredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " != nil && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.merchant.rawValue])
+        linkObjectToParentObject(type: ReportTransactionHistory.self, parentType: Merchant.self, objectFilterPredicate: filterPredicate, managedObjectContext: managedObjectContext, linkedIDs: linkingTransactionCategoryIDs, linkedKey: \ReportTransactionHistory.linkedID, linkedKeyName: #keyPath(ReportTransactionHistory.linkedID))
+        
+        linkingTransactionCategoryIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
             }
         }
     }
@@ -134,6 +190,14 @@ class Reports {
             } catch {
                 Log.error(error.localizedDescription)
             }
+            
+            managedObjectContext.performAndWait {
+                do {
+                    try managedObjectContext.save()
+                } catch {
+                    Log.error(error.localizedDescription)
+                }
+            }
         }
     }
     
@@ -143,28 +207,55 @@ class Reports {
             return responseB.id > responseA.id
         })
         
+        var linkedIDs = Set<Int64>()
+        
         let categoryReportIDs = sortedCategoryReportResponses.map { $0.id }
         
-        let filterPredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.categoryID) + " IN %@", argumentArray: categoryReportIDs)
-        if let filteredCategoryReports = overallReport.categoryReports?.filtered(using: filterPredicate) as? Set<ReportTransactionHistory> {
-            let existingCategoryReports = filteredCategoryReports.sorted(by: { (reportA: ReportTransactionHistory, reportB: ReportTransactionHistory) -> Bool in
-                return reportB.categoryID > reportA.categoryID
+        // Split existing child reports into matching and orphaned
+        let filterPredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.linkedID) + " IN %@", argumentArray: categoryReportIDs)
+        if let filteredGroupReports = overallReport.reports?.filtered(using: filterPredicate) as? Set<ReportTransactionHistory>,
+            let orphanedGroupReports = overallReport.reports?.filtered(using: NSCompoundPredicate(notPredicateWithSubpredicate: filterPredicate)) as? Set<ReportTransactionHistory> {
+            let existingGroupReports = filteredGroupReports.sorted(by: { (reportA: ReportTransactionHistory, reportB: ReportTransactionHistory) -> Bool in
+                return reportB.linkedID > reportA.linkedID
             })
             
             var index = 0
             
-            for categoryReportResponse in sortedCategoryReportResponses {
-                var categoryReport: ReportTransactionHistory
+            for groupReportResponse in sortedCategoryReportResponses {
+                var groupReport: ReportTransactionHistory
                 
-                if index < existingCategoryReports.count && existingCategoryReports[index].categoryID == categoryReportResponse.id {
-                    categoryReport = existingCategoryReports[index]
+                if index < existingGroupReports.count && existingGroupReports[index].linkedID == groupReportResponse.id {
+                    groupReport = existingGroupReports[index]
                     index += 1
                 } else {
-                    categoryReport = ReportTransactionHistory(context: managedObjectContext)
+                    groupReport = ReportTransactionHistory(context: managedObjectContext)
+                    groupReport.overall = overallReport
+                    groupReport.period = overallReport.period
+                    groupReport.grouping = overallReport.grouping
+                    groupReport.budgetCategory = overallReport.budgetCategory
                 }
                 
-                //object.update(response: objectResponse, context: managedObjectContext)
+                groupReport.linkedID = groupReportResponse.id
+                groupReport.budget = NSDecimalNumber(string: groupReportResponse.budget)
+                groupReport.value = NSDecimalNumber(string: groupReportResponse.value)
+                groupReport.name = groupReportResponse.name
+                
+                linkedIDs.insert(groupReport.linkedID)
             }
+            
+            // Delete any leftovers
+            for orphanedGroupReport in orphanedGroupReports {
+                managedObjectContext.delete(orphanedGroupReport)
+            }
+        }
+        
+        switch overallReport.grouping {
+            case .merchant:
+                linkingMerchantIDs = linkingMerchantIDs.union(linkedIDs)
+            case .transactionCategory:
+                linkingTransactionCategoryIDs = linkingTransactionCategoryIDs.union(linkedIDs)
+            default:
+                break
         }
     }
     

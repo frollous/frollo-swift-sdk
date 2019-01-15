@@ -12,15 +12,15 @@ import Foundation
 /// Manages all aggregation data including accounts, transactions, categories and merchants
 public class Aggregation: CachedObjects, ResponseHandler {
     
+    internal let accountLock = NSLock()
+    internal let merchantLock = NSLock()
+    internal let providerLock = NSLock()
+    internal let providerAccountLock = NSLock()
+    internal let transactionLock = NSLock()
+    internal let transactionCategoryLock = NSLock()
+    
     private let database: Database
     private let network: Network
-    
-    private let accountLock = NSLock()
-    private let merchantLock = NSLock()
-    private let providerLock = NSLock()
-    private let providerAccountLock = NSLock()
-    private let transactionLock = NSLock()
-    private let transactionCategoryLock = NSLock()
     
     private var linkingProviderIDs = Set<Int64>()
     private var linkingProviderAccountIDs = Set<Int64>()
@@ -33,7 +33,6 @@ public class Aggregation: CachedObjects, ResponseHandler {
         self.database = database
         self.network = network
     }
-    
     
     // MARK: - Providers
     
@@ -870,7 +869,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
-    internal func linkObjectsToAccounts<T: CacheableManagedObject & NSManagedObject>(type: T.Type, managedObjectContext: NSManagedObjectContext, linkingIDs: Set<Int64>, linkedKey: KeyPath<T, Int64>, linkedKeyName: String) {
+    internal func linkObjectsToAccounts<T: UniqueManagedObject & NSManagedObject>(type: T.Type, managedObjectContext: NSManagedObjectContext, linkingIDs: Set<Int64>, linkedKey: KeyPath<T, Int64>, linkedKeyName: String) {
         accountLock.lock()
         
         defer {
@@ -888,7 +887,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
-    internal func linkObjectsToMerchants<T: CacheableManagedObject & NSManagedObject>(type: T.Type, managedObjectContext: NSManagedObjectContext, linkingIDs: Set<Int64>, linkedKey: KeyPath<T, Int64>, linkedKeyName: String) {
+    internal func linkObjectsToMerchants<T: UniqueManagedObject & NSManagedObject>(type: T.Type, managedObjectContext: NSManagedObjectContext, linkingIDs: Set<Int64>, linkedKey: KeyPath<T, Int64>, linkedKeyName: String) {
         merchantLock.lock()
         
         defer {
@@ -906,7 +905,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
-    internal func linkObjectsToTransactionCategories<T: CacheableManagedObject & NSManagedObject>(type: T.Type, managedObjectContext: NSManagedObjectContext, linkingIDs: Set<Int64>, linkedKey: KeyPath<T, Int64>, linkedKeyName: String) {
+    internal func linkObjectsToTransactionCategories<T: UniqueManagedObject & NSManagedObject>(type: T.Type, managedObjectContext: NSManagedObjectContext, linkingIDs: Set<Int64>, linkedKey: KeyPath<T, Int64>, linkedKeyName: String) {
         transactionCategoryLock.lock()
         
         defer {

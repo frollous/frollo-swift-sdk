@@ -15,7 +15,7 @@ import CoreData
  
  Core Data representation of a transaction category giving details on what type a transaction is
  */
-public class TransactionCategory: NSManagedObject, CacheableManagedObject {
+public class TransactionCategory: NSManagedObject, UniqueManagedObject {
     
     /**
      Transaction Category Type
@@ -56,12 +56,6 @@ public class TransactionCategory: NSManagedObject, CacheableManagedObject {
         }
     }
     
-    internal var linkedID: Int64? {
-        get {
-            return nil
-        }
-    }
-    
     /// Category
     public var categoryType: CategoryType {
         get {
@@ -97,7 +91,7 @@ public class TransactionCategory: NSManagedObject, CacheableManagedObject {
     
     // MARK: - Updating object
     
-    internal func linkObject(object: CacheableManagedObject) {
+    internal func linkObject(object: NSManagedObject) {
         if let bill = object as? Bill {
             addToBills(bill)
         }

@@ -435,38 +435,68 @@ public class Bills: CachedObjects, ResponseHandler  {
     
     private func linkBillsToAccounts(managedObjectContext: NSManagedObjectContext) {
         billsLock.lock()
+        aggregation.accountLock.lock()
         
         defer {
             billsLock.unlock()
+            aggregation.accountLock.unlock()
         }
         
-        aggregation.linkObjectsToAccounts(type: Bill.self, managedObjectContext: managedObjectContext, linkingIDs: linkingAccountIDs, linkedKey: \Bill.accountID, linkedKeyName: #keyPath(Bill.accountID))
+        linkObjectToParentObject(type: Bill.self, parentType: Account.self, managedObjectContext: managedObjectContext, linkedIDs: linkingAccountIDs, linkedKey: \Bill.accountID, linkedKeyName: #keyPath(Bill.accountID))
         
         linkingAccountIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
     }
     
     private func linkBillsToMerchants(managedObjectContext: NSManagedObjectContext) {
         billsLock.lock()
+        aggregation.merchantLock.lock()
         
         defer {
             billsLock.unlock()
+            aggregation.merchantLock.unlock()
         }
         
-        aggregation.linkObjectsToMerchants(type: Bill.self, managedObjectContext: managedObjectContext, linkingIDs: linkingMerchantIDs, linkedKey: \Bill.merchantID, linkedKeyName: #keyPath(Bill.merchantID))
+        linkObjectToParentObject(type: Bill.self, parentType: Merchant.self, managedObjectContext: managedObjectContext, linkedIDs: linkingMerchantIDs, linkedKey: \Bill.merchantID, linkedKeyName: #keyPath(Bill.merchantID))
         
         linkingMerchantIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
     }
     
     private func linkBillsToTransactionCategories(managedObjectContext: NSManagedObjectContext) {
         billsLock.lock()
+        aggregation.transactionCategoryLock.lock()
         
         defer {
             billsLock.unlock()
+            aggregation.transactionCategoryLock.unlock()
         }
         
-        aggregation.linkObjectsToTransactionCategories(type: Bill.self, managedObjectContext: managedObjectContext, linkingIDs: linkingTransactionCategoryIDs, linkedKey: \Bill.transactionCategoryID, linkedKeyName: #keyPath(Bill.transactionCategoryID))
+        linkObjectToParentObject(type: Bill.self, parentType: TransactionCategory.self, managedObjectContext: managedObjectContext, linkedIDs: linkingTransactionCategoryIDs, linkedKey: \Bill.transactionCategoryID, linkedKeyName: #keyPath(Bill.transactionCategoryID))
         
         linkingTransactionCategoryIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
     }
     
     private func linkBillPaymentsToBills(managedObjectContext: NSManagedObjectContext) {

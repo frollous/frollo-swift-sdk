@@ -79,46 +79,12 @@ public class ReportTransactionHistory: NSManagedObject {
         }
     }
     
-    public var fromDate: Date? {
-        get {
-            if let dateString = fromDateString {
-                return ReportTransactionHistory.dailyDateFormatter.date(from: dateString)
-            } else {
-                return nil
-            }
-        }
-        set {
-            if let newDate = newValue {
-                fromDateString = ReportTransactionHistory.dailyDateFormatter.string(from: newDate)
-            } else {
-                fromDateString = nil
-            }
-        }
-    }
-    
     public var grouping: ReportGrouping {
         get {
             return ReportGrouping(rawValue: groupingRawValue)!
         }
         set {
             groupingRawValue = newValue.rawValue
-        }
-    }
-    
-    public var toDate: Date? {
-        get {
-            if let dateString = toDateString {
-                return ReportTransactionHistory.dailyDateFormatter.date(from: dateString)
-            } else {
-                return nil
-            }
-        }
-        set {
-            if let newDate = newValue {
-                toDateString = ReportTransactionHistory.dailyDateFormatter.string(from: newDate)
-            } else {
-                toDateString = nil
-            }
         }
     }
     

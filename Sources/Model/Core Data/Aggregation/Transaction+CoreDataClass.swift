@@ -15,7 +15,7 @@ import CoreData
  
  Core Data representation of a transaction from an account
  */
-public class Transaction: NSManagedObject, CacheableManagedObject {
+public class Transaction: NSManagedObject, UniqueManagedObject {
     
     /**
      Transaction Base Type
@@ -70,12 +70,6 @@ public class Transaction: NSManagedObject, CacheableManagedObject {
     internal var primaryID: Int64 {
         get {
             return transactionID
-        }
-    }
-    
-    internal var linkedID: Int64? {
-        get {
-            return nil
         }
     }
     
@@ -138,7 +132,7 @@ public class Transaction: NSManagedObject, CacheableManagedObject {
 
     // MARK: - Updating Object
     
-    internal func linkObject(object: CacheableManagedObject) {
+    internal func linkObject(object: NSManagedObject) {
         // Not used
     }
     

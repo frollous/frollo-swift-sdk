@@ -17,9 +17,7 @@ extension ReportTransactionHistory: TestableCoreData {
         
         budget = Bool.random() ? NSDecimalNumber(string: "2100") : nil
         budgetCategory = category ? BudgetCategory.allCases.randomElement() : nil
-        categoryID = category ? Int64.random(in: 1...10000000) : -1
-        fromDateString = "2018-01-01"
-        toDateString = "2018-12-31"
+        linkedID = category ? Int64.random(in: 1...10000000) : -1
         grouping = ReportGrouping.allCases.randomElement()!
         period = Period.allCases.randomElement()!
         value = NSDecimalNumber(string: "1986.31")

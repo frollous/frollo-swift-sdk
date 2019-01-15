@@ -1,5 +1,5 @@
 //
-//  CacheableManagedObject.swift
+//  UniqueManagedObject.swift
 //  FrolloSDK
 //
 //  Created by Nick Dawson on 1/8/18.
@@ -9,14 +9,13 @@
 import CoreData
 import Foundation
 
-internal protocol CacheableManagedObject: class {
+internal protocol UniqueManagedObject: class {
     
     static var entityName: String { get }
     
     var primaryID: Int64 { get }
-    var linkedID: Int64? { get }
     
-    func linkObject(object: CacheableManagedObject)
+    func linkObject(object: NSManagedObject)
     func update(response: APIUniqueResponse, context: NSManagedObjectContext)
     
 }

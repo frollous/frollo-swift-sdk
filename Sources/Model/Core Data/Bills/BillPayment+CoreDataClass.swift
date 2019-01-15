@@ -15,7 +15,7 @@ import CoreData
  
  Core Data model of the bill payment.
  */
-public class BillPayment: NSManagedObject, CacheableManagedObject {
+public class BillPayment: NSManagedObject, UniqueManagedObject {
 
     /// Core Data entity description name
     static var entityName = "BillPayment"
@@ -31,12 +31,6 @@ public class BillPayment: NSManagedObject, CacheableManagedObject {
     internal var primaryID: Int64 {
         get {
             return billPaymentID
-        }
-    }
-    
-    internal var linkedID: Int64? {
-        get {
-            return billID
         }
     }
     
@@ -72,7 +66,7 @@ public class BillPayment: NSManagedObject, CacheableManagedObject {
     
     // MARK: - Updating object
     
-    internal func linkObject(object: CacheableManagedObject) {
+    internal func linkObject(object: NSManagedObject) {
         // Not used
     }
     

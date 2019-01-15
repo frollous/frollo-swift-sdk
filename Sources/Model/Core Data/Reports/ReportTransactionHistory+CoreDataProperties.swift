@@ -2,7 +2,7 @@
 //  ReportTransactionHistory+CoreDataProperties.swift
 //  FrolloSDK
 //
-//  Created by Nick Dawson on 14/1/19.
+//  Created by Nick Dawson on 15/1/19.
 //  Copyright © 2019 Frollo. All rights reserved.
 //
 //
@@ -19,32 +19,32 @@ extension ReportTransactionHistory {
 
     @NSManaged public var budget: NSDecimalNumber?
     @NSManaged public var budgetCategoryRawValue: String?
-    @NSManaged public var categoryID: Int64
+    @NSManaged public var linkedID: Int64
     @NSManaged public var dateString: String
-    @NSManaged public var fromDateString: String?
     @NSManaged public var groupingRawValue: String
     @NSManaged public var name: String?
     @NSManaged public var periodRawValue: String
-    @NSManaged public var toDateString: String?
     @NSManaged public var value: NSDecimalNumber?
-    @NSManaged public var categoryReports: NSSet?
+    @NSManaged public var reports: NSSet?
     @NSManaged public var overall: ReportTransactionHistory?
+    @NSManaged public var transactionCategory: TransactionCategory?
+    @NSManaged public var merchant: Merchant?
 
 }
 
-// MARK: Generated accessors for categoryReports
+// MARK: Generated accessors for reports
 extension ReportTransactionHistory {
 
-    @objc(addCategoryReportsObject:)
-    @NSManaged public func addToCategoryReports(_ value: ReportTransactionHistory)
+    @objc(addReportsObject:)
+    @NSManaged public func addToReports(_ value: ReportTransactionHistory)
 
-    @objc(removeCategoryReportsObject:)
-    @NSManaged public func removeFromCategoryReports(_ value: ReportTransactionHistory)
+    @objc(removeReportsObject:)
+    @NSManaged public func removeFromReports(_ value: ReportTransactionHistory)
 
-    @objc(addCategoryReports:)
-    @NSManaged public func addToCategoryReports(_ values: NSSet)
+    @objc(addReports:)
+    @NSManaged public func addToReports(_ values: NSSet)
 
-    @objc(removeCategoryReports:)
-    @NSManaged public func removeFromCategoryReports(_ values: NSSet)
+    @objc(removeReports:)
+    @NSManaged public func removeFromReports(_ values: NSSet)
 
 }

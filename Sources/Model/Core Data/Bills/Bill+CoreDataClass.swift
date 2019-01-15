@@ -15,7 +15,7 @@ import CoreData
  
  Core Data model of the bill.
  */
-public class Bill: NSManagedObject, CacheableManagedObject {
+public class Bill: NSManagedObject, UniqueManagedObject {
     
     /**
      Bill Type
@@ -127,12 +127,6 @@ public class Bill: NSManagedObject, CacheableManagedObject {
         }
     }
     
-    internal var linkedID: Int64? {
-        get {
-            return nil
-        }
-    }
-    
     /// Bill Type
     public var billType: BillType {
         get {
@@ -219,7 +213,7 @@ public class Bill: NSManagedObject, CacheableManagedObject {
     
     // MARK: - Updating object
     
-    internal func linkObject(object: CacheableManagedObject) {
+    internal func linkObject(object: NSManagedObject) {
         if let billPayment = object as? BillPayment {
             addToPayments(billPayment)
         }
