@@ -160,6 +160,9 @@
 		01236D6921EED5F7008DD61A /* transaction_reports_current_budget_category.json in Resources */ = {isa = PBXBuildFile; fileRef = 01236D5921EED5F6008DD61A /* transaction_reports_current_budget_category.json */; };
 		01236D6A21EED5F7008DD61A /* transaction_reports_current_budget_category.json in Resources */ = {isa = PBXBuildFile; fileRef = 01236D5921EED5F6008DD61A /* transaction_reports_current_budget_category.json */; };
 		01236D6B21EED5F7008DD61A /* transaction_reports_current_budget_category.json in Resources */ = {isa = PBXBuildFile; fileRef = 01236D5921EED5F6008DD61A /* transaction_reports_current_budget_category.json */; };
+		01236D6E21EED72C008DD61A /* ReportsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D6D21EED72C008DD61A /* ReportsTests.swift */; };
+		01236D6F21EED72C008DD61A /* ReportsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D6D21EED72C008DD61A /* ReportsTests.swift */; };
+		01236D7021EED72C008DD61A /* ReportsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D6D21EED72C008DD61A /* ReportsTests.swift */; };
 		0126068321990377005D8377 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068221990377005D8377 /* Messages.swift */; };
 		0126068821991963005D8377 /* Message+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068621991963005D8377 /* Message+CoreDataClass.swift */; };
 		0126068921991963005D8377 /* Message+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068721991963005D8377 /* Message+CoreDataProperties.swift */; };
@@ -834,6 +837,7 @@
 		01236D5721EED5F6008DD61A /* transaction_reports_current_txn_category_3_days.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_reports_current_txn_category_3_days.json; sourceTree = "<group>"; };
 		01236D5821EED5F6008DD61A /* transaction_reports_current_txn_category_lifestyle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_reports_current_txn_category_lifestyle.json; sourceTree = "<group>"; };
 		01236D5921EED5F6008DD61A /* transaction_reports_current_budget_category.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_reports_current_budget_category.json; sourceTree = "<group>"; };
+		01236D6D21EED72C008DD61A /* ReportsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsTests.swift; sourceTree = "<group>"; };
 		0126068221990377005D8377 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		0126068521990449005D8377 /* FrolloSDKDataModel-1.1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.1.0.xcdatamodel"; sourceTree = "<group>"; };
 		0126068621991963005D8377 /* Message+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -1315,6 +1319,14 @@
 			path = Reports;
 			sourceTree = "<group>";
 		};
+		01236D6C21EED6FA008DD61A /* Reports */ = {
+			isa = PBXGroup;
+			children = (
+				01236D6D21EED72C008DD61A /* ReportsTests.swift */,
+			);
+			path = Reports;
+			sourceTree = "<group>";
+		};
 		0126068121990158005D8377 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
@@ -1632,6 +1644,7 @@
 				0101949C20F595C900334482 /* Network */,
 				0135D2FE21A2559C00318142 /* Notifications */,
 				017B486B2105431200447E65 /* Preferences */,
+				01236D6C21EED6FA008DD61A /* Reports */,
 				01EEDB1520EADEFA00F4516B /* Resources */,
 				0160953820F41EB80060791B /* Version */,
 				013BC1E0218A81B4005A2714 /* View Model */,
@@ -2999,6 +3012,7 @@
 				0101A8E721C9C28E00DCFCEB /* BillsRequestTests.swift in Sources */,
 				013A32D32112C40500B0590B /* CoreData+Test.swift in Sources */,
 				0101A8FD21CC832600DCFCEB /* BillTests.swift in Sources */,
+				01236D6E21EED72C008DD61A /* ReportsTests.swift in Sources */,
 				01C824F920EC8EF90093400E /* ConsoleLoggerTests.swift in Sources */,
 				013A32CB2112BE6600B0590B /* ProviderAccountTests.swift in Sources */,
 				013D2D90210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */,
@@ -3100,6 +3114,7 @@
 				0101A8E821C9C28E00DCFCEB /* BillsRequestTests.swift in Sources */,
 				013A32D42112C40500B0590B /* CoreData+Test.swift in Sources */,
 				0101A8FE21CC832600DCFCEB /* BillTests.swift in Sources */,
+				01236D6F21EED72C008DD61A /* ReportsTests.swift in Sources */,
 				017B48372101B4FE00447E65 /* ConsoleLoggerTests.swift in Sources */,
 				013A32CC2112BE6600B0590B /* ProviderAccountTests.swift in Sources */,
 				013D2D91210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */,
@@ -3210,6 +3225,7 @@
 				0101A8E921C9C28E00DCFCEB /* BillsRequestTests.swift in Sources */,
 				01483B96211913F200D0DA87 /* APIAccountUpdateRequest+Test.swift in Sources */,
 				0101A8FF21CC832600DCFCEB /* BillTests.swift in Sources */,
+				01236D7021EED72C008DD61A /* ReportsTests.swift in Sources */,
 				013D2D92210A8DED00EEDEC5 /* APIUserLoginRequest+Test.swift in Sources */,
 				017B48932105958100447E65 /* DatabaseMigrationTests.swift in Sources */,
 				01483B752117D80100D0DA87 /* APIAccountResponse+Test.swift in Sources */,

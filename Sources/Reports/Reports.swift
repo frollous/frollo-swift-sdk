@@ -366,6 +366,7 @@ class Reports: ResponseHandler {
                     }
                     
                     report.dateString = reportResponse.date
+                    report.budget = NSDecimalNumber(string: reportResponse.budget)
                     report.value = NSDecimalNumber(string: reportResponse.value)
                     
                     handleTransactionHistoryGroupReportsResponse(reportResponse.groups, overallReport: report, managedObjectContext: managedObjectContext)
@@ -431,6 +432,7 @@ class Reports: ResponseHandler {
                 } else {
                     groupReport = ReportTransactionHistory(context: managedObjectContext)
                     groupReport.overall = overallReport
+                    groupReport.dateString = overallReport.dateString
                     groupReport.period = overallReport.period
                     groupReport.grouping = overallReport.grouping
                     groupReport.budgetCategory = overallReport.budgetCategory

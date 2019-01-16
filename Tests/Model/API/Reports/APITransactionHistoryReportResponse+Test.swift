@@ -31,6 +31,7 @@ extension APITransactionHistoryReportsResponse {
         
         for i in 1...12 {
             let report = APITransactionHistoryReportsResponse.Report(groups: APITransactionHistoryReportsResponse.testGroupReports(),
+                                                                     budget: "11.00",
                                                                      date: "2018-" + String(i) + "-01",
                                                                      value: "10.32")
             

@@ -869,60 +869,6 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
-    internal func linkObjectsToAccounts<T: UniqueManagedObject & NSManagedObject>(type: T.Type, managedObjectContext: NSManagedObjectContext, linkingIDs: Set<Int64>, linkedKey: KeyPath<T, Int64>, linkedKeyName: String) {
-        accountLock.lock()
-        
-        defer {
-            accountLock.unlock()
-        }
-        
-        linkObjectToParentObject(type: type, parentType: Account.self, managedObjectContext: managedObjectContext, linkedIDs: linkingIDs, linkedKey: linkedKey, linkedKeyName: linkedKeyName)
-        
-        managedObjectContext.performAndWait {
-            do {
-                try managedObjectContext.save()
-            } catch {
-                Log.error(error.localizedDescription)
-            }
-        }
-    }
-    
-    internal func linkObjectsToMerchants<T: UniqueManagedObject & NSManagedObject>(type: T.Type, managedObjectContext: NSManagedObjectContext, linkingIDs: Set<Int64>, linkedKey: KeyPath<T, Int64>, linkedKeyName: String) {
-        merchantLock.lock()
-        
-        defer {
-            merchantLock.unlock()
-        }
-        
-        linkObjectToParentObject(type: type, parentType: Merchant.self, managedObjectContext: managedObjectContext, linkedIDs: linkingIDs, linkedKey: linkedKey, linkedKeyName: linkedKeyName)
-        
-        managedObjectContext.performAndWait {
-            do {
-                try managedObjectContext.save()
-            } catch {
-                Log.error(error.localizedDescription)
-            }
-        }
-    }
-    
-    internal func linkObjectsToTransactionCategories<T: UniqueManagedObject & NSManagedObject>(type: T.Type, managedObjectContext: NSManagedObjectContext, linkingIDs: Set<Int64>, linkedKey: KeyPath<T, Int64>, linkedKeyName: String) {
-        transactionCategoryLock.lock()
-        
-        defer {
-            transactionCategoryLock.unlock()
-        }
-        
-        linkObjectToParentObject(type: type, parentType: TransactionCategory.self, managedObjectContext: managedObjectContext, linkedIDs: linkingIDs, linkedKey: linkedKey, linkedKeyName: linkedKeyName)
-        
-        managedObjectContext.performAndWait {
-            do {
-                try managedObjectContext.save()
-            } catch {
-                Log.error(error.localizedDescription)
-            }
-        }
-    }
-    
     // MARK: - Response Handling
     
     private func handleProviderResponse(_ providerResponse: APIProviderResponse, managedObjectContext: NSManagedObjectContext) {

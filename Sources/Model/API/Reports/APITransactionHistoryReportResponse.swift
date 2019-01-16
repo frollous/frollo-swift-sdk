@@ -22,6 +22,7 @@ struct APITransactionHistoryReportsResponse: Codable {
         }
         
         let groups: [GroupReport]
+        let budget: String?
         let date: String
         let value: String
         
