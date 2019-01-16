@@ -24,7 +24,63 @@ class ReportsRequestTests: XCTestCase {
     }
     
     func testFetchTransactionCurrentReports() {
+        let expectation1 = expectation(description: "Network Request")
         
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.transactionsCurrent.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_txn_category_living", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        network.fetchTransactionCurrentReports(grouping: .transactionCategory, budgetCategory: .living) { (response, error) in
+            XCTAssertNil(error)
+            
+            if let reportsResponse = response {
+                XCTAssertEqual(reportsResponse.days.count, 31)
+                
+                if let firstReport = reportsResponse.days.first {
+                    XCTAssertEqual(firstReport.day, 1)
+                    XCTAssertEqual(firstReport.spendValue, "-79.80")
+                    XCTAssertEqual(firstReport.previousPeriodValue, "-79.80")
+                    XCTAssertEqual(firstReport.averageValue, "-53.20")
+                    XCTAssertNil(firstReport.budgetValue)
+                } else {
+                    XCTFail("No report")
+                }
+                
+                XCTAssertEqual(reportsResponse.groups.count, 6)
+                
+                if let firstGroupReport = reportsResponse.groups.first {
+                    XCTAssertEqual(firstGroupReport.id, 70)
+                    XCTAssertEqual(firstGroupReport.name, "Cable/Satellite/Telecom")
+                    XCTAssertEqual(firstGroupReport.spendValue, "-219.80")
+                    XCTAssertEqual(firstGroupReport.previousPeriodValue, "-219.80")
+                    XCTAssertEqual(firstGroupReport.averageValue, "-219.80")
+                    
+                    XCTAssertEqual(firstGroupReport.days.count, 31)
+                    
+                    if let firstGroupDayReport = firstGroupReport.days.first {
+                        XCTAssertEqual(firstGroupDayReport.day, 1)
+                        XCTAssertEqual(firstGroupDayReport.spendValue, "-79.80")
+                        XCTAssertEqual(firstGroupDayReport.previousPeriodValue, "-79.80")
+                        XCTAssertEqual(firstGroupDayReport.averageValue, "-53.20")
+                        XCTAssertNil(firstGroupDayReport.budgetValue)
+                    } else {
+                        XCTFail("No group day reports")
+                    }
+                } else {
+                    XCTFail("No group reports")
+                }
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
     }
 
     func testFetchTransactionHistoryReports() {
@@ -33,7 +89,7 @@ class ReportsRequestTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.transactionsHistory.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_txn_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
@@ -50,10 +106,16 @@ class ReportsRequestTests: XCTestCase {
                 XCTAssertEqual(reportsResponse.data.count, 12)
                 
                 if let firstReport = reportsResponse.data.first {
-                    XCTAssertEqual(firstReport.value, "100.00")
+                    XCTAssertEqual(firstReport.value, "744.37")
+                    XCTAssertEqual(firstReport.date, "2018-01")
                     
-                    if let firstCategoryReport = firstReport.groups.first {
-                        
+                    XCTAssertEqual(firstReport.groups.count, 12)
+                    
+                    if let firstGroupReport = firstReport.groups.first {
+                        XCTAssertEqual(firstGroupReport.id, 64)
+                        XCTAssertEqual(firstGroupReport.name, "Entertainment/Recreation")
+                        XCTAssertEqual(firstGroupReport.value, "-17.99")
+                        XCTAssertNil(firstGroupReport.budget)
                     } else {
                         XCTFail("No category report")
                     }

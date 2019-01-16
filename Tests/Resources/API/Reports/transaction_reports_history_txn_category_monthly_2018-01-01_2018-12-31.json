@@ -1,0 +1,921 @@
+{
+	"data": [{
+		"date": "2018-01",
+		"value": "744.37",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-17.99",
+			"transaction_ids": [194418]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-287.74",
+			"transaction_ids": [194550, 194549, 194548, 194608, 194488, 194609, 194490, 194610, 194489]
+		}, {
+			"id": 69,
+			"name": "Insurance",
+			"value": "-1200.0",
+			"transaction_ids": [194318]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-39.9",
+			"transaction_ids": [194169]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-370.0",
+			"transaction_ids": [194115, 194114]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-300.0",
+			"transaction_ids": [194726, 194727, 194896, 194897, 194728, 194895, 194898]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-40.0",
+			"transaction_ids": [194128]
+		}, {
+			"id": 80,
+			"name": "ATM/Cash Withdrawals",
+			"value": "-240.0",
+			"transaction_ids": [194277, 194273, 194276, 194275, 194274]
+		}, {
+			"id": 83,
+			"name": "Transfers",
+			"value": "100.0",
+			"transaction_ids": [194301]
+		}, {
+			"id": 84,
+			"name": "Salary/Regular Income",
+			"value": "3250.0",
+			"transaction_ids": [194127]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-70.0",
+			"transaction_ids": [194181]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194766]
+		}]
+	}, {
+		"date": "2018-02",
+		"value": "888.07",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194417, 194406]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-616.95",
+			"transaction_ids": [194486, 194603, 194482, 194544, 194604, 194483, 194545, 194605, 194484, 194485, 194546, 194606, 194547, 194754, 194607, 194487]
+		}, {
+			"id": 68,
+			"name": "Home Improvement",
+			"value": "-30.0",
+			"transaction_ids": [194742]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-70.0",
+			"transaction_ids": [194289]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-740.0",
+			"transaction_ids": [194111, 194110, 194113, 194112]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-510.0",
+			"transaction_ids": [194889, 194886, 194894, 194723, 194724, 194887, 194722, 194890, 194888, 194718, 194893, 194892, 194891, 194717, 194885, 194725]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-120.0",
+			"transaction_ids": [194129, 194130, 194131]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194348]
+		}, {
+			"id": 80,
+			"name": "ATM/Cash Withdrawals",
+			"value": "-250.0",
+			"transaction_ids": [194271, 194267, 194269, 194270, 194272, 194266, 194268]
+		}, {
+			"id": 83,
+			"name": "Transfers",
+			"value": "100.0",
+			"transaction_ids": [194300]
+		}, {
+			"id": 84,
+			"name": "Salary/Regular Income",
+			"value": "3250.0",
+			"transaction_ids": [194126]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-70.0",
+			"transaction_ids": [194180]
+		}]
+	}, {
+		"date": "2018-03",
+		"value": "563.17",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194416, 194405]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-629.55",
+			"transaction_ids": [194477, 194481, 194602, 194753, 194542, 194480, 194601, 194541, 194479, 194478, 194600, 194540, 194599, 194539, 194476, 194598, 194543]
+		}, {
+			"id": 68,
+			"name": "Home Improvement",
+			"value": "-30.0",
+			"transaction_ids": [194741]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-109.9",
+			"transaction_ids": [194168, 194288]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-44.4",
+			"transaction_ids": [194393, 194394, 194392]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-740.0",
+			"transaction_ids": [194109, 194108, 194107, 194106]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-648.0",
+			"transaction_ids": [194877, 194878, 194879, 194712, 194880, 194881, 194882, 194884, 194875, 194708, 194876, 194714, 194883, 194716, 194715, 194706, 194713, 194707, 194874]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-120.0",
+			"transaction_ids": [194134, 194132, 194133]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194347]
+		}, {
+			"id": 80,
+			"name": "ATM/Cash Withdrawals",
+			"value": "-300.0",
+			"transaction_ids": [194264, 194263, 194262, 194261, 194258, 194260, 194259, 194265]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "0.0",
+			"transaction_ids": [194316, 194335]
+		}, {
+			"id": 83,
+			"name": "Transfers",
+			"value": "100.0",
+			"transaction_ids": [194299]
+		}, {
+			"id": 84,
+			"name": "Salary/Regular Income",
+			"value": "3250.0",
+			"transaction_ids": [194125]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-70.0",
+			"transaction_ids": [194179]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194765]
+		}]
+	}, {
+		"date": "2018-04",
+		"value": "524.12",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194415, 194404]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-629.55",
+			"transaction_ids": [194538, 194474, 194470, 194537, 194534, 194594, 194471, 194535, 194593, 194595, 194472, 194475, 194473, 194597, 194536, 194752, 194596]
+		}, {
+			"id": 68,
+			"name": "Home Improvement",
+			"value": "-30.0",
+			"transaction_ids": [194740]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-109.9",
+			"transaction_ids": [194167, 194287]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-28.45",
+			"transaction_ids": [194391, 194390]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-925.0",
+			"transaction_ids": [194105, 194104, 194103, 194102, 194101]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-518.0",
+			"transaction_ids": [194870, 194704, 194866, 194871, 194863, 194869, 194868, 194702, 194872, 194703, 194697, 194705, 194873, 194865, 194867, 194698, 194864]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-120.0",
+			"transaction_ids": [194137, 194136, 194135]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194346]
+		}, {
+			"id": 80,
+			"name": "ATM/Cash Withdrawals",
+			"value": "-300.0",
+			"transaction_ids": [194255, 194257, 194256, 194254, 194253, 194252, 194251, 194250]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "0.0",
+			"transaction_ids": [194334, 194315]
+		}, {
+			"id": 83,
+			"name": "Transfers",
+			"value": "100.0",
+			"transaction_ids": [194298]
+		}, {
+			"id": 84,
+			"name": "Salary/Regular Income",
+			"value": "3250.0",
+			"transaction_ids": [194124]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-70.0",
+			"transaction_ids": [194178]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194764]
+		}]
+	}, {
+		"date": "2018-05",
+		"value": "671.62",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194403, 194414]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-629.55",
+			"transaction_ids": [194590, 194468, 194591, 194531, 194466, 194532, 194751, 194465, 194467, 194533, 194469, 194592, 194530, 194588, 194464, 194529, 194589]
+		}, {
+			"id": 68,
+			"name": "Home Improvement",
+			"value": "-30.0",
+			"transaction_ids": [194739]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-109.9",
+			"transaction_ids": [194286, 194166]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-40.95",
+			"transaction_ids": [194387, 194389, 194388]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-740.0",
+			"transaction_ids": [194097, 194100, 194099, 194098]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-583.0",
+			"transaction_ids": [194861, 194860, 194854, 194688, 194694, 194693, 194853, 194852, 194687, 194695, 194696, 194862, 194856, 194857, 194692, 194858, 194855, 194859]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-80.0",
+			"transaction_ids": [194138, 194139]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194345]
+		}, {
+			"id": 80,
+			"name": "ATM/Cash Withdrawals",
+			"value": "-300.0",
+			"transaction_ids": [194244, 194245, 194246, 194247, 194248, 194249, 194243, 194242]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "0.0",
+			"transaction_ids": [194314, 194333, 194336, 194332, 194317, 194313]
+		}, {
+			"id": 83,
+			"name": "Transfers",
+			"value": "100.0",
+			"transaction_ids": [194297]
+		}, {
+			"id": 84,
+			"name": "Salary/Regular Income",
+			"value": "3250.0",
+			"transaction_ids": [194123]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-70.0",
+			"transaction_ids": [194177]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194763]
+		}]
+	}, {
+		"date": "2018-06",
+		"value": "566.52",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194402, 194413]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-642.15",
+			"transaction_ids": [194526, 194460, 194750, 194458, 194527, 194462, 194523, 194583, 194585, 194525, 194459, 194584, 194587, 194524, 194461, 194463, 194528, 194586]
+		}, {
+			"id": 68,
+			"name": "Home Improvement",
+			"value": "-30.0",
+			"transaction_ids": [194738]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-109.9",
+			"transaction_ids": [194285, 194165]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-28.45",
+			"transaction_ids": [194385, 194386]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-740.0",
+			"transaction_ids": [194093, 194094, 194096, 194095]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-648.0",
+			"transaction_ids": [194846, 194845, 194851, 194850, 194685, 194843, 194678, 194842, 194683, 194684, 194841, 194677, 194849, 194848, 194847, 194682, 194676, 194844, 194686]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-80.0",
+			"transaction_ids": [194140, 194141]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194344]
+		}, {
+			"id": 80,
+			"name": "ATM/Cash Withdrawals",
+			"value": "-300.0",
+			"transaction_ids": [194236, 194237, 194235, 194238, 194239, 194241, 194234, 194240]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "0.0",
+			"transaction_ids": [194331, 194311, 194330, 194312]
+		}, {
+			"id": 83,
+			"name": "Transfers",
+			"value": "100.0",
+			"transaction_ids": [194296]
+		}, {
+			"id": 84,
+			"name": "Salary/Regular Income",
+			"value": "3250.0",
+			"transaction_ids": [194122]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-70.0",
+			"transaction_ids": [194176]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-80.0",
+			"transaction_ids": [194762, 194761]
+		}]
+	}, {
+		"date": "2018-07",
+		"value": "-70.88",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194401, 194412]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-629.55",
+			"transaction_ids": [194454, 194452, 194518, 194456, 194581, 194521, 194578, 194455, 194519, 194579, 194453, 194520, 194580, 194457, 194582, 194749, 194522]
+		}, {
+			"id": 68,
+			"name": "Home Improvement",
+			"value": "-30.0",
+			"transaction_ids": [194737]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-109.9",
+			"transaction_ids": [194164, 194284]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-28.45",
+			"transaction_ids": [194383, 194384]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-1295.0",
+			"transaction_ids": [194092, 99601, 194090, 194088, 194091, 194089, 99600]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-583.0",
+			"transaction_ids": [194837, 194840, 194839, 194675, 194673, 194674, 194838, 194836, 194672, 194835, 194834, 194833, 194832, 194668, 194831, 194830, 194667, 194666]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-120.0",
+			"transaction_ids": [99610, 194143, 194142]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194343]
+		}, {
+			"id": 80,
+			"name": "ATM/Cash Withdrawals",
+			"value": "-490.0",
+			"transaction_ids": [99681, 194233, 194231, 99680, 194229, 99679, 99682, 194232, 194227, 194226, 194230, 194228]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "0.0",
+			"transaction_ids": [194329, 194310]
+		}, {
+			"id": 83,
+			"name": "Transfers",
+			"value": "200.0",
+			"transaction_ids": [99694, 194295]
+		}, {
+			"id": 84,
+			"name": "Salary/Regular Income",
+			"value": "3250.0",
+			"transaction_ids": [194121]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-140.0",
+			"transaction_ids": [99634, 194175]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194760]
+		}]
+	}, {
+		"date": "2018-08",
+		"value": "-33.58",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194400, 194411]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-629.55",
+			"transaction_ids": [194446, 194748, 194577, 194451, 194514, 194574, 194447, 194515, 194575, 194448, 194513, 194449, 194573, 194516, 194576, 194450, 194517]
+		}, {
+			"id": 68,
+			"name": "Home Improvement",
+			"value": "-30.0",
+			"transaction_ids": [194736]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-299.6",
+			"transaction_ids": [99628, 99627, 99688, 194283, 194162, 194163]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-28.45",
+			"transaction_ids": [194381, 194382]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-1480.0",
+			"transaction_ids": [99599, 194087, 194085, 194084, 99596, 99597, 99598, 194086]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-591.0",
+			"transaction_ids": [194662, 194656, 194657, 194819, 194820, 194658, 194821, 194822, 194823, 194824, 194825, 194826, 194827, 194664, 194663, 194665, 194828, 194829, 194818]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-240.0",
+			"transaction_ids": [99613, 194145, 99609, 194146, 194144, 99608]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194342]
+		}, {
+			"id": 80,
+			"name": "ATM/Cash Withdrawals",
+			"value": "-650.0",
+			"transaction_ids": [99672, 99678, 99671, 99675, 99677, 99674, 99676, 99673, 194225, 194220, 194224, 194223, 194222, 194221, 194217, 194218, 194219]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "-2000.0",
+			"transaction_ids": [99702, 194327, 99701, 194328, 194308, 194309]
+		}, {
+			"id": 83,
+			"name": "Transfers",
+			"value": "200.0",
+			"transaction_ids": [99693, 194294]
+		}, {
+			"id": 84,
+			"name": "Salary/Regular Income",
+			"value": "5950.0",
+			"transaction_ids": [99607, 194120]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-140.0",
+			"transaction_ids": [99633, 194174]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194759]
+		}]
+	}, {
+		"date": "2018-09",
+		"value": "872.02",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194399, 194410]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-629.55",
+			"transaction_ids": [194441, 194440, 194443, 194508, 194569, 194509, 194571, 194511, 194747, 194445, 194572, 194442, 194570, 194510, 194568, 194512, 194444]
+		}, {
+			"id": 68,
+			"name": "Home Improvement",
+			"value": "-30.0",
+			"transaction_ids": [194735]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-140.0",
+			"transaction_ids": [99687, 194282]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-28.45",
+			"transaction_ids": [194379, 194380]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-1850.0",
+			"transaction_ids": [99592, 194080, 194081, 99595, 194082, 99594, 99593, 194079, 194083, 99591]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-575.0",
+			"transaction_ids": [194811, 194646, 194647, 194808, 194809, 194648, 194810, 194812, 194813, 194652, 194814, 194815, 194816, 194654, 194653, 194817, 194655]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-240.0",
+			"transaction_ids": [99611, 99616, 194147, 194149, 194148, 99612]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194341]
+		}, {
+			"id": 80,
+			"name": "ATM/Cash Withdrawals",
+			"value": "-550.0",
+			"transaction_ids": [99669, 99663, 99670, 194214, 194213, 99666, 99664, 194212, 194215, 194210, 194211, 99665, 99667, 99668, 194216]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "-1000.0",
+			"transaction_ids": [99700, 194326, 194307]
+		}, {
+			"id": 83,
+			"name": "Transfers",
+			"value": "200.0",
+			"transaction_ids": [99692, 194293]
+		}, {
+			"id": 84,
+			"name": "Salary/Regular Income",
+			"value": "5950.0",
+			"transaction_ids": [99606, 194119]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-140.0",
+			"transaction_ids": [99632, 194173]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194758]
+		}]
+	}, {
+		"date": "2018-10",
+		"value": "1766.42",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194409, 194398]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-629.55",
+			"transaction_ids": [194746, 194563, 194439, 194434, 194504, 194564, 194435, 194505, 194565, 194436, 194437, 194506, 194566, 194438, 194507, 194503, 194567]
+		}, {
+			"id": 68,
+			"name": "Home Improvement",
+			"value": "-30.0",
+			"transaction_ids": [194734]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-299.6",
+			"transaction_ids": [194281, 99625, 99686, 99626, 194161, 194160]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-28.45",
+			"transaction_ids": [194377, 194378]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-1480.0",
+			"transaction_ids": [194077, 99590, 99587, 194078, 99589, 194075, 99588, 194076]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-591.0",
+			"transaction_ids": [194798, 194638, 194799, 194800, 194801, 194643, 194644, 194802, 194804, 194805, 194803, 194642, 194636, 194807, 194796, 194806, 194637, 194797, 194645]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-240.0",
+			"transaction_ids": [99615, 194150, 194151, 194152, 99614, 99618]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194340]
+		}, {
+			"id": 80,
+			"name": "ATM/Cash Withdrawals",
+			"value": "-650.0",
+			"transaction_ids": [99662, 99661, 194201, 99659, 99660, 194208, 194202, 194207, 99658, 194203, 99655, 99656, 194209, 194206, 194204, 194205, 99657]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "-1000.0",
+			"transaction_ids": [194325, 194306, 99699]
+		}, {
+			"id": 83,
+			"name": "Transfers",
+			"value": "200.0",
+			"transaction_ids": [99691, 194292]
+		}, {
+			"id": 84,
+			"name": "Salary/Regular Income",
+			"value": "6750.0",
+			"transaction_ids": [194118, 99605]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-140.0",
+			"transaction_ids": [194172, 99631]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194757]
+		}]
+	}, {
+		"date": "2018-11",
+		"value": "942.02",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194408, 194397]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-629.55",
+			"transaction_ids": [194498, 194433, 194562, 194745, 194502, 194432, 194561, 194501, 194431, 194430, 194560, 194500, 194429, 194559, 194499, 194428, 194558]
+		}, {
+			"id": 68,
+			"name": "Home Improvement",
+			"value": "-30.0",
+			"transaction_ids": [194733]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-140.0",
+			"transaction_ids": [194280, 99685]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-28.45",
+			"transaction_ids": [194375, 194376]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-1480.0",
+			"transaction_ids": [194073, 194074, 99585, 99584, 99583, 194071, 99586, 194072]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-575.0",
+			"transaction_ids": [194790, 194626, 194627, 194786, 194787, 194628, 194788, 194789, 194795, 194791, 194632, 194792, 194793, 194794, 194634, 194633, 194635]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-360.0",
+			"transaction_ids": [194153, 194154, 194370, 194368, 99617, 194364, 194366, 194365, 194367, 99620, 194369]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194339]
+		}, {
+			"id": 80,
+			"name": "ATM/Cash Withdrawals",
+			"value": "-530.0",
+			"transaction_ids": [194197, 99650, 99653, 194196, 99649, 194195, 194200, 99654, 194194, 99648, 99652, 194199, 194198, 99651]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "-2000.0",
+			"transaction_ids": [194304, 194305, 99698, 194324, 194323, 99697]
+		}, {
+			"id": 83,
+			"name": "Transfers",
+			"value": "200.0",
+			"transaction_ids": [194291, 99690]
+		}, {
+			"id": 84,
+			"name": "Salary/Regular Income",
+			"value": "6750.0",
+			"transaction_ids": [194117, 99604]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-140.0",
+			"transaction_ids": [99630, 194171]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194756]
+		}]
+	}, {
+		"date": "2018-12",
+		"value": "198.22",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194396, 194407]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-629.55",
+			"transaction_ids": [194556, 194494, 194422, 194554, 194423, 194553, 194495, 194555, 194424, 194493, 194425, 194427, 194557, 194744, 194496, 194497, 194426]
+		}, {
+			"id": 68,
+			"name": "Home Improvement",
+			"value": "-30.0",
+			"transaction_ids": [194732]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-219.8",
+			"transaction_ids": [194279, 99684, 99624, 194159]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-28.45",
+			"transaction_ids": [194374, 194373]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-1850.0",
+			"transaction_ids": [194067, 99578, 99581, 194068, 99579, 99582, 194069, 99580, 194070, 194066]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-583.0",
+			"transaction_ids": [194617, 194624, 194622, 194616, 194783, 194778, 194782, 194779, 194780, 194618, 194785, 194784, 194625, 194781, 194776, 194777, 194775, 194623]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-556.0",
+			"transaction_ids": [194357, 99622, 194358, 194355, 194352, 194360, 194354, 99619, 194156, 194356, 194363, 194362, 194353, 194361, 194155, 194359]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194338]
+		}, {
+			"id": 80,
+			"name": "ATM/Cash Withdrawals",
+			"value": "-620.0",
+			"transaction_ids": [194191, 99644, 194190, 99645, 194186, 99641, 99646, 99640, 99647, 99639, 194188, 194193, 194192, 194187, 194189, 99643, 99642]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "-2000.0",
+			"transaction_ids": [194322, 99695, 194321, 194303, 99696, 194302]
+		}, {
+			"id": 83,
+			"name": "Transfers",
+			"value": "200.0",
+			"transaction_ids": [99689, 194290]
+		}, {
+			"id": 84,
+			"name": "Salary/Regular Income",
+			"value": "6750.0",
+			"transaction_ids": [194116, 99603]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-140.0",
+			"transaction_ids": [194170, 99629]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194755]
+		}]
+	}]
+}

@@ -1,0 +1,356 @@
+{
+	"data": [{
+		"date": "2018-01",
+		"value": "-2007.64",
+		"groups": [{
+			"id": 66,
+			"name": "Groceries",
+			"value": "-287.74",
+			"transaction_ids": [194550, 194609, 194490, 194548, 194608, 194488, 194549, 194610, 194489]
+		}, {
+			"id": 69,
+			"name": "Insurance",
+			"value": "-1200.0",
+			"transaction_ids": [194318]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-39.9",
+			"transaction_ids": [194169]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-370.0",
+			"transaction_ids": [194115, 194114]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-40.0",
+			"transaction_ids": [194128]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-70.0",
+			"transaction_ids": [194181]
+		}]
+	}, {
+		"date": "2018-02",
+		"value": "-1556.95",
+		"groups": [{
+			"id": 66,
+			"name": "Groceries",
+			"value": "-556.95",
+			"transaction_ids": [194484, 194546, 194606, 194486, 194547, 194607, 194487, 194482, 194544, 194603, 194604, 194483, 194545, 194605, 194485]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-70.0",
+			"transaction_ids": [194289]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-740.0",
+			"transaction_ids": [194113, 194112, 194110, 194111]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-120.0",
+			"transaction_ids": [194129, 194131, 194130]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-70.0",
+			"transaction_ids": [194180]
+		}]
+	}, {
+		"date": "2018-03",
+		"value": "-1609.45",
+		"groups": [{
+			"id": 66,
+			"name": "Groceries",
+			"value": "-569.55",
+			"transaction_ids": [194476, 194481, 194602, 194542, 194480, 194601, 194541, 194479, 194478, 194600, 194540, 194477, 194599, 194539, 194598, 194543]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-109.9",
+			"transaction_ids": [194168, 194288]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-740.0",
+			"transaction_ids": [194108, 194109, 194106, 194107]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-120.0",
+			"transaction_ids": [194134, 194133, 194132]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-70.0",
+			"transaction_ids": [194179]
+		}]
+	}, {
+		"date": "2018-04",
+		"value": "-1794.45",
+		"groups": [{
+			"id": 66,
+			"name": "Groceries",
+			"value": "-569.55",
+			"transaction_ids": [194537, 194474, 194596, 194536, 194473, 194472, 194597, 194475, 194538, 194595, 194535, 194471, 194594, 194534, 194470, 194593]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-109.9",
+			"transaction_ids": [194167, 194287]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-925.0",
+			"transaction_ids": [194104, 194103, 194102, 194101, 194105]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-120.0",
+			"transaction_ids": [194136, 194135, 194137]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-70.0",
+			"transaction_ids": [194178]
+		}]
+	}, {
+		"date": "2018-05",
+		"value": "-1569.45",
+		"groups": [{
+			"id": 66,
+			"name": "Groceries",
+			"value": "-569.55",
+			"transaction_ids": [194529, 194589, 194465, 194466, 194467, 194591, 194592, 194532, 194468, 194531, 194533, 194469, 194530, 194590, 194588, 194464]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-109.9",
+			"transaction_ids": [194166, 194286]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-740.0",
+			"transaction_ids": [194098, 194100, 194099, 194097]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-80.0",
+			"transaction_ids": [194138, 194139]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-70.0",
+			"transaction_ids": [194177]
+		}]
+	}, {
+		"date": "2018-06",
+		"value": "-1582.05",
+		"groups": [{
+			"id": 66,
+			"name": "Groceries",
+			"value": "-582.15",
+			"transaction_ids": [194587, 194528, 194463, 194527, 194462, 194586, 194526, 194460, 194461, 194585, 194525, 194459, 194584, 194524, 194458, 194583, 194523]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-109.9",
+			"transaction_ids": [194285, 194165]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-740.0",
+			"transaction_ids": [194093, 194094, 194095, 194096]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-80.0",
+			"transaction_ids": [194140, 194141]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-70.0",
+			"transaction_ids": [194176]
+		}]
+	}, {
+		"date": "2018-07",
+		"value": "-2234.45",
+		"groups": [{
+			"id": 66,
+			"name": "Groceries",
+			"value": "-569.55",
+			"transaction_ids": [194580, 194456, 194454, 194520, 194521, 194453, 194581, 194578, 194452, 194519, 194518, 194457, 194582, 194522, 194579, 194455]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-109.9",
+			"transaction_ids": [194164, 194284]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-1295.0",
+			"transaction_ids": [194091, 194090, 99600, 194088, 99601, 194092, 194089]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-120.0",
+			"transaction_ids": [99610, 194143, 194142]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-140.0",
+			"transaction_ids": [194175, 99634]
+		}]
+	}, {
+		"date": "2018-08",
+		"value": "-2729.15",
+		"groups": [{
+			"id": 66,
+			"name": "Groceries",
+			"value": "-569.55",
+			"transaction_ids": [194577, 194450, 194576, 194516, 194449, 194448, 194575, 194515, 194447, 194574, 194514, 194451, 194446, 194573, 194513, 194517]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-299.6",
+			"transaction_ids": [99628, 99688, 99627, 194163, 194283, 194162]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-1480.0",
+			"transaction_ids": [194086, 99599, 99598, 99597, 194087, 194084, 99596, 194085]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-240.0",
+			"transaction_ids": [194145, 194144, 99609, 99608, 99613, 194146]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-140.0",
+			"transaction_ids": [194174, 99633]
+		}]
+	}, {
+		"date": "2018-09",
+		"value": "-2939.55",
+		"groups": [{
+			"id": 66,
+			"name": "Groceries",
+			"value": "-569.55",
+			"transaction_ids": [194511, 194571, 194444, 194512, 194508, 194568, 194440, 194509, 194569, 194441, 194510, 194445, 194572, 194570, 194442, 194443]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-140.0",
+			"transaction_ids": [194282, 99687]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-1850.0",
+			"transaction_ids": [194082, 194083, 194080, 194081, 99591, 99592, 99595, 99594, 99593, 194079]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-240.0",
+			"transaction_ids": [194147, 99611, 99612, 194148, 194149, 99616]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-140.0",
+			"transaction_ids": [194173, 99632]
+		}]
+	}, {
+		"date": "2018-10",
+		"value": "-2729.15",
+		"groups": [{
+			"id": 66,
+			"name": "Groceries",
+			"value": "-569.55",
+			"transaction_ids": [194436, 194437, 194506, 194566, 194438, 194567, 194439, 194507, 194503, 194435, 194434, 194563, 194505, 194564, 194504, 194565]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-299.6",
+			"transaction_ids": [194161, 194160, 194281, 99625, 99626, 99686]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-1480.0",
+			"transaction_ids": [99587, 99588, 99589, 99590, 194078, 194077, 194076, 194075]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-240.0",
+			"transaction_ids": [99615, 99614, 194150, 194151, 99618, 194152]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-140.0",
+			"transaction_ids": [194172, 99631]
+		}]
+	}, {
+		"date": "2018-11",
+		"value": "-2489.55",
+		"groups": [{
+			"id": 66,
+			"name": "Groceries",
+			"value": "-569.55",
+			"transaction_ids": [194499, 194433, 194562, 194502, 194432, 194561, 194501, 194431, 194430, 194560, 194500, 194429, 194559, 194428, 194558, 194498]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-140.0",
+			"transaction_ids": [194280, 99685]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-1480.0",
+			"transaction_ids": [99584, 99583, 99586, 99585, 194074, 194073, 194072, 194071]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-160.0",
+			"transaction_ids": [194153, 99620, 99617, 194154]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-140.0",
+			"transaction_ids": [99630, 194171]
+		}]
+	}, {
+		"date": "2018-12",
+		"value": "-2939.35",
+		"groups": [{
+			"id": 66,
+			"name": "Groceries",
+			"value": "-569.55",
+			"transaction_ids": [194493, 194494, 194422, 194553, 194427, 194557, 194497, 194426, 194556, 194496, 194425, 194424, 194555, 194495, 194423, 194554]
+		}, {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom",
+			"value": "-219.8",
+			"transaction_ids": [194279, 194159, 99684, 99624]
+		}, {
+			"id": 76,
+			"name": "Rent",
+			"value": "-1850.0",
+			"transaction_ids": [99581, 194070, 194069, 194068, 194067, 194066, 99582, 99580, 99579, 99578]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-160.0",
+			"transaction_ids": [194155, 194156, 99619, 99622]
+		}, {
+			"id": 90,
+			"name": "Utilities",
+			"value": "-140.0",
+			"transaction_ids": [99629, 194170]
+		}]
+	}]
+}

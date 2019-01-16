@@ -26,7 +26,7 @@ struct APITransactionCurrentReportResponse: Codable {
         let budgetValue: String?
         let day: Int64
         let previousPeriodValue: String?
-        let spendValue: String
+        let spendValue: String?
         
     }
     
@@ -50,7 +50,7 @@ struct APITransactionCurrentReportResponse: Codable {
         let id: Int64
         let name: String
         let previousPeriodValue: String?
-        let spendValue: String
+        let spendValue: String?
         
     }
     

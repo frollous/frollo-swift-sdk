@@ -1,0 +1,446 @@
+{
+	"data": [{
+		"date": "2018-01",
+		"value": "-357.99",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-17.99",
+			"transaction_ids": [194418]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-300.0",
+			"transaction_ids": [194895, 194897, 194727, 194896, 194898, 194728, 194726]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194766]
+		}]
+	}, {
+		"date": "2018-02",
+		"value": "-624.98",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194417, 194406]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-60.0",
+			"transaction_ids": [194754]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-510.0",
+			"transaction_ids": [194893, 194724, 194723, 194725, 194717, 194885, 194886, 194718, 194887, 194888, 194889, 194890, 194722, 194891, 194892, 194894]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194348]
+		}]
+	}, {
+		"date": "2018-03",
+		"value": "-847.38",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194405, 194416]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-60.0",
+			"transaction_ids": [194753]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-44.4",
+			"transaction_ids": [194394, 194392, 194393]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-648.0",
+			"transaction_ids": [194712, 194716, 194884, 194883, 194715, 194713, 194714, 194882, 194881, 194880, 194879, 194878, 194877, 194876, 194708, 194875, 194874, 194707, 194706]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194347]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "0.0",
+			"transaction_ids": [194316, 194335]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194765]
+		}]
+	}, {
+		"date": "2018-04",
+		"value": "-701.43",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194404, 194415]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-60.0",
+			"transaction_ids": [194752]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-28.45",
+			"transaction_ids": [194390, 194391]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-518.0",
+			"transaction_ids": [194870, 194705, 194703, 194704, 194871, 194869, 194702, 194868, 194867, 194866, 194865, 194698, 194864, 194863, 194697, 194873, 194872]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194346]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "0.0",
+			"transaction_ids": [194334, 194315]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194764]
+		}]
+	}, {
+		"date": "2018-05",
+		"value": "-778.93",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194414, 194403]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-60.0",
+			"transaction_ids": [194751]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-40.95",
+			"transaction_ids": [194389, 194388, 194387]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-583.0",
+			"transaction_ids": [194687, 194696, 194862, 194861, 194695, 194693, 194694, 194860, 194859, 194858, 194692, 194857, 194856, 194855, 194854, 194688, 194853, 194852]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194345]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "0.0",
+			"transaction_ids": [194317, 194332, 194336, 194314, 194313, 194333]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194763]
+		}]
+	}, {
+		"date": "2018-06",
+		"value": "-871.43",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194402, 194413]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-60.0",
+			"transaction_ids": [194750]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-28.45",
+			"transaction_ids": [194385, 194386]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-648.0",
+			"transaction_ids": [194845, 194851, 194850, 194685, 194683, 194684, 194849, 194848, 194847, 194682, 194846, 194844, 194843, 194678, 194842, 194841, 194677, 194676, 194686]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194344]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "0.0",
+			"transaction_ids": [194330, 194312, 194331, 194311]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-80.0",
+			"transaction_ids": [194761, 194762]
+		}]
+	}, {
+		"date": "2018-07",
+		"value": "-766.43",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194401, 194412]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-60.0",
+			"transaction_ids": [194749]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-28.45",
+			"transaction_ids": [194383, 194384]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-583.0",
+			"transaction_ids": [194838, 194840, 194839, 194675, 194673, 194674, 194837, 194836, 194672, 194835, 194834, 194833, 194832, 194668, 194831, 194830, 194667, 194666]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194343]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "0.0",
+			"transaction_ids": [194329, 194310]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194760]
+		}]
+	}, {
+		"date": "2018-08",
+		"value": "-2774.43",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194400, 194411]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-60.0",
+			"transaction_ids": [194748]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-28.45",
+			"transaction_ids": [194382, 194381]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-591.0",
+			"transaction_ids": [194821, 194818, 194656, 194665, 194663, 194664, 194827, 194826, 194825, 194662, 194824, 194823, 194822, 194658, 194657, 194819, 194820, 194829, 194828]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194342]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "-2000.0",
+			"transaction_ids": [99701, 194327, 194308, 99702, 194309, 194328]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194759]
+		}]
+	}, {
+		"date": "2018-09",
+		"value": "-1758.43",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194399, 194410]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-60.0",
+			"transaction_ids": [194747]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-28.45",
+			"transaction_ids": [194380, 194379]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-575.0",
+			"transaction_ids": [194647, 194814, 194652, 194813, 194808, 194812, 194811, 194809, 194810, 194648, 194646, 194817, 194655, 194653, 194654, 194816, 194815]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194341]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "-1000.0",
+			"transaction_ids": [99700, 194326, 194307]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194758]
+		}]
+	}, {
+		"date": "2018-10",
+		"value": "-1774.43",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194409, 194398]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-60.0",
+			"transaction_ids": [194746]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-28.45",
+			"transaction_ids": [194378, 194377]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-591.0",
+			"transaction_ids": [194802, 194807, 194806, 194645, 194643, 194644, 194805, 194804, 194803, 194642, 194801, 194800, 194799, 194638, 194798, 194797, 194637, 194636, 194796]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194340]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "-1000.0",
+			"transaction_ids": [99699, 194306, 194325]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194757]
+		}]
+	}, {
+		"date": "2018-11",
+		"value": "-2958.43",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194397, 194408]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-60.0",
+			"transaction_ids": [194745]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-28.45",
+			"transaction_ids": [194375, 194376]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-575.0",
+			"transaction_ids": [194627, 194794, 194793, 194788, 194792, 194632, 194791, 194790, 194789, 194786, 194795, 194635, 194626, 194787, 194628, 194633, 194634]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-200.0",
+			"transaction_ids": [194367, 194366, 194364, 194369, 194365, 194368, 194370]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194339]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "-2000.0",
+			"transaction_ids": [99698, 99697, 194324, 194323, 194304, 194305]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194756]
+		}]
+	}, {
+		"date": "2018-12",
+		"value": "-3162.43",
+		"groups": [{
+			"id": 64,
+			"name": "Entertainment/Recreation",
+			"value": "-29.98",
+			"transaction_ids": [194407, 194396]
+		}, {
+			"id": 66,
+			"name": "Groceries",
+			"value": "-60.0",
+			"transaction_ids": [194744]
+		}, {
+			"id": 71,
+			"name": "Services/Supplies",
+			"value": "-28.45",
+			"transaction_ids": [194373, 194374]
+		}, {
+			"id": 77,
+			"name": "Restaurants",
+			"value": "-583.0",
+			"transaction_ids": [194779, 194775, 194616, 194625, 194617, 194776, 194784, 194780, 194623, 194624, 194618, 194778, 194783, 194782, 194781, 194785, 194622, 194777]
+		}, {
+			"id": 78,
+			"name": "Travel",
+			"value": "-396.0",
+			"transaction_ids": [194352, 194357, 194362, 194363, 194361, 194360, 194359, 194358, 194354, 194353, 194355, 194356]
+		}, {
+			"id": 79,
+			"name": "Service Charges/Fees",
+			"value": "-25.0",
+			"transaction_ids": [194338]
+		}, {
+			"id": 81,
+			"name": "Credit Card Payments",
+			"value": "-2000.0",
+			"transaction_ids": [99696, 194302, 194322, 194303, 194321, 99695]
+		}, {
+			"id": 94,
+			"name": "Electronics/General Merchandise",
+			"value": "-40.0",
+			"transaction_ids": [194755]
+		}]
+	}]
+}
