@@ -52,9 +52,5 @@ extension Network {
             }
         }
     }
-    
-    // MARK: - Response Handling
-    
-    
 
 }

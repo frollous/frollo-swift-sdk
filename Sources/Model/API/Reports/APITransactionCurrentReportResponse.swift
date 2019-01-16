@@ -30,7 +30,7 @@ struct APITransactionCurrentReportResponse: Codable {
         
     }
     
-    struct CategoryReport: Codable {
+    struct GroupReport: Codable {
         
         enum CodingKeys: String, CodingKey {
             
@@ -54,7 +54,7 @@ struct APITransactionCurrentReportResponse: Codable {
         
     }
     
-    let categories: [CategoryReport]
+    let groups: [GroupReport]
     let days: [Report]
     
 }

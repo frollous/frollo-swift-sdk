@@ -12,7 +12,7 @@ struct APITransactionHistoryReportsResponse: Codable {
     
     struct Report: Codable {
         
-        struct CategoryReport: Codable {
+        struct GroupReport: Codable {
             
             let budget: String?
             let id: Int64
@@ -21,7 +21,7 @@ struct APITransactionHistoryReportsResponse: Codable {
             
         }
         
-        let categories: [CategoryReport]
+        let groups: [GroupReport]
         let date: String
         let value: String
         

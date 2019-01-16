@@ -28,24 +28,5 @@ extension ReportTransactionCurrent {
     @NSManaged public var previous: NSDecimalNumber?
     @NSManaged public var merchant: Merchant?
     @NSManaged public var transactionCategory: TransactionCategory?
-    @NSManaged public var reports: NSSet?
-    @NSManaged public var overall: ReportTransactionCurrent?
-
-}
-
-// MARK: Generated accessors for reports
-extension ReportTransactionCurrent {
-
-    @objc(addReportsObject:)
-    @NSManaged public func addToReports(_ value: ReportTransactionCurrent)
-
-    @objc(removeReportsObject:)
-    @NSManaged public func removeFromReports(_ value: ReportTransactionCurrent)
-
-    @objc(addReports:)
-    @NSManaged public func addToReports(_ values: NSSet)
-
-    @objc(removeReports:)
-    @NSManaged public func removeFromReports(_ values: NSSet)
 
 }

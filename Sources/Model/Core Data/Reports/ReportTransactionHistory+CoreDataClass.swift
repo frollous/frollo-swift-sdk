@@ -14,9 +14,9 @@ import CoreData
 public class ReportTransactionHistory: NSManagedObject {
     
     public enum Period: String, Codable, CaseIterable {
-        case daily
-        case monthly
-        case weekly
+        case day = "by_day"
+        case month = "by_month"
+        case week = "by_week"
     }
     
     /// Date formatter to convert daily date from stored date string to user's current locale
@@ -59,21 +59,21 @@ public class ReportTransactionHistory: NSManagedObject {
     public var date: Date {
         get {
             switch period {
-                case .daily:
+                case .day:
                     return ReportTransactionHistory.dailyDateFormatter.date(from: dateString)!
-                case .monthly:
+                case .month:
                     return ReportTransactionHistory.monthlyDateFormatter.date(from: dateString)!
-                case .weekly:
+                case .week:
                     return ReportTransactionHistory.weeklyDateFormatter.date(from: dateString)!
             }
         }
         set {
             switch period {
-                case .daily:
+                case .day:
                     dateString = ReportTransactionHistory.dailyDateFormatter.string(from: newValue)
-                case .monthly:
+                case .month:
                     dateString = ReportTransactionHistory.monthlyDateFormatter.string(from: newValue)
-                case .weekly:
+                case .week:
                     dateString = ReportTransactionHistory.weeklyDateFormatter.string(from: newValue)
             }
         }

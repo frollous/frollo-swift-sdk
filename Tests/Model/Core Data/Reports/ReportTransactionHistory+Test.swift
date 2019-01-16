@@ -23,11 +23,11 @@ extension ReportTransactionHistory: TestableCoreData {
         value = NSDecimalNumber(string: "1986.31")
         
         switch period {
-            case .daily:
+            case .day:
                 dateString = "2018-03-01"
-            case .monthly:
+            case .month:
                 dateString = "2018-03"
-            case .weekly:
+            case .week:
                 dateString = "2018-26"
         }
     }

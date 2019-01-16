@@ -43,7 +43,7 @@ class ReportsRequestTests: XCTestCase {
         let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
         let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
         
-        network.fetchTransactionHistoryReports(grouping: .budgetCategory, period: .monthly, fromDate: fromDate, toDate: toDate, budgetCategory: nil) { (response, error) in
+        network.fetchTransactionHistoryReports(grouping: .budgetCategory, period: .month, fromDate: fromDate, toDate: toDate, budgetCategory: nil) { (response, error) in
             XCTAssertNil(error)
             
             if let reportsResponse = response {
@@ -52,7 +52,7 @@ class ReportsRequestTests: XCTestCase {
                 if let firstReport = reportsResponse.data.first {
                     XCTAssertEqual(firstReport.value, "100.00")
                     
-                    if let firstCategoryReport = firstReport.categories.first {
+                    if let firstCategoryReport = firstReport.groups.first {
                         
                     } else {
                         XCTFail("No category report")
