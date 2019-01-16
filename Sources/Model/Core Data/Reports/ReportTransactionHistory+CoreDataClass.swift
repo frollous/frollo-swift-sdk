@@ -10,13 +10,25 @@
 import Foundation
 import CoreData
 
-
+/**
+ Transaction Report: History
+ 
+ Core Data model of a history transaction report
+ */
 public class ReportTransactionHistory: NSManagedObject {
     
+    /// Period - the time period the report is broken down to
     public enum Period: String, Codable, CaseIterable {
+        
+        /// Days
         case day = "by_day"
+        
+        /// Months
         case month = "by_month"
+        
+        /// Weeks
         case week = "by_week"
+        
     }
     
     /// Date formatter to convert daily date from stored date string to user's current locale
@@ -43,6 +55,7 @@ public class ReportTransactionHistory: NSManagedObject {
         return dateFormatter
     }()
     
+    /// Budget category if the report was filtered to a specific category
     public var budgetCategory: BudgetCategory? {
         get {
             if let rawValue = budgetCategoryRawValue {
@@ -56,6 +69,7 @@ public class ReportTransactionHistory: NSManagedObject {
         }
     }
     
+    /// Date of the report period
     public var date: Date {
         get {
             switch period {
@@ -79,6 +93,7 @@ public class ReportTransactionHistory: NSManagedObject {
         }
     }
     
+    /// Grouping - how the report response has been broken down
     public var grouping: ReportGrouping {
         get {
             return ReportGrouping(rawValue: groupingRawValue)!
@@ -88,6 +103,7 @@ public class ReportTransactionHistory: NSManagedObject {
         }
     }
     
+    /// Period of the report
     public var period: Period {
         get {
             return Period(rawValue: periodRawValue)!
