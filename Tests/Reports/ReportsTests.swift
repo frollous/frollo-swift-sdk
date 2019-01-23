@@ -112,23 +112,614 @@ class ReportsTests: XCTestCase {
     }
     
     func testFetchingCurrentReportsByMerchant() {
-        XCTFail()
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.transactionsCurrent.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_merchant", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let reports = Reports(database: database, network: network, aggregation: aggregation)
+            
+            reports.refreshTransactionCurrentReports(grouping: .merchant) { (error) in
+                XCTAssertNil(error)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    let context = database.viewContext
+                    
+                    // Check for overall reports
+                    let overallFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.merchant.rawValue])
+                    overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)]
+                    
+                    do {
+                        let fetchedReports = try context.fetch(overallFetchRequest)
+                        
+                        XCTAssertEqual(fetchedReports.count, 31)
+                        
+                        if let firstReport = fetchedReports.first {
+                            XCTAssertEqual(firstReport.day, 1)
+                            XCTAssertEqual(firstReport.amount, NSDecimalNumber(string: "-187.8"))
+                            XCTAssertNil(firstReport.budget)
+                            XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-120.53"))
+                            XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-215.8"))
+                            XCTAssertNil(firstReport.budgetCategory)
+                            XCTAssertEqual(firstReport.linkedID, -1)
+                            XCTAssertNil(firstReport.name)
+                        } else {
+                            XCTFail("Reports not found")
+                        }
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    // Check for group reports
+                    let groupFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+                    groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [3, ReportGrouping.merchant.rawValue])
+                    groupFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.linkedID), ascending: true)]
+                    
+                    do {
+                        let fetchedGroupReports = try context.fetch(groupFetchRequest)
+                        
+                        XCTAssertEqual(fetchedGroupReports.count, 24)
+                        
+                        let thirdReport = fetchedGroupReports[1]
+                        XCTAssertEqual(thirdReport.day, 3)
+                        XCTAssertEqual(thirdReport.amount, NSDecimalNumber(string: "-159.41"))
+                        XCTAssertNil(thirdReport.budget)
+                        XCTAssertEqual(thirdReport.average, NSDecimalNumber(string: "-106.27"))
+                        XCTAssertEqual(thirdReport.previous, NSDecimalNumber(string: "-159.41"))
+                        XCTAssertNil(thirdReport.budgetCategory)
+                        XCTAssertEqual(thirdReport.linkedID, 2)
+                        XCTAssertEqual(thirdReport.name, "Woolworths")
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 10.0)
+        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchingCurrentReportsByTransactionCategory() {
-        XCTFail()
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.transactionsCurrent.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_txn_category", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let reports = Reports(database: database, network: network, aggregation: aggregation)
+            
+            reports.refreshTransactionCurrentReports(grouping: .transactionCategory) { (error) in
+                XCTAssertNil(error)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    let context = database.viewContext
+                    
+                    // Check for overall reports
+                    let overallFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.transactionCategory.rawValue])
+                    overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)]
+                    
+                    do {
+                        let fetchedReports = try context.fetch(overallFetchRequest)
+                        
+                        XCTAssertEqual(fetchedReports.count, 31)
+                        
+                        if let firstReport = fetchedReports.first {
+                            XCTAssertEqual(firstReport.day, 1)
+                            XCTAssertEqual(firstReport.amount, NSDecimalNumber(string: "-187.8"))
+                            XCTAssertNil(firstReport.budget)
+                            XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-120.53"))
+                            XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-215.8"))
+                            XCTAssertNil(firstReport.budgetCategory)
+                            XCTAssertEqual(firstReport.linkedID, -1)
+                            XCTAssertNil(firstReport.name)
+                        } else {
+                            XCTFail("Reports not found")
+                        }
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    // Check for group reports
+                    let groupFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+                    groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [3, ReportGrouping.transactionCategory.rawValue])
+                    groupFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.linkedID), ascending: true)]
+                    
+                    do {
+                        let fetchedGroupReports = try context.fetch(groupFetchRequest)
+                        
+                        XCTAssertEqual(fetchedGroupReports.count, 17)
+                        
+                        let thirdReport = fetchedGroupReports[2]
+                        XCTAssertEqual(thirdReport.day, 3)
+                        XCTAssertEqual(thirdReport.amount, NSDecimalNumber(string: "-159.41"))
+                        XCTAssertNil(thirdReport.budget)
+                        XCTAssertEqual(thirdReport.average, NSDecimalNumber(string: "-106.27"))
+                        XCTAssertEqual(thirdReport.previous, NSDecimalNumber(string: "-159.41"))
+                        XCTAssertNil(thirdReport.budgetCategory)
+                        XCTAssertEqual(thirdReport.linkedID, 66)
+                        XCTAssertEqual(thirdReport.name, "Groceries")
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 10.0)
+        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchingCurrentReportsFilteredByBudgetCategory() {
-        XCTFail()
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.transactionsCurrent.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_txn_category_lifestyle", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let reports = Reports(database: database, network: network, aggregation: aggregation)
+            
+            reports.refreshTransactionCurrentReports(grouping: .transactionCategory, budgetCategory: .lifestyle) { (error) in
+                XCTAssertNil(error)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    let context = database.viewContext
+                    
+                    // Check for overall reports
+                    let overallFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [BudgetCategory.lifestyle.rawValue, ReportGrouping.transactionCategory.rawValue])
+                    overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)]
+                    
+                    do {
+                        let fetchedReports = try context.fetch(overallFetchRequest)
+                        
+                        XCTAssertEqual(fetchedReports.count, 31)
+                        
+                        if let firstReport = fetchedReports.first {
+                            XCTAssertEqual(firstReport.day, 1)
+                            XCTAssertEqual(firstReport.amount, NSDecimalNumber(string: "-108"))
+                            XCTAssertNil(firstReport.budget)
+                            XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-27.33"))
+                            XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-66"))
+                            XCTAssertEqual(firstReport.budgetCategory, .lifestyle)
+                            XCTAssertEqual(firstReport.linkedID, -1)
+                            XCTAssertNil(firstReport.name)
+                        } else {
+                            XCTFail("Reports not found")
+                        }
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    // Check for group reports
+                    let groupFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+                    groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [6, BudgetCategory.lifestyle.rawValue, ReportGrouping.transactionCategory.rawValue])
+                    groupFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.linkedID), ascending: true)]
+                    
+                    do {
+                        let fetchedGroupReports = try context.fetch(groupFetchRequest)
+                        
+                        XCTAssertEqual(fetchedGroupReports.count, 11)
+                        
+                        let thirdReport = fetchedGroupReports[0]
+                        XCTAssertEqual(thirdReport.day, 6)
+                        XCTAssertEqual(thirdReport.amount, NSDecimalNumber(string: "-11.99"))
+                        XCTAssertNil(thirdReport.budget)
+                        XCTAssertEqual(thirdReport.average, NSDecimalNumber(string: "-7.99"))
+                        XCTAssertEqual(thirdReport.previous, NSDecimalNumber(string: "-11.99"))
+                        XCTAssertEqual(thirdReport.budgetCategory, .lifestyle)
+                        XCTAssertEqual(thirdReport.linkedID, 64)
+                        XCTAssertEqual(thirdReport.name, "Entertainment/Recreation")
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 10.0)
+        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchingCurrentReportsRemovesExisting() {
-        XCTFail()
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        var count = 0
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.transactionsCurrent.path)) { (request) -> OHHTTPStubsResponse in
+            if count > 0 {
+                return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_txn_category_3_days", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+            }
+            count += 1
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_txn_category", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let reports = Reports(database: database, network: network, aggregation: aggregation)
+            
+            reports.refreshTransactionCurrentReports(grouping: .transactionCategory) { (error) in
+                XCTAssertNil(error)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    let context = database.viewContext
+                    
+                    let overallFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [11, ReportGrouping.transactionCategory.rawValue])
+                    overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)]
+                    
+                    let groupFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+                    groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 && " + #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [11, ReportGrouping.transactionCategory.rawValue])
+                    groupFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.linkedID), ascending: true)]
+                    
+                    // Check for late overall report
+                    do {
+                        let fetchedReports = try context.fetch(overallFetchRequest)
+                        
+                        XCTAssertEqual(fetchedReports.count, 1)
+                        
+                        if let firstReport = fetchedReports.first {
+                            XCTAssertEqual(firstReport.day, 11)
+                            XCTAssertEqual(firstReport.amount, NSDecimalNumber(string: "-64.5"))
+                            XCTAssertNil(firstReport.budget)
+                            XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-188.32"))
+                            XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-107.5"))
+                            XCTAssertNil(firstReport.budgetCategory)
+                            XCTAssertEqual(firstReport.linkedID, -1)
+                            XCTAssertNil(firstReport.name)
+                        } else {
+                            XCTFail("Report not found")
+                        }
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    // Check for late group report
+                    do {
+                        let fetchedGroupReports = try context.fetch(groupFetchRequest)
+                        
+                        XCTAssertEqual(fetchedGroupReports.count, 17)
+                        
+                        let thirdReport = fetchedGroupReports[2]
+                        XCTAssertEqual(thirdReport.day, 11)
+                        XCTAssertEqual(thirdReport.amount, NSDecimalNumber(string: "-24.5"))
+                        XCTAssertNil(thirdReport.budget)
+                        XCTAssertEqual(thirdReport.average, NSDecimalNumber(string: "-16.33"))
+                        XCTAssertEqual(thirdReport.previous, NSDecimalNumber(string: "-24.5"))
+                        XCTAssertNil(thirdReport.budgetCategory)
+                        XCTAssertEqual(thirdReport.linkedID, 66)
+                        XCTAssertEqual(thirdReport.name, "Groceries")
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    reports.refreshTransactionCurrentReports(grouping: .transactionCategory) { (error) in
+                        XCTAssertNil(error)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            // Check for late overall report
+                            do {
+                                let fetchedReports = try context.fetch(overallFetchRequest)
+                                
+                                XCTAssertEqual(fetchedReports.count, 1)
+                                
+                                if let firstReport = fetchedReports.first {
+                                    XCTAssertEqual(firstReport.day, 11)
+                                    XCTAssertNil(firstReport.amount)
+                                    XCTAssertNil(firstReport.budget)
+                                    XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-188.32"))
+                                    XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-107.5"))
+                                    XCTAssertNil(firstReport.budgetCategory)
+                                    XCTAssertEqual(firstReport.linkedID, -1)
+                                    XCTAssertNil(firstReport.name)
+                                } else {
+                                    XCTFail("Report not found")
+                                }
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                            
+                            // Check for late group report
+                            do {
+                                let fetchedGroupReports = try context.fetch(groupFetchRequest)
+                                
+                                XCTAssertEqual(fetchedGroupReports.count, 15)
+                                
+                                let thirdReport = fetchedGroupReports[2]
+                                XCTAssertEqual(thirdReport.day, 11)
+                                XCTAssertNil(thirdReport.amount)
+                                XCTAssertNil(thirdReport.budget)
+                                XCTAssertEqual(thirdReport.average, NSDecimalNumber(string: "0"))
+                                XCTAssertEqual(thirdReport.previous, NSDecimalNumber(string: "0"))
+                                XCTAssertNil(thirdReport.budgetCategory)
+                                XCTAssertEqual(thirdReport.linkedID, 68)
+                                XCTAssertEqual(thirdReport.name, "Home Improvement")
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                            
+                            expectation1.fulfill()
+                        }
+                    }
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 10.0)
+        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchingCurrentReportsCommingling() {
-        XCTFail()
+        let expectation1 = expectation(description: "Database setup")
+        let expectation2 = expectation(description: "Network Request 1")
+        let expectation3 = expectation(description: "Network Request 2")
+        let expectation4 = expectation(description: "Network Request 3")
+        let expectation5 = expectation(description: "Fetch")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.transactionsCurrent.path)) { (request) -> OHHTTPStubsResponse in
+            if let requestURL = request.url, let queryItems = URLComponents(url: requestURL, resolvingAgainstBaseURL: true)?.queryItems {
+                var budgetCategory: String = ""
+                
+                for queryItem in queryItems {
+                    if queryItem.name == "budget_category", let value = queryItem.value {
+                        budgetCategory = value
+                    }
+                }
+                
+                if budgetCategory == "living" {
+                    return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_txn_category_living", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+                } else if budgetCategory == "lifestyle" {
+                    return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_txn_category_lifestyle", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+                }
+            }
+            
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_txn_category", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+            
+        let aggregation = Aggregation(database: database, network: network)
+        let reports = Reports(database: database, network: network, aggregation: aggregation)
+            
+        reports.refreshTransactionCurrentReports(grouping: .transactionCategory, budgetCategory: .lifestyle) { (error) in
+            XCTAssertNil(error)
+            
+            expectation2.fulfill()
+        }
+        
+        reports.refreshTransactionCurrentReports(grouping: .transactionCategory, budgetCategory: .living) { (error) in
+            XCTAssertNil(error)
+            
+            expectation3.fulfill()
+        }
+        
+        reports.refreshTransactionCurrentReports(grouping: .transactionCategory, budgetCategory: nil) { (error) in
+            XCTAssertNil(error)
+            
+            expectation4.fulfill()
+        }
+        
+        wait(for: [expectation2, expectation3, expectation4], timeout: 3.0)
+            
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            let context = database.viewContext
+            
+            // Check for overall reports
+            let overallLifestyleFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+            overallLifestyleFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [BudgetCategory.lifestyle.rawValue, ReportGrouping.transactionCategory.rawValue])
+            overallLifestyleFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)]
+            
+            do {
+                let fetchedReports = try context.fetch(overallLifestyleFetchRequest)
+                
+                XCTAssertEqual(fetchedReports.count, 31)
+                
+                if let firstReport = fetchedReports.first {
+                    XCTAssertEqual(firstReport.day, 1)
+                    XCTAssertEqual(firstReport.amount, NSDecimalNumber(string: "-108"))
+                    XCTAssertNil(firstReport.budget)
+                    XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-27.33"))
+                    XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-66"))
+                    XCTAssertEqual(firstReport.budgetCategory, .lifestyle)
+                    XCTAssertEqual(firstReport.linkedID, -1)
+                    XCTAssertNil(firstReport.name)
+                } else {
+                    XCTFail("Reports not found")
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            // Check for group reports
+            let groupLifestyleFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+            groupLifestyleFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [6, BudgetCategory.lifestyle.rawValue, ReportGrouping.transactionCategory.rawValue])
+            groupLifestyleFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.linkedID), ascending: true)]
+            
+            do {
+                let fetchedGroupReports = try context.fetch(groupLifestyleFetchRequest)
+                
+                XCTAssertEqual(fetchedGroupReports.count, 11)
+                
+                let thirdReport = fetchedGroupReports[0]
+                XCTAssertEqual(thirdReport.day, 6)
+                XCTAssertEqual(thirdReport.amount, NSDecimalNumber(string: "-11.99"))
+                XCTAssertNil(thirdReport.budget)
+                XCTAssertEqual(thirdReport.average, NSDecimalNumber(string: "-7.99"))
+                XCTAssertEqual(thirdReport.previous, NSDecimalNumber(string: "-11.99"))
+                XCTAssertEqual(thirdReport.budgetCategory, .lifestyle)
+                XCTAssertEqual(thirdReport.linkedID, 64)
+                XCTAssertEqual(thirdReport.name, "Entertainment/Recreation")
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            // Check for overall reports
+            let overallLivingFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+            overallLivingFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [BudgetCategory.living.rawValue, ReportGrouping.transactionCategory.rawValue])
+            overallLivingFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)]
+            
+            do {
+                let fetchedReports = try context.fetch(overallLivingFetchRequest)
+                
+                XCTAssertEqual(fetchedReports.count, 31)
+                
+                if let firstReport = fetchedReports.first {
+                    XCTAssertEqual(firstReport.day, 1)
+                    XCTAssertEqual(firstReport.amount, NSDecimalNumber(string: "-79.8"))
+                    XCTAssertNil(firstReport.budget)
+                    XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-53.2"))
+                    XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-79.8"))
+                    XCTAssertEqual(firstReport.budgetCategory, .living)
+                    XCTAssertEqual(firstReport.linkedID, -1)
+                    XCTAssertNil(firstReport.name)
+                } else {
+                    XCTFail("Reports not found")
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            // Check for group reports
+            let groupLivingFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+            groupLivingFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [6, BudgetCategory.living.rawValue, ReportGrouping.transactionCategory.rawValue])
+            groupLivingFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.linkedID), ascending: true)]
+            
+            do {
+                let fetchedGroupReports = try context.fetch(groupLivingFetchRequest)
+                
+                XCTAssertEqual(fetchedGroupReports.count, 6)
+                
+                let thirdReport = fetchedGroupReports[0]
+                XCTAssertEqual(thirdReport.day, 6)
+                XCTAssertEqual(thirdReport.amount, NSDecimalNumber(string: "0"))
+                XCTAssertNil(thirdReport.budget)
+                XCTAssertNil(thirdReport.average)
+                XCTAssertNil(thirdReport.previous)
+                XCTAssertEqual(thirdReport.budgetCategory, .living)
+                XCTAssertEqual(thirdReport.linkedID, 61)
+                XCTAssertEqual(thirdReport.name, "Automotive/Fuel")
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            // Check for overall reports
+            let overallFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+            overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.transactionCategory.rawValue])
+            overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)]
+            
+            do {
+                let fetchedReports = try context.fetch(overallFetchRequest)
+                
+                XCTAssertEqual(fetchedReports.count, 31)
+                
+                if let firstReport = fetchedReports.first {
+                    XCTAssertEqual(firstReport.day, 1)
+                    XCTAssertEqual(firstReport.amount, NSDecimalNumber(string: "-187.8"))
+                    XCTAssertNil(firstReport.budget)
+                    XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-120.53"))
+                    XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-215.8"))
+                    XCTAssertNil(firstReport.budgetCategory)
+                    XCTAssertEqual(firstReport.linkedID, -1)
+                    XCTAssertNil(firstReport.name)
+                } else {
+                    XCTFail("Reports not found")
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            // Check for group reports
+            let groupFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+            groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [6, ReportGrouping.transactionCategory.rawValue])
+            groupFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.linkedID), ascending: true)]
+            
+            do {
+                let fetchedGroupReports = try context.fetch(groupFetchRequest)
+                
+                XCTAssertEqual(fetchedGroupReports.count, 17)
+                
+                let thirdReport = fetchedGroupReports[0]
+                XCTAssertEqual(thirdReport.day, 6)
+                XCTAssertEqual(thirdReport.amount, NSDecimalNumber(string: "0"))
+                XCTAssertNil(thirdReport.budget)
+                XCTAssertNil(thirdReport.average)
+                XCTAssertNil(thirdReport.previous)
+                XCTAssertNil(thirdReport.budgetCategory)
+                XCTAssertEqual(thirdReport.linkedID, 61)
+                XCTAssertEqual(thirdReport.name, "Automotive/Fuel")
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation5.fulfill()
+        }
+        
+        wait(for: [expectation5], timeout: 10.0)
+        OHHTTPStubs.removeAllStubs()
     }
 
     // MARK: - History Report Tests
