@@ -225,12 +225,6 @@ class Reports: ResponseHandler {
     }
     
     private func handleTransactionCurrentDayReportsResponse(_ reportsResponse: [APITransactionCurrentReportResponse.Report], grouping: ReportGrouping, budgetCategory: BudgetCategory? = nil, linkedID: Int64, name: String?, managedObjectContext: NSManagedObjectContext) {
-        currentReportsLock.lock()
-        
-        defer {
-            currentReportsLock.unlock()
-        }
-        
         // Sort by day
         let sortedReportResponses = reportsResponse.sorted { (responseA: APITransactionCurrentReportResponse.Report, responseB: APITransactionCurrentReportResponse.Report) -> Bool in
             return responseB.day > responseA.day
@@ -306,7 +300,7 @@ class Reports: ResponseHandler {
                 }
                 
                 // Fetch and delete any leftovers
-                let deleteRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
+                let deleteRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
                 
                 var deletePredicates = filterPredicates
                 deletePredicates.append(NSCompoundPredicate(notPredicateWithSubpredicate: datePredicate))

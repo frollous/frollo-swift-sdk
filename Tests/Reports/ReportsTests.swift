@@ -24,6 +24,112 @@ class ReportsTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
+    
+    // MARK: - Current Report Tests
+    
+    func testFetchingCurrentReportsByBudgetCategory() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.transactionsCurrent.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_budget_category", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let reports = Reports(database: database, network: network, aggregation: aggregation)
+            
+            reports.refreshTransactionCurrentReports(grouping: .budgetCategory) { (error) in
+                XCTAssertNil(error)
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    let context = database.viewContext
+                    
+                    // Check for overall reports
+                    let overallFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.budgetCategory.rawValue])
+                    overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)]
+                    
+                    do {
+                        let fetchedReports = try context.fetch(overallFetchRequest)
+                        
+                        XCTAssertEqual(fetchedReports.count, 31)
+                        
+                        if let firstReport = fetchedReports.first {
+                            XCTAssertEqual(firstReport.day, 1)
+                            XCTAssertEqual(firstReport.amount, NSDecimalNumber(string: "-187.8"))
+                            XCTAssertEqual(firstReport.budget, NSDecimalNumber(string: "387.1"))
+                            XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-120.53"))
+                            XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-215.8"))
+                            XCTAssertNil(firstReport.budgetCategory)
+                            XCTAssertEqual(firstReport.linkedID, -1)
+                            XCTAssertNil(firstReport.name)
+                        } else {
+                            XCTFail("Reports not found")
+                        }
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    // Check for group reports
+                    let groupFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+                    groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [3, ReportGrouping.budgetCategory.rawValue])
+                    groupFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.linkedID), ascending: true)]
+                    
+                    do {
+                        let fetchedGroupReports = try context.fetch(groupFetchRequest)
+                        
+                        XCTAssertEqual(fetchedGroupReports.count, 5)
+                        
+                        let thirdReport = fetchedGroupReports[2]
+                        XCTAssertEqual(thirdReport.day, 3)
+                        XCTAssertEqual(thirdReport.amount, NSDecimalNumber(string: "-89.95"))
+                        XCTAssertEqual(thirdReport.budget, NSDecimalNumber(string: "64.52"))
+                        XCTAssertEqual(thirdReport.average, NSDecimalNumber(string: "-55.33"))
+                        XCTAssertEqual(thirdReport.previous, NSDecimalNumber(string: "-92"))
+                        XCTAssertNil(thirdReport.budgetCategory)
+                        XCTAssertEqual(thirdReport.linkedID, 2)
+                        XCTAssertEqual(thirdReport.name, "lifestyle")
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 10.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testFetchingCurrentReportsByMerchant() {
+        XCTFail()
+    }
+    
+    func testFetchingCurrentReportsByTransactionCategory() {
+        XCTFail()
+    }
+    
+    func testFetchingCurrentReportsFilteredByBudgetCategory() {
+        XCTFail()
+    }
+    
+    func testFetchingCurrentReportsRemovesExisting() {
+        XCTFail()
+    }
+    
+    func testFetchingCurrentReportsCommingling() {
+        XCTFail()
+    }
 
     // MARK: - History Report Tests
     
@@ -1092,7 +1198,7 @@ class ReportsTests: XCTestCase {
             }
         }
         
-        wait(for: [expectation1, expectation2], timeout: 5.0)
+        wait(for: [expectation1, expectation2], timeout: 10.0)
         OHHTTPStubs.removeAllStubs()
     }
     

@@ -16,7 +16,7 @@ import Foundation
 public enum ReportGrouping: String, Codable, CaseIterable {
     
     /// Budget category
-    case budgetCategory = "by_budget_Category"
+    case budgetCategory = "by_budget_category"
     
     /// Merchant
     case merchant = "by_merchant"
