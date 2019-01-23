@@ -51,7 +51,7 @@ public class ReportTransactionHistory: NSManagedObject {
     public static let weeklyDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale.autoupdatingCurrent
-        dateFormatter.dateFormat = "yyyy-MM-w"
+        dateFormatter.dateFormat = "yyyy-MM-W"
         return dateFormatter
     }()
     

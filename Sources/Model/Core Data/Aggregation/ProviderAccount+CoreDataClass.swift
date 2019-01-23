@@ -26,6 +26,8 @@ public class ProviderAccount: NSManagedObject, UniqueManagedObject {
     /// Core Data entity description name
     static let entityName = "ProviderAccount"
     
+    static internal var primaryKey = #keyPath(ProviderAccount.providerAccountID)
+    
     /// Login Form for MFA etc (optional)
     public var loginForm: ProviderLoginForm? {
         get {

@@ -28,7 +28,7 @@ class DatabaseMigrationTests: XCTestCase {
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(Progress.totalUnitCount), let progress = object as? Progress {
-            XCTAssertEqual(progress.totalUnitCount, 2)
+            XCTAssertEqual(progress.totalUnitCount, 3)
             
             progress.removeObserver(self, forKeyPath: #keyPath(Progress.totalUnitCount))
         }
@@ -119,7 +119,7 @@ class DatabaseMigrationTests: XCTestCase {
     
     // MARK: - Test Data
     
-    // Uncomment to generate test data for each data model. Do this whenever adding a new Core Data model version
+//    // Uncomment to generate test data for each data model. Do this whenever adding a new Core Data model version
 //    func testGenerateTestCoreDataDatabases() {
 //        generateCoreDataModelTestDatabases()
 //        generateFakeCoreDataModelTestDatabase()

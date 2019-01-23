@@ -12,6 +12,7 @@ import Foundation
 internal protocol UniqueManagedObject: class {
     
     static var entityName: String { get }
+    static var primaryKey: String { get }
     
     var primaryID: Int64 { get }
     

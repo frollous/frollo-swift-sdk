@@ -34,6 +34,8 @@ public class BillPayment: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    static internal var primaryKey = #keyPath(BillPayment.billPaymentID)
+    
     /// Date of the bill payment
     public var date: Date {
         get {

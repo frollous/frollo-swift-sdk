@@ -38,7 +38,7 @@ class Reports: ResponseHandler {
          - budgetCategory: Budget category to filter reports by. Leave blank to return all reports (Optional)
          - completion: Optional completion handler with optional error if the request fails
      */
-    public func refreshTransactionHistoryReports(grouping: ReportGrouping, budgetCategory: BudgetCategory? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+    public func refreshTransactionCurrentReports(grouping: ReportGrouping, budgetCategory: BudgetCategory? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         network.fetchTransactionCurrentReports(grouping: grouping, budgetCategory: budgetCategory) { (response, error) in
             if let responseError = error {
                 Log.error(responseError.localizedDescription)
@@ -103,9 +103,9 @@ class Reports: ResponseHandler {
         }
         
         let filterPredicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.linkedID) + " != -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.merchant.rawValue])
-        linkObjectToParentObject(type: ReportTransactionCurrent.self, parentType: Merchant.self, objectFilterPredicate: filterPredicate, managedObjectContext: managedObjectContext, linkedIDs: linkingCurrentTransactionCategoryIDs, linkedKey: \ReportTransactionCurrent.linkedID, linkedKeyName: #keyPath(ReportTransactionCurrent.linkedID))
+        linkObjectToParentObject(type: ReportTransactionCurrent.self, parentType: Merchant.self, objectFilterPredicate: filterPredicate, managedObjectContext: managedObjectContext, linkedIDs: linkingCurrentMerchantIDs, linkedKey: \ReportTransactionCurrent.linkedID, linkedKeyName: #keyPath(ReportTransactionCurrent.linkedID))
         
-        linkingCurrentTransactionCategoryIDs = Set()
+        linkingCurrentMerchantIDs = Set()
         
         managedObjectContext.performAndWait {
             do {
@@ -149,9 +149,9 @@ class Reports: ResponseHandler {
         }
         
         let filterPredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " != nil && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.merchant.rawValue])
-        linkObjectToParentObject(type: ReportTransactionHistory.self, parentType: Merchant.self, objectFilterPredicate: filterPredicate, managedObjectContext: managedObjectContext, linkedIDs: linkingHistoryTransactionCategoryIDs, linkedKey: \ReportTransactionHistory.linkedID, linkedKeyName: #keyPath(ReportTransactionHistory.linkedID))
+        linkObjectToParentObject(type: ReportTransactionHistory.self, parentType: Merchant.self, objectFilterPredicate: filterPredicate, managedObjectContext: managedObjectContext, linkedIDs: linkingHistoryMerchantIDs, linkedKey: \ReportTransactionHistory.linkedID, linkedKeyName: #keyPath(ReportTransactionHistory.linkedID))
         
-        linkingHistoryTransactionCategoryIDs = Set()
+        linkingHistoryMerchantIDs = Set()
         
         managedObjectContext.performAndWait {
             do {
@@ -252,6 +252,8 @@ class Reports: ResponseHandler {
             // Filter by budget category if applicable
             if let category = budgetCategory {
                 filterPredicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == %@", argumentArray: [category.rawValue]))
+            } else {
+                filterPredicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil", argumentArray: nil))
             }
             
             // Specify dates
@@ -280,10 +282,27 @@ class Reports: ResponseHandler {
                     report.day = reportResponse.day
                     report.linkedID = linkedID
                     report.name = name
-                    report.amount = NSDecimalNumber(string: reportResponse.spendValue)
-                    report.average = NSDecimalNumber(string: reportResponse.averageValue)
-                    report.budget = NSDecimalNumber(string: reportResponse.budgetValue)
-                    report.previous = NSDecimalNumber(string: reportResponse.previousPeriodValue)
+                    
+                    if let value = reportResponse.spendValue {
+                        report.amount = NSDecimalNumber(string: value)
+                    } else {
+                        report.amount = nil
+                    }
+                    if let value = reportResponse.averageValue {
+                        report.average = NSDecimalNumber(string:value)
+                    } else {
+                        report.average = nil
+                    }
+                    if let value = reportResponse.budgetValue {
+                        report.budget = NSDecimalNumber(string: value)
+                    } else {
+                        report.budget = nil
+                    }
+                    if let value = reportResponse.previousPeriodValue {
+                        report.previous = NSDecimalNumber(string: value)
+                    } else {
+                        report.previous = nil
+                    }
                 }
                 
                 // Fetch and delete any leftovers
@@ -339,6 +358,8 @@ class Reports: ResponseHandler {
             // Filter by budget category if applicable
             if let category = budgetCategory {
                 filterPredicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == %@", argumentArray: [category.rawValue]))
+            } else {
+                filterPredicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil", argumentArray: nil))
             }
             
             // Specify dates
@@ -366,8 +387,13 @@ class Reports: ResponseHandler {
                     }
                     
                     report.dateString = reportResponse.date
-                    report.budget = NSDecimalNumber(string: reportResponse.budget)
                     report.value = NSDecimalNumber(string: reportResponse.value)
+                    
+                    if let value = reportResponse.budget {
+                        report.budget = NSDecimalNumber(string: value)
+                    } else {
+                        report.budget = nil
+                    }
                     
                     handleTransactionHistoryGroupReportsResponse(reportResponse.groups, overallReport: report, managedObjectContext: managedObjectContext)
                 }
@@ -414,7 +440,7 @@ class Reports: ResponseHandler {
         let categoryReportIDs = sortedCategoryReportResponses.map { $0.id }
         
         // Split existing child reports into matching and orphaned
-        let filterPredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.linkedID) + " IN %@", argumentArray: categoryReportIDs)
+        let filterPredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.linkedID) + " IN %@", argumentArray: [categoryReportIDs])
         if let filteredGroupReports = overallReport.reports?.filtered(using: filterPredicate) as? Set<ReportTransactionHistory>,
             let orphanedGroupReports = overallReport.reports?.filtered(using: NSCompoundPredicate(notPredicateWithSubpredicate: filterPredicate)) as? Set<ReportTransactionHistory> {
             let existingGroupReports = filteredGroupReports.sorted(by: { (reportA: ReportTransactionHistory, reportB: ReportTransactionHistory) -> Bool in
@@ -439,9 +465,14 @@ class Reports: ResponseHandler {
                 }
                 
                 groupReport.linkedID = groupReportResponse.id
-                groupReport.budget = NSDecimalNumber(string: groupReportResponse.budget)
                 groupReport.value = NSDecimalNumber(string: groupReportResponse.value)
                 groupReport.name = groupReportResponse.name
+                
+                if let value = groupReportResponse.budget {
+                    groupReport.budget = NSDecimalNumber(string: value)
+                } else {
+                    groupReport.budget = nil
+                }
                 
                 linkedIDs.insert(groupReport.linkedID)
             }

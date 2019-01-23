@@ -156,7 +156,7 @@ extension ResponseHandler {
         var missingLinkedIDs = Set<Int64>()
         
         managedObjectContext.performAndWait {
-            var objectPredicates = [NSPredicate(format: linkedKeyName + " IN %@", linkedIDs)]
+            var objectPredicates = [NSPredicate(format: linkedKeyName + " IN %@", argumentArray: [linkedIDs])]
             if let filterPredicate = objectFilterPredicate {
                 objectPredicates.append(filterPredicate)
             }
@@ -165,49 +165,53 @@ extension ResponseHandler {
             objectFetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: objectPredicates)
             objectFetchRequest.sortDescriptors = [NSSortDescriptor(key: linkedKeyName, ascending: true)]
             
-            let objects = try! managedObjectContext.fetch(objectFetchRequest)
-            
-            var parentObjectPredicates = [NSPredicate(format: linkedKeyName + " IN %@", linkedIDs)]
-            if let filterPredicate = parentFilterPredicate {
-                parentObjectPredicates.append(filterPredicate)
-            }
-            
-            let parentObjectFetchRequest: NSFetchRequest<U> = U.fetchRequest() as! NSFetchRequest<U>
-            parentObjectFetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: parentObjectPredicates)
-            parentObjectFetchRequest.sortDescriptors = [NSSortDescriptor(key: linkedKeyName, ascending: true)]
-            
-            let parentObjects = try! managedObjectContext.fetch(parentObjectFetchRequest)
-            
-            var currentParentObjectIndex = 0
-            var matchedParentObjectIDs = Set<Int64>()
-            
-            for object in objects {
-                if currentParentObjectIndex >= parentObjects.count {
-                    // Run out of matching provider IDs
-                    continue
+            do {
+                let objects = try managedObjectContext.fetch(objectFetchRequest)
+                
+                var parentObjectPredicates = [NSPredicate(format: U.primaryKey + " IN %@", argumentArray: [linkedIDs])]
+                if let filterPredicate = parentFilterPredicate {
+                    parentObjectPredicates.append(filterPredicate)
                 }
                 
-                var parentObject = parentObjects[currentParentObjectIndex]
-                if parentObject.primaryID != object[keyPath: linkedKey] {
-                    for index in currentParentObjectIndex...(parentObjects.count-1) {
-                        parentObject = parentObjects[index]
-                        
-                        if parentObject.primaryID == object[keyPath: linkedKey] {
-                            currentParentObjectIndex = index
+                let parentObjectFetchRequest: NSFetchRequest<U> = U.fetchRequest() as! NSFetchRequest<U>
+                parentObjectFetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: parentObjectPredicates)
+                parentObjectFetchRequest.sortDescriptors = [NSSortDescriptor(key: U.primaryKey, ascending: true)]
+                
+                let parentObjects = try managedObjectContext.fetch(parentObjectFetchRequest)
+                
+                var currentParentObjectIndex = 0
+                var matchedParentObjectIDs = Set<Int64>()
+                
+                for object in objects {
+                    if currentParentObjectIndex >= parentObjects.count {
+                        // Run out of matching provider IDs
+                        continue
+                    }
+                    
+                    var parentObject = parentObjects[currentParentObjectIndex]
+                    if parentObject.primaryID != object[keyPath: linkedKey] {
+                        for index in currentParentObjectIndex...(parentObjects.count-1) {
+                            parentObject = parentObjects[index]
                             
-                            break
+                            if parentObject.primaryID == object[keyPath: linkedKey] {
+                                currentParentObjectIndex = index
+                                
+                                break
+                            }
                         }
+                    }
+                    
+                    if parentObject.primaryID == object[keyPath: linkedKey] {
+                        matchedParentObjectIDs.insert(parentObject.primaryID)
+                        
+                        parentObject.linkObject(object: object)
                     }
                 }
                 
-                if parentObject.primaryID == object[keyPath: linkedKey] {
-                    matchedParentObjectIDs.insert(parentObject.primaryID)
-                    
-                    parentObject.linkObject(object: object)
-                }
+                missingLinkedIDs = linkedIDs.subtracting(matchedParentObjectIDs)
+            } catch let error {
+                Log.error(error.localizedDescription)
             }
-            
-            missingLinkedIDs = linkedIDs.subtracting(matchedParentObjectIDs)
         }
         
         return missingLinkedIDs

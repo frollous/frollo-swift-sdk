@@ -50,6 +50,8 @@ public class TransactionCategory: NSManagedObject, UniqueManagedObject {
     /// Core Data entity description name
     static let entityName = "TransactionCategory"
     
+    static internal var primaryKey = #keyPath(TransactionCategory.transactionCategoryID)
+    
     internal var primaryID: Int64 {
         get {
             return transactionCategoryID
@@ -97,6 +99,12 @@ public class TransactionCategory: NSManagedObject, UniqueManagedObject {
         }
         if let transaction = object as? Transaction {
             addToTransactions(transaction)
+        }
+        if let currentReport = object as? ReportTransactionCurrent {
+            addToCurrentReports(currentReport)
+        }
+        if let historyReport = object as? ReportTransactionHistory {
+            addToHistoryReports(historyReport)
         }
     }
     

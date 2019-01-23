@@ -37,6 +37,8 @@ public class Merchant: NSManagedObject, UniqueManagedObject {
     /// Core Data entity description name
     static var entityName = "Merchant"
     
+    static internal var primaryKey = #keyPath(Merchant.merchantID)
+    
     internal var primaryID: Int64 {
         get {
             return merchantID
@@ -74,6 +76,12 @@ public class Merchant: NSManagedObject, UniqueManagedObject {
         }
         if let transaction = object as? Transaction {
             addToTransactions(transaction)
+        }
+        if let currentReport = object as? ReportTransactionCurrent {
+            addToCurrentReports(currentReport)
+        }
+        if let historyReport = object as? ReportTransactionHistory {
+            addToHistoryReports(historyReport)
         }
     }
     

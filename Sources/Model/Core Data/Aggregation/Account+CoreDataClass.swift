@@ -272,6 +272,8 @@ public class Account: NSManagedObject, UniqueManagedObject {
     /// Core Data entity description name
     static var entityName = "Account"
     
+    static internal var primaryKey = #keyPath(Account.accountID)
+    
     /// Account Status
     public var accountStatus: AccountStatus {
         get {

@@ -59,6 +59,8 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
     /// Core Data entity description name
     static var entityName = "Transaction"
     
+    static internal var primaryKey = #keyPath(Transaction.transactionID)
+    
     /// Date formatter to convert from stored date string to user's current locale
     public static let transactionDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()

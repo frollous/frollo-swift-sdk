@@ -47,6 +47,8 @@ public class Message: NSManagedObject, UniqueManagedObject {
     /// Core Data entity description name
     static var entityName = "Message"
     
+    static internal var primaryKey = #keyPath(Message.messageID)
+    
     /// Action URL. The URL the user should be taken to when interacting with a message. Can be a deeplink or web URL.
     public var actionURL: URL? {
         get {

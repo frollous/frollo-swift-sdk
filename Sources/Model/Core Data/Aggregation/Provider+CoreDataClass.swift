@@ -107,6 +107,8 @@ public class Provider: NSManagedObject, UniqueManagedObject {
     /// Core Data entity description name
     static let entityName = "Provider"
     
+    static internal var primaryKey = #keyPath(Provider.providerID)
+    
     /// Authentication Type (optional)
     public var authType: AuthType? {
         get {

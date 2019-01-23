@@ -113,6 +113,8 @@ public class Bill: NSManagedObject, UniqueManagedObject {
     /// Core Data entity description name
     static var entityName = "Bill"
     
+    static internal var primaryKey = #keyPath(Bill.billID)
+    
     /// Date formatter to convert from stored date string to user's current locale
     public static let billDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
