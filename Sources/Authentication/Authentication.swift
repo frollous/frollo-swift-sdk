@@ -9,6 +9,12 @@
 import CoreData
 import Foundation
 
+internal protocol AuthenticationDelegate: class {
+    
+    func authenticationReset()
+    
+}
+
 /// Frollo SDK authentication notifications
 public struct FrolloSDKAuthenticationNotification {
     
@@ -60,10 +66,13 @@ public class Authentication {
     private let network: Network
     private let preferences: Preferences
     
-    init(database: Database, network: Network, preferences: Preferences) {
+    private weak var delegate: AuthenticationDelegate?
+    
+    init(database: Database, network: Network, preferences: Preferences, delegate: AuthenticationDelegate?) {
         self.database = database
         self.network = network
         self.preferences = preferences
+        self.delegate = delegate
         
         _ = fetchUser(context: database.viewContext)
     }
@@ -318,6 +327,8 @@ public class Authentication {
                 Log.error(responseError.localizedDescription)
             } else {
                 self.reset()
+                
+                self.delegate?.authenticationReset()
             }
             
             DispatchQueue.main.async {
@@ -387,7 +398,7 @@ public class Authentication {
     /**
      Log out the user from the server. This revokes the refresh token for the current device if not already revoked and resets the token storage.
     */
-    internal func logoutUser() {
+    public func logoutUser() {
         network.logoutUser { (data, error) in
             if let logoutError = error {
                 Log.error(logoutError.localizedDescription)
@@ -395,6 +406,8 @@ public class Authentication {
         }
         
         reset()
+        
+        delegate?.authenticationReset()
     }
     
     // MARK: - User Model
