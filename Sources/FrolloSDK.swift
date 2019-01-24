@@ -11,7 +11,7 @@ import Foundation
 public typealias FrolloSDKCompletionHandler = (Error?) -> Void
 
 /// Frollo SDK manager and main instantiation. Responsible for managing the lifecycle and coordination of the SDK
-public class FrolloSDK: NetworkDelegate {
+public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     
     /// Notification triggered when ever the authentication status of the SDK changes. Observe this notification to detect if the SDK user has authenticated or been logged out.
     public static let authenticationChangedNotification = Notification.Name(rawValue: "FrolloSDK.authenticationChangedNotification")
@@ -237,7 +237,7 @@ public class FrolloSDK: NetworkDelegate {
         Log.logLevel = logLevel
         
         _aggregation = Aggregation(database: _database, network: network)
-        _authentication = Authentication(database: _database, network: network, preferences: preferences)
+        _authentication = Authentication(database: _database, network: network, preferences: preferences, delegate: self)
         _bills = Bills(database: _database, network: network, aggregation: _aggregation)
         _events = Events(network: network)
         _messages = Messages(database: _database, network: network)
@@ -274,19 +274,7 @@ public class FrolloSDK: NetworkDelegate {
         return nil
     }
     
-    // MARK: - Logout and Reset
-    
-    /**
-     Logout the currently authenticated user from Frollo backend. Resets all caches and databases.
-     
-     - parameters:
-        - completion: Completion handler with optional error if something goes wrong during the logout process (optional)
-    */
-    public func logout(completion: ((Error?) -> Void)? = nil) {
-        authentication.logoutUser()
-        
-        reset(completionHandler: completion)
-    }
+    // MARK: - Reset
     
     /**
      Reset the SDK. Clears all caches, datbases and keychain entries. Called automatically from logout.
@@ -401,6 +389,12 @@ public class FrolloSDK: NetworkDelegate {
     private func cancelRefreshTimer() {
         refreshTimer?.invalidate()
         refreshTimer = nil
+    }
+    
+    // MARK: - Authentication Delegate
+    
+    func authenticationReset() {
+        reset()
     }
     
     // MARK: - Network Delegate

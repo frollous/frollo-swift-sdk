@@ -11,7 +11,7 @@ import XCTest
 
 import OHHTTPStubs
 
-class AuthenticationTests: XCTestCase, NetworkDelegate {
+class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     
     private let serverURL = URL(string: "https://api.example.com")!
     
@@ -50,7 +50,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let network = Network(serverURL: serverURL, keychain: validKeychain())
-        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -78,7 +78,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let network = Network(serverURL: serverURL, keychain: validKeychain())
-        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -106,7 +106,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let network = Network(serverURL: serverURL, keychain: validKeychain())
-        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -134,10 +134,12 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let network = Network(serverURL: serverURL, keychain: validKeychain())
-        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
+            
+            authentication.loggedIn = true
             
             authentication.refreshUser { (error) in
                 XCTAssertNil(error)
@@ -162,10 +164,12 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let network = Network(serverURL: serverURL, keychain: validKeychain())
-        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
+            
+            authentication.loggedIn = true
             
             let moc = database.newBackgroundContext()
             
@@ -199,7 +203,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let network = Network(serverURL: serverURL, keychain: validKeychain())
-        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
         database.setup { (error) in
@@ -239,7 +243,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let network = Network(serverURL: serverURL, keychain: validKeychain())
         network.delegate = self
         
-        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
         database.setup { (error) in
@@ -278,7 +282,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let network = Network(serverURL: serverURL, keychain: validKeychain())
-        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
         database.setup { (error) in
@@ -314,7 +318,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let network = Network(serverURL: serverURL, keychain: validKeychain())
-        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
         database.setup { (error) in
@@ -355,7 +359,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let network = Network(serverURL: serverURL, keychain: validKeychain())
-        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
         database.setup { (error) in
@@ -393,7 +397,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let network = Network(serverURL: serverURL, keychain: validKeychain())
-        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
         database.setup { (error) in
@@ -435,7 +439,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let network = Network(serverURL: serverURL, keychain: keychain)
         network.delegate = self
         
-        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
         database.setup { (error) in
@@ -474,7 +478,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let network = Network(serverURL: serverURL, keychain: validKeychain())
-        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -496,7 +500,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let network = Network(serverURL: serverURL, keychain: validKeychain())
-        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         
         let requestURL = URL(string: "https://api.example.com/somewhere")!
         let request = URLRequest(url: requestURL)
@@ -522,6 +526,12 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    // MARK: - Auth delegate
+    
+    func authenticationReset() {
+        
     }
     
     // MARK: - Network logged out delegate

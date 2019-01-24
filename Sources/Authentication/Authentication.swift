@@ -9,6 +9,12 @@
 import CoreData
 import Foundation
 
+internal protocol AuthenticationDelegate: class {
+    
+    func authenticationReset()
+    
+}
+
 /// Frollo SDK authentication notifications
 public struct FrolloSDKAuthenticationNotification {
     
@@ -60,10 +66,13 @@ public class Authentication {
     private let network: Network
     private let preferences: Preferences
     
-    init(database: Database, network: Network, preferences: Preferences) {
+    private weak var delegate: AuthenticationDelegate?
+    
+    init(database: Database, network: Network, preferences: Preferences, delegate: AuthenticationDelegate?) {
         self.database = database
         self.network = network
         self.preferences = preferences
+        self.delegate = delegate
         
         _ = fetchUser(context: database.viewContext)
     }
@@ -107,6 +116,13 @@ public class Authentication {
         - completion: Completion handler with any error that occurred
      */
     public func loginUser(method: AuthType, email: String? = nil, password: String? = nil, userID: String? = nil, userToken: String? = nil, completion: @escaping FrolloSDKCompletionHandler) {
+        guard !loggedIn
+            else {
+                let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
+                completion(error)
+                return
+        }
+        
         let deviceInfo = DeviceInfo.current()
         
         let userLoginRequest = APIUserLoginRequest(authType: method,
@@ -149,6 +165,13 @@ public class Authentication {
         - completion: Completion handler with any error that occurred
      */
     public func registerUser(firstName: String, lastName: String?, mobileNumber: String?, postcode: String?, dateOfBirth: Date?, email: String, password: String, completion: @escaping FrolloSDKCompletionHandler) {
+        guard !loggedIn
+            else {
+                let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
+                completion(error)
+                return
+        }
+        
         let deviceInfo = DeviceInfo.current()
         
         var address: APIUserRegisterRequest.Address?
@@ -216,6 +239,13 @@ public class Authentication {
         - completion: A completion handler once the API has returned and the cache has been updated. Returns any error that occurred during the process. (Optional)
      */
     public func refreshUser(completion: FrolloSDKCompletionHandler? = nil) {
+        guard loggedIn
+            else {
+                let error = DataError(type: .authentication, subType: .loggedOut)
+                completion?(error)
+                return
+        }
+        
         network.fetchUser { (data, error) in
             if let responseError = error {
                 Log.error(responseError.localizedDescription)
@@ -240,6 +270,13 @@ public class Authentication {
         - completion: A completion handler once the API has returned and the cache has been updated. Returns any error that occurred during the process.
      */
     public func updateUser(completion: @escaping FrolloSDKCompletionHandler) {
+        guard loggedIn
+            else {
+                let error = DataError(type: .authentication, subType: .loggedOut)
+                completion(error)
+                return
+        }
+        
         let managedObjectContext = database.newBackgroundContext()
         
         guard let user = fetchUser(context: managedObjectContext)
@@ -282,6 +319,13 @@ public class Authentication {
         - completion: Completion handler with any error that occurred
      */
     internal func changePassword(currentPassword: String?, newPassword: String, completion: @escaping FrolloSDKCompletionHandler) {
+        guard loggedIn
+            else {
+                let error = DataError(type: .authentication, subType: .loggedOut)
+                completion(error)
+                return
+        }
+        
         let changePasswordRequest = APIUserChangePasswordRequest(currentPassword: currentPassword,
                                                                  newPassword: newPassword)
         
@@ -313,11 +357,20 @@ public class Authentication {
         - completion: Completion handler with any error that occurred
     */
     public func deleteUser(completion: @escaping FrolloSDKCompletionHandler) {
+        guard loggedIn
+            else {
+                let error = DataError(type: .authentication, subType: .loggedOut)
+                completion(error)
+                return
+        }
+        
         network.deleteUser { (response, error) in
             if let responseError = error {
                 Log.error(responseError.localizedDescription)
             } else {
                 self.reset()
+                
+                self.delegate?.authenticationReset()
             }
             
             DispatchQueue.main.async {
@@ -387,7 +440,12 @@ public class Authentication {
     /**
      Log out the user from the server. This revokes the refresh token for the current device if not already revoked and resets the token storage.
     */
-    internal func logoutUser() {
+    public func logoutUser() {
+        guard loggedIn
+            else {
+                return
+        }
+        
         network.logoutUser { (data, error) in
             if let logoutError = error {
                 Log.error(logoutError.localizedDescription)
@@ -395,6 +453,8 @@ public class Authentication {
         }
         
         reset()
+        
+        delegate?.authenticationReset()
     }
     
     // MARK: - User Model

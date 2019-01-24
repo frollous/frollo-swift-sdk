@@ -54,7 +54,7 @@ class NotificationsTests: XCTestCase {
         let preferences = Preferences(path: path)
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         let network = Network(serverURL: url, keychain: keychain)
-        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: nil)
         let events = Events(network: network)
         let messages = Messages(database: database, network: network)
         
@@ -78,7 +78,7 @@ class NotificationsTests: XCTestCase {
         let preferences = Preferences(path: path)
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         let network = Network(serverURL: url, keychain: keychain)
-        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: nil)
         let events = Events(network: network)
         let messages = Messages(database: database, network: network)
         
@@ -113,7 +113,7 @@ class NotificationsTests: XCTestCase {
         let preferences = Preferences(path: path)
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         let network = Network(serverURL: url, keychain: keychain)
-        let authentication = Authentication(database: database, network: network, preferences: preferences)
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: nil)
         let events = Events(network: network)
         let messages = Messages(database: database, network: network)
         

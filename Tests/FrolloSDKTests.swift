@@ -37,6 +37,23 @@ class FrolloSDKTests: XCTestCase {
         }
     }
     
+    func checkDatabaseEmpty(database: Database) {
+        let context = database.viewContext
+        
+        for entity in database.persistentContainer.managedObjectModel.entities {
+            guard let entityName = entity.name
+                else {
+                    continue
+            }
+            
+            let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
+            fetchRequest.resultType = .dictionaryResultType
+            
+            let results = try! context.fetch(fetchRequest)
+            XCTAssertEqual(results.count, 0)
+        }
+    }
+    
     func removeDataFolder() {
         // Remove app data folder from disk
         try? FileManager.default.removeItem(atPath: FrolloSDK.dataFolderURL.path)
@@ -104,6 +121,8 @@ class FrolloSDKTests: XCTestCase {
             sdk.reset { (error) in
                 XCTAssertNil(error)
                 
+                self.checkDatabaseEmpty(database: sdk.database)
+                
                 expectation1.fulfill()
             }
         }
@@ -150,6 +169,7 @@ class FrolloSDKTests: XCTestCase {
     
     func testRefreshData() {
         let expectation1 = expectation(description: "Setup")
+        let expectation2 = expectation(description: "Setup")
         
         let url = URL(string: "https://api.example.com")!
         
@@ -175,6 +195,10 @@ class FrolloSDKTests: XCTestCase {
         
         stub(condition: isHost(url.host!) && isPath("/" + MessagesEndpoint.unread.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_unread", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.billPayments.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payments_2018-12-01_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let sdk = FrolloSDK()
@@ -240,10 +264,26 @@ class FrolloSDKTests: XCTestCase {
                     
                     expectation1.fulfill()
                 })
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+                    let context = sdk.database.viewContext
+                    
+                    let billPaymentFetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
+                    
+                    do {
+                        let fetchedBillPayments = try context.fetch(billPaymentFetchRequest)
+                        
+                        XCTAssertTrue(fetchedBillPayments.count > 0)
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation2.fulfill()
+                })
             })
         }
         
-        wait(for: [expectation1], timeout: 5.0)
+        wait(for: [expectation1, expectation2], timeout: 10.0)
     }
     
     func testSingletonInstantiatedOnce() {
@@ -400,6 +440,32 @@ class FrolloSDKTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 15.0)
+    }
+    
+    func testLogout() {
+        let expectation1 = expectation(description: "Setup")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let sdk = FrolloSDK()
+        
+        populateTestDataNamed(name: "FrolloSDKDataModel-1.2.0", atPath: FrolloSDK.dataFolderURL)
+        
+        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (error) in
+            XCTAssertNil(error)
+            
+            sdk.authentication.loggedIn = true
+            
+            sdk.authentication.logoutUser()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+                self.checkDatabaseEmpty(database: sdk.database)
+                
+                expectation1.fulfill()
+            })
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
     }
     
 }
