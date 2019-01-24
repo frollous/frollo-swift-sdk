@@ -721,6 +721,132 @@ class ReportsTests: XCTestCase {
         wait(for: [expectation5], timeout: 10.0)
         OHHTTPStubs.removeAllStubs()
     }
+    
+    func testCurrentReportsLinkToMerchants() {
+        let expectation1 = expectation(description: "Network Merchants Request")
+        let expectation2 = expectation(description: "Network Reports Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.transactionsCurrent.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_merchant", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let reports = Reports(database: database, network: network, aggregation: aggregation)
+            
+            aggregation.refreshMerchants() { (error) in
+                XCTAssertNil(error)
+                
+                reports.refreshTransactionCurrentReports(grouping: .merchant) { (error) in
+                    XCTAssertNil(error)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "linkedID == %ld", argumentArray: [81])
+                        
+                        do {
+                            let fetchedReports = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedReports.count, 31)
+                            
+                            if let report = fetchedReports.first {
+                                XCTAssertNotNil(report.merchant)
+                                XCTAssertNil(report.transactionCategory)
+                                
+                                XCTAssertEqual(report.linkedID, report.merchant?.merchantID)
+                            }
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                        
+                        expectation2.fulfill()
+                    })
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1, expectation2], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testCurrentReportsLinkToTransactionCategories() {
+        let expectation1 = expectation(description: "Network Merchants Request")
+        let expectation2 = expectation(description: "Network Reports Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.transactionsCurrent.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_txn_category", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.transactionCategories.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_categories_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let reports = Reports(database: database, network: network, aggregation: aggregation)
+            
+            aggregation.refreshTransactionCategories() { (error) in
+                XCTAssertNil(error)
+                
+                reports.refreshTransactionCurrentReports(grouping: .transactionCategory) { (error) in
+                    XCTAssertNil(error)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "linkedID == %ld", argumentArray: [79])
+                        
+                        do {
+                            let fetchedReports = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedReports.count, 31)
+                            
+                            if let report = fetchedReports.first {
+                                XCTAssertNotNil(report.transactionCategory)
+                                XCTAssertNil(report.merchant)
+                                
+                                XCTAssertEqual(report.linkedID, report.transactionCategory?.transactionCategoryID)
+                            }
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                        
+                        expectation2.fulfill()
+                    })
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1, expectation2], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
 
     // MARK: - History Report Tests
     
@@ -1442,7 +1568,7 @@ class ReportsTests: XCTestCase {
                                 XCTFail(error.localizedDescription)
                             }
                             
-                            // Check no new overall report is found
+                            // Check new overall report is found
                             do {
                                 let fetchedOldOverallReports = try context.fetch(overallNewFetchRequest)
                                 
@@ -1452,7 +1578,7 @@ class ReportsTests: XCTestCase {
                                     XCTAssertEqual(firstReport.dateString, "2019-01")
                                     XCTAssertNil(firstReport.overall)
                                     XCTAssertNotNil(firstReport.reports)
-                                    XCTAssertEqual(firstReport.reports?.count, 12)
+                                    XCTAssertEqual(firstReport.reports?.count, 14)
                                 } else {
                                     XCTFail("Report not found")
                                 }
@@ -1460,11 +1586,11 @@ class ReportsTests: XCTestCase {
                                 XCTFail(error.localizedDescription)
                             }
                             
-                            // Check no new group report is found
+                            // Check new group report is found
                             do {
                                 let fetchedOldGroupReports = try context.fetch(groupNewFetchRequest)
                                 
-                                XCTAssertEqual(fetchedOldGroupReports.count, 12)
+                                XCTAssertEqual(fetchedOldGroupReports.count, 14)
                                 
                                 if let firstReport = fetchedOldGroupReports.first {
                                     XCTAssertEqual(firstReport.dateString, "2019-01")
@@ -1478,10 +1604,10 @@ class ReportsTests: XCTestCase {
                             } catch {
                                 XCTFail(error.localizedDescription)
                             }
+                            
+                            expectation1.fulfill()
                         }
                     }
-                    
-                    expectation1.fulfill()
                 }
             }
         }

@@ -78,7 +78,7 @@ class Reports: ResponseHandler {
                 if let reportsResponse = response {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleTransactionHistoryReportsResponse(reportsResponse, grouping: grouping, period: period, budgetCategory: budgetCategory, managedObjectContext: managedObjectContext)
+                    self.handleTransactionHistoryReportsResponse(reportsResponse, grouping: grouping, period: period, from: fromDate, to: toDate, budgetCategory: budgetCategory, managedObjectContext: managedObjectContext)
                     
                     self.linkReportTransactionHistoryToMerchants(managedObjectContext: managedObjectContext)
                     self.linkReportTransactionHistoryToTransactionCategories(managedObjectContext: managedObjectContext)
@@ -117,11 +117,11 @@ class Reports: ResponseHandler {
     }
     
     private func linkReportTransactionCurrentToTransactionCategories(managedObjectContext: NSManagedObjectContext) {
-        historyReportsLock.lock()
+        currentReportsLock.lock()
         aggregation.transactionCategoryLock.lock()
         
         defer {
-            historyReportsLock.unlock()
+            currentReportsLock.unlock()
             aggregation.transactionCategoryLock.unlock()
         }
         
@@ -210,7 +210,7 @@ class Reports: ResponseHandler {
             case .merchant:
                 linkingCurrentMerchantIDs = linkingCurrentMerchantIDs.union(linkedIDs)
             case .transactionCategory:
-                linkingCurrentMerchantIDs = linkingCurrentTransactionCategoryIDs.union(linkedIDs)
+                linkingCurrentTransactionCategoryIDs = linkingCurrentTransactionCategoryIDs.union(linkedIDs)
             default:
                 break
         }
@@ -322,7 +322,7 @@ class Reports: ResponseHandler {
         }
     }
     
-    private func handleTransactionHistoryReportsResponse(_ reportsResponse: APITransactionHistoryReportsResponse, grouping: ReportGrouping, period: ReportTransactionHistory.Period, budgetCategory: BudgetCategory? = nil, managedObjectContext: NSManagedObjectContext) {
+    private func handleTransactionHistoryReportsResponse(_ reportsResponse: APITransactionHistoryReportsResponse, grouping: ReportGrouping, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, budgetCategory: BudgetCategory? = nil, managedObjectContext: NSManagedObjectContext) {
         historyReportsLock.lock()
         
         defer {
@@ -342,12 +342,19 @@ class Reports: ResponseHandler {
             
             // No parent reports - fetch top level only
             let overallPredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil", argumentArray: nil)
+            
             // Filter by grouping method
             let groupingPredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: [grouping.rawValue])
+            
             // Filter by period
             let periodPredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [period.rawValue])
             
-            var filterPredicates = [overallPredicate, groupingPredicate, periodPredicate]
+            // Date range
+            let fromDateString = ReportTransactionHistory.dailyDateFormatter.string(from: fromDate)
+            let toDateString = ReportTransactionHistory.dailyDateFormatter.string(from: toDate)
+            let dateRangePredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.dateString) + " >= %@ && " + #keyPath(ReportTransactionHistory.dateString) + " <= %@", argumentArray: [fromDateString, toDateString])
+            
+            var filterPredicates = [overallPredicate, groupingPredicate, periodPredicate, dateRangePredicate]
             
             // Filter by budget category if applicable
             if let category = budgetCategory {
@@ -355,6 +362,8 @@ class Reports: ResponseHandler {
             } else {
                 filterPredicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil", argumentArray: nil))
             }
+            
+            
             
             // Specify dates
             let datePredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.dateString) + " IN %@", argumentArray: [reportDates])
