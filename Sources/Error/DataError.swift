@@ -49,6 +49,12 @@ public class DataError: FrolloSDKError {
         /// API - Password too short
         case passwordTooShort
         
+        /// Authentication - Already logged in
+        case alreadyLoggedIn
+        
+        /// Authentication - User not logged in
+        case loggedOut
+        
         /// Authentication - Missing access token from keychain
         case missingAccessToken
         
@@ -111,6 +117,10 @@ public class DataError: FrolloSDKError {
                 }
             case .authentication:
                 switch subType {
+                    case .alreadyLoggedIn:
+                        return Localization.string("Error.Data.Authentication.AlreadyLoggedIn")
+                    case .loggedOut:
+                        return Localization.string("Error.Data.Authentication.LoggedOut")
                     case .missingAccessToken:
                         return Localization.string("Error.Data.Authentication.MissingAccessToken")
                     case .missingRefreshToken:

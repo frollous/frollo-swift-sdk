@@ -129,4 +129,22 @@ class DataErrorTests: XCTestCase {
         XCTAssertGreaterThan(error.debugDescription.count, error.localizedDescription.count)
     }
     
+    func testAlreadyLoggedIn() {
+        let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
+        XCTAssertEqual(error.type, .authentication)
+        XCTAssertEqual(error.subType, .alreadyLoggedIn)
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.Data.Authentication.AlreadyLoggedIn"))
+        XCTAssertTrue(error.debugDescription.contains(DataError.DataErrorType.authentication.rawValue))
+        XCTAssertGreaterThan(error.debugDescription.count, error.localizedDescription.count)
+    }
+    
+    func testLoggedOut() {
+        let error = DataError(type: .authentication, subType: .loggedOut)
+        XCTAssertEqual(error.type, .authentication)
+        XCTAssertEqual(error.subType, .loggedOut)
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.Data.Authentication.LoggedOut"))
+        XCTAssertTrue(error.debugDescription.contains(DataError.DataErrorType.authentication.rawValue))
+        XCTAssertGreaterThan(error.debugDescription.count, error.localizedDescription.count)
+    }
+    
 }
