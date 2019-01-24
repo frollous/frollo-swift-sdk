@@ -112,6 +112,15 @@
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="paymentStatusRawValue" attributeType="String" syncable="YES"/>
         <relationship name="bill" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Bill" inverseName="payments" inverseEntity="Bill" syncable="YES"/>
+        <fetchIndex name="byBillPaymentIDIndex">
+            <fetchIndexElement property="billPaymentID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byBillIDIndex">
+            <fetchIndexElement property="billID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byPaymentStatusIndex">
+            <fetchIndexElement property="paymentStatusRawValue" type="Binary" order="ascending"/>
+        </fetchIndex>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="billPaymentID"/>

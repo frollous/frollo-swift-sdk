@@ -454,6 +454,8 @@ class FrolloSDKTests: XCTestCase {
         sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (error) in
             XCTAssertNil(error)
             
+            sdk.authentication.loggedIn = true
+            
             sdk.authentication.logoutUser()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {

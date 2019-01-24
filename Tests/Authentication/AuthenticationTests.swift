@@ -139,6 +139,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
+            authentication.loggedIn = true
+            
             authentication.refreshUser { (error) in
                 XCTAssertNil(error)
                 
@@ -166,6 +168,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         
         database.setup { (error) in
             XCTAssertNil(error)
+            
+            authentication.loggedIn = true
             
             let moc = database.newBackgroundContext()
             
