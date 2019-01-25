@@ -13,6 +13,8 @@ import OHHTTPStubs
 
 class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     
+    private let keychainService = "AuthenticationTestsKeychain"
+    
     private let serverURL = URL(string: "https://api.example.com")!
     
     private var authentication: Authentication!
@@ -21,16 +23,21 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
         
-        
+        if let bundleID = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundleID)
+        }
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
+        
+        OHHTTPStubs.removeAllStubs()
+        Keychain(service: keychainService).removeAll()
     }
     
     private func validKeychain() -> Keychain {
-        let keychain = Keychain(service: "AuthenticationTestsKeychain")
+        let keychain = Keychain(service: keychainService)
         keychain["refreshToken"] = "AnExistingRefreshToken"
         keychain["accessToken"] = "AnExistingAccessToken"
         keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 1000).timeIntervalSince1970) // Not expired by time
@@ -65,6 +72,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
     func testInvalidLoginUser() {
@@ -93,6 +102,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
     func testRegisterUser() {
@@ -121,6 +132,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
     func testRefreshUser() {
@@ -151,6 +164,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
     func testUpdateUser() {
@@ -190,6 +205,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         }
         
         wait(for: [expectation1], timeout: 5.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
     func testLogoutUser() {
@@ -228,6 +245,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
     func testUserLoggedOutOn401() {
@@ -269,6 +288,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
     func testChangePassword() {
@@ -305,6 +326,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
     func testChangePasswordFailsIfTooShort() {
@@ -346,6 +369,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
     func testDeleteUser() {
@@ -384,6 +409,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
     func testResetPassword() {
@@ -420,6 +447,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
     func testForcedLogoutIfMissingRefreshToken() {
@@ -465,6 +494,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
     func testUpdateDevice() {
@@ -491,6 +522,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
     func testAuthenticatingRequestManually() {
