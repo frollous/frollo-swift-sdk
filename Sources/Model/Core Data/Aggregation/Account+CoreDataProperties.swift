@@ -157,6 +157,9 @@ extension Account {
     /// Parent provider account
     @NSManaged public var providerAccount: ProviderAccount?
     
+    /// Balance reports
+    @NSManaged public var reports: Set<ReportAccountBalance>?
+    
     /// Child transactions
     @NSManaged public var transactions: Set<Transaction>?
 
@@ -201,6 +204,27 @@ extension Account {
     /// Remove bill relationships
     @objc(removeBills:)
     @NSManaged public func removeFromBills(_ values: Set<Bill>)
+    
+}
+
+// MARK: Generated accessors for reports
+extension Account {
+    
+    /// Add a account balance report relationship
+    @objc(addReportsObject:)
+    @NSManaged public func addToReports(_ value: ReportAccountBalance)
+    
+    /// Remove a account balance report relationship
+    @objc(removeReportsObject:)
+    @NSManaged public func removeFromReports(_ value: ReportAccountBalance)
+    
+    /// Add account balance report relationships
+    @objc(addReports:)
+    @NSManaged public func addToReports(_ values: NSSet)
+    
+    /// Remove account balance report relationships
+    @objc(removeReports:)
+    @NSManaged public func removeFromReports(_ values: NSSet)
     
 }
 

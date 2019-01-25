@@ -30,6 +30,14 @@ class Reports: ResponseHandler {
         self.aggregation = aggregation
     }
     
+    // MARK: - Account Balance Reports
+    
+    public func refreshAccountBalanceReports(completion: FrolloSDKCompletionHandler? = nil) {
+        
+    }
+    
+    // MARK: - Transaction Current Reports
+    
     /**
      Refresh transaction current reports from the host
      
@@ -58,6 +66,8 @@ class Reports: ResponseHandler {
             }
         }
     }
+    
+    // MARK: - Transaction History Reports
     
     /**
      Refresh transaction history reports from the host

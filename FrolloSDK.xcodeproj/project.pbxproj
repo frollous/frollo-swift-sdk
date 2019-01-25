@@ -458,6 +458,8 @@
 		01616B0F2186C4E8003EF2D0 /* NetworkLoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616B0D2186C4E8003EF2D0 /* NetworkLoggerTests.swift */; };
 		01616B102186C4E8003EF2D0 /* NetworkLoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616B0D2186C4E8003EF2D0 /* NetworkLoggerTests.swift */; };
 		016DD0A420EF365100F41919 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016DD0A320EF365100F41919 /* APIErrorTests.swift */; };
+		01704F5921FAD13D00666DAE /* ReportAccountBalance+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01704F5721FAD13D00666DAE /* ReportAccountBalance+CoreDataClass.swift */; };
+		01704F5A21FAD13D00666DAE /* ReportAccountBalance+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01704F5821FAD13D00666DAE /* ReportAccountBalance+CoreDataProperties.swift */; };
 		017391F020EF001200C0BB32 /* APIErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017391EF20EF001200C0BB32 /* APIErrorResponse.swift */; };
 		01743B08212BA3D10082DA00 /* captcha.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 01743B07212BA3D00082DA00 /* captcha.bmp */; };
 		01743B09212BA3D10082DA00 /* captcha.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 01743B07212BA3D00082DA00 /* captcha.bmp */; };
@@ -1005,6 +1007,8 @@
 		01616B0B2186BFD5003EF2D0 /* APILogRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APILogRequest.swift; sourceTree = "<group>"; };
 		01616B0D2186C4E8003EF2D0 /* NetworkLoggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLoggerTests.swift; sourceTree = "<group>"; };
 		016DD0A320EF365100F41919 /* APIErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorTests.swift; sourceTree = "<group>"; };
+		01704F5721FAD13D00666DAE /* ReportAccountBalance+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportAccountBalance+CoreDataClass.swift"; sourceTree = "<group>"; };
+		01704F5821FAD13D00666DAE /* ReportAccountBalance+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportAccountBalance+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		017391EF20EF001200C0BB32 /* APIErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorResponse.swift; sourceTree = "<group>"; };
 		01743B07212BA3D00082DA00 /* captcha.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = captcha.bmp; sourceTree = "<group>"; };
 		01743B0B212BA9860082DA00 /* provider_login_form_question_answer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_login_form_question_answer.json; sourceTree = "<group>"; };
@@ -1236,6 +1240,8 @@
 		0104E02921E84EC700D98EE7 /* Reports */ = {
 			isa = PBXGroup;
 			children = (
+				01704F5721FAD13D00666DAE /* ReportAccountBalance+CoreDataClass.swift */,
+				01704F5821FAD13D00666DAE /* ReportAccountBalance+CoreDataProperties.swift */,
 				0104E02C21E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataClass.swift */,
 				0104E02D21E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataProperties.swift */,
 				0104E02A21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataClass.swift */,
@@ -2865,6 +2871,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01704F5A21FAD13D00666DAE /* ReportAccountBalance+CoreDataProperties.swift in Sources */,
 				01236D0C21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift in Sources */,
 				018240DD21C8B80B005705F9 /* Bill+CoreDataClass.swift in Sources */,
 				01C8250720EDDB4F0093400E /* DataError.swift in Sources */,
@@ -2887,6 +2894,7 @@
 				0159E46E2190F3BD002CC3BB /* PublicKeys.swift in Sources */,
 				017B48DB2106E1C100447E65 /* User+CoreDataClass.swift in Sources */,
 				016097F5210EE2BB0034E857 /* APIProviderResponse.swift in Sources */,
+				01704F5921FAD13D00666DAE /* ReportAccountBalance+CoreDataClass.swift in Sources */,
 				0126069321992A36005D8377 /* Network+Messages.swift in Sources */,
 				01405E4A21DC43A8009356CC /* APIBillUpdateRequest.swift in Sources */,
 				016097F8210EE3300034E857 /* Provider+CoreDataClass.swift in Sources */,
