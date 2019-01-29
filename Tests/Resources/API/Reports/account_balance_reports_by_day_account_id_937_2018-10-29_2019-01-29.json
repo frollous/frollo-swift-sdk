@@ -1,0 +1,755 @@
+{
+	"data": [{
+		"date": "2018-10-28",
+		"value": "-2641.45",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-2641.45"
+		}]
+	}, {
+		"date": "2018-10-29",
+		"value": "-2641.45",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-2641.45"
+		}]
+	}, {
+		"date": "2018-10-30",
+		"value": "-2541.45",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-2541.45"
+		}]
+	}, {
+		"date": "2018-10-31",
+		"value": "-2541.45",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-2541.45"
+		}]
+	}, {
+		"date": "2018-11-01",
+		"value": "-2541.45",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-2541.45"
+		}]
+	}, {
+		"date": "2018-11-02",
+		"value": "-2816.45",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-2816.45"
+		}]
+	}, {
+		"date": "2018-11-03",
+		"value": "-2886.45",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-2886.45"
+		}]
+	}, {
+		"date": "2018-11-04",
+		"value": "-2886.45",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-2886.45"
+		}]
+	}, {
+		"date": "2018-11-05",
+		"value": "-2886.45",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-2886.45"
+		}]
+	}, {
+		"date": "2018-11-06",
+		"value": "-2886.45",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-2886.45"
+		}]
+	}, {
+		"date": "2018-11-07",
+		"value": "1143.55",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1143.55"
+		}]
+	}, {
+		"date": "2018-11-08",
+		"value": "1143.55",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1143.55"
+		}]
+	}, {
+		"date": "2018-11-09",
+		"value": "938.55",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "938.55"
+		}]
+	}, {
+		"date": "2018-11-10",
+		"value": "938.55",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "938.55"
+		}]
+	}, {
+		"date": "2018-11-11",
+		"value": "938.55",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "938.55"
+		}]
+	}, {
+		"date": "2018-11-12",
+		"value": "848.65",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "848.65"
+		}]
+	}, {
+		"date": "2018-11-13",
+		"value": "848.65",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "848.65"
+		}]
+	}, {
+		"date": "2018-11-14",
+		"value": "848.65",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "848.65"
+		}]
+	}, {
+		"date": "2018-11-15",
+		"value": "778.65",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "778.65"
+		}]
+	}, {
+		"date": "2018-11-16",
+		"value": "-406.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-406.35"
+		}]
+	}, {
+		"date": "2018-11-17",
+		"value": "-466.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-466.35"
+		}]
+	}, {
+		"date": "2018-11-18",
+		"value": "-466.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-466.35"
+		}]
+	}, {
+		"date": "2018-11-19",
+		"value": "-466.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-466.35"
+		}]
+	}, {
+		"date": "2018-11-20",
+		"value": "-466.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-466.35"
+		}]
+	}, {
+		"date": "2018-11-21",
+		"value": "-466.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-466.35"
+		}]
+	}, {
+		"date": "2018-11-22",
+		"value": "-486.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-486.35"
+		}]
+	}, {
+		"date": "2018-11-23",
+		"value": "-671.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-671.35"
+		}]
+	}, {
+		"date": "2018-11-24",
+		"value": "-671.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-671.35"
+		}]
+	}, {
+		"date": "2018-11-25",
+		"value": "-691.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-691.35"
+		}]
+	}, {
+		"date": "2018-11-26",
+		"value": "-691.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-691.35"
+		}]
+	}, {
+		"date": "2018-11-27",
+		"value": "-691.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-691.35"
+		}]
+	}, {
+		"date": "2018-11-28",
+		"value": "-791.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-791.35"
+		}]
+	}, {
+		"date": "2018-11-29",
+		"value": "-691.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-691.35"
+		}]
+	}, {
+		"date": "2018-11-30",
+		"value": "-876.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-876.35"
+		}]
+	}, {
+		"date": "2018-12-01",
+		"value": "-876.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-876.35"
+		}]
+	}, {
+		"date": "2018-12-02",
+		"value": "-876.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-876.35"
+		}]
+	}, {
+		"date": "2018-12-03",
+		"value": "-926.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-926.35"
+		}]
+	}, {
+		"date": "2018-12-04",
+		"value": "-2036.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-2036.35"
+		}]
+	}, {
+		"date": "2018-12-05",
+		"value": "-2036.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-2036.35"
+		}]
+	}, {
+		"date": "2018-12-06",
+		"value": "-2036.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-2036.35"
+		}]
+	}, {
+		"date": "2018-12-07",
+		"value": "-2221.35",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-2221.35"
+		}]
+	}, {
+		"date": "2018-12-08",
+		"value": "1808.65",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1808.65"
+		}]
+	}, {
+		"date": "2018-12-09",
+		"value": "1808.65",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1808.65"
+		}]
+	}, {
+		"date": "2018-12-10",
+		"value": "1788.65",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1788.65"
+		}]
+	}, {
+		"date": "2018-12-11",
+		"value": "1788.65",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1788.65"
+		}]
+	}, {
+		"date": "2018-12-12",
+		"value": "1788.65",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1788.65"
+		}]
+	}, {
+		"date": "2018-12-13",
+		"value": "1698.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1698.75"
+		}]
+	}, {
+		"date": "2018-12-14",
+		"value": "1513.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1513.75"
+		}]
+	}, {
+		"date": "2018-12-15",
+		"value": "1513.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1513.75"
+		}]
+	}, {
+		"date": "2018-12-16",
+		"value": "1443.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1443.75"
+		}]
+	}, {
+		"date": "2018-12-17",
+		"value": "1443.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1443.75"
+		}]
+	}, {
+		"date": "2018-12-18",
+		"value": "1423.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1423.75"
+		}]
+	}, {
+		"date": "2018-12-19",
+		"value": "423.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "423.75"
+		}]
+	}, {
+		"date": "2018-12-20",
+		"value": "383.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "383.75"
+		}]
+	}, {
+		"date": "2018-12-21",
+		"value": "198.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "198.75"
+		}]
+	}, {
+		"date": "2018-12-22",
+		"value": "198.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "198.75"
+		}]
+	}, {
+		"date": "2018-12-23",
+		"value": "178.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "178.75"
+		}]
+	}, {
+		"date": "2018-12-24",
+		"value": "178.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "178.75"
+		}]
+	}, {
+		"date": "2018-12-25",
+		"value": "178.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "178.75"
+		}]
+	}, {
+		"date": "2018-12-26",
+		"value": "158.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "158.75"
+		}]
+	}, {
+		"date": "2018-12-27",
+		"value": "158.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "158.75"
+		}]
+	}, {
+		"date": "2018-12-28",
+		"value": "-26.25",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-26.25"
+		}]
+	}, {
+		"date": "2018-12-29",
+		"value": "-126.25",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-126.25"
+		}]
+	}, {
+		"date": "2018-12-30",
+		"value": "-26.25",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-26.25"
+		}]
+	}, {
+		"date": "2018-12-31",
+		"value": "-26.25",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-26.25"
+		}]
+	}, {
+		"date": "2019-01-01",
+		"value": "-26.25",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-26.25"
+		}]
+	}, {
+		"date": "2019-01-02",
+		"value": "-26.25",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-26.25"
+		}]
+	}, {
+		"date": "2019-01-03",
+		"value": "-76.25",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-76.25"
+		}]
+	}, {
+		"date": "2019-01-04",
+		"value": "-331.25",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-331.25"
+		}]
+	}, {
+		"date": "2019-01-05",
+		"value": "-371.25",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-371.25"
+		}]
+	}, {
+		"date": "2019-01-06",
+		"value": "-371.25",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-371.25"
+		}]
+	}, {
+		"date": "2019-01-07",
+		"value": "-371.25",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "-371.25"
+		}]
+	}, {
+		"date": "2019-01-08",
+		"value": "3658.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "3658.75"
+		}]
+	}, {
+		"date": "2019-01-09",
+		"value": "2658.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "2658.75"
+		}]
+	}, {
+		"date": "2019-01-10",
+		"value": "2638.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "2638.75"
+		}]
+	}, {
+		"date": "2019-01-11",
+		"value": "2453.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "2453.75"
+		}]
+	}, {
+		"date": "2019-01-12",
+		"value": "2453.75",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "2453.75"
+		}]
+	}, {
+		"date": "2019-01-13",
+		"value": "2363.85",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "2363.85"
+		}]
+	}, {
+		"date": "2019-01-14",
+		"value": "2363.85",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "2363.85"
+		}]
+	}, {
+		"date": "2019-01-15",
+		"value": "2363.85",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "2363.85"
+		}]
+	}, {
+		"date": "2019-01-16",
+		"value": "2293.85",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "2293.85"
+		}]
+	}, {
+		"date": "2019-01-17",
+		"value": "2293.85",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "2293.85"
+		}]
+	}, {
+		"date": "2019-01-18",
+		"value": "2048.85",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "2048.85"
+		}]
+	}, {
+		"date": "2019-01-19",
+		"value": "2048.85",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "2048.85"
+		}]
+	}, {
+		"date": "2019-01-20",
+		"value": "2048.85",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "2048.85"
+		}]
+	}, {
+		"date": "2019-01-21",
+		"value": "2048.85",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "2048.85"
+		}]
+	}, {
+		"date": "2019-01-22",
+		"value": "2048.85",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "2048.85"
+		}]
+	}, {
+		"date": "2019-01-23",
+		"value": "2028.85",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "2028.85"
+		}]
+	}, {
+		"date": "2019-01-24",
+		"value": "2028.85",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "2028.85"
+		}]
+	}, {
+		"date": "2019-01-25",
+		"value": "1843.85",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1843.85"
+		}]
+	}, {
+		"date": "2019-01-26",
+		"value": "1823.85",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1823.85"
+		}]
+	}, {
+		"date": "2019-01-27",
+		"value": "1823.85",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1823.85"
+		}]
+	}, {
+		"date": "2019-01-28",
+		"value": "1823.85",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1823.85"
+		}]
+	}, {
+		"date": "2019-01-29",
+		"value": "1823.85",
+		"accounts": [{
+			"id": 937,
+			"currency": "AUD",
+			"value": "1823.85"
+		}]
+	}]
+}

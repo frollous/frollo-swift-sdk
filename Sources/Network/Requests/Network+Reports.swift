@@ -11,6 +11,31 @@ import Foundation
 import Alamofire
 
 extension Network {
+
+    // MARK: - Account Balance Reports
+    
+    internal func fetchAccountBalanceReports(period: ReportAccountBalance.Period, from fromDate: Date, to toDate: Date, accountID: Int64? = nil, accountType: Account.AccountType? = nil, completion: @escaping RequestCompletion<APIAccountBalanceReportResponse>) {
+        requestQueue.async {
+            let url = URL(string: ReportsEndpoint.accountBalance.path, relativeTo: self.serverURL)!
+            
+            let dateFormatter = ReportTransactionHistory.dailyDateFormatter
+            
+            var parameters = [ReportsEndpoint.QueryParameters.period.rawValue: period.rawValue,
+                              ReportsEndpoint.QueryParameters.fromDate.rawValue: dateFormatter.string(from: fromDate),
+                              ReportsEndpoint.QueryParameters.toDate.rawValue: dateFormatter.string(from: toDate)]
+            
+            if let account = accountID {
+                parameters[ReportsEndpoint.QueryParameters.accountID.rawValue] = String(account)
+            }
+            if let container = accountType {
+                parameters[ReportsEndpoint.QueryParameters.container.rawValue] = container.rawValue
+            }
+            
+            self.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.handleResponse(type: APIAccountBalanceReportResponse.self, response: response, completion: completion)
+            }
+        }
+    }
     
     // MARK: - Transaction Current Reports
     

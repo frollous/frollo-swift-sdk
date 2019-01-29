@@ -23,6 +23,52 @@ class ReportsRequestTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
+    func testFetchAccountBalanceReports() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_day_2018-10-29_2019-01-29", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
+        let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
+        
+        network.fetchAccountBalanceReports(period: .day, from: fromDate, to: toDate) { (response, error) in
+            XCTAssertNil(error)
+            
+            if let reportsResponse = response {
+                XCTAssertEqual(reportsResponse.data.count, 12)
+                
+                if let firstReport = reportsResponse.data.first {
+                    XCTAssertEqual(firstReport.value, "90602.10")
+                    XCTAssertEqual(firstReport.date, "2018-10-28")
+                    
+                    XCTAssertEqual(firstReport.accounts.count, 7)
+                    
+                    if let firstBalanceReport = firstReport.accounts.first {
+                        XCTAssertEqual(firstBalanceReport.id, 542)
+                        XCTAssertEqual(firstBalanceReport.currency, "AUD")
+                        XCTAssertEqual(firstBalanceReport.value, "-1191.45")
+                    } else {
+                        XCTFail("No category report")
+                    }
+                } else {
+                    XCTFail("No report")
+                }
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+    }
+    
     func testFetchTransactionCurrentReports() {
         let expectation1 = expectation(description: "Network Request")
         

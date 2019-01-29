@@ -264,6 +264,7 @@
     </entity>
     <entity name="ReportAccountBalance" representedClassName=".ReportAccountBalance" syncable="YES">
         <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="currency" attributeType="String" syncable="YES"/>
         <attribute name="dateString" attributeType="String" syncable="YES"/>
         <attribute name="periodRawValue" attributeType="String" syncable="YES"/>
         <attribute name="value" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
@@ -421,11 +422,11 @@
         <element name="MessageVideo" positionX="-317.34375" positionY="1145.10546875" width="128" height="30"/>
         <element name="Provider" positionX="-385.3984375" positionY="11.875" width="128" height="480"/>
         <element name="ProviderAccount" positionX="-164.078125" positionY="13.7109375" width="128" height="210"/>
+        <element name="ReportAccountBalance" positionX="-360" positionY="180" width="128" height="135"/>
         <element name="ReportTransactionCurrent" positionX="-360" positionY="180" width="128" height="210"/>
         <element name="ReportTransactionHistory" positionX="-378" positionY="162" width="128" height="225"/>
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="330"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="210"/>
         <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>
-        <element name="ReportAccountBalance" positionX="-360" positionY="180" width="128" height="120"/>
     </elements>
 </model>

@@ -16,9 +16,11 @@ class Reports: ResponseHandler {
     private let database: Database
     private let network: Network
     
+    private let accountBalanceReportsLock = NSLock()
     private let currentReportsLock = NSLock()
     private let historyReportsLock = NSLock()
     
+    private var linkingAccountIDs = Set<Int64>()
     private var linkingCurrentMerchantIDs = Set<Int64>()
     private var linkingCurrentTransactionCategoryIDs = Set<Int64>()
     private var linkingHistoryMerchantIDs = Set<Int64>()
@@ -32,8 +34,35 @@ class Reports: ResponseHandler {
     
     // MARK: - Account Balance Reports
     
-    public func refreshAccountBalanceReports(completion: FrolloSDKCompletionHandler? = nil) {
-        
+    /**
+     Refresh account balance reports from the host
+     
+     - parameters:
+         - period: Period that reports should be broken down by
+         - fromDate: Start date to fetch reports from (inclusive)
+         - toDate: End date to fetch reports up to (inclusive)
+         - accountID: ID of the account to fetch balance reports from (Optional)
+         - accountType: Account container types to fetch balance reports from (Optional)
+         - completion: Optional completion handler with optional error if the request fails
+    */
+    public func refreshAccountBalanceReports(period: ReportAccountBalance.Period, from fromDate: Date, to toDate: Date, accountID: Int64? = nil, accountType: Account.AccountType? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        network.fetchAccountBalanceReports(period: period, from: fromDate, to: toDate, accountID: accountID, accountType: accountType) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let reportsResponse = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleAccountBalanceReportsResponse(reportsResponse, period: period, from: fromDate, to: toDate, accountID: accountID, accountType: accountType, managedObjectContext: managedObjectContext)
+                    
+                    self.linkAccountBalanceReportsToAccounts(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                completion?(error)
+            }
+        }
     }
     
     // MARK: - Transaction Current Reports
@@ -102,6 +131,28 @@ class Reports: ResponseHandler {
     }
     
     // MARK: - Linking Objects
+    
+    private func linkAccountBalanceReportsToAccounts(managedObjectContext: NSManagedObjectContext) {
+        accountBalanceReportsLock.lock()
+        aggregation.accountLock.lock()
+        
+        defer {
+            accountBalanceReportsLock.unlock()
+            aggregation.accountLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: ReportAccountBalance.self, parentType: Account.self, managedObjectContext: managedObjectContext, linkedIDs: linkingAccountIDs, linkedKey: \ReportAccountBalance.accountID, linkedKeyName: #keyPath(ReportAccountBalance.accountID))
+        
+        linkingAccountIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
     
     private func linkReportTransactionCurrentToMerchants(managedObjectContext: NSManagedObjectContext) {
         currentReportsLock.lock()
@@ -196,6 +247,115 @@ class Reports: ResponseHandler {
     }
     
     // MARK: - Response Handling
+    
+    private func handleAccountBalanceReportsResponse(_ reportsResponse: APIAccountBalanceReportResponse, period: ReportAccountBalance.Period, from fromDate: Date, to toDate: Date, accountID: Int64? = nil, accountType: Account.AccountType? = nil, managedObjectContext: NSManagedObjectContext) {
+        accountBalanceReportsLock.lock()
+        
+        defer {
+            accountBalanceReportsLock.unlock()
+        }
+        
+        // Sort by date
+        let sortedReportResponses = reportsResponse.data.sorted { (responseA: APIAccountBalanceReportResponse.Report, responseB: APIAccountBalanceReportResponse.Report) -> Bool in
+            return responseB.date > responseA.date
+        }
+        
+        for reportResponse in sortedReportResponses {
+            handleAccountBalanceReportsForDate(reportResponse.date, managedObjectContext: managedObjectContext, reportsResponses: reportResponse.accounts, period: period, accountID: accountID, accountType: accountType)
+        }
+        
+        managedObjectContext.perform {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleAccountBalanceReportsForDate(_ dateString: String, managedObjectContext: NSManagedObjectContext, reportsResponses: [APIAccountBalanceReportResponse.Report.BalanceReport], period: ReportAccountBalance.Period, accountID: Int64?, accountType: Account.AccountType?) {
+        // Sort by account ID
+        let sortedReportResponses = reportsResponses.sorted { (responseA: APIAccountBalanceReportResponse.Report.BalanceReport, responseB: APIAccountBalanceReportResponse.Report.BalanceReport) -> Bool in
+            return responseB.id > responseA.id
+        }
+        
+        let reportAccountIDs = sortedReportResponses.map { $0.id }
+        linkingAccountIDs = linkingAccountIDs.union(reportAccountIDs)
+        
+        managedObjectContext.performAndWait {
+            // Fetch existing reports for updating
+            let fetchRequest: NSFetchRequest<ReportAccountBalance> = ReportAccountBalance.fetchRequest()
+            
+            // Filter by period
+            let periodPredicate = NSPredicate(format: #keyPath(ReportAccountBalance.periodRawValue) + " == %@", argumentArray: [period.rawValue])
+            
+            // Specify date
+            let datePredicate = NSPredicate(format: #keyPath(ReportAccountBalance.dateString) + " == %@", argumentArray: [dateString])
+            
+            var filterPredicates = [periodPredicate, datePredicate]
+            
+            // Filter by account type if applicable
+            if let container = accountType {
+                filterPredicates.append(NSPredicate(format: #keyPath(ReportAccountBalance.account.accountTypeRawValue) + " == %@", argumentArray: [container.rawValue]))
+            }
+            
+            // Filter by account IDs
+            let accountsPredicate: NSPredicate
+            if let account = accountID {
+                accountsPredicate = NSPredicate(format: #keyPath(ReportAccountBalance.accountID) + " == %ld", argumentArray: [account])
+            } else {
+                accountsPredicate = NSPredicate(format: #keyPath(ReportAccountBalance.accountID) + " IN %@", argumentArray: [reportAccountIDs])
+            }
+            
+            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: filterPredicates + [accountsPredicate])
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportAccountBalance.dateString), ascending: true), NSSortDescriptor(key: #keyPath(ReportAccountBalance.accountID), ascending: true)]
+            
+            do {
+                let existingReports = try managedObjectContext.fetch(fetchRequest)
+                
+                var index = 0
+                
+                for reportResponse in sortedReportResponses {
+                    var report: ReportAccountBalance
+                    
+                    if index < existingReports.count && existingReports[index].accountID == reportResponse.id {
+                        report = existingReports[index]
+                        index += 1
+                    } else {
+                        report = ReportAccountBalance(context: managedObjectContext)
+                        report.dateString = dateString
+                        report.period = period
+                    }
+                    
+                    report.accountID = reportResponse.id
+                    report.currency = reportResponse.currency
+                    report.value = NSDecimalNumber(string: reportResponse.value)
+                }
+                
+                // Fetch and delete any leftovers if fetching multiple accounts
+                if accountID == nil {
+                    let deleteRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+                    
+                    var deletePredicates = filterPredicates
+                    deletePredicates.append(NSCompoundPredicate(notPredicateWithSubpredicate: accountsPredicate))
+                    
+                    deleteRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: deletePredicates)
+                    
+                    do {
+                        let deleteObjects = try managedObjectContext.fetch(deleteRequest)
+                        
+                        for deleteObject in deleteObjects {
+                            managedObjectContext.delete(deleteObject)
+                        }
+                    } catch let fetchError {
+                        Log.error(fetchError.localizedDescription)
+                    }
+                }
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
     
     private func handleTransactionCurrentReportsResponse(_ reportsResponse: APITransactionCurrentReportResponse, grouping: ReportGrouping, budgetCategory: BudgetCategory? = nil, managedObjectContext: NSManagedObjectContext) {
         currentReportsLock.lock()
@@ -372,8 +532,6 @@ class Reports: ResponseHandler {
             } else {
                 filterPredicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil", argumentArray: nil))
             }
-            
-            
             
             // Specify dates
             let datePredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.dateString) + " IN %@", argumentArray: [reportDates])
