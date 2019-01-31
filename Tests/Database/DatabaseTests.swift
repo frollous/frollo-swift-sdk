@@ -126,7 +126,7 @@ class DatabaseTests: XCTestCase {
             
             self.insertTestData(database: database)
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 15) {
                 database.reset() { (error) in
                     XCTAssertNil(error)
                     
@@ -137,7 +137,7 @@ class DatabaseTests: XCTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 15.0)
+        wait(for: [expectation1], timeout: 30.0)
         
         try? FileManager.default.removeItem(at: path)
     }

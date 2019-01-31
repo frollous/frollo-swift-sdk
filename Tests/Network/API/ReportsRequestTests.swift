@@ -43,7 +43,7 @@ class ReportsRequestTests: XCTestCase {
             XCTAssertNil(error)
             
             if let reportsResponse = response {
-                XCTAssertEqual(reportsResponse.data.count, 12)
+                XCTAssertEqual(reportsResponse.data.count, 94)
                 
                 if let firstReport = reportsResponse.data.first {
                     XCTAssertEqual(firstReport.value, "90602.10")

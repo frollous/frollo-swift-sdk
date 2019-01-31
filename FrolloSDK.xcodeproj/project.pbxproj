@@ -634,6 +634,12 @@
 		018501D721FFC56F00069D87 /* account_balance_reports_by_week_2018-10-29_2019-01-29.json in Resources */ = {isa = PBXBuildFile; fileRef = 018501CA21FFC56F00069D87 /* account_balance_reports_by_week_2018-10-29_2019-01-29.json */; };
 		018501D821FFC56F00069D87 /* account_balance_reports_by_week_2018-10-29_2019-01-29.json in Resources */ = {isa = PBXBuildFile; fileRef = 018501CA21FFC56F00069D87 /* account_balance_reports_by_week_2018-10-29_2019-01-29.json */; };
 		018501D921FFC56F00069D87 /* account_balance_reports_by_week_2018-10-29_2019-01-29.json in Resources */ = {isa = PBXBuildFile; fileRef = 018501CA21FFC56F00069D87 /* account_balance_reports_by_week_2018-10-29_2019-01-29.json */; };
+		018501DB2203A6E100069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 018501DA2203A6E000069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json */; };
+		018501DC2203A6E100069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 018501DA2203A6E000069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json */; };
+		018501DD2203A6E100069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 018501DA2203A6E000069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json */; };
+		018501DF2203AEB800069D87 /* ReportAccountBalance+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018501DE2203AEB800069D87 /* ReportAccountBalance+Test.swift */; };
+		018501E02203AEB800069D87 /* ReportAccountBalance+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018501DE2203AEB800069D87 /* ReportAccountBalance+Test.swift */; };
+		018501E12203AEB800069D87 /* ReportAccountBalance+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018501DE2203AEB800069D87 /* ReportAccountBalance+Test.swift */; };
 		01874B6520F6C0C7005A7D0C /* frollo.cer in Resources */ = {isa = PBXBuildFile; fileRef = 01874B6420F6C0C6005A7D0C /* frollo.cer */; };
 		01874B7420F81EA8005A7D0C /* UserEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B7320F81EA8005A7D0C /* UserEndpoint.swift */; };
 		01874B7620F82158005A7D0C /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B7520F82158005A7D0C /* Endpoint.swift */; };
@@ -1069,6 +1075,8 @@
 		018501C821FFC56F00069D87 /* account_balance_reports_by_day_container_bank_2018-10-29_2019-01-29.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "account_balance_reports_by_day_container_bank_2018-10-29_2019-01-29.json"; sourceTree = "<group>"; };
 		018501C921FFC56F00069D87 /* account_balance_reports_by_month_2018-10-29_2019-01-29.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "account_balance_reports_by_month_2018-10-29_2019-01-29.json"; sourceTree = "<group>"; };
 		018501CA21FFC56F00069D87 /* account_balance_reports_by_week_2018-10-29_2019-01-29.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "account_balance_reports_by_week_2018-10-29_2019-01-29.json"; sourceTree = "<group>"; };
+		018501DA2203A6E000069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "account_balance_reports_by_month_2018-11-01_2019-02-01.json"; sourceTree = "<group>"; };
+		018501DE2203AEB800069D87 /* ReportAccountBalance+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportAccountBalance+Test.swift"; sourceTree = "<group>"; };
 		01874B6420F6C0C6005A7D0C /* frollo.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = frollo.cer; sourceTree = "<group>"; };
 		01874B7320F81EA8005A7D0C /* UserEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEndpoint.swift; sourceTree = "<group>"; };
 		01874B7520F82158005A7D0C /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
@@ -1333,6 +1341,7 @@
 		01236D1A21EC2FA2008DD61A /* Reports */ = {
 			isa = PBXGroup;
 			children = (
+				018501DE2203AEB800069D87 /* ReportAccountBalance+Test.swift */,
 				01236D1B21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift */,
 				01236D1F21EC32EA008DD61A /* ReportTransactionHistory+Test.swift */,
 			);
@@ -1342,6 +1351,7 @@
 		01236D3321EEBE30008DD61A /* Reports */ = {
 			isa = PBXGroup;
 			children = (
+				018501DA2203A6E000069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json */,
 				018501C721FFC56F00069D87 /* account_balance_reports_by_day_2018-10-29_2019-01-29.json */,
 				018501C621FFC56F00069D87 /* account_balance_reports_by_day_account_id_937_2018-10-29_2019-01-29.json */,
 				018501C821FFC56F00069D87 /* account_balance_reports_by_day_container_bank_2018-10-29_2019-01-29.json */,
@@ -2583,6 +2593,7 @@
 				01405E4121DC2618009356CC /* FrolloSDKDataModel-1.2.0.sqlite-wal in Resources */,
 				01483BB02119564600D0DA87 /* transaction_categories_valid.json in Resources */,
 				01743B14212BC3280082DA00 /* provider_login_form_options.json in Resources */,
+				018501DB2203A6E100069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json in Resources */,
 				01ED8FE0211A868F00ACE691 /* transaction_id_99703.json in Resources */,
 				01236D5121EEBE30008DD61A /* transaction_reports_history_txn_category_weekly_2018-01-01_2018-12-31.json in Resources */,
 				0101A90821CC90E000DCFCEB /* bill_id_12345.json in Resources */,
@@ -2688,6 +2699,7 @@
 				01405E4221DC2618009356CC /* FrolloSDKDataModel-1.2.0.sqlite-wal in Resources */,
 				01483BB12119564600D0DA87 /* transaction_categories_valid.json in Resources */,
 				01743B15212BC3280082DA00 /* provider_login_form_options.json in Resources */,
+				018501DC2203A6E100069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json in Resources */,
 				01ED8FE1211A868F00ACE691 /* transaction_id_99703.json in Resources */,
 				01236D5221EEBE30008DD61A /* transaction_reports_history_txn_category_weekly_2018-01-01_2018-12-31.json in Resources */,
 				0101A90921CC90E000DCFCEB /* bill_id_12345.json in Resources */,
@@ -2802,6 +2814,7 @@
 				01405E4321DC2618009356CC /* FrolloSDKDataModel-1.2.0.sqlite-wal in Resources */,
 				01483BB22119564600D0DA87 /* transaction_categories_valid.json in Resources */,
 				01743B16212BC3280082DA00 /* provider_login_form_options.json in Resources */,
+				018501DD2203A6E100069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json in Resources */,
 				01ED8FE2211A868F00ACE691 /* transaction_id_99703.json in Resources */,
 				01236D5321EEBE30008DD61A /* transaction_reports_history_txn_category_weekly_2018-01-01_2018-12-31.json in Resources */,
 				0101A90A21CC90E000DCFCEB /* bill_id_12345.json in Resources */,
@@ -3135,6 +3148,7 @@
 				01483BC32119718700D0DA87 /* APIMerchantResponse+Test.swift in Sources */,
 				017B48F721083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				013A32CF2112C3A900B0590B /* ProviderAccount+Test.swift in Sources */,
+				018501DF2203AEB800069D87 /* ReportAccountBalance+Test.swift in Sources */,
 				017B48F12108356C00447E65 /* User+Test.swift in Sources */,
 				011F814C219D35ED00A1495F /* EventsTests.swift in Sources */,
 				01483BA821194AEC00D0DA87 /* TransactionCategoryTests.swift in Sources */,
@@ -3237,6 +3251,7 @@
 				01483BC42119718700D0DA87 /* APIMerchantResponse+Test.swift in Sources */,
 				017B48F821083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				013A32D02112C3A900B0590B /* ProviderAccount+Test.swift in Sources */,
+				018501E02203AEB800069D87 /* ReportAccountBalance+Test.swift in Sources */,
 				017B48F22108356C00447E65 /* User+Test.swift in Sources */,
 				011F814D219D35ED00A1495F /* EventsTests.swift in Sources */,
 				01483BA921194AEC00D0DA87 /* TransactionCategoryTests.swift in Sources */,
@@ -3348,6 +3363,7 @@
 				01483BC52119718700D0DA87 /* APIMerchantResponse+Test.swift in Sources */,
 				017B48F921083A3500447E65 /* APIUserResponse+Test.swift in Sources */,
 				013A32D12112C3A900B0590B /* ProviderAccount+Test.swift in Sources */,
+				018501E12203AEB800069D87 /* ReportAccountBalance+Test.swift in Sources */,
 				01483BA62119321A00D0DA87 /* TransactionCategory+Test.swift in Sources */,
 				011F814E219D35ED00A1495F /* EventsTests.swift in Sources */,
 				017B48F32108356C00447E65 /* User+Test.swift in Sources */,

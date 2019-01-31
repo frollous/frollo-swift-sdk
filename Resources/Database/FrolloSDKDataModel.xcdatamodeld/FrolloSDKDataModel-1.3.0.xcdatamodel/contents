@@ -43,10 +43,10 @@
         <attribute name="totalCashLimitCurrency" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="totalCreditLine" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="totalCreditLineCurrency" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="balanceReports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReportAccountBalance" inverseName="account" inverseEntity="ReportAccountBalance" syncable="YES"/>
         <relationship name="balanceTiers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AccountBalanceTier" inverseName="account" inverseEntity="AccountBalanceTier" syncable="YES"/>
         <relationship name="bills" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Bill" inverseName="account" inverseEntity="Bill" syncable="YES"/>
         <relationship name="providerAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProviderAccount" inverseName="accounts" inverseEntity="ProviderAccount" syncable="YES"/>
+        <relationship name="reports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReportAccountBalance" inverseName="account" inverseEntity="ReportAccountBalance" syncable="YES"/>
         <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Transaction" inverseName="account" inverseEntity="Transaction" syncable="YES"/>
         <fetchIndex name="byAccountIDIndex">
             <fetchIndexElement property="accountID" type="Binary" order="ascending"/>
@@ -268,7 +268,7 @@
         <attribute name="dateString" attributeType="String" syncable="YES"/>
         <attribute name="periodRawValue" attributeType="String" syncable="YES"/>
         <attribute name="value" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="balanceReports" inverseEntity="Account" syncable="YES"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="reports" inverseEntity="Account" syncable="YES"/>
     </entity>
     <entity name="ReportTransactionCurrent" representedClassName=".ReportTransactionCurrent" syncable="YES">
         <attribute name="amount" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>

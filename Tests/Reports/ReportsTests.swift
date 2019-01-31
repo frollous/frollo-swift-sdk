@@ -25,6 +25,609 @@ class ReportsTests: XCTestCase {
         Keychain(service: keychainService).removeAll()
     }
     
+    // MARK: - Account Balance Report Tests
+    
+    func testFetchingAccountBalanceReportsByDay() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_day_2018-10-29_2019-01-29", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let reports = Reports(database: database, network: network, aggregation: aggregation)
+            
+            let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
+            let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
+            
+            reports.refreshAccountBalanceReports(period: .day, from: fromDate, to: toDate) { (error) in
+                XCTAssertNil(error)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    let context = database.viewContext
+                    
+                    // Check for overall reports
+                    let fetchRequest: NSFetchRequest<ReportAccountBalance> = ReportAccountBalance.fetchRequest()
+                    fetchRequest.predicate = NSPredicate(format: #keyPath(ReportAccountBalance.periodRawValue) + " == %@", argumentArray: [ReportAccountBalance.Period.day.rawValue])
+                    fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportAccountBalance.dateString), ascending: true), NSSortDescriptor(key: #keyPath(ReportAccountBalance.accountID), ascending: true)]
+                    
+                    do {
+                        let fetchedReports = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedReports.count, 661)
+                        
+                        if let firstReport = fetchedReports.first {
+                            XCTAssertEqual(firstReport.dateString, "2018-10-28")
+                            XCTAssertEqual(firstReport.accountID, 542)
+                            XCTAssertEqual(firstReport.currency, "AUD")
+                            XCTAssertEqual(firstReport.period, .day)
+                            XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-1191.45"))
+                        } else {
+                            XCTFail("Reports not found")
+                        }
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 10.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testFetchingAccountBalanceReportsByMonth() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_month_2018-10-29_2019-01-29", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let reports = Reports(database: database, network: network, aggregation: aggregation)
+            
+            let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
+            let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
+            
+            reports.refreshAccountBalanceReports(period: .month, from: fromDate, to: toDate) { (error) in
+                XCTAssertNil(error)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    let context = database.viewContext
+                    
+                    // Check for overall reports
+                    let fetchRequest: NSFetchRequest<ReportAccountBalance> = ReportAccountBalance.fetchRequest()
+                    fetchRequest.predicate = NSPredicate(format: #keyPath(ReportAccountBalance.periodRawValue) + " == %@", argumentArray: [ReportAccountBalance.Period.month.rawValue])
+                    fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportAccountBalance.dateString), ascending: true), NSSortDescriptor(key: #keyPath(ReportAccountBalance.accountID), ascending: true)]
+                    
+                    do {
+                        let fetchedReports = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedReports.count, 31)
+                        
+                        if let firstReport = fetchedReports.first {
+                            XCTAssertEqual(firstReport.dateString, "2018-10")
+                            XCTAssertEqual(firstReport.accountID, 542)
+                            XCTAssertEqual(firstReport.currency, "AUD")
+                            XCTAssertEqual(firstReport.period, .month)
+                            XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "208.55"))
+                        } else {
+                            XCTFail("Reports not found")
+                        }
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 10.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testFetchingAccountBalanceReportsByWeek() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_week_2018-10-29_2019-01-29", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let reports = Reports(database: database, network: network, aggregation: aggregation)
+            
+            let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
+            let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
+            
+            reports.refreshAccountBalanceReports(period: .week, from: fromDate, to: toDate) { (error) in
+                XCTAssertNil(error)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    let context = database.viewContext
+                    
+                    // Check for overall reports
+                    let fetchRequest: NSFetchRequest<ReportAccountBalance> = ReportAccountBalance.fetchRequest()
+                    fetchRequest.predicate = NSPredicate(format: #keyPath(ReportAccountBalance.periodRawValue) + " == %@", argumentArray: [ReportAccountBalance.Period.week.rawValue])
+                    fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportAccountBalance.dateString), ascending: true), NSSortDescriptor(key: #keyPath(ReportAccountBalance.accountID), ascending: true)]
+                    
+                    do {
+                        let fetchedReports = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedReports.count, 122)
+                        
+                        if let firstReport = fetchedReports.first {
+                            XCTAssertEqual(firstReport.dateString, "2018-10-4")
+                            XCTAssertEqual(firstReport.accountID, 542)
+                            XCTAssertEqual(firstReport.currency, "AUD")
+                            XCTAssertEqual(firstReport.period, .week)
+                            XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-1191.45"))
+                        } else {
+                            XCTFail("Reports not found")
+                        }
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 10.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testFetchingAccountBalanceReportsByAccountID() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_day_account_id_937_2018-10-29_2019-01-29", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let reports = Reports(database: database, network: network, aggregation: aggregation)
+            
+            let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
+            let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
+            
+            reports.refreshAccountBalanceReports(period: .day, from: fromDate, to: toDate) { (error) in
+                XCTAssertNil(error)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    let context = database.viewContext
+                    
+                    // Check for overall reports
+                    let fetchRequest: NSFetchRequest<ReportAccountBalance> = ReportAccountBalance.fetchRequest()
+                    fetchRequest.predicate = NSPredicate(format: #keyPath(ReportAccountBalance.periodRawValue) + " == %@ && " + #keyPath(ReportAccountBalance.accountID) + " == %ld", argumentArray: [ReportAccountBalance.Period.day.rawValue, 937])
+                    fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportAccountBalance.dateString), ascending: true), NSSortDescriptor(key: #keyPath(ReportAccountBalance.accountID), ascending: true)]
+                    
+                    do {
+                        let fetchedReports = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedReports.count, 94)
+                        
+                        if let firstReport = fetchedReports.first {
+                            XCTAssertEqual(firstReport.dateString, "2018-10-28")
+                            XCTAssertEqual(firstReport.accountID, 937)
+                            XCTAssertEqual(firstReport.currency, "AUD")
+                            XCTAssertEqual(firstReport.period, .day)
+                            XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-2641.45"))
+                        } else {
+                            XCTFail("Reports not found")
+                        }
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 10.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testFetchingAccountBalanceReportsByAccountType() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_day_container_bank_2018-10-29_2019-01-29", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            aggregation.refreshAccounts() { (error) in
+                XCTAssertNil(error)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    let reports = Reports(database: database, network: network, aggregation: aggregation)
+                    
+                    let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
+                    let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
+                    
+                    reports.refreshAccountBalanceReports(period: .day, from: fromDate, to: toDate) { (error) in
+                        XCTAssertNil(error)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            let context = database.viewContext
+                            
+                            // Check for overall reports
+                            let fetchRequest: NSFetchRequest<ReportAccountBalance> = ReportAccountBalance.fetchRequest()
+                            fetchRequest.predicate = NSPredicate(format: #keyPath(ReportAccountBalance.periodRawValue) + " == %@ && " + #keyPath(ReportAccountBalance.account.accountTypeRawValue) + " == %@", argumentArray: [ReportAccountBalance.Period.day.rawValue, Account.AccountType.bank.rawValue])
+                            fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportAccountBalance.dateString), ascending: true), NSSortDescriptor(key: #keyPath(ReportAccountBalance.accountID), ascending: true)]
+                            
+                            do {
+                                let fetchedReports = try context.fetch(fetchRequest)
+                                
+                                XCTAssertEqual(fetchedReports.count, 188)
+                                
+                                if let lastReport = fetchedReports.last {
+                                    XCTAssertEqual(lastReport.dateString, "2019-01-29")
+                                    XCTAssertEqual(lastReport.accountID, 543)
+                                    XCTAssertEqual(lastReport.currency, "AUD")
+                                    XCTAssertEqual(lastReport.period, .day)
+                                    XCTAssertEqual(lastReport.value, NSDecimalNumber(string: "2309.12"))
+                                } else {
+                                    XCTFail("Reports not found")
+                                }
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                            
+                            expectation1.fulfill()
+                        }
+                    }
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 10.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testFetchingAccountBalanceReportsUpdatesExisting() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+            if let requestURL = request.url, let queryItems = URLComponents(url: requestURL, resolvingAgainstBaseURL: true)?.queryItems {
+                var fromDate: String = ""
+                
+                for queryItem in queryItems {
+                    if queryItem.name == "from_date", let value = queryItem.value {
+                        fromDate = value
+                    }
+                }
+                
+                if fromDate == "2018-10-29" {
+                    return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_month_2018-10-29_2019-01-29", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+                } else if fromDate == "2018-11-01" {
+                    return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_month_2018-11-01_2019-02-01", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+                }
+            }
+            
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_month_2018-11-01_2019-02-01", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let reports = Reports(database: database, network: network, aggregation: aggregation)
+            
+            let oldFromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
+            let oldToDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
+            
+            reports.refreshAccountBalanceReports(period: .month, from: oldFromDate, to: oldToDate) { (error) in
+                XCTAssertNil(error)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    let context = database.viewContext
+                    
+                    let oldFetchRequest: NSFetchRequest<ReportAccountBalance> = ReportAccountBalance.fetchRequest()
+                    oldFetchRequest.predicate = NSPredicate(format: #keyPath(ReportAccountBalance.periodRawValue) + " == %@ && " + #keyPath(ReportAccountBalance.dateString) + " == %@", argumentArray: [ReportAccountBalance.Period.month.rawValue, "2018-10"])
+                    oldFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportAccountBalance.dateString), ascending: true), NSSortDescriptor(key: #keyPath(ReportAccountBalance.accountID), ascending: true)]
+                    
+                    let newFetchRequest: NSFetchRequest<ReportAccountBalance> = ReportAccountBalance.fetchRequest()
+                    newFetchRequest.predicate = NSPredicate(format: #keyPath(ReportAccountBalance.periodRawValue) + " == %@ && " + #keyPath(ReportAccountBalance.dateString) + " == %@", argumentArray: [ReportAccountBalance.Period.month.rawValue, "2019-02"])
+                    newFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportAccountBalance.dateString), ascending: true), NSSortDescriptor(key: #keyPath(ReportAccountBalance.accountID), ascending: true)]
+                    
+                    // Check old reports exist
+                    do {
+                        let fetchedOldReports = try context.fetch(oldFetchRequest)
+                        
+                        XCTAssertEqual(fetchedOldReports.count, 8)
+                        
+                        if let firstReport = fetchedOldReports.first {
+                            XCTAssertEqual(firstReport.dateString, "2018-10")
+                            XCTAssertEqual(firstReport.accountID, 542)
+                            XCTAssertEqual(firstReport.currency, "AUD")
+                            XCTAssertEqual(firstReport.period, .month)
+                            XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "208.55"))
+                        } else {
+                            XCTFail("Reports not found")
+                        }
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    // Check new reports don't exist
+                    do {
+                        let fetchedNewReports = try context.fetch(newFetchRequest)
+                        
+                        XCTAssertEqual(fetchedNewReports.count, 0)
+                        XCTAssertNil(fetchedNewReports.first)
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    let newFromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-11-01")!
+                    let newToDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-02-01")!
+                    
+                    reports.refreshAccountBalanceReports(period: .month, from: newFromDate, to: newToDate) { (error) in
+                        XCTAssertNil(error)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            let context = database.viewContext
+                            
+                            // Check old reports still exist
+                            do {
+                                let fetchedOldReports = try context.fetch(oldFetchRequest)
+                                
+                                XCTAssertEqual(fetchedOldReports.count, 8)
+                                
+                                if let firstReport = fetchedOldReports.first {
+                                    XCTAssertEqual(firstReport.dateString, "2018-10")
+                                    XCTAssertEqual(firstReport.accountID, 542)
+                                    XCTAssertEqual(firstReport.currency, "AUD")
+                                    XCTAssertEqual(firstReport.period, .month)
+                                    XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-1191.45"))
+                                } else {
+                                    XCTFail("Reports not found")
+                                }
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                            
+                            // Check new reports exist
+                            do {
+                                let fetchedNewReports = try context.fetch(newFetchRequest)
+                                
+                                XCTAssertEqual(fetchedNewReports.count, 7)
+                                
+                                if let firstReport = fetchedNewReports.first {
+                                    XCTAssertEqual(firstReport.dateString, "2019-02")
+                                    XCTAssertEqual(firstReport.accountID, 542)
+                                    XCTAssertEqual(firstReport.currency, "AUD")
+                                    XCTAssertEqual(firstReport.period, .month)
+                                    XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "1823.85"))
+                                } else {
+                                    XCTFail("Reports not found")
+                                }
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                            
+                            expectation1.fulfill()
+                        }
+                    }
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 15.0)
+    }
+    
+    func testFetchingAccountBalanceReportsCommingling() {
+        let expectation1 = expectation(description: "Database setup")
+        let expectation2 = expectation(description: "Network Request 1")
+        let expectation3 = expectation(description: "Network Request 2")
+        let expectation4 = expectation(description: "Network Request 3")
+        let expectation5 = expectation(description: "Fetch")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+            if let requestURL = request.url, let queryItems = URLComponents(url: requestURL, resolvingAgainstBaseURL: true)?.queryItems {
+                var period: String = ""
+                
+                for queryItem in queryItems {
+                    if queryItem.name == "period", let value = queryItem.value {
+                        period = value
+                    }
+                }
+                
+                if period == "by_day" {
+                    return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_day_2018-10-29_2019-01-29", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+                } else if period == "by_week" {
+                    return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_week_2018-10-29_2019-01-29", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+                }
+            }
+            
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_month_2018-10-29_2019-01-29", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        let aggregation = Aggregation(database: database, network: network)
+        let reports = Reports(database: database, network: network, aggregation: aggregation)
+        
+        let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
+        let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2019-01-29")!
+        
+        reports.refreshAccountBalanceReports(period: .day, from: fromDate, to: toDate) { (error) in
+            XCTAssertNil(error)
+            
+            expectation2.fulfill()
+        }
+        
+        reports.refreshAccountBalanceReports(period: .month, from: fromDate, to: toDate) { (error) in
+            XCTAssertNil(error)
+            
+            expectation3.fulfill()
+        }
+        
+        reports.refreshAccountBalanceReports(period: .week, from: fromDate, to: toDate) { (error) in
+            XCTAssertNil(error)
+            
+            expectation4.fulfill()
+        }
+        
+        wait(for: [expectation2, expectation3, expectation4], timeout: 5.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            let context = database.viewContext
+            
+            // Check for day reports
+            let dayFetchRequest: NSFetchRequest<ReportAccountBalance> = ReportAccountBalance.fetchRequest()
+            dayFetchRequest.predicate = NSPredicate(format: #keyPath(ReportAccountBalance.periodRawValue) + " == %@", argumentArray: [ReportAccountBalance.Period.day.rawValue])
+            dayFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportAccountBalance.dateString), ascending: true), NSSortDescriptor(key: #keyPath(ReportAccountBalance.accountID), ascending: true)]
+            
+            do {
+                let fetchedDayReports = try context.fetch(dayFetchRequest)
+                
+                XCTAssertEqual(fetchedDayReports.count, 661)
+                
+                if let firstReport = fetchedDayReports.first {
+                    XCTAssertEqual(firstReport.dateString, "2018-10-28")
+                    XCTAssertEqual(firstReport.accountID, 542)
+                    XCTAssertEqual(firstReport.currency, "AUD")
+                    XCTAssertEqual(firstReport.period, .day)
+                    XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-1191.45"))
+                } else {
+                    XCTFail("Reports not found")
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            // Check for month reports
+            let monthFetchRequest: NSFetchRequest<ReportAccountBalance> = ReportAccountBalance.fetchRequest()
+            monthFetchRequest.predicate = NSPredicate(format: #keyPath(ReportAccountBalance.periodRawValue) + " == %@", argumentArray: [ReportAccountBalance.Period.month.rawValue])
+            monthFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportAccountBalance.dateString), ascending: true), NSSortDescriptor(key: #keyPath(ReportAccountBalance.accountID), ascending: true)]
+            
+            do {
+                let fetchedMonthReports = try context.fetch(monthFetchRequest)
+                
+                XCTAssertEqual(fetchedMonthReports.count, 31)
+                
+                if let firstReport = fetchedMonthReports.first {
+                    XCTAssertEqual(firstReport.dateString, "2018-10")
+                    XCTAssertEqual(firstReport.accountID, 542)
+                    XCTAssertEqual(firstReport.currency, "AUD")
+                    XCTAssertEqual(firstReport.period, .month)
+                    XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "208.55"))
+                } else {
+                    XCTFail("Reports not found")
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            // Check for week reports
+            let weekFetchRequest: NSFetchRequest<ReportAccountBalance> = ReportAccountBalance.fetchRequest()
+            weekFetchRequest.predicate = NSPredicate(format: #keyPath(ReportAccountBalance.periodRawValue) + " == %@", argumentArray: [ReportAccountBalance.Period.week.rawValue])
+            weekFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportAccountBalance.dateString), ascending: true), NSSortDescriptor(key: #keyPath(ReportAccountBalance.accountID), ascending: true)]
+            
+            do {
+                let fetchedWeekReports = try context.fetch(weekFetchRequest)
+                
+                XCTAssertEqual(fetchedWeekReports.count, 122)
+                
+                if let firstReport = fetchedWeekReports.first {
+                    XCTAssertEqual(firstReport.dateString, "2018-10-4")
+                    XCTAssertEqual(firstReport.accountID, 542)
+                    XCTAssertEqual(firstReport.currency, "AUD")
+                    XCTAssertEqual(firstReport.period, .week)
+                    XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-1191.45"))
+                } else {
+                    XCTFail("Reports not found")
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation5.fulfill()
+        }
+        
+        wait(for: [expectation5], timeout: 5.0)
+    }
+    
     // MARK: - Current Report Tests
     
     func testFetchingCurrentReportsByBudgetCategory() {

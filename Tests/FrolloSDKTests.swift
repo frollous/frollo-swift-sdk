@@ -283,7 +283,7 @@ class FrolloSDKTests: XCTestCase {
             })
         }
         
-        wait(for: [expectation1, expectation2], timeout: 10.0)
+        wait(for: [expectation1, expectation2], timeout: 15.0)
     }
     
     func testSingletonInstantiatedOnce() {
@@ -465,7 +465,7 @@ class FrolloSDKTests: XCTestCase {
             })
         }
         
-        wait(for: [expectation1], timeout: 5.0)
+        wait(for: [expectation1], timeout: 10.0)
     }
     
 }

@@ -369,6 +369,9 @@ public class Account: NSManagedObject, UniqueManagedObject {
         if let bill = object as? Bill {
             addToBills(bill)
         }
+        if let report = object as? ReportAccountBalance {
+            addToReports(report)
+        }
         if let transaction = object as? Transaction {
             addToTransactions(transaction)
         }

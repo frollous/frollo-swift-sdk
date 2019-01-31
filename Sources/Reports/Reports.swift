@@ -334,7 +334,7 @@ class Reports: ResponseHandler {
                 
                 // Fetch and delete any leftovers if fetching multiple accounts
                 if accountID == nil {
-                    let deleteRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
+                    let deleteRequest: NSFetchRequest<ReportAccountBalance> = ReportAccountBalance.fetchRequest()
                     
                     var deletePredicates = filterPredicates
                     deletePredicates.append(NSCompoundPredicate(notPredicateWithSubpredicate: accountsPredicate))
