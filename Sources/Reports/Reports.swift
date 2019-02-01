@@ -10,7 +10,7 @@ import CoreData
 import Foundation
 
 /// Managed all aspects of reporting of aggregation data including spending and balances
-class Reports: ResponseHandler, CachedObjects {
+public class Reports: ResponseHandler, CachedObjects {
     
     private let aggregation: Aggregation
     private let database: Database

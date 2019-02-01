@@ -422,6 +422,23 @@ class FrolloSDKTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testReportsAfterSetup() {
+        let expectation1 = expectation(description: "Setup")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let sdk = FrolloSDK()
+        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (error) in
+            XCTAssertNil(error)
+            
+            _ = sdk.reports
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testSetupInvokesDatabaseMigration() {
         let expectation1 = expectation(description: "Setup")
         

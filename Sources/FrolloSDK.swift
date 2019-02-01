@@ -134,6 +134,17 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
             return _notifications
         }
     }
+    /// Reports - Aggregation data reports
+    public var reports: Reports {
+        get {
+            guard _setup
+                else {
+                    fatalError("SDK not setup.")
+            }
+            
+            return _reports
+        }
+    }
     
     /// Indicates if the SDK has completed setup or not
     public var setup: Bool {
@@ -155,6 +166,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     internal var _notifications: Notifications!
     internal var network: Network!
     internal var refreshTimer: Timer?
+    internal var _reports: Reports!
     internal var _setup = false
     
     private let frolloHost = "frollo.us"
@@ -242,6 +254,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         _events = Events(network: network)
         _messages = Messages(database: _database, network: network)
         _notifications = Notifications(authentication: _authentication, events: _events, messages: _messages)
+        _reports = Reports(database: _database, network: network, aggregation: _aggregation)
         
         _events.delegate = delegate
         _messages.delegate = delegate
