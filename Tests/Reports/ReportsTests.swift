@@ -27,6 +27,61 @@ class ReportsTests: XCTestCase {
     
     // MARK: - Account Balance Report Tests
     
+    func testFetchAccountBalanceReports() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testReport1 = ReportAccountBalance(context: managedObjectContext)
+                testReport1.populateTestData()
+                testReport1.dateString = "2018-02-01"
+                testReport1.period = .day
+                
+                let testReport2 = ReportAccountBalance(context: managedObjectContext)
+                testReport2.populateTestData()
+                testReport2.dateString = "2018-01"
+                testReport2.period = .month
+                
+                let testReport3 = ReportAccountBalance(context: managedObjectContext)
+                testReport3.populateTestData()
+                testReport3.dateString = "2018-01-01"
+                testReport3.period = .day
+                
+                let testReport4 = ReportAccountBalance(context: managedObjectContext)
+                testReport4.populateTestData()
+                testReport4.dateString = "2018-01-01"
+                testReport4.period = .day
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let reports = Reports(database: database, network: network, aggregation: aggregation)
+            
+            let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2017-06-01")!
+            let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-01-31")!
+            
+            let fetchedReports = reports.accountBalanceReports(context: database.viewContext, from: fromDate, to: toDate, period: .day)
+            XCTAssertNotNil(fetchedReports)
+            XCTAssertEqual(fetchedReports?.count, 2)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 5)
+    }
+    
     func testFetchingAccountBalanceReportsByDay() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -629,6 +684,64 @@ class ReportsTests: XCTestCase {
     }
     
     // MARK: - Current Report Tests
+    
+    func testFetchCurrentTransactionReports() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testReport1 = ReportTransactionCurrent(context: managedObjectContext)
+                testReport1.populateTestData()
+                testReport1.grouping = .budgetCategory
+                testReport1.budgetCategory = nil
+                
+                let testReport2 = ReportTransactionCurrent(context: managedObjectContext)
+                testReport2.populateTestData()
+                testReport2.grouping = .merchant
+                testReport2.budgetCategory = nil
+                
+                let testReport3 = ReportTransactionCurrent(context: managedObjectContext)
+                testReport3.populateTestData()
+                testReport3.grouping = .budgetCategory
+                testReport3.budgetCategory = nil
+                
+                let testReport4 = ReportTransactionCurrent(context: managedObjectContext)
+                testReport4.populateTestData()
+                testReport4.grouping = .transactionCategory
+                testReport4.budgetCategory = nil
+                
+                let testReport5 = ReportTransactionCurrent(context: managedObjectContext)
+                testReport5.populateTestData()
+                testReport5.grouping = .budgetCategory
+                testReport5.budgetCategory = .living
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let reports = Reports(database: database, network: network, aggregation: aggregation)
+            
+            let fetchedReports = reports.currentTransactionReports(context: database.viewContext, grouping: .budgetCategory)
+            
+            XCTAssertNotNil(fetchedReports)
+            XCTAssertEqual(fetchedReports?.count, 2)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 5)
+    }
     
     func testFetchingCurrentReportsByBudgetCategory() {
         let expectation1 = expectation(description: "Network Request 1")
@@ -1452,6 +1565,84 @@ class ReportsTests: XCTestCase {
     }
 
     // MARK: - History Report Tests
+    
+    func testFetchHistoryTransactionReports() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testReport1 = ReportTransactionHistory(context: managedObjectContext)
+                testReport1.populateTestData()
+                testReport1.dateString = "2018-01-01"
+                testReport1.grouping = .budgetCategory
+                testReport1.period = .day
+                testReport1.budgetCategory = nil
+                
+                let testReport2 = ReportTransactionHistory(context: managedObjectContext)
+                testReport2.populateTestData()
+                testReport2.dateString = "2018-01"
+                testReport2.grouping = .merchant
+                testReport2.period = .month
+                testReport2.budgetCategory = nil
+                
+                let testReport3 = ReportTransactionHistory(context: managedObjectContext)
+                testReport3.populateTestData()
+                testReport3.dateString = "2018-02"
+                testReport3.grouping = .budgetCategory
+                testReport3.period = .month
+                testReport3.budgetCategory = nil
+                
+                let testReport4 = ReportTransactionHistory(context: managedObjectContext)
+                testReport4.populateTestData()
+                testReport4.dateString = "2018-01"
+                testReport4.grouping = .transactionCategory
+                testReport4.period = .month
+                testReport4.budgetCategory = nil
+                
+                let testReport5 = ReportTransactionHistory(context: managedObjectContext)
+                testReport5.populateTestData()
+                testReport5.dateString = "2018-01"
+                testReport5.grouping = .budgetCategory
+                testReport5.period = .month
+                testReport5.budgetCategory = .living
+                
+                let testReport6 = ReportTransactionHistory(context: managedObjectContext)
+                testReport6.populateTestData()
+                testReport6.dateString = "2018-01"
+                testReport6.grouping = .budgetCategory
+                testReport6.period = .month
+                testReport6.budgetCategory = nil
+                
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = Aggregation(database: database, network: network)
+            let reports = Reports(database: database, network: network, aggregation: aggregation)
+            
+            let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2017-06-01")!
+            let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-01-31")!
+            
+            let fetchedReports = reports.historyTransactionReports(context: database.viewContext, from: fromDate, to: toDate, grouping: .budgetCategory, period: .month)
+            
+            XCTAssertNotNil(fetchedReports)
+            XCTAssertEqual(fetchedReports?.count, 1)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 5)
+    }
     
     func testFetchingHistoryReportsByBudgetCategory() {
         let expectation1 = expectation(description: "Network Request 1")

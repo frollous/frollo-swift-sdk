@@ -10,7 +10,7 @@ import CoreData
 import Foundation
 
 /// Managed all aspects of reporting of aggregation data including spending and balances
-class Reports: ResponseHandler {
+class Reports: ResponseHandler, CachedObjects {
     
     private let aggregation: Aggregation
     private let database: Database
@@ -33,6 +33,52 @@ class Reports: ResponseHandler {
     }
     
     // MARK: - Account Balance Reports
+    
+    /**
+     Fetch account balance reports from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - fromDate: Start date to fetch reports from (inclusive)
+        - toDate: End date to fetch reports up to (inclusive)
+        - period: Period that reports should be broken down by
+        - accountID: Fetch reports for a specific account ID (optional)
+        - accountType: Fetch reports for a specific account type (optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to date ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func accountBalanceReports(context: NSManagedObjectContext, from fromDate: Date, to toDate: Date, period: ReportAccountBalance.Period, accountID: Int64? = nil, accountType: Account.AccountType? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ReportAccountBalance.dateString), ascending: true)], limit: Int? = nil) -> [ReportAccountBalance]? {
+        let fromDateString = ReportAccountBalance.dailyDateFormatter.string(from: fromDate)
+        let toDateString = ReportAccountBalance.dailyDateFormatter.string(from: toDate)
+        let datePredicate = NSPredicate(format: #keyPath(ReportAccountBalance.dateString) + " >= %@ && " + #keyPath(ReportAccountBalance.dateString) + " <= %@", argumentArray: [fromDateString, toDateString])
+        
+        let periodPredicate = NSPredicate(format: #keyPath(ReportAccountBalance.periodRawValue) + " == %@", argumentArray: [period.rawValue])
+        
+        var predicates = [datePredicate, periodPredicate]
+        
+        if let account = accountID {
+            predicates.append(NSPredicate(format: #keyPath(ReportAccountBalance.accountID) + " == %ld", argumentArray: [account]))
+        }
+        if let container = accountType {
+            predicates.append(NSPredicate(format: #keyPath(ReportAccountBalance.account.accountTypeRawValue) + " == %@", argumentArray: [container.rawValue]))
+        }
+        
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        return accountBalanceReports(context: context, filteredBy: predicate, sortedBy: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Fetch account balance reports from the cache by predicate (advanced)
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `ReportAccountBalance` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to date ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func accountBalanceReports(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ReportAccountBalance.dateString), ascending: true)], limit: Int? = nil) -> [ReportAccountBalance]? {
+        return cachedObjects(type: ReportAccountBalance.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    }
     
     /**
      Refresh account balance reports from the host
@@ -68,6 +114,42 @@ class Reports: ResponseHandler {
     // MARK: - Transaction Current Reports
     
     /**
+     Fetch current transaction reports from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - grouping: Grouping that reports should be broken down into
+        - budgetCategory: Budget Category to filter reports by. Leave blank to return all reports of that grouping (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to day ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func currentTransactionReports(context: NSManagedObjectContext, grouping: ReportGrouping, budgetCategory: BudgetCategory? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)], limit: Int? = nil) -> [ReportTransactionCurrent]? {
+        var predicates = [NSPredicate(format: #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [grouping.rawValue])]
+        
+        if let category = budgetCategory {
+            predicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == %@", argumentArray: [category.rawValue]))
+        } else {
+            predicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil", argumentArray: nil))
+        }
+        
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        return currentTransactionReports(context: context, filteredBy: predicate, sortedBy: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Fetch current transaction reports from the cache by predicate (advanced)
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `ReportTransactionCurrent` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to day ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func currentTransactionReports(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)], limit: Int? = nil) -> [ReportTransactionCurrent]? {
+        return cachedObjects(type: ReportTransactionCurrent.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
      Refresh transaction current reports from the host
      
      - parameters:
@@ -97,6 +179,52 @@ class Reports: ResponseHandler {
     }
     
     // MARK: - Transaction History Reports
+    
+    /**
+     Fetch historic transaction reports from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - fromDate: Start date to fetch reports from (inclusive)
+        - toDate: End date to fetch reports up to (inclusive)
+        - grouping: Grouping that reports should be broken down into
+        - period: Period that reports should be broken down by
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to date ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func historyTransactionReports(context: NSManagedObjectContext, from fromDate: Date, to toDate: Date, grouping: ReportGrouping, period: ReportTransactionHistory.Period, budgetCategory: BudgetCategory? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true)], limit: Int? = nil) -> [ReportTransactionHistory]? {
+        let fromDateString = ReportTransactionHistory.dailyDateFormatter.string(from: fromDate)
+        let toDateString = ReportTransactionHistory.dailyDateFormatter.string(from: toDate)
+        let datePredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.dateString) + " >= %@ && " + #keyPath(ReportTransactionHistory.dateString) + " <= %@", argumentArray: [fromDateString, toDateString])
+        
+        let groupingPredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: [grouping.rawValue])
+        
+        let periodPredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [period.rawValue])
+        
+        var predicates = [datePredicate, groupingPredicate, periodPredicate]
+        
+        if let category = budgetCategory {
+            predicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == %@", argumentArray: [category.rawValue]))
+        } else {
+            predicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil", argumentArray: nil))
+        }
+        
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        return historyTransactionReports(context: context, filteredBy: predicate, sortedBy: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Fetch historic transaction reports from the cache by predicate (advanced)
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `ReportTransactionCurrent` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to date ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func historyTransactionReports(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true)], limit: Int? = nil) -> [ReportTransactionHistory]? {
+        return cachedObjects(type: ReportTransactionHistory.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    }
     
     /**
      Refresh transaction history reports from the host
