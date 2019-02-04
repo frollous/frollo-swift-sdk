@@ -17,6 +17,7 @@ public class Events {
     
     internal struct EventNames {
         static let test = "TEST_EVENT"
+        static let transactionsUpdated = "T_UPDATED"
     }
     
     internal weak var delegate: FrolloSDKDelegate?
@@ -70,6 +71,16 @@ public class Events {
                 Log.info("Test event received")
             
                 completion?(true, nil)
+            
+            case EventNames.transactionsUpdated:
+                Log.debug("Transactions updated event received")
+            
+                if let transactionIDs = notification?.transactionIDs, !transactionIDs.isEmpty {
+                    NotificationCenter.default.post(name: Aggregation.refreshTransactionsNotification, object: self, userInfo: [Aggregation.refreshTransactionIDsKey: transactionIDs])
+                }
+            
+                completion?(true, nil)
+            
             default:
                 // Event not recognised
                 completion?(false, nil)

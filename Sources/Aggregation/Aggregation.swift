@@ -12,6 +12,9 @@ import Foundation
 /// Manages all aggregation data including accounts, transactions, categories and merchants
 public class Aggregation: CachedObjects, ResponseHandler {
     
+    internal static let refreshTransactionIDsKey = "FrolloSDKKey.Aggregation.transactionIDs"
+    internal static let refreshTransactionsNotification = Notification.Name(rawValue: "FrolloSDK.aggregation.refreshTransactionsNotification")
+    
     internal let accountLock = NSLock()
     internal let merchantLock = NSLock()
     internal let providerLock = NSLock()
@@ -32,6 +35,15 @@ public class Aggregation: CachedObjects, ResponseHandler {
     internal init(database: Database, network: Network) {
         self.database = database
         self.network = network
+        
+        NotificationCenter.default.addObserver(forName: Aggregation.refreshTransactionsNotification, object: nil, queue: .main) { (notification) in
+            guard let transactionIDs = notification.userInfo?[Aggregation.refreshTransactionIDsKey] as? [Int64]
+                else {
+                    return
+            }
+            
+            self.refreshTransactions(transactionIDs: transactionIDs)
+        }
     }
     
     // MARK: - Providers

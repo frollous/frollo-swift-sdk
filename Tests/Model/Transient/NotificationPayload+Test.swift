@@ -51,8 +51,13 @@ extension NotificationPayload {
                                    userMessageID: 98765)
     }
     
-//    static func testTransactionUpdatedData() -> NotificationPayload {
-//
-//    }
+    static func testTransactionUpdatedData() -> NotificationPayload {
+        return NotificationPayload(aps: nil,
+                                   event: "T_UPDATED",
+                                   link: nil,
+                                   transactionIDs: [45123, 986, 7000072],
+                                   userEventID: Int64.random(in: 1...100000000),
+                                   userMessageID: nil)
+    }
     
 }

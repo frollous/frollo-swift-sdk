@@ -92,5 +92,41 @@ class EventsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testHandleTransactionsUpdatedEvent() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.refreshTransactionsNotification, object: nil) { (notification) -> Bool in
+            XCTAssertNotNil(notification.userInfo)
+            
+            guard let transactionIDs = notification.userInfo?[Aggregation.refreshTransactionIDsKey] as? [Int64]
+                else {
+                    XCTFail()
+                    return true
+            }
+            
+            XCTAssertEqual(transactionIDs, [45123, 986, 7000072])
+            
+            return true
+        }
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        let events = Events(network: network)
+        
+        let notificationUpdated = NotificationPayload.testTransactionUpdatedData()
+        
+        events.handleEvent("T_UPDATED", notification: notificationUpdated) { (handled, error) in
+            XCTAssertTrue(handled)
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+    }
 
 }
