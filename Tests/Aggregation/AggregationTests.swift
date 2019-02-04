@@ -1951,7 +1951,7 @@ class AggregationTests: XCTestCase {
             NotificationCenter.default.post(name: Aggregation.refreshTransactionsNotification, object: self, userInfo: [Aggregation.refreshTransactionIDsKey: ids])
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1], timeout: 5.0)
     }
     
 }
