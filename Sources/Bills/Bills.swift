@@ -23,6 +23,7 @@ public class Bills: CachedObjects, ResponseHandler  {
     private var linkingBillIDs = Set<Int64>()
     private var linkingMerchantIDs = Set<Int64>()
     private var linkingTransactionCategoryIDs = Set<Int64>()
+    private var refreshingMerchantIDs = Set<Int64>()
     
     internal init(database: Database, network: Network, aggregation: Aggregation) {
         self.database = database
@@ -464,9 +465,19 @@ public class Bills: CachedObjects, ResponseHandler  {
             aggregation.merchantLock.unlock()
         }
         
-        linkObjectToParentObject(type: Bill.self, parentType: Merchant.self, managedObjectContext: managedObjectContext, linkedIDs: linkingMerchantIDs, linkedKey: \Bill.merchantID, linkedKeyName: #keyPath(Bill.merchantID))
+        let missingMerchantIDs = linkObjectToParentObject(type: Bill.self, parentType: Merchant.self, managedObjectContext: managedObjectContext, linkedIDs: linkingMerchantIDs, linkedKey: \Bill.merchantID, linkedKeyName: #keyPath(Bill.merchantID))
         
-        linkingMerchantIDs = Set()
+        linkingMerchantIDs = missingMerchantIDs
+        
+        for merchantID in missingMerchantIDs {
+            guard !refreshingMerchantIDs.contains(merchantID)
+                else {
+                    continue
+            }
+            
+            refreshingMerchantIDs.insert(merchantID)
+            aggregation.refreshMerchant(merchantID: merchantID)
+        }
         
         managedObjectContext.performAndWait {
             do {

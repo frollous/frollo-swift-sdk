@@ -30,6 +30,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
     private var linkingAccountIDs = Set<Int64>()
     private var linkingMerchantIDs = Set<Int64>()
     private var linkingTransactionCategoryIDs = Set<Int64>()
+    private var refreshingMerchantIDs = Set<Int64>()
     private var refreshingProviderIDs = Set<Int64>()
     
     internal init(database: Database, network: Network) {
@@ -747,7 +748,61 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 if let merchantsResponse = response {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleMerchantsResponse(merchantsResponse, managedObjectContext: managedObjectContext)
+                    self.handleMerchantsResponse(merchantsResponse, predicate: nil, managedObjectContext: managedObjectContext)
+                    
+                    self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                completion?(error)
+            }
+        }
+    }
+    
+    /**
+     Refresh a specific merchant by ID from the host
+     
+     - parameters:
+        - merchantID: ID of the merchant to fetch
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshMerchant(merchantID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        network.fetchMerchant(merchantID: merchantID) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let merchantResponse = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleMerchantResponse(merchantResponse, managedObjectContext: managedObjectContext)
+                    
+                    self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                completion?(error)
+            }
+        }
+    }
+    
+    /**
+     Refresh specific merchants by ID from the host
+     
+     - parameters:
+        - merchantIDs: List of merchant IDs to fetch
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshMerchants(merchantIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
+        network.fetchMerchants(merchantIDs: merchantIDs) { (response, error) in
+            if let responseError = error {
+                Log.error(responseError.localizedDescription)
+            } else {
+                if let merchantsResponse = response {
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleMerchantsResponse(merchantsResponse, merchantIDs: merchantIDs, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                 }
@@ -772,7 +827,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         
         let missingProviderIDs = linkObjectToParentObject(type: ProviderAccount.self, parentType: Provider.self, managedObjectContext: managedObjectContext, linkedIDs: linkingProviderIDs, linkedKey: \ProviderAccount.providerID, linkedKeyName: #keyPath(ProviderAccount.providerID))
         
-        linkingProviderIDs = Set()
+        linkingProviderIDs = missingProviderIDs
         
         for providerID in missingProviderIDs {
             guard !refreshingProviderIDs.contains(providerID)
@@ -846,9 +901,14 @@ public class Aggregation: CachedObjects, ResponseHandler {
             transactionLock.unlock()
         }
         
-        linkObjectToParentObject(type: Transaction.self, parentType: Merchant.self, managedObjectContext: managedObjectContext, linkedIDs: linkingMerchantIDs, linkedKey: \Transaction.merchantID, linkedKeyName: #keyPath(Transaction.merchantID))
+        let missingMerchantIDs = linkObjectToParentObject(type: Transaction.self, parentType: Merchant.self, managedObjectContext: managedObjectContext, linkedIDs: linkingMerchantIDs, linkedKey: \Transaction.merchantID, linkedKeyName: #keyPath(Transaction.merchantID))
         
         linkingMerchantIDs = Set()
+        
+        let merchantIDs = missingMerchantIDs.subtracting(refreshingMerchantIDs)
+        refreshingMerchantIDs = refreshingMerchantIDs.union(merchantIDs)
+        
+        refreshMerchants(merchantIDs: Array(merchantIDs))
         
         managedObjectContext.performAndWait {
             do {
@@ -1066,14 +1126,38 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
-    private func handleMerchantsResponse(_ merchantsResponse: [APIMerchantResponse], managedObjectContext: NSManagedObjectContext) {
+    private func handleMerchantResponse(_ merchantResponse: APIMerchantResponse, managedObjectContext: NSManagedObjectContext) {
         merchantLock.lock()
         
         defer {
             merchantLock.unlock()
         }
         
-        updateObjectsWithResponse(type: Merchant.self, objectsResponse: merchantsResponse, primaryKey: #keyPath(Merchant.merchantID), linkedKeys: [], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        updateObjectWithResponse(type: Merchant.self, objectResponse: merchantResponse, primaryKey: #keyPath(Merchant.merchantID), managedObjectContext: managedObjectContext)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleMerchantsResponse(_ merchantsResponse: [APIMerchantResponse], merchantIDs: [Int64], managedObjectContext: NSManagedObjectContext) {
+        let predicate = NSPredicate(format: #keyPath(Merchant.merchantID) + " IN %@", argumentArray: [merchantIDs])
+        
+        handleMerchantsResponse(merchantsResponse, predicate: predicate, managedObjectContext: managedObjectContext)
+    }
+    
+    private func handleMerchantsResponse(_ merchantsResponse: [APIMerchantResponse], predicate: NSPredicate?, managedObjectContext: NSManagedObjectContext) {
+        merchantLock.lock()
+        
+        defer {
+            merchantLock.unlock()
+        }
+        
+        updateObjectsWithResponse(type: Merchant.self, objectsResponse: merchantsResponse, primaryKey: #keyPath(Merchant.merchantID), linkedKeys: [], filterPredicate: predicate, managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
             do {

@@ -23,7 +23,9 @@ enum AggregationEndpoint: Endpoint {
     
     case account(accountID: Int64)
     case accounts
+    case merchant(merchantID: Int64)
     case merchants
+    case merchantsByID(merchantIDs: [Int64])
     case provider(providerID: Int64)
     case providers
     case providerAccount(providerAccountID: Int64)
@@ -39,8 +41,12 @@ enum AggregationEndpoint: Endpoint {
                 return "aggregation/accounts/" + String(accountID)
             case .accounts:
                 return "aggregation/accounts"
+            case .merchant(let merchantID):
+                return "aggregation/merchants/" + String(merchantID)
             case .merchants:
                 return "aggregation/merchants"
+            case .merchantsByID(let merchantIDs):
+                return "aggregation/merchants?merchant_ids=" + merchantIDs.map { String($0) }.joined(separator: ",")
             case .provider(let providerID):
                 return "aggregation/providers/" + String(providerID)
             case .providers:

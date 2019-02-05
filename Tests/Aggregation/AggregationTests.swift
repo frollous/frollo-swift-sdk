@@ -207,12 +207,129 @@ class AggregationTests: XCTestCase {
     }
     
     func testRefreshProviderByIDIsCached() {
+        let expectation1 = expectation(description: "Database")
+        let expectation2 = expectation(description: "Network Request 1")
+        let expectation3 = expectation(description: "Fetch Request 1")
+        let expectation4 = expectation(description: "Network Request 2")
+        let expectation5 = expectation(description: "Fetch Request 2")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        let providerStub = stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "providers_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+            
+        let aggregation = Aggregation(database: database, network: network)
+        
+        aggregation.refreshProviders() { (error) in
+            XCTAssertNil(error)
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = database.viewContext
+            
+            let totalFetchRequest: NSFetchRequest<Provider> = Provider.fetchRequest()
+            
+            do {
+                let fetchedTotalProviders = try context.fetch(totalFetchRequest)
+                
+                XCTAssertEqual(fetchedTotalProviders.count, 311)
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            let individualFetchRequest: NSFetchRequest<Provider> = Provider.fetchRequest()
+            individualFetchRequest.predicate = NSPredicate(format: "providerID == %ld", argumentArray: [15441])
+            
+            do {
+                let fetchedIndividualProviders = try context.fetch(individualFetchRequest)
+                
+                XCTAssertEqual(fetchedIndividualProviders.count, 1)
+                
+                if let provider = fetchedIndividualProviders.first {
+                    XCTAssertEqual(provider.providerID, 15441)
+                } else {
+                    XCTFail("Provider not found")
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+        
+        OHHTTPStubs.removeStub(providerStub)
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "providers_updated", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        aggregation.refreshProviders() { (error) in
+            XCTAssertNil(error)
+            
+            expectation4.fulfill()
+        }
+        
+        wait(for: [expectation4], timeout: 3.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = database.viewContext
+            
+            let totalFetchRequest: NSFetchRequest<Provider> = Provider.fetchRequest()
+            
+            do {
+                let fetchedTotalProviders = try context.fetch(totalFetchRequest)
+                
+                XCTAssertEqual(fetchedTotalProviders.count, 313)
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            let individualFetchRequest: NSFetchRequest<Provider> = Provider.fetchRequest()
+            individualFetchRequest.predicate = NSPredicate(format: "providerID == %ld", argumentArray: [15441])
+            
+            do {
+                let fetchedIndividualProviders = try context.fetch(individualFetchRequest)
+                
+                XCTAssertEqual(fetchedIndividualProviders.count, 0)
+                XCTAssertNil(fetchedIndividualProviders.first)
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation5.fulfill()
+        }
+        
+        wait(for: [expectation5], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testRefreshProvidersUpdate() {
         let expectation1 = expectation(description: "Network Request 1")
         
         let url = URL(string: "https://api.example.com")!
         
-        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.provider(providerID: 12345).path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "providers_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
@@ -225,18 +342,17 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, network: network)
             
-            aggregation.refreshProvider(providerID: 12345) { (error) in
+            aggregation.refreshProviders { (error) in
                 XCTAssertNil(error)
                 
                 let context = database.viewContext
                 
                 let fetchRequest: NSFetchRequest<Provider> = Provider.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "providerID == %ld", argumentArray: [12345])
                 
                 do {
                     let fetchedProviders = try context.fetch(fetchRequest)
                     
-                    XCTAssertEqual(fetchedProviders.first?.providerID, 12345)
+                    XCTAssertEqual(fetchedProviders.count, 311)
                 } catch {
                     XCTFail(error.localizedDescription)
                 }
@@ -249,9 +365,7 @@ class AggregationTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
-    func testRefreshProvidersUpdate() {
-        // TODO: Implement
-    }
+    // MARK: - Provider Account Tests
     
     func testFetchProviderAccountByID() {
         let expectation1 = expectation(description: "Completion")
@@ -678,6 +792,81 @@ class AggregationTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testProviderAccountsFetchMissingProviders() {
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Request 1")
+        let expectation3 = expectation(description: "Fetch Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_accounts_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.provider(providerID: 12345).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        let aggregation = Aggregation(database: database, network: network)
+        
+        aggregation.refreshProviderAccounts { (error) in
+            XCTAssertNil(error)
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 5.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            let context = database.viewContext
+            
+            let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
+            
+            do {
+                let fetchedProviderAccounts = try context.fetch(fetchRequest)
+                
+                XCTAssertEqual(fetchedProviderAccounts.count, 4)
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            let providerFetchRequest: NSFetchRequest<Provider> = Provider.fetchRequest()
+            
+            do {
+                let fetchedProviders = try context.fetch(providerFetchRequest)
+                
+                XCTAssertEqual(fetchedProviders.count, 1)
+                
+                if let provider = fetchedProviders.first {
+                    XCTAssertEqual(provider.providerID, 12345)
+                    XCTAssertEqual(provider.providerAccounts?.count, 1)
+                } else {
+                    XCTFail("No provider")
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 6.0)
         OHHTTPStubs.removeAllStubs()
     }
     
@@ -1568,6 +1757,84 @@ class AggregationTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testTransactionsFetchMissingMerchants() {
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Request 1")
+        let expectation3 = expectation(description: "Fetch Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_by_id", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        let aggregation = Aggregation(database: database, network: network)
+        
+        let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
+        let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
+        
+        aggregation.refreshTransactions(from: fromDate, to: toDate) { (error) in
+            XCTAssertNil(error)
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 5.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            let context = database.viewContext
+            
+            let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+            
+            do {
+                let fetchedTransactions = try context.fetch(fetchRequest)
+                
+                XCTAssertEqual(fetchedTransactions.count, 179)
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            let merchantFetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
+            merchantFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)]
+            
+            do {
+                let fetchedMerchants = try context.fetch(merchantFetchRequest)
+                
+                XCTAssertEqual(fetchedMerchants.count, 5)
+                
+                if let merchant = fetchedMerchants.first {
+                    XCTAssertEqual(merchant.merchantID, 22)
+                } else {
+                    XCTFail("No merchant")
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 8.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     // MARK: - Transaction Category Tests
     
     func testFetchTransactionCategoryByID() {
@@ -1914,6 +2181,103 @@ class AggregationTests: XCTestCase {
                     let fetchedMerchants = try context.fetch(fetchRequest)
                     
                     XCTAssertEqual(fetchedMerchants.count, 1200)
+                } catch {
+                    XCTFail(error.localizedDescription)
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testRefreshMerchantByID() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.merchant(merchantID: 197).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchant_id_197", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            aggregation.refreshMerchant(merchantID: 197) { (error) in
+                XCTAssertNil(error)
+                
+                let context = database.viewContext
+                
+                let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
+                
+                do {
+                    let fetchedMerchants = try context.fetch(fetchRequest)
+                    
+                    XCTAssertEqual(fetchedMerchants.count, 1)
+                    
+                    if let merchant = fetchedMerchants.first {
+                        XCTAssertEqual(merchant.merchantID, 197)
+                    } else {
+                        XCTFail("No merchant found")
+                    }
+                } catch {
+                    XCTFail(error.localizedDescription)
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testRefreshMerchantsByID() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_by_id", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, network: network)
+            
+            aggregation.refreshMerchants(merchantIDs: [22, 30, 31, 106, 691]) { (error) in
+                XCTAssertNil(error)
+                
+                let context = database.viewContext
+                
+                let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
+                fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)]
+                
+                do {
+                    let fetchedMerchants = try context.fetch(fetchRequest)
+                    
+                    XCTAssertEqual(fetchedMerchants.count, 5)
+                    
+                    if let merchant = fetchedMerchants.last {
+                        XCTAssertEqual(merchant.merchantID, 691)
+                    } else {
+                        XCTFail("No merchants")
+                    }
                 } catch {
                     XCTFail(error.localizedDescription)
                 }

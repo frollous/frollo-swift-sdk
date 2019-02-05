@@ -229,4 +229,24 @@ extension Network {
         }
     }
     
+    internal func fetchMerchant(merchantID: Int64, completion: @escaping RequestCompletion<APIMerchantResponse>) {
+        requestQueue.async {
+            let url = URL(string: AggregationEndpoint.merchant(merchantID: merchantID).path, relativeTo: self.serverURL)!
+            
+            self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.handleResponse(type: APIMerchantResponse.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func fetchMerchants(merchantIDs: [Int64], completion: @escaping RequestCompletion<[APIMerchantResponse]>) {
+        requestQueue.async {
+            let url = URL(string: AggregationEndpoint.merchantsByID(merchantIDs: merchantIDs).path, relativeTo: self.serverURL)!
+            
+            self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.handleArrayResponse(type: APIMerchantResponse.self, response: response, completion: completion)
+            }
+        }
+    }
+    
 }

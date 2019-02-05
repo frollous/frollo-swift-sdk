@@ -760,4 +760,35 @@ class AggregationRequestTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testFetchMerchantByID() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.merchant(merchantID: 197).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchant_id_197", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        
+        network.fetchMerchant(merchantID: 197) { (response, error) in
+            XCTAssertNil(error)
+            
+            if let merchant = response {
+                XCTAssertEqual(merchant.id, 197)
+                XCTAssertEqual(merchant.name, "Australia Post")
+                XCTAssertEqual(merchant.merchantType, .retailer)
+                XCTAssertEqual(merchant.smallLogoURL, "https://frollo-sandbox.s3.amazonaws.com/merchants/197/original/d6bd64365239f57dc09dd0711719077a_642234798c18e5ea343eefc97f511396e9d3d923d0473cc0e4a7d30a0fb46a30.png?1519084264")
+            } else {
+                XCTFail("No response object")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
 }

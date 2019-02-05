@@ -25,6 +25,7 @@ public class Reports: ResponseHandler, CachedObjects {
     private var linkingCurrentTransactionCategoryIDs = Set<Int64>()
     private var linkingHistoryMerchantIDs = Set<Int64>()
     private var linkingHistoryTransactionCategoryIDs = Set<Int64>()
+    private var refreshingMerchantIDs = Set<Int64>()
     
     internal init(database: Database, network: Network, aggregation: Aggregation) {
         self.database = database
@@ -292,9 +293,19 @@ public class Reports: ResponseHandler, CachedObjects {
         }
         
         let filterPredicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.linkedID) + " != -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.merchant.rawValue])
-        linkObjectToParentObject(type: ReportTransactionCurrent.self, parentType: Merchant.self, objectFilterPredicate: filterPredicate, managedObjectContext: managedObjectContext, linkedIDs: linkingCurrentMerchantIDs, linkedKey: \ReportTransactionCurrent.linkedID, linkedKeyName: #keyPath(ReportTransactionCurrent.linkedID))
+        let missingMerchantIDs = linkObjectToParentObject(type: ReportTransactionCurrent.self, parentType: Merchant.self, objectFilterPredicate: filterPredicate, managedObjectContext: managedObjectContext, linkedIDs: linkingCurrentMerchantIDs, linkedKey: \ReportTransactionCurrent.linkedID, linkedKeyName: #keyPath(ReportTransactionCurrent.linkedID))
         
-        linkingCurrentMerchantIDs = Set()
+        linkingCurrentMerchantIDs = missingMerchantIDs
+        
+        for merchantID in missingMerchantIDs {
+            guard !refreshingMerchantIDs.contains(merchantID)
+                else {
+                    continue
+            }
+            
+            refreshingMerchantIDs.insert(merchantID)
+            aggregation.refreshMerchant(merchantID: merchantID)
+        }
         
         managedObjectContext.performAndWait {
             do {
@@ -338,9 +349,19 @@ public class Reports: ResponseHandler, CachedObjects {
         }
         
         let filterPredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " != nil && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.merchant.rawValue])
-        linkObjectToParentObject(type: ReportTransactionHistory.self, parentType: Merchant.self, objectFilterPredicate: filterPredicate, managedObjectContext: managedObjectContext, linkedIDs: linkingHistoryMerchantIDs, linkedKey: \ReportTransactionHistory.linkedID, linkedKeyName: #keyPath(ReportTransactionHistory.linkedID))
+        let missingMerchantIDs = linkObjectToParentObject(type: ReportTransactionHistory.self, parentType: Merchant.self, objectFilterPredicate: filterPredicate, managedObjectContext: managedObjectContext, linkedIDs: linkingHistoryMerchantIDs, linkedKey: \ReportTransactionHistory.linkedID, linkedKeyName: #keyPath(ReportTransactionHistory.linkedID))
         
-        linkingHistoryMerchantIDs = Set()
+        linkingHistoryMerchantIDs = missingMerchantIDs
+        
+        for merchantID in missingMerchantIDs {
+            guard !refreshingMerchantIDs.contains(merchantID)
+                else {
+                    continue
+            }
+            
+            refreshingMerchantIDs.insert(merchantID)
+            aggregation.refreshMerchant(merchantID: merchantID)
+        }
         
         managedObjectContext.performAndWait {
             do {
