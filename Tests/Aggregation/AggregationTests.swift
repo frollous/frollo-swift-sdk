@@ -609,8 +609,8 @@ class AggregationTests: XCTestCase {
         
         let url = URL(string: "https://api.example.com")!
         
-        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "providers_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.provider(providerID: 12345).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_accounts_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
@@ -626,39 +626,39 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, network: network)
             
-            aggregation.refreshProviders { (error) in
+            aggregation.refreshProviderAccounts() { (error) in
                 XCTAssertNil(error)
-                
-                aggregation.refreshProviderAccounts(completion: { (error) in
-                    XCTAssertNil(error)
-                    
-                    let context = database.viewContext
-                    
-                    let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: "providerAccountID == %ld", argumentArray: [867])
-                    
-                    do {
-                        let fetchedProviderAccounts = try context.fetch(fetchRequest)
-                        
-                        XCTAssertEqual(fetchedProviderAccounts.count, 1)
-                        
-                        if let providerAccount = fetchedProviderAccounts.first {
-                            XCTAssertNotNil(providerAccount.provider)
-                            
-                            XCTAssertEqual(providerAccount.providerID, providerAccount.provider?.providerID)
-                        }
-                    } catch {
-                        XCTFail(error.localizedDescription)
-                    }
-                    
-                    expectation2.fulfill()
-                })
-                
+            
                 expectation1.fulfill()
             }
         }
         
-        wait(for: [expectation1, expectation2], timeout: 3.0)
+        wait(for: [expectation1], timeout: 3.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            let context = database.viewContext
+            
+            let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "providerAccountID == %ld", argumentArray: [867])
+            
+            do {
+                let fetchedProviderAccounts = try context.fetch(fetchRequest)
+                
+                XCTAssertEqual(fetchedProviderAccounts.count, 1)
+                
+                if let providerAccount = fetchedProviderAccounts.first {
+                    XCTAssertNotNil(providerAccount.provider)
+                    
+                    XCTAssertEqual(providerAccount.providerID, providerAccount.provider?.providerID)
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 5.0)
         OHHTTPStubs.removeAllStubs()
     }
     
@@ -1587,7 +1587,7 @@ class AggregationTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_by_id", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
@@ -1602,43 +1602,43 @@ class AggregationTests: XCTestCase {
             XCTAssertNil(error)
             
             let aggregation = Aggregation(database: database, network: network)
+                
+            let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
+            let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
             
-            aggregation.refreshMerchants { (error) in
+            aggregation.refreshTransactions(from: fromDate, to: toDate) { (error) in
                 XCTAssertNil(error)
-                
-                let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-                let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-                
-                aggregation.refreshTransactions(from: fromDate, to: toDate) { (error) in
-                    XCTAssertNil(error)
-                    
-                    let context = database.viewContext
-                    
-                    let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99704])
-                    
-                    do {
-                        let fetchedTransactions = try context.fetch(fetchRequest)
-                        
-                        XCTAssertEqual(fetchedTransactions.count, 1)
-                        
-                        if let transaction = fetchedTransactions.first {
-                            XCTAssertNotNil(transaction)
-                            
-                            XCTAssertEqual(transaction.merchantID, transaction.merchant?.merchantID)
-                        }
-                    } catch {
-                        XCTFail(error.localizedDescription)
-                    }
-                    
-                    expectation2.fulfill()
-                }
-                
+            
                 expectation1.fulfill()
             }
         }
+
+        wait(for: [expectation1], timeout: 3.0)
         
-        wait(for: [expectation1, expectation2], timeout: 3.0)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            let context = database.viewContext
+            
+            let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99704])
+            
+            do {
+                let fetchedTransactions = try context.fetch(fetchRequest)
+                
+                XCTAssertEqual(fetchedTransactions.count, 1)
+                
+                if let transaction = fetchedTransactions.first {
+                    XCTAssertNotNil(transaction)
+                    
+                    XCTAssertEqual(transaction.merchantID, transaction.merchant?.merchantID)
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 8.0)
         OHHTTPStubs.removeAllStubs()
     }
     
@@ -1820,7 +1820,7 @@ class AggregationTests: XCTestCase {
                 XCTAssertEqual(fetchedMerchants.count, 5)
                 
                 if let merchant = fetchedMerchants.first {
-                    XCTAssertEqual(merchant.merchantID, 22)
+                    XCTAssertEqual(merchant.merchantID, 1)
                 } else {
                     XCTFail("No merchant")
                 }

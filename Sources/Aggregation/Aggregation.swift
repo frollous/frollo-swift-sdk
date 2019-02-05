@@ -903,7 +903,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         
         let missingMerchantIDs = linkObjectToParentObject(type: Transaction.self, parentType: Merchant.self, managedObjectContext: managedObjectContext, linkedIDs: linkingMerchantIDs, linkedKey: \Transaction.merchantID, linkedKeyName: #keyPath(Transaction.merchantID))
         
-        linkingMerchantIDs = Set()
+        linkingMerchantIDs = missingMerchantIDs
         
         let merchantIDs = missingMerchantIDs.subtracting(refreshingMerchantIDs)
         refreshingMerchantIDs = refreshingMerchantIDs.union(merchantIDs)

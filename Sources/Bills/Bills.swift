@@ -469,15 +469,10 @@ public class Bills: CachedObjects, ResponseHandler  {
         
         linkingMerchantIDs = missingMerchantIDs
         
-        for merchantID in missingMerchantIDs {
-            guard !refreshingMerchantIDs.contains(merchantID)
-                else {
-                    continue
-            }
-            
-            refreshingMerchantIDs.insert(merchantID)
-            aggregation.refreshMerchant(merchantID: merchantID)
-        }
+        let merchantIDs = missingMerchantIDs.subtracting(refreshingMerchantIDs)
+        refreshingMerchantIDs = refreshingMerchantIDs.union(merchantIDs)
+        
+        aggregation.refreshMerchants(merchantIDs: Array(merchantIDs))
         
         managedObjectContext.performAndWait {
             do {
