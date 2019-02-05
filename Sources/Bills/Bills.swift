@@ -470,9 +470,11 @@ public class Bills: CachedObjects, ResponseHandler  {
         linkingMerchantIDs = missingMerchantIDs
         
         let merchantIDs = missingMerchantIDs.subtracting(refreshingMerchantIDs)
-        refreshingMerchantIDs = refreshingMerchantIDs.union(merchantIDs)
         
-        aggregation.refreshMerchants(merchantIDs: Array(merchantIDs))
+        if !merchantIDs.isEmpty {
+            refreshingMerchantIDs = refreshingMerchantIDs.union(merchantIDs)
+            aggregation.refreshMerchants(merchantIDs: Array(merchantIDs))
+        }
         
         managedObjectContext.performAndWait {
             do {

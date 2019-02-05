@@ -298,9 +298,11 @@ public class Reports: ResponseHandler, CachedObjects {
         linkingCurrentMerchantIDs = missingMerchantIDs
         
         let merchantIDs = missingMerchantIDs.subtracting(refreshingMerchantIDs)
-        refreshingMerchantIDs = refreshingMerchantIDs.union(merchantIDs)
         
-        aggregation.refreshMerchants(merchantIDs: Array(merchantIDs))
+        if !merchantIDs.isEmpty {
+            refreshingMerchantIDs = refreshingMerchantIDs.union(merchantIDs)
+            aggregation.refreshMerchants(merchantIDs: Array(merchantIDs))
+        }
         
         managedObjectContext.performAndWait {
             do {
@@ -349,9 +351,11 @@ public class Reports: ResponseHandler, CachedObjects {
         linkingHistoryMerchantIDs = missingMerchantIDs
         
         let merchantIDs = missingMerchantIDs.subtracting(refreshingMerchantIDs)
-        refreshingMerchantIDs = refreshingMerchantIDs.union(merchantIDs)
         
-        aggregation.refreshMerchants(merchantIDs: Array(merchantIDs))
+        if !merchantIDs.isEmpty {
+            refreshingMerchantIDs = refreshingMerchantIDs.union(merchantIDs)
+            aggregation.refreshMerchants(merchantIDs: Array(merchantIDs))
+        }
         
         managedObjectContext.performAndWait {
             do {
