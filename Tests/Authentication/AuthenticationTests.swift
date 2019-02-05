@@ -502,7 +502,7 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let network = Network(serverURL: serverURL, keychain: validKeychain())
-        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, network: network, preferences: preferences)
         
         database.setup { (error) in
             XCTAssertNil(error)

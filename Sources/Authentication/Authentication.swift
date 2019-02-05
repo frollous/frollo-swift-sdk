@@ -363,8 +363,7 @@ public class Authentication {
     internal func updateDevice(compliant: Bool? = nil, notificationToken: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         guard loggedIn
             else {
-                let error = DataError(type: .authentication, subType: .loggedOut)
-                completion?(error)
+                completion?(nil)
                 return
         }
         
