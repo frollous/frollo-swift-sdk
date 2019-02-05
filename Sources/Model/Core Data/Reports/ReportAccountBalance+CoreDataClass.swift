@@ -10,7 +10,11 @@
 import Foundation
 import CoreData
 
-
+/**
+ Account Balance Report
+ 
+ Core Data model of an account balance report
+ */
 public class ReportAccountBalance: NSManagedObject {
     
     /// Period - the time period the report is broken down to
