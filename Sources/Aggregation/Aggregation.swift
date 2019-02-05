@@ -740,7 +740,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
      - parameters:
         - completion: Optional completion handler with optional error if the request fails
     */
-    public func refreshMerchants(completion: FrolloSDKCompletionHandler? = nil) {
+    internal func refreshMerchants(completion: FrolloSDKCompletionHandler? = nil) {
         network.fetchMerchants { (response, error) in
             if let responseError = error {
                 Log.error(responseError.localizedDescription)

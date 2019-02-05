@@ -400,7 +400,6 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     private func refreshSystem() {
         aggregation.refreshProviders()
         aggregation.refreshTransactionCategories()
-        aggregation.refreshMerchants()
         bills.refreshBills()
         authentication.updateDevice()
     }
