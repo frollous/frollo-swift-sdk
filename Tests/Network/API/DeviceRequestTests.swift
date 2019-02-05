@@ -90,7 +90,8 @@ class DeviceRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        let request = APIDeviceUpdateRequest(deviceName: "Device Name",
+        let request = APIDeviceUpdateRequest(compliant: nil,
+                                             deviceName: "Device Name",
                                              notificationToken: "SomeToken123",
                                              timezone: TimeZone.current.identifier)
         

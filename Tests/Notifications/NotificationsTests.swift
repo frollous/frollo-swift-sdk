@@ -60,12 +60,14 @@ class NotificationsTests: XCTestCase {
         
         let notifications = Notifications(authentication: authentication, events: events, messages: messages)
         
+        authentication.loggedIn = true
+        
         let tokenString = "740f4707bebcf74f9b7c25d48e3358945f6aa01da5ddb387462c7eaf61bb78ad"
         let tokenData = dataWithHexString(hex: tokenString)
         
         notifications.registerPushNotificationToken(tokenData)
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1], timeout: 5.0)
     }
     
     func testHandlingPushNotificationEvent() {

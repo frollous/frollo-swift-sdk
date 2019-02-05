@@ -342,16 +342,36 @@ public class Authentication {
     // MARK: - Device
     
     /**
+     Update the compliance status of the current device. Use this to indicate a jailbroken device for example.
+     
+     - parameters:
+        - compliant: Indicates if the device is compliant or not
+        - completion: Completion handler with any error that occurred (optional)
+    */
+    public func updateDeviceCompliance(_ compliant: Bool, completion: FrolloSDKCompletionHandler? = nil) {
+        updateDevice(compliant: compliant, notificationToken: nil, completion: completion)
+    }
+    
+    /**
      Update information about the current device. Updates the current device name and timezone automatically.
      
      - parameters:
+        - compliant: Indicates if the device is compliant or not
         - notificationToken: Push notification token for the device (optional)
         - completion: Completion handler with any error that occurred (optional)
-    */
-    internal func updateDevice(notificationToken: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+     */
+    internal func updateDevice(compliant: Bool? = nil, notificationToken: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        guard loggedIn
+            else {
+                let error = DataError(type: .authentication, subType: .loggedOut)
+                completion?(error)
+                return
+        }
+        
         let deviceInfo = DeviceInfo.current()
         
-        let request = APIDeviceUpdateRequest(deviceName: deviceInfo.deviceName,
+        let request = APIDeviceUpdateRequest(compliant: compliant,
+                                             deviceName: deviceInfo.deviceName,
                                              notificationToken: notificationToken,
                                              timezone: TimeZone.current.identifier)
         

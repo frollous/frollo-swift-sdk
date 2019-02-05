@@ -145,7 +145,10 @@ public class FrolloSDK: NetworkDelegate {
     internal var refreshTimer: Timer?
     internal var _setup = false
     
+    private let cacheExpiry: TimeInterval = 120
     private let frolloHost = "frollo.us"
+    
+    private var deviceLastUpdated: Date?
     
     // MARK: - Setup
     
@@ -292,6 +295,23 @@ public class FrolloSDK: NetworkDelegate {
      */
     public func applicationWillEnterForeground() {
         resumeScheduledRefreshing()
+        
+        // Update device timezone, name and IDs regularly
+        let now = Date()
+        
+        var updateDevice = true
+        if let lastUpdated = deviceLastUpdated {
+            let time = now.timeIntervalSince(lastUpdated)
+            if time < cacheExpiry {
+                updateDevice = false
+            }
+        }
+        
+        if updateDevice {
+            deviceLastUpdated = now
+            
+            authentication.updateDevice()
+        }
     }
     
     // MARK: - Refresh
@@ -344,7 +364,7 @@ public class FrolloSDK: NetworkDelegate {
     private func resumeScheduledRefreshing() {
         cancelRefreshTimer()
         
-        refreshTimer = Timer.scheduledTimer(withTimeInterval: 120, repeats: true, block: { (timer: Timer) in
+        refreshTimer = Timer.scheduledTimer(withTimeInterval: cacheExpiry, repeats: true, block: { (timer: Timer) in
             self.refreshPrimary()
         })
     }

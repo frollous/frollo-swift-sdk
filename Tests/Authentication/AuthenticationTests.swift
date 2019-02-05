@@ -478,6 +478,8 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         
         database.setup { (error) in
             XCTAssertNil(error)
+
+            authentication.loggedIn = true
             
             authentication.updateDevice(notificationToken: "SomeToken12345", completion: { (error) in
                 XCTAssertNil(error)
@@ -487,6 +489,36 @@ class AuthenticationTests: XCTestCase, NetworkDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testUpdateDeviceCompliance() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        stub(condition: isHost(serverURL.host!) && isPath("/" + DeviceEndpoint.device.path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let network = Network(serverURL: serverURL, keychain: validKeychain())
+        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            authentication.loggedIn = true
+            
+            authentication.updateDeviceCompliance(true) { (error) in
+                XCTAssertNil(error)
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
     func testAuthenticatingRequestManually() {
