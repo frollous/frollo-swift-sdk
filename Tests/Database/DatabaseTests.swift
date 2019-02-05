@@ -126,13 +126,15 @@ class DatabaseTests: XCTestCase {
             
             self.insertTestData(database: database)
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 15) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 20) {
                 database.reset() { (error) in
                     XCTAssertNil(error)
                     
-                    self.checkDatabaseEmpty(database: database)
-                    
-                    expectation1.fulfill()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                        self.checkDatabaseEmpty(database: database)
+                        
+                        expectation1.fulfill()
+                    }
                 }
             }
         }
