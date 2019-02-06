@@ -704,27 +704,27 @@ class ReportsTests: XCTestCase {
                 let testReport1 = ReportTransactionCurrent(context: managedObjectContext)
                 testReport1.populateTestData()
                 testReport1.grouping = .budgetCategory
-                testReport1.budgetCategory = nil
+                testReport1.filterBudgetCategory = nil
                 
                 let testReport2 = ReportTransactionCurrent(context: managedObjectContext)
                 testReport2.populateTestData()
                 testReport2.grouping = .merchant
-                testReport2.budgetCategory = nil
+                testReport2.filterBudgetCategory = nil
                 
                 let testReport3 = ReportTransactionCurrent(context: managedObjectContext)
                 testReport3.populateTestData()
                 testReport3.grouping = .budgetCategory
-                testReport3.budgetCategory = nil
+                testReport3.filterBudgetCategory = nil
                 
                 let testReport4 = ReportTransactionCurrent(context: managedObjectContext)
                 testReport4.populateTestData()
                 testReport4.grouping = .transactionCategory
-                testReport4.budgetCategory = nil
+                testReport4.filterBudgetCategory = nil
                 
                 let testReport5 = ReportTransactionCurrent(context: managedObjectContext)
                 testReport5.populateTestData()
                 testReport5.grouping = .budgetCategory
-                testReport5.budgetCategory = .living
+                testReport5.filterBudgetCategory = .living
                 
                 try! managedObjectContext.save()
             }
@@ -771,7 +771,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for overall reports
                     let overallFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
-                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.budgetCategory.rawValue])
+                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.budgetCategory.rawValue])
                     overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)]
                     
                     do {
@@ -785,7 +785,7 @@ class ReportsTests: XCTestCase {
                             XCTAssertEqual(firstReport.budget, NSDecimalNumber(string: "387.1"))
                             XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-120.53"))
                             XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-215.8"))
-                            XCTAssertNil(firstReport.budgetCategory)
+                            XCTAssertNil(firstReport.filterBudgetCategory)
                             XCTAssertEqual(firstReport.linkedID, -1)
                             XCTAssertNil(firstReport.name)
                         } else {
@@ -797,7 +797,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for group reports
                     let groupFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
-                    groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [3, ReportGrouping.budgetCategory.rawValue])
+                    groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [3, ReportGrouping.budgetCategory.rawValue])
                     groupFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.linkedID), ascending: true)]
                     
                     do {
@@ -811,9 +811,10 @@ class ReportsTests: XCTestCase {
                         XCTAssertEqual(thirdReport.budget, NSDecimalNumber(string: "64.52"))
                         XCTAssertEqual(thirdReport.average, NSDecimalNumber(string: "-55.33"))
                         XCTAssertEqual(thirdReport.previous, NSDecimalNumber(string: "-92"))
-                        XCTAssertNil(thirdReport.budgetCategory)
+                        XCTAssertNil(thirdReport.filterBudgetCategory)
                         XCTAssertEqual(thirdReport.linkedID, 2)
                         XCTAssertEqual(thirdReport.name, "lifestyle")
+                        XCTAssertEqual(thirdReport.budgetCategory, .lifestyle)
                     } catch {
                         XCTFail(error.localizedDescription)
                     }
@@ -855,7 +856,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for overall reports
                     let overallFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
-                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.merchant.rawValue])
+                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.merchant.rawValue])
                     overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)]
                     
                     do {
@@ -869,7 +870,7 @@ class ReportsTests: XCTestCase {
                             XCTAssertNil(firstReport.budget)
                             XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-120.53"))
                             XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-215.8"))
-                            XCTAssertNil(firstReport.budgetCategory)
+                            XCTAssertNil(firstReport.filterBudgetCategory)
                             XCTAssertEqual(firstReport.linkedID, -1)
                             XCTAssertNil(firstReport.name)
                         } else {
@@ -881,7 +882,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for group reports
                     let groupFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
-                    groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [3, ReportGrouping.merchant.rawValue])
+                    groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [3, ReportGrouping.merchant.rawValue])
                     groupFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.linkedID), ascending: true)]
                     
                     do {
@@ -895,7 +896,7 @@ class ReportsTests: XCTestCase {
                         XCTAssertNil(thirdReport.budget)
                         XCTAssertEqual(thirdReport.average, NSDecimalNumber(string: "-106.27"))
                         XCTAssertEqual(thirdReport.previous, NSDecimalNumber(string: "-159.41"))
-                        XCTAssertNil(thirdReport.budgetCategory)
+                        XCTAssertNil(thirdReport.filterBudgetCategory)
                         XCTAssertEqual(thirdReport.linkedID, 2)
                         XCTAssertEqual(thirdReport.name, "Woolworths")
                     } catch {
@@ -939,7 +940,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for overall reports
                     let overallFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
-                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.transactionCategory.rawValue])
+                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.transactionCategory.rawValue])
                     overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)]
                     
                     do {
@@ -953,7 +954,7 @@ class ReportsTests: XCTestCase {
                             XCTAssertNil(firstReport.budget)
                             XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-120.53"))
                             XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-215.8"))
-                            XCTAssertNil(firstReport.budgetCategory)
+                            XCTAssertNil(firstReport.filterBudgetCategory)
                             XCTAssertEqual(firstReport.linkedID, -1)
                             XCTAssertNil(firstReport.name)
                         } else {
@@ -965,7 +966,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for group reports
                     let groupFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
-                    groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [3, ReportGrouping.transactionCategory.rawValue])
+                    groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [3, ReportGrouping.transactionCategory.rawValue])
                     groupFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.linkedID), ascending: true)]
                     
                     do {
@@ -979,7 +980,7 @@ class ReportsTests: XCTestCase {
                         XCTAssertNil(thirdReport.budget)
                         XCTAssertEqual(thirdReport.average, NSDecimalNumber(string: "-106.27"))
                         XCTAssertEqual(thirdReport.previous, NSDecimalNumber(string: "-159.41"))
-                        XCTAssertNil(thirdReport.budgetCategory)
+                        XCTAssertNil(thirdReport.filterBudgetCategory)
                         XCTAssertEqual(thirdReport.linkedID, 66)
                         XCTAssertEqual(thirdReport.name, "Groceries")
                     } catch {
@@ -1023,7 +1024,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for overall reports
                     let overallFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
-                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [BudgetCategory.lifestyle.rawValue, ReportGrouping.transactionCategory.rawValue])
+                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [BudgetCategory.lifestyle.rawValue, ReportGrouping.transactionCategory.rawValue])
                     overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)]
                     
                     do {
@@ -1037,7 +1038,7 @@ class ReportsTests: XCTestCase {
                             XCTAssertNil(firstReport.budget)
                             XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-27.33"))
                             XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-66"))
-                            XCTAssertEqual(firstReport.budgetCategory, .lifestyle)
+                            XCTAssertEqual(firstReport.filterBudgetCategory, .lifestyle)
                             XCTAssertEqual(firstReport.linkedID, -1)
                             XCTAssertNil(firstReport.name)
                         } else {
@@ -1049,7 +1050,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for group reports
                     let groupFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
-                    groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [6, BudgetCategory.lifestyle.rawValue, ReportGrouping.transactionCategory.rawValue])
+                    groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [6, BudgetCategory.lifestyle.rawValue, ReportGrouping.transactionCategory.rawValue])
                     groupFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.linkedID), ascending: true)]
                     
                     do {
@@ -1063,7 +1064,7 @@ class ReportsTests: XCTestCase {
                         XCTAssertNil(thirdReport.budget)
                         XCTAssertEqual(thirdReport.average, NSDecimalNumber(string: "-7.99"))
                         XCTAssertEqual(thirdReport.previous, NSDecimalNumber(string: "-11.99"))
-                        XCTAssertEqual(thirdReport.budgetCategory, .lifestyle)
+                        XCTAssertEqual(thirdReport.filterBudgetCategory, .lifestyle)
                         XCTAssertEqual(thirdReport.linkedID, 64)
                         XCTAssertEqual(thirdReport.name, "Entertainment/Recreation")
                     } catch {
@@ -1112,11 +1113,11 @@ class ReportsTests: XCTestCase {
                     let context = database.viewContext
                     
                     let overallFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
-                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [11, ReportGrouping.transactionCategory.rawValue])
+                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [11, ReportGrouping.transactionCategory.rawValue])
                     overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)]
                     
                     let groupFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
-                    groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 && " + #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [11, ReportGrouping.transactionCategory.rawValue])
+                    groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 && " + #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [11, ReportGrouping.transactionCategory.rawValue])
                     groupFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.linkedID), ascending: true)]
                     
                     // Check for late overall report
@@ -1131,7 +1132,7 @@ class ReportsTests: XCTestCase {
                             XCTAssertNil(firstReport.budget)
                             XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-188.32"))
                             XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-107.5"))
-                            XCTAssertNil(firstReport.budgetCategory)
+                            XCTAssertNil(firstReport.filterBudgetCategory)
                             XCTAssertEqual(firstReport.linkedID, -1)
                             XCTAssertNil(firstReport.name)
                         } else {
@@ -1153,7 +1154,7 @@ class ReportsTests: XCTestCase {
                         XCTAssertNil(thirdReport.budget)
                         XCTAssertEqual(thirdReport.average, NSDecimalNumber(string: "-16.33"))
                         XCTAssertEqual(thirdReport.previous, NSDecimalNumber(string: "-24.5"))
-                        XCTAssertNil(thirdReport.budgetCategory)
+                        XCTAssertNil(thirdReport.filterBudgetCategory)
                         XCTAssertEqual(thirdReport.linkedID, 66)
                         XCTAssertEqual(thirdReport.name, "Groceries")
                     } catch {
@@ -1176,7 +1177,7 @@ class ReportsTests: XCTestCase {
                                     XCTAssertNil(firstReport.budget)
                                     XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-188.32"))
                                     XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-107.5"))
-                                    XCTAssertNil(firstReport.budgetCategory)
+                                    XCTAssertNil(firstReport.filterBudgetCategory)
                                     XCTAssertEqual(firstReport.linkedID, -1)
                                     XCTAssertNil(firstReport.name)
                                 } else {
@@ -1198,7 +1199,7 @@ class ReportsTests: XCTestCase {
                                 XCTAssertNil(thirdReport.budget)
                                 XCTAssertEqual(thirdReport.average, NSDecimalNumber(string: "0"))
                                 XCTAssertEqual(thirdReport.previous, NSDecimalNumber(string: "0"))
-                                XCTAssertNil(thirdReport.budgetCategory)
+                                XCTAssertNil(thirdReport.filterBudgetCategory)
                                 XCTAssertEqual(thirdReport.linkedID, 68)
                                 XCTAssertEqual(thirdReport.name, "Home Improvement")
                             } catch {
@@ -1286,7 +1287,7 @@ class ReportsTests: XCTestCase {
             
             // Check for overall reports
             let overallLifestyleFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
-            overallLifestyleFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [BudgetCategory.lifestyle.rawValue, ReportGrouping.transactionCategory.rawValue])
+            overallLifestyleFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [BudgetCategory.lifestyle.rawValue, ReportGrouping.transactionCategory.rawValue])
             overallLifestyleFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)]
             
             do {
@@ -1300,7 +1301,7 @@ class ReportsTests: XCTestCase {
                     XCTAssertNil(firstReport.budget)
                     XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-27.33"))
                     XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-66"))
-                    XCTAssertEqual(firstReport.budgetCategory, .lifestyle)
+                    XCTAssertEqual(firstReport.filterBudgetCategory, .lifestyle)
                     XCTAssertEqual(firstReport.linkedID, -1)
                     XCTAssertNil(firstReport.name)
                 } else {
@@ -1312,7 +1313,7 @@ class ReportsTests: XCTestCase {
             
             // Check for group reports
             let groupLifestyleFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
-            groupLifestyleFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [6, BudgetCategory.lifestyle.rawValue, ReportGrouping.transactionCategory.rawValue])
+            groupLifestyleFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [6, BudgetCategory.lifestyle.rawValue, ReportGrouping.transactionCategory.rawValue])
             groupLifestyleFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.linkedID), ascending: true)]
             
             do {
@@ -1326,7 +1327,7 @@ class ReportsTests: XCTestCase {
                 XCTAssertNil(thirdReport.budget)
                 XCTAssertEqual(thirdReport.average, NSDecimalNumber(string: "-7.99"))
                 XCTAssertEqual(thirdReport.previous, NSDecimalNumber(string: "-11.99"))
-                XCTAssertEqual(thirdReport.budgetCategory, .lifestyle)
+                XCTAssertEqual(thirdReport.filterBudgetCategory, .lifestyle)
                 XCTAssertEqual(thirdReport.linkedID, 64)
                 XCTAssertEqual(thirdReport.name, "Entertainment/Recreation")
             } catch {
@@ -1335,7 +1336,7 @@ class ReportsTests: XCTestCase {
             
             // Check for overall reports
             let overallLivingFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
-            overallLivingFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [BudgetCategory.living.rawValue, ReportGrouping.transactionCategory.rawValue])
+            overallLivingFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [BudgetCategory.living.rawValue, ReportGrouping.transactionCategory.rawValue])
             overallLivingFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)]
             
             do {
@@ -1349,7 +1350,7 @@ class ReportsTests: XCTestCase {
                     XCTAssertNil(firstReport.budget)
                     XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-53.2"))
                     XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-79.8"))
-                    XCTAssertEqual(firstReport.budgetCategory, .living)
+                    XCTAssertEqual(firstReport.filterBudgetCategory, .living)
                     XCTAssertEqual(firstReport.linkedID, -1)
                     XCTAssertNil(firstReport.name)
                 } else {
@@ -1361,7 +1362,7 @@ class ReportsTests: XCTestCase {
             
             // Check for group reports
             let groupLivingFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
-            groupLivingFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [6, BudgetCategory.living.rawValue, ReportGrouping.transactionCategory.rawValue])
+            groupLivingFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [6, BudgetCategory.living.rawValue, ReportGrouping.transactionCategory.rawValue])
             groupLivingFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.linkedID), ascending: true)]
             
             do {
@@ -1375,7 +1376,7 @@ class ReportsTests: XCTestCase {
                 XCTAssertNil(thirdReport.budget)
                 XCTAssertNil(thirdReport.average)
                 XCTAssertNil(thirdReport.previous)
-                XCTAssertEqual(thirdReport.budgetCategory, .living)
+                XCTAssertEqual(thirdReport.filterBudgetCategory, .living)
                 XCTAssertEqual(thirdReport.linkedID, 61)
                 XCTAssertEqual(thirdReport.name, "Automotive/Fuel")
             } catch {
@@ -1384,7 +1385,7 @@ class ReportsTests: XCTestCase {
             
             // Check for overall reports
             let overallFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
-            overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.transactionCategory.rawValue])
+            overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.linkedID) + " == -1 && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [ReportGrouping.transactionCategory.rawValue])
             overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)]
             
             do {
@@ -1398,7 +1399,7 @@ class ReportsTests: XCTestCase {
                     XCTAssertNil(firstReport.budget)
                     XCTAssertEqual(firstReport.average, NSDecimalNumber(string: "-120.53"))
                     XCTAssertEqual(firstReport.previous, NSDecimalNumber(string: "-215.8"))
-                    XCTAssertNil(firstReport.budgetCategory)
+                    XCTAssertNil(firstReport.filterBudgetCategory)
                     XCTAssertEqual(firstReport.linkedID, -1)
                     XCTAssertNil(firstReport.name)
                 } else {
@@ -1410,7 +1411,7 @@ class ReportsTests: XCTestCase {
             
             // Check for group reports
             let groupFetchRequest: NSFetchRequest<ReportTransactionCurrent> = ReportTransactionCurrent.fetchRequest()
-            groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [6, ReportGrouping.transactionCategory.rawValue])
+            groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionCurrent.day) + " == %ld && " + #keyPath(ReportTransactionCurrent.linkedID) + " != -1 &&  " + #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [6, ReportGrouping.transactionCategory.rawValue])
             groupFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.linkedID), ascending: true)]
             
             do {
@@ -1424,7 +1425,7 @@ class ReportsTests: XCTestCase {
                 XCTAssertNil(thirdReport.budget)
                 XCTAssertNil(thirdReport.average)
                 XCTAssertNil(thirdReport.previous)
-                XCTAssertNil(thirdReport.budgetCategory)
+                XCTAssertNil(thirdReport.filterBudgetCategory)
                 XCTAssertEqual(thirdReport.linkedID, 61)
                 XCTAssertEqual(thirdReport.name, "Automotive/Fuel")
             } catch {
@@ -1587,42 +1588,42 @@ class ReportsTests: XCTestCase {
                 testReport1.dateString = "2018-01-01"
                 testReport1.grouping = .budgetCategory
                 testReport1.period = .day
-                testReport1.budgetCategory = nil
+                testReport1.filterBudgetCategory = nil
                 
                 let testReport2 = ReportTransactionHistory(context: managedObjectContext)
                 testReport2.populateTestData()
                 testReport2.dateString = "2018-01"
                 testReport2.grouping = .merchant
                 testReport2.period = .month
-                testReport2.budgetCategory = nil
+                testReport2.filterBudgetCategory = nil
                 
                 let testReport3 = ReportTransactionHistory(context: managedObjectContext)
                 testReport3.populateTestData()
                 testReport3.dateString = "2018-02"
                 testReport3.grouping = .budgetCategory
                 testReport3.period = .month
-                testReport3.budgetCategory = nil
+                testReport3.filterBudgetCategory = nil
                 
                 let testReport4 = ReportTransactionHistory(context: managedObjectContext)
                 testReport4.populateTestData()
                 testReport4.dateString = "2018-01"
                 testReport4.grouping = .transactionCategory
                 testReport4.period = .month
-                testReport4.budgetCategory = nil
+                testReport4.filterBudgetCategory = nil
                 
                 let testReport5 = ReportTransactionHistory(context: managedObjectContext)
                 testReport5.populateTestData()
                 testReport5.dateString = "2018-01"
                 testReport5.grouping = .budgetCategory
                 testReport5.period = .month
-                testReport5.budgetCategory = .living
+                testReport5.filterBudgetCategory = .living
                 
                 let testReport6 = ReportTransactionHistory(context: managedObjectContext)
                 testReport6.populateTestData()
                 testReport6.dateString = "2018-01"
                 testReport6.grouping = .budgetCategory
                 testReport6.period = .month
-                testReport6.budgetCategory = nil
+                testReport6.filterBudgetCategory = nil
                 
                 try! managedObjectContext.save()
             }
@@ -1675,7 +1676,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for overall reports
                     let overallFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [ReportTransactionHistory.Period.month.rawValue,  ReportGrouping.budgetCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
+                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [ReportTransactionHistory.Period.month.rawValue,  ReportGrouping.budgetCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
                     overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true)]
                     
                     do {
@@ -1687,7 +1688,7 @@ class ReportsTests: XCTestCase {
                             XCTAssertEqual(firstReport.dateString, "2018-01")
                             XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "744.37"))
                             XCTAssertEqual(firstReport.budget, NSDecimalNumber(string: "11000"))
-                            XCTAssertNil(firstReport.budgetCategory)
+                            XCTAssertNil(firstReport.filterBudgetCategory)
                             XCTAssertNil(firstReport.overall)
                             XCTAssertNotNil(firstReport.reports)
                             XCTAssertEqual(firstReport.reports?.count, 4)
@@ -1702,7 +1703,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for group reports
                     let fetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-03", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.budgetCategory.rawValue])
+                    fetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-03", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.budgetCategory.rawValue])
                     fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
                     
                     do {
@@ -1714,13 +1715,14 @@ class ReportsTests: XCTestCase {
                             XCTAssertEqual(firstReport.dateString, "2018-03")
                             XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "3250"))
                             XCTAssertEqual(firstReport.budget, NSDecimalNumber(string: "4050"))
-                            XCTAssertNil(firstReport.budgetCategory)
+                            XCTAssertNil(firstReport.filterBudgetCategory)
                             XCTAssertNotNil(firstReport.overall)
                             XCTAssertEqual(firstReport.overall?.dateString, "2018-03")
                             XCTAssertNotNil(firstReport.reports)
                             XCTAssertEqual(firstReport.reports?.count, 0)
                             XCTAssertEqual(firstReport.linkedID, 0)
                             XCTAssertEqual(firstReport.name, "income")
+                            XCTAssertEqual(firstReport.budgetCategory, .income)
                         } else {
                             XCTFail("Reports not found")
                         }
@@ -1768,7 +1770,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for overall reports
                     let overallFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [ReportTransactionHistory.Period.month.rawValue, ReportGrouping.merchant.rawValue, ReportTransactionHistory.Period.month.rawValue])
+                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [ReportTransactionHistory.Period.month.rawValue, ReportGrouping.merchant.rawValue, ReportTransactionHistory.Period.month.rawValue])
                     overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true)]
                     
                     do {
@@ -1780,7 +1782,7 @@ class ReportsTests: XCTestCase {
                             XCTAssertEqual(firstReport.dateString, "2018-01")
                             XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "744.37"))
                             XCTAssertNil(firstReport.budget)
-                            XCTAssertNil(firstReport.budgetCategory)
+                            XCTAssertNil(firstReport.filterBudgetCategory)
                             XCTAssertNil(firstReport.overall)
                             XCTAssertNotNil(firstReport.reports)
                             XCTAssertEqual(firstReport.reports?.count, 15)
@@ -1795,7 +1797,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for group reports
                     let fetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-03", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.merchant.rawValue])
+                    fetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-03", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.merchant.rawValue])
                     fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
                     
                     do {
@@ -1807,7 +1809,7 @@ class ReportsTests: XCTestCase {
                             XCTAssertEqual(firstReport.dateString, "2018-03")
                             XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-127"))
                             XCTAssertNil(firstReport.budget)
-                            XCTAssertNil(firstReport.budgetCategory)
+                            XCTAssertNil(firstReport.filterBudgetCategory)
                             XCTAssertNotNil(firstReport.overall)
                             XCTAssertEqual(firstReport.overall?.dateString, "2018-03")
                             XCTAssertNotNil(firstReport.reports)
@@ -1861,7 +1863,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for overall reports
                     let overallFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [ReportTransactionHistory.Period.day.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.day.rawValue])
+                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [ReportTransactionHistory.Period.day.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.day.rawValue])
                     overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true)]
                     
                     do {
@@ -1873,7 +1875,7 @@ class ReportsTests: XCTestCase {
                             XCTAssertEqual(firstReport.dateString, "2018-12-31")
                             XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-84.6"))
                             XCTAssertNil(firstReport.budget)
-                            XCTAssertNil(firstReport.budgetCategory)
+                            XCTAssertNil(firstReport.filterBudgetCategory)
                             XCTAssertNil(firstReport.overall)
                             XCTAssertNotNil(firstReport.reports)
                             XCTAssertEqual(firstReport.reports?.count, 3)
@@ -1888,7 +1890,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for group reports
                     let fetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-06-02", ReportTransactionHistory.Period.day.rawValue, ReportGrouping.transactionCategory.rawValue])
+                    fetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-06-02", ReportTransactionHistory.Period.day.rawValue, ReportGrouping.transactionCategory.rawValue])
                     fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
                     
                     do {
@@ -1900,7 +1902,7 @@ class ReportsTests: XCTestCase {
                             XCTAssertEqual(firstReport.dateString, "2018-06-02")
                             XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-12.6"))
                             XCTAssertNil(firstReport.budget)
-                            XCTAssertNil(firstReport.budgetCategory)
+                            XCTAssertNil(firstReport.filterBudgetCategory)
                             XCTAssertNotNil(firstReport.overall)
                             XCTAssertEqual(firstReport.overall?.dateString, "2018-06-02")
                             XCTAssertNotNil(firstReport.reports)
@@ -1954,7 +1956,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for overall reports
                     let overallFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
+                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
                     overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true)]
                     
                     do {
@@ -1967,7 +1969,7 @@ class ReportsTests: XCTestCase {
                         XCTAssertEqual(thirdReport.dateString, "2018-03")
                         XCTAssertEqual(thirdReport.value, NSDecimalNumber(string: "563.17"))
                         XCTAssertNil(thirdReport.budget)
-                        XCTAssertNil(thirdReport.budgetCategory)
+                        XCTAssertNil(thirdReport.filterBudgetCategory)
                         XCTAssertNil(thirdReport.overall)
                         XCTAssertNotNil(thirdReport.reports)
                         XCTAssertEqual(thirdReport.reports?.count, 15)
@@ -1979,7 +1981,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for group reports
                     let fetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-05", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue])
+                    fetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-05", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue])
                     fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
                     
                     do {
@@ -1991,7 +1993,7 @@ class ReportsTests: XCTestCase {
                             XCTAssertEqual(firstReport.dateString, "2018-05")
                             XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-29.98"))
                             XCTAssertNil(firstReport.budget)
-                            XCTAssertNil(firstReport.budgetCategory)
+                            XCTAssertNil(firstReport.filterBudgetCategory)
                             XCTAssertNotNil(firstReport.overall)
                             XCTAssertEqual(firstReport.overall?.dateString, "2018-05")
                             XCTAssertNotNil(firstReport.reports)
@@ -2045,7 +2047,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for overall reports
                     let overallFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: [ReportTransactionHistory.Period.week.rawValue, ReportGrouping.transactionCategory.rawValue])
+                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: [ReportTransactionHistory.Period.week.rawValue, ReportGrouping.transactionCategory.rawValue])
                     overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true)]
                     
                     do {
@@ -2057,7 +2059,7 @@ class ReportsTests: XCTestCase {
                             XCTAssertEqual(firstReport.dateString, "2018-12-5")
                             XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-577.6"))
                             XCTAssertNil(firstReport.budget)
-                            XCTAssertNil(firstReport.budgetCategory)
+                            XCTAssertNil(firstReport.filterBudgetCategory)
                             XCTAssertNil(firstReport.overall)
                             XCTAssertNotNil(firstReport.reports)
                             XCTAssertEqual(firstReport.reports?.count, 6)
@@ -2072,7 +2074,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for group reports
                     let fetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-12-5", ReportTransactionHistory.Period.week.rawValue, ReportGrouping.transactionCategory.rawValue])
+                    fetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-12-5", ReportTransactionHistory.Period.week.rawValue, ReportGrouping.transactionCategory.rawValue])
                     fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
                     
                     do {
@@ -2084,7 +2086,7 @@ class ReportsTests: XCTestCase {
                             XCTAssertEqual(firstReport.dateString, "2018-12-5")
                             XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-12.6"))
                             XCTAssertNil(firstReport.budget)
-                            XCTAssertNil(firstReport.budgetCategory)
+                            XCTAssertNil(firstReport.filterBudgetCategory)
                             XCTAssertNotNil(firstReport.overall)
                             XCTAssertEqual(firstReport.overall?.dateString, "2018-12-5")
                             XCTAssertNotNil(firstReport.reports)
@@ -2138,7 +2140,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for overall reports
                     let overallFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [BudgetCategory.lifestyle.rawValue, ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
+                    overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [BudgetCategory.lifestyle.rawValue, ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
                     overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true)]
                     
                     do {
@@ -2155,7 +2157,7 @@ class ReportsTests: XCTestCase {
                         XCTAssertNotNil(thirdReport.reports)
                         XCTAssertEqual(thirdReport.reports?.count, 7)
                         XCTAssertEqual(thirdReport.linkedID, -1)
-                        XCTAssertEqual(thirdReport.budgetCategory, .lifestyle)
+                        XCTAssertEqual(thirdReport.filterBudgetCategory, .lifestyle)
                         XCTAssertNil(thirdReport.name)
                     } catch {
                         XCTFail(error.localizedDescription)
@@ -2163,7 +2165,7 @@ class ReportsTests: XCTestCase {
                     
                     // Check for group reports
                     let fetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-05", BudgetCategory.lifestyle.rawValue, ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue])
+                    fetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-05", BudgetCategory.lifestyle.rawValue, ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue])
                     fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
                     
                     do {
@@ -2175,7 +2177,7 @@ class ReportsTests: XCTestCase {
                             XCTAssertEqual(firstReport.dateString, "2018-05")
                             XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-40"))
                             XCTAssertNil(firstReport.budget)
-                            XCTAssertEqual(firstReport.budgetCategory, .lifestyle)
+                            XCTAssertEqual(firstReport.filterBudgetCategory, .lifestyle)
                             XCTAssertNotNil(firstReport.overall)
                             XCTAssertEqual(firstReport.overall?.dateString, "2018-05")
                             XCTAssertNotNil(firstReport.reports)
@@ -2244,18 +2246,18 @@ class ReportsTests: XCTestCase {
                     let context = database.viewContext
                     
                     let overallOldFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                    overallOldFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: ["2018-01", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
+                    overallOldFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: ["2018-01", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
                     overallOldFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true)]
                     
                     let overallNewFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                    overallNewFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: ["2019-01", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
+                    overallNewFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: ["2019-01", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
                     
                     let groupNewFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                    groupNewFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2019-01", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue])
+                    groupNewFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2019-01", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue])
                     groupNewFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
                     
                     let groupOldFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                    groupOldFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-01", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue])
+                    groupOldFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-01", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue])
                     groupOldFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
                     
                     // Check for old overall report
@@ -2483,7 +2485,7 @@ class ReportsTests: XCTestCase {
             
             // Check for overall lifestyle reports
             let overallLifestyleFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-            overallLifestyleFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [BudgetCategory.lifestyle.rawValue, ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
+            overallLifestyleFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [BudgetCategory.lifestyle.rawValue, ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
             overallLifestyleFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true)]
             
             do {
@@ -2500,7 +2502,7 @@ class ReportsTests: XCTestCase {
                 XCTAssertNotNil(thirdReport.reports)
                 XCTAssertEqual(thirdReport.reports?.count, 7)
                 XCTAssertEqual(thirdReport.linkedID, -1)
-                XCTAssertEqual(thirdReport.budgetCategory, .lifestyle)
+                XCTAssertEqual(thirdReport.filterBudgetCategory, .lifestyle)
                 XCTAssertNil(thirdReport.name)
             } catch {
                 XCTFail(error.localizedDescription)
@@ -2508,7 +2510,7 @@ class ReportsTests: XCTestCase {
             
             // Check for group lifestyle reports
             let groupLifestyleFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-            groupLifestyleFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-05", BudgetCategory.lifestyle.rawValue, ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue])
+            groupLifestyleFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-05", BudgetCategory.lifestyle.rawValue, ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue])
             groupLifestyleFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
             
             do {
@@ -2520,7 +2522,7 @@ class ReportsTests: XCTestCase {
                     XCTAssertEqual(firstReport.dateString, "2018-05")
                     XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-40"))
                     XCTAssertNil(firstReport.budget)
-                    XCTAssertEqual(firstReport.budgetCategory, .lifestyle)
+                    XCTAssertEqual(firstReport.filterBudgetCategory, .lifestyle)
                     XCTAssertNotNil(firstReport.overall)
                     XCTAssertEqual(firstReport.overall?.dateString, "2018-05")
                     XCTAssertNotNil(firstReport.reports)
@@ -2536,7 +2538,7 @@ class ReportsTests: XCTestCase {
             
             // Check for overall living reports
             let overallLivingFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-            overallLivingFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [BudgetCategory.living.rawValue, ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
+            overallLivingFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [BudgetCategory.living.rawValue, ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
             overallLivingFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true), NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
             
             do {
@@ -2553,7 +2555,7 @@ class ReportsTests: XCTestCase {
                 XCTAssertNotNil(thirdReport.reports)
                 XCTAssertEqual(thirdReport.reports?.count, 5)
                 XCTAssertEqual(thirdReport.linkedID, -1)
-                XCTAssertEqual(thirdReport.budgetCategory, .living)
+                XCTAssertEqual(thirdReport.filterBudgetCategory, .living)
                 XCTAssertNil(thirdReport.name)
             } catch {
                 XCTFail(error.localizedDescription)
@@ -2561,7 +2563,7 @@ class ReportsTests: XCTestCase {
             
             // Check for group living reports
             let groupLivingFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-            groupLivingFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-05", BudgetCategory.living.rawValue, ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue])
+            groupLivingFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-05", BudgetCategory.living.rawValue, ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue])
             groupLivingFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
             
             do {
@@ -2573,7 +2575,7 @@ class ReportsTests: XCTestCase {
                     XCTAssertEqual(firstReport.dateString, "2018-05")
                     XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-569.55"))
                     XCTAssertNil(firstReport.budget)
-                    XCTAssertEqual(firstReport.budgetCategory, .living)
+                    XCTAssertEqual(firstReport.filterBudgetCategory, .living)
                     XCTAssertNotNil(firstReport.overall)
                     XCTAssertEqual(firstReport.overall?.dateString, "2018-05")
                     XCTAssertNotNil(firstReport.reports)
@@ -2589,7 +2591,7 @@ class ReportsTests: XCTestCase {
             
             // Check for overall general reports
             let overallFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-            overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
+            overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
             overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true), NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
             
             do {
@@ -2606,7 +2608,7 @@ class ReportsTests: XCTestCase {
                 XCTAssertNotNil(thirdReport.reports)
                 XCTAssertEqual(thirdReport.reports?.count, 15)
                 XCTAssertEqual(thirdReport.linkedID, -1)
-                XCTAssertNil(thirdReport.budgetCategory)
+                XCTAssertNil(thirdReport.filterBudgetCategory)
                 XCTAssertNil(thirdReport.name)
             } catch {
                 XCTFail(error.localizedDescription)
@@ -2614,7 +2616,7 @@ class ReportsTests: XCTestCase {
             
             // Check for group general reports
             let groupFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-            groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-05", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue])
+            groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-05", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue])
             groupFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
             
             do {
@@ -2626,7 +2628,7 @@ class ReportsTests: XCTestCase {
                     XCTAssertEqual(firstReport.dateString, "2018-05")
                     XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-29.98"))
                     XCTAssertNil(firstReport.budget)
-                    XCTAssertNil(firstReport.budgetCategory)
+                    XCTAssertNil(firstReport.filterBudgetCategory)
                     XCTAssertNotNil(firstReport.overall)
                     XCTAssertEqual(firstReport.overall?.dateString, "2018-05")
                     XCTAssertNotNil(firstReport.reports)

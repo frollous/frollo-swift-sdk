@@ -55,7 +55,7 @@ public class ReportTransactionHistory: NSManagedObject {
         return dateFormatter
     }()
     
-    /// Budget category if the report was filtered to a specific category
+    /// Linked budget category if applicable. See `grouping`
     public var budgetCategory: BudgetCategory? {
         get {
             if let rawValue = budgetCategoryRawValue {
@@ -66,6 +66,20 @@ public class ReportTransactionHistory: NSManagedObject {
         }
         set {
             budgetCategoryRawValue = newValue?.rawValue
+        }
+    }
+    
+    /// Filter budget category if the report was filtered to a specific category
+    public var filterBudgetCategory: BudgetCategory? {
+        get {
+            if let rawValue = filterBudgetCategoryRawValue {
+                return BudgetCategory(rawValue: rawValue)
+            } else {
+                return nil
+            }
+        }
+        set {
+            filterBudgetCategoryRawValue = newValue?.rawValue
         }
     }
     

@@ -31,11 +31,14 @@ extension ReportTransactionCurrent {
     /// Budgeted amount (Optional)
     @NSManaged public var budget: NSDecimalNumber?
     
-    /// Raw value of the filtered budget category. Use only in predicates (Optional)
+    /// Raw value of the linked budget category if applicable. Use only in predicates (Optional)
     @NSManaged public var budgetCategoryRawValue: String?
     
     /// Day of the month
     @NSManaged public var day: Int64
+    
+    /// Raw value of the filtered budget category. Use only in predicates (Optional)
+    @NSManaged public var filterBudgetCategoryRawValue: String?
     
     /// Raw value of the report grouping
     @NSManaged public var groupingRawValue: String

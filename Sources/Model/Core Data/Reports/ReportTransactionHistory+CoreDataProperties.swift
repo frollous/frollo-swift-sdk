@@ -25,8 +25,11 @@ extension ReportTransactionHistory {
     /// Budget value for the report (Optional)
     @NSManaged public var budget: NSDecimalNumber?
     
-    /// Raw value of the filtered budget category. Use only in predicates (Optional)
+    /// Raw value of the linked budget category if applicable. Use only in predicates (Optional)
     @NSManaged public var budgetCategoryRawValue: String?
+    
+    /// Raw value of the filtered budget category. Use only in predicates (Optional)
+    @NSManaged public var filterBudgetCategoryRawValue: String?
     
     /// Unique ID of the related object. E.g. merchant or category. -1 Represents no link or overall report
     @NSManaged public var linkedID: Int64

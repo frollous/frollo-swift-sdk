@@ -276,6 +276,7 @@
         <attribute name="budget" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="budgetCategoryRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="day" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="filterBudgetCategoryRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="groupingRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="linkedID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -286,13 +287,14 @@
             <fetchIndexElement property="groupingRawValue" type="Binary" order="ascending"/>
         </fetchIndex>
         <fetchIndex name="byBudgetCategoryIndex">
-            <fetchIndexElement property="budgetCategoryRawValue" type="Binary" order="ascending"/>
+            <fetchIndexElement property="filterBudgetCategoryRawValue" type="Binary" order="ascending"/>
         </fetchIndex>
     </entity>
     <entity name="ReportTransactionHistory" representedClassName=".ReportTransactionHistory" syncable="YES">
         <attribute name="budget" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="budgetCategoryRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dateString" attributeType="String" syncable="YES"/>
+        <attribute name="filterBudgetCategoryRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="groupingRawValue" attributeType="String" syncable="YES"/>
         <attribute name="linkedID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -312,7 +314,7 @@
             <fetchIndexElement property="dateString" type="Binary" order="ascending"/>
         </fetchIndex>
         <fetchIndex name="byBudgetCategoryIndex">
-            <fetchIndexElement property="budgetCategoryRawValue" type="Binary" order="ascending"/>
+            <fetchIndexElement property="filterBudgetCategoryRawValue" type="Binary" order="ascending"/>
         </fetchIndex>
     </entity>
     <entity name="Transaction" representedClassName=".Transaction" syncable="YES">
@@ -423,8 +425,8 @@
         <element name="Provider" positionX="-385.3984375" positionY="11.875" width="128" height="480"/>
         <element name="ProviderAccount" positionX="-164.078125" positionY="13.7109375" width="128" height="210"/>
         <element name="ReportAccountBalance" positionX="-360" positionY="180" width="128" height="135"/>
-        <element name="ReportTransactionCurrent" positionX="-360" positionY="180" width="128" height="210"/>
-        <element name="ReportTransactionHistory" positionX="-378" positionY="162" width="128" height="225"/>
+        <element name="ReportTransactionCurrent" positionX="-360" positionY="180" width="128" height="225"/>
+        <element name="ReportTransactionHistory" positionX="-378" positionY="162" width="128" height="240"/>
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="330"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="210"/>
         <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>

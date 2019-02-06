@@ -16,7 +16,7 @@ extension ReportTransactionCurrent: TestableCoreData {
         amount = NSDecimalNumber(string: "34.67")
         average = NSDecimalNumber(string: "29.50")
         budget = NSDecimalNumber(string: "30.00")
-        budgetCategory = Bool.random() ? BudgetCategory.allCases.randomElement() : nil
+        filterBudgetCategory = Bool.random() ? BudgetCategory.allCases.randomElement() : nil
         day = Int64.random(in: 1...31)
         grouping = ReportGrouping.allCases.randomElement()!
         name = String.randomString(range: 3...30)

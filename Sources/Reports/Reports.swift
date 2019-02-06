@@ -128,9 +128,9 @@ public class Reports: ResponseHandler, CachedObjects {
         var predicates = [NSPredicate(format: #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [grouping.rawValue])]
         
         if let category = budgetCategory {
-            predicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == %@", argumentArray: [category.rawValue]))
+            predicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == %@", argumentArray: [category.rawValue]))
         } else {
-            predicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil", argumentArray: nil))
+            predicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == nil", argumentArray: nil))
         }
         
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
@@ -205,9 +205,9 @@ public class Reports: ResponseHandler, CachedObjects {
         var predicates = [datePredicate, groupingPredicate, periodPredicate]
         
         if let category = budgetCategory {
-            predicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == %@", argumentArray: [category.rawValue]))
+            predicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == %@", argumentArray: [category.rawValue]))
         } else {
-            predicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil", argumentArray: nil))
+            predicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil", argumentArray: nil))
         }
         
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
@@ -558,9 +558,9 @@ public class Reports: ResponseHandler, CachedObjects {
             
             // Filter by budget category if applicable
             if let category = budgetCategory {
-                filterPredicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == %@", argumentArray: [category.rawValue]))
+                filterPredicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == %@", argumentArray: [category.rawValue]))
             } else {
-                filterPredicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.budgetCategoryRawValue) + " == nil", argumentArray: nil))
+                filterPredicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == nil", argumentArray: nil))
             }
             
             // Specify dates
@@ -583,12 +583,18 @@ public class Reports: ResponseHandler, CachedObjects {
                     } else {
                         report = ReportTransactionCurrent(context: managedObjectContext)
                         report.grouping = grouping
-                        report.budgetCategory = budgetCategory
+                        report.filterBudgetCategory = budgetCategory
                     }
                     
                     report.day = reportResponse.day
                     report.linkedID = linkedID
                     report.name = name
+                    
+                    if report.grouping == .budgetCategory, let budgetName = name {
+                        report.budgetCategory = BudgetCategory(rawValue: budgetName)
+                    } else {
+                        report.budgetCategory = nil
+                    }
                     
                     if let value = reportResponse.spendValue {
                         report.amount = NSDecimalNumber(string: value)
@@ -671,9 +677,9 @@ public class Reports: ResponseHandler, CachedObjects {
             
             // Filter by budget category if applicable
             if let category = budgetCategory {
-                filterPredicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == %@", argumentArray: [category.rawValue]))
+                filterPredicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == %@", argumentArray: [category.rawValue]))
             } else {
-                filterPredicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.budgetCategoryRawValue) + " == nil", argumentArray: nil))
+                filterPredicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil", argumentArray: nil))
             }
             
             // Specify dates
@@ -697,7 +703,7 @@ public class Reports: ResponseHandler, CachedObjects {
                         report = ReportTransactionHistory(context: managedObjectContext)
                         report.grouping = grouping
                         report.period = period
-                        report.budgetCategory = budgetCategory
+                        report.filterBudgetCategory = budgetCategory
                     }
                     
                     report.dateString = reportResponse.date
@@ -775,12 +781,18 @@ public class Reports: ResponseHandler, CachedObjects {
                     groupReport.dateString = overallReport.dateString
                     groupReport.period = overallReport.period
                     groupReport.grouping = overallReport.grouping
-                    groupReport.budgetCategory = overallReport.budgetCategory
+                    groupReport.filterBudgetCategory = overallReport.filterBudgetCategory
                 }
                 
                 groupReport.linkedID = groupReportResponse.id
                 groupReport.value = NSDecimalNumber(string: groupReportResponse.value)
                 groupReport.name = groupReportResponse.name
+                
+                if groupReport.grouping == .budgetCategory {
+                    groupReport.budgetCategory = BudgetCategory(rawValue: groupReportResponse.name)
+                } else {
+                    groupReport.budgetCategory = nil
+                }
                 
                 if let value = groupReportResponse.budget {
                     groupReport.budget = NSDecimalNumber(string: value)

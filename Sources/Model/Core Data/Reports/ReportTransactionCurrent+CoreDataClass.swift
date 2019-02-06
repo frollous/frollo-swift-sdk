@@ -17,7 +17,7 @@ import CoreData
  */
 public class ReportTransactionCurrent: NSManagedObject {
     
-    /// Budget Category - indicates the Budget Category the reports where filtered by (Optional)
+    /// Linked budget category if applicable. See `grouping`
     public var budgetCategory: BudgetCategory? {
         get {
             if let rawValue = budgetCategoryRawValue {
@@ -38,6 +38,20 @@ public class ReportTransactionCurrent: NSManagedObject {
             var dateComponents = calendar.dateComponents([.year, .month], from: Date())
             dateComponents.day = Int(day)
             return calendar.date(from: dateComponents)
+        }
+    }
+    
+    /// Filter Budget Category - indicates the Budget Category the reports were filtered by (Optional)
+    public var filterBudgetCategory: BudgetCategory? {
+        get {
+            if let rawValue = filterBudgetCategoryRawValue {
+                return BudgetCategory(rawValue: rawValue)
+            } else {
+                return nil
+            }
+        }
+        set {
+            filterBudgetCategoryRawValue = newValue?.rawValue
         }
     }
 
