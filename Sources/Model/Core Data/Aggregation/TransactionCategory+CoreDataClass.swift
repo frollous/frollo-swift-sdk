@@ -61,7 +61,7 @@ public class TransactionCategory: NSManagedObject, UniqueManagedObject {
     /// Category
     public var categoryType: CategoryType {
         get {
-            return CategoryType(rawValue: categoryTypeRawValue!)!
+            return CategoryType(rawValue: categoryTypeRawValue)!
         }
         set {
             categoryTypeRawValue = newValue.rawValue
@@ -71,7 +71,7 @@ public class TransactionCategory: NSManagedObject, UniqueManagedObject {
     /// Default budget category the category is associated with. Transactions will default to this budget category when recategorised
     public var defaultBudgetCategory: BudgetCategory {
         get {
-            return BudgetCategory(rawValue: defaultBudgetCategoryRawValue!)!
+            return BudgetCategory(rawValue: defaultBudgetCategoryRawValue)!
         }
         set {
             defaultBudgetCategoryRawValue = newValue.rawValue

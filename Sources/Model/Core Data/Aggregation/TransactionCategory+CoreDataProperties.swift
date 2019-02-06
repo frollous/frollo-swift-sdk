@@ -23,16 +23,16 @@ extension TransactionCategory {
     }
 
     /// Raw value of the transaction category type. Use only in predicates
-    @NSManaged public var categoryTypeRawValue: String?
+    @NSManaged public var categoryTypeRawValue: String
     
     /// Raw value of the default budget category. Use only in predicates
-    @NSManaged public var defaultBudgetCategoryRawValue: String?
+    @NSManaged public var defaultBudgetCategoryRawValue: String
     
     /// Raw value of the icon URL. Use only in predicates
     @NSManaged public var iconURLString: String?
     
     /// Name of the transaction category
-    @NSManaged public var name: String?
+    @NSManaged public var name: String
     
     /// Placement order of the transaction for determining most popular categories. Higher is more popular
     @NSManaged public var placement: Int64
