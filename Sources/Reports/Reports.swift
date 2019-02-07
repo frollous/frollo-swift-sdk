@@ -49,8 +49,19 @@ public class Reports: ResponseHandler, CachedObjects {
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func accountBalanceReports(context: NSManagedObjectContext, from fromDate: Date, to toDate: Date, period: ReportAccountBalance.Period, accountID: Int64? = nil, accountType: Account.AccountType? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ReportAccountBalance.dateString), ascending: true)], limit: Int? = nil) -> [ReportAccountBalance]? {
-        let fromDateString = ReportAccountBalance.dailyDateFormatter.string(from: fromDate)
-        let toDateString = ReportAccountBalance.dailyDateFormatter.string(from: toDate)
+        let dateFormatter: DateFormatter
+        switch period {
+            case .day:
+                dateFormatter = ReportTransactionHistory.dailyDateFormatter
+            case .month:
+                dateFormatter = ReportTransactionHistory.monthlyDateFormatter
+            case .week:
+                dateFormatter = ReportTransactionHistory.weeklyDateFormatter
+        }
+        
+        let fromDateString = dateFormatter.string(from: fromDate)
+        let toDateString = dateFormatter.string(from: toDate)
+        
         let datePredicate = NSPredicate(format: #keyPath(ReportAccountBalance.dateString) + " >= %@ && " + #keyPath(ReportAccountBalance.dateString) + " <= %@", argumentArray: [fromDateString, toDateString])
         
         let periodPredicate = NSPredicate(format: #keyPath(ReportAccountBalance.periodRawValue) + " == %@", argumentArray: [period.rawValue])
@@ -194,8 +205,18 @@ public class Reports: ResponseHandler, CachedObjects {
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func historyTransactionReports(context: NSManagedObjectContext, from fromDate: Date, to toDate: Date, grouping: ReportGrouping, period: ReportTransactionHistory.Period, budgetCategory: BudgetCategory? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true)], limit: Int? = nil) -> [ReportTransactionHistory]? {
-        let fromDateString = ReportTransactionHistory.dailyDateFormatter.string(from: fromDate)
-        let toDateString = ReportTransactionHistory.dailyDateFormatter.string(from: toDate)
+        let dateFormatter: DateFormatter
+        switch period {
+            case .day:
+                dateFormatter = ReportTransactionHistory.dailyDateFormatter
+            case .month:
+                dateFormatter = ReportTransactionHistory.monthlyDateFormatter
+            case .week:
+                dateFormatter = ReportTransactionHistory.weeklyDateFormatter
+        }
+        
+        let fromDateString = dateFormatter.string(from: fromDate)
+        let toDateString = dateFormatter.string(from: toDate)
         let datePredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.dateString) + " >= %@ && " + #keyPath(ReportTransactionHistory.dateString) + " <= %@", argumentArray: [fromDateString, toDateString])
         
         let groupingPredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: [grouping.rawValue])
@@ -669,8 +690,18 @@ public class Reports: ResponseHandler, CachedObjects {
             let periodPredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [period.rawValue])
             
             // Date range
-            let fromDateString = ReportTransactionHistory.dailyDateFormatter.string(from: fromDate)
-            let toDateString = ReportTransactionHistory.dailyDateFormatter.string(from: toDate)
+            let dateFormatter: DateFormatter
+            switch period {
+                case .day:
+                    dateFormatter = ReportTransactionHistory.dailyDateFormatter
+                case .month:
+                    dateFormatter = ReportTransactionHistory.monthlyDateFormatter
+                case .week:
+                    dateFormatter = ReportTransactionHistory.weeklyDateFormatter
+            }
+            
+            let fromDateString = dateFormatter.string(from: fromDate)
+            let toDateString = dateFormatter.string(from: toDate)
             let dateRangePredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.dateString) + " >= %@ && " + #keyPath(ReportTransactionHistory.dateString) + " <= %@", argumentArray: [fromDateString, toDateString])
             
             var filterPredicates = [overallPredicate, groupingPredicate, periodPredicate, dateRangePredicate]

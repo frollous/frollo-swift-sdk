@@ -2649,6 +2649,179 @@ class ReportsTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testFetchingHistoryReportsDuplicating() {
+        let expectation1 = expectation(description: "Database setup")
+        let expectation2 = expectation(description: "Network Request 1")
+        let expectation3 = expectation(description: "Network Request 2")
+        let expectation4 = expectation(description: "Network Request 3")
+        let expectation5 = expectation(description: "Fetch")
+        
+        let url = URL(string: "https://api.example.com")!
+        
+        stub(condition: isHost(url.host!) && isPath("/" + ReportsEndpoint.transactionsHistory.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_txn_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let network = Network(serverURL: url, keychain: keychain)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        let aggregation = Aggregation(database: database, network: network)
+        let reports = Reports(database: database, network: network, aggregation: aggregation)
+        
+        let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
+        let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
+        
+        reports.refreshTransactionHistoryReports(grouping: .transactionCategory, period: .month, from: fromDate, to: toDate) { (error) in
+            XCTAssertNil(error)
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 5.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            let context = database.viewContext
+            
+            // Check for overall general reports
+            let overallFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
+            overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
+            overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true), NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
+            
+            do {
+                let fetchedReports = try context.fetch(overallFetchRequest)
+                
+                XCTAssertEqual(fetchedReports.count, 12)
+                
+                let thirdReport = fetchedReports[4]
+                
+                XCTAssertEqual(thirdReport.dateString, "2018-05")
+                XCTAssertEqual(thirdReport.value, NSDecimalNumber(string: "671.62"))
+                XCTAssertNil(thirdReport.budget)
+                XCTAssertNil(thirdReport.overall)
+                XCTAssertNotNil(thirdReport.reports)
+                XCTAssertEqual(thirdReport.reports?.count, 15)
+                XCTAssertEqual(thirdReport.linkedID, -1)
+                XCTAssertNil(thirdReport.filterBudgetCategory)
+                XCTAssertNil(thirdReport.name)
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            // Check for group general reports
+            let groupFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
+            groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-05", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue])
+            groupFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
+            
+            do {
+                let fetchedReports = try context.fetch(groupFetchRequest)
+                
+                XCTAssertEqual(fetchedReports.count, 15)
+                
+                if let firstReport = fetchedReports.first {
+                    XCTAssertEqual(firstReport.dateString, "2018-05")
+                    XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-29.98"))
+                    XCTAssertNil(firstReport.budget)
+                    XCTAssertNil(firstReport.filterBudgetCategory)
+                    XCTAssertNotNil(firstReport.overall)
+                    XCTAssertEqual(firstReport.overall?.dateString, "2018-05")
+                    XCTAssertNotNil(firstReport.reports)
+                    XCTAssertEqual(firstReport.reports?.count, 0)
+                    XCTAssertEqual(firstReport.linkedID, 64)
+                    XCTAssertEqual(firstReport.name, "Entertainment/Recreation")
+                } else {
+                    XCTFail("Reports not found")
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 5.0)
+        
+        reports.refreshTransactionHistoryReports(grouping: .transactionCategory, period: .month, from: fromDate, to: toDate) { (error) in
+            XCTAssertNil(error)
+            
+            expectation4.fulfill()
+        }
+        
+        wait(for: [expectation4], timeout: 5.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            let context = database.viewContext
+            
+            // Check for overall general reports
+            let overallFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
+            overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue, ReportTransactionHistory.Period.month.rawValue])
+            overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true), NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
+            
+            do {
+                let fetchedReports = try context.fetch(overallFetchRequest)
+                
+                XCTAssertEqual(fetchedReports.count, 12)
+                
+                let thirdReport = fetchedReports[4]
+                
+                XCTAssertEqual(thirdReport.dateString, "2018-05")
+                XCTAssertEqual(thirdReport.value, NSDecimalNumber(string: "671.62"))
+                XCTAssertNil(thirdReport.budget)
+                XCTAssertNil(thirdReport.overall)
+                XCTAssertNotNil(thirdReport.reports)
+                XCTAssertEqual(thirdReport.reports?.count, 15)
+                XCTAssertEqual(thirdReport.linkedID, -1)
+                XCTAssertNil(thirdReport.filterBudgetCategory)
+                XCTAssertNil(thirdReport.name)
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            // Check for group general reports
+            let groupFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
+            groupFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@", argumentArray: ["2018-05", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.transactionCategory.rawValue])
+            groupFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
+            
+            do {
+                let fetchedReports = try context.fetch(groupFetchRequest)
+                
+                XCTAssertEqual(fetchedReports.count, 15)
+                
+                if let firstReport = fetchedReports.first {
+                    XCTAssertEqual(firstReport.dateString, "2018-05")
+                    XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "-29.98"))
+                    XCTAssertNil(firstReport.budget)
+                    XCTAssertNil(firstReport.filterBudgetCategory)
+                    XCTAssertNotNil(firstReport.overall)
+                    XCTAssertEqual(firstReport.overall?.dateString, "2018-05")
+                    XCTAssertNotNil(firstReport.reports)
+                    XCTAssertEqual(firstReport.reports?.count, 0)
+                    XCTAssertEqual(firstReport.linkedID, 64)
+                    XCTAssertEqual(firstReport.name, "Entertainment/Recreation")
+                } else {
+                    XCTFail("Reports not found")
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation5.fulfill()
+        }
+        
+        wait(for: [expectation5], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+        
+    }
+    
     func testHistoryReportsLinkToMerchants() {
         let expectation1 = expectation(description: "Network Merchants Request")
         let expectation2 = expectation(description: "Network Reports Request")
