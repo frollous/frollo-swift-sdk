@@ -9,6 +9,8 @@
 import CoreData
 import Foundation
 
+import AppAuthCore
+
 internal protocol AuthenticationDelegate: class {
     
     func authenticationReset()
