@@ -9,7 +9,15 @@
 import CoreData
 import Foundation
 
+#if os(macOS)
+import AppAuth
+#elseif os(iOS)
 import AppAuthCore
+#elseif os(tvOS)
+import AppAUth
+#elseif os(watchOS)
+import AppAuth
+#endif
 
 internal protocol AuthenticationDelegate: class {
     

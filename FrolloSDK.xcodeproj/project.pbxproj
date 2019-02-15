@@ -2881,7 +2881,7 @@
 			inputPaths = (
 				Alamofire,
 				OHHTTPStubs,
-				AppAuthCore,
+				AppAuth,
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (
@@ -2898,7 +2898,7 @@
 			inputPaths = (
 				Alamofire,
 				OHHTTPStubs,
-				AppAuthCore,
+				AppAUth,
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (
@@ -2915,7 +2915,7 @@
 			inputPaths = (
 				Alamofire,
 				OHHTTPStubs,
-				AppAuthCore,
+				AppAuth,
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (
