@@ -1,0 +1,2 @@
+cache: # required
+  s3Bucket: frollo-carthage-cache

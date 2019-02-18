@@ -24,21 +24,48 @@ platform :ios do
     begin
       #setup_jenkins
 
-      if carthage_cache_exist(bucket: 'frollo-carthage-cache')
-        carthage_cache_install(
-          bucket: 'frollo-carthage-cache'
-        )
-      else
-        carthage(
-        	command: "bootstrap",
+      rome(
+        command: "download",
+        verbose: false
+      )
+
+      rome_list = rome(
+        command: "list",
+        missing: true,
+        verbose: false
+      )
+
+      missing_list = rome_list.split("\n")
+      missing_list.map! { |s| s.split(' ').first }
+
+      carthage(
+          command: "bootstrap",
+          cache_builds: true,
           platform: "all",
           use_binaries: false
-        )
+      )
 
-        carthage_cache_publish(
-          bucket: 'frollo-carthage-cache'
-        )
-      end
+      rome(
+        command: "upload",
+        frameworks: missing_list,
+        verbose: false
+      )
+
+      # if carthage_cache_exist(bucket: 'frollo-carthage-cache')
+      #   carthage_cache_install(
+      #     bucket: 'frollo-carthage-cache'
+      #   )
+      # else
+      #   carthage(
+      #   	command: "bootstrap",
+      #     platform: "all",
+      #     use_binaries: false
+      #   )
+
+      #   carthage_cache_publish(
+      #     bucket: 'frollo-carthage-cache'
+      #   )
+      # end
 
       xcodebuild(scheme: "FrolloSDK",
           clean: true,

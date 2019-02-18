@@ -119,6 +119,7 @@ GEM
       xcpretty-travis-formatter (>= 0.0.3)
     fastlane-plugin-carthage_cache (0.1.1)
       carthage_cache
+    fastlane-plugin-rome (0.3.6)
     ffi (1.10.0)
     fourflusher (2.0.1)
     fuzzy_match (2.0.4)
@@ -255,8 +256,9 @@ DEPENDENCIES
   carthage_cache
   fastlane
   fastlane-plugin-carthage_cache
+  fastlane-plugin-rome
   jazzy
   xcov
 
 BUNDLED WITH
-   1.16.6
+   2.0.1
