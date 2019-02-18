@@ -18,7 +18,7 @@ extension Network {
             
             self.sessionManager.request(url, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
                 if let error = self.handleTokens(response: response) {
-                    completion(nil, error)
+                    completion(.failure(error))
                     return
                 }
                 
@@ -35,7 +35,7 @@ extension Network {
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                     return
             }
             
@@ -53,7 +53,7 @@ extension Network {
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                     return
             }
             

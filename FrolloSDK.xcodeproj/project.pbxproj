@@ -604,6 +604,7 @@
 		017B48FC21084BA200447E65 /* AuthenticationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48FB21084BA200447E65 /* AuthenticationTests.swift */; };
 		017B48FD21084BA200447E65 /* AuthenticationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48FB21084BA200447E65 /* AuthenticationTests.swift */; };
 		017B48FE21084BA200447E65 /* AuthenticationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48FB21084BA200447E65 /* AuthenticationTests.swift */; };
+		017B83A7221A4CBF0022884E /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B83A6221A4CBF0022884E /* Result.swift */; };
 		017E58D0217FD92D00DC56FF /* CachedObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E58CF217FD92D00DC56FF /* CachedObjects.swift */; };
 		017E58D2217FF86F00DC56FF /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E58D1217FF86F00DC56FF /* DateExtensionsTests.swift */; };
 		017E58D3217FF86F00DC56FF /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E58D1217FF86F00DC56FF /* DateExtensionsTests.swift */; };
@@ -1067,6 +1068,7 @@
 		017B48F02108356C00447E65 /* User+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+Test.swift"; sourceTree = "<group>"; };
 		017B48F621083A3500447E65 /* APIUserResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIUserResponse+Test.swift"; sourceTree = "<group>"; };
 		017B48FB21084BA200447E65 /* AuthenticationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationTests.swift; sourceTree = "<group>"; };
+		017B83A6221A4CBF0022884E /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		017E58CF217FD92D00DC56FF /* CachedObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedObjects.swift; sourceTree = "<group>"; };
 		017E58D1217FF86F00DC56FF /* DateExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionsTests.swift; sourceTree = "<group>"; };
 		01819143211162DD000E0F80 /* UniqueManagedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniqueManagedObject.swift; sourceTree = "<group>"; };
@@ -2213,6 +2215,7 @@
 				013A32C02112AF4E00B0590B /* DateFormatter.swift */,
 				015EEDDD210FD7710081AD76 /* FailableCodable.swift */,
 				01C8251320EDF6200093400E /* Localization.swift */,
+				017B83A6221A4CBF0022884E /* Result.swift */,
 				011E87CF213766550026E047 /* SecKeyPEM.swift */,
 			);
 			path = Extensions;
@@ -2955,6 +2958,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01704F5A21FAD13D00666DAE /* ReportAccountBalance+CoreDataProperties.swift in Sources */,
+				017B83A7221A4CBF0022884E /* Result.swift in Sources */,
 				01236D0C21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift in Sources */,
 				018240DD21C8B80B005705F9 /* Bill+CoreDataClass.swift in Sources */,
 				01C8250720EDDB4F0093400E /* DataError.swift in Sources */,

@@ -95,21 +95,24 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshProviders(completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchProviders { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let providersResponse = response {
-                    let managedObjectContext = self.database.newBackgroundContext()
-                    
-                    self.handleProvidersResponse(providersResponse, managedObjectContext: managedObjectContext)
-                    
-                    self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
+        network.fetchProviders { (result) in
+            switch result {
+            case .failure(let error):
+                Log.error(error.localizedDescription)
+                
+                DispatchQueue.main.async {
+                    completion?(.failure(error))
                 }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+            case .success(let response):
+                let managedObjectContext = self.database.newBackgroundContext()
+                
+                self.handleProvidersResponse(response, managedObjectContext: managedObjectContext)
+                
+                self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
+                
+                DispatchQueue.main.async {
+                    completion?(.success)
+                }
             }
         }
     }
@@ -124,23 +127,26 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshProvider(providerID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchProvider(providerID: providerID) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let providerResponse = response {
+        network.fetchProvider(providerID: providerID) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleProviderResponse(providerResponse, managedObjectContext: managedObjectContext)
+                    self.handleProviderResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.refreshingProviderIDs.remove(providerID)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -191,21 +197,24 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshProviderAccounts(completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchProviderAccounts { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let providerAccountsResponse = response {
+        network.fetchProviderAccounts { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleProviderAccountsResponse(providerAccountsResponse, managedObjectContext: managedObjectContext)
+                    self.handleProviderAccountsResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
         
@@ -219,21 +228,24 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshProviderAccount(providerAccountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchProviderAccount(providerAccountID: providerAccountID) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let providerAccountResponse = response {
+        network.fetchProviderAccount(providerAccountID: providerAccountID) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleProviderAccountResponse(providerAccountResponse, managedObjectContext: managedObjectContext)
+                    self.handleProviderAccountResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                   
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -249,21 +261,24 @@ public class Aggregation: CachedObjects, ResponseHandler {
     public func createProviderAccount(providerID: Int64, loginForm: ProviderLoginForm, completion: FrolloSDKCompletionHandler? = nil) {
         let request = APIProviderAccountCreateRequest(loginForm: loginForm, providerID: providerID)
         
-        network.createProviderAccount(request: request) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let providerAccountRespone = response {
+        network.createProviderAccount(request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleProviderAccountResponse(providerAccountRespone, managedObjectContext: managedObjectContext)
+                    self.handleProviderAccountResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -276,15 +291,20 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func deleteProviderAccount(providerAccountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.deleteProviderAccount(providerAccountID: providerAccountID) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                self.removeCachedProviderAccount(providerAccountID: providerAccountID)
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+        network.deleteProviderAccount(providerAccountID: providerAccountID) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success:
+                    self.removeCachedProviderAccount(providerAccountID: providerAccountID)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -299,21 +319,24 @@ public class Aggregation: CachedObjects, ResponseHandler {
     public func updateProviderAccount(providerAccountID: Int64, loginForm: ProviderLoginForm, completion: FrolloSDKCompletionHandler? = nil) {
         let request = APIProviderAccountUpdateRequest(loginForm: loginForm)
         
-        network.updateProviderAccount(providerAccountID: providerAccountID, request: request) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let providerAccountRespone = response {
+        network.updateProviderAccount(providerAccountID: providerAccountID, request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleProviderAccountResponse(providerAccountRespone, managedObjectContext: managedObjectContext)
+                    self.handleProviderAccountResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -364,21 +387,24 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshAccounts(completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchAccounts { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let accountsResponse = response {
+        network.fetchAccounts { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleAccountsResponse(accountsResponse, managedObjectContext: managedObjectContext)
+                    self.handleAccountsResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkAccountsToProviderAccounts(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
         
@@ -392,21 +418,24 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshAccount(accountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchAccount(accountID: accountID) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let accountResponse = response {
+        network.fetchAccount(accountID: accountID) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleAccountResponse(accountResponse, managedObjectContext: managedObjectContext)
+                    self.handleAccountResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkAccountsToProviderAccounts(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -426,7 +455,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 let error = DataError(type: .database, subType: .notFound)
                 
                 DispatchQueue.main.async {
-                    completion?(error)
+                    completion?(.failure(error))
                 }
                 return
         }
@@ -437,21 +466,24 @@ public class Aggregation: CachedObjects, ResponseHandler {
             request = account.updateRequest()
         }
         
-        network.updateAccount(accountID: accountID, request: request) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let accountResponse = response {
+        network.updateAccount(accountID: accountID, request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleAccountResponse(accountResponse, managedObjectContext: managedObjectContext)
+                    self.handleAccountResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkAccountsToProviderAccounts(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -504,23 +536,26 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshTransactions(from fromDate: Date, to toDate: Date, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchTransactions(from: fromDate, to: toDate) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let transactionResponse = response {
+        network.fetchTransactions(from: fromDate, to: toDate) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleTransactionsResponse(transactionResponse, from: fromDate, to: toDate, managedObjectContext: managedObjectContext)
+                    self.handleTransactionsResponse(response, from: fromDate, to: toDate, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -533,23 +568,26 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransaction(transactionID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchTransaction(transactionID: transactionID) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let transactionResponse = response {
+        network.fetchTransaction(transactionID: transactionID) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleTransactionResponse(transactionResponse, managedObjectContext: managedObjectContext)
+                    self.handleTransactionResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -562,23 +600,26 @@ public class Aggregation: CachedObjects, ResponseHandler {
          - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransactions(transactionIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchTransactions(transactionIDs: transactionIDs) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let transactionResponse = response {
+        network.fetchTransactions(transactionIDs: transactionIDs) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleTransactionsResponse(transactionResponse, transactionIDs: transactionIDs, managedObjectContext: managedObjectContext)
+                    self.handleTransactionsResponse(response, transactionIDs: transactionIDs, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -598,7 +639,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 let error = DataError(type: .database, subType: .notFound)
                 
                 DispatchQueue.main.async {
-                    completion?(error)
+                    completion?(.failure(error))
                 }
                 return
         }
@@ -609,23 +650,26 @@ public class Aggregation: CachedObjects, ResponseHandler {
             request = transaction.updateRequest()
         }
         
-        network.updateTransaction(transactionID: transactionID, request: request) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let transactionResponse = response {
+        network.updateTransaction(transactionID: transactionID, request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleTransactionResponse(transactionResponse, managedObjectContext: managedObjectContext)
+                    self.handleTransactionResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -676,21 +720,24 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshTransactionCategories(completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchTransactionCategories { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let transactionCategoriesResponse = response {
+        network.fetchTransactionCategories { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleTransactionCategoriesResponse(transactionCategoriesResponse, managedObjectContext: managedObjectContext)
+                    self.handleTransactionCategoriesResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -741,21 +788,24 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     internal func refreshMerchants(completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchMerchants { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let merchantsResponse = response {
+        network.fetchMerchants { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleMerchantsResponse(merchantsResponse, predicate: nil, managedObjectContext: managedObjectContext)
+                    self.handleMerchantsResponse(response, predicate: nil, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -768,21 +818,24 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshMerchant(merchantID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchMerchant(merchantID: merchantID) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let merchantResponse = response {
+        network.fetchMerchant(merchantID: merchantID) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleMerchantResponse(merchantResponse, managedObjectContext: managedObjectContext)
+                    self.handleMerchantResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -795,21 +848,24 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshMerchants(merchantIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchMerchants(merchantIDs: merchantIDs) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let merchantsResponse = response {
+        network.fetchMerchants(merchantIDs: merchantIDs) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleMerchantsResponse(merchantsResponse, merchantIDs: merchantIDs, managedObjectContext: managedObjectContext)
+                    self.handleMerchantsResponse(response, merchantIDs: merchantIDs, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }

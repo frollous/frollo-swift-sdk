@@ -104,21 +104,24 @@ public class Reports: ResponseHandler, CachedObjects {
          - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshAccountBalanceReports(period: ReportAccountBalance.Period, from fromDate: Date, to toDate: Date, accountID: Int64? = nil, accountType: Account.AccountType? = nil, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchAccountBalanceReports(period: period, from: fromDate, to: toDate, accountID: accountID, accountType: accountType) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let reportsResponse = response {
+        network.fetchAccountBalanceReports(period: period, from: fromDate, to: toDate, accountID: accountID, accountType: accountType) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleAccountBalanceReportsResponse(reportsResponse, period: period, from: fromDate, to: toDate, accountID: accountID, accountType: accountType, managedObjectContext: managedObjectContext)
+                    self.handleAccountBalanceReportsResponse(response, period: period, from: fromDate, to: toDate, accountID: accountID, accountType: accountType, managedObjectContext: managedObjectContext)
                     
                     self.linkAccountBalanceReportsToAccounts(managedObjectContext: managedObjectContext)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
                 }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
             }
         }
     }
@@ -170,22 +173,25 @@ public class Reports: ResponseHandler, CachedObjects {
          - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransactionCurrentReports(grouping: ReportGrouping, budgetCategory: BudgetCategory? = nil, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchTransactionCurrentReports(grouping: grouping, budgetCategory: budgetCategory) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let reportsResponse = response {
+        network.fetchTransactionCurrentReports(grouping: grouping, budgetCategory: budgetCategory) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleTransactionCurrentReportsResponse(reportsResponse, grouping: grouping, budgetCategory: budgetCategory, managedObjectContext: managedObjectContext)
+                    self.handleTransactionCurrentReportsResponse(response, grouping: grouping, budgetCategory: budgetCategory, managedObjectContext: managedObjectContext)
                     
                     self.linkReportTransactionCurrentToMerchants(managedObjectContext: managedObjectContext)
                     self.linkReportTransactionCurrentToTransactionCategories(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -260,22 +266,25 @@ public class Reports: ResponseHandler, CachedObjects {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransactionHistoryReports(grouping: ReportGrouping, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, budgetCategory: BudgetCategory? = nil, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchTransactionHistoryReports(grouping: grouping, period: period, fromDate: fromDate, toDate: toDate, budgetCategory: budgetCategory) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let reportsResponse = response {
+        network.fetchTransactionHistoryReports(grouping: grouping, period: period, fromDate: fromDate, toDate: toDate, budgetCategory: budgetCategory) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleTransactionHistoryReportsResponse(reportsResponse, grouping: grouping, period: period, from: fromDate, to: toDate, budgetCategory: budgetCategory, managedObjectContext: managedObjectContext)
+                    self.handleTransactionHistoryReportsResponse(response, grouping: grouping, period: period, from: fromDate, to: toDate, budgetCategory: budgetCategory, managedObjectContext: managedObjectContext)
                     
                     self.linkReportTransactionHistoryToMerchants(managedObjectContext: managedObjectContext)
                     self.linkReportTransactionHistoryToTransactionCategories(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }

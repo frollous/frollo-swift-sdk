@@ -64,7 +64,7 @@ extension Network {
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                     return
             }
             
@@ -92,7 +92,7 @@ extension Network {
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                     return
             }
             
@@ -130,7 +130,7 @@ extension Network {
                 else {
                     let error = DataError(type: .api, subType: .invalidData)
                     
-                    completion(nil, error)
+                    completion(.failure(error))
                     return
             }
             
@@ -140,7 +140,7 @@ extension Network {
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                     return
             }
             
@@ -195,7 +195,7 @@ extension Network {
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                     return
             }
             

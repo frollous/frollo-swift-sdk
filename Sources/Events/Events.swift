@@ -40,13 +40,18 @@ public class Events {
         let request = APIEventCreateRequest(delayMinutes: delay ?? 0,
                                             event: eventName)
         
-        network.createEvent(request: request) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+        network.createEvent(request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success:
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }

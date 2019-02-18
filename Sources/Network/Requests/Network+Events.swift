@@ -20,7 +20,7 @@ extension Network {
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                     return
             }
             

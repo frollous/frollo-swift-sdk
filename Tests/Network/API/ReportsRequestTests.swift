@@ -39,7 +39,7 @@ class ReportsRequestTests: XCTestCase {
         let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
         let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
         
-        network.fetchAccountBalanceReports(period: .day, from: fromDate, to: toDate) { (response, error) in
+        network.fetchAccountBalanceReports(period: .day, from: fromDate, to: toDate) { (result) in
             XCTAssertNil(error)
             
             if let reportsResponse = response {
@@ -82,7 +82,7 @@ class ReportsRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchTransactionCurrentReports(grouping: .transactionCategory, budgetCategory: .living) { (response, error) in
+        network.fetchTransactionCurrentReports(grouping: .transactionCategory, budgetCategory: .living) { (result) in
             XCTAssertNil(error)
             
             if let reportsResponse = response {
@@ -145,7 +145,7 @@ class ReportsRequestTests: XCTestCase {
         let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
         let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
         
-        network.fetchTransactionHistoryReports(grouping: .budgetCategory, period: .month, fromDate: fromDate, toDate: toDate, budgetCategory: nil) { (response, error) in
+        network.fetchTransactionHistoryReports(grouping: .budgetCategory, period: .month, fromDate: fromDate, toDate: toDate, budgetCategory: nil) { (result) in
             XCTAssertNil(error)
             
             if let reportsResponse = response {

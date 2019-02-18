@@ -45,7 +45,7 @@ class UserRequestTests: XCTestCase {
         
         let loginRequest = APIUserLoginRequest.testEmailData()
         
-        network.loginUser(request: loginRequest) { (response, error) in
+        network.loginUser(request: loginRequest) { (result) in
             XCTAssertNil(error)
             
             if let userResponse = response {
@@ -77,7 +77,7 @@ class UserRequestTests: XCTestCase {
         
         let loginRequest = APIUserLoginRequest.testFacebookData()
         
-        network.loginUser(request: loginRequest) { (response, error) in
+        network.loginUser(request: loginRequest) { (result) in
             XCTAssertNil(error)
             
             if let userResponse = response {
@@ -109,7 +109,7 @@ class UserRequestTests: XCTestCase {
         
         let loginRequest = APIUserLoginRequest.testVoltData()
         
-        network.loginUser(request: loginRequest) { (response, error) in
+        network.loginUser(request: loginRequest) { (result) in
             XCTAssertNil(error)
             
             if let userResponse = response {
@@ -137,7 +137,7 @@ class UserRequestTests: XCTestCase {
         
         let loginRequest = APIUserLoginRequest.testInvalidData()
         
-        network.loginUser(request: loginRequest) { (response, error) in
+        network.loginUser(request: loginRequest) { (result) in
             XCTAssertNotNil(error)
             XCTAssertNil(response)
             
@@ -169,7 +169,7 @@ class UserRequestTests: XCTestCase {
         
         let registerRequest = APIUserRegisterRequest.testData()
         
-        network.registerUser(request: registerRequest) { (response, error) in
+        network.registerUser(request: registerRequest) { (result) in
             XCTAssertNil(error)
             
             if let userResponse = response {
@@ -205,7 +205,7 @@ class UserRequestTests: XCTestCase {
         dateFormatter.dateFormat = "yyyy-MM"
         let date = dateFormatter.date(from: "1990-01")
         
-        network.fetchUser { (response, error) in
+        network.fetchUser { (result) in
             XCTAssertNil(error)
             
             if let userResponse = response {
@@ -263,7 +263,7 @@ class UserRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchUser { (response, error) in
+        network.fetchUser { (result) in
             XCTAssertNil(error)
             
             if let userResponse = response {
@@ -309,7 +309,7 @@ class UserRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchUser { (response, error) in
+        network.fetchUser { (result) in
             XCTAssertNotNil(error)
             XCTAssertNil(response)
             
@@ -332,7 +332,7 @@ class UserRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.logoutUser() { (response, error) in
+        network.logoutUser() { (result) in
             XCTAssertNil(error)
             
             expectation1.fulfill()
@@ -358,7 +358,7 @@ class UserRequestTests: XCTestCase {
         
         let changePasswordRequest = APIUserChangePasswordRequest.testData()
         
-        network.changePassword(request: changePasswordRequest) { (response, error) in
+        network.changePassword(request: changePasswordRequest) { (result) in
             XCTAssertNil(error)
             
             expectation1.fulfill()
@@ -382,7 +382,7 @@ class UserRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.deleteUser() { (response, error) in
+        network.deleteUser() { (result) in
             XCTAssertNil(error)
             
             expectation1.fulfill()

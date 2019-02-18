@@ -38,7 +38,7 @@ class EventsRequestTests: XCTestCase {
         
         let request = APIEventCreateRequest(delayMinutes: 0, event: "EVENT_TEST")
         
-        network.createEvent(request: request) { (response, error) in
+        network.createEvent(request: request) { (result) in
             XCTAssertNil(error)
             XCTAssertNil(response)
             

@@ -37,7 +37,7 @@ class DeviceRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.refreshToken { (response, error) in
+        network.refreshToken { (result) in
             XCTAssertNil(error)
             
             XCTAssertNotNil(network.authenticator.refreshToken)
@@ -67,7 +67,7 @@ class DeviceRequestTests: XCTestCase {
         
         let request = APILogRequest(details: "Details Content", message: "Log message", score: .error)
         
-        network.createLog(request: request) { (response, error) in
+        network.createLog(request: request) { (result) in
             XCTAssertNil(error)
             XCTAssertNil(response)
             
@@ -95,7 +95,7 @@ class DeviceRequestTests: XCTestCase {
                                              notificationToken: "SomeToken123",
                                              timezone: TimeZone.current.identifier)
         
-        network.updateDevice(request: request) { (response, error) in
+        network.updateDevice(request: request) { (result) in
             XCTAssertNil(error)
             XCTAssertNil(response)
             

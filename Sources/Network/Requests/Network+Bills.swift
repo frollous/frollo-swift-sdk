@@ -22,7 +22,7 @@ extension Network {
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                     return
             }
             
@@ -70,7 +70,7 @@ extension Network {
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                     return
             }
             
@@ -125,7 +125,7 @@ extension Network {
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                     return
             }
             
@@ -148,16 +148,16 @@ extension Network {
                 do {
                     let billsResponse = try decoder.decode(APIBillsResponse.self, from: value)
                     
-                    completion(billsResponse.bills, nil)
+                    completion(.success(billsResponse.bills))
                 } catch {
                     Log.error(error.localizedDescription)
                     
                     let dataError = DataError(type: .unknown, subType: .unknown)
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                 }
-            case .failure:
-                self.handleFailure(response: response) { (error) in
-                    completion(nil, error)
+            case .failure(let error):
+                self.handleFailure(response: response, error: error) { (error) in
+                    completion(.failure(error))
                 }
         }
     }

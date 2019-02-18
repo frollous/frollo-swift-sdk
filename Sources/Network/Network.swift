@@ -18,8 +18,8 @@ protocol NetworkDelegate: class {
 
 class Network: SessionDelegate {
     
-    internal typealias NetworkCompletion = (_ data: Data?, _ error: FrolloSDKError?) -> Void
-    internal typealias RequestCompletion<T> = (_: T?, _: Error?) -> Void
+    internal typealias NetworkCompletion = (_: Result<Data, FrolloSDKError>) -> Void
+    internal typealias RequestCompletion<T> = (_: Result<T, Error>) -> Void
     
     internal enum HTTPHeader: String, CaseIterable {
         case apiVersion = "X-Api-Version"
@@ -157,35 +157,30 @@ class Network: SessionDelegate {
     
     // MARK: - Response Handling
     
-    internal func handleFailure(response: DataResponse<Data>, completion: (_: FrolloSDKError?) -> Void) {
-        switch response.result {
-            case .success:
-                completion(nil)
-            case .failure(let error):
-                if let parsedError = error as? DataError, parsedError.type == .authentication, parsedError.subType == .missingRefreshToken {
-                    reset()
-                    
-                    delegate?.forcedLogout()
-                    
-                    completion(parsedError)
-                } else if let parsedError = error as? FrolloSDKError {
-                    completion(parsedError)
-                } else if let statusCode = response.response?.statusCode {
-                    let apiError = APIError(statusCode: statusCode, response: response.data)
-                    
-                    let clearTokenStatuses: [APIError.APIErrorType] = [.invalidRefreshToken, .suspendedDevice, .suspendedUser, .otherAuthorisation]
-                    if clearTokenStatuses.contains(apiError.type) {
-                        reset()
-                        
-                        delegate?.forcedLogout()
-                    }
-                    
-                    completion(apiError)
-                } else {
-                    let systemError = error as NSError
-                    let networkError = NetworkError(error: systemError)
-                    completion(networkError)
-                }
+    internal func handleFailure(response: DataResponse<Data>, error: Error, completion: (_: FrolloSDKError) -> Void) {
+        if let parsedError = error as? DataError, parsedError.type == .authentication, parsedError.subType == .missingRefreshToken {
+            reset()
+            
+            delegate?.forcedLogout()
+            
+            completion(parsedError)
+        } else if let parsedError = error as? FrolloSDKError {
+            completion(parsedError)
+        } else if let statusCode = response.response?.statusCode {
+            let apiError = APIError(statusCode: statusCode, response: response.data)
+            
+            let clearTokenStatuses: [APIError.APIErrorType] = [.invalidRefreshToken, .suspendedDevice, .suspendedUser, .otherAuthorisation]
+            if clearTokenStatuses.contains(apiError.type) {
+                reset()
+                
+                delegate?.forcedLogout()
+            }
+            
+            completion(apiError)
+        } else {
+            let systemError = error as NSError
+            let networkError = NetworkError(error: systemError)
+            completion(networkError)
         }
     }
     
@@ -198,16 +193,16 @@ class Network: SessionDelegate {
                 do {
                     let apiResponse = try decoder.decode(T.self, from: value)
                     
-                    completion(apiResponse, nil)
+                    completion(.success(apiResponse))
                 } catch {
                     Log.error(error.localizedDescription)
                     
                     let dataError = DataError(type: .unknown, subType: .unknown)
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                 }
-            case .failure:
-                self.handleFailure(response: response) { (error) in
-                    completion(nil, error)
+            case .failure(let error):
+                self.handleFailure(response: response, error: error) { (processedError) in
+                    completion(.failure(processedError))
                 }
         }
     }
@@ -221,16 +216,16 @@ class Network: SessionDelegate {
                 do {
                     let apiResponse = try decoder.decode(FailableCodableArray<T>.self, from: value)
                     
-                    completion(apiResponse.elements, nil)
+                    completion(.success(apiResponse.elements))
                 } catch {
                     Log.error(error.localizedDescription)
                     
                     let dataError = DataError(type: .unknown, subType: .unknown)
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                 }
-            case .failure:
-                self.handleFailure(response: response) { (error) in
-                    completion(nil, error)
+            case .failure(let error):
+                self.handleFailure(response: response, error: error) { (processedError) in
+                    completion(.failure(processedError))
                 }
             }
     }
@@ -238,10 +233,10 @@ class Network: SessionDelegate {
     internal func handleEmptyResponse(response: DataResponse<Data>, completion: NetworkCompletion) {
         switch response.result {
             case .success:
-                completion(nil, nil)
-            case .failure:
-                self.handleFailure(response: response) { (error) in
-                    completion(nil, error)
+                completion(.success(Data()))
+            case .failure(let error):
+                self.handleFailure(response: response, error: error) { (processedError) in
+                    completion(.failure(processedError))
                 }
         }
     }

@@ -234,19 +234,21 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         
         refreshing = true
         
-        network?.refreshToken(completion: { (json, error) in
-            if let responseError = error {
-                if let apiError = error as? APIError, apiError.type == .invalidRefreshToken {
-                    self.clearTokens()
-                    
-                    Log.error("Refreshing token failed due to authorisation error." + responseError.localizedDescription)
-                }
+        network?.refreshToken(completion: { (result) in
+            switch result {
+                case .success:
+                    self.requestsToRetry.forEach { $0(false, 0.0) }
+                    self.requestsToRetry.removeAll()
                 
-                self.requestsToRetry.forEach { $0(false, 0.0) }
-                self.requestsToRetry.removeAll()
-            } else {
-                self.requestsToRetry.forEach { $0(true, 0.0) }
-                self.requestsToRetry.removeAll()
+                case .failure(let error):
+                    if let apiError = error as? APIError, apiError.type == .invalidRefreshToken {
+                        self.clearTokens()
+                        
+                        Log.error("Refreshing token failed due to authorisation error." + apiError.localizedDescription)
+                    }
+                    
+                    self.requestsToRetry.forEach { $0(true, 0.0) }
+                    self.requestsToRetry.removeAll()
             }
             
             self.refreshing = false

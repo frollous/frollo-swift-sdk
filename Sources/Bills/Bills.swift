@@ -124,23 +124,26 @@ public class Bills: CachedObjects, ResponseHandler  {
     }
     
     private func createBill(request: APIBillCreateRequest, completion: FrolloSDKCompletionHandler? = nil) {
-        network.createBill(request: request) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let billResponse = response {
+        network.createBill(request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleBillResponse(billResponse, managedObjectContext: managedObjectContext)
+                    self.handleBillResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkBillsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkBillsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkBillsToTransactionCategories(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -153,15 +156,20 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func deleteBill(billID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.deleteBill(billID: billID) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                self.removeCachedBill(billID: billID)
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+        network.deleteBill(billID: billID) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success:
+                    self.removeCachedBill(billID: billID)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -175,23 +183,26 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBills(completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchBills { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let billsResponse = response {
+        network.fetchBills { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleBillsResponse(billsResponse, managedObjectContext: managedObjectContext)
+                    self.handleBillsResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkBillsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkBillsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkBillsToTransactionCategories(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -204,23 +215,26 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBill(billID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchBill(billID: billID) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let billResponse = response {
+        network.fetchBill(billID: billID) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleBillResponse(billResponse, managedObjectContext: managedObjectContext)
+                    self.handleBillResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkBillsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkBillsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkBillsToTransactionCategories(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -240,7 +254,7 @@ public class Bills: CachedObjects, ResponseHandler  {
                 let error = DataError(type: .database, subType: .notFound)
                 
                 DispatchQueue.main.async {
-                    completion?(error)
+                    completion?(.failure(error))
                 }
                 return
         }
@@ -251,23 +265,26 @@ public class Bills: CachedObjects, ResponseHandler  {
             request = bill.updateRequest()
         }
         
-        network.updateBill(billID: billID, request: request) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let billResponse = response {
+        network.updateBill(billID: billID, request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleBillResponse(billResponse, managedObjectContext: managedObjectContext)
+                    self.handleBillResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkBillsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkBillsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkBillsToTransactionCategories(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -319,15 +336,20 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func deleteBillPayment(billPaymentID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.deleteBillPayment(billPaymentID: billPaymentID) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                self.removeCachedBillPayment(billPaymentID: billPaymentID)
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+        network.deleteBillPayment(billPaymentID: billPaymentID) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success:
+                    self.removeCachedBillPayment(billPaymentID: billPaymentID)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -341,21 +363,24 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBillPayments(from fromDate: Date, to toDate: Date, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchBillPayments(from: fromDate, to: toDate) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let billPaymentsResponse = response {
+        network.fetchBillPayments(from: fromDate, to: toDate) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleBillPaymentsResponse(billPaymentsResponse, from: fromDate, to: toDate, managedObjectContext: managedObjectContext)
+                    self.handleBillPaymentsResponse(response, from: fromDate, to: toDate, managedObjectContext: managedObjectContext)
                     
                     self.linkBillPaymentsToBills(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -368,21 +393,24 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBillPayment(billPaymentID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchBillPayment(billPaymentID: billPaymentID) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let billResponse = response {
+        network.fetchBillPayment(billPaymentID: billPaymentID) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleBillPaymentResponse(billResponse, managedObjectContext: managedObjectContext)
+                    self.handleBillPaymentResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkBillPaymentsToBills(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -402,7 +430,7 @@ public class Bills: CachedObjects, ResponseHandler  {
                 let error = DataError(type: .database, subType: .notFound)
                 
                 DispatchQueue.main.async {
-                    completion?(error)
+                    completion?(.failure(error))
                 }
                 return
         }
@@ -413,21 +441,24 @@ public class Bills: CachedObjects, ResponseHandler  {
             request = billPayment.updateRequest()
         }
         
-        network.updateBillPayment(billPaymentID: billPaymentID, request: request) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let billResponse = response {
+        network.updateBillPayment(billPaymentID: billPaymentID, request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleBillPaymentResponse(billResponse, managedObjectContext: managedObjectContext)
+                    self.handleBillPaymentResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkBillPaymentsToBills(managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }

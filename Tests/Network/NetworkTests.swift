@@ -157,7 +157,7 @@ class NetworkTests: XCTestCase {
         network.authenticator.accessToken = "AnExistingAccessToken"
         network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
         
-        network.fetchUser { (response, error) in
+        network.fetchUser { (result) in
             XCTAssertNil(error)
             
             expectation1.fulfill()

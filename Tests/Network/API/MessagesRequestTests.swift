@@ -37,7 +37,7 @@ class MessagesRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchMessages { (response, error) in
+        network.fetchMessages { (result) in
             XCTAssertNil(error)
             
             if let messagesResponse = response {
@@ -82,7 +82,7 @@ class MessagesRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchMessages { (response, error) in
+        network.fetchMessages { (result) in
             XCTAssertNil(error)
             
             if let messagesResponse = response {
@@ -113,7 +113,7 @@ class MessagesRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchUnreadMessages { (response, error) in
+        network.fetchUnreadMessages { (result) in
             XCTAssertNil(error)
             
             if let messagesResponse = response {
@@ -165,7 +165,7 @@ class MessagesRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchMessage(messageID: id) { (response, error) in
+        network.fetchMessage(messageID: id) { (result) in
             XCTAssertNil(error)
             
             if let message = response {
@@ -208,7 +208,7 @@ class MessagesRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
 
         let request = APIMessageUpdateRequest(interacted: false, read: true)
-        network.updateMessage(messageID: id, request: request) { (response, error) in
+        network.updateMessage(messageID: id, request: request) { (result) in
             XCTAssertNil(error)
 
             if let messageResponse = response {

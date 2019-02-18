@@ -40,7 +40,7 @@ class BillsRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         let request = APIBillCreateRequest.testTransactionData()
-        network.createBill(request: request) { (response, error) in
+        network.createBill(request: request) { (result) in
             XCTAssertNil(error)
             
             if let billResponse = response {
@@ -70,7 +70,7 @@ class BillsRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         let request = APIBillCreateRequest.testManualData()
-        network.createBill(request: request) { (response, error) in
+        network.createBill(request: request) { (result) in
             XCTAssertNil(error)
             
             if let billResponse = response {
@@ -99,7 +99,7 @@ class BillsRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.deleteBill(billID: 12345) { (response, error) in
+        network.deleteBill(billID: 12345) { (result) in
             XCTAssertNil(error)
             
             expectation1.fulfill()
@@ -123,7 +123,7 @@ class BillsRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchBills { (response, error) in
+        network.fetchBills { (result) in
             XCTAssertNil(error)
             
             if let billsResponse = response {
@@ -171,7 +171,7 @@ class BillsRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchBill(billID: 12345) { (response, error) in
+        network.fetchBill(billID: 12345) { (result) in
             XCTAssertNil(error)
             
             if let billResponse = response {
@@ -217,7 +217,7 @@ class BillsRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         let request = APIBillUpdateRequest.testCompleteData()
-        network.updateBill(billID: 12345, request: request) { (response, error) in
+        network.updateBill(billID: 12345, request: request) { (result) in
             XCTAssertNil(error)
             
             if let billResponse = response {
@@ -248,7 +248,7 @@ class BillsRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.deleteBillPayment(billPaymentID: 12345) { (response, error) in
+        network.deleteBillPayment(billPaymentID: 12345) { (result) in
             XCTAssertNil(error)
             
             expectation1.fulfill()
@@ -275,7 +275,7 @@ class BillsRequestTests: XCTestCase {
         let fromDate = BillPayment.billDateFormatter.date(from: "2018-12-01")!
         let toDate = BillPayment.billDateFormatter.date(from: "2021-01-01")!
         
-        network.fetchBillPayments(from: fromDate, to: toDate) { (response, error) in
+        network.fetchBillPayments(from: fromDate, to: toDate) { (result) in
             XCTAssertNil(error)
             
             if let billPaymentsResponse = response {
@@ -314,7 +314,7 @@ class BillsRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchBillPayment(billPaymentID: 12345) { (response, error) in
+        network.fetchBillPayment(billPaymentID: 12345) { (result) in
             XCTAssertNil(error)
             
             if let billPaymentResponse = response {
@@ -350,7 +350,7 @@ class BillsRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         let request = APIBillPaymentUpdateRequest.testCompleteData()
-        network.updateBillPayment(billPaymentID: 12345, request: request) { (response, error) in
+        network.updateBillPayment(billPaymentID: 12345, request: request) { (result) in
             XCTAssertNil(error)
             
             if let billResponse = response {

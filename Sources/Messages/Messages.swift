@@ -104,19 +104,22 @@ public class Messages: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshMessages(completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchMessages { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let messagesResponse = response {
+        network.fetchMessages { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleMessagesResponse(messagesResponse, unread: false, managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                    self.handleMessagesResponse(response, unread: false, managedObjectContext: managedObjectContext)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -129,19 +132,22 @@ public class Messages: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshMessage(messageID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchMessage(messageID: messageID) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let messageResponse = response {
+        network.fetchMessage(messageID: messageID) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleMessageResponse(messageResponse, managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                    self.handleMessageResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -161,7 +167,7 @@ public class Messages: CachedObjects, ResponseHandler {
                 let error = DataError(type: .database, subType: .notFound)
                 
                 DispatchQueue.main.async {
-                    completion?(error)
+                    completion?(.failure(error))
                 }
                 return
         }
@@ -172,19 +178,22 @@ public class Messages: CachedObjects, ResponseHandler {
             request = message.updateRequest()
         }
         
-        network.updateMessage(messageID: messageID, request: request) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let messageResponse = response {
+        network.updateMessage(messageID: messageID, request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleMessageResponse(messageResponse, managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                    self.handleMessageResponse(response, managedObjectContext: managedObjectContext)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -196,19 +205,22 @@ public class Messages: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshUnreadMessages(completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchUnreadMessages { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let messagesResponse = response {
+        network.fetchUnreadMessages { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleMessagesResponse(messagesResponse, unread: true, managedObjectContext: managedObjectContext)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+                    self.handleMessagesResponse(response, unread: true, managedObjectContext: managedObjectContext)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -224,13 +236,14 @@ public class Messages: CachedObjects, ResponseHandler {
         let managedObjectContext = self.database.newBackgroundContext()
         
         if message(context: managedObjectContext, messageID: messageID) == nil {
-            refreshMessage(messageID: messageID) { (error) in
-                if let refreshError = error {
-                    Log.error(refreshError.localizedDescription)
-                } else {
-                    DispatchQueue.main.async { [weak self] in
-                        self?.delegate?.messageReceived(messageID)
-                    }
+            refreshMessage(messageID: messageID) { (result) in
+                switch result {
+                    case .failure(let error):
+                        Log.error(error.localizedDescription)
+                    case .success:
+                        DispatchQueue.main.async { [weak self] in
+                            self?.delegate?.messageReceived(messageID)
+                        }
                 }
             }
         } else {

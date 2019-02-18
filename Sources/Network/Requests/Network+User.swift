@@ -12,7 +12,7 @@ import Alamofire
 
 extension Network {
     
-    typealias UserRequestCompletion = (_: APIUserResponse?, _: Error?) -> Void
+    typealias UserRequestCompletion = (_: Result<APIUserResponse, Error>) -> Void
     
     internal func changePassword(request: APIUserChangePasswordRequest, completion: @escaping NetworkCompletion) {
         requestQueue.async {
@@ -22,7 +22,7 @@ extension Network {
                else {
                 let dataError = DataError(type: .api, subType: .invalidData)
                 
-                completion(nil, dataError)
+                completion(.failure(dataError))
                 
                 return
             }
@@ -59,7 +59,7 @@ extension Network {
                 else {
                     let error = DataError(type: .api, subType: .invalidData)
                     
-                    completion(nil, error)
+                    completion(.failure(error))
                     return
             }
             
@@ -69,13 +69,13 @@ extension Network {
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                     return
             }
 
             self.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
                 if let error = self.handleTokens(response: response) {
-                    completion(nil, error)
+                    completion(.failure(error))
                     return
                 }
                 
@@ -105,13 +105,13 @@ extension Network {
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                     return
             }
 
             self.sessionManager.request(urlRequest).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { (response) in
                 if let error = self.handleTokens(response: response) {
-                    completion(nil, error)
+                    completion(.failure(error))
                     return
                 }
                 
@@ -128,7 +128,7 @@ extension Network {
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                     return
             }
             
@@ -149,7 +149,7 @@ extension Network {
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                     return
             }
             
@@ -172,16 +172,16 @@ extension Network {
                 do {
                     let tokenResponse = try decoder.decode(APIUserResponse.self, from: value)
                     
-                    completion(tokenResponse, nil)
+                    completion(.success(tokenResponse))
                 } catch {
                     Log.error(error.localizedDescription)
                     
                     let dataError = DataError(type: .unknown, subType: .unknown)
-                    completion(nil, dataError)
+                    completion(.failure(dataError))
                 }
-            case .failure:
-                self.handleFailure(response: response) { (error) in
-                    completion(nil, error)
+            case .failure(let error):
+                self.handleFailure(response: response, error: error) { (processedError) in
+                    completion(.failure(processedError))
                 }
         }
     }

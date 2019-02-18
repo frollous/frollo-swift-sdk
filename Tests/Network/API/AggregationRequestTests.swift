@@ -41,7 +41,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchProviders { (response, error) in
+        network.fetchProviders { (result) in
             XCTAssertNil(error)
             
             if let providersResponse = response {
@@ -87,7 +87,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchProviders { (response, error) in
+        network.fetchProviders { (result) in
             XCTAssertNil(error)
             
             if let providersResponse = response {
@@ -119,7 +119,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchProvider(providerID: 12345) { (response, error) in
+        network.fetchProvider(providerID: 12345) { (result) in
             XCTAssertNil(error)
             
             if let providerResponse = response {
@@ -163,7 +163,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchProviderAccounts { (response, error) in
+        network.fetchProviderAccounts { (result) in
             XCTAssertNil(error)
             
             if let providerAccountsResponse = response {
@@ -202,7 +202,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchProviderAccounts { (response, error) in
+        network.fetchProviderAccounts { (result) in
             XCTAssertNil(error)
             
             if let providerAccountsResponse = response {
@@ -234,7 +234,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchProviderAccount(providerAccountID: 123) { (response, error) in
+        network.fetchProviderAccount(providerAccountID: 123) { (result) in
             XCTAssertNil(error)
             
             if let providerAccountResponse = response {
@@ -266,7 +266,7 @@ class AggregationRequestTests: XCTestCase {
         let filledForm = ProviderLoginForm.loginFormFilledData()
         let request = APIProviderAccountCreateRequest(loginForm: filledForm, providerID: 4078)
         
-        network.createProviderAccount(request: request) { (response, error) in
+        network.createProviderAccount(request: request) { (result) in
             XCTAssertNil(error)
             
             if let providerAccountResponse = response {
@@ -295,7 +295,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.deleteProviderAccount(providerAccountID: 12345) { (response, error) in
+        network.deleteProviderAccount(providerAccountID: 12345) { (result) in
             XCTAssertNil(error)
             
             expectation1.fulfill()
@@ -319,7 +319,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchAccounts { (response, error) in
+        network.fetchAccounts { (result) in
             XCTAssertNil(error)
             
             if let accountsResponse = response {
@@ -390,7 +390,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchAccounts { (response, error) in
+        network.fetchAccounts { (result) in
             XCTAssertNil(error)
             
             if let accountsResponse = response {
@@ -422,7 +422,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchAccount(accountID: 542) { (response, error) in
+        network.fetchAccount(accountID: 542) { (result) in
             XCTAssertNil(error)
             
             if let accountResponse = response {
@@ -452,7 +452,7 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         let request = APIAccountUpdateRequest.testUpdateDataValid()
-        network.updateAccount(accountID: 542, request: request) { (response, error) in
+        network.updateAccount(accountID: 542, request: request) { (result) in
             XCTAssertNil(error)
             
             if let accountResponse = response {
@@ -482,7 +482,7 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         let request = APIAccountUpdateRequest.testUpdateDataInvalid()
-        network.updateAccount(accountID: 542, request: request) { (response, error) in
+        network.updateAccount(accountID: 542, request: request) { (result) in
             XCTAssertNotNil(error)
             
             expectation1.fulfill()
@@ -504,7 +504,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchTransactions(from: Date(timeIntervalSince1970: 1533124800), to: Date(timeIntervalSince1970: 1535673600)) { (response, error) in
+        network.fetchTransactions(from: Date(timeIntervalSince1970: 1533124800), to: Date(timeIntervalSince1970: 1535673600)) { (result) in
             XCTAssertNil(error)
             
             if let transactionsResponse = response {
@@ -551,7 +551,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchTransactions(from: Date(timeIntervalSince1970: 1533124800), to: Date(timeIntervalSince1970: 1535673600)) { (response, error) in
+        network.fetchTransactions(from: Date(timeIntervalSince1970: 1533124800), to: Date(timeIntervalSince1970: 1535673600)) { (result) in
             XCTAssertNil(error)
             
             if let transactionsResponse = response {
@@ -583,7 +583,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchTransaction(transactionID: 99703) { (response, error) in
+        network.fetchTransaction(transactionID: 99703) { (result) in
             XCTAssertNil(error)
             
             if let transaction = response {
@@ -612,7 +612,7 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         let request = APITransactionUpdateRequest.testCompleteData()
-        network.updateTransaction(transactionID: 99703, request: request) { (response, error) in
+        network.updateTransaction(transactionID: 99703, request: request) { (result) in
             XCTAssertNil(error)
             
             if let transactionResponse = response {
@@ -641,7 +641,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchTransactionCategories() { (response, error) in
+        network.fetchTransactionCategories() { (result) in
             XCTAssertNil(error)
             
             if let categoriesResponse = response {
@@ -674,7 +674,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchTransactionCategories() { (response, error) in
+        network.fetchTransactionCategories() { (result) in
             XCTAssertNil(error)
             
             if let categoriesResponse = response {
@@ -707,7 +707,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchMerchants() { (response, error) in
+        network.fetchMerchants() { (result) in
             XCTAssertNil(error)
             
             if let merchantsResponse = response {
@@ -740,7 +740,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchMerchants() { (response, error) in
+        network.fetchMerchants() { (result) in
             XCTAssertNil(error)
             
             if let merchantsResponse = response {
@@ -773,7 +773,7 @@ class AggregationRequestTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchMerchant(merchantID: 197) { (response, error) in
+        network.fetchMerchant(merchantID: 197) { (result) in
             XCTAssertNil(error)
             
             if let merchant = response {

@@ -26,7 +26,7 @@ class NetworkLogger: Logger {
         
         let request = APILogRequest(details: nil, message: message, score: level)
         
-        net.createLog(request: request) { (response, error) in }
+        net.createLog(request: request) { (result) in }
     }
     
 }

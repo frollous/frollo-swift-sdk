@@ -129,7 +129,7 @@ public class Authentication {
         guard !loggedIn
             else {
                 let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
-                completion(error)
+                completion(.failure(error))
                 return
         }
         
@@ -144,17 +144,20 @@ public class Authentication {
                                                    userID: userID,
                                                    userToken: userToken)
         
-        network.loginUser(request: userLoginRequest) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let userResponse = response {
-                    self.handleUserResponse(userResponse: userResponse)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion(error)
+        network.loginUser(request: userLoginRequest) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    self.handleUserResponse(userResponse: response)
+                
+                    DispatchQueue.main.async {
+                        completion(.success)
+                    }
             }
         }
     }
@@ -178,7 +181,7 @@ public class Authentication {
         guard !loggedIn
             else {
                 let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
-                completion(error)
+                completion(.failure(error))
                 return
         }
         
@@ -200,17 +203,20 @@ public class Authentication {
                                                          lastName: lastName,
                                                          mobileNumber: mobileNumber)
         
-        network.registerUser(request: userRegisterRequest) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let userResponse = response {
-                    self.handleUserResponse(userResponse: userResponse)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion(error)
+        network.registerUser(request: userRegisterRequest) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    self.handleUserResponse(userResponse: response)
+                
+                    DispatchQueue.main.async {
+                        completion(.success)
+                    }
             }
         }
     }
@@ -227,13 +233,18 @@ public class Authentication {
     public func resetPassword(email: String, completion: @escaping FrolloSDKCompletionHandler) {
         let request = APIUserResetPasswordRequest(email: email)
         
-        network.resetPassword(request: request) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            }
-            
-            DispatchQueue.main.async {
-                completion(error)
+        network.resetPassword(request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success:
+                    DispatchQueue.main.async {
+                        completion(.success)
+                    }
             }
         }
     }
@@ -252,21 +263,24 @@ public class Authentication {
         guard loggedIn
             else {
                 let error = DataError(type: .authentication, subType: .loggedOut)
-                completion?(error)
+                completion?(.failure(error))
                 return
         }
         
-        network.fetchUser { (data, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let userResponse = data {
-                    self.handleUserResponse(userResponse: userResponse)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+        network.fetchUser { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    self.handleUserResponse(userResponse: response)
+                
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -283,7 +297,7 @@ public class Authentication {
         guard loggedIn
             else {
                 let error = DataError(type: .authentication, subType: .loggedOut)
-                completion(error)
+                completion(.failure(error))
                 return
         }
         
@@ -294,7 +308,7 @@ public class Authentication {
                 let error = DataError(type: .database, subType: .notFound)
                 
                 DispatchQueue.main.async {
-                    completion(error)
+                    completion(.failure(error))
                 }
                 return
         }
@@ -305,17 +319,20 @@ public class Authentication {
             request = user.updateRequest()
         }
         
-        network.updateUser(request: request) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                if let userResponse = response {
-                    self.handleUserResponse(userResponse: userResponse)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion(error)
+        network.updateUser(request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    self.handleUserResponse(userResponse: response)
+                
+                    DispatchQueue.main.async {
+                        completion(.success)
+                    }
             }
         }
     }
@@ -331,8 +348,9 @@ public class Authentication {
     internal func changePassword(currentPassword: String?, newPassword: String, completion: @escaping FrolloSDKCompletionHandler) {
         guard loggedIn
             else {
+                #warning("Send these on the main thread")
                 let error = DataError(type: .authentication, subType: .loggedOut)
-                completion(error)
+                completion(.failure(error))
                 return
         }
         
@@ -344,18 +362,23 @@ public class Authentication {
                 let error = DataError(type: .api, subType: .passwordTooShort)
                 
                 DispatchQueue.main.async {
-                    completion(error)
+                    completion(.failure(error))
                 }
                 return
         }
         
-        network.changePassword(request: changePasswordRequest) { (data, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            }
-            
-            DispatchQueue.main.async {
-                completion(error)
+        network.changePassword(request: changePasswordRequest) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success:
+                    DispatchQueue.main.async {
+                        completion(.success)
+                    }
             }
         }
     }
@@ -370,21 +393,26 @@ public class Authentication {
         guard loggedIn
             else {
                 let error = DataError(type: .authentication, subType: .loggedOut)
-                completion(error)
+                completion(.failure(error))
                 return
         }
         
-        network.deleteUser { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            } else {
-                self.reset()
+        network.deleteUser { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success:
+                    self.reset()
                 
-                self.delegate?.authenticationReset()
-            }
-            
-            DispatchQueue.main.async {
-                completion(error)
+                    self.delegate?.authenticationReset()
+                
+                    DispatchQueue.main.async {
+                        completion(.success)
+                    }
             }
         }
     }
@@ -437,7 +465,7 @@ public class Authentication {
         guard loggedIn
             else {
                 let error = DataError(type: .authentication, subType: .loggedOut)
-                completion?(error)
+                completion?(.failure(error))
                 return
         }
         
@@ -448,13 +476,18 @@ public class Authentication {
                                              notificationToken: notificationToken,
                                              timezone: TimeZone.current.identifier)
         
-        network.updateDevice(request: request) { (response, error) in
-            if let responseError = error {
-                Log.error(responseError.localizedDescription)
-            }
-            
-            DispatchQueue.main.async {
-                completion?(error)
+        network.updateDevice(request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success:
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
             }
         }
     }
@@ -476,9 +509,12 @@ public class Authentication {
                 return
         }
         
-        network.logoutUser { (data, error) in
-            if let logoutError = error {
-                Log.error(logoutError.localizedDescription)
+        network.logoutUser { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                case .success:
+                    break
             }
         }
         
