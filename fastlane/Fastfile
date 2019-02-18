@@ -24,9 +24,9 @@ platform :ios do
     begin
       #setup_jenkins
 
-      if carthage_cache_exist(bucket: 'frollo-sdk-carthage-cache')
+      if carthage_cache_exist(bucket: 'frollo-carthage-cache')
         carthage_cache_install(
-          bucket: 'frollo-sdk-carthage-cache'
+          bucket: 'frollo-carthage-cache'
         )
       else
         carthage(
@@ -36,7 +36,7 @@ platform :ios do
         )
 
         carthage_cache_publish(
-          bucket: 'frollo-sdk-carthage-cache'
+          bucket: 'frollo-carthage-cache'
         )
       end
 
