@@ -121,7 +121,10 @@ public class Authentication {
         guard !loggedIn
             else {
                 let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
-                completion(.failure(error))
+                
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
                 return
         }
         
@@ -173,7 +176,10 @@ public class Authentication {
         guard !loggedIn
             else {
                 let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
-                completion(.failure(error))
+                
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
                 return
         }
         
@@ -255,7 +261,10 @@ public class Authentication {
         guard loggedIn
             else {
                 let error = DataError(type: .authentication, subType: .loggedOut)
-                completion?(.failure(error))
+                
+                DispatchQueue.main.async {
+                    completion?(.failure(error))
+                }
                 return
         }
         
@@ -289,7 +298,10 @@ public class Authentication {
         guard loggedIn
             else {
                 let error = DataError(type: .authentication, subType: .loggedOut)
-                completion(.failure(error))
+                
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
                 return
         }
         
@@ -340,9 +352,11 @@ public class Authentication {
     internal func changePassword(currentPassword: String?, newPassword: String, completion: @escaping FrolloSDKCompletionHandler) {
         guard loggedIn
             else {
-                #warning("Send these on the main thread")
                 let error = DataError(type: .authentication, subType: .loggedOut)
-                completion(.failure(error))
+                
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
                 return
         }
         
@@ -385,7 +399,10 @@ public class Authentication {
         guard loggedIn
             else {
                 let error = DataError(type: .authentication, subType: .loggedOut)
-                completion(.failure(error))
+                
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
                 return
         }
         
@@ -457,7 +474,10 @@ public class Authentication {
         guard loggedIn
             else {
                 let error = DataError(type: .authentication, subType: .loggedOut)
-                completion?(.failure(error))
+                
+                DispatchQueue.main.async {
+                    completion?(.failure(error))
+                }
                 return
         }
         
