@@ -42,30 +42,29 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchProviders { (result) in
-            XCTAssertNil(error)
-            
-            if let providersResponse = response {
-                XCTAssertEqual(providersResponse.count, 311)
-                
-                if let firstProvider = providersResponse.first {
-                    XCTAssertEqual(firstProvider.id, 447)
-                    XCTAssertEqual(firstProvider.name, "PayPal")
-                    XCTAssertEqual(firstProvider.smallLogoURLString, "https://example.com/small_logo.png")
-                    XCTAssertEqual(firstProvider.status, .supported)
-                    XCTAssertEqual(firstProvider.popular, false)
-                    XCTAssertEqual(firstProvider.containerNames, [.bank, .creditCard])
-                    XCTAssertEqual(firstProvider.loginURLString, "https://www.paypal.com/signin/")
-                    XCTAssertNil(firstProvider.authType)
-                    XCTAssertNil(firstProvider.encryption)
-                    XCTAssertNil(firstProvider.forgotPasswordURLString)
-                    XCTAssertNil(firstProvider.largeLogoURLString)
-                    XCTAssertNil(firstProvider.helpMessage)
-                    XCTAssertNil(firstProvider.loginHelpMessage)
-                    XCTAssertNil(firstProvider.mfaType)
-                    XCTAssertNil(firstProvider.oAuthSite)
-                }
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 311)
+                    
+                    if let firstProvider = response.first {
+                        XCTAssertEqual(firstProvider.id, 447)
+                        XCTAssertEqual(firstProvider.name, "PayPal")
+                        XCTAssertEqual(firstProvider.smallLogoURLString, "https://example.com/small_logo.png")
+                        XCTAssertEqual(firstProvider.status, .supported)
+                        XCTAssertEqual(firstProvider.popular, false)
+                        XCTAssertEqual(firstProvider.containerNames, [.bank, .creditCard])
+                        XCTAssertEqual(firstProvider.loginURLString, "https://www.paypal.com/signin/")
+                        XCTAssertNil(firstProvider.authType)
+                        XCTAssertNil(firstProvider.encryption)
+                        XCTAssertNil(firstProvider.forgotPasswordURLString)
+                        XCTAssertNil(firstProvider.largeLogoURLString)
+                        XCTAssertNil(firstProvider.helpMessage)
+                        XCTAssertNil(firstProvider.loginHelpMessage)
+                        XCTAssertNil(firstProvider.mfaType)
+                        XCTAssertNil(firstProvider.oAuthSite)
+                    }
             }
             
             expectation1.fulfill()
@@ -88,16 +87,15 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchProviders { (result) in
-            XCTAssertNil(error)
-            
-            if let providersResponse = response {
-                XCTAssertEqual(providersResponse.count, 309)
-                
-                if let firstProvider = providersResponse.first {
-                    XCTAssertEqual(firstProvider.id, 447)
-                }
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 309)
+                    
+                    if let firstProvider = response.first {
+                        XCTAssertEqual(firstProvider.id, 447)
+                    }
             }
             
             expectation1.fulfill()
@@ -120,28 +118,27 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchProvider(providerID: 12345) { (result) in
-            XCTAssertNil(error)
-            
-            if let providerResponse = response {
-                XCTAssertEqual(providerResponse.id, 12345)
-                XCTAssertEqual(providerResponse.name, "AustralianSuper")
-                XCTAssertEqual(providerResponse.smallLogoURLString, "https://example.com/australiansuper-small.png")
-                XCTAssertEqual(providerResponse.status, .disabled)
-                XCTAssertEqual(providerResponse.popular, false)
-                XCTAssertEqual(providerResponse.containerNames, [.investment, .insurance])
-                XCTAssertEqual(providerResponse.loginURLString, "https://www.australiansuper.com/login.aspx")
-                XCTAssertEqual(providerResponse.authType, .mfaCredentials)
-                XCTAssertEqual(providerResponse.encryption?.encryptionType, .encryptValues)
-                XCTAssertEqual(providerResponse.encryption?.alias, "09282016_1")
-                XCTAssertEqual(providerResponse.encryption?.pem, "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1eXKHvPBlS4A41OvQqFn0SfNH7OgEs2MXMLeyp3xKorEipEKuzv/JDtHFHRAfYwyeiC0q+me0R8GLA6NEDGDfpxGv/XUFyza609ZqtCTOiGCp8DcjLG0mPljdGA1Df0BKhF3y5uata1y0dKSI8aY8lXPza+Tsw4TtjdmHbJ2rR3sFZkYch1RTmNKxKDxMgUmtIk785lIfLJ2x6lvh4ZS9QhuAnsoVM91WWKHrLHYfAeA/zD1TxHDm5/4wPbmFLEBe2+5zGae19nsA/9zDwKP4whpte9HuDDQa5Vsq+aWj5pDJuvFgwA/DStqcHGijn5gzB/JXEoE9qx+dcG92PpvfwIDAQAB\n-----END PUBLIC KEY-----")
-                XCTAssertEqual(providerResponse.forgotPasswordURLString, "https://www.australiansuper.com/forgotpassword.aspx")
-                XCTAssertEqual(providerResponse.helpMessage, "test")
-                XCTAssertEqual(providerResponse.largeLogoURLString, "https://example.com/australiansuper-logo600pxw.png")
-                XCTAssertEqual(providerResponse.loginHelpMessage, "login here")
-                XCTAssertEqual(providerResponse.mfaType, .token)
-                XCTAssertEqual(providerResponse.oAuthSite, false)
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let providerResponse):
+                    XCTAssertEqual(providerResponse.id, 12345)
+                    XCTAssertEqual(providerResponse.name, "AustralianSuper")
+                    XCTAssertEqual(providerResponse.smallLogoURLString, "https://example.com/australiansuper-small.png")
+                    XCTAssertEqual(providerResponse.status, .disabled)
+                    XCTAssertEqual(providerResponse.popular, false)
+                    XCTAssertEqual(providerResponse.containerNames, [.investment, .insurance])
+                    XCTAssertEqual(providerResponse.loginURLString, "https://www.australiansuper.com/login.aspx")
+                    XCTAssertEqual(providerResponse.authType, .mfaCredentials)
+                    XCTAssertEqual(providerResponse.encryption?.encryptionType, .encryptValues)
+                    XCTAssertEqual(providerResponse.encryption?.alias, "09282016_1")
+                    XCTAssertEqual(providerResponse.encryption?.pem, "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1eXKHvPBlS4A41OvQqFn0SfNH7OgEs2MXMLeyp3xKorEipEKuzv/JDtHFHRAfYwyeiC0q+me0R8GLA6NEDGDfpxGv/XUFyza609ZqtCTOiGCp8DcjLG0mPljdGA1Df0BKhF3y5uata1y0dKSI8aY8lXPza+Tsw4TtjdmHbJ2rR3sFZkYch1RTmNKxKDxMgUmtIk785lIfLJ2x6lvh4ZS9QhuAnsoVM91WWKHrLHYfAeA/zD1TxHDm5/4wPbmFLEBe2+5zGae19nsA/9zDwKP4whpte9HuDDQa5Vsq+aWj5pDJuvFgwA/DStqcHGijn5gzB/JXEoE9qx+dcG92PpvfwIDAQAB\n-----END PUBLIC KEY-----")
+                    XCTAssertEqual(providerResponse.forgotPasswordURLString, "https://www.australiansuper.com/forgotpassword.aspx")
+                    XCTAssertEqual(providerResponse.helpMessage, "test")
+                    XCTAssertEqual(providerResponse.largeLogoURLString, "https://example.com/australiansuper-logo600pxw.png")
+                    XCTAssertEqual(providerResponse.loginHelpMessage, "login here")
+                    XCTAssertEqual(providerResponse.mfaType, .token)
+                    XCTAssertEqual(providerResponse.oAuthSite, false)
             }
             
             expectation1.fulfill()
@@ -164,23 +161,22 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchProviderAccounts { (result) in
-            XCTAssertNil(error)
-            
-            if let providerAccountsResponse = response {
-                XCTAssertEqual(providerAccountsResponse.count, 4)
-                
-                if let firstProviderAccount = providerAccountsResponse.first {
-                    XCTAssertEqual(firstProviderAccount.id, 623)
-                    XCTAssertEqual(firstProviderAccount.providerID, 11582)
-                    XCTAssertEqual(firstProviderAccount.editable, true)
-                    XCTAssertEqual(firstProviderAccount.refreshStatus.status, .success)
-                    XCTAssertEqual(firstProviderAccount.refreshStatus.subStatus, .success)
-                    XCTAssertEqual(firstProviderAccount.refreshStatus.lastRefreshed, Date(timeIntervalSince1970: 1533174026))
-                    XCTAssertNil(firstProviderAccount.refreshStatus.nextRefresh)
-                    XCTAssertNil(firstProviderAccount.refreshStatus.additionalStatus)
-                }
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 4)
+                    
+                    if let firstProviderAccount = response.first {
+                        XCTAssertEqual(firstProviderAccount.id, 623)
+                        XCTAssertEqual(firstProviderAccount.providerID, 11582)
+                        XCTAssertEqual(firstProviderAccount.editable, true)
+                        XCTAssertEqual(firstProviderAccount.refreshStatus.status, .success)
+                        XCTAssertEqual(firstProviderAccount.refreshStatus.subStatus, .success)
+                        XCTAssertEqual(firstProviderAccount.refreshStatus.lastRefreshed, Date(timeIntervalSince1970: 1533174026))
+                        XCTAssertNil(firstProviderAccount.refreshStatus.nextRefresh)
+                        XCTAssertNil(firstProviderAccount.refreshStatus.additionalStatus)
+                    }
             }
             
             expectation1.fulfill()
@@ -203,16 +199,15 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchProviderAccounts { (result) in
-            XCTAssertNil(error)
-            
-            if let providerAccountsResponse = response {
-                XCTAssertEqual(providerAccountsResponse.count, 2)
-                
-                if let firstProviderAccount = providerAccountsResponse.first {
-                    XCTAssertEqual(firstProviderAccount.id, 624)
-                }
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 2)
+                    
+                    if let firstProviderAccount = response.first {
+                        XCTAssertEqual(firstProviderAccount.id, 624)
+                    }
             }
             
             expectation1.fulfill()
@@ -235,13 +230,12 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchProviderAccount(providerAccountID: 123) { (result) in
-            XCTAssertNil(error)
-            
-            if let providerAccountResponse = response {
-                XCTAssertEqual(providerAccountResponse.id, 123)
-                XCTAssertEqual(providerAccountResponse.providerID, 4078)
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let providerAccountResponse):
+                    XCTAssertEqual(providerAccountResponse.id, 123)
+                    XCTAssertEqual(providerAccountResponse.providerID, 4078)
             }
             
             expectation1.fulfill()
@@ -267,13 +261,12 @@ class AggregationRequestTests: XCTestCase {
         let request = APIProviderAccountCreateRequest(loginForm: filledForm, providerID: 4078)
         
         network.createProviderAccount(request: request) { (result) in
-            XCTAssertNil(error)
-            
-            if let providerAccountResponse = response {
-                XCTAssertEqual(providerAccountResponse.id, 123)
-                XCTAssertEqual(providerAccountResponse.providerID, 4078)
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let providerAccountResponse):
+                    XCTAssertEqual(providerAccountResponse.id, 123)
+                    XCTAssertEqual(providerAccountResponse.providerID, 4078)
             }
             
             expectation1.fulfill()
@@ -296,7 +289,12 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.deleteProviderAccount(providerAccountID: 12345) { (result) in
-            XCTAssertNil(error)
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation1.fulfill()
         }
@@ -320,55 +318,54 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchAccounts { (result) in
-            XCTAssertNil(error)
-            
-            if let accountsResponse = response {
-                XCTAssertEqual(accountsResponse.count, 4)
-                
-                if let firstAccount = accountsResponse.first {
-                    XCTAssertEqual(firstAccount.id, 542)
-                    XCTAssertEqual(firstAccount.providerAccountID, 867)
-                    XCTAssertEqual(firstAccount.refreshStatus.status, .success)
-                    XCTAssertEqual(firstAccount.refreshStatus.subStatus, .success)
-                    XCTAssertEqual(firstAccount.refreshStatus.lastRefreshed, Date(timeIntervalSince1970: 1533174026))
-                    XCTAssertNil(firstAccount.refreshStatus.nextRefresh)
-                    XCTAssertNil(firstAccount.refreshStatus.additionalStatus)
-                    XCTAssertEqual(firstAccount.availableCash?.amount, "1823.85")
-                    XCTAssertEqual(firstAccount.availableCash?.currency, "AUD")
-                    XCTAssertEqual(firstAccount.currentBalance?.amount, "1823.85")
-                    XCTAssertEqual(firstAccount.currentBalance?.currency, "AUD")
-                    XCTAssertEqual(firstAccount.availableBalance?.amount, "1823.85")
-                    XCTAssertEqual(firstAccount.availableBalance?.currency, "AUD")
-                    XCTAssertEqual(firstAccount.availableCredit?.amount, "1823.85")
-                    XCTAssertEqual(firstAccount.availableCredit?.currency, "AUD")
-                    XCTAssertEqual(firstAccount.totalCashLimit?.amount, "1823.85")
-                    XCTAssertEqual(firstAccount.totalCashLimit?.currency, "AUD")
-                    XCTAssertEqual(firstAccount.totalCreditLine?.amount, "1823.85")
-                    XCTAssertEqual(firstAccount.totalCreditLine?.currency, "AUD")
-                    XCTAssertEqual(firstAccount.amountDue?.amount, "1823.85")
-                    XCTAssertEqual(firstAccount.amountDue?.currency, "AUD")
-                    XCTAssertEqual(firstAccount.minimumAmountDue?.amount, "1823.85")
-                    XCTAssertEqual(firstAccount.minimumAmountDue?.currency, "AUD")
-                    XCTAssertEqual(firstAccount.lastPaymentAmount?.amount, "1823.85")
-                    XCTAssertEqual(firstAccount.lastPaymentAmount?.currency, "AUD")
-                    XCTAssertEqual(firstAccount.apr, "18.99")
-                    XCTAssertEqual(firstAccount.interestRate, "3.01")
-                    XCTAssertEqual(firstAccount.holderProfile?.name, "Jacob")
-                    XCTAssertEqual(firstAccount.accountAttributes.container, .bank)
-                    XCTAssertEqual(firstAccount.accountAttributes.accountType, .bankAccount)
-                    XCTAssertEqual(firstAccount.accountAttributes.classification, .personal)
-                    XCTAssertEqual(firstAccount.accountAttributes.group, .bank)
-                    XCTAssertEqual(firstAccount.included, true)
-                    XCTAssertEqual(firstAccount.hidden, false)
-                    XCTAssertEqual(firstAccount.favourite, true)
-                    XCTAssertEqual(firstAccount.accountName, "Personal Account")
-                    XCTAssertEqual(firstAccount.providerName, "ME Bank (demo)")
-                    XCTAssertEqual(firstAccount.balanceDetails?.tiers.first?.description, "Below average")
-                    XCTAssertEqual(firstAccount.balanceDetails?.tiers.first?.max, 549)
-                    XCTAssertEqual(firstAccount.balanceDetails?.tiers.first?.min, 0)
-                }
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 4)
+                    
+                    if let firstAccount = response.first {
+                        XCTAssertEqual(firstAccount.id, 542)
+                        XCTAssertEqual(firstAccount.providerAccountID, 867)
+                        XCTAssertEqual(firstAccount.refreshStatus.status, .success)
+                        XCTAssertEqual(firstAccount.refreshStatus.subStatus, .success)
+                        XCTAssertEqual(firstAccount.refreshStatus.lastRefreshed, Date(timeIntervalSince1970: 1533174026))
+                        XCTAssertNil(firstAccount.refreshStatus.nextRefresh)
+                        XCTAssertNil(firstAccount.refreshStatus.additionalStatus)
+                        XCTAssertEqual(firstAccount.availableCash?.amount, "1823.85")
+                        XCTAssertEqual(firstAccount.availableCash?.currency, "AUD")
+                        XCTAssertEqual(firstAccount.currentBalance?.amount, "1823.85")
+                        XCTAssertEqual(firstAccount.currentBalance?.currency, "AUD")
+                        XCTAssertEqual(firstAccount.availableBalance?.amount, "1823.85")
+                        XCTAssertEqual(firstAccount.availableBalance?.currency, "AUD")
+                        XCTAssertEqual(firstAccount.availableCredit?.amount, "1823.85")
+                        XCTAssertEqual(firstAccount.availableCredit?.currency, "AUD")
+                        XCTAssertEqual(firstAccount.totalCashLimit?.amount, "1823.85")
+                        XCTAssertEqual(firstAccount.totalCashLimit?.currency, "AUD")
+                        XCTAssertEqual(firstAccount.totalCreditLine?.amount, "1823.85")
+                        XCTAssertEqual(firstAccount.totalCreditLine?.currency, "AUD")
+                        XCTAssertEqual(firstAccount.amountDue?.amount, "1823.85")
+                        XCTAssertEqual(firstAccount.amountDue?.currency, "AUD")
+                        XCTAssertEqual(firstAccount.minimumAmountDue?.amount, "1823.85")
+                        XCTAssertEqual(firstAccount.minimumAmountDue?.currency, "AUD")
+                        XCTAssertEqual(firstAccount.lastPaymentAmount?.amount, "1823.85")
+                        XCTAssertEqual(firstAccount.lastPaymentAmount?.currency, "AUD")
+                        XCTAssertEqual(firstAccount.apr, "18.99")
+                        XCTAssertEqual(firstAccount.interestRate, "3.01")
+                        XCTAssertEqual(firstAccount.holderProfile?.name, "Jacob")
+                        XCTAssertEqual(firstAccount.accountAttributes.container, .bank)
+                        XCTAssertEqual(firstAccount.accountAttributes.accountType, .bankAccount)
+                        XCTAssertEqual(firstAccount.accountAttributes.classification, .personal)
+                        XCTAssertEqual(firstAccount.accountAttributes.group, .bank)
+                        XCTAssertEqual(firstAccount.included, true)
+                        XCTAssertEqual(firstAccount.hidden, false)
+                        XCTAssertEqual(firstAccount.favourite, true)
+                        XCTAssertEqual(firstAccount.accountName, "Personal Account")
+                        XCTAssertEqual(firstAccount.providerName, "ME Bank (demo)")
+                        XCTAssertEqual(firstAccount.balanceDetails?.tiers.first?.description, "Below average")
+                        XCTAssertEqual(firstAccount.balanceDetails?.tiers.first?.max, 549)
+                        XCTAssertEqual(firstAccount.balanceDetails?.tiers.first?.min, 0)
+                    }
             }
             
             expectation1.fulfill()
@@ -391,16 +388,15 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchAccounts { (result) in
-            XCTAssertNil(error)
-            
-            if let accountsResponse = response {
-                XCTAssertEqual(accountsResponse.count, 2)
-                
-                if let firstAccount = accountsResponse.first {
-                    XCTAssertEqual(firstAccount.id, 542)
-                }
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 2)
+                    
+                    if let firstAccount = response.first {
+                        XCTAssertEqual(firstAccount.id, 542)
+                    }
             }
             
             expectation1.fulfill()
@@ -423,13 +419,12 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchAccount(accountID: 542) { (result) in
-            XCTAssertNil(error)
-            
-            if let accountResponse = response {
-                XCTAssertEqual(accountResponse.id, 542)
-                XCTAssertEqual(accountResponse.providerAccountID, 867)
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.id, 542)
+                    XCTAssertEqual(response.providerAccountID, 867)
             }
             
             expectation1.fulfill()
@@ -453,13 +448,12 @@ class AggregationRequestTests: XCTestCase {
         
         let request = APIAccountUpdateRequest.testUpdateDataValid()
         network.updateAccount(accountID: 542, request: request) { (result) in
-            XCTAssertNil(error)
-            
-            if let accountResponse = response {
-                XCTAssertEqual(accountResponse.id, 542)
-                XCTAssertEqual(accountResponse.providerAccountID, 867)
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.id, 542)
+                    XCTAssertEqual(response.providerAccountID, 867)
             }
             
             expectation1.fulfill()
@@ -483,7 +477,12 @@ class AggregationRequestTests: XCTestCase {
         
         let request = APIAccountUpdateRequest.testUpdateDataInvalid()
         network.updateAccount(accountID: 542, request: request) { (result) in
-            XCTAssertNotNil(error)
+            switch result {
+                case .failure:
+                    break
+                case .success:
+                    XCTFail("Invalid data should return error")
+            }
             
             expectation1.fulfill()
         }
@@ -505,31 +504,30 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchTransactions(from: Date(timeIntervalSince1970: 1533124800), to: Date(timeIntervalSince1970: 1535673600)) { (result) in
-            XCTAssertNil(error)
-            
-            if let transactionsResponse = response {
-                XCTAssertEqual(transactionsResponse.count, 179)
-                
-                if let firstTransaction = transactionsResponse.first {
-                    XCTAssertEqual(firstTransaction.id, 99704)
-                    XCTAssertEqual(firstTransaction.accountID, 544)
-                    XCTAssertEqual(firstTransaction.amount.amount, "1000.00")
-                    XCTAssertEqual(firstTransaction.amount.currency, "AUD")
-                    XCTAssertEqual(firstTransaction.baseType, .credit)
-                    XCTAssertEqual(firstTransaction.budgetCategory, .lifestyle)
-                    XCTAssertEqual(firstTransaction.description.original, "Credit Card Payment")
-                    XCTAssertEqual(firstTransaction.description.simple, "Payment")
-                    XCTAssertEqual(firstTransaction.description.user, "My Payment")
-                    XCTAssertEqual(firstTransaction.included, true)
-                    XCTAssertEqual(firstTransaction.merchantID, 1)
-                    XCTAssertEqual(firstTransaction.memo, "Remind me")
-                    XCTAssertEqual(firstTransaction.postDate, "2018-03-01")
-                    XCTAssertEqual(firstTransaction.status, .posted)
-                    XCTAssertEqual(firstTransaction.categoryID, 81)
-                    XCTAssertEqual(firstTransaction.transactionDate, "2018-08-08")
-                }
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 179)
+                    
+                    if let firstTransaction = response.first {
+                        XCTAssertEqual(firstTransaction.id, 99704)
+                        XCTAssertEqual(firstTransaction.accountID, 544)
+                        XCTAssertEqual(firstTransaction.amount.amount, "1000.00")
+                        XCTAssertEqual(firstTransaction.amount.currency, "AUD")
+                        XCTAssertEqual(firstTransaction.baseType, .credit)
+                        XCTAssertEqual(firstTransaction.budgetCategory, .lifestyle)
+                        XCTAssertEqual(firstTransaction.description.original, "Credit Card Payment")
+                        XCTAssertEqual(firstTransaction.description.simple, "Payment")
+                        XCTAssertEqual(firstTransaction.description.user, "My Payment")
+                        XCTAssertEqual(firstTransaction.included, true)
+                        XCTAssertEqual(firstTransaction.merchantID, 1)
+                        XCTAssertEqual(firstTransaction.memo, "Remind me")
+                        XCTAssertEqual(firstTransaction.postDate, "2018-03-01")
+                        XCTAssertEqual(firstTransaction.status, .posted)
+                        XCTAssertEqual(firstTransaction.categoryID, 81)
+                        XCTAssertEqual(firstTransaction.transactionDate, "2018-08-08")
+                    }
             }
             
             expectation1.fulfill()
@@ -552,16 +550,15 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchTransactions(from: Date(timeIntervalSince1970: 1533124800), to: Date(timeIntervalSince1970: 1535673600)) { (result) in
-            XCTAssertNil(error)
-            
-            if let transactionsResponse = response {
-                XCTAssertEqual(transactionsResponse.count, 176)
-                
-                if let firstTransaction = transactionsResponse.first {
-                    XCTAssertEqual(firstTransaction.id, 99704)
-                }
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 176)
+                    
+                    if let firstTransaction = response.first {
+                        XCTAssertEqual(firstTransaction.id, 99704)
+                    }
             }
             
             expectation1.fulfill()
@@ -584,12 +581,11 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchTransaction(transactionID: 99703) { (result) in
-            XCTAssertNil(error)
-            
-            if let transaction = response {
-                XCTAssertEqual(transaction.id, 99703)
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.id, 99703)
             }
             
             expectation1.fulfill()
@@ -613,13 +609,12 @@ class AggregationRequestTests: XCTestCase {
         
         let request = APITransactionUpdateRequest.testCompleteData()
         network.updateTransaction(transactionID: 99703, request: request) { (result) in
-            XCTAssertNil(error)
-            
-            if let transactionResponse = response {
-                XCTAssertEqual(transactionResponse.id, 99703)
-                XCTAssertEqual(transactionResponse.accountID, 543)
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.id, 99703)
+                    XCTAssertEqual(response.accountID, 543)
             }
             
             expectation1.fulfill()
@@ -642,17 +637,15 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchTransactionCategories() { (result) in
-            XCTAssertNil(error)
-            
-            if let categoriesResponse = response {
-                XCTAssertEqual(categoriesResponse.count, 43)
-                
-                if let firstCategory = categoriesResponse.first {
-                    XCTAssertEqual(firstCategory.id, 60)
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 43)
                     
-                }
-            } else {
-                XCTFail("No response object")
+                    if let firstCategory = response.first {
+                        XCTAssertEqual(firstCategory.id, 60)
+                    }
             }
             
             expectation1.fulfill()
@@ -675,17 +668,16 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchTransactionCategories() { (result) in
-            XCTAssertNil(error)
-            
-            if let categoriesResponse = response {
-                XCTAssertEqual(categoriesResponse.count, 40)
-                
-                if let firstCategory = categoriesResponse.first {
-                    XCTAssertEqual(firstCategory.id, 60)
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 40)
                     
-                }
-            } else {
-                XCTFail("No response object")
+                    if let firstCategory = response.first {
+                        XCTAssertEqual(firstCategory.id, 60)
+                        
+                    }
             }
             
             expectation1.fulfill()
@@ -708,17 +700,16 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchMerchants() { (result) in
-            XCTAssertNil(error)
-            
-            if let merchantsResponse = response {
-                XCTAssertEqual(merchantsResponse.count, 1200)
-                
-                if let firstMerchant = merchantsResponse.first {
-                    XCTAssertEqual(firstMerchant.id, 1)
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 1200)
                     
-                }
-            } else {
-                XCTFail("No response object")
+                    if let firstMerchant = response.first {
+                        XCTAssertEqual(firstMerchant.id, 1)
+                        
+                    }
             }
             
             expectation1.fulfill()
@@ -741,17 +732,15 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchMerchants() { (result) in
-            XCTAssertNil(error)
-            
-            if let merchantsResponse = response {
-                XCTAssertEqual(merchantsResponse.count, 1196)
-                
-                if let firstMerchant = merchantsResponse.first {
-                    XCTAssertEqual(firstMerchant.id, 1)
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 1196)
                     
-                }
-            } else {
-                XCTFail("No response object")
+                    if let firstMerchant = response.first {
+                        XCTAssertEqual(firstMerchant.id, 1)
+                    }
             }
             
             expectation1.fulfill()
@@ -774,15 +763,14 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchMerchant(merchantID: 197) { (result) in
-            XCTAssertNil(error)
-            
-            if let merchant = response {
-                XCTAssertEqual(merchant.id, 197)
-                XCTAssertEqual(merchant.name, "Australia Post")
-                XCTAssertEqual(merchant.merchantType, .retailer)
-                XCTAssertEqual(merchant.smallLogoURL, "https://frollo-sandbox.s3.amazonaws.com/merchants/197/original/d6bd64365239f57dc09dd0711719077a_642234798c18e5ea343eefc97f511396e9d3d923d0473cc0e4a7d30a0fb46a30.png?1519084264")
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.id, 197)
+                    XCTAssertEqual(response.name, "Australia Post")
+                    XCTAssertEqual(response.merchantType, .retailer)
+                    XCTAssertEqual(response.smallLogoURL, "https://frollo-sandbox.s3.amazonaws.com/merchants/197/original/d6bd64365239f57dc09dd0711719077a_642234798c18e5ea343eefc97f511396e9d3d923d0473cc0e4a7d30a0fb46a30.png?1519084264")
             }
             
             expectation1.fulfill()

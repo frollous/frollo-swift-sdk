@@ -68,11 +68,15 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.refreshToken { (json, error) in
-            XCTAssertNil(error)
-            XCTAssertEqual(network.authenticator.accessToken, "AValidAccessTokenFromHost")
-            XCTAssertEqual(network.authenticator.refreshToken, "AValidRefreshTokenFromHost")
-            XCTAssertEqual(network.authenticator.expiryDate, Date(timeIntervalSince1970: 1721259268))
+        network.refreshToken { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    XCTAssertEqual(network.authenticator.accessToken, "AValidAccessTokenFromHost")
+                    XCTAssertEqual(network.authenticator.refreshToken, "AValidRefreshTokenFromHost")
+                    XCTAssertEqual(network.authenticator.expiryDate, Date(timeIntervalSince1970: 1721259268))
+            }
             
             expectation1.fulfill()
         }
@@ -96,17 +100,21 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.refreshToken { (json, error) in
-            XCTAssertNotNil(error)
-            XCTAssertNil(network.authenticator.accessToken)
-            XCTAssertNil(network.authenticator.refreshToken)
-            XCTAssertNil(network.authenticator.expiryDate)
-            
-            if let dataError = error as? DataError {
-                XCTAssertEqual(dataError.type, .authentication)
-                XCTAssertEqual(dataError.subType, .missingAccessToken)
-            } else {
-                XCTFail("Wrong type of error")
+        network.refreshToken { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertNil(network.authenticator.accessToken)
+                    XCTAssertNil(network.authenticator.refreshToken)
+                    XCTAssertNil(network.authenticator.expiryDate)
+                    
+                    if let dataError = error as? DataError {
+                        XCTAssertEqual(dataError.type, .authentication)
+                        XCTAssertEqual(dataError.subType, .missingAccessToken)
+                    } else {
+                        XCTFail("Wrong type of error")
+                    }
+                case .success:
+                    XCTFail("Invalid refresh token should not have succeeded")
             }
             
             expectation1.fulfill()
@@ -137,11 +145,15 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchUser { (json, error) in
-            XCTAssertNil(error)
-            XCTAssertEqual(network.authenticator.accessToken, "AValidAccessTokenFromHost")
-            XCTAssertEqual(network.authenticator.refreshToken, "AValidRefreshTokenFromHost")
-            XCTAssertEqual(network.authenticator.expiryDate, Date(timeIntervalSince1970: 1721259268))
+        network.fetchUser { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    XCTAssertEqual(network.authenticator.accessToken, "AValidAccessTokenFromHost")
+                    XCTAssertEqual(network.authenticator.refreshToken, "AValidRefreshTokenFromHost")
+                    XCTAssertEqual(network.authenticator.expiryDate, Date(timeIntervalSince1970: 1721259268))
+            }
             
             expectation1.fulfill()
         }
@@ -175,11 +187,15 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchUser { (json, error) in
-            XCTAssertNil(error)
-            XCTAssertEqual(network.authenticator.accessToken, "AValidAccessTokenFromHost")
-            XCTAssertEqual(network.authenticator.refreshToken, "AValidRefreshTokenFromHost")
-            XCTAssertEqual(network.authenticator.expiryDate, Date(timeIntervalSince1970: 1721259268))
+        network.fetchUser { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    XCTAssertEqual(network.authenticator.accessToken, "AValidAccessTokenFromHost")
+                    XCTAssertEqual(network.authenticator.refreshToken, "AValidRefreshTokenFromHost")
+                    XCTAssertEqual(network.authenticator.expiryDate, Date(timeIntervalSince1970: 1721259268))
+            }
             
             expectation1.fulfill()
         }
@@ -203,16 +219,20 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchUser { (json, error) in
-            XCTAssertNotNil(error)
-            XCTAssertNil(network.authenticator.accessToken)
-            XCTAssertNil(network.authenticator.refreshToken)
-            XCTAssertNil(network.authenticator.expiryDate)
-            
-            if let apiError = error as? APIError {
-                XCTAssertEqual(apiError.type, .invalidRefreshToken)
-            } else {
-                XCTFail("Error is of wrong type")
+        network.fetchUser { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertNil(network.authenticator.accessToken)
+                    XCTAssertNil(network.authenticator.refreshToken)
+                    XCTAssertNil(network.authenticator.expiryDate)
+                    
+                    if let apiError = error as? APIError {
+                        XCTAssertEqual(apiError.type, .invalidRefreshToken)
+                    } else {
+                        XCTFail("Error is of wrong type")
+                    }
+                case .success:
+                    XCTFail("Invalid token should fail")
             }
             
             expectation1.fulfill()
@@ -253,24 +273,35 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchUser { (json, error) in
-            XCTAssertNil(error)
-            XCTAssertNotNil(json)
-            XCTAssertEqual(network.authenticator.accessToken, "AValidAccessTokenFromHost")
-            XCTAssertEqual(network.authenticator.refreshToken, "AValidRefreshTokenFromHost")
-            XCTAssertEqual(network.authenticator.expiryDate, Date(timeIntervalSince1970: 1721259268))
+        network.fetchUser { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    XCTAssertEqual(network.authenticator.accessToken, "AValidAccessTokenFromHost")
+                    XCTAssertEqual(network.authenticator.refreshToken, "AValidRefreshTokenFromHost")
+                    XCTAssertEqual(network.authenticator.expiryDate, Date(timeIntervalSince1970: 1721259268))
+            }
             
             expectation1.fulfill()
         }
-        network.fetchUser { (json, error) in
-            XCTAssertNil(error)
-            XCTAssertNotNil(json)
+        network.fetchUser { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation2.fulfill()
         }
-        network.fetchUser { (json, error) in
-            XCTAssertNil(error)
-            XCTAssertNotNil(json)
+        network.fetchUser { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation3.fulfill()
         }
@@ -299,24 +330,35 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchUser { (json, error) in
-            XCTAssertNotNil(error)
-            XCTAssertNil(json)
-            XCTAssertNil(network.authenticator.accessToken)
-            XCTAssertNil(network.authenticator.refreshToken)
-            XCTAssertNil(network.authenticator.expiryDate)
+        network.fetchUser { (result) in
+            switch result {
+                case .failure:
+                    XCTAssertNil(network.authenticator.accessToken)
+                    XCTAssertNil(network.authenticator.refreshToken)
+                    XCTAssertNil(network.authenticator.expiryDate)
+                case .success:
+                    XCTFail("Request should fail")
+            }
             
             expectation1.fulfill()
         }
-        network.fetchUser { (json, error) in
-            XCTAssertNotNil(error)
-            XCTAssertNil(json)
+        network.fetchUser { (result) in
+            switch result {
+                case .failure:
+                    break
+                case .success:
+                    XCTFail("Request should fail")
+            }
             
             expectation2.fulfill()
         }
-        network.fetchUser { (json, error) in
-            XCTAssertNotNil(error)
-            XCTAssertNil(json)
+        network.fetchUser { (result) in
+            switch result {
+                case .failure:
+                    break
+                case .success:
+                    XCTFail("Request should fail")
+            }
             
             expectation3.fulfill()
         }
@@ -348,9 +390,13 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let network = Network(serverURL: url, keychain: keychain)
         
-        network.fetchUser { (json, error) in
-            XCTAssertNil(error)
-            XCTAssertNotNil(json)
+        network.fetchUser { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation1.fulfill()
         }

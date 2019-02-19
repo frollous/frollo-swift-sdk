@@ -183,19 +183,22 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, network: network)
             
-            aggregation.refreshProviders { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Provider> = Provider.fetchRequest()
-                
-                do {
-                    let fetchedProviders = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedProviders.count, 311)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            aggregation.refreshProviders { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Provider> = Provider.fetchRequest()
+                        
+                        do {
+                            let fetchedProviders = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedProviders.count, 311)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -234,8 +237,13 @@ class AggregationTests: XCTestCase {
             
         let aggregation = Aggregation(database: database, network: network)
         
-        aggregation.refreshProviders() { (error) in
-            XCTAssertNil(error)
+        aggregation.refreshProviders() { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation2.fulfill()
         }
@@ -283,8 +291,13 @@ class AggregationTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "providers_updated", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        aggregation.refreshProviders() { (error) in
-            XCTAssertNil(error)
+        aggregation.refreshProviders() { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation4.fulfill()
         }
@@ -342,19 +355,22 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, network: network)
             
-            aggregation.refreshProviders { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Provider> = Provider.fetchRequest()
-                
-                do {
-                    let fetchedProviders = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedProviders.count, 311)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            aggregation.refreshProviders { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Provider> = Provider.fetchRequest()
+                        
+                        do {
+                            let fetchedProviders = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedProviders.count, 311)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -503,7 +519,9 @@ class AggregationTests: XCTestCase {
     }
     
     func testRefreshProviderAccountsIsCached() {
-        let expectation1 = expectation(description: "Network Request 1")
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Request 1")
+        let expectation3 = expectation(description: "Network Request 2")
         
         let url = URL(string: "https://api.example.com")!
         
@@ -519,26 +537,41 @@ class AggregationTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, network: network)
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
             
-            aggregation.refreshProviderAccounts { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
-                
-                do {
-                    let fetchedProviderAccounts = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedProviderAccounts.count, 4)
-                } catch {
+        let aggregation = Aggregation(database: database, network: network)
+        
+        aggregation.refreshProviderAccounts { (result) in
+            switch result {
+                case .failure(let error):
                     XCTFail(error.localizedDescription)
-                }
-                
-                aggregation.refreshProviderAccounts { (error) in
-                    XCTAssertNil(error)
+                case .success:
+                    let context = database.viewContext
                     
+                    let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
+                    
+                    do {
+                        let fetchedProviderAccounts = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedProviderAccounts.count, 4)
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+            }
+
+            expectation2.fulfill()
+        }
+                
+        wait(for: [expectation2], timeout: 5.0)
+
+        aggregation.refreshProviderAccounts { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
                     let context = database.viewContext
                     
                     let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
@@ -550,13 +583,12 @@ class AggregationTests: XCTestCase {
                     } catch {
                         XCTFail(error.localizedDescription)
                     }
-                    
-                    expectation1.fulfill()
-                }
             }
+            
+            expectation3.fulfill()
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation3], timeout: 3.0)
         OHHTTPStubs.removeAllStubs()
     }
     
@@ -579,20 +611,23 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, network: network)
             
-            aggregation.refreshProviderAccount(providerAccountID: 123) { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "providerAccountID == %ld", argumentArray: [123])
-                
-                do {
-                    let fetchedProviderAccounts = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedProviderAccounts.first?.providerAccountID, 123)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            aggregation.refreshProviderAccount(providerAccountID: 123) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "providerAccountID == %ld", argumentArray: [123])
+                        
+                        do {
+                            let fetchedProviderAccounts = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedProviderAccounts.first?.providerAccountID, 123)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -626,8 +661,13 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, network: network)
             
-            aggregation.refreshProviderAccounts() { (error) in
-                XCTAssertNil(error)
+            aggregation.refreshProviderAccounts() { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        break
+                }
             
                 expectation1.fulfill()
             }
@@ -685,19 +725,22 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, network: network)
             
-            aggregation.createProviderAccount(providerID: providerID, loginForm: loginForm, completion: { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
-                
-                do {
-                    let fetchedAccounts = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedAccounts.count, 1)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            aggregation.createProviderAccount(providerID: providerID, loginForm: loginForm, completion: { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
+                        
+                        do {
+                            let fetchedAccounts = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedAccounts.count, 1)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -737,10 +780,13 @@ class AggregationTests: XCTestCase {
                 try? managedObjectContext.save()
             }
             
-            aggregation.deleteProviderAccount(providerAccountID: 12345) { (error) in
-                XCTAssertNil(error)
-                
-                XCTAssertNil(aggregation.providerAccount(context: database.viewContext, providerAccountID: 12345))
+            aggregation.deleteProviderAccount(providerAccountID: 12345) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        XCTAssertNil(aggregation.providerAccount(context: database.viewContext, providerAccountID: 12345))
+                }
                 
                 expectation1.fulfill()
             }
@@ -772,19 +818,22 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, network: network)
             
-            aggregation.updateProviderAccount(providerAccountID: providerAccountID, loginForm: loginForm) { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
-                
-                do {
-                    let fetchedAccounts = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedAccounts.count, 1)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            aggregation.updateProviderAccount(providerAccountID: providerAccountID, loginForm: loginForm) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
+                        
+                        do {
+                            let fetchedAccounts = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedAccounts.count, 1)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -825,8 +874,13 @@ class AggregationTests: XCTestCase {
         
         let aggregation = Aggregation(database: database, network: network)
         
-        aggregation.refreshProviderAccounts { (error) in
-            XCTAssertNil(error)
+        aggregation.refreshProviderAccounts { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation2.fulfill()
         }
@@ -1026,19 +1080,22 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, network: network)
             
-            aggregation.refreshAccounts { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
-                
-                do {
-                    let fetchedAccounts = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedAccounts.count, 4)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            aggregation.refreshAccounts { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
+                        
+                        do {
+                            let fetchedAccounts = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedAccounts.count, 4)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -1068,20 +1125,23 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, network: network)
             
-            aggregation.refreshAccount(accountID: 542) { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "accountID == %ld", argumentArray: [542])
-                
-                do {
-                    let fetchedProviderAccounts = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedProviderAccounts.first?.accountID, 542)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            aggregation.refreshAccount(accountID: 542) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "accountID == %ld", argumentArray: [542])
+                        
+                        do {
+                            let fetchedProviderAccounts = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedProviderAccounts.first?.accountID, 542)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -1093,8 +1153,9 @@ class AggregationTests: XCTestCase {
     }
     
     func testAccountsLinkToProviderAccounts() {
-        let expectation1 = expectation(description: "Network Provider Account Request")
-        let expectation2 = expectation(description: "Network Account Request")
+        let expectation1 = expectation(description: "Database Request")
+        let expectation2 = expectation(description: "Network Request 1")
+        let expectation3 = expectation(description: "Network Request 2")
         
         let url = URL(string: "https://api.example.com")!
         
@@ -1113,41 +1174,57 @@ class AggregationTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, network: network)
-            
-            aggregation.refreshProviderAccounts { (error) in
-                XCTAssertNil(error)
-                
-                aggregation.refreshAccounts(completion: { (error) in
-                    XCTAssertNil(error)
-                    
-                    let context = database.viewContext
-                    
-                    let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: "accountID == %ld", argumentArray: [542])
-                    
-                    do {
-                        let fetchedAccounts = try context.fetch(fetchRequest)
-                        
-                        XCTAssertEqual(fetchedAccounts.count, 1)
-                        
-                        if let account = fetchedAccounts.first {
-                            XCTAssertNotNil(account.providerAccount)
-                            
-                            XCTAssertEqual(account.providerAccountID, account.providerAccount?.providerAccountID)
-                        }
-                    } catch {
-                        XCTFail(error.localizedDescription)
-                    }
-                    
-                    expectation2.fulfill()
-                })
-                
-                expectation1.fulfill()
-            }
+            expectation1.fulfill()
         }
         
-        wait(for: [expectation1, expectation2], timeout: 3.0)
+        wait(for: [expectation1], timeout: 3.0)
+            
+        let aggregation = Aggregation(database: database, network: network)
+        
+        aggregation.refreshProviderAccounts { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+        
+        aggregation.refreshAccounts() { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+
+        let context = database.viewContext
+            
+        let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "accountID == %ld", argumentArray: [542])
+        
+        do {
+            let fetchedAccounts = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedAccounts.count, 1)
+            
+            if let account = fetchedAccounts.first {
+                XCTAssertNotNil(account.providerAccount)
+                
+                XCTAssertEqual(account.providerAccountID, account.providerAccount?.providerAccountID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
         OHHTTPStubs.removeAllStubs()
     }
     
@@ -1179,20 +1256,23 @@ class AggregationTests: XCTestCase {
                 
                 let aggregation = Aggregation(database: database, network: network)
                 
-                aggregation.updateAccount(accountID: 542) { (error) in
-                    XCTAssertNil(error)
-                    
-                    let context = database.viewContext
-                    
-                    let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: "accountID == %ld", argumentArray: [542])
-                    
-                    do {
-                        let fetchedProviderAccounts = try context.fetch(fetchRequest)
-                        
-                        XCTAssertEqual(fetchedProviderAccounts.first?.accountID, 542)
-                    } catch {
-                        XCTFail(error.localizedDescription)
+                aggregation.updateAccount(accountID: 542) { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTFail(error.localizedDescription)
+                        case .success:
+                            let context = database.viewContext
+                            
+                            let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
+                            fetchRequest.predicate = NSPredicate(format: "accountID == %ld", argumentArray: [542])
+                            
+                            do {
+                                let fetchedProviderAccounts = try context.fetch(fetchRequest)
+                                
+                                XCTAssertEqual(fetchedProviderAccounts.first?.accountID, 542)
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
                     }
                     
                     expectation1.fulfill()
@@ -1363,19 +1443,22 @@ class AggregationTests: XCTestCase {
             let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
             let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
             
-            aggregation.refreshTransactions(from: fromDate, to: toDate) { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-                
-                do {
-                    let fetchedTransactions = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedTransactions.count, 179)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            aggregation.refreshTransactions(from: fromDate, to: toDate) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                        
+                        do {
+                            let fetchedTransactions = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedTransactions.count, 179)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -1408,19 +1491,22 @@ class AggregationTests: XCTestCase {
             let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
             let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
             
-            aggregation.refreshTransactions(from: fromDate, to: toDate) { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-                
-                do {
-                    let fetchedTransactions = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedTransactions.count, 176)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            aggregation.refreshTransactions(from: fromDate, to: toDate) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                        
+                        do {
+                            let fetchedTransactions = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedTransactions.count, 176)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -1450,20 +1536,23 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, network: network)
             
-            aggregation.refreshTransaction(transactionID: 99703) { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99703])
-                
-                do {
-                    let fetchedTransactions = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedTransactions.first?.transactionID, 99703)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            aggregation.refreshTransaction(transactionID: 99703) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99703])
+                        
+                        do {
+                            let fetchedTransactions = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedTransactions.first?.transactionID, 99703)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -1495,21 +1584,24 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, network: network)
             
-            aggregation.refreshTransactions(transactionIDs: transactions) { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-                
-                do {
-                    let fetchedTransactions = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedTransactions.count, 179)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            aggregation.refreshTransactions(transactionIDs: transactions) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                        
+                        do {
+                            let fetchedTransactions = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedTransactions.count, 179)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
-                
+                    
                 expectation1.fulfill()
             }
         }
@@ -1519,8 +1611,9 @@ class AggregationTests: XCTestCase {
     }
     
     func testTransactionsLinkToAccounts() {
-        let expectation1 = expectation(description: "Network Account Request")
-        let expectation2 = expectation(description: "Network Transaction Request")
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Account Request")
+        let expectation3 = expectation(description: "Network Transaction Request")
         
         let url = URL(string: "https://api.example.com")!
         
@@ -1539,44 +1632,61 @@ class AggregationTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, network: network)
-            
-            aggregation.refreshAccounts { (error) in
-                XCTAssertNil(error)
-                
-                let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-                let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-                
-                aggregation.refreshTransactions(from: fromDate, to: toDate) { (error) in
-                    XCTAssertNil(error)
-                    
-                    let context = database.viewContext
-                    
-                    let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99704])
-                    
-                    do {
-                        let fetchedTransactions = try context.fetch(fetchRequest)
-                        
-                        XCTAssertEqual(fetchedTransactions.count, 1)
-                        
-                        if let transaction = fetchedTransactions.first {
-                            XCTAssertNotNil(transaction)
-                            
-                            XCTAssertEqual(transaction.accountID, transaction.account?.accountID)
-                        }
-                    } catch {
-                        XCTFail(error.localizedDescription)
-                    }
-                    
-                    expectation2.fulfill()
-                }
-                
-                expectation1.fulfill()
-            }
+            expectation1.fulfill()
         }
         
-        wait(for: [expectation1, expectation2], timeout: 3.0)
+        wait(for: [expectation1], timeout: 3.0)
+            
+        let aggregation = Aggregation(database: database, network: network)
+        
+        aggregation.refreshAccounts { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+                
+        let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
+        let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
+        
+        aggregation.refreshTransactions(from: fromDate, to: toDate) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+
+            expectation3.fulfill()
+        }
+
+        wait(for: [expectation3], timeout: 3.0)
+            
+        let context = database.viewContext
+        
+        let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99704])
+        
+        do {
+            let fetchedTransactions = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedTransactions.count, 1)
+            
+            if let transaction = fetchedTransactions.first {
+                XCTAssertNotNil(transaction)
+                
+                XCTAssertEqual(transaction.accountID, transaction.account?.accountID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
         OHHTTPStubs.removeAllStubs()
     }
     
@@ -1606,8 +1716,13 @@ class AggregationTests: XCTestCase {
             let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
             let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
             
-            aggregation.refreshTransactions(from: fromDate, to: toDate) { (error) in
-                XCTAssertNil(error)
+            aggregation.refreshTransactions(from: fromDate, to: toDate) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        break
+                }
             
                 expectation1.fulfill()
             }
@@ -1643,8 +1758,9 @@ class AggregationTests: XCTestCase {
     }
     
     func testTransactionsLinkToTransactionCategories() {
-        let expectation1 = expectation(description: "Network Transaction Category Request")
-        let expectation2 = expectation(description: "Network Transaction Request")
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Transaction Category Request")
+        let expectation3 = expectation(description: "Network Transaction Request")
         
         let url = URL(string: "https://api.example.com")!
         
@@ -1663,44 +1779,61 @@ class AggregationTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, network: network)
-            
-            aggregation.refreshTransactionCategories { (error) in
-                XCTAssertNil(error)
-                
-                let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-                let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-                
-                aggregation.refreshTransactions(from: fromDate, to: toDate) { (error) in
-                    XCTAssertNil(error)
-                    
-                    let context = database.viewContext
-                    
-                    let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99704])
-                    
-                    do {
-                        let fetchedTransactions = try context.fetch(fetchRequest)
-                        
-                        XCTAssertEqual(fetchedTransactions.count, 1)
-                        
-                        if let transaction = fetchedTransactions.first {
-                            XCTAssertNotNil(transaction)
-                            
-                            XCTAssertEqual(transaction.transactionCategoryID, transaction.transactionCategory?.transactionCategoryID)
-                        }
-                    } catch {
-                        XCTFail(error.localizedDescription)
-                    }
-                    
-                    expectation2.fulfill()
-                }
-                
-                expectation1.fulfill()
-            }
+            expectation1.fulfill()
         }
         
-        wait(for: [expectation1, expectation2], timeout: 3.0)
+        wait(for: [expectation1], timeout: 3.0)
+            
+        let aggregation = Aggregation(database: database, network: network)
+        
+        aggregation.refreshTransactionCategories { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+            
+        let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
+        let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
+        
+        aggregation.refreshTransactions(from: fromDate, to: toDate) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+                
+        let context = database.viewContext
+        
+        let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99704])
+        
+        do {
+            let fetchedTransactions = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedTransactions.count, 1)
+            
+            if let transaction = fetchedTransactions.first {
+                XCTAssertNotNil(transaction)
+                
+                XCTAssertEqual(transaction.transactionCategoryID, transaction.transactionCategory?.transactionCategoryID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
         OHHTTPStubs.removeAllStubs()
     }
     
@@ -1732,20 +1865,23 @@ class AggregationTests: XCTestCase {
                 
                 let aggregation = Aggregation(database: database, network: network)
                 
-                aggregation.updateTransaction(transactionID: 99703) { (error) in
-                    XCTAssertNil(error)
-                    
-                    let context = database.viewContext
-                    
-                    let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99703])
-                    
-                    do {
-                        let fetchedTransactions = try context.fetch(fetchRequest)
-                        
-                        XCTAssertEqual(fetchedTransactions.first?.transactionID, 99703)
-                    } catch {
-                        XCTFail(error.localizedDescription)
+                aggregation.updateTransaction(transactionID: 99703) { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTFail(error.localizedDescription)
+                        case .success:
+                            let context = database.viewContext
+                            
+                            let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                            fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99703])
+                            
+                            do {
+                                let fetchedTransactions = try context.fetch(fetchRequest)
+                                
+                                XCTAssertEqual(fetchedTransactions.first?.transactionID, 99703)
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
                     }
                     
                     expectation1.fulfill()
@@ -1790,8 +1926,13 @@ class AggregationTests: XCTestCase {
         let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
         let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
         
-        aggregation.refreshTransactions(from: fromDate, to: toDate) { (error) in
-            XCTAssertNil(error)
+        aggregation.refreshTransactions(from: fromDate, to: toDate) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation2.fulfill()
         }
@@ -1991,19 +2132,22 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, network: network)
             
-            aggregation.refreshTransactionCategories { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<TransactionCategory> = TransactionCategory.fetchRequest()
-                
-                do {
-                    let fetchedTransactionCategories = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedTransactionCategories.count, 43)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            aggregation.refreshTransactionCategories { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<TransactionCategory> = TransactionCategory.fetchRequest()
+                        
+                        do {
+                            let fetchedTransactionCategories = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedTransactionCategories.count, 43)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -2170,19 +2314,22 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, network: network)
             
-            aggregation.refreshMerchants { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
-                
-                do {
-                    let fetchedMerchants = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedMerchants.count, 1200)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            aggregation.refreshMerchants { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
+                        
+                        do {
+                            let fetchedMerchants = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedMerchants.count, 1200)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -2212,25 +2359,28 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, network: network)
             
-            aggregation.refreshMerchant(merchantID: 197) { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
-                
-                do {
-                    let fetchedMerchants = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedMerchants.count, 1)
-                    
-                    if let merchant = fetchedMerchants.first {
-                        XCTAssertEqual(merchant.merchantID, 197)
-                    } else {
-                        XCTFail("No merchant found")
-                    }
-                } catch {
-                    XCTFail(error.localizedDescription)
+            aggregation.refreshMerchant(merchantID: 197) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
+                        
+                        do {
+                            let fetchedMerchants = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedMerchants.count, 1)
+                            
+                            if let merchant = fetchedMerchants.first {
+                                XCTAssertEqual(merchant.merchantID, 197)
+                            } else {
+                                XCTFail("No merchant found")
+                            }
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -2260,26 +2410,29 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, network: network)
             
-            aggregation.refreshMerchants(merchantIDs: [22, 30, 31, 106, 691]) { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
-                fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)]
-                
-                do {
-                    let fetchedMerchants = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedMerchants.count, 5)
-                    
-                    if let merchant = fetchedMerchants.last {
-                        XCTAssertEqual(merchant.merchantID, 691)
-                    } else {
-                        XCTFail("No merchants")
-                    }
-                } catch {
-                    XCTFail(error.localizedDescription)
+            aggregation.refreshMerchants(merchantIDs: [22, 30, 31, 106, 691]) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
+                        fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)]
+                        
+                        do {
+                            let fetchedMerchants = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedMerchants.count, 5)
+                            
+                            if let merchant = fetchedMerchants.last {
+                                XCTAssertEqual(merchant.merchantID, 691)
+                            } else {
+                                XCTFail("No merchants")
+                            }
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -2296,6 +2449,8 @@ class AggregationTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         let ids: [Int64] = [4, 87, 9077777]
+        
+        
         
         stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (request) -> OHHTTPStubsResponse in
             expectation1.fulfill()
@@ -2314,6 +2469,8 @@ class AggregationTests: XCTestCase {
         
             NotificationCenter.default.post(name: Aggregation.refreshTransactionsNotification, object: self, userInfo: [Aggregation.refreshTransactionIDsKey: ids])
         }
+        
+        
         
         wait(for: [expectation1], timeout: 5.0)
     }

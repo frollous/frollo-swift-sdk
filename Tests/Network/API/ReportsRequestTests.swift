@@ -40,27 +40,28 @@ class ReportsRequestTests: XCTestCase {
         let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
         
         network.fetchAccountBalanceReports(period: .day, from: fromDate, to: toDate) { (result) in
-            XCTAssertNil(error)
-            
-            if let reportsResponse = response {
-                XCTAssertEqual(reportsResponse.data.count, 94)
-                
-                if let firstReport = reportsResponse.data.first {
-                    XCTAssertEqual(firstReport.value, "90602.10")
-                    XCTAssertEqual(firstReport.date, "2018-10-28")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.data.count, 94)
                     
-                    XCTAssertEqual(firstReport.accounts.count, 7)
-                    
-                    if let firstBalanceReport = firstReport.accounts.first {
-                        XCTAssertEqual(firstBalanceReport.id, 542)
-                        XCTAssertEqual(firstBalanceReport.currency, "AUD")
-                        XCTAssertEqual(firstBalanceReport.value, "-1191.45")
+                    if let firstReport = response.data.first {
+                        XCTAssertEqual(firstReport.value, "90602.10")
+                        XCTAssertEqual(firstReport.date, "2018-10-28")
+                        
+                        XCTAssertEqual(firstReport.accounts.count, 7)
+                        
+                        if let firstBalanceReport = firstReport.accounts.first {
+                            XCTAssertEqual(firstBalanceReport.id, 542)
+                            XCTAssertEqual(firstBalanceReport.currency, "AUD")
+                            XCTAssertEqual(firstBalanceReport.value, "-1191.45")
+                        } else {
+                            XCTFail("No category report")
+                        }
                     } else {
-                        XCTFail("No category report")
+                        XCTFail("No report")
                     }
-                } else {
-                    XCTFail("No report")
-                }
             }
             
             expectation1.fulfill()
@@ -83,44 +84,45 @@ class ReportsRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchTransactionCurrentReports(grouping: .transactionCategory, budgetCategory: .living) { (result) in
-            XCTAssertNil(error)
-            
-            if let reportsResponse = response {
-                XCTAssertEqual(reportsResponse.days.count, 31)
-                
-                if let firstReport = reportsResponse.days.first {
-                    XCTAssertEqual(firstReport.day, 1)
-                    XCTAssertEqual(firstReport.spendValue, "-79.80")
-                    XCTAssertEqual(firstReport.previousPeriodValue, "-79.80")
-                    XCTAssertEqual(firstReport.averageValue, "-53.20")
-                    XCTAssertNil(firstReport.budgetValue)
-                } else {
-                    XCTFail("No report")
-                }
-                
-                XCTAssertEqual(reportsResponse.groups.count, 6)
-                
-                if let firstGroupReport = reportsResponse.groups.first {
-                    XCTAssertEqual(firstGroupReport.id, 70)
-                    XCTAssertEqual(firstGroupReport.name, "Cable/Satellite/Telecom")
-                    XCTAssertEqual(firstGroupReport.spendValue, "-219.80")
-                    XCTAssertEqual(firstGroupReport.previousPeriodValue, "-219.80")
-                    XCTAssertEqual(firstGroupReport.averageValue, "-219.80")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.days.count, 31)
                     
-                    XCTAssertEqual(firstGroupReport.days.count, 31)
-                    
-                    if let firstGroupDayReport = firstGroupReport.days.first {
-                        XCTAssertEqual(firstGroupDayReport.day, 1)
-                        XCTAssertEqual(firstGroupDayReport.spendValue, "-79.80")
-                        XCTAssertEqual(firstGroupDayReport.previousPeriodValue, "-79.80")
-                        XCTAssertEqual(firstGroupDayReport.averageValue, "-53.20")
-                        XCTAssertNil(firstGroupDayReport.budgetValue)
+                    if let firstReport = response.days.first {
+                        XCTAssertEqual(firstReport.day, 1)
+                        XCTAssertEqual(firstReport.spendValue, "-79.80")
+                        XCTAssertEqual(firstReport.previousPeriodValue, "-79.80")
+                        XCTAssertEqual(firstReport.averageValue, "-53.20")
+                        XCTAssertNil(firstReport.budgetValue)
                     } else {
-                        XCTFail("No group day reports")
+                        XCTFail("No report")
                     }
-                } else {
-                    XCTFail("No group reports")
-                }
+                    
+                    XCTAssertEqual(response.groups.count, 6)
+                    
+                    if let firstGroupReport = response.groups.first {
+                        XCTAssertEqual(firstGroupReport.id, 70)
+                        XCTAssertEqual(firstGroupReport.name, "Cable/Satellite/Telecom")
+                        XCTAssertEqual(firstGroupReport.spendValue, "-219.80")
+                        XCTAssertEqual(firstGroupReport.previousPeriodValue, "-219.80")
+                        XCTAssertEqual(firstGroupReport.averageValue, "-219.80")
+                        
+                        XCTAssertEqual(firstGroupReport.days.count, 31)
+                        
+                        if let firstGroupDayReport = firstGroupReport.days.first {
+                            XCTAssertEqual(firstGroupDayReport.day, 1)
+                            XCTAssertEqual(firstGroupDayReport.spendValue, "-79.80")
+                            XCTAssertEqual(firstGroupDayReport.previousPeriodValue, "-79.80")
+                            XCTAssertEqual(firstGroupDayReport.averageValue, "-53.20")
+                            XCTAssertNil(firstGroupDayReport.budgetValue)
+                        } else {
+                            XCTFail("No group day reports")
+                        }
+                    } else {
+                        XCTFail("No group reports")
+                    }
             }
             
             expectation1.fulfill()
@@ -146,28 +148,29 @@ class ReportsRequestTests: XCTestCase {
         let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
         
         network.fetchTransactionHistoryReports(grouping: .budgetCategory, period: .month, fromDate: fromDate, toDate: toDate, budgetCategory: nil) { (result) in
-            XCTAssertNil(error)
-            
-            if let reportsResponse = response {
-                XCTAssertEqual(reportsResponse.data.count, 12)
-                
-                if let firstReport = reportsResponse.data.first {
-                    XCTAssertEqual(firstReport.value, "744.37")
-                    XCTAssertEqual(firstReport.date, "2018-01")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.data.count, 12)
                     
-                    XCTAssertEqual(firstReport.groups.count, 12)
-                    
-                    if let firstGroupReport = firstReport.groups.first {
-                        XCTAssertEqual(firstGroupReport.id, 64)
-                        XCTAssertEqual(firstGroupReport.name, "Entertainment/Recreation")
-                        XCTAssertEqual(firstGroupReport.value, "-17.99")
-                        XCTAssertNil(firstGroupReport.budget)
+                    if let firstReport = response.data.first {
+                        XCTAssertEqual(firstReport.value, "744.37")
+                        XCTAssertEqual(firstReport.date, "2018-01")
+                        
+                        XCTAssertEqual(firstReport.groups.count, 12)
+                        
+                        if let firstGroupReport = firstReport.groups.first {
+                            XCTAssertEqual(firstGroupReport.id, 64)
+                            XCTAssertEqual(firstGroupReport.name, "Entertainment/Recreation")
+                            XCTAssertEqual(firstGroupReport.value, "-17.99")
+                            XCTAssertNil(firstGroupReport.budget)
+                        } else {
+                            XCTFail("No category report")
+                        }
                     } else {
-                        XCTFail("No category report")
+                        XCTFail("No report")
                     }
-                } else {
-                    XCTFail("No report")
-                }
             }
             
             expectation1.fulfill()

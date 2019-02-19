@@ -39,8 +39,12 @@ class EventsRequestTests: XCTestCase {
         let request = APIEventCreateRequest(delayMinutes: 0, event: "EVENT_TEST")
         
         network.createEvent(request: request) { (result) in
-            XCTAssertNil(error)
-            XCTAssertNil(response)
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation1.fulfill()
         }

@@ -184,21 +184,24 @@ class BillsTests: XCTestCase {
             let aggregation = Aggregation(database: database, network: network)
             let bills = Bills(database: database, network: network, aggregation: aggregation)
             
-            bills.createBill(transactionID: 987, frequency: .monthly, nextPaymentDate: Date(timeIntervalSinceNow: 20000), name: nil, notes: nil) { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [12345])
-                
-                do {
-                    let fetchedBills = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedBills.first?.billID, 12345)
-                    XCTAssertEqual(fetchedBills.first?.name, "Netflix")
-                } catch {
-                    XCTFail(error.localizedDescription)
+            bills.createBill(transactionID: 987, frequency: .monthly, nextPaymentDate: Date(timeIntervalSinceNow: 20000), name: nil, notes: nil) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [12345])
+                        
+                        do {
+                            let fetchedBills = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedBills.first?.billID, 12345)
+                            XCTAssertEqual(fetchedBills.first?.name, "Netflix")
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -231,21 +234,24 @@ class BillsTests: XCTestCase {
             
             let date = Bill.billDateFormatter.date(from: "2019-02-01")!
             
-            bills.createBill(accountID: 654, dueAmount: 50.0, frequency: .weekly, nextPaymentDate: date, name: "Stan", notes: "Cancel this") { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [12345])
-                
-                do {
-                    let fetchedBills = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedBills.first?.billID, 12345)
-                    XCTAssertEqual(fetchedBills.first?.name, "Netflix")
-                } catch {
-                    XCTFail(error.localizedDescription)
+            bills.createBill(accountID: 654, dueAmount: 50.0, frequency: .weekly, nextPaymentDate: date, name: "Stan", notes: "Cancel this") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [12345])
+                        
+                        do {
+                            let fetchedBills = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedBills.first?.billID, 12345)
+                            XCTAssertEqual(fetchedBills.first?.name, "Netflix")
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -286,10 +292,13 @@ class BillsTests: XCTestCase {
                 try? managedObjectContext.save()
             }
             
-            bills.deleteBill(billID: 12345) { (error) in
-                XCTAssertNil(error)
-                
-                XCTAssertNil(bills.bill(context: database.viewContext, billID: 12345))
+            bills.deleteBill(billID: 12345) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        XCTAssertNil(bills.bill(context: database.viewContext, billID: 12345))
+                }
                 
                 expectation1.fulfill()
             }
@@ -318,19 +327,22 @@ class BillsTests: XCTestCase {
             let aggregation = Aggregation(database: database, network: network)
             let bills = Bills(database: database, network: network, aggregation: aggregation)
             
-            bills.refreshBills() { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
-                
-                do {
-                    let fetchedBills = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedBills.count, 7)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            bills.refreshBills() { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
+                        
+                        do {
+                            let fetchedBills = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedBills.count, 7)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -361,20 +373,23 @@ class BillsTests: XCTestCase {
             let aggregation = Aggregation(database: database, network: network)
             let bills = Bills(database: database, network: network, aggregation: aggregation)
             
-            bills.refreshBill(billID: 12345) { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [12345])
-                
-                do {
-                    let fetchedBills = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedBills.first?.billID, 12345)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            bills.refreshBill(billID: 12345) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [12345])
+                        
+                        do {
+                            let fetchedBills = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedBills.first?.billID, 12345)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -416,25 +431,28 @@ class BillsTests: XCTestCase {
                 let aggregation = Aggregation(database: database, network: network)
                 let bills = Bills(database: database, network: network, aggregation: aggregation)
                 
-                bills.updateBill(billID: 12345) { (error) in
-                    XCTAssertNil(error)
-                    
-                    let context = database.viewContext
-                    
-                    context.performAndWait {
-                        let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
-                        fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [12345])
-                        
-                        do {
-                            let fetchedBills = try context.fetch(fetchRequest)
-                            
-                            XCTAssertEqual(fetchedBills.first?.billID, 12345)
-                            XCTAssertEqual(fetchedBills.first?.name, "Netflix")
-                        } catch {
+                bills.updateBill(billID: 12345) { (result) in
+                    switch result {
+                        case .failure(let error):
                             XCTFail(error.localizedDescription)
-                        }
-                        
-                        expectation1.fulfill()
+                        case .success:
+                            let context = database.viewContext
+                            
+                            context.performAndWait {
+                                let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
+                                fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [12345])
+                                
+                                do {
+                                    let fetchedBills = try context.fetch(fetchRequest)
+                                    
+                                    XCTAssertEqual(fetchedBills.first?.billID, 12345)
+                                    XCTAssertEqual(fetchedBills.first?.name, "Netflix")
+                                } catch {
+                                    XCTFail(error.localizedDescription)
+                                }
+                                
+                                expectation1.fulfill()
+                            }
                     }
                 }
             }
@@ -475,14 +493,17 @@ class BillsTests: XCTestCase {
                 let aggregation = Aggregation(database: database, network: network)
                 let bills = Bills(database: database, network: network, aggregation: aggregation)
                 
-                bills.updateBill(billID: 12345) { (error) in
-                    XCTAssertNotNil(error)
-                    
-                    if let dataError = error as? DataError {
-                        XCTAssertEqual(dataError.type, .database)
-                        XCTAssertEqual(dataError.subType, .notFound)
-                    } else {
-                        XCTFail("Wrong error type")
+                bills.updateBill(billID: 12345) { (result) in
+                    switch result {
+                        case .failure(let error):
+                            if let dataError = error as? DataError {
+                                XCTAssertEqual(dataError.type, .database)
+                                XCTAssertEqual(dataError.subType, .notFound)
+                            } else {
+                                XCTFail("Wrong error type")
+                            }
+                        case .success:
+                            XCTFail("Message should not be found")
                     }
                     
                     expectation1.fulfill()
@@ -495,8 +516,9 @@ class BillsTests: XCTestCase {
     }
     
     func testBillsLinkToAccounts() {
-        let expectation1 = expectation(description: "Network Account Request")
-        let expectation2 = expectation(description: "Network Bill Request")
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Account Request")
+        let expectation3 = expectation(description: "Network Bill Request")
         
         let url = URL(string: "https://api.example.com")!
         
@@ -515,48 +537,66 @@ class BillsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, network: network)
-            let bills = Bills(database: database, network: network, aggregation: aggregation)
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
             
-            aggregation.refreshAccounts() { (error) in
-                XCTAssertNil(error)
-                
-                bills.refreshBills() { (error) in
-                    XCTAssertNil(error)
-                    
-                    let context = database.viewContext
-                    
-                    let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [1249])
-                    
-                    do {
-                        let fetchedBills = try context.fetch(fetchRequest)
-                        
-                        XCTAssertEqual(fetchedBills.count, 1)
-                        
-                        if let bill = fetchedBills.first {
-                            XCTAssertNotNil(bill.account)
-                            
-                            XCTAssertEqual(bill.accountID, bill.account?.accountID)
-                        }
-                    } catch {
-                        XCTFail(error.localizedDescription)
-                    }
-                    
-                    expectation2.fulfill()
-                }
-                
-                expectation1.fulfill()
+        let aggregation = Aggregation(database: database, network: network)
+        let bills = Bills(database: database, network: network, aggregation: aggregation)
+        
+        aggregation.refreshAccounts() { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
             }
+            
+            expectation2.fulfill()
         }
         
-        wait(for: [expectation1, expectation2], timeout: 3.0)
+        wait(for: [expectation2], timeout: 3.0)
+                
+        bills.refreshBills() { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+                    
+        let context = database.viewContext
+        
+        let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [1249])
+        
+        do {
+            let fetchedBills = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedBills.count, 1)
+            
+            if let bill = fetchedBills.first {
+                XCTAssertNotNil(bill.account)
+                
+                XCTAssertEqual(bill.accountID, bill.account?.accountID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
         OHHTTPStubs.removeAllStubs()
     }
     
     func testBillsLinkToMerchants() {
-        let expectation1 = expectation(description: "Network Merchants Request")
-        let expectation2 = expectation(description: "Network Bill Request")
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Merchants Request")
+        let expectation3 = expectation(description: "Network Bill Request")
         
         let url = URL(string: "https://api.example.com")!
         
@@ -575,48 +615,66 @@ class BillsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, network: network)
-            let bills = Bills(database: database, network: network, aggregation: aggregation)
-            
-            aggregation.refreshMerchants() { (error) in
-                XCTAssertNil(error)
-                
-                bills.refreshBills() { (error) in
-                    XCTAssertNil(error)
-                    
-                    let context = database.viewContext
-                    
-                    let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [1249])
-                    
-                    do {
-                        let fetchedBills = try context.fetch(fetchRequest)
-                        
-                        XCTAssertEqual(fetchedBills.count, 1)
-                        
-                        if let bill = fetchedBills.first {
-                            XCTAssertNotNil(bill.merchant)
-                            
-                            XCTAssertEqual(bill.merchantID, bill.merchant?.merchantID)
-                        }
-                    } catch {
-                        XCTFail(error.localizedDescription)
-                    }
-                    
-                    expectation2.fulfill()
-                }
-                
-                expectation1.fulfill()
-            }
+            expectation1.fulfill()
         }
         
-        wait(for: [expectation1, expectation2], timeout: 3.0)
+        wait(for: [expectation1], timeout: 3.0)
+            
+        let aggregation = Aggregation(database: database, network: network)
+        let bills = Bills(database: database, network: network, aggregation: aggregation)
+        
+        aggregation.refreshMerchants() { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+                
+        bills.refreshBills() { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+                    
+        let context = database.viewContext
+        
+        let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [1249])
+        
+        do {
+            let fetchedBills = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedBills.count, 1)
+            
+            if let bill = fetchedBills.first {
+                XCTAssertNotNil(bill.merchant)
+                
+                XCTAssertEqual(bill.merchantID, bill.merchant?.merchantID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
         OHHTTPStubs.removeAllStubs()
     }
     
     func testBillsLinkToTransactionCategories() {
-        let expectation1 = expectation(description: "Network Merchants Request")
-        let expectation2 = expectation(description: "Network Bill Request")
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Merchants Request")
+        let expectation3 = expectation(description: "Network Bill Request")
         
         let url = URL(string: "https://api.example.com")!
         
@@ -635,42 +693,59 @@ class BillsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, network: network)
-            let bills = Bills(database: database, network: network, aggregation: aggregation)
-            
-            aggregation.refreshTransactionCategories() { (error) in
-                XCTAssertNil(error)
-                
-                bills.refreshBills() { (error) in
-                    XCTAssertNil(error)
-                    
-                    let context = database.viewContext
-                    
-                    let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [1249])
-                    
-                    do {
-                        let fetchedBills = try context.fetch(fetchRequest)
-                        
-                        XCTAssertEqual(fetchedBills.count, 1)
-                        
-                        if let bill = fetchedBills.first {
-                            XCTAssertNotNil(bill.transactionCategory)
-                            
-                            XCTAssertEqual(bill.transactionCategoryID, bill.transactionCategory?.transactionCategoryID)
-                        }
-                    } catch {
-                        XCTFail(error.localizedDescription)
-                    }
-                    
-                    expectation2.fulfill()
-                }
-                
-                expectation1.fulfill()
-            }
+            expectation1.fulfill()
         }
         
-        wait(for: [expectation1, expectation2], timeout: 3.0)
+        wait(for: [expectation1], timeout: 3.0)
+            
+        let aggregation = Aggregation(database: database, network: network)
+        let bills = Bills(database: database, network: network, aggregation: aggregation)
+        
+        aggregation.refreshTransactionCategories() { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+                
+        bills.refreshBills() { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+                    
+        let context = database.viewContext
+        
+        let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "billID == %ld", argumentArray: [1249])
+        
+        do {
+            let fetchedBills = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedBills.count, 1)
+            
+            if let bill = fetchedBills.first {
+                XCTAssertNotNil(bill.transactionCategory)
+                
+                XCTAssertEqual(bill.transactionCategoryID, bill.transactionCategory?.transactionCategoryID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
         OHHTTPStubs.removeAllStubs()
     }
     
@@ -845,10 +920,13 @@ class BillsTests: XCTestCase {
                 try? managedObjectContext.save()
             }
             
-            bills.deleteBillPayment(billPaymentID: 12345) { (error) in
-                XCTAssertNil(error)
-                
-                XCTAssertNil(bills.billPayment(context: database.viewContext, billPaymentID: 12345))
+            bills.deleteBillPayment(billPaymentID: 12345) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        XCTAssertNil(bills.billPayment(context: database.viewContext, billPaymentID: 12345))
+                }
                 
                 expectation1.fulfill()
             }
@@ -880,19 +958,22 @@ class BillsTests: XCTestCase {
             let aggregation = Aggregation(database: database, network: network)
             let bills = Bills(database: database, network: network, aggregation: aggregation)
             
-            bills.refreshBillPayments(from: fromDate, to: toDate) { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
-                
-                do {
-                    let fetchedBillPayments = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedBillPayments.count, 7)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            bills.refreshBillPayments(from: fromDate, to: toDate) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
+                        
+                        do {
+                            let fetchedBillPayments = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedBillPayments.count, 7)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -923,20 +1004,23 @@ class BillsTests: XCTestCase {
             let aggregation = Aggregation(database: database, network: network)
             let bills = Bills(database: database, network: network, aggregation: aggregation)
             
-            bills.refreshBillPayment(billPaymentID: 12345) { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "billPaymentID == %ld", argumentArray: [12345])
-                
-                do {
-                    let fetchedBillPayments = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedBillPayments.first?.billPaymentID, 12345)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            bills.refreshBillPayment(billPaymentID: 12345) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "billPaymentID == %ld", argumentArray: [12345])
+                        
+                        do {
+                            let fetchedBillPayments = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedBillPayments.first?.billPaymentID, 12345)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -978,21 +1062,24 @@ class BillsTests: XCTestCase {
                 let aggregation = Aggregation(database: database, network: network)
                 let bills = Bills(database: database, network: network, aggregation: aggregation)
                 
-                bills.updateBillPayment(billPaymentID: 12345) { (error) in
-                    XCTAssertNil(error)
-                    
-                    let context = database.viewContext
-                    
-                    let fetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: "billPaymentID == %ld", argumentArray: [12345])
-                    
-                    do {
-                        let fetchedBillPayments = try context.fetch(fetchRequest)
-                        
-                        XCTAssertEqual(fetchedBillPayments.first?.billPaymentID, 12345)
-                        XCTAssertEqual(fetchedBillPayments.first?.name, "Optus Internet")
-                    } catch {
-                        XCTFail(error.localizedDescription)
+                bills.updateBillPayment(billPaymentID: 12345) { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTFail(error.localizedDescription)
+                        case .success:
+                            let context = database.viewContext
+                            
+                            let fetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
+                            fetchRequest.predicate = NSPredicate(format: "billPaymentID == %ld", argumentArray: [12345])
+                            
+                            do {
+                                let fetchedBillPayments = try context.fetch(fetchRequest)
+                                
+                                XCTAssertEqual(fetchedBillPayments.first?.billPaymentID, 12345)
+                                XCTAssertEqual(fetchedBillPayments.first?.name, "Optus Internet")
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
                     }
                     
                     expectation1.fulfill()
@@ -1035,14 +1122,17 @@ class BillsTests: XCTestCase {
                 let aggregation = Aggregation(database: database, network: network)
                 let bills = Bills(database: database, network: network, aggregation: aggregation)
                 
-                bills.updateBillPayment(billPaymentID: 12345) { (error) in
-                    XCTAssertNotNil(error)
-                    
-                    if let dataError = error as? DataError {
-                        XCTAssertEqual(dataError.type, .database)
-                        XCTAssertEqual(dataError.subType, .notFound)
-                    } else {
-                        XCTFail("Wrong error type")
+                bills.updateBillPayment(billPaymentID: 12345) { (result) in
+                    switch result {
+                        case .failure(let error):
+                            if let dataError = error as? DataError {
+                                XCTAssertEqual(dataError.type, .database)
+                                XCTAssertEqual(dataError.subType, .notFound)
+                            } else {
+                                XCTFail("Wrong error type")
+                            }
+                        case .success:
+                            XCTFail("Finding bill payment should fail")
                     }
                     
                     expectation1.fulfill()
@@ -1055,8 +1145,9 @@ class BillsTests: XCTestCase {
     }
     
     func testBillPaymentsLinkToBills() {
-        let expectation1 = expectation(description: "Network Bills Request")
-        let expectation2 = expectation(description: "Network Bill Payments Request")
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Bills Request")
+        let expectation3 = expectation(description: "Network Bill Payments Request")
         
         let url = URL(string: "https://api.example.com")!
         
@@ -1075,45 +1166,62 @@ class BillsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, network: network)
-            let bills = Bills(database: database, network: network, aggregation: aggregation)
-            
-            bills.refreshBills() { (error) in
-                XCTAssertNil(error)
-                
-                let fromDate = BillPayment.billDateFormatter.date(from: "2018-12-01")!
-                let toDate = BillPayment.billDateFormatter.date(from: "2021-01-01")!
-                
-                bills.refreshBillPayments(from: fromDate, to: toDate) { (error) in
-                    XCTAssertNil(error)
-                    
-                    let context = database.viewContext
-                    
-                    let fetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: "billPaymentID == %ld", argumentArray: [7991])
-                    
-                    do {
-                        let fetchedBillPayments = try context.fetch(fetchRequest)
-                        
-                        XCTAssertEqual(fetchedBillPayments.count, 1)
-                        
-                        if let billPayment = fetchedBillPayments.first {
-                            XCTAssertNotNil(billPayment.billID)
-                            
-                            XCTAssertEqual(billPayment.billID, billPayment.bill?.billID)
-                        }
-                    } catch {
-                        XCTFail(error.localizedDescription)
-                    }
-                    
-                    expectation2.fulfill()
-                }
-                
-                expectation1.fulfill()
-            }
+            expectation1.fulfill()
         }
         
-        wait(for: [expectation1, expectation2], timeout: 3.0)
+        wait(for: [expectation1], timeout: 3.0)
+            
+        let aggregation = Aggregation(database: database, network: network)
+        let bills = Bills(database: database, network: network, aggregation: aggregation)
+        
+        bills.refreshBills() { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+                
+        let fromDate = BillPayment.billDateFormatter.date(from: "2018-12-01")!
+        let toDate = BillPayment.billDateFormatter.date(from: "2021-01-01")!
+        
+        bills.refreshBillPayments(from: fromDate, to: toDate) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+                    
+        let context = database.viewContext
+        
+        let fetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "billPaymentID == %ld", argumentArray: [7991])
+        
+        do {
+            let fetchedBillPayments = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedBillPayments.count, 1)
+            
+            if let billPayment = fetchedBillPayments.first {
+                XCTAssertNotNil(billPayment.billID)
+                
+                XCTAssertEqual(billPayment.billID, billPayment.bill?.billID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
         OHHTTPStubs.removeAllStubs()
     }
     

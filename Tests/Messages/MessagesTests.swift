@@ -179,32 +179,35 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             
             let messages = Messages(database: database, network: network)
             
-            messages.refreshMessages(completion: { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
-                
-                do {
-                    let fetchedMessages = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedMessages.count, 39)
-                    
-                    for message in fetchedMessages {
-                        switch message.contentType {
-                            case .html:
-                                XCTAssertTrue(message.isKind(of: MessageHTML.self))
-                            case .image:
-                                XCTAssertTrue(message.isKind(of: MessageImage.self))
-                            case .text:
-                                XCTAssertTrue(message.isKind(of: MessageText.self))
-                            case .video:
-                                XCTAssertTrue(message.isKind(of: MessageVideo.self))
+            messages.refreshMessages(completion: { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
+                        
+                        do {
+                            let fetchedMessages = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedMessages.count, 39)
+                            
+                            for message in fetchedMessages {
+                                switch message.contentType {
+                                    case .html:
+                                        XCTAssertTrue(message.isKind(of: MessageHTML.self))
+                                    case .image:
+                                        XCTAssertTrue(message.isKind(of: MessageImage.self))
+                                    case .text:
+                                        XCTAssertTrue(message.isKind(of: MessageText.self))
+                                    case .video:
+                                        XCTAssertTrue(message.isKind(of: MessageVideo.self))
+                                }
+                            }
+                        } catch {
+                            XCTFail(error.localizedDescription)
                         }
-                    }
-                } catch {
-                    XCTFail(error.localizedDescription)
                 }
                 
                 expectation1.fulfill()
@@ -235,20 +238,23 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             
             let messages = Messages(database: database, network: network)
             
-            messages.refreshMessage(messageID: id) { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "messageID == %ld", argumentArray: [id])
-                
-                do {
-                    let fetchedMessages = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedMessages.first?.messageID, id)
-                } catch {
-                    XCTFail(error.localizedDescription)
+            messages.refreshMessage(messageID: id) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "messageID == %ld", argumentArray: [id])
+                        
+                        do {
+                            let fetchedMessages = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedMessages.first?.messageID, id)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -286,20 +292,23 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 
                 let messages = Messages(database: database, network: network)
                 
-                messages.updateMessage(messageID: 12345, completion: { (error) in
-                    XCTAssertNil(error)
-                    
-                    let context = database.viewContext
-                    
-                    let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: "messageID == %ld", argumentArray: [12345])
-                    
-                    do {
-                        let fetchedMessages = try context.fetch(fetchRequest)
-                        
-                        XCTAssertEqual(fetchedMessages.first?.messageID, 12345)
-                    } catch {
-                        XCTFail(error.localizedDescription)
+                messages.updateMessage(messageID: 12345, completion: { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTFail(error.localizedDescription)
+                        case .success:
+                            let context = database.viewContext
+                            
+                            let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
+                            fetchRequest.predicate = NSPredicate(format: "messageID == %ld", argumentArray: [12345])
+                            
+                            do {
+                                let fetchedMessages = try context.fetch(fetchRequest)
+                                
+                                XCTAssertEqual(fetchedMessages.first?.messageID, 12345)
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
                     }
                     
                     expectation1.fulfill()
@@ -338,12 +347,17 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 
                 let messages = Messages(database: database, network: network)
                 
-                messages.updateMessage(messageID: 12345, completion: { (error) in
-                    XCTAssertNotNil(error)
-                    
-                    if let dataError = error as? DataError {
-                        XCTAssertEqual(dataError.type, .database)
-                        XCTAssertEqual(dataError.subType, .notFound)
+                messages.updateMessage(messageID: 12345, completion: { (result) in
+                    switch result {
+                        case .failure(let error):
+                            if let dataError = error as? DataError {
+                                XCTAssertEqual(dataError.type, .database)
+                                XCTAssertEqual(dataError.subType, .notFound)
+                            } else {
+                                XCTFail("Wrong error returned")
+                            }
+                        case .success:
+                            XCTFail("Message should fail to be found")
                     }
                     
                     expectation1.fulfill()
@@ -373,38 +387,41 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             
             let messages = Messages(database: database, network: network)
             
-            messages.refreshUnreadMessages(completion: { (error) in
-                XCTAssertNil(error)
-                
-                let context = database.viewContext
-                
-                let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
-                
-                do {
-                    let fetchedMessages = try context.fetch(fetchRequest)
-                    
-                    XCTAssertEqual(fetchedMessages.count, 7)
-                    
-                    for message in fetchedMessages {
-                        switch message.contentType {
-                            case .html:
-                                XCTAssertTrue(message.isKind(of: MessageHTML.self))
-                            case .image:
-                                XCTAssertTrue(message.isKind(of: MessageImage.self))
-                            case .text:
-                                XCTAssertTrue(message.isKind(of: MessageText.self))
-                            case .video:
-                                XCTAssertTrue(message.isKind(of: MessageVideo.self))
-                        }
+            messages.refreshUnreadMessages { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
                         
-                        XCTAssertFalse(message.read)
-                    }
-                } catch {
-                    XCTFail(error.localizedDescription)
+                        let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
+                        
+                        do {
+                            let fetchedMessages = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedMessages.count, 7)
+                            
+                            for message in fetchedMessages {
+                                switch message.contentType {
+                                    case .html:
+                                        XCTAssertTrue(message.isKind(of: MessageHTML.self))
+                                    case .image:
+                                        XCTAssertTrue(message.isKind(of: MessageImage.self))
+                                    case .text:
+                                        XCTAssertTrue(message.isKind(of: MessageText.self))
+                                    case .video:
+                                        XCTAssertTrue(message.isKind(of: MessageVideo.self))
+                                }
+                                
+                                XCTAssertFalse(message.read)
+                            }
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()
-            })
+            }
         }
         
         wait(for: [expectation1], timeout: 3.0)

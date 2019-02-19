@@ -62,10 +62,13 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUser(method: .email, email: "user@frollo.us", password: "password") { (error) in
-                XCTAssertNil(error)
-                
-                XCTAssertNotNil(authentication.fetchUser(context: database.newBackgroundContext()))
+            authentication.loginUser(method: .email, email: "user@frollo.us", password: "password") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        XCTAssertNotNil(authentication.fetchUser(context: database.newBackgroundContext()))
+                }
                 
                 expectation1.fulfill()
             }
@@ -92,10 +95,13 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUser(method: .email, email: "user@frollo.us", password: "wrong_password") { (error) in
-                XCTAssertNotNil(error)
-                
-                XCTAssertNil(authentication.fetchUser(context: database.newBackgroundContext()))
+            authentication.loginUser(method: .email, email: "user@frollo.us", password: "wrong_password") { (result) in
+                switch result {
+                    case .failure:
+                        XCTAssertNil(authentication.fetchUser(context: database.newBackgroundContext()))
+                    case .success:
+                        XCTFail("Wrong password should fail")
+                }
                 
                 expectation1.fulfill()
             }
@@ -122,10 +128,13 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password") { (error) in
-                XCTAssertNil(error)
-                
-                XCTAssertNotNil(authentication.fetchUser(context: database.newBackgroundContext()))
+            authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        XCTAssertNotNil(authentication.fetchUser(context: database.newBackgroundContext()))
+                }
                 
                 expectation1.fulfill()
             }
@@ -154,10 +163,13 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
             
             authentication.loggedIn = true
             
-            authentication.refreshUser { (error) in
-                XCTAssertNil(error)
-                
-                XCTAssertNotNil(authentication.fetchUser(context: database.newBackgroundContext()))
+            authentication.refreshUser { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        XCTAssertNotNil(authentication.fetchUser(context: database.newBackgroundContext()))
+                }
                 
                 expectation1.fulfill()
             }
@@ -195,10 +207,13 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                 try! moc.save()
             }
             
-            authentication.updateUser { (error) in
-                XCTAssertNil(error)
-                
-                XCTAssertNotNil(authentication.fetchUser(context: database.newBackgroundContext()))
+            authentication.updateUser { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        XCTAssertNotNil(authentication.fetchUser(context: database.newBackgroundContext()))
+                }
                 
                 expectation1.fulfill()
             }
@@ -277,11 +292,14 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                 try! moc.save()
             }
             
-            authentication.updateUser { (error) in
-                XCTAssert(error != nil)
-                
-                XCTAssertNil(network.authenticator.refreshToken)
-                XCTAssertNil(network.authenticator.accessToken)
+            authentication.updateUser { (result) in
+                switch result {
+                    case .failure:
+                        XCTAssertNil(network.authenticator.refreshToken)
+                        XCTAssertNil(network.authenticator.accessToken)
+                    case .success:
+                        XCTFail("Update user should fail due to 401")
+                }
                 
                 expectation1.fulfill()
             }
@@ -318,8 +336,13 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                 try! moc.save()
             }
             
-            authentication.changePassword(currentPassword: UUID().uuidString, newPassword: UUID().uuidString, completion: { (error) in
-                XCTAssertNil(error)
+            authentication.changePassword(currentPassword: UUID().uuidString, newPassword: UUID().uuidString, completion: { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        break
+                }
                 
                 expectation1.fulfill()
             })
@@ -356,12 +379,17 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                 try! moc.save()
             }
             
-            authentication.changePassword(currentPassword: UUID().uuidString, newPassword: "1234", completion: { (error) in
-                XCTAssertNotNil(error)
-                
-                if let dataError = error as? DataError {
-                    XCTAssertEqual(dataError.type, .api)
-                    XCTAssertEqual(dataError.subType, .passwordTooShort)
+            authentication.changePassword(currentPassword: UUID().uuidString, newPassword: "1234", completion: { (result) in
+                switch result {
+                    case .failure(let error):
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .api)
+                            XCTAssertEqual(dataError.subType, .passwordTooShort)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Change password should fail")
                 }
                 
                 expectation1.fulfill()
@@ -399,10 +427,13 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                 try! moc.save()
             }
             
-            authentication.deleteUser(completion: { (error) in
-                XCTAssertNil(error)
-                
-                XCTAssertFalse(authentication.loggedIn)
+            authentication.deleteUser(completion: { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        XCTAssertFalse(authentication.loggedIn)
+                }
                 
                 expectation1.fulfill()
             })
@@ -439,8 +470,13 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                 try! moc.save()
             }
             
-            authentication.resetPassword(email: "test@domain.com", completion: { (error) in
-                XCTAssertNil(error)
+            authentication.resetPassword(email: "test@domain.com", completion: { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        break
+                }
                 
                 expectation1.fulfill()
             })
@@ -483,11 +519,14 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                 try! moc.save()
             }
             
-            authentication.refreshUser { (error) in
-                XCTAssert(error != nil)
-                
-                XCTAssertNil(network.authenticator.refreshToken)
-                XCTAssertNil(network.authenticator.accessToken)
+            authentication.refreshUser { (result) in
+                switch result {
+                    case .failure:
+                        XCTAssertNil(network.authenticator.refreshToken)
+                        XCTAssertNil(network.authenticator.accessToken)
+                    case .success:
+                        XCTFail("Auth should fail")
+                }
                 
                 expectation1.fulfill()
             }
@@ -516,8 +555,13 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
 
             authentication.loggedIn = true
             
-            authentication.updateDevice(notificationToken: "SomeToken12345", completion: { (error) in
-                XCTAssertNil(error)
+            authentication.updateDevice(notificationToken: "SomeToken12345", completion: { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        break
+                }
                 
                 expectation1.fulfill()
             })
@@ -546,8 +590,13 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
             
             authentication.loggedIn = true
             
-            authentication.updateDeviceCompliance(true) { (error) in
-                XCTAssertNil(error)
+            authentication.updateDeviceCompliance(true) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        break
+                }
                 
                 expectation1.fulfill()
             }

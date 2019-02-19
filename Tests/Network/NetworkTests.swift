@@ -158,7 +158,12 @@ class NetworkTests: XCTestCase {
         network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
         
         network.fetchUser { (result) in
-            XCTAssertNil(error)
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation1.fulfill()
         }
@@ -185,14 +190,18 @@ class NetworkTests: XCTestCase {
         network.authenticator.accessToken = "AnExistingAccessToken"
         network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
         
-        network.fetchUser { (json, error) in
-            XCTAssertNotNil(error)
-            
-            if let systemError = error as? NetworkError {
-                XCTAssertEqual(systemError.type, .connectionFailure)
-            } else {
-                XCTFail("Wrong error type")
+        network.fetchUser { (result) in
+            switch result {
+                case .failure(let error):
+                    if let systemError = error as? NetworkError {
+                        XCTAssertEqual(systemError.type, .connectionFailure)
+                    } else {
+                        XCTFail("Wrong error returned")
+                    }
+                case .success:
+                    XCTFail("Invalid domain should fail")
             }
+            
             
             expectation1.fulfill()
         }

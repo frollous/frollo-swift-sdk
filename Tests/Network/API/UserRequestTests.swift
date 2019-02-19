@@ -46,12 +46,11 @@ class UserRequestTests: XCTestCase {
         let loginRequest = APIUserLoginRequest.testEmailData()
         
         network.loginUser(request: loginRequest) { (result) in
-            XCTAssertNil(error)
-            
-            if let userResponse = response {
-                XCTAssertEqual(userResponse.userID, 12345)
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.userID, 12345)
             }
             
             expectation1.fulfill()
@@ -78,12 +77,11 @@ class UserRequestTests: XCTestCase {
         let loginRequest = APIUserLoginRequest.testFacebookData()
         
         network.loginUser(request: loginRequest) { (result) in
-            XCTAssertNil(error)
-            
-            if let userResponse = response {
-                XCTAssertEqual(userResponse.userID, 12345)
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.userID, 12345)
             }
             
             expectation1.fulfill()
@@ -110,12 +108,11 @@ class UserRequestTests: XCTestCase {
         let loginRequest = APIUserLoginRequest.testVoltData()
         
         network.loginUser(request: loginRequest) { (result) in
-            XCTAssertNil(error)
-            
-            if let userResponse = response {
-                XCTAssertEqual(userResponse.userID, 12345)
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.userID, 12345)
             }
             
             expectation1.fulfill()
@@ -138,14 +135,16 @@ class UserRequestTests: XCTestCase {
         let loginRequest = APIUserLoginRequest.testInvalidData()
         
         network.loginUser(request: loginRequest) { (result) in
-            XCTAssertNotNil(error)
-            XCTAssertNil(response)
-            
-            if let dataError = error as? DataError {
-                XCTAssertEqual(dataError.type, .api)
-                XCTAssertEqual(dataError.subType, .invalidData)
-            } else {
-                XCTFail("Wrong error")
+            switch result {
+                case .failure(let error):
+                    if let dataError = error as? DataError {
+                        XCTAssertEqual(dataError.type, .api)
+                        XCTAssertEqual(dataError.subType, .invalidData)
+                    } else {
+                        XCTFail("Wrong error")
+                    }
+                case .success:
+                    XCTFail("User was invalid so should fail")
             }
             
             expectation1.fulfill()
@@ -170,12 +169,11 @@ class UserRequestTests: XCTestCase {
         let registerRequest = APIUserRegisterRequest.testData()
         
         network.registerUser(request: registerRequest) { (result) in
-            XCTAssertNil(error)
-            
-            if let userResponse = response {
-                XCTAssertEqual(userResponse.userID, 12345)
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.userID, 12345)
             }
             
             expectation1.fulfill()
@@ -206,40 +204,39 @@ class UserRequestTests: XCTestCase {
         let date = dateFormatter.date(from: "1990-01")
         
         network.fetchUser { (result) in
-            XCTAssertNil(error)
-            
-            if let userResponse = response {
-                XCTAssertEqual(userResponse.userID, 12345)
-                XCTAssertEqual(userResponse.firstName, "Jacob")
-                XCTAssertEqual(userResponse.lastName, "Frollo")
-                XCTAssertEqual(userResponse.email, "jacob@frollo.us")
-                XCTAssertEqual(userResponse.emailVerified, true)
-                XCTAssertEqual(userResponse.status, .active)
-                XCTAssertEqual(userResponse.primaryCurrency, "AUD")
-                XCTAssertEqual(userResponse.gender, .male)
-                XCTAssertEqual(userResponse.dateOfBirth, date)
-                XCTAssertEqual(userResponse.mobileNumber, "0412345678")
-                XCTAssertEqual(userResponse.address?.line1, "41 McLaren Street")
-                XCTAssertEqual(userResponse.address?.line2, "Frollo Level 1")
-                XCTAssertEqual(userResponse.address?.postcode, "2060")
-                XCTAssertEqual(userResponse.address?.suburb, "North Sydney")
-                XCTAssertEqual(userResponse.previousAddress?.line1, "Bay 9 Middlemiss St")
-                XCTAssertEqual(userResponse.previousAddress?.line2, "Frollo Unit 13")
-                XCTAssertEqual(userResponse.previousAddress?.postcode, "2060")
-                XCTAssertEqual(userResponse.previousAddress?.suburb, "Lavender Bay")
-                XCTAssertEqual(userResponse.attribution?.adGroup, "ADGROUP1")
-                XCTAssertEqual(userResponse.attribution?.creative, "CREATIVE1")
-                XCTAssertEqual(userResponse.attribution?.campaign, "CAMPAIGN1")
-                XCTAssertEqual(userResponse.attribution?.network, "FACEBOOK")
-                XCTAssertEqual(userResponse.householdType, .single)
-                XCTAssertEqual(userResponse.occupation, .communityAndPersonalServiceWorkers)
-                XCTAssertEqual(userResponse.industry, .electricityGasWaterAndWasteServices)
-                XCTAssertEqual(userResponse.householdSize, 2)
-                XCTAssertEqual(userResponse.facebookID, "1234567890")
-                XCTAssertEqual(userResponse.validPassword, true)
-                XCTAssertEqual(userResponse.features, [User.FeatureFlag(enabled: true, feature: "aggregation")])
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let userResponse):
+                    XCTAssertEqual(userResponse.userID, 12345)
+                    XCTAssertEqual(userResponse.firstName, "Jacob")
+                    XCTAssertEqual(userResponse.lastName, "Frollo")
+                    XCTAssertEqual(userResponse.email, "jacob@frollo.us")
+                    XCTAssertEqual(userResponse.emailVerified, true)
+                    XCTAssertEqual(userResponse.status, .active)
+                    XCTAssertEqual(userResponse.primaryCurrency, "AUD")
+                    XCTAssertEqual(userResponse.gender, .male)
+                    XCTAssertEqual(userResponse.dateOfBirth, date)
+                    XCTAssertEqual(userResponse.mobileNumber, "0412345678")
+                    XCTAssertEqual(userResponse.address?.line1, "41 McLaren Street")
+                    XCTAssertEqual(userResponse.address?.line2, "Frollo Level 1")
+                    XCTAssertEqual(userResponse.address?.postcode, "2060")
+                    XCTAssertEqual(userResponse.address?.suburb, "North Sydney")
+                    XCTAssertEqual(userResponse.previousAddress?.line1, "Bay 9 Middlemiss St")
+                    XCTAssertEqual(userResponse.previousAddress?.line2, "Frollo Unit 13")
+                    XCTAssertEqual(userResponse.previousAddress?.postcode, "2060")
+                    XCTAssertEqual(userResponse.previousAddress?.suburb, "Lavender Bay")
+                    XCTAssertEqual(userResponse.attribution?.adGroup, "ADGROUP1")
+                    XCTAssertEqual(userResponse.attribution?.creative, "CREATIVE1")
+                    XCTAssertEqual(userResponse.attribution?.campaign, "CAMPAIGN1")
+                    XCTAssertEqual(userResponse.attribution?.network, "FACEBOOK")
+                    XCTAssertEqual(userResponse.householdType, .single)
+                    XCTAssertEqual(userResponse.occupation, .communityAndPersonalServiceWorkers)
+                    XCTAssertEqual(userResponse.industry, .electricityGasWaterAndWasteServices)
+                    XCTAssertEqual(userResponse.householdSize, 2)
+                    XCTAssertEqual(userResponse.facebookID, "1234567890")
+                    XCTAssertEqual(userResponse.validPassword, true)
+                    XCTAssertEqual(userResponse.features, [User.FeatureFlag(enabled: true, feature: "aggregation")])
             }
             
             expectation1.fulfill()
@@ -264,28 +261,27 @@ class UserRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchUser { (result) in
-            XCTAssertNil(error)
-            
-            if let userResponse = response {
-                XCTAssertEqual(userResponse.userID, 12345)
-                XCTAssertEqual(userResponse.firstName, "Jacob")
-                XCTAssertNil(userResponse.lastName)
-                XCTAssertEqual(userResponse.email, "jacob@frollo.us")
-                XCTAssertEqual(userResponse.emailVerified, true)
-                XCTAssertEqual(userResponse.status, .active)
-                XCTAssertEqual(userResponse.primaryCurrency, "AUD")
-                XCTAssertNil(userResponse.gender)
-                XCTAssertNil(userResponse.dateOfBirth)
-                XCTAssertNil(userResponse.address?.postcode)
-                XCTAssertNil(userResponse.householdType)
-                XCTAssertNil(userResponse.occupation)
-                XCTAssertNil(userResponse.industry)
-                XCTAssertNil(userResponse.householdSize)
-                XCTAssertNil(userResponse.facebookID)
-                XCTAssertNil(userResponse.features)
-                XCTAssertEqual(userResponse.validPassword, true)
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let userResponse):
+                    XCTAssertEqual(userResponse.userID, 12345)
+                    XCTAssertEqual(userResponse.firstName, "Jacob")
+                    XCTAssertNil(userResponse.lastName)
+                    XCTAssertEqual(userResponse.email, "jacob@frollo.us")
+                    XCTAssertEqual(userResponse.emailVerified, true)
+                    XCTAssertEqual(userResponse.status, .active)
+                    XCTAssertEqual(userResponse.primaryCurrency, "AUD")
+                    XCTAssertNil(userResponse.gender)
+                    XCTAssertNil(userResponse.dateOfBirth)
+                    XCTAssertNil(userResponse.address?.postcode)
+                    XCTAssertNil(userResponse.householdType)
+                    XCTAssertNil(userResponse.occupation)
+                    XCTAssertNil(userResponse.industry)
+                    XCTAssertNil(userResponse.householdSize)
+                    XCTAssertNil(userResponse.facebookID)
+                    XCTAssertNil(userResponse.features)
+                    XCTAssertEqual(userResponse.validPassword, true)
             }
             
             expectation1.fulfill()
@@ -310,8 +306,12 @@ class UserRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchUser { (result) in
-            XCTAssertNotNil(error)
-            XCTAssertNil(response)
+            switch result {
+                case .failure:
+                    break
+                case .success:
+                    XCTFail("User was invalid so should fail")
+            }
             
             expectation1.fulfill()
         }
@@ -333,7 +333,12 @@ class UserRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.logoutUser() { (result) in
-            XCTAssertNil(error)
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation1.fulfill()
         }
@@ -359,7 +364,12 @@ class UserRequestTests: XCTestCase {
         let changePasswordRequest = APIUserChangePasswordRequest.testData()
         
         network.changePassword(request: changePasswordRequest) { (result) in
-            XCTAssertNil(error)
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation1.fulfill()
         }
@@ -383,7 +393,12 @@ class UserRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.deleteUser() { (result) in
-            XCTAssertNil(error)
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation1.fulfill()
         }

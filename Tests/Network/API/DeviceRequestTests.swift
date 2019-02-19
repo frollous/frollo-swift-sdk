@@ -38,13 +38,16 @@ class DeviceRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.refreshToken { (result) in
-            XCTAssertNil(error)
-            
-            XCTAssertNotNil(network.authenticator.refreshToken)
-            XCTAssertNotNil(network.authenticator.accessToken)
-            
-            let persistedKeychain = Keychain(service: self.keychainService)
-            XCTAssertNotNil(persistedKeychain["refreshToken"])
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    XCTAssertNotNil(network.authenticator.refreshToken)
+                    XCTAssertNotNil(network.authenticator.accessToken)
+                    
+                    let persistedKeychain = Keychain(service: self.keychainService)
+                    XCTAssertNotNil(persistedKeychain["refreshToken"])
+            }
             
             expectation1.fulfill()
         }
@@ -68,8 +71,12 @@ class DeviceRequestTests: XCTestCase {
         let request = APILogRequest(details: "Details Content", message: "Log message", score: .error)
         
         network.createLog(request: request) { (result) in
-            XCTAssertNil(error)
-            XCTAssertNil(response)
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation1.fulfill()
         }
@@ -96,8 +103,12 @@ class DeviceRequestTests: XCTestCase {
                                              timezone: TimeZone.current.identifier)
         
         network.updateDevice(request: request) { (result) in
-            XCTAssertNil(error)
-            XCTAssertNil(response)
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation1.fulfill()
         }

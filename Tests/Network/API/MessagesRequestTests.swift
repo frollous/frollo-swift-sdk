@@ -38,29 +38,28 @@ class MessagesRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchMessages { (result) in
-            XCTAssertNil(error)
-            
-            if let messagesResponse = response {
-                XCTAssertEqual(messagesResponse.count, 39)
-                
-                if let firstMessage = messagesResponse.first {
-                    XCTAssertEqual(firstMessage.id, 52473)
-                    XCTAssertEqual(firstMessage.event, "DEMO_START")
-                    XCTAssertEqual(firstMessage.userEventID, 50581)
-                    XCTAssertEqual(firstMessage.placement, 1020)
-                    XCTAssertFalse(firstMessage.persists)
-                    XCTAssertFalse(firstMessage.read)
-                    XCTAssertFalse(firstMessage.interacted)
-                    XCTAssertEqual(firstMessage.messageTypes, ["home_nudge"])
-                    XCTAssertEqual(firstMessage.title, "Well done Jacob!")
-                    XCTAssertEqual(firstMessage.contentType, .text)
-                    XCTAssertEqual(firstMessage.content!, .text(APIMessageResponse.Content.Text(designType: "information", footer: "Footer", header: "Header", imageURL: nil, text: "Some body")))
-                    XCTAssertEqual(firstMessage.action?.title, "Claim Points")
-                    XCTAssertEqual(firstMessage.action?.link, "frollo://dashboard/")
-                    XCTAssertEqual(firstMessage.action?.openExternal, false)
-                }
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 39)
+                    
+                    if let firstMessage = response.first {
+                        XCTAssertEqual(firstMessage.id, 52473)
+                        XCTAssertEqual(firstMessage.event, "DEMO_START")
+                        XCTAssertEqual(firstMessage.userEventID, 50581)
+                        XCTAssertEqual(firstMessage.placement, 1020)
+                        XCTAssertFalse(firstMessage.persists)
+                        XCTAssertFalse(firstMessage.read)
+                        XCTAssertFalse(firstMessage.interacted)
+                        XCTAssertEqual(firstMessage.messageTypes, ["home_nudge"])
+                        XCTAssertEqual(firstMessage.title, "Well done Jacob!")
+                        XCTAssertEqual(firstMessage.contentType, .text)
+                        XCTAssertEqual(firstMessage.content!, .text(APIMessageResponse.Content.Text(designType: "information", footer: "Footer", header: "Header", imageURL: nil, text: "Some body")))
+                        XCTAssertEqual(firstMessage.action?.title, "Claim Points")
+                        XCTAssertEqual(firstMessage.action?.link, "frollo://dashboard/")
+                        XCTAssertEqual(firstMessage.action?.openExternal, false)
+                    }
             }
             
             expectation1.fulfill()
@@ -83,15 +82,14 @@ class MessagesRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchMessages { (result) in
-            XCTAssertNil(error)
-            
-            if let messagesResponse = response {
-                XCTAssertEqual(messagesResponse.count, 35)
-                
-                let message = messagesResponse[1]
-                XCTAssertEqual(message.id, 52432)
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 35)
+                    
+                    let message = response[1]
+                    XCTAssertEqual(message.id, 52432)
             }
             
             expectation1.fulfill()
@@ -114,33 +112,32 @@ class MessagesRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchUnreadMessages { (result) in
-            XCTAssertNil(error)
-            
-            if let messagesResponse = response {
-                XCTAssertEqual(messagesResponse.count, 7)
-                
-                if let firstMessage = messagesResponse.first {
-                    XCTAssertEqual(firstMessage.id, 52473)
-                    XCTAssertEqual(firstMessage.event, "DEMO_START")
-                    XCTAssertEqual(firstMessage.userEventID, 50581)
-                    XCTAssertEqual(firstMessage.placement, 1020)
-                    XCTAssertFalse(firstMessage.persists)
-                    XCTAssertFalse(firstMessage.read)
-                    XCTAssertFalse(firstMessage.interacted)
-                    XCTAssertEqual(firstMessage.messageTypes, ["home_nudge"])
-                    XCTAssertEqual(firstMessage.title, "Well done Jacob!")
-                    XCTAssertEqual(firstMessage.contentType, .html)
-                    XCTAssertEqual(firstMessage.content!, APIMessageResponse.Content.html(APIMessageResponse.Content.HTML(footer: nil, header: nil, main: "<html></html>")))
-                    XCTAssertEqual(firstMessage.action?.title, "Claim Points")
-                    XCTAssertEqual(firstMessage.action?.link, "frollo://dashboard/")
-                    XCTAssertEqual(firstMessage.action?.openExternal, false)
-                }
-                
-                for message in messagesResponse {
-                    XCTAssertFalse(message.read)
-                }
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 7)
+                    
+                    if let firstMessage = response.first {
+                        XCTAssertEqual(firstMessage.id, 52473)
+                        XCTAssertEqual(firstMessage.event, "DEMO_START")
+                        XCTAssertEqual(firstMessage.userEventID, 50581)
+                        XCTAssertEqual(firstMessage.placement, 1020)
+                        XCTAssertFalse(firstMessage.persists)
+                        XCTAssertFalse(firstMessage.read)
+                        XCTAssertFalse(firstMessage.interacted)
+                        XCTAssertEqual(firstMessage.messageTypes, ["home_nudge"])
+                        XCTAssertEqual(firstMessage.title, "Well done Jacob!")
+                        XCTAssertEqual(firstMessage.contentType, .html)
+                        XCTAssertEqual(firstMessage.content!, APIMessageResponse.Content.html(APIMessageResponse.Content.HTML(footer: nil, header: nil, main: "<html></html>")))
+                        XCTAssertEqual(firstMessage.action?.title, "Claim Points")
+                        XCTAssertEqual(firstMessage.action?.link, "frollo://dashboard/")
+                        XCTAssertEqual(firstMessage.action?.openExternal, false)
+                    }
+                    
+                    for message in response {
+                        XCTAssertFalse(message.read)
+                    }
             }
             
             expectation1.fulfill()
@@ -166,25 +163,24 @@ class MessagesRequestTests: XCTestCase {
         let network = Network(serverURL: url, keychain: keychain)
         
         network.fetchMessage(messageID: id) { (result) in
-            XCTAssertNil(error)
-            
-            if let message = response {
-                XCTAssertEqual(message.id, id)
-                XCTAssertEqual(message.event, "TEST_WEBVIEW_AUTH")
-                XCTAssertEqual(message.userEventID, 47936)
-                XCTAssertEqual(message.placement, 1)
-                XCTAssertTrue(message.persists)
-                XCTAssertFalse(message.read)
-                XCTAssertFalse(message.interacted)
-                XCTAssertEqual(message.messageTypes, ["home_nudge"])
-                XCTAssertEqual(message.title, "Test WebView Auth")
-                XCTAssertEqual(message.contentType, .text)
-                XCTAssertEqual(message.content!, .text(APIMessageResponse.Content.Text(designType: "information", footer: "Footer", header: "Header", imageURL: nil, text: "Some body")))
-                XCTAssertNil(message.action?.title)
-                XCTAssertEqual(message.action?.link, "https://example.com")
-                XCTAssertEqual(message.action?.openExternal, false)
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let message):
+                    XCTAssertEqual(message.id, id)
+                    XCTAssertEqual(message.event, "TEST_WEBVIEW_AUTH")
+                    XCTAssertEqual(message.userEventID, 47936)
+                    XCTAssertEqual(message.placement, 1)
+                    XCTAssertTrue(message.persists)
+                    XCTAssertFalse(message.read)
+                    XCTAssertFalse(message.interacted)
+                    XCTAssertEqual(message.messageTypes, ["home_nudge"])
+                    XCTAssertEqual(message.title, "Test WebView Auth")
+                    XCTAssertEqual(message.contentType, .text)
+                    XCTAssertEqual(message.content!, .text(APIMessageResponse.Content.Text(designType: "information", footer: "Footer", header: "Header", imageURL: nil, text: "Some body")))
+                    XCTAssertNil(message.action?.title)
+                    XCTAssertEqual(message.action?.link, "https://example.com")
+                    XCTAssertEqual(message.action?.openExternal, false)
             }
             
             expectation1.fulfill()
@@ -209,12 +205,11 @@ class MessagesRequestTests: XCTestCase {
 
         let request = APIMessageUpdateRequest(interacted: false, read: true)
         network.updateMessage(messageID: id, request: request) { (result) in
-            XCTAssertNil(error)
-
-            if let messageResponse = response {
-                XCTAssertEqual(messageResponse.id, id)
-            } else {
-                XCTFail("No response object")
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.id, id)
             }
 
             expectation1.fulfill()

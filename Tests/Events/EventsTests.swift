@@ -38,8 +38,13 @@ class EventsTests: XCTestCase {
         
         let events = Events(network: network)
         
-        events.triggerEvent("TEST_EVENT", after: 5) { (error) in
-            XCTAssertNil(error)
+        events.triggerEvent("TEST_EVENT", after: 5) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation1.fulfill()
         }
