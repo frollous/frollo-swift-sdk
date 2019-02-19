@@ -234,12 +234,11 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         
         refreshing = true
         
-        network?.refreshToken(completion: { (result) in
+        network?.refreshToken { (result) in
             switch result {
                 case .success:
-                    self.requestsToRetry.forEach { $0(false, 0.0) }
+                    self.requestsToRetry.forEach { $0(true, 0.0) }
                     self.requestsToRetry.removeAll()
-                
                 case .failure(let error):
                     if let apiError = error as? APIError, apiError.type == .invalidRefreshToken {
                         self.clearTokens()
@@ -247,12 +246,12 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
                         Log.error("Refreshing token failed due to authorisation error." + apiError.localizedDescription)
                     }
                     
-                    self.requestsToRetry.forEach { $0(true, 0.0) }
+                    self.requestsToRetry.forEach { $0(false, 0.0) }
                     self.requestsToRetry.removeAll()
             }
             
             self.refreshing = false
-        })
+        }
     }
     
     private func validToken() -> Bool {

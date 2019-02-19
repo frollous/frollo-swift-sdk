@@ -2444,16 +2444,15 @@ class AggregationTests: XCTestCase {
     }
     
     func testTransactionsRefreshedOnNotification() {
-        let expectation1 = expectation(description: "Network Request 1")
+        let expectation1 = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil) { (notification) -> Bool in
+            return true
+        }
         
         let url = URL(string: "https://api.example.com")!
         
         let ids: [Int64] = [4, 87, 9077777]
         
-        
-        
         stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (request) -> OHHTTPStubsResponse in
-            expectation1.fulfill()
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -2469,8 +2468,6 @@ class AggregationTests: XCTestCase {
         
             NotificationCenter.default.post(name: Aggregation.refreshTransactionsNotification, object: self, userInfo: [Aggregation.refreshTransactionIDsKey: ids])
         }
-        
-        
         
         wait(for: [expectation1], timeout: 5.0)
     }

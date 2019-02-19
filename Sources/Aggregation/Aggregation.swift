@@ -12,6 +12,8 @@ import Foundation
 /// Manages all aggregation data including accounts, transactions, categories and merchants
 public class Aggregation: CachedObjects, ResponseHandler {
     
+    public static let transactionsUpdatedNotification = Notification.Name(rawValue: "FrolloSDK.aggregation.transactionsUpdatedNotification")
+    
     internal static let refreshTransactionIDsKey = "FrolloSDKKey.Aggregation.transactionIDs"
     internal static let refreshTransactionsNotification = Notification.Name(rawValue: "FrolloSDK.aggregation.refreshTransactionsNotification")
     
@@ -552,6 +554,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                 
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -584,6 +588,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                 
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -616,6 +622,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                 
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -666,6 +674,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
                         completion?(.success)

@@ -25,14 +25,6 @@ internal protocol AuthenticationDelegate: class {
     
 }
 
-/// Frollo SDK authentication notifications
-public struct FrolloSDKAuthenticationNotification {
-    
-    /// Notification indicating the user authentication status has changed
-    public static let authenticationStatusChanged = "FrolloSDKAuthenticationNotification.authenticationStatusChanged"
-    
-}
-
 /**
  Authentication
  
