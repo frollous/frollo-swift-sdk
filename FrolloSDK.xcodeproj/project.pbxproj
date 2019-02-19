@@ -689,6 +689,9 @@
 		01B896CC20F3106B0068069A /* error_missing_code.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896C920F3106B0068069A /* error_missing_code.json */; };
 		01B896CE20F3169F0068069A /* DataErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B896CD20F3169F0068069A /* DataErrorTests.swift */; };
 		01B896D020F32D5E0068069A /* NetworkErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B896CF20F32D5E0068069A /* NetworkErrorTests.swift */; };
+		01BB5A51221CC727000C03F0 /* DatabaseResetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A50221CC727000C03F0 /* DatabaseResetTests.swift */; };
+		01BB5A52221CC727000C03F0 /* DatabaseResetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A50221CC727000C03F0 /* DatabaseResetTests.swift */; };
+		01BB5A53221CC728000C03F0 /* DatabaseResetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A50221CC727000C03F0 /* DatabaseResetTests.swift */; };
 		01BC3D0B2165C1EC0065A4B8 /* OTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC3D0A2165C1EB0065A4B8 /* OTP.swift */; };
 		01BC3D0D2165C5500065A4B8 /* OTPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC3D0C2165C5500065A4B8 /* OTPTests.swift */; };
 		01BC3D0E2165C5500065A4B8 /* OTPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC3D0C2165C5500065A4B8 /* OTPTests.swift */; };
@@ -1127,6 +1130,7 @@
 		01B896C920F3106B0068069A /* error_missing_code.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_missing_code.json; sourceTree = "<group>"; };
 		01B896CD20F3169F0068069A /* DataErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataErrorTests.swift; sourceTree = "<group>"; };
 		01B896CF20F32D5E0068069A /* NetworkErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorTests.swift; sourceTree = "<group>"; };
+		01BB5A50221CC727000C03F0 /* DatabaseResetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseResetTests.swift; sourceTree = "<group>"; };
 		01BC3D0A2165C1EB0065A4B8 /* OTP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTP.swift; sourceTree = "<group>"; };
 		01BC3D0C2165C5500065A4B8 /* OTPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPTests.swift; sourceTree = "<group>"; };
 		01BC3D102166D90C0065A4B8 /* APIUserRegisterRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserRegisterRequest.swift; sourceTree = "<group>"; };
@@ -2304,8 +2308,9 @@
 		01EEDB1920EAE2A900F4516B /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				01EEDB1A20EAE2CE00F4516B /* DatabaseTests.swift */,
 				01EEDB1C20EAEA2000F4516B /* DatabaseMigrationTests.swift */,
+				01BB5A50221CC727000C03F0 /* DatabaseResetTests.swift */,
+				01EEDB1A20EAE2CE00F4516B /* DatabaseTests.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -3099,6 +3104,7 @@
 				01236D1721EC2466008DD61A /* APITransactionHistoryReportResponse+Test.swift in Sources */,
 				015EEDEA210FDAB20081AD76 /* AggregationRequestTests.swift in Sources */,
 				01ED8FCC211A660900ACE691 /* APITransactionResponse+Test.swift in Sources */,
+				01BB5A51221CC727000C03F0 /* DatabaseResetTests.swift in Sources */,
 				01483B822117F65500D0DA87 /* AccountBalanceTierTests.swift in Sources */,
 				0135D30021A255B000318142 /* NotificationsTests.swift in Sources */,
 				016DD0A420EF365100F41919 /* APIErrorTests.swift in Sources */,
@@ -3202,6 +3208,7 @@
 				01236D1821EC2466008DD61A /* APITransactionHistoryReportResponse+Test.swift in Sources */,
 				015EEDEB210FDAB20081AD76 /* AggregationRequestTests.swift in Sources */,
 				01ED8FCD211A660900ACE691 /* APITransactionResponse+Test.swift in Sources */,
+				01BB5A52221CC727000C03F0 /* DatabaseResetTests.swift in Sources */,
 				01483B832117F65500D0DA87 /* AccountBalanceTierTests.swift in Sources */,
 				0135D30121A255B000318142 /* NotificationsTests.swift in Sources */,
 				017B48322101B4FE00447E65 /* APIErrorTests.swift in Sources */,
@@ -3314,6 +3321,7 @@
 				01236D1921EC2466008DD61A /* APITransactionHistoryReportResponse+Test.swift in Sources */,
 				015EEDEC210FDAB20081AD76 /* AggregationRequestTests.swift in Sources */,
 				01ED8FCE211A660900ACE691 /* APITransactionResponse+Test.swift in Sources */,
+				01BB5A53221CC728000C03F0 /* DatabaseResetTests.swift in Sources */,
 				017B488D2105958100447E65 /* APIErrorTests.swift in Sources */,
 				0135D30221A255B000318142 /* NotificationsTests.swift in Sources */,
 				017B488E2105958100447E65 /* DatabaseTests.swift in Sources */,

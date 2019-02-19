@@ -1,28 +1,24 @@
 //
-//  DatabaseTests.swift
-//  FrolloSDKTests
+//  DatabaseResetTests.swift
+//  FrolloSDK
 //
-//  Created by Nick Dawson on 3/7/18.
-//  Copyright © 2018 Frollo. All rights reserved.
+//  Created by Nick Dawson on 20/2/19.
+//  Copyright © 2019 Frollo. All rights reserved.
 //
 
 import CoreData
 import XCTest
-
 @testable import FrolloSDK
 
-class DatabaseTests: XCTestCase {
-    
+class DatabaseResetTests: XCTestCase {
+
     override func setUp() {
-        super.setUp()
+        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
     }
-    
-    // MARK: - Tests
     
     func insertTestData(database: Database) {
         let context = database.newBackgroundContext()
@@ -66,50 +62,37 @@ class DatabaseTests: XCTestCase {
             XCTAssertEqual(results.count, 0)
         }
     }
+
+    // MARK: - Reset test
     
-    // MARK: - Setup Tests
-    
-    func testDatabaseSetupFailure() {
-        let expectation1 = expectation(description: "Setup Callback")
+    func testDatabaseReset() {
+        let expectation1 = expectation(description: "Reset Callback")
         
         let path = tempFolderPath()
         
         let database = Database(path: path)
         
-        // Insert garbage SQLite store
-        FileManager.default.createFile(atPath: database.storeURL.path, contents: Data.randomData(length: 1000), attributes: nil)
-        
         database.setup { (error) in
             XCTAssertNil(error)
             
-            expectation1.fulfill()
+            self.insertTestData(database: database)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 20) {
+                database.reset() { (error) in
+                    XCTAssertNil(error)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                        self.checkDatabaseEmpty(database: database)
+                        
+                        expectation1.fulfill()
+                    }
+                }
+            }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1], timeout: 30.0)
         
         try? FileManager.default.removeItem(at: path)
     }
-    
-    func testDatabaseSetupSuccess() {
-        let expectation1 = expectation(description: "Setup Callback")
-        
-        let path = tempFolderPath()
-        
-        let database = Database(path: path)
-        
-        XCTAssertFalse(database.needsMigration())
-        
-        database.setup { (error) in
-            XCTAssertNil(error)
-            
-            XCTAssertTrue(FileManager.default.fileExists(atPath: database.storeURL.path))
-            
-            expectation1.fulfill()
-        }
-        
-        wait(for: [expectation1], timeout: 3.0)
-        
-        try? FileManager.default.removeItem(at: path)
-    }
-    
+
 }
