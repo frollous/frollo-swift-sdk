@@ -210,7 +210,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
      
      - returns: Progress object indicating the migration progress so far if needed
     */
-    @discardableResult public func setup(serverURL: URL, logLevel: LogLevel = .error, publicKeyPinningEnabled: Bool = true, completion: @escaping (Error?) -> Void) -> Progress? {
+    @discardableResult public func setup(serverURL: URL, logLevel: LogLevel = .error, publicKeyPinningEnabled: Bool = true, completion: @escaping FrolloSDKCompletionHandler) -> Progress? {
         guard !_setup
             else {
                 fatalError("SDK already setup")
@@ -265,25 +265,29 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         // Check for database migration and return progress object if relevant
         if _database.needsMigration() {
             return _database.migrate { (error) in
-                if error != nil {
-                    completion(error)
+                if let migrationError = error {
+                    completion(.failure(migrationError))
                 } else {
                     self._database.setup() { (error) in
-                        if error == nil {
+                        if let setupError = error {
+                            completion(.failure(setupError))
+                        } else {
                             self._setup = true
+                            
+                            completion(.success)
                         }
-                        
-                        completion(error)
                     }
                 }
             }
         } else {
             _database.setup { (error) in
-                if error == nil {
+                if let setupError = error {
+                    completion(.failure(setupError))
+                } else {
                     self._setup = true
+                    
+                    completion(.success)
                 }
-                
-                completion(error)
             }
         }
         
@@ -298,7 +302,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
      - parameters:
         - completion: Completion handler with option error if something goes wrong (optional)
     */
-    public func reset(completionHandler: ((Error?) -> Void)? = nil) {
+    public func reset(completionHandler: FrolloSDKCompletionHandler? = nil) {
         pauseScheduledRefreshing()
         
         authentication.reset()
@@ -306,7 +310,11 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         keychain.removeAll()
         
         database.reset { (error) in
-            completionHandler?(error)
+            if let resetError = error {
+                completionHandler?(.failure(resetError))
+            } else {
+                completionHandler?(.success)
+            }
         }
         
         NotificationCenter.default.post(name: FrolloSDK.authenticationChangedNotification, object: self, userInfo: [FrolloSDK.authenticationStatusKey: FrolloSDKAuthenticationStatus.loggedOut])

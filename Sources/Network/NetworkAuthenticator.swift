@@ -180,14 +180,14 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
             semaphore.wait()
         }
 
-        guard accessToken != nil
+        guard let token = accessToken
             else {
                 throw DataError(type: .authentication, subType: .missingAccessToken)
         }
 
         var urlRequest = request
 
-        let bearer = String(format: bearerFormat, accessToken!)
+        let bearer = String(format: bearerFormat, token)
         urlRequest.setValue(bearer, forHTTPHeaderField: Network.HTTPHeader.authorization.rawValue)
 
         return urlRequest

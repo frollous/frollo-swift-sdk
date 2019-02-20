@@ -67,9 +67,13 @@ class FrolloSDKTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         let sdk = FrolloSDK()
-        sdk.setup(serverURL: url) { (error) in
-            XCTAssertNil(error)
-            XCTAssertTrue(FileManager.default.fileExists(atPath: FrolloSDK.dataFolderURL.path))
+        sdk.setup(serverURL: url) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    XCTAssertTrue(FileManager.default.fileExists(atPath: FrolloSDK.dataFolderURL.path))
+            }
             
             expectation1.fulfill()
         }
@@ -83,9 +87,13 @@ class FrolloSDKTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         let sdk = FrolloSDK()
-        sdk.setup(serverURL: url) { (error) in
-            XCTAssertNil(error)
-            XCTAssertEqual(sdk.network.serverURL, url)
+        sdk.setup(serverURL: url) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    XCTAssertEqual(sdk.network.serverURL, url)
+            }
             
             expectation1.fulfill()
         }
@@ -99,9 +107,13 @@ class FrolloSDKTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         let sdk = FrolloSDK()
-        sdk.setup(serverURL: url) { (error) in
-            XCTAssertNil(error)
-            XCTAssertTrue(sdk.setup)
+        sdk.setup(serverURL: url) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    XCTAssertTrue(sdk.setup)
+            }
             
             expectation1.fulfill()
         }
@@ -115,15 +127,21 @@ class FrolloSDKTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
 
         let sdk = FrolloSDK()
-        sdk.setup(serverURL: url) { (error) in
-            XCTAssertNil(error)
-            
-            sdk.reset { (error) in
-                XCTAssertNil(error)
-                
-                self.checkDatabaseEmpty(database: sdk.database)
-                
-                expectation1.fulfill()
+        sdk.setup(serverURL: url) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    sdk.reset { (result) in
+                        switch result {
+                            case .failure(let error):
+                                XCTFail(error.localizedDescription)
+                            case .success:
+                                self.checkDatabaseEmpty(database: sdk.database)
+                        }
+                        
+                        expectation1.fulfill()
+                    }
             }
         }
         
@@ -136,12 +154,15 @@ class FrolloSDKTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         let sdk = FrolloSDK()
-        sdk.setup(serverURL: url) { (error) in
-            XCTAssertNil(error)
-            
-            sdk.applicationDidEnterBackground()
-            
-            XCTAssertNil(sdk.refreshTimer)
+        sdk.setup(serverURL: url) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    sdk.applicationDidEnterBackground()
+                    
+                    XCTAssertNil(sdk.refreshTimer)
+            }
             
             expectation1.fulfill()
         }
@@ -155,12 +176,15 @@ class FrolloSDKTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         let sdk = FrolloSDK()
-        sdk.setup(serverURL: url) { (error) in
-            XCTAssertNil(error)
-            
-            sdk.applicationWillEnterForeground()
-            
-            XCTAssertNotNil(sdk.refreshTimer)
+        sdk.setup(serverURL: url) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    sdk.applicationWillEnterForeground()
+                    
+                    XCTAssertNotNil(sdk.refreshTimer)
+            }
             expectation1.fulfill()
         }
         
@@ -203,84 +227,87 @@ class FrolloSDKTests: XCTestCase {
         
         let sdk = FrolloSDK()
         
-        sdk.setup(serverURL: url) { (error) in
-            XCTAssertNil(error)
-            
-            sdk.authentication.loginUser(method: .email, email: "user@example.com", password: "password", completion: { (error) in
-                sdk.refreshData()
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                    let context = sdk.database.viewContext
-                    
-                    let userFetchRequest: NSFetchRequest<User> = User.fetchRequest()
-                    
-                    do {
-                        let fetchedUsers = try context.fetch(userFetchRequest)
+        sdk.setup(serverURL: url) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    sdk.authentication.loginUser(method: .email, email: "user@example.com", password: "password", completion: { (error) in
+                        sdk.refreshData()
                         
-                        XCTAssertTrue(fetchedUsers.count > 0)
-                    } catch {
-                        XCTFail(error.localizedDescription)
-                    }
-                    
-                    let providerAccountFetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
-                    
-                    do {
-                        let fetchedProviderAccounts = try context.fetch(providerAccountFetchRequest)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                            let context = sdk.database.viewContext
+                            
+                            let userFetchRequest: NSFetchRequest<User> = User.fetchRequest()
+                            
+                            do {
+                                let fetchedUsers = try context.fetch(userFetchRequest)
+                                
+                                XCTAssertTrue(fetchedUsers.count > 0)
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                            
+                            let providerAccountFetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
+                            
+                            do {
+                                let fetchedProviderAccounts = try context.fetch(providerAccountFetchRequest)
+                                
+                                XCTAssertTrue(fetchedProviderAccounts.count > 0)
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                            
+                            let accountFetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
+                            
+                            do {
+                                let fetchedUsers = try context.fetch(accountFetchRequest)
+                                
+                                XCTAssertTrue(fetchedUsers.count > 0)
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                            
+                            let transactionFetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                            
+                            do {
+                                let fetchedTransactions = try context.fetch(transactionFetchRequest)
+                                
+                                XCTAssertTrue(fetchedTransactions.count > 0)
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                            
+                            let messageFetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
+                            
+                            do {
+                                let fetchedMessages = try context.fetch(messageFetchRequest)
+                                
+                                XCTAssertTrue(fetchedMessages.count > 0)
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                            
+                            expectation1.fulfill()
+                        })
                         
-                        XCTAssertTrue(fetchedProviderAccounts.count > 0)
-                    } catch {
-                        XCTFail(error.localizedDescription)
-                    }
-                    
-                    let accountFetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
-                    
-                    do {
-                        let fetchedUsers = try context.fetch(accountFetchRequest)
-                        
-                        XCTAssertTrue(fetchedUsers.count > 0)
-                    } catch {
-                        XCTFail(error.localizedDescription)
-                    }
-                    
-                    let transactionFetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-                    
-                    do {
-                        let fetchedTransactions = try context.fetch(transactionFetchRequest)
-                        
-                        XCTAssertTrue(fetchedTransactions.count > 0)
-                    } catch {
-                        XCTFail(error.localizedDescription)
-                    }
-                    
-                    let messageFetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
-                    
-                    do {
-                        let fetchedMessages = try context.fetch(messageFetchRequest)
-                        
-                        XCTAssertTrue(fetchedMessages.count > 0)
-                    } catch {
-                        XCTFail(error.localizedDescription)
-                    }
-                    
-                    expectation1.fulfill()
-                })
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
-                    let context = sdk.database.viewContext
-                    
-                    let billPaymentFetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
-                    
-                    do {
-                        let fetchedBillPayments = try context.fetch(billPaymentFetchRequest)
-                        
-                        XCTAssertTrue(fetchedBillPayments.count > 0)
-                    } catch {
-                        XCTFail(error.localizedDescription)
-                    }
-                    
-                    expectation2.fulfill()
-                })
-            })
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+                            let context = sdk.database.viewContext
+                            
+                            let billPaymentFetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
+                            
+                            do {
+                                let fetchedBillPayments = try context.fetch(billPaymentFetchRequest)
+                                
+                                XCTAssertTrue(fetchedBillPayments.count > 0)
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                            
+                            expectation2.fulfill()
+                        })
+                    })
+            }
         }
         
         wait(for: [expectation1, expectation2], timeout: 15.0)
@@ -296,8 +323,13 @@ class FrolloSDKTests: XCTestCase {
         let url = URL(string: "https://api.frollo.us")!
         
         let sdk = FrolloSDK()
-        sdk.setup(serverURL: url, publicKeyPinningEnabled: true) { (error) in
-            XCTAssertNil(error)
+        sdk.setup(serverURL: url, publicKeyPinningEnabled: true) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation1.fulfill()
         }
@@ -311,8 +343,13 @@ class FrolloSDKTests: XCTestCase {
         let url = URL(string: "https://api.frollo.us")!
         
         let sdk = FrolloSDK()
-        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (error) in
-            XCTAssertNil(error)
+        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
             
             expectation1.fulfill()
         }
@@ -326,10 +363,13 @@ class FrolloSDKTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         let sdk = FrolloSDK()
-        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (error) in
-            XCTAssertNil(error)
-            
-            _ = sdk.aggregation
+        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    _ = sdk.aggregation
+            }
             
             expectation1.fulfill()
         }
@@ -343,10 +383,13 @@ class FrolloSDKTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         let sdk = FrolloSDK()
-        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (error) in
-            XCTAssertNil(error)
-            
-            _ = sdk.authentication
+        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    _ = sdk.authentication
+            }
             
             expectation1.fulfill()
         }
@@ -360,10 +403,13 @@ class FrolloSDKTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         let sdk = FrolloSDK()
-        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (error) in
-            XCTAssertNil(error)
-            
-            _ = sdk.bills
+        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    _ = sdk.bills
+            }
             
             expectation1.fulfill()
         }
@@ -377,10 +423,13 @@ class FrolloSDKTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         let sdk = FrolloSDK()
-        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (error) in
-            XCTAssertNil(error)
-            
-            _ = sdk.events
+        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    _ = sdk.events
+            }
             
             expectation1.fulfill()
         }
@@ -394,10 +443,13 @@ class FrolloSDKTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         let sdk = FrolloSDK()
-        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (error) in
-            XCTAssertNil(error)
-            
-            _ = sdk.messages
+        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    _ = sdk.messages
+            }
             
             expectation1.fulfill()
         }
@@ -411,10 +463,13 @@ class FrolloSDKTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         let sdk = FrolloSDK()
-        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (error) in
-            XCTAssertNil(error)
-            
-            _ = sdk.notifications
+        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                _ = sdk.notifications
+            }
             
             expectation1.fulfill()
         }
@@ -428,10 +483,13 @@ class FrolloSDKTests: XCTestCase {
         let url = URL(string: "https://api.example.com")!
         
         let sdk = FrolloSDK()
-        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (error) in
-            XCTAssertNil(error)
-            
-            _ = sdk.reports
+        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    _ = sdk.reports
+            }
             
             expectation1.fulfill()
         }
@@ -448,10 +506,13 @@ class FrolloSDKTests: XCTestCase {
         
         populateTestDataNamed(name: "FrolloSDKDataModel-1.0.0", atPath: FrolloSDK.dataFolderURL)
         
-        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (error) in
-            XCTAssertNil(error)
-            
-            XCTAssertFalse(sdk.database.needsMigration())
+        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    XCTAssertFalse(sdk.database.needsMigration())
+            }
             
             expectation1.fulfill()
         }
@@ -468,18 +529,21 @@ class FrolloSDKTests: XCTestCase {
         
         populateTestDataNamed(name: "FrolloSDKDataModel-1.2.0", atPath: FrolloSDK.dataFolderURL)
         
-        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (error) in
-            XCTAssertNil(error)
-            
-            sdk.authentication.loggedIn = true
-            
-            sdk.authentication.logoutUser()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
-                self.checkDatabaseEmpty(database: sdk.database)
-                
-                expectation1.fulfill()
-            })
+        sdk.setup(serverURL: url, publicKeyPinningEnabled: false) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    sdk.authentication.loggedIn = true
+                    
+                    sdk.authentication.logoutUser()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+                        self.checkDatabaseEmpty(database: sdk.database)
+                        
+                        expectation1.fulfill()
+                    })
+            }
         }
         
         wait(for: [expectation1], timeout: 10.0)

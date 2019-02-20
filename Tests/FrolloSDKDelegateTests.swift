@@ -24,13 +24,16 @@ class FrolloSDKDelegateTests: XCTestCase, FrolloSDKDelegate {
         
         let sdk = FrolloSDK()
         
-        sdk.setup(serverURL: url) { (error) in
-            XCTAssertNil(error)
-            
-            sdk.delegate = self
-            
-            XCTAssertTrue(sdk.messages.delegate === self)
-            XCTAssertTrue(sdk.events.delegate === self)
+        sdk.setup(serverURL: url) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    sdk.delegate = self
+                    
+                    XCTAssertTrue(sdk.messages.delegate === self)
+                    XCTAssertTrue(sdk.events.delegate === self)
+            }
         }
     }
     
@@ -41,11 +44,14 @@ class FrolloSDKDelegateTests: XCTestCase, FrolloSDKDelegate {
         
         sdk.delegate = self
         
-        sdk.setup(serverURL: url) { (error) in
-            XCTAssertNil(error)
-            
-            XCTAssertTrue(sdk.messages.delegate === self)
-            XCTAssertTrue(sdk.events.delegate === self)
+        sdk.setup(serverURL: url) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    XCTAssertTrue(sdk.messages.delegate === self)
+                    XCTAssertTrue(sdk.events.delegate === self)
+            }
         }
     }
     
