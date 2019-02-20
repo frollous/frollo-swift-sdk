@@ -41,9 +41,9 @@ class NotificationsTests: XCTestCase {
     func testRegisteringPushNotificationToken() {
         let expectation1 = expectation(description: "Network Request")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.device.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.device.path)) { (request) -> OHHTTPStubsResponse in
             expectation1.fulfill()
             
             return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
@@ -53,7 +53,8 @@ class NotificationsTests: XCTestCase {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: nil)
         let events = Events(network: network)
         let messages = Messages(database: database, network: network)
@@ -73,13 +74,14 @@ class NotificationsTests: XCTestCase {
     func testHandlingPushNotificationEvent() {
         let expectation1 = expectation(description: "Network Request")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: nil)
         let events = Events(network: network)
         let messages = Messages(database: database, network: network)
@@ -102,9 +104,9 @@ class NotificationsTests: XCTestCase {
     func testHandlingPushNotificationMessage() {
         let expectation1 = expectation(description: "Network Request")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + MessagesEndpoint.message(messageID: 98765).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 98765).path)) { (request) -> OHHTTPStubsResponse in
             expectation1.fulfill()
             
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
@@ -114,7 +116,8 @@ class NotificationsTests: XCTestCase {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: nil)
         let events = Events(network: network)
         let messages = Messages(database: database, network: network)

@@ -27,16 +27,17 @@ class NetworkLoggerTests: XCTestCase {
     func testLogging() {
         let expectation1 = expectation(description: "Network Request")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.log.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.log.path)) { (request) -> OHHTTPStubsResponse in
             expectation1.fulfill()
             return OHHTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         let logger = NetworkLogger(network: network)
         

@@ -20,11 +20,9 @@ class FrolloSDKDelegateTests: XCTestCase, FrolloSDKDelegate {
     }
 
     func testSettingDelegateUpdatesModules() {
-        let url = URL(string: "https://api.example.com")!
-        
+        let config = FrolloSDKConfiguration.testConfig()
         let sdk = FrolloSDK()
-        
-        sdk.setup(serverURL: url) { (result) in
+        sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -38,13 +36,12 @@ class FrolloSDKDelegateTests: XCTestCase, FrolloSDKDelegate {
     }
     
     func testSettingDelegateBeforeSetup() {
-        let url = URL(string: "https://api.example.com")!
-        
+        let config = FrolloSDKConfiguration.testConfig()
         let sdk = FrolloSDK()
         
         sdk.delegate = self
         
-        sdk.setup(serverURL: url) { (result) in
+        sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)

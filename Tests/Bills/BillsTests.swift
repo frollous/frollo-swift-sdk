@@ -28,11 +28,12 @@ class BillsTests: XCTestCase {
     func testFetchBillByID() {
         let expectation1 = expectation(description: "Completion")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -67,11 +68,12 @@ class BillsTests: XCTestCase {
     func testFetchBills() {
         let expectation1 = expectation(description: "Completion")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -113,11 +115,12 @@ class BillsTests: XCTestCase {
     func testBillsFetchedResultsController() {
         let expectation1 = expectation(description: "Completion")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -167,15 +170,16 @@ class BillsTests: XCTestCase {
     func testCreateBillWithTransaction() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.bills.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bills.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, status: 201, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -215,15 +219,16 @@ class BillsTests: XCTestCase {
     func testCreateBillManually() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.bills.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bills.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, status: 201, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -265,15 +270,16 @@ class BillsTests: XCTestCase {
     func testDeleteBill() {
         let expectation1 = expectation(description: "Network Request")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.bill(billID: 12345).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bill(billID: 12345).path)) { (request) -> OHHTTPStubsResponse in
             return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         let aggregation = Aggregation(database: database, network: network)
@@ -310,15 +316,16 @@ class BillsTests: XCTestCase {
     func testRefreshBills() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.bills.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bills.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bills_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -356,15 +363,16 @@ class BillsTests: XCTestCase {
     func testRefreshBillByID() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.bill(billID: 12345).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bill(billID: 12345).path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -403,15 +411,16 @@ class BillsTests: XCTestCase {
     func testUpdateBill() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.bill(billID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bill(billID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -465,15 +474,16 @@ class BillsTests: XCTestCase {
     func testUpdateBillNotFound() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.bill(billID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bill(billID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -520,18 +530,19 @@ class BillsTests: XCTestCase {
         let expectation2 = expectation(description: "Network Account Request")
         let expectation3 = expectation(description: "Network Bill Request")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.bills.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bills.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bills_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
-        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -598,18 +609,19 @@ class BillsTests: XCTestCase {
         let expectation2 = expectation(description: "Network Merchants Request")
         let expectation3 = expectation(description: "Network Bill Request")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.bills.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bills.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bills_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
-        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -676,18 +688,19 @@ class BillsTests: XCTestCase {
         let expectation2 = expectation(description: "Network Merchants Request")
         let expectation3 = expectation(description: "Network Bill Request")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.bills.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bills.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bills_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
-        stub(condition: isHost(url.host!) && isPath("/" + AggregationEndpoint.transactionCategories.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionCategories.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_categories_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -754,11 +767,12 @@ class BillsTests: XCTestCase {
     func testFetchBillPaymentByID() {
         let expectation1 = expectation(description: "Completion")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -793,11 +807,12 @@ class BillsTests: XCTestCase {
     func testFetchBillPayments() {
         let expectation1 = expectation(description: "Completion")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -839,11 +854,12 @@ class BillsTests: XCTestCase {
     func testBillPaymentsFetchedResultsController() {
         let expectation1 = expectation(description: "Completion")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -893,15 +909,16 @@ class BillsTests: XCTestCase {
     func testDeleteBillPayment() {
         let expectation1 = expectation(description: "Network Request")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.billPayment(billPaymentID: 12345).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.billPayment(billPaymentID: 12345).path)) { (request) -> OHHTTPStubsResponse in
             return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         let aggregation = Aggregation(database: database, network: network)
@@ -938,15 +955,16 @@ class BillsTests: XCTestCase {
     func testRefreshBillPayments() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.billPayments.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.billPayments.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payments_2018-12-01_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -987,15 +1005,16 @@ class BillsTests: XCTestCase {
     func testRefreshBillPaymentByID() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.billPayment(billPaymentID: 12345).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.billPayment(billPaymentID: 12345).path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payment_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -1034,15 +1053,16 @@ class BillsTests: XCTestCase {
     func testUpdateBillPayment() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.billPayment(billPaymentID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.billPayment(billPaymentID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payment_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -1094,15 +1114,16 @@ class BillsTests: XCTestCase {
     func testUpdateBillPaymentNotFound() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.billPayment(billPaymentID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.billPayment(billPaymentID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payment_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -1149,18 +1170,19 @@ class BillsTests: XCTestCase {
         let expectation2 = expectation(description: "Network Bills Request")
         let expectation3 = expectation(description: "Network Bill Payments Request")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.bills.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bills.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bills_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
-        stub(condition: isHost(url.host!) && isPath("/" + BillsEndpoint.billPayments.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.billPayments.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payments_2018-12-01_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in

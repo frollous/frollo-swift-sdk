@@ -33,11 +33,12 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
     func testFetchMessageByID() {
         let expectation1 = expectation(description: "Completion")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -71,11 +72,12 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
     func testFetchMessages() {
         let expectation1 = expectation(description: "Completion")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -113,11 +115,12 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
     func testMessagesFetchedResultsController() {
         let expectation1 = expectation(description: "Completion")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -163,15 +166,16 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
     func testRefreshMessages() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + MessagesEndpoint.messages.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.messages.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -220,17 +224,18 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
     func testRefreshMessageByID() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let id: Int64 = 12345
         
-        stub(condition: isHost(url.host!) && isPath("/" + MessagesEndpoint.message(messageID: id).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: id).path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -267,15 +272,16 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
     func testUpdateMessage() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -322,15 +328,16 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
     func testUpdateMessageNotFound() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -371,15 +378,16 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
     func testRefreshUnreadMessages() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + MessagesEndpoint.unread.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.unread.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_unread", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let database = Database(path: tempFolderPath())
         
         database.setup { (error) in
@@ -430,11 +438,11 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
     func testHandlingPushMessageTriggersDelegate() {
         let expectation1 = expectation(description: "Network Request")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let notificationPayload = NotificationPayload.testMessageData()
         
-        stub(condition: isHost(url.host!) && isPath("/" + MessagesEndpoint.message(messageID: notificationPayload.userMessageID!).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: notificationPayload.userMessageID!).path)) { (request) -> OHHTTPStubsResponse in
             expectation1.fulfill()
             
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
@@ -443,7 +451,8 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         let path = tempFolderPath()
         let database = Database(path: path)
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let messages = Messages(database: database, network: network)
         messages.delegate = self
         

@@ -26,15 +26,16 @@ class EventsTests: XCTestCase {
     func testTriggerEvent() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + EventsEndpoint.events.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + EventsEndpoint.events.path)) { (request) -> OHHTTPStubsResponse in
             return OHHTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         let events = Events(network: network)
         
@@ -55,11 +56,12 @@ class EventsTests: XCTestCase {
     func testHandleEventHandled() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         let events = Events(network: network)
         
@@ -78,11 +80,12 @@ class EventsTests: XCTestCase {
     func testHandleEventNotHandled() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         let events = Events(network: network)
         
@@ -114,11 +117,12 @@ class EventsTests: XCTestCase {
             return true
         }
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         let events = Events(network: network)
         

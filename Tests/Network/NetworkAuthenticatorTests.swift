@@ -34,21 +34,23 @@ class NetworkAuthenticatorTests: XCTestCase {
     func testTokensPersist() {
         let keychain = Keychain(service: keychainService)
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let refreshToken = "AnExistingRefreshToken"
         let accessToken = "AnExistingAccessToken"
         let expiryDateString = "1721259268.0"
         let expiryDate = Date(timeIntervalSince1970: 1721259268)
         
-        var network =  Network(serverURL: url, keychain: keychain)
-        network.authenticator.saveTokens(refresh: refreshToken, access: accessToken, expiry: expiryDate)
+        var networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        networkAuthenticator.saveTokens(refresh: refreshToken, access: accessToken, expiry: expiryDate)
+        var network =  Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         XCTAssertEqual(keychain["accessToken"], accessToken)
         XCTAssertEqual(keychain["refreshToken"], refreshToken)
         XCTAssertEqual(keychain["accessTokenExpiry"], expiryDateString)
         
-        network = Network(serverURL: url, keychain: keychain)
+        networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         XCTAssertEqual(network.authenticator.accessToken, accessToken)
         XCTAssertEqual(network.authenticator.refreshToken, refreshToken)
@@ -58,15 +60,16 @@ class NetworkAuthenticatorTests: XCTestCase {
     func testForceRefreshingAccessTokens() {
         let expectation1 = expectation(description: "API Response")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         network.refreshToken { (result) in
             switch result {
@@ -90,15 +93,16 @@ class NetworkAuthenticatorTests: XCTestCase {
     func testForceRefreshingInvalidAccessTokens() {
         let expectation1 = expectation(description: "API Response")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_invalid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         network.refreshToken { (result) in
             switch result {
@@ -129,12 +133,12 @@ class NetworkAuthenticatorTests: XCTestCase {
     func testPreemptiveAccessTokenRefresh() {
         let expectation1 = expectation(description: "API Response")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
-        stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -143,7 +147,8 @@ class NetworkAuthenticatorTests: XCTestCase {
         keychain["accessToken"] = "AnExistingAccessToken"
         keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 30).timeIntervalSince1970) // 30 seconds in the future falls within the 5 minute access token expiry
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         network.fetchUser { (result) in
             switch result {
@@ -167,14 +172,14 @@ class NetworkAuthenticatorTests: XCTestCase {
     func testInvalidAccessTokenRefresh() {
         let expectation1 = expectation(description: "API Response")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         var failedOnce = false
         
-        stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
-        stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
             if failedOnce {
                 return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
             } else {
@@ -185,7 +190,8 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         network.fetchUser { (result) in
             switch result {
@@ -209,15 +215,16 @@ class NetworkAuthenticatorTests: XCTestCase {
     func testInvalidRefreshTokenFails() {
         let expectation1 = expectation(description: "API Response")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_refresh_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         network.fetchUser { (result) in
             switch result {
@@ -251,14 +258,14 @@ class NetworkAuthenticatorTests: XCTestCase {
         let expectation2 = expectation(description: "API Response 2")
         let expectation3 = expectation(description: "API Response 3")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         var userRequestCount = 0
         
-        stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
-        stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
             let fix: OHHTTPStubsResponse
             if userRequestCount < 3 {
                 fix = fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_access_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
@@ -271,7 +278,8 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         network.fetchUser { (result) in
             switch result {
@@ -317,18 +325,19 @@ class NetworkAuthenticatorTests: XCTestCase {
         let expectation2 = expectation(description: "API Response 2")
         let expectation3 = expectation(description: "API Response 3")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_refresh_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
-        stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_access_token", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         network.fetchUser { (result) in
             switch result {
@@ -373,11 +382,11 @@ class NetworkAuthenticatorTests: XCTestCase {
         // TODO: Add more of these
         let expectation1 = expectation(description: "API Response 1")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         var rateLimited = true
         
-        stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
             if rateLimited {
                 rateLimited = false
                 return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, status: 429, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
@@ -388,7 +397,8 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         network.fetchUser { (result) in
             switch result {
@@ -410,11 +420,12 @@ class NetworkAuthenticatorTests: XCTestCase {
     // MARK: - Adapter Header Tests
     
     func testOTPHeaderAppendedToRegistrationRequest() {
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         let bundleID = "us.frollo.FrolloSDK"
         let seed = String(repeating: bundleID, count: 2)
@@ -423,7 +434,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let password = try! generator?.password(at: Date())
         let bearer = String(format: "Bearer %@", password!)
         
-        let userURL = URL(string: UserEndpoint.register.path, relativeTo: url)!
+        let userURL = URL(string: UserEndpoint.register.path, relativeTo: config.serverEndpoint)!
         let request = network.sessionManager.request(userURL, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
         do {
             let adaptedRequest = try network.authenticator.adapt(request.request!)
@@ -442,11 +453,12 @@ class NetworkAuthenticatorTests: XCTestCase {
     }
     
     func testOTPHeaderAppendedToResetPasswordRequest() {
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         let bundleID = "us.frollo.FrolloSDK"
         let seed = String(repeating: bundleID, count: 2)
@@ -455,7 +467,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let password = try! generator?.password(at: Date())
         let bearer = String(format: "Bearer %@", password!)
         
-        let userURL = URL(string: UserEndpoint.resetPassword.path, relativeTo: url)!
+        let userURL = URL(string: UserEndpoint.resetPassword.path, relativeTo: config.serverEndpoint)!
         let request = network.sessionManager.request(userURL, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
         do {
             let adaptedRequest = try network.authenticator.adapt(request.request!)
@@ -474,13 +486,14 @@ class NetworkAuthenticatorTests: XCTestCase {
     }
     
     func testAccessTokenHeaderAppendedToHostRequests() {
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
-        let userURL = URL(string: UserEndpoint.details.path, relativeTo: url)!
+        let userURL = URL(string: UserEndpoint.details.path, relativeTo: config.serverEndpoint)!
         let request = network.sessionManager.request(userURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil)
         do {
             let adaptedRequest = try network.authenticator.adapt(request.request!)
@@ -498,15 +511,16 @@ class NetworkAuthenticatorTests: XCTestCase {
         keychain.removeAll()
     }
     
+    #warning("Additional tests here as token endpoint has multiple uses now")
     func testRefreshTokenHeaderAppendedToRefreshRequests() {
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
-        let refreshURL = URL(string: DeviceEndpoint.refreshToken.path, relativeTo: url)!
-        let request = network.sessionManager.request(refreshURL, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
+        let request = network.sessionManager.request(config.tokenEndpoint, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
         do {
             let adaptedRequest = try network.authenticator.adapt(request.request!)
             
@@ -524,13 +538,14 @@ class NetworkAuthenticatorTests: XCTestCase {
     }
     
     func testNoHeaderAppendedToLoginRequest() {
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
-        let userURL = URL(string: UserEndpoint.login.path, relativeTo: url)!
+        let userURL = URL(string: UserEndpoint.login.path, relativeTo: config.serverEndpoint)!
         let request = network.sessionManager.request(userURL, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
         do {
             let adaptedRequest = try network.authenticator.adapt(request.request!)
@@ -544,11 +559,12 @@ class NetworkAuthenticatorTests: XCTestCase {
     }
     
     func testNoHeaderAppendedToExternalHostRequests() {
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         let userURL = URL(string: "https://google.com.au")!
         let request = network.sessionManager.request(userURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil)

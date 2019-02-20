@@ -15,8 +15,6 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     
     private let keychainService = "AuthenticationTestsKeychain"
     
-    private let serverURL = URL(string: "https://api.example.com")!
-    
     private var authentication: Authentication!
     
     override func setUp() {
@@ -49,14 +47,18 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     func testLoginUser() {
         let expectation1 = expectation(description: "Network Request")
         
-        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.login.path)) { (request) -> OHHTTPStubsResponse in
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.login.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: validKeychain())
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         
         database.setup { (error) in
@@ -82,14 +84,18 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     func testInvalidLoginUser() {
         let expectation1 = expectation(description: "Network Request")
         
-        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.login.path)) { (request) -> OHHTTPStubsResponse in
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.login.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_username_password", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: validKeychain())
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         
         database.setup { (error) in
@@ -115,14 +121,18 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     func testRegisterUser() {
         let expectation1 = expectation(description: "Network Request")
         
-        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.register.path)) { (request) -> OHHTTPStubsResponse in
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.register.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, status: 201, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: validKeychain())
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         
         database.setup { (error) in
@@ -148,14 +158,18 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     func testRefreshUser() {
         let expectation1 = expectation(description: "Network Request")
         
-        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: validKeychain())
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         
         database.setup { (error) in
@@ -183,14 +197,18 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     func testUpdateUser() {
         let expectation1 = expectation(description: "Network Request")
         
-        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: validKeychain())
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         
         database.setup { (error) in
@@ -227,14 +245,18 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     func testLogoutUser() {
         let expectation1 = expectation(description: "Network Request")
         
-        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.logout.path)) { (request) -> OHHTTPStubsResponse in
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.logout.path)) { (request) -> OHHTTPStubsResponse in
             return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: validKeychain())
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
@@ -267,14 +289,18 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     func testUserLoggedOutOn401() {
         let expectation1 = expectation(description: "Network Request")
         
-        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_suspended_device", ofType: "json")!, status: 401, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: validKeychain())
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         network.delegate = self
         
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
@@ -313,14 +339,18 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     func testChangePassword() {
         let expectation1 = expectation(description: "Network Request")
         
-        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.user.path)) { (request) -> OHHTTPStubsResponse in
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.user.path)) { (request) -> OHHTTPStubsResponse in
             return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: validKeychain())
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
@@ -356,14 +386,18 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     func testChangePasswordFailsIfTooShort() {
         let expectation1 = expectation(description: "Network Request")
         
-        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.user.path)) { (request) -> OHHTTPStubsResponse in
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.user.path)) { (request) -> OHHTTPStubsResponse in
             return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: validKeychain())
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
@@ -404,14 +438,18 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     func testDeleteUser() {
         let expectation1 = expectation(description: "Network Request")
         
-        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.user.path)) { (request) -> OHHTTPStubsResponse in
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.user.path)) { (request) -> OHHTTPStubsResponse in
             return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: validKeychain())
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
@@ -447,14 +485,18 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     func testResetPassword() {
         let expectation1 = expectation(description: "Network Request")
         
-        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.resetPassword.path)) { (request) -> OHHTTPStubsResponse in
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.resetPassword.path)) { (request) -> OHHTTPStubsResponse in
             return OHHTTPStubsResponse(data: Data(), statusCode: 202, headers: nil)
         }
         
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: validKeychain())
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
@@ -490,7 +532,9 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     func testForcedLogoutIfMissingRefreshToken() {
         let expectation1 = expectation(description: "Network Request")
         
-        stub(condition: isHost(serverURL.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -501,7 +545,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         network.delegate = self
         
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
@@ -540,14 +585,18 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     func testUpdateDevice() {
         let expectation1 = expectation(description: "Network Request")
         
-        stub(condition: isHost(serverURL.host!) && isPath("/" + DeviceEndpoint.device.path)) { (request) -> OHHTTPStubsResponse in
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.device.path)) { (request) -> OHHTTPStubsResponse in
             return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: validKeychain())
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         
         database.setup { (error) in
@@ -575,14 +624,18 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     func testUpdateDeviceCompliance() {
         let expectation1 = expectation(description: "Network Request")
         
-        stub(condition: isHost(serverURL.host!) && isPath("/" + DeviceEndpoint.device.path)) { (request) -> OHHTTPStubsResponse in
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.device.path)) { (request) -> OHHTTPStubsResponse in
             return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: validKeychain())
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         
         database.setup { (error) in
@@ -610,10 +663,14 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
     func testAuthenticatingRequestManually() {
         let expectation1 = expectation(description: "Network Request")
         
+        let config = FrolloSDKConfiguration.testConfig()
+        
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
-        let network = Network(serverURL: serverURL, keychain: validKeychain())
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: self)
         
         let requestURL = URL(string: "https://api.example.com/somewhere")!

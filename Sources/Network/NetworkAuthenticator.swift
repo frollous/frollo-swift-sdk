@@ -18,35 +18,32 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         static let refreshToken = "refreshToken"
     }
     
-    /**
-     Access Token used with the API
-    */
+    /// Access Token used with the API
     internal var accessToken: String?
     
-    /**
-     Refresh Token used with the API to renew access tokens
-    */
+    /// Refresh Token used with the API to renew access tokens
     internal var refreshToken: String?
     
-    /**
-     Expiry date of the access token, typically 30 minutes after issue
-    */
+    /// Expiry date of the access token, typically 30 minutes after issue
     internal var expiryDate: Date?
     
+    internal weak var network: Network?
+    
+    private let authorizationURL: URL
     private let bearerFormat = "Bearer %@"
     private let keychain: Keychain
     private let lock = NSLock()
     private let maxRateLimitCount: Double = 10
     private let timeInterval5Minutes: Double = 300
+    private let tokenURL: URL
     
     private var rateLimitCount: Double = 0
     private var refreshing = false
     private var requestsToRetry: [RequestRetryCompletion] = []
     
-    private weak var network: Network?
-    
-    init(network: Network, keychain: Keychain) {
-        self.network = network
+    init(authorizationEndpoint: URL, tokenEndpoint: URL, keychain: Keychain) {
+        self.authorizationURL = authorizationEndpoint
+        self.tokenURL = tokenEndpoint
         self.keychain = keychain
         
         loadTokens()

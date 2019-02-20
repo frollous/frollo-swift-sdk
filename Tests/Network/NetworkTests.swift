@@ -67,10 +67,11 @@ class NetworkTests: XCTestCase {
         
         let keychain = Keychain(service: keychainService)
         
-        let serverURL = URL(string: "https://api.frollo.us/api/")!
-        let testURL = serverURL.appendingPathComponent("pages/terms")
+        let config = FrolloSDKConfiguration(clientID: "zyx987", redirectURI: "app://authed", authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!, tokenEndpoint: URL(string: "https://id.frollo.us/oauth/token")!, serverEndpoint: URL(string: "https://api.frollo.us/api/")!)
+        let testURL = config.serverEndpoint.appendingPathComponent("pages/terms")
         
-        let network = Network(serverURL: serverURL, keychain: keychain, pinnedPublicKeys: [realPublicKey])
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: [realPublicKey])
         
         network.authenticator.refreshToken = "AnExistingRefreshToken"
         network.authenticator.accessToken = "AnExistingAccessToken"
@@ -91,10 +92,11 @@ class NetworkTests: XCTestCase {
         
         let keychain = Keychain(service: keychainService)
         
-        let serverURL = URL(string: "https://api.frollo.us/api/")!
-        let testURL = serverURL.appendingPathComponent("pages/terms")
+        let config = FrolloSDKConfiguration(clientID: "zyx987", redirectURI: "app://authed", authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!, tokenEndpoint: URL(string: "https://id.frollo.us/oauth/token")!, serverEndpoint: URL(string: "https://api.frollo.us/api/")!)
+        let testURL = config.serverEndpoint.appendingPathComponent("pages/terms")
         
-        let network = Network(serverURL: serverURL, keychain: keychain, pinnedPublicKeys: [fakePublicKey])
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: [fakePublicKey])
         network.sessionManager.request(testURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).response { (response) in
             XCTAssertNotNil(response.error)
             if let responseData = response.data {
@@ -114,14 +116,16 @@ class NetworkTests: XCTestCase {
         
         let keychain = Keychain(service: keychainService)
         
-        let serverURL = URL(string: "https://google.com.au/")!
-        let network = Network(serverURL: serverURL, keychain: keychain)
+        let config = FrolloSDKConfiguration(clientID: "zyx987", redirectURI: "app://authed", authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!, tokenEndpoint: URL(string: "https://id.frollo.us/oauth/token")!, serverEndpoint: URL(string: "https://google.com.au")!)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         network.authenticator.refreshToken = "AnExistingRefreshToken"
         network.authenticator.accessToken = "AnExistingAccessToken"
         network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
         
-        network.sessionManager.request(serverURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).response { (response) in
+        network.sessionManager.request(config.serverEndpoint, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).response { (response) in
             XCTAssertNil(response.error)
             
             XCTAssertNotNil(response.data)
@@ -138,9 +142,9 @@ class NetworkTests: XCTestCase {
     func testRequestHeaders() {
         let expectation1 = expectation(description: "API Response")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
             XCTAssertEqual(request.allHTTPHeaderFields?["X-Api-Version"], "2.0")
             XCTAssertEqual(request.allHTTPHeaderFields?["X-Bundle-Id"], "us.frollo.FrolloSDK")
             XCTAssertTrue(request.allHTTPHeaderFields?["X-Device-Version"]?.contains(ProcessInfo.processInfo.operatingSystemVersionString) == true)
@@ -151,7 +155,8 @@ class NetworkTests: XCTestCase {
         
         let keychain = Keychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         network.authenticator.refreshToken = "AnExistingRefreshToken"
         network.authenticator.accessToken = "AnExistingAccessToken"
@@ -176,15 +181,16 @@ class NetworkTests: XCTestCase {
     func testInvalidDomainRaisesNetworkError() {
         let expectation1 = expectation(description: "API Response")
         
-        let url = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(url.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
             return OHHTTPStubsResponse(error: NSError(domain: NSURLErrorDomain, code: -999, userInfo: [NSURLErrorFailingURLStringErrorKey: "https://example.com", NSLocalizedDescriptionKey: "cancelled", NSURLErrorFailingURLErrorKey: URL(string: "https://api.example.com/" + UserEndpoint.details.path)!]))
         }
         
         let keychain = Keychain(service: keychainService)
         
-        let network = Network(serverURL: url, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
         network.authenticator.refreshToken = "AnExistingRefreshToken"
         network.authenticator.accessToken = "AnExistingAccessToken"

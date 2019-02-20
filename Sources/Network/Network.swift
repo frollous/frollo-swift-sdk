@@ -37,22 +37,18 @@ class Network: SessionDelegate {
     public let reachability: NetworkReachabilityManager
     #endif
     
-    /**
-     Asynchronous queue all network requests are executed from
-    */
+    /// Asynchronous queue all network requests are executed from
     internal let requestQueue = DispatchQueue(label: "FrolloSDK.APIRequestQueue", qos: .userInitiated, attributes: .concurrent)
-    /**
-     Asynchornous queue all network responses are executed on
-    */
+    
+    /// Asynchornous queue all network responses are executed on
     internal let responseQueue = DispatchQueue(label: "FrolloSDK.APIResponseQueue", qos: .userInitiated, attributes: .concurrent)
-    /**
-     Base URL of the API
-    */
+    
+    /// Base URL of the API
     internal let serverURL: URL
     
     internal weak var delegate: NetworkDelegate?
     
-    internal var authenticator: NetworkAuthenticator!
+    internal var authenticator: NetworkAuthenticator
     internal var sessionManager: SessionManager!
     
     private let APIVersion = "2.0"
@@ -61,14 +57,15 @@ class Network: SessionDelegate {
      Initialise a network stack pointing to an API at a specific URL
      
      - parameters:
-        - serverURL: Base URL of the API, e.g. https://api.example.com/v1/
-        - keychain: Keychain service to store access and refresh tokens
+        - serverEndpoint: Base URL endpoint of the API, e.g. https://api.example.com/v1/
+        - networkAuthenticator: The authentication service for authenticating requests and managing tokens
         - pinnedPublicKeys: Array of public keys to pin the server's certificates against (Optional)
      
         - warning: If using certificate pinning make sure you pin a second public key as a backup in case the production private/public key pair becomes compromised. Failure to do this will render your app unusable until updated with the new public/private key pair.
     */
-    internal init(serverURL: URL, keychain: Keychain, pinnedPublicKeys: [SecKey]? = nil) {
-        self.serverURL = serverURL
+    internal init(serverEndpoint: URL, networkAuthenticator: NetworkAuthenticator, pinnedPublicKeys: [SecKey]? = nil) {
+        self.authenticator = networkAuthenticator
+        self.serverURL = serverEndpoint
         
         #if os(macOS)
             let osVersion = "macOS"
@@ -110,7 +107,7 @@ class Network: SessionDelegate {
         
         super.init()
         
-        authenticator = NetworkAuthenticator(network: self, keychain: keychain)
+        authenticator.network = self
         
         self.sessionManager = SessionManager(configuration: configuration, delegate: self, serverTrustPolicyManager: serverTrustManager)
         self.sessionManager.adapter = authenticator

@@ -203,14 +203,12 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
      Sets up the SDK for use by performing any datbase migrations or other underlying setup needed. Must be called and completed before using the SDK.
      
      - parameters:
-        - serverURL: Base URL of the Frollo API this SDK should point to
-        - logLevel: Level of logging for debug and error messages
-        - publicKeyPinningEnabled: Enable or disable public key pinning for *.frollo.us domains- useful for disabling in debug mode
+        - configuration: Configuration and preferences needed to setup the SDK
         - completion: Completion handler with optional error if something goes wrong during the setup process
      
      - returns: Progress object indicating the migration progress so far if needed
     */
-    @discardableResult public func setup(serverURL: URL, logLevel: LogLevel = .error, publicKeyPinningEnabled: Bool = true, completion: @escaping FrolloSDKCompletionHandler) -> Progress? {
+    @discardableResult public func setup(configuration: FrolloSDKConfiguration, completion: @escaping FrolloSDKCompletionHandler) -> Progress? {
         guard !_setup
             else {
                 fatalError("SDK already setup")
@@ -223,7 +221,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         var pinnedKeys: [SecKey]?
         
         // Automatically pin Frollo server certificates
-        if publicKeyPinningEnabled, let host = serverURL.host, host.contains(frolloHost) {
+        if configuration.publicKeyPinningEnabled, let host = configuration.serverEndpoint.host, host.contains(frolloHost) {
             let activeKey: SecKey
             let backupKey: SecKey
             
@@ -245,11 +243,12 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
             }
         }
         
-        network = Network(serverURL: serverURL, keychain: keychain, pinnedPublicKeys: pinnedKeys)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: configuration.authorizationEndpoint, tokenEndpoint: configuration.tokenEndpoint, keychain: keychain)
+        network = Network(serverEndpoint: configuration.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: pinnedKeys)
         network.delegate = self
         
         Log.manager.network = network
-        Log.logLevel = logLevel
+        Log.logLevel = configuration.logLevel
         
         _aggregation = Aggregation(database: _database, network: network)
         _authentication = Authentication(database: _database, network: network, preferences: preferences, delegate: self)
