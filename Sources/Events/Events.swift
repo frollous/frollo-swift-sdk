@@ -22,10 +22,10 @@ public class Events {
     
     internal weak var delegate: FrolloSDKDelegate?
     
-    private let network: Network
+    private let service: APIService
     
-    internal init(network: Network) {
-        self.network = network
+    internal init(service: APIService) {
+        self.service = service
     }
     
     /**
@@ -40,7 +40,7 @@ public class Events {
         let request = APIEventCreateRequest(delayMinutes: delay ?? 0,
                                             event: eventName)
         
-        network.createEvent(request: request) { (result) in
+        service.createEvent(request: request) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)

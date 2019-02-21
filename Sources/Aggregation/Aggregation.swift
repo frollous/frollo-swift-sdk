@@ -25,7 +25,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
     internal let transactionCategoryLock = NSLock()
     
     private let database: Database
-    private let network: Network
+    private let service: APIService
     
     private var linkingProviderIDs = Set<Int64>()
     private var linkingProviderAccountIDs = Set<Int64>()
@@ -35,9 +35,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
     private var refreshingMerchantIDs = Set<Int64>()
     private var refreshingProviderIDs = Set<Int64>()
     
-    internal init(database: Database, network: Network) {
+    internal init(database: Database, service: APIService) {
         self.database = database
-        self.network = network
+        self.service = service
         
         NotificationCenter.default.addObserver(forName: Aggregation.refreshTransactionsNotification, object: nil, queue: .main) { (notification) in
             guard let transactionIDs = notification.userInfo?[Aggregation.refreshTransactionIDsKey] as? [Int64]
@@ -97,7 +97,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshProviders(completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchProviders { (result) in
+        service.fetchProviders { (result) in
             switch result {
             case .failure(let error):
                 Log.error(error.localizedDescription)
@@ -129,7 +129,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshProvider(providerID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchProvider(providerID: providerID) { (result) in
+        service.fetchProvider(providerID: providerID) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -199,7 +199,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshProviderAccounts(completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchProviderAccounts { (result) in
+        service.fetchProviderAccounts { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -230,7 +230,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshProviderAccount(providerAccountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchProviderAccount(providerAccountID: providerAccountID) { (result) in
+        service.fetchProviderAccount(providerAccountID: providerAccountID) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -263,7 +263,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
     public func createProviderAccount(providerID: Int64, loginForm: ProviderLoginForm, completion: FrolloSDKCompletionHandler? = nil) {
         let request = APIProviderAccountCreateRequest(loginForm: loginForm, providerID: providerID)
         
-        network.createProviderAccount(request: request) { (result) in
+        service.createProviderAccount(request: request) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -293,7 +293,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func deleteProviderAccount(providerAccountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.deleteProviderAccount(providerAccountID: providerAccountID) { (result) in
+        service.deleteProviderAccount(providerAccountID: providerAccountID) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -321,7 +321,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
     public func updateProviderAccount(providerAccountID: Int64, loginForm: ProviderLoginForm, completion: FrolloSDKCompletionHandler? = nil) {
         let request = APIProviderAccountUpdateRequest(loginForm: loginForm)
         
-        network.updateProviderAccount(providerAccountID: providerAccountID, request: request) { (result) in
+        service.updateProviderAccount(providerAccountID: providerAccountID, request: request) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -389,7 +389,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshAccounts(completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchAccounts { (result) in
+        service.fetchAccounts { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -420,7 +420,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshAccount(accountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchAccount(accountID: accountID) { (result) in
+        service.fetchAccount(accountID: accountID) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -468,7 +468,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             request = account.updateRequest()
         }
         
-        network.updateAccount(accountID: accountID, request: request) { (result) in
+        service.updateAccount(accountID: accountID, request: request) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -538,7 +538,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshTransactions(from fromDate: Date, to toDate: Date, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchTransactions(from: fromDate, to: toDate) { (result) in
+        service.fetchTransactions(from: fromDate, to: toDate) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -572,7 +572,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransaction(transactionID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchTransaction(transactionID: transactionID) { (result) in
+        service.fetchTransaction(transactionID: transactionID) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -606,7 +606,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
          - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransactions(transactionIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchTransactions(transactionIDs: transactionIDs) { (result) in
+        service.fetchTransactions(transactionIDs: transactionIDs) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -658,7 +658,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             request = transaction.updateRequest()
         }
         
-        network.updateTransaction(transactionID: transactionID, request: request) { (result) in
+        service.updateTransaction(transactionID: transactionID, request: request) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -730,7 +730,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshTransactionCategories(completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchTransactionCategories { (result) in
+        service.fetchTransactionCategories { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -798,7 +798,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     internal func refreshMerchants(completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchMerchants { (result) in
+        service.fetchMerchants { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -828,7 +828,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshMerchant(merchantID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchMerchant(merchantID: merchantID) { (result) in
+        service.fetchMerchant(merchantID: merchantID) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -858,7 +858,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshMerchants(merchantIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchMerchants(merchantIDs: merchantIDs) { (result) in
+        service.fetchMerchants(merchantIDs: merchantIDs) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)

@@ -579,6 +579,6 @@ class NetworkAuthenticatorTests: XCTestCase {
         keychain.removeAll()
     }
     
-    
+    #warning("Add pinning tests")
     
 }

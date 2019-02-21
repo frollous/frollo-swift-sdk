@@ -9,8 +9,17 @@
 import Foundation
 
 import Alamofire
+#if os(macOS) || os(watchOS)
+import AppAuth
+#elseif os(iOS)
+import AppAuthCore
+#elseif os(tvOS)
+import AppAUth
+#endif
 
 class NetworkAuthenticator: RequestAdapter, RequestRetrier {
+    
+    typealias TokenRequestCompletion = (_: Result<OAuthTokenResponse, Error>) -> Void
     
     internal struct KeychainKey {
         static let accessToken = "accessToken"
@@ -27,30 +36,42 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     /// Expiry date of the access token, typically 30 minutes after issue
     internal var expiryDate: Date?
     
-    internal weak var network: Network?
+    internal weak var authentication: Authentication?
     
     private let authorizationURL: URL
     private let bearerFormat = "Bearer %@"
     private let keychain: Keychain
     private let lock = NSLock()
     private let maxRateLimitCount: Double = 10
+    private let requestQueue = DispatchQueue(label: "FrolloSDK.APIAuthenticatorRequestQueue", qos: .userInitiated, attributes: .concurrent)
+    private let responseQueue = DispatchQueue(label: "FrolloSDK.APIAuthenticatorResponseQueue", qos: .userInitiated, attributes: .concurrent)
+    private let serverURL: URL
     private let timeInterval5Minutes: Double = 300
     private let tokenURL: URL
+    
+    #if !os(watchOS)
+    public let reachability: NetworkReachabilityManager
+    #endif
     
     private var rateLimitCount: Double = 0
     private var refreshing = false
     private var requestsToRetry: [RequestRetryCompletion] = []
     
-    init(authorizationEndpoint: URL, tokenEndpoint: URL, keychain: Keychain) {
+    init(authorizationEndpoint: URL, serverEndpoint: URL, tokenEndpoint: URL, keychain: Keychain, pinnedPublicKeys: [SecKey]? = nil) {
         self.authorizationURL = authorizationEndpoint
+        self.serverURL = serverEndpoint
         self.tokenURL = tokenEndpoint
         self.keychain = keychain
+        
+        #if !os(watchOS)
+        reachability = NetworkReachabilityManager(host: tokenURL.host!)!
+        #endif
         
         loadTokens()
     }
     
     internal func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
-        guard let baseURL = network?.serverURL, let url = urlRequest.url, url.absoluteString.hasPrefix(baseURL.absoluteString)
+        guard let url = urlRequest.url, url.absoluteString.hasPrefix(serverURL.absoluteString) || url.absoluteString.hasPrefix(tokenURL.absoluteString)
             else {
                 return urlRequest
         }
@@ -133,7 +154,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         let generator = OTP(factor: .timer(period: 30), secret: bundleID.data(using: .utf8)!, algorithm: .sha256, digits: 8)
         let password = try! generator?.password(at: Date())
         let bearer = String(format: "Bearer %@", password!)
-        urlRequest.setValue(bearer, forHTTPHeaderField: Network.HTTPHeader.authorization.rawValue)
+        urlRequest.setValue(bearer, forHTTPHeaderField: HTTPHeader.authorization.rawValue)
         
         return urlRequest
     }
@@ -147,7 +168,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         var urlRequest = request
         
         let bearer = String(format: bearerFormat, token)
-        urlRequest.setValue(bearer, forHTTPHeaderField: Network.HTTPHeader.authorization.rawValue)
+        urlRequest.setValue(bearer, forHTTPHeaderField: HTTPHeader.authorization.rawValue)
         
         return urlRequest
     }
@@ -185,7 +206,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         var urlRequest = request
 
         let bearer = String(format: bearerFormat, token)
-        urlRequest.setValue(bearer, forHTTPHeaderField: Network.HTTPHeader.authorization.rawValue)
+        urlRequest.setValue(bearer, forHTTPHeaderField: HTTPHeader.authorization.rawValue)
 
         return urlRequest
     }
@@ -231,11 +252,8 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         
         refreshing = true
         
-        network?.refreshToken { (result) in
+        authentication?.refreshTokens { (result) in
             switch result {
-                case .success:
-                    self.requestsToRetry.forEach { $0(true, 0.0) }
-                    self.requestsToRetry.removeAll()
                 case .failure(let error):
                     if let apiError = error as? APIError, apiError.type == .invalidRefreshToken {
                         self.clearTokens()
@@ -244,6 +262,9 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
                     }
                     
                     self.requestsToRetry.forEach { $0(false, 0.0) }
+                    self.requestsToRetry.removeAll()
+                case .success:
+                    self.requestsToRetry.forEach { $0(true, 0.0) }
                     self.requestsToRetry.removeAll()
             }
             

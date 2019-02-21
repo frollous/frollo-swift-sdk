@@ -65,7 +65,7 @@ class Log {
     internal var debugLoggers = [Logger]()
     internal var errorLoggers = [Logger]()
     internal var infoLoggers = [Logger]()
-    internal var network: Network?
+    internal var service: APIService?
     
     internal init(synchronous: Bool) {
         async = !synchronous
@@ -76,7 +76,7 @@ class Log {
     private func updateLogLevel() {
         let consoleLogger = ConsoleLogger()
         let fileLogger = FileLogger(path: logFilePath, previousPath: previousLogFilePath)
-        let networkLogger = NetworkLogger(network: network)
+        let networkLogger = NetworkLogger(service: service)
         
         debugLoggers = []
         infoLoggers = []

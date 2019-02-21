@@ -14,7 +14,7 @@ public class Bills: CachedObjects, ResponseHandler  {
     
     private let aggregation: Aggregation
     private let database: Database
-    private let network: Network
+    private let service: APIService
     
     private let billsLock = NSLock()
     private let billPaymentsLock = NSLock()
@@ -25,9 +25,9 @@ public class Bills: CachedObjects, ResponseHandler  {
     private var linkingTransactionCategoryIDs = Set<Int64>()
     private var refreshingMerchantIDs = Set<Int64>()
     
-    internal init(database: Database, network: Network, aggregation: Aggregation) {
+    internal init(database: Database, service: APIService, aggregation: Aggregation) {
         self.database = database
-        self.network = network
+        self.service = service
         self.aggregation = aggregation
     }
     
@@ -124,7 +124,7 @@ public class Bills: CachedObjects, ResponseHandler  {
     }
     
     private func createBill(request: APIBillCreateRequest, completion: FrolloSDKCompletionHandler? = nil) {
-        network.createBill(request: request) { (result) in
+        service.createBill(request: request) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -156,7 +156,7 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func deleteBill(billID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.deleteBill(billID: billID) { (result) in
+        service.deleteBill(billID: billID) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -183,7 +183,7 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBills(completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchBills { (result) in
+        service.fetchBills { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -215,7 +215,7 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBill(billID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchBill(billID: billID) { (result) in
+        service.fetchBill(billID: billID) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -265,7 +265,7 @@ public class Bills: CachedObjects, ResponseHandler  {
             request = bill.updateRequest()
         }
         
-        network.updateBill(billID: billID, request: request) { (result) in
+        service.updateBill(billID: billID, request: request) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -336,7 +336,7 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func deleteBillPayment(billPaymentID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.deleteBillPayment(billPaymentID: billPaymentID) { (result) in
+        service.deleteBillPayment(billPaymentID: billPaymentID) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -363,7 +363,7 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBillPayments(from fromDate: Date, to toDate: Date, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchBillPayments(from: fromDate, to: toDate) { (result) in
+        service.fetchBillPayments(from: fromDate, to: toDate) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -393,7 +393,7 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBillPayment(billPaymentID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchBillPayment(billPaymentID: billPaymentID) { (result) in
+        service.fetchBillPayment(billPaymentID: billPaymentID) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -441,7 +441,7 @@ public class Bills: CachedObjects, ResponseHandler  {
             request = billPayment.updateRequest()
         }
         
-        network.updateBillPayment(billPaymentID: billPaymentID, request: request) { (result) in
+        service.updateBillPayment(billPaymentID: billPaymentID, request: request) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)

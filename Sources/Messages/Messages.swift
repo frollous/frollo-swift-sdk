@@ -19,13 +19,13 @@ public class Messages: CachedObjects, ResponseHandler {
     internal weak var delegate: FrolloSDKDelegate?
     
     private let database: Database
-    private let network: Network
+    private let service: APIService
     
     private let messageLock = NSLock()
     
-    internal init(database: Database, network: Network) {
+    internal init(database: Database, service: APIService) {
         self.database = database
-        self.network = network
+        self.service = service
     }
     
     // MARK: - Messages
@@ -104,7 +104,7 @@ public class Messages: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshMessages(completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchMessages { (result) in
+        service.fetchMessages { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -132,7 +132,7 @@ public class Messages: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshMessage(messageID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchMessage(messageID: messageID) { (result) in
+        service.fetchMessage(messageID: messageID) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -178,7 +178,7 @@ public class Messages: CachedObjects, ResponseHandler {
             request = message.updateRequest()
         }
         
-        network.updateMessage(messageID: messageID, request: request) { (result) in
+        service.updateMessage(messageID: messageID, request: request) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -205,7 +205,7 @@ public class Messages: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshUnreadMessages(completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchUnreadMessages { (result) in
+        service.fetchUnreadMessages { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)

@@ -10,23 +10,23 @@ import Foundation
 
 class NetworkLogger: Logger {
     
-    private let network: Network?
+    private let service: APIService?
     
-    init(network: Network?) {
-        self.network = network
+    init(service: APIService?) {
+        self.service = service
     }
     
     func writeMessage(_ message: String, level: LogLevel) {
-        guard let net = network,
-            net.authenticator.refreshToken != nil,
-            net.authenticator.accessToken != nil
+        guard let network = service,
+            network.network.authenticator.refreshToken != nil,
+            network.network.authenticator.accessToken != nil
             else {
                 return
         }
         
         let request = APILogRequest(details: nil, message: message, score: level)
         
-        net.createLog(request: request) { (result) in }
+        network.createLog(request: request) { (result) in }
     }
     
 }

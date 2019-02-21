@@ -9,15 +9,6 @@
 import CoreData
 import Foundation
 
-#if os(macOS)
-import AppAuth
-#elseif os(iOS)
-import AppAuthCore
-#elseif os(tvOS)
-import AppAUth
-#elseif os(watchOS)
-import AppAuth
-#endif
 
 internal protocol AuthenticationDelegate: class {
     
@@ -64,17 +55,27 @@ public class Authentication {
         }
     }
     
+    private let authService: OAuthService
+    private let clientID: String
     private let database: Database
-    private let network: Network
+    private let domain: String
+    private let networkAuthenticator: NetworkAuthenticator
     private let preferences: Preferences
+    private let service: APIService
     
     private weak var delegate: AuthenticationDelegate?
     
-    init(database: Database, network: Network, preferences: Preferences, delegate: AuthenticationDelegate?) {
+    init(database: Database, clientID: String, domain: String, networkAuthenticator: NetworkAuthenticator, authService: OAuthService, service: APIService, preferences: Preferences, delegate: AuthenticationDelegate?) {
         self.database = database
-        self.network = network
+        self.clientID = clientID
+        self.domain = domain
+        self.networkAuthenticator = networkAuthenticator
+        self.authService = authService
+        self.service = service
         self.preferences = preferences
         self.delegate = delegate
+        
+        networkAuthenticator.authentication = self
         
         _ = fetchUser(context: database.viewContext)
     }
@@ -139,7 +140,7 @@ public class Authentication {
                                                    userID: userID,
                                                    userToken: userToken)
         
-        network.loginUser(request: userLoginRequest) { (result) in
+        service.loginUser(request: userLoginRequest) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -201,7 +202,7 @@ public class Authentication {
                                                          lastName: lastName,
                                                          mobileNumber: mobileNumber)
         
-        network.registerUser(request: userRegisterRequest) { (result) in
+        service.registerUser(request: userRegisterRequest) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -231,7 +232,7 @@ public class Authentication {
     public func resetPassword(email: String, completion: @escaping FrolloSDKCompletionHandler) {
         let request = APIUserResetPasswordRequest(email: email)
         
-        network.resetPassword(request: request) { (result) in
+        service.resetPassword(request: request) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -268,7 +269,7 @@ public class Authentication {
                 return
         }
         
-        network.fetchUser { (result) in
+        service.fetchUser { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -323,7 +324,7 @@ public class Authentication {
             request = user.updateRequest()
         }
         
-        network.updateUser(request: request) { (result) in
+        service.updateUser(request: request) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -373,7 +374,7 @@ public class Authentication {
                 return
         }
         
-        network.changePassword(request: changePasswordRequest) { (result) in
+        service.changePassword(request: changePasswordRequest) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -406,7 +407,7 @@ public class Authentication {
                 return
         }
         
-        network.deleteUser { (result) in
+        service.deleteUser { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -431,8 +432,35 @@ public class Authentication {
      
      Forces a refresh of the access and refresh tokens if a 401 was encountered. For advanced usage only in combination with web request authentication.
     */
-    public func refreshTokens() {
-        network.authenticator.refreshTokens()
+    public func refreshTokens(completion: FrolloSDKCompletionHandler? = nil) {
+        service.network.authenticator.refreshTokens()
+        
+        let request = OAuthTokenRequest(clientID: clientID,
+                                        code: nil,
+                                        domain: domain,
+                                        grantType: .password,
+                                        password: nil,
+                                        refreshToken: networkAuthenticator.refreshToken,
+                                        username: nil)
+        
+        authService.refreshTokens(request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    self.networkAuthenticator.clearTokens()
+                    
+                    Log.error(error.localizedDescription)
+                    
+                    completion?(.failure(error))
+                case .success(let response):
+                    
+                    let createdDate = response.createdAt ?? Date()
+                    let expiryDate = createdDate.addingTimeInterval(response.expiresIn)
+                    
+                    self.networkAuthenticator.saveTokens(refresh: response.refreshToken, access: response.accessToken, expiry: expiryDate)
+                    
+                    completion?(.success)
+                }
+        }
     }
     
     // MARK: - Web Request Authentication
@@ -446,7 +474,7 @@ public class Authentication {
         - request: URL Request to be authenticated and provided the access token
     */
     public func authenticateRequest(_ request: URLRequest) throws -> URLRequest {
-        return try network.authenticator.validateAndAppendAccessToken(request: request)
+        return try service.network.authenticator.validateAndAppendAccessToken(request: request)
     }
     
     // MARK: - Device
@@ -488,7 +516,7 @@ public class Authentication {
                                              notificationToken: notificationToken,
                                              timezone: TimeZone.current.identifier)
         
-        network.updateDevice(request: request) { (result) in
+        service.updateDevice(request: request) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -521,7 +549,7 @@ public class Authentication {
                 return
         }
         
-        network.logoutUser { (result) in
+        service.logoutUser { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -587,7 +615,7 @@ public class Authentication {
         
         loggedIn = false
         
-        network.reset()
+        service.network.reset()
     }
     
 }

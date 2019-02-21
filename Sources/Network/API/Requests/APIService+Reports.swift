@@ -10,7 +10,7 @@ import Foundation
 
 import Alamofire
 
-extension Network {
+extension APIService {
 
     // MARK: - Account Balance Reports
     
@@ -31,8 +31,8 @@ extension Network {
                 parameters[ReportsEndpoint.QueryParameters.container.rawValue] = container.rawValue
             }
             
-            self.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
-                self.handleResponse(type: APIAccountBalanceReportResponse.self, response: response, completion: completion)
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.network.handleResponse(type: APIAccountBalanceReportResponse.self, response: response, completion: completion)
             }
         }
     }
@@ -49,8 +49,8 @@ extension Network {
                 parameters[ReportsEndpoint.QueryParameters.budgetCategory.rawValue] = category.rawValue
             }
             
-            self.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
-                self.handleResponse(type: APITransactionCurrentReportResponse.self, response: response, completion: completion)
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.network.handleResponse(type: APITransactionCurrentReportResponse.self, response: response, completion: completion)
             }
         }
     }
@@ -72,8 +72,8 @@ extension Network {
                 parameters[ReportsEndpoint.QueryParameters.budgetCategory.rawValue] = category.rawValue
             }
             
-            self.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
-                self.handleResponse(type: APITransactionHistoryReportsResponse.self, response: response, completion: completion)
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.network.handleResponse(type: APITransactionHistoryReportsResponse.self, response: response, completion: completion)
             }
         }
     }

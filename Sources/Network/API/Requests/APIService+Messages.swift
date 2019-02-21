@@ -10,14 +10,14 @@ import Foundation
 
 import Alamofire
 
-extension Network {
+extension APIService {
     
     internal func fetchMessages(completion: @escaping RequestCompletion<[APIMessageResponse]>) {
         requestQueue.async {
             let url = URL(string: MessagesEndpoint.messages.path, relativeTo: self.serverURL)!
             
-            self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
-                self.handleArrayResponse(type: APIMessageResponse.self, response: response, completion: completion)
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.network.handleArrayResponse(type: APIMessageResponse.self, response: response, completion: completion)
             }
         }
     }
@@ -26,8 +26,8 @@ extension Network {
         requestQueue.async {
             let url = URL(string: MessagesEndpoint.unread.path, relativeTo: self.serverURL)!
             
-            self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
-                self.handleArrayResponse(type: APIMessageResponse.self, response: response, completion: completion)
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.network.handleArrayResponse(type: APIMessageResponse.self, response: response, completion: completion)
             }
         }
         
@@ -37,8 +37,8 @@ extension Network {
         requestQueue.async {
             let url = URL(string: MessagesEndpoint.message(messageID: messageID).path, relativeTo: self.serverURL)!
             
-            self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
-                self.handleResponse(type: APIMessageResponse.self, response: response, completion: completion)
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.network.handleResponse(type: APIMessageResponse.self, response: response, completion: completion)
             }
         }
     }
@@ -47,7 +47,7 @@ extension Network {
         requestQueue.async {
             let url = URL(string: MessagesEndpoint.message(messageID: messageID).path, relativeTo: self.serverURL)!
             
-            guard let urlRequest = self.contentRequest(url: url, method: .put, content: request)
+            guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: request)
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
@@ -55,8 +55,8 @@ extension Network {
                     return
             }
         
-            self.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
-                self.handleResponse(type: APIMessageResponse.self, response: response, completion: completion)
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                self.network.handleResponse(type: APIMessageResponse.self, response: response, completion: completion)
             }
         }
     }

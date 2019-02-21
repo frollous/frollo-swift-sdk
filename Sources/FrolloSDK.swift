@@ -218,10 +218,21 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
             version.migrateVersion()
         }
         
-        var pinnedKeys: [SecKey]?
+        var pinnedServerKeys: [SecKey]?
+        var pinnedTokenKeys: [SecKey]?
         
         // Automatically pin Frollo server certificates
-        if configuration.publicKeyPinningEnabled, let host = configuration.serverEndpoint.host, host.contains(frolloHost) {
+        var pinServer = false
+        var pinToken = false
+        
+        if let host = configuration.serverEndpoint.host, host.contains(frolloHost) {
+            pinServer = true
+        }
+        if let host = configuration.tokenEndpoint.host, host.contains(frolloHost) {
+            pinToken = true
+        }
+        
+        if configuration.publicKeyPinningEnabled && (pinServer || pinToken) {
             let activeKey: SecKey
             let backupKey: SecKey
             
@@ -239,24 +250,32 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
             if let error = keyError {
                 Log.error(error.takeUnretainedValue().localizedDescription)
             } else {
-                pinnedKeys = [activeKey, backupKey]
+                if pinServer {
+                    pinnedServerKeys = [activeKey, backupKey]
+                }
+                if pinToken {
+                    pinnedTokenKeys = [activeKey, backupKey]
+                }
             }
         }
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: configuration.authorizationEndpoint, tokenEndpoint: configuration.tokenEndpoint, keychain: keychain)
-        network = Network(serverEndpoint: configuration.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: pinnedKeys)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: configuration.authorizationEndpoint, serverEndpoint: configuration.serverEndpoint, tokenEndpoint: configuration.tokenEndpoint, keychain: keychain, pinnedPublicKeys: pinnedTokenKeys)
+        network = Network(serverEndpoint: configuration.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: pinnedServerKeys)
         network.delegate = self
         
-        Log.manager.network = network
+        let authService = OAuthService(tokenEndpoint: configuration.tokenEndpoint, network: network)
+        let service = APIService(serverEndpoint: configuration.serverEndpoint, network: network)
+        
+        Log.manager.service = service
         Log.logLevel = configuration.logLevel
         
-        _aggregation = Aggregation(database: _database, network: network)
-        _authentication = Authentication(database: _database, network: network, preferences: preferences, delegate: self)
-        _bills = Bills(database: _database, network: network, aggregation: _aggregation)
-        _events = Events(network: network)
-        _messages = Messages(database: _database, network: network)
+        _aggregation = Aggregation(database: _database, service: service)
+        _authentication = Authentication(database: _database, clientID: configuration.clientID, domain: configuration.serverEndpoint.host ?? configuration.serverEndpoint.absoluteString, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        _bills = Bills(database: _database, service: service, aggregation: _aggregation)
+        _events = Events(service: service)
+        _messages = Messages(database: _database, service: service)
         _notifications = Notifications(authentication: _authentication, events: _events, messages: _messages)
-        _reports = Reports(database: _database, network: network, aggregation: _aggregation)
+        _reports = Reports(database: _database, service: service, aggregation: _aggregation)
         
         _events.delegate = delegate
         _messages.delegate = delegate

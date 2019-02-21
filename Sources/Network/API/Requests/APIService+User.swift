@@ -10,7 +10,7 @@ import Foundation
 
 import Alamofire
 
-extension Network {
+extension APIService {
     
     typealias UserRequestCompletion = (_: Result<APIUserResponse, Error>) -> Void
     
@@ -18,7 +18,7 @@ extension Network {
         requestQueue.async {
             let url = URL(string: UserEndpoint.user.path, relativeTo: self.serverURL)!
             
-            guard let urlRequest = self.contentRequest(url: url, method: .put, content: request)
+            guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: request)
                else {
                 let dataError = DataError(type: .api, subType: .invalidData)
                 
@@ -27,8 +27,8 @@ extension Network {
                 return
             }
             
-            self.sessionManager.request(urlRequest).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { (response) in
-                self.handleEmptyResponse(response: response, completion: completion)
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { (response) in
+                self.network.handleEmptyResponse(response: response, completion: completion)
             }
         }
     }
@@ -37,8 +37,8 @@ extension Network {
         requestQueue.async {
             let url = URL(string: UserEndpoint.user.path, relativeTo: self.serverURL)!
             
-            self.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { (response) in
-                self.handleEmptyResponse(response: response, completion: completion)
+            self.network.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { (response) in
+                self.network.handleEmptyResponse(response: response, completion: completion)
             }
         }
     }
@@ -47,7 +47,7 @@ extension Network {
         requestQueue.async {
             let url = URL(string: UserEndpoint.details.path, relativeTo: self.serverURL)!
             
-            self.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
                 self.handleUserResponse(response: response, completion: completion)
             }
         }
@@ -65,7 +65,7 @@ extension Network {
             
             let url = URL(string: UserEndpoint.login.path, relativeTo: self.serverURL)!
             
-            guard let urlRequest = self.contentRequest(url: url, method: .post, content: request)
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
@@ -73,11 +73,12 @@ extension Network {
                     return
             }
 
-            self.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
-                if let error = self.handleTokens(response: response) {
-                    completion(.failure(error))
-                    return
-                }
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+                #warning("Remove this entirely")
+//                if let error = self.handleTokens(response: response) {
+//                    completion(.failure(error))
+//                    return
+//                }
                 
                 self.handleUserResponse(response: response, completion: completion)
             }
@@ -88,8 +89,8 @@ extension Network {
         requestQueue.async {
             let url = URL(string: UserEndpoint.logout.path, relativeTo: self.serverURL)!
 
-            self.sessionManager.request(url, method: .put, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { (response) in
-                self.handleEmptyResponse(response: response, completion: completion)
+            self.network.sessionManager.request(url, method: .put, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { (response) in
+                self.network.handleEmptyResponse(response: response, completion: completion)
             }
         }
     }
@@ -101,7 +102,7 @@ extension Network {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM"
             
-            guard let urlRequest = self.contentRequest(url: url, method: .post, content: request, dateEncodingStrategy: .formatted(dateFormatter))
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request, dateEncodingStrategy: .formatted(dateFormatter))
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
@@ -109,11 +110,12 @@ extension Network {
                     return
             }
 
-            self.sessionManager.request(urlRequest).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { (response) in
-                if let error = self.handleTokens(response: response) {
-                    completion(.failure(error))
-                    return
-                }
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { (response) in
+                #warning("Delete method")
+//                if let error = self.handleTokens(response: response) {
+//                    completion(.failure(error))
+//                    return
+//                }
                 
                 self.handleUserResponse(response: response, completion: completion)
             }
@@ -124,7 +126,7 @@ extension Network {
         requestQueue.async {
             let url = URL(string: UserEndpoint.resetPassword.path, relativeTo: self.serverURL)!
             
-            guard let urlRequest = self.contentRequest(url: url, method: .post, content: request)
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
@@ -132,8 +134,8 @@ extension Network {
                     return
             }
             
-            self.sessionManager.request(urlRequest).validate(statusCode: 202...202).responseData(queue: self.responseQueue) { (response) in
-                self.handleEmptyResponse(response: response, completion: completion)
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 202...202).responseData(queue: self.responseQueue) { (response) in
+                self.network.handleEmptyResponse(response: response, completion: completion)
             }
         }
     }
@@ -145,7 +147,7 @@ extension Network {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM"
             
-            guard let urlRequest = self.contentRequest(url: url, method: .put, content: request, dateEncodingStrategy: .formatted(dateFormatter))
+            guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: request, dateEncodingStrategy: .formatted(dateFormatter))
                 else {
                     let dataError = DataError(type: .api, subType: .invalidData)
                     
@@ -153,7 +155,7 @@ extension Network {
                     return
             }
             
-            self.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
                 self.handleUserResponse(response: response, completion: completion)
             }
         }
@@ -180,7 +182,7 @@ extension Network {
                     completion(.failure(dataError))
                 }
             case .failure(let error):
-                self.handleFailure(response: response, error: error) { (processedError) in
+                self.network.handleFailure(response: response, error: error) { (processedError) in
                     completion(.failure(processedError))
                 }
         }

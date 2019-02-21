@@ -16,32 +16,14 @@ protocol NetworkDelegate: class {
     
 }
 
+internal typealias NetworkCompletion = (_: Result<Data, FrolloSDKError>) -> Void
+internal typealias RequestCompletion<T> = (_: Result<T, Error>) -> Void
+
 class Network: SessionDelegate {
-    
-    internal typealias NetworkCompletion = (_: Result<Data, FrolloSDKError>) -> Void
-    internal typealias RequestCompletion<T> = (_: Result<T, Error>) -> Void
-    
-    internal enum HTTPHeader: String, CaseIterable {
-        case apiVersion = "X-Api-Version"
-        case authorization = "Authorization"
-        case background = "X-Background"
-        case bundleID = "X-Bundle-Id"
-        case contentType = "Content-Type"
-        case deviceVersion = "X-Device-Version"
-        case etag = "Etag"
-        case softwareVersion = "X-Software-Version"
-        case userAgent = "User-Agent"
-    }
     
     #if !os(watchOS)
     public let reachability: NetworkReachabilityManager
     #endif
-    
-    /// Asynchronous queue all network requests are executed from
-    internal let requestQueue = DispatchQueue(label: "FrolloSDK.APIRequestQueue", qos: .userInitiated, attributes: .concurrent)
-    
-    /// Asynchornous queue all network responses are executed on
-    internal let responseQueue = DispatchQueue(label: "FrolloSDK.APIResponseQueue", qos: .userInitiated, attributes: .concurrent)
     
     /// Base URL of the API
     internal let serverURL: URL
@@ -51,7 +33,7 @@ class Network: SessionDelegate {
     internal var authenticator: NetworkAuthenticator
     internal var sessionManager: SessionManager!
     
-    private let APIVersion = "2.0"
+    private let APIVersion = "2.1"
     
     /**
      Initialise a network stack pointing to an API at a specific URL
@@ -63,6 +45,7 @@ class Network: SessionDelegate {
      
         - warning: If using certificate pinning make sure you pin a second public key as a backup in case the production private/public key pair becomes compromised. Failure to do this will render your app unusable until updated with the new public/private key pair.
     */
+    #warning("Allow keys to be passed in per host to support multiple domains")
     internal init(serverEndpoint: URL, networkAuthenticator: NetworkAuthenticator, pinnedPublicKeys: [SecKey]? = nil) {
         self.authenticator = networkAuthenticator
         self.serverURL = serverEndpoint
@@ -106,8 +89,6 @@ class Network: SessionDelegate {
         }
         
         super.init()
-        
-        authenticator.network = self
         
         self.sessionManager = SessionManager(configuration: configuration, delegate: self, serverTrustPolicyManager: serverTrustManager)
         self.sessionManager.adapter = authenticator

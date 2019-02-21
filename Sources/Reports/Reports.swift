@@ -14,7 +14,7 @@ public class Reports: ResponseHandler, CachedObjects {
     
     private let aggregation: Aggregation
     private let database: Database
-    private let network: Network
+    private let service: APIService
     
     private let accountBalanceReportsLock = NSLock()
     private let currentReportsLock = NSLock()
@@ -27,9 +27,9 @@ public class Reports: ResponseHandler, CachedObjects {
     private var linkingHistoryTransactionCategoryIDs = Set<Int64>()
     private var refreshingMerchantIDs = Set<Int64>()
     
-    internal init(database: Database, network: Network, aggregation: Aggregation) {
+    internal init(database: Database, service: APIService, aggregation: Aggregation) {
         self.database = database
-        self.network = network
+        self.service = service
         self.aggregation = aggregation
     }
     
@@ -104,7 +104,7 @@ public class Reports: ResponseHandler, CachedObjects {
          - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshAccountBalanceReports(period: ReportAccountBalance.Period, from fromDate: Date, to toDate: Date, accountID: Int64? = nil, accountType: Account.AccountType? = nil, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchAccountBalanceReports(period: period, from: fromDate, to: toDate, accountID: accountID, accountType: accountType) { (result) in
+        service.fetchAccountBalanceReports(period: period, from: fromDate, to: toDate, accountID: accountID, accountType: accountType) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -173,7 +173,7 @@ public class Reports: ResponseHandler, CachedObjects {
          - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransactionCurrentReports(grouping: ReportGrouping, budgetCategory: BudgetCategory? = nil, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchTransactionCurrentReports(grouping: grouping, budgetCategory: budgetCategory) { (result) in
+        service.fetchTransactionCurrentReports(grouping: grouping, budgetCategory: budgetCategory) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -266,7 +266,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransactionHistoryReports(grouping: ReportGrouping, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, budgetCategory: BudgetCategory? = nil, completion: FrolloSDKCompletionHandler? = nil) {
-        network.fetchTransactionHistoryReports(grouping: grouping, period: period, fromDate: fromDate, toDate: toDate, budgetCategory: budgetCategory) { (result) in
+        service.fetchTransactionHistoryReports(grouping: grouping, period: period, fromDate: fromDate, toDate: toDate, budgetCategory: budgetCategory) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
