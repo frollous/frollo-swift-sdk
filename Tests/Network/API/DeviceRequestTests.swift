@@ -30,15 +30,16 @@ class DeviceRequestTests: XCTestCase {
         let config = FrolloSDKConfiguration.testConfig()
         
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        network.refreshToken { (result) in
+        service.refreshToken { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -67,12 +68,13 @@ class DeviceRequestTests: XCTestCase {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let request = APILogRequest(details: "Details Content", message: "Log message", score: .error)
         
-        network.createLog(request: request) { (result) in
+        service.createLog(request: request) { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -97,15 +99,16 @@ class DeviceRequestTests: XCTestCase {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let request = APIDeviceUpdateRequest(compliant: nil,
                                              deviceName: "Device Name",
                                              notificationToken: "SomeToken123",
                                              timezone: TimeZone.current.identifier)
         
-        network.updateDevice(request: request) { (result) in
+        service.updateDevice(request: request) { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)

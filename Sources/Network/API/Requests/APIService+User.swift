@@ -52,38 +52,6 @@ extension APIService {
             }
         }
     }
-    
-    internal func loginUser(request: APIUserLoginRequest, completion: @escaping UserRequestCompletion) {
-        requestQueue.async {
-            guard request.valid
-                else {
-                    let error = DataError(type: .api, subType: .invalidData)
-                    
-                    completion(.failure(error))
-                    return
-            }
-            
-            let url = URL(string: UserEndpoint.login.path, relativeTo: self.serverURL)!
-            
-            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
-                else {
-                    let dataError = DataError(type: .api, subType: .invalidData)
-                    
-                    completion(.failure(dataError))
-                    return
-            }
-
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
-                #warning("Remove this entirely")
-//                if let error = self.handleTokens(response: response) {
-//                    completion(.failure(error))
-//                    return
-//                }
-                
-                self.handleUserResponse(response: response, completion: completion)
-            }
-        }
-    }
 
     internal func logoutUser(completion: @escaping NetworkCompletion) {
         requestQueue.async {
@@ -111,12 +79,6 @@ extension APIService {
             }
 
             self.network.sessionManager.request(urlRequest).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { (response) in
-                #warning("Delete method")
-//                if let error = self.handleTokens(response: response) {
-//                    completion(.failure(error))
-//                    return
-//                }
-                
                 self.handleUserResponse(response: response, completion: completion)
             }
         }
@@ -178,7 +140,8 @@ extension APIService {
                 } catch {
                     Log.error(error.localizedDescription)
                     
-                    let dataError = DataError(type: .unknown, subType: .unknown)
+                    let dataError = DataError(type: .api, subType: .invalidData)
+                    dataError.systemError = error
                     completion(.failure(dataError))
                 }
             case .failure(let error):

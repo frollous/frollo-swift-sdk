@@ -71,7 +71,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     }
     
     internal func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
-        guard let url = urlRequest.url, url.absoluteString.hasPrefix(serverURL.absoluteString) || url.absoluteString.hasPrefix(tokenURL.absoluteString)
+        guard let url = urlRequest.url, url.absoluteString.hasPrefix(serverURL.absoluteString)
             else {
                 return urlRequest
         }
@@ -89,8 +89,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
                 } catch let error {
                     throw error
                 }
-            } else if !relativePath.contains(UserEndpoint.login.path) {
-                // No auth header for login or reset password
+            } else {
                 do {
                     let adaptedRequest = try validateAndAppendAccessToken(request: request)
                     return adaptedRequest

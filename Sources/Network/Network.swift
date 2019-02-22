@@ -175,7 +175,8 @@ class Network: SessionDelegate {
                 } catch {
                     Log.error(error.localizedDescription)
                     
-                    let dataError = DataError(type: .unknown, subType: .unknown)
+                    let dataError = DataError(type: .api, subType: .invalidData)
+                    dataError.systemError = error
                     completion(.failure(dataError))
                 }
             case .failure(let error):
@@ -198,7 +199,8 @@ class Network: SessionDelegate {
                 } catch {
                     Log.error(error.localizedDescription)
                     
-                    let dataError = DataError(type: .unknown, subType: .unknown)
+                    let dataError = DataError(type: .api, subType: .invalidData)
+                    dataError.systemError = error
                     completion(.failure(dataError))
                 }
             case .failure(let error):
@@ -217,29 +219,6 @@ class Network: SessionDelegate {
                     completion(.failure(processedError))
                 }
         }
-    }
-    
-    internal func handleTokens(response: DataResponse<Data>) -> FrolloSDKError? {
-        switch response.result {
-            case .success(let value):
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .secondsSince1970
-                do {
-                    let tokenResponse = try decoder.decode(APITokenResponse.self, from: value)
-                    
-                    authenticator.saveTokens(refresh: tokenResponse.refreshToken, access: tokenResponse.accessToken, expiry: tokenResponse.accessTokenExpiry)
-                } catch {
-                    Log.error(error.localizedDescription)
-                    
-                    authenticator.clearTokens()
-                    
-                    return DataError(type: .authentication, subType: .missingAccessToken)
-                }
-            case .failure:
-                break
-        }
-        
-        return nil
     }
     
 }

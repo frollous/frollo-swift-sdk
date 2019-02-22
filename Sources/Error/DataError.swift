@@ -83,6 +83,9 @@ public class DataError: FrolloSDKError {
     /// More detailed sub type of the error
     public var subType: DataErrorSubType
     
+    /// System error if available
+    public var systemError: Error?
+    
     /// Debug description
     public var debugDescription: String {
         get {

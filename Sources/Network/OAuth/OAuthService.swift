@@ -43,7 +43,7 @@ class OAuthService {
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
-                self.network.handleResponse(type: OAuthTokenResponse.self, response: response, completion: completion)
+                self.network.handleResponse(type: OAuthTokenResponse.self, response: response, dateDecodingStrategy: .secondsSince1970, completion: completion)
             }
         }
     }

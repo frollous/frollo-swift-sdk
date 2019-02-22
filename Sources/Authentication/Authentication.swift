@@ -23,22 +23,6 @@ internal protocol AuthenticationDelegate: class {
  */
 public class Authentication {
     
-    /**
-     Authentication Type
-     
-     The method to be used for authenticating the user when logging in.
-     */
-    public enum AuthType: String, Codable {
-        /// Authenticate with an email address and password
-        case email
-        
-        /// Authenticate using Facebook using the user's email, Facebook User ID and Facebook Access Token.
-        case facebook
-        
-        /// Authenticate using a Volt token, requires email, Volt user ID and Volt access token.
-        case volt
-    }
-    
     internal struct AuthenticationNotification {
         static let userUpdated = Notification.Name("AuthenticationNotification.userUpdated")
     }
@@ -111,14 +95,11 @@ public class Authentication {
      Login a user using various authentication methods
      
      - parameters:
-        - method: Login method to be used. See `AuthType` for details
         - email: Email address of the user (optional)
         - password: Password for the user (optional)
-        - userID: Unique identifier for the user depending on authentication method (optional)
-        - userToken: Token for the user depending on authentication method (optional)
         - completion: Completion handler with any error that occurred
      */
-    public func loginUser(method: AuthType, email: String? = nil, password: String? = nil, userID: String? = nil, userToken: String? = nil, completion: @escaping FrolloSDKCompletionHandler) {
+    public func loginUser(email: String, password: String, completion: @escaping FrolloSDKCompletionHandler) {
         guard !loggedIn
             else {
                 let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
@@ -129,32 +110,48 @@ public class Authentication {
                 return
         }
         
-        let deviceInfo = DeviceInfo.current()
+        let request = OAuthTokenRequest(clientID: clientID,
+                                        code: nil,
+                                        domain: domain,
+                                        grantType: .password,
+                                        password: password,
+                                        refreshToken: nil,
+                                        username: email)
         
-        let userLoginRequest = APIUserLoginRequest(authType: method,
-                                                   deviceID: deviceInfo.deviceID,
-                                                   deviceName: deviceInfo.deviceName,
-                                                   deviceType: deviceInfo.deviceType,
-                                                   email: email,
-                                                   password: password,
-                                                   userID: userID,
-                                                   userToken: userToken)
-        
-        service.loginUser(request: userLoginRequest) { (result) in
+        authService.refreshTokens(request: request) { (result) in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
-                    
                     DispatchQueue.main.async {
                         completion(.failure(error))
                     }
                 case .success(let response):
-                    self.handleUserResponse(userResponse: response)
-                
-                    DispatchQueue.main.async {
-                        completion(.success)
+                    let createdDate = response.createdAt ?? Date()
+                    let expiryDate = createdDate.addingTimeInterval(response.expiresIn)
+                    
+                    self.networkAuthenticator.saveTokens(refresh: response.refreshToken, access: response.accessToken, expiry: expiryDate)
+                    
+                    self.loggedIn = true
+                    
+                    self.service.fetchUser { (result) in
+                        switch result {
+                            case .failure(let error):
+                                self.loggedIn = false
+                                
+                                self.networkAuthenticator.clearTokens()
+                                
+                                DispatchQueue.main.async {
+                                    completion(.failure(error))
+                                }
+                            case .success(let response):
+                                self.handleUserResponse(userResponse: response)
+                                
+                                DispatchQueue.main.async {
+                                    completion(.success)
+                                }
+                        }
                     }
             }
+            
         }
     }
     
@@ -452,7 +449,6 @@ public class Authentication {
                     
                     completion?(.failure(error))
                 case .success(let response):
-                    
                     let createdDate = response.createdAt ?? Date()
                     let expiryDate = createdDate.addingTimeInterval(response.expiresIn)
                     

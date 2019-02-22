@@ -53,11 +53,13 @@ class NotificationsTests: XCTestCase {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: nil)
-        let events = Events(network: network)
-        let messages = Messages(database: database, network: network)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let events = Events(service: service)
+        let messages = Messages(database: database, service: service)
         
         let notifications = Notifications(authentication: authentication, events: events, messages: messages)
         
@@ -80,11 +82,13 @@ class NotificationsTests: XCTestCase {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: nil)
-        let events = Events(network: network)
-        let messages = Messages(database: database, network: network)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let events = Events(service: service)
+        let messages = Messages(database: database, service: service)
         
         let notifications = Notifications(authentication: authentication, events: events, messages: messages)
         
@@ -109,18 +113,20 @@ class NotificationsTests: XCTestCase {
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 98765).path)) { (request) -> OHHTTPStubsResponse in
             expectation1.fulfill()
             
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [Network.HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authentication = Authentication(database: database, network: network, preferences: preferences, delegate: nil)
-        let events = Events(network: network)
-        let messages = Messages(database: database, network: network)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let events = Events(service: service)
+        let messages = Messages(database: database, service: service)
         
         let notifications = Notifications(authentication: authentication, events: events, messages: messages)
         
