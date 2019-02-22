@@ -435,7 +435,7 @@ public class Authentication {
         let request = OAuthTokenRequest(clientID: clientID,
                                         code: nil,
                                         domain: domain,
-                                        grantType: .password,
+                                        grantType: .refreshToken,
                                         password: nil,
                                         refreshToken: networkAuthenticator.refreshToken,
                                         username: nil)

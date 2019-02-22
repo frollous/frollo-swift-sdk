@@ -82,13 +82,6 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
             if relativePath.contains(UserEndpoint.register.path) || relativePath.contains(UserEndpoint.resetPassword.path) {
                 // Use the OTP for authorisation
                 return appendOTPHeader(request: request)
-            } else if relativePath.contains(DeviceEndpoint.refreshToken.path) {
-                do {
-                    let adaptedRequest = try appendRefreshToken(request: request)
-                    return adaptedRequest
-                } catch let error {
-                    throw error
-                }
             } else {
                 do {
                     let adaptedRequest = try validateAndAppendAccessToken(request: request)
@@ -153,20 +146,6 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         let generator = OTP(factor: .timer(period: 30), secret: bundleID.data(using: .utf8)!, algorithm: .sha256, digits: 8)
         let password = try! generator?.password(at: Date())
         let bearer = String(format: "Bearer %@", password!)
-        urlRequest.setValue(bearer, forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-        
-        return urlRequest
-    }
-    
-    private func appendRefreshToken(request: URLRequest) throws -> URLRequest {
-        guard let token = refreshToken
-            else {
-                throw DataError(type: .authentication, subType: .missingRefreshToken)
-        }
-        
-        var urlRequest = request
-        
-        let bearer = String(format: bearerFormat, token)
         urlRequest.setValue(bearer, forHTTPHeaderField: HTTPHeader.authorization.rawValue)
         
         return urlRequest
@@ -251,7 +230,15 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         
         refreshing = true
         
-        authentication?.refreshTokens { (result) in
+        guard let auth = authentication
+            else {
+                self.requestsToRetry.forEach { $0(false, 0.0) }
+                self.requestsToRetry.removeAll()
+                
+                return
+        }
+        
+        auth.refreshTokens { (result) in
             switch result {
                 case .failure(let error):
                     if let apiError = error as? APIError, apiError.type == .invalidRefreshToken {

@@ -12,7 +12,7 @@ import XCTest
 import Alamofire
 import OHHTTPStubs
 
-class NetworkAuthenticatorTests: XCTestCase {
+class NetworkAuthenticatorTests: XCTestCase, AuthenticationDelegate {
     
     private let keychainService = "NetworkAuthenticatorTestsKeychain"
 
@@ -70,18 +70,24 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
         let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        service.refreshToken { (result) in
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        
+        authentication.refreshTokens { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    XCTAssertEqual(service.network.authenticator.accessToken, "AValidAccessTokenFromHost")
-                    XCTAssertEqual(service.network.authenticator.refreshToken, "AValidRefreshTokenFromHost")
-                    XCTAssertEqual(service.network.authenticator.expiryDate, Date(timeIntervalSince1970: 1721259268))
+                    XCTAssertEqual(service.network.authenticator.accessToken, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
+                    XCTAssertEqual(service.network.authenticator.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
+                    XCTAssertEqual(service.network.authenticator.expiryDate, Date(timeIntervalSince1970: 2550794799))
             }
             
             expectation1.fulfill()
@@ -99,16 +105,22 @@ class NetworkAuthenticatorTests: XCTestCase {
         let config = FrolloSDKConfiguration.testConfig()
         
         stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_invalid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_invalid", ofType: "json")!, status: 401, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
         let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        service.refreshToken { (result) in
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        
+        authentication.refreshTokens { (result) in
             switch result {
                 case .failure(let error):
                     XCTAssertNil(service.network.authenticator.accessToken)
@@ -151,24 +163,30 @@ class NetworkAuthenticatorTests: XCTestCase {
         keychain["accessToken"] = "AnExistingAccessToken"
         keychain["accessTokenExpiry"] = String(Date(timeIntervalSinceNow: 30).timeIntervalSince1970) // 30 seconds in the future falls within the 5 minute access token expiry
         
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
         let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         service.fetchUser { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    XCTAssertEqual(service.network.authenticator.accessToken, "AValidAccessTokenFromHost")
-                    XCTAssertEqual(service.network.authenticator.refreshToken, "AValidRefreshTokenFromHost")
-                    XCTAssertEqual(service.network.authenticator.expiryDate, Date(timeIntervalSince1970: 1721259268))
+                    XCTAssertEqual(service.network.authenticator.accessToken, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
+                    XCTAssertEqual(service.network.authenticator.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
+                    XCTAssertEqual(service.network.authenticator.expiryDate, Date(timeIntervalSince1970: 2550794799))
             }
             
             expectation1.fulfill()
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1], timeout: 5.0)
         
         OHHTTPStubs.removeAllStubs()
         keychain.removeAll()
@@ -195,18 +213,24 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
         let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         service.fetchUser { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    XCTAssertEqual(service.network.authenticator.accessToken, "AValidAccessTokenFromHost")
-                    XCTAssertEqual(service.network.authenticator.refreshToken, "AValidRefreshTokenFromHost")
-                    XCTAssertEqual(service.network.authenticator.expiryDate, Date(timeIntervalSince1970: 1721259268))
+                    XCTAssertEqual(service.network.authenticator.accessToken, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
+                    XCTAssertEqual(service.network.authenticator.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
+                    XCTAssertEqual(service.network.authenticator.expiryDate, Date(timeIntervalSince1970: 2550794799))
             }
             
             expectation1.fulfill()
@@ -229,9 +253,15 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
         let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         service.fetchUser { (result) in
             switch result {
@@ -285,18 +315,24 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
         let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         service.fetchUser { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    XCTAssertEqual(service.network.authenticator.accessToken, "AValidAccessTokenFromHost")
-                    XCTAssertEqual(service.network.authenticator.refreshToken, "AValidRefreshTokenFromHost")
-                    XCTAssertEqual(service.network.authenticator.expiryDate, Date(timeIntervalSince1970: 1721259268))
+                    XCTAssertEqual(service.network.authenticator.accessToken, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
+                    XCTAssertEqual(service.network.authenticator.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
+                    XCTAssertEqual(service.network.authenticator.expiryDate, Date(timeIntervalSince1970: 2550794799))
             }
             
             expectation1.fulfill()
@@ -335,7 +371,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_refresh_token", ofType: "json")!, status: 401, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
@@ -344,9 +380,15 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
         let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         service.fetchUser { (result) in
             switch result {
@@ -568,5 +610,11 @@ class NetworkAuthenticatorTests: XCTestCase {
     }
     
     #warning("Add pinning tests")
+    
+    // MARK: - Auth delegate
+    
+    func authenticationReset() {
+        
+    }
     
 }

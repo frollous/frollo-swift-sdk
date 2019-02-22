@@ -12,22 +12,6 @@ import Alamofire
 
 extension APIService {
     
-    internal func refreshToken(completion: @escaping NetworkCompletion) {
-        requestQueue.async {
-            let url = URL(string: DeviceEndpoint.refreshToken.path, relativeTo: self.serverURL)!
-            
-            self.network.sessionManager.request(url, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
-                #warning("Delete me")
-//                if let error = self.handleTokens(response: response) {
-//                    completion(.failure(error))
-//                    return
-//                }
-                
-                self.network.handleEmptyResponse(response: response, completion: completion)
-            }
-        }
-    }
-    
     internal func createLog(request: APILogRequest, completion: @escaping NetworkCompletion) {
         requestQueue.async {
             let url = URL(string: DeviceEndpoint.log.path, relativeTo: self.serverURL)!

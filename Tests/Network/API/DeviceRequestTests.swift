@@ -23,39 +23,6 @@ class DeviceRequestTests: XCTestCase {
     override func tearDown() {
         OHHTTPStubs.removeAllStubs()
     }
-
-    func testRefreshTokens() {
-        let expectation1 = expectation(description: "Network Request")
-        
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "refresh_token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        
-        service.refreshToken { (result) in
-            switch result {
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
-                case .success:
-                    XCTAssertNotNil(network.authenticator.refreshToken)
-                    XCTAssertNotNil(network.authenticator.accessToken)
-                    
-                    let persistedKeychain = Keychain(service: self.keychainService)
-                    XCTAssertNotNil(persistedKeychain["refreshToken"])
-            }
-            
-            expectation1.fulfill()
-        }
-        
-        wait(for: [expectation1], timeout: 3.0)
-    }
     
     func testLog() {
         let expectation1 = expectation(description: "Network Request")

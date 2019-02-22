@@ -184,7 +184,7 @@ class NetworkTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.refreshToken.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
             return OHHTTPStubsResponse(error: NSError(domain: NSURLErrorDomain, code: -999, userInfo: [NSURLErrorFailingURLStringErrorKey: "https://example.com", NSLocalizedDescriptionKey: "cancelled", NSURLErrorFailingURLErrorKey: URL(string: "https://api.example.com/" + UserEndpoint.details.path)!]))
         }
         

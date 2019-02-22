@@ -19,7 +19,6 @@ enum DeviceEndpoint: Endpoint {
     case device
     case devices
     case log
-    case refreshToken
     
     private func urlPath() -> String {
         switch self {
@@ -29,8 +28,6 @@ enum DeviceEndpoint: Endpoint {
                 return"devices"
             case .log:
                 return "device/log"
-            case .refreshToken:
-                return "device/refresh"
         }
     }
     
