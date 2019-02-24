@@ -608,8 +608,6 @@ class NetworkAuthenticatorTests: XCTestCase, AuthenticationDelegate {
         keychain.removeAll()
     }
     
-    #warning("Add pinning tests")
-    
     // MARK: - Auth delegate
     
     func authenticationReset() {

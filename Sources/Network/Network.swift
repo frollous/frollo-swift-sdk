@@ -41,12 +41,11 @@ class Network: SessionDelegate {
      - parameters:
         - serverEndpoint: Base URL endpoint of the API, e.g. https://api.example.com/v1/
         - networkAuthenticator: The authentication service for authenticating requests and managing tokens
-        - pinnedPublicKeys: Array of public keys to pin the server's certificates against (Optional)
+        - pinnedPublicKeys: Dictionary of hosts and their public keys to pin the server's certificates against (Optional)
      
         - warning: If using certificate pinning make sure you pin a second public key as a backup in case the production private/public key pair becomes compromised. Failure to do this will render your app unusable until updated with the new public/private key pair.
     */
-    #warning("Allow keys to be passed in per host to support multiple domains")
-    internal init(serverEndpoint: URL, networkAuthenticator: NetworkAuthenticator, pinnedPublicKeys: [SecKey]? = nil) {
+    internal init(serverEndpoint: URL, networkAuthenticator: NetworkAuthenticator, pinnedPublicKeys: [URL: [SecKey]]? = nil) {
         self.authenticator = networkAuthenticator
         self.serverURL = serverEndpoint
         
@@ -84,7 +83,14 @@ class Network: SessionDelegate {
         
         // Public key pinning
         if let pinnedKeys = pinnedPublicKeys {
-            let serverTrustPolicies: [String: ServerTrustPolicy] = [serverURL.host!: ServerTrustPolicy.pinPublicKeys(publicKeys: pinnedKeys, validateCertificateChain: true, validateHost: true)]
+            var serverTrustPolicies: [String: ServerTrustPolicy] = [:]
+            
+            pinnedKeys.forEach { (item) in
+                if let host = item.key.host {
+                    serverTrustPolicies[host] = ServerTrustPolicy.pinPublicKeys(publicKeys: item.value, validateCertificateChain: true, validateHost: true)
+                }
+            }
+            
             serverTrustManager = ServerTrustPolicyManager(policies: serverTrustPolicies)
         }
         

@@ -71,7 +71,7 @@ class NetworkTests: XCTestCase {
         let testURL = config.serverEndpoint.appendingPathComponent("pages/terms")
         
         let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: [realPublicKey])
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: [config.serverEndpoint: [realPublicKey], config.tokenEndpoint: [realPublicKey]])
         
         network.authenticator.refreshToken = "AnExistingRefreshToken"
         network.authenticator.accessToken = "AnExistingAccessToken"
@@ -96,7 +96,7 @@ class NetworkTests: XCTestCase {
         let testURL = config.serverEndpoint.appendingPathComponent("pages/terms")
         
         let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: [fakePublicKey])
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys:  [config.serverEndpoint: [fakePublicKey], config.tokenEndpoint: [fakePublicKey]])
         network.sessionManager.request(testURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).response { (response) in
             XCTAssertNotNil(response.error)
             if let responseData = response.data {

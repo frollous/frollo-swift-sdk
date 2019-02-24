@@ -218,8 +218,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
             version.migrateVersion()
         }
         
-        var pinnedServerKeys: [SecKey]?
-        var pinnedTokenKeys: [SecKey]?
+        var pinnedKeys: [URL: [SecKey]]?
         
         // Automatically pin Frollo server certificates
         var pinServer = false
@@ -251,16 +250,16 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
                 Log.error(error.takeUnretainedValue().localizedDescription)
             } else {
                 if pinServer {
-                    pinnedServerKeys = [activeKey, backupKey]
+                    pinnedKeys?[configuration.serverEndpoint] = [activeKey, backupKey]
                 }
                 if pinToken {
-                    pinnedTokenKeys = [activeKey, backupKey]
+                    pinnedKeys?[configuration.tokenEndpoint] = [activeKey, backupKey]
                 }
             }
         }
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: configuration.authorizationEndpoint, serverEndpoint: configuration.serverEndpoint, tokenEndpoint: configuration.tokenEndpoint, keychain: keychain, pinnedPublicKeys: pinnedTokenKeys)
-        network = Network(serverEndpoint: configuration.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: pinnedServerKeys)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: configuration.authorizationEndpoint, serverEndpoint: configuration.serverEndpoint, tokenEndpoint: configuration.tokenEndpoint, keychain: keychain)
+        network = Network(serverEndpoint: configuration.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: pinnedKeys)
         network.delegate = self
         
         let authService = OAuthService(tokenEndpoint: configuration.tokenEndpoint, network: network)

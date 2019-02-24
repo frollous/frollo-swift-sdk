@@ -57,7 +57,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     private var refreshing = false
     private var requestsToRetry: [RequestRetryCompletion] = []
     
-    init(authorizationEndpoint: URL, serverEndpoint: URL, tokenEndpoint: URL, keychain: Keychain, pinnedPublicKeys: [SecKey]? = nil) {
+    init(authorizationEndpoint: URL, serverEndpoint: URL, tokenEndpoint: URL, keychain: Keychain) {
         self.authorizationURL = authorizationEndpoint
         self.serverURL = serverEndpoint
         self.tokenURL = tokenEndpoint
