@@ -1065,6 +1065,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
+    // MARK: - Device
+    
     func testUpdateDevice() {
         let expectation1 = expectation(description: "Network Request")
         
@@ -1146,6 +1148,57 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         
         try? FileManager.default.removeItem(at: tempFolderPath())
     }
+    
+    // MARK: - Tokens
+    
+    func testExchangeLegacyAccessToken() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        
+        let legacyToken = String.randomString(length: 32)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            authentication.loggedIn = true
+            
+            authentication.exchangeToken(legacyToken: legacyToken) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        XCTAssertTrue(authentication.loggedIn)
+                        
+                        XCTAssertEqual(networkAuthenticator.accessToken, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
+                        XCTAssertEqual(networkAuthenticator.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
+                        XCTAssertEqual(networkAuthenticator.expiryDate, Date(timeIntervalSince1970: 2550794799))
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
+    }
+    
+    // MARK: - Web view
     
     func testAuthenticatingRequestManually() {
         let expectation1 = expectation(description: "Network Request")

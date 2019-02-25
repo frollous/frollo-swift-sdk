@@ -117,6 +117,7 @@ public class Authentication {
                                         code: nil,
                                         domain: domain,
                                         grantType: .password,
+                                        legacyToken: nil,
                                         password: password,
                                         refreshToken: nil,
                                         username: email)
@@ -219,6 +220,7 @@ public class Authentication {
                                                          code: nil,
                                                          domain: self.domain,
                                                          grantType: .password,
+                                                         legacyToken: nil,
                                                          password: password,
                                                          refreshToken: nil,
                                                          username: email)
@@ -463,10 +465,64 @@ public class Authentication {
         }
     }
     
+    // MARK: - Tokens
+    
+    /**
+     Exchange legacy access token
+     
+     Exchange a legacy access token for a new valid refresh access token pair.
+     
+     - parameters:
+        - legacyToken: Legacy access token to be exchanged
+        - completion: Completion handler with any error that occurred
+    */
+    public func exchangeToken(legacyToken: String, completion: @escaping FrolloSDKCompletionHandler) {
+        guard loggedIn
+            else {
+                let error = DataError(type: .authentication, subType: .loggedOut)
+                
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+                return
+        }
+        
+        let request = OAuthTokenRequest(clientID: clientID,
+                          clientSecret: clientSecret,
+                          code: nil,
+                          domain: domain,
+                          grantType: .password,
+                          legacyToken: legacyToken,
+                          password: nil,
+                          refreshToken: nil,
+                          username: nil)
+        
+        authService.refreshTokens(request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    self.networkAuthenticator.clearTokens()
+                    
+                    Log.error(error.localizedDescription)
+                    
+                    completion(.failure(error))
+                case .success(let response):
+                    let createdDate = response.createdAt ?? Date()
+                    let expiryDate = createdDate.addingTimeInterval(response.expiresIn)
+                    
+                    self.networkAuthenticator.saveTokens(refresh: response.refreshToken, access: response.accessToken, expiry: expiryDate)
+                    
+                    completion(.success)
+            }
+        }
+    }
+    
     /**
      Refresh Access and Refresh Tokens
      
      Forces a refresh of the access and refresh tokens if a 401 was encountered. For advanced usage only in combination with web request authentication.
+     
+     - parameters:
+        - completion: Completion handler with any error that occurred (Optional)
     */
     public func refreshTokens(completion: FrolloSDKCompletionHandler? = nil) {
         service.network.authenticator.refreshTokens()
@@ -476,6 +532,7 @@ public class Authentication {
                                         code: nil,
                                         domain: domain,
                                         grantType: .refreshToken,
+                                        legacyToken: nil,
                                         password: nil,
                                         refreshToken: networkAuthenticator.refreshToken,
                                         username: nil)
