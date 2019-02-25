@@ -65,7 +65,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -114,7 +114,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -170,7 +170,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -225,7 +225,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
         database.setup { (error) in
@@ -278,7 +278,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -321,7 +321,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -376,7 +376,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -431,7 +431,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
         database.setup { (error) in
@@ -480,7 +480,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -521,7 +521,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -571,7 +571,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -626,7 +626,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -674,7 +674,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
         database.setup { (error) in
@@ -722,7 +722,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         network.delegate = self
         
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
         database.setup { (error) in
@@ -772,7 +772,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
         database.setup { (error) in
@@ -821,7 +821,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
         database.setup { (error) in
@@ -875,7 +875,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
         database.setup { (error) in
@@ -924,7 +924,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         authentication.loggedIn = false
         
         database.setup { (error) in
@@ -978,7 +978,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
         database.setup { (error) in
@@ -1032,7 +1032,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         network.delegate = self
         
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         authentication.loggedIn = true
         
         database.setup { (error) in
@@ -1082,7 +1082,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1123,7 +1123,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1160,7 +1160,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
         let requestURL = URL(string: "https://api.example.com/somewhere")!
         let request = URLRequest(url: requestURL)

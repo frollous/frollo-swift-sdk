@@ -57,7 +57,7 @@ class NotificationsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
         let events = Events(service: service)
         let messages = Messages(database: database, service: service)
         
@@ -86,7 +86,7 @@ class NotificationsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
         let events = Events(service: service)
         let messages = Messages(database: database, service: service)
         
@@ -124,7 +124,7 @@ class NotificationsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, clientSecret: config.clientSecret, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
         let events = Events(service: service)
         let messages = Messages(database: database, service: service)
         

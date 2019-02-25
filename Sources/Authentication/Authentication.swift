@@ -41,6 +41,7 @@ public class Authentication {
     
     private let authService: OAuthService
     private let clientID: String
+    private let clientSecret: String
     private let database: Database
     private let domain: String
     private let networkAuthenticator: NetworkAuthenticator
@@ -49,9 +50,10 @@ public class Authentication {
     
     private weak var delegate: AuthenticationDelegate?
     
-    init(database: Database, clientID: String, domain: String, networkAuthenticator: NetworkAuthenticator, authService: OAuthService, service: APIService, preferences: Preferences, delegate: AuthenticationDelegate?) {
+    init(database: Database, clientID: String, clientSecret: String, domain: String, networkAuthenticator: NetworkAuthenticator, authService: OAuthService, service: APIService, preferences: Preferences, delegate: AuthenticationDelegate?) {
         self.database = database
         self.clientID = clientID
+        self.clientSecret = clientSecret
         self.domain = domain
         self.networkAuthenticator = networkAuthenticator
         self.authService = authService
@@ -111,6 +113,7 @@ public class Authentication {
         }
         
         let request = OAuthTokenRequest(clientID: clientID,
+                                        clientSecret: clientSecret,
                                         code: nil,
                                         domain: domain,
                                         grantType: .password,
@@ -208,6 +211,7 @@ public class Authentication {
                 case .success(let userResponse):
                     // Authenticate the user at the token endpoint after creation
                     let tokenRequest = OAuthTokenRequest(clientID: self.clientID,
+                                                         clientSecret: self.clientSecret,
                                                          code: nil,
                                                          domain: self.domain,
                                                          grantType: .password,
@@ -460,6 +464,7 @@ public class Authentication {
         service.network.authenticator.refreshTokens()
         
         let request = OAuthTokenRequest(clientID: clientID,
+                                        clientSecret: clientSecret,
                                         code: nil,
                                         domain: domain,
                                         grantType: .refreshToken,

@@ -18,6 +18,7 @@ struct OAuthTokenRequest: Codable {
     
     enum CodingKeys: String, CodingKey {
         case clientID = "client_id"
+        case clientSecret = "client_secret"
         case code
         case domain
         case grantType = "grant_type"
@@ -27,6 +28,7 @@ struct OAuthTokenRequest: Codable {
     }
     
     let clientID: String
+    let clientSecret: String
     let code: String?
     let domain: String
     let grantType: GrantType

@@ -13,6 +13,7 @@ extension OAuthTokenRequest {
     
     static func testLoginValidData() -> OAuthTokenRequest {
         return OAuthTokenRequest(clientID: String.randomString(length: 32),
+                                 clientSecret: String.randomString(length: 32),
                                  code: nil,
                                  domain: "api.example.com",
                                  grantType: .password,
@@ -23,6 +24,7 @@ extension OAuthTokenRequest {
     
     static func testLoginInvalidData() -> OAuthTokenRequest {
         return OAuthTokenRequest(clientID: String.randomString(length: 32),
+                                 clientSecret: String.randomString(length: 32),
                                  code: nil,
                                  domain: "api.example.com",
                                  grantType: .password,
