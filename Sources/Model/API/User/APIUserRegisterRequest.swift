@@ -14,9 +14,6 @@ struct APIUserRegisterRequest: Codable {
         
         case address
         case dateOfBirth = "date_of_birth"
-        case deviceID = "device_id"
-        case deviceName = "device_name"
-        case deviceType = "device_type"
         case email
         case firstName = "first_name"
         case lastName = "last_name"
@@ -31,13 +28,9 @@ struct APIUserRegisterRequest: Codable {
         
     }
     
-    let deviceID: String
-    let deviceName: String
-    let deviceType: String
     let email: String
     let firstName: String
     let password: String
-    
     let address: Address?
     let dateOfBirth: Date?
     let lastName: String?

@@ -71,7 +71,9 @@ class DeviceRequestTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let request = APIDeviceUpdateRequest(compliant: nil,
-                                             deviceName: "Device Name",
+                                             deviceID: UUID().uuidString,
+                                             deviceName: String.randomString(range: 1...20),
+                                             deviceType: "iPhone Xs",
                                              notificationToken: "SomeToken123",
                                              timezone: TimeZone.current.identifier)
         

@@ -118,6 +118,7 @@ public class Authentication {
                                         refreshToken: nil,
                                         username: email)
         
+        // Authorize the user
         authService.refreshTokens(request: request) { (result) in
             switch result {
                 case .failure(let error):
@@ -132,6 +133,7 @@ public class Authentication {
                     
                     self.loggedIn = true
                     
+                    // Fetch core details about the user. Fail and logout if we don't get necessary details
                     self.service.fetchUser { (result) in
                         switch result {
                             case .failure(let error):
@@ -181,17 +183,12 @@ public class Authentication {
                 return
         }
         
-        let deviceInfo = DeviceInfo.current()
-        
         var address: APIUserRegisterRequest.Address?
         if let registerPostcode = postcode {
             address = APIUserRegisterRequest.Address(postcode: registerPostcode)
         }
         
-        let userRegisterRequest = APIUserRegisterRequest(deviceID: deviceInfo.deviceID,
-                                                         deviceName: deviceInfo.deviceName,
-                                                         deviceType: deviceInfo.deviceType,
-                                                         email: email,
+        let userRegisterRequest = APIUserRegisterRequest(email: email,
                                                          firstName: firstName,
                                                          password: password,
                                                          address: address,
@@ -199,6 +196,7 @@ public class Authentication {
                                                          lastName: lastName,
                                                          mobileNumber: mobileNumber)
         
+        // Create the user on the server and at the authorization endpoint
         service.registerUser(request: userRegisterRequest) { (result) in
             switch result {
                 case .failure(let error):
@@ -207,11 +205,40 @@ public class Authentication {
                     DispatchQueue.main.async {
                         completion(.failure(error))
                     }
-                case .success(let response):
-                    self.handleUserResponse(userResponse: response)
-                
-                    DispatchQueue.main.async {
-                        completion(.success)
+                case .success(let userResponse):
+                    // Authenticate the user at the token endpoint after creation
+                    let tokenRequest = OAuthTokenRequest(clientID: self.clientID,
+                                                         code: nil,
+                                                         domain: self.domain,
+                                                         grantType: .password,
+                                                         password: password,
+                                                         refreshToken: nil,
+                                                         username: email)
+                    
+                    self.authService.refreshTokens(request: tokenRequest) { (result) in
+                        switch result {
+                            case .failure(let error):
+                                self.loggedIn = false
+                                
+                                self.networkAuthenticator.clearTokens()
+                                
+                                DispatchQueue.main.async {
+                                    completion(.failure(error))
+                                }
+                            case .success(let response):
+                                let createdDate = response.createdAt ?? Date()
+                                let expiryDate = createdDate.addingTimeInterval(response.expiresIn)
+                                
+                                self.networkAuthenticator.saveTokens(refresh: response.refreshToken, access: response.accessToken, expiry: expiryDate)
+                                
+                                self.handleUserResponse(userResponse: userResponse)
+                                
+                                self.loggedIn = true
+                                
+                                DispatchQueue.main.async {
+                                    completion(.success)
+                                }
+                        }
                     }
             }
         }
@@ -508,7 +535,9 @@ public class Authentication {
         let deviceInfo = DeviceInfo.current()
         
         let request = APIDeviceUpdateRequest(compliant: compliant,
+                                             deviceID: deviceInfo.deviceID,
                                              deviceName: deviceInfo.deviceName,
+                                             deviceType: deviceInfo.deviceType,
                                              notificationToken: notificationToken,
                                              timezone: TimeZone.current.identifier)
         

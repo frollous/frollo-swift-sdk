@@ -42,7 +42,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         return keychain
     }
     
-    // MARK: - Tests
+    // MARK: - Login User
     
     func testLoginUser() {
         let expectation1 = expectation(description: "Network Request")
@@ -204,10 +204,67 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
+    func testLoginUserFailsIfLoggedIn() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.register.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let keychain = Keychain(service: keychainService)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        authentication.loggedIn = true
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            authentication.loginUser(email: "user@frollo.us", password: "password") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(authentication.loggedIn)
+                        
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .authentication)
+                            XCTAssertEqual(dataError.subType, .alreadyLoggedIn)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("User was already logged in. Should fail.")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
+    }
+    
+    // MARK: - Register User
+    
     func testRegisterUser() {
         let expectation1 = expectation(description: "Network Request")
         
         let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
         
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.register.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
@@ -242,6 +299,169 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         
         try? FileManager.default.removeItem(at: tempFolderPath())
     }
+    
+    func testRegisterUserInvalid() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.register.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_duplicate", ofType: "json")!, status: 409, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let keychain = Keychain(service: keychainService)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertFalse(authentication.loggedIn)
+                        
+                        XCTAssertNil(authentication.fetchUser(context: database.newBackgroundContext()))
+                        
+                        XCTAssertNil(networkAuthenticator.accessToken)
+                        XCTAssertNil(networkAuthenticator.refreshToken)
+                        XCTAssertNil(networkAuthenticator.expiryDate)
+                        
+                        if let apiError = error as? APIError {
+                            XCTAssertEqual(apiError.type, .alreadyExists)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                       XCTFail("Invalid registration data should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
+    }
+    
+    func testRegisterUserInvalidSecondaryFailure() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_username_password", ofType: "json")!, status: 401, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.register.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let keychain = Keychain(service: keychainService)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertFalse(authentication.loggedIn)
+                        
+                        XCTAssertNil(authentication.fetchUser(context: database.newBackgroundContext()))
+                        
+                        XCTAssertNil(networkAuthenticator.accessToken)
+                        XCTAssertNil(networkAuthenticator.refreshToken)
+                        XCTAssertNil(networkAuthenticator.expiryDate)
+                        
+                        if let apiError = error as? APIError {
+                            XCTAssertEqual(apiError.type, .invalidUsernamePassword)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Invalid registration data should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
+    }
+    
+    func testRegisterUserFailsIfLoggedIn() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.register.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let keychain = Keychain(service: keychainService)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        authentication.loggedIn = true
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(authentication.loggedIn)
+                    
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .authentication)
+                            XCTAssertEqual(dataError.subType, .alreadyLoggedIn)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("User was already logged in. Should fail.")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
+    }
+    
+    // MARK: - User Details
     
     func testRefreshUser() {
         let expectation1 = expectation(description: "Network Request")
@@ -323,6 +543,109 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                         XCTFail(error.localizedDescription)
                     case .success:
                         XCTAssertNotNil(authentication.fetchUser(context: database.newBackgroundContext()))
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
+    }
+    
+    func testUpdateUserFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            authentication.loggedIn = false
+            
+            let moc = database.newBackgroundContext()
+            
+            moc.performAndWait {
+                let user = User(context: moc)
+                user.populateTestData()
+                
+                try! moc.save()
+            }
+            
+            authentication.updateUser { (result) in
+                switch result {
+                    case .failure(let error):
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .authentication)
+                            XCTAssertEqual(dataError.subType, .loggedOut)
+                        } else {
+                            XCTFail("Wrong error type")
+                        }
+                    case .success:
+                        XCTFail("Logged out, should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
+    }
+    
+    func testUpdateUserFailsIfNonexistant() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            authentication.loggedIn = true
+            
+            authentication.updateUser { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNil(authentication.fetchUser(context: database.viewContext))
+                    
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .database)
+                            XCTAssertEqual(dataError.subType, .notFound)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("User missing. Should fail.")
                 }
                 
                 expectation1.fulfill()
@@ -573,6 +896,60 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                         XCTFail(error.localizedDescription)
                     case .success:
                         XCTAssertFalse(authentication.loggedIn)
+                }
+                
+                expectation1.fulfill()
+            })
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
+    }
+    
+    func testDeleteUserFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.user.path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let keychain = validKeychain()
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        authentication.loggedIn = false
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let moc = database.newBackgroundContext()
+            
+            moc.performAndWait {
+                let user = User(context: moc)
+                user.populateTestData()
+                
+                try! moc.save()
+            }
+            
+            authentication.deleteUser(completion: { (result) in
+                switch result {
+                    case .failure(let error):
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .authentication)
+                            XCTAssertEqual(dataError.subType, .loggedOut)
+                        } else {
+                            XCTFail("Wrong error type")
+                        }
+                    case .success:
+                        XCTFail("User logged out. Should fail")
                 }
                 
                 expectation1.fulfill()

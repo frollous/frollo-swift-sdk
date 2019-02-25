@@ -13,14 +13,18 @@ struct APIDeviceUpdateRequest: Codable {
     enum CodingKeys: String, CodingKey {
         
         case compliant
+        case deviceID = "device_id"
         case deviceName = "device_name"
+        case deviceType = "device_type"
         case notificationToken = "notification_token"
         case timezone
         
     }
     
     let compliant: Bool?
+    let deviceID: String?
     let deviceName: String?
+    let deviceType: String?
     let notificationToken: String?
     let timezone: String?
     

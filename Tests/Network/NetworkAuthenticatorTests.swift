@@ -170,7 +170,8 @@ class NetworkAuthenticatorTests: XCTestCase, AuthenticationDelegate {
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        _ = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        authentication.loggedIn = true
         
         service.fetchUser { (result) in
             switch result {
@@ -220,7 +221,8 @@ class NetworkAuthenticatorTests: XCTestCase, AuthenticationDelegate {
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        _ = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        authentication.loggedIn = true
         
         service.fetchUser { (result) in
             switch result {
@@ -322,7 +324,8 @@ class NetworkAuthenticatorTests: XCTestCase, AuthenticationDelegate {
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        _ = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        authentication.loggedIn = true
         
         service.fetchUser { (result) in
             switch result {
@@ -387,7 +390,8 @@ class NetworkAuthenticatorTests: XCTestCase, AuthenticationDelegate {
         let authService = OAuthService(tokenEndpoint: config.tokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        _ = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        authentication.loggedIn = true
         
         service.fetchUser { (result) in
             switch result {
