@@ -22,9 +22,9 @@ struct APIDeviceUpdateRequest: Codable {
     }
     
     let compliant: Bool?
-    let deviceID: String?
-    let deviceName: String?
-    let deviceType: String?
+    let deviceID: String
+    let deviceName: String
+    let deviceType: String
     let notificationToken: String?
     let timezone: String?
     

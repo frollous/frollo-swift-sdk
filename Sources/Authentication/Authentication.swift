@@ -150,6 +150,10 @@ public class Authentication {
                             case .success(let response):
                                 self.handleUserResponse(userResponse: response)
                                 
+                                DispatchQueue.global(qos: .utility).async {
+                                    self.updateDevice()
+                                }
+                                
                                 DispatchQueue.main.async {
                                     completion(.success)
                                 }
@@ -238,6 +242,10 @@ public class Authentication {
                                 self.handleUserResponse(userResponse: userResponse)
                                 
                                 self.loggedIn = true
+                                
+                                DispatchQueue.global(qos: .utility).async {
+                                    self.updateDevice()
+                                }
                                 
                                 DispatchQueue.main.async {
                                     completion(.success)
