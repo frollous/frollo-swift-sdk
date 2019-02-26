@@ -13,7 +13,6 @@ extension FrolloSDKConfiguration {
     
     static func testConfig() -> FrolloSDKConfiguration {
         return FrolloSDKConfiguration(clientID: "abc123",
-                                      clientSecret: "Super$secret987",
                                       redirectURI: "app://redirect",
                                       authorizationEndpoint: URL(string: "https://id.example.com/oauth/authorize")!,
                                       tokenEndpoint: URL(string: "https://id.example.com/oauth/token")!,
