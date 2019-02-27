@@ -24,6 +24,7 @@ struct OAuthTokenRequest: Codable {
         case grantType = "grant_type"
         case legacyToken = "frollo_legacy_token"
         case password
+        case redirectURI = "redirect_uri"
         case refreshToken = "refresh_token"
         case username
     }
@@ -35,6 +36,7 @@ struct OAuthTokenRequest: Codable {
     let grantType: GrantType
     let legacyToken: String?
     let password: String?
+    let redirectURI: String?
     let refreshToken: String?
     let username: String?
     
@@ -42,7 +44,7 @@ struct OAuthTokenRequest: Codable {
         get {
             switch grantType {
                 case .authorizationCode:
-                    return code != nil
+                    return code != nil && redirectURI != nil
                 case .password:
                     return (password != nil && username != nil) || legacyToken != nil
                 case .refreshToken:

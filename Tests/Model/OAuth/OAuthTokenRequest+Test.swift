@@ -19,6 +19,7 @@ extension OAuthTokenRequest {
                                  grantType: .password,
                                  legacyToken: nil,
                                  password: String.randomString(range: 8...32),
+                                 redirectURI: nil,
                                  refreshToken: nil,
                                  username: "user@example.com")
     }
@@ -31,6 +32,7 @@ extension OAuthTokenRequest {
                                  grantType: .password,
                                  legacyToken: nil,
                                  password: nil,
+                                 redirectURI: nil,
                                  refreshToken: nil,
                                  username: "user@example.com")
     }

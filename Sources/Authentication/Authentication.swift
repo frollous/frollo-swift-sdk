@@ -206,6 +206,7 @@ public class Authentication {
                                         grantType: .password,
                                         legacyToken: nil,
                                         password: password,
+                                        redirectURI: nil,
                                         refreshToken: nil,
                                         username: email)
         
@@ -309,6 +310,7 @@ public class Authentication {
                                                          grantType: .password,
                                                          legacyToken: nil,
                                                          password: password,
+                                                         redirectURI: nil,
                                                          refreshToken: nil,
                                                          username: email)
                     
@@ -582,6 +584,7 @@ public class Authentication {
                                         grantType: .authorizationCode,
                                         legacyToken: nil,
                                         password: nil,
+                                        redirectURI: authService.redirectURL.absoluteString,
                                         refreshToken: nil,
                                         username: nil)
         
@@ -653,6 +656,7 @@ public class Authentication {
                                         grantType: .password,
                                         legacyToken: legacyToken,
                                         password: nil,
+                                        redirectURI: nil,
                                         refreshToken: nil,
                                         username: nil)
         
@@ -693,6 +697,7 @@ public class Authentication {
                                         grantType: .refreshToken,
                                         legacyToken: nil,
                                         password: nil,
+                                        redirectURI: nil,
                                         refreshToken: networkAuthenticator.refreshToken,
                                         username: nil)
         
