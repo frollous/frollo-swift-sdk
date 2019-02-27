@@ -9,6 +9,16 @@
 import CoreData
 import Foundation
 
+#if os(tvOS)
+import AppAUth
+#else
+import AppAuth
+#endif
+
+#if os(iOS)
+import SafariServices
+import UIKit
+#endif
 
 internal protocol AuthenticationDelegate: class {
     
@@ -39,9 +49,10 @@ public class Authentication {
         }
     }
     
+    internal var authorizationFlow: OIDExternalUserAgentSession?
+    
     private let authService: OAuthService
     private let clientID: String
-    private let clientSecret: String
     private let database: Database
     private let domain: String
     private let networkAuthenticator: NetworkAuthenticator
@@ -50,10 +61,9 @@ public class Authentication {
     
     private weak var delegate: AuthenticationDelegate?
     
-    init(database: Database, clientID: String, clientSecret: String, domain: String, networkAuthenticator: NetworkAuthenticator, authService: OAuthService, service: APIService, preferences: Preferences, delegate: AuthenticationDelegate?) {
+    init(database: Database, clientID: String, domain: String, networkAuthenticator: NetworkAuthenticator, authService: OAuthService, service: APIService, preferences: Preferences, delegate: AuthenticationDelegate?) {
         self.database = database
         self.clientID = clientID
-        self.clientSecret = clientSecret
         self.domain = domain
         self.networkAuthenticator = networkAuthenticator
         self.authService = authService
@@ -93,6 +103,79 @@ public class Authentication {
     
     // MARK: - Login
     
+    #if os(iOS)
+    /**
+     Login a user via web view
+     
+     Initiate the authorization code login flow using a web view
+ 
+     - parameters:
+        - presentingViewController: View controller the Safari Web ViewController should be presented from
+        - completion: Completion handler with any error that occurred
+    */
+    public func loginUserUsingWeb(presenting presentingViewController: UIViewController, completion: @escaping FrolloSDKCompletionHandler) {
+        let config = OIDServiceConfiguration(authorizationEndpoint: authService.authorizationURL, tokenEndpoint: authService.tokenURL)
+        
+        let request = OIDAuthorizationRequest(configuration: config,
+                                              clientId: clientID,
+                                              clientSecret: nil,
+                                              scopes: ["offline_access"],
+                                              redirectURL: authService.redirectURL,
+                                              responseType: OIDResponseTypeCode,
+                                              additionalParameters: ["domain": domain])
+        
+        authorizationFlow = OIDAuthorizationService.present(request, presenting: presentingViewController) { (response, error) in
+            if let authError = error as NSError? {
+                let oAuthError = OAuthError(error: authError)
+                
+                DispatchQueue.main.async {
+                    completion(.failure(oAuthError))
+                }
+            } else if let authResponse = response,
+                      let authCode = authResponse.authorizationCode,
+                      let codeVerifier = request.codeVerifier {
+                self.exchangeAuthorizationCode(code: authCode, codeVerifier: codeVerifier, completion: completion)
+            }
+        }
+    }
+    #endif
+    
+    #if os(macOS)
+    /**
+     Login a user via web view
+     
+     Initiate the authorization code login flow using a web view
+     
+     - parameters:
+        - completion: Completion handler with any error that occurred
+     */
+    public func loginUserUsingWeb(completion: @escaping FrolloSDKCompletionHandler) {
+        let config = OIDServiceConfiguration(authorizationEndpoint: authService.authorizationURL, tokenEndpoint: authService.tokenURL)
+        
+        let request = OIDAuthorizationRequest(configuration: config,
+                                              clientId: clientID,
+                                              clientSecret: nil,
+                                              scopes: ["offline_access"],
+                                              redirectURL: authService.redirectURL,
+                                              responseType: OIDResponseTypeCode,
+                                              additionalParameters: ["domain": domain])
+        
+        authorizationFlow = OIDAuthorizationService.present(request) { (response, error) in
+            if let authError = error as NSError? {
+                let oAuthError = OAuthError(error: authError)
+                
+                DispatchQueue.main.async {
+                    completion(.failure(oAuthError))
+                }
+            } else if let authResponse = response,
+                let authCode = authResponse.authorizationCode,
+                let codeVerifier = request.codeVerifier {
+                self.exchangeAuthorizationCode(code: authCode, codeVerifier: codeVerifier, completion: completion)
+            }
+        }
+    }
+    #endif
+    
     /**
      Login a user using various authentication methods
      
@@ -113,12 +196,13 @@ public class Authentication {
         }
         
         let request = OAuthTokenRequest(clientID: clientID,
-                                        clientSecret: clientSecret,
                                         code: nil,
+                                        codeVerifier: nil,
                                         domain: domain,
                                         grantType: .password,
                                         legacyToken: nil,
                                         password: password,
+                                        redirectURI: nil,
                                         refreshToken: nil,
                                         username: email)
         
@@ -216,12 +300,13 @@ public class Authentication {
                 case .success(let userResponse):
                     // Authenticate the user at the token endpoint after creation
                     let tokenRequest = OAuthTokenRequest(clientID: self.clientID,
-                                                         clientSecret: self.clientSecret,
                                                          code: nil,
+                                                         codeVerifier: nil,
                                                          domain: self.domain,
                                                          grantType: .password,
                                                          legacyToken: nil,
                                                          password: password,
+                                                         redirectURI: nil,
                                                          refreshToken: nil,
                                                          username: email)
                     
@@ -468,6 +553,79 @@ public class Authentication {
     // MARK: - Tokens
     
     /**
+     Exchange authorization code for a token
+     
+     Exchange an authorization code and code verifier for a token
+     
+     - parameters:
+        - code: Authorization code
+        - codeVerifier: Authorization code verifier for PKCE (Optional)
+        - completion: Completion handler with any error that occurred
+     */
+    internal func exchangeAuthorizationCode(code: String, codeVerifier: String?, completion: @escaping FrolloSDKCompletionHandler) {
+        guard !loggedIn
+            else {
+                let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
+                
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+                return
+        }
+        
+        let request = OAuthTokenRequest(clientID: clientID,
+                                        code: code,
+                                        codeVerifier: codeVerifier,
+                                        domain: domain,
+                                        grantType: .authorizationCode,
+                                        legacyToken: nil,
+                                        password: nil,
+                                        redirectURI: authService.redirectURL.absoluteString,
+                                        refreshToken: nil,
+                                        username: nil)
+        
+        authService.refreshTokens(request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    let createdDate = response.createdAt ?? Date()
+                    let expiryDate = createdDate.addingTimeInterval(response.expiresIn)
+            
+                    self.networkAuthenticator.saveTokens(refresh: response.refreshToken, access: response.accessToken, expiry: expiryDate)
+            
+                    self.loggedIn = true
+                    
+                    // Fetch core details about the user. Fail and logout if we don't get necessary details
+                    self.service.fetchUser { (result) in
+                        switch result {
+                            case .failure(let error):
+                                self.loggedIn = false
+                                
+                                self.networkAuthenticator.clearTokens()
+                                
+                                DispatchQueue.main.async {
+                                    completion(.failure(error))
+                                }
+                            case .success(let response):
+                                self.handleUserResponse(userResponse: response)
+                                
+                                DispatchQueue.global(qos: .utility).async {
+                                    self.updateDevice()
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    completion(.success)
+                                }
+                        }
+                    }
+            }
+        }
+    }
+    
+    /**
      Exchange legacy access token
      
      Exchange a legacy access token for a new valid refresh access token pair.
@@ -476,7 +634,7 @@ public class Authentication {
         - legacyToken: Legacy access token to be exchanged
         - completion: Completion handler with any error that occurred
     */
-    public func exchangeToken(legacyToken: String, completion: @escaping FrolloSDKCompletionHandler) {
+    public func exchangeLegacyToken(legacyToken: String, completion: @escaping FrolloSDKCompletionHandler) {
         guard loggedIn
             else {
                 let error = DataError(type: .authentication, subType: .loggedOut)
@@ -488,14 +646,15 @@ public class Authentication {
         }
         
         let request = OAuthTokenRequest(clientID: clientID,
-                          clientSecret: clientSecret,
-                          code: nil,
-                          domain: domain,
-                          grantType: .password,
-                          legacyToken: legacyToken,
-                          password: nil,
-                          refreshToken: nil,
-                          username: nil)
+                                        code: nil,
+                                        codeVerifier: nil,
+                                        domain: domain,
+                                        grantType: .password,
+                                        legacyToken: legacyToken,
+                                        password: nil,
+                                        redirectURI: nil,
+                                        refreshToken: nil,
+                                        username: nil)
         
         authService.refreshTokens(request: request) { (result) in
             switch result {
@@ -528,12 +687,13 @@ public class Authentication {
         service.network.authenticator.refreshTokens()
         
         let request = OAuthTokenRequest(clientID: clientID,
-                                        clientSecret: clientSecret,
                                         code: nil,
+                                        codeVerifier: nil,
                                         domain: domain,
                                         grantType: .refreshToken,
                                         legacyToken: nil,
                                         password: nil,
+                                        redirectURI: nil,
                                         refreshToken: networkAuthenticator.refreshToken,
                                         username: nil)
         

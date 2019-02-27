@@ -233,6 +233,7 @@
 		012C451E212B850900799A0A /* provider_login_form_captcha.json in Resources */ = {isa = PBXBuildFile; fileRef = 012C451D212B850700799A0A /* provider_login_form_captcha.json */; };
 		012C451F212B850900799A0A /* provider_login_form_captcha.json in Resources */ = {isa = PBXBuildFile; fileRef = 012C451D212B850700799A0A /* provider_login_form_captcha.json */; };
 		012C4520212B850900799A0A /* provider_login_form_captcha.json in Resources */ = {isa = PBXBuildFile; fileRef = 012C451D212B850700799A0A /* provider_login_form_captcha.json */; };
+		012DDD5E222615A300497E22 /* OAuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012DDD5D222615A300497E22 /* OAuthError.swift */; };
 		01333D3F216AAF36005764A4 /* APIUserChangePasswordRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01333D3E216AAF36005764A4 /* APIUserChangePasswordRequest.swift */; };
 		01333D42216AB115005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01333D40216AB094005764A4 /* APIUserChangePasswordRequest+Test.swift */; };
 		01333D43216AB115005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01333D40216AB094005764A4 /* APIUserChangePasswordRequest+Test.swift */; };
@@ -776,13 +777,6 @@
 			remoteGlobalIDString = 01527CBE20E1B5C300B5042A;
 			remoteInfo = FrolloSDK;
 		};
-		015EEE0021102D960081AD76 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 01527CB420E1B49800B5042A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 017B48772105950F00447E65;
-			remoteInfo = "FrolloSDK tvOS Test Host";
-		};
 		017B48282101B2C900447E65 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 01527CB420E1B49800B5042A /* Project object */;
@@ -936,6 +930,7 @@
 		012C4515212A967700799A0A /* provider_login_form_multiple_choice.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_login_form_multiple_choice.json; sourceTree = "<group>"; };
 		012C4516212A967800799A0A /* provider_login_form_login.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_login_form_login.json; sourceTree = "<group>"; };
 		012C451D212B850700799A0A /* provider_login_form_captcha.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_login_form_captcha.json; sourceTree = "<group>"; };
+		012DDD5D222615A300497E22 /* OAuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthError.swift; sourceTree = "<group>"; };
 		01333D3E216AAF36005764A4 /* APIUserChangePasswordRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserChangePasswordRequest.swift; sourceTree = "<group>"; };
 		01333D40216AB094005764A4 /* APIUserChangePasswordRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIUserChangePasswordRequest+Test.swift"; sourceTree = "<group>"; };
 		0135D2FC21A2202400318142 /* NotificationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPayload.swift; sourceTree = "<group>"; };
@@ -2262,6 +2257,7 @@
 				01C824FC20EDD6630093400E /* FrolloSDKError.swift */,
 				01E837592149F08100A50E15 /* LoginFormError.swift */,
 				01C8250420EDDB410093400E /* NetworkError.swift */,
+				012DDD5D222615A300497E22 /* OAuthError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -2473,7 +2469,6 @@
 			dependencies = (
 				01527CCB20E1B5C300B5042A /* PBXTargetDependency */,
 				017B482B2101B30E00447E65 /* PBXTargetDependency */,
-				015EEE0121102D960081AD76 /* PBXTargetDependency */,
 			);
 			name = "FrolloSDK iOS Tests";
 			productName = FrolloSDKTests;
@@ -3158,6 +3153,7 @@
 				0104E03321E8588300D98EE7 /* ReportGrouping.swift in Sources */,
 				01C824F020EC410B0093400E /* NetworkLogger.swift in Sources */,
 				015EEDDC210FC9C60081AD76 /* AggregationEndpoint.swift in Sources */,
+				012DDD5E222615A300497E22 /* OAuthError.swift in Sources */,
 				018501C521FFB31000069D87 /* APIAccountBalanceReportResponse.swift in Sources */,
 				010EB42B211BF92A005A926A /* APITransactionUpdateRequest.swift in Sources */,
 				017E58D0217FD92D00DC56FF /* CachedObjects.swift in Sources */,
@@ -3525,11 +3521,6 @@
 			target = 01527CBE20E1B5C300B5042A /* FrolloSDK */;
 			targetProxy = 01527CCA20E1B5C300B5042A /* PBXContainerItemProxy */;
 		};
-		015EEE0121102D960081AD76 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 017B48772105950F00447E65 /* FrolloSDK tvOS Test Host */;
-			targetProxy = 015EEE0021102D960081AD76 /* PBXContainerItemProxy */;
-		};
 		017B48292101B2C900447E65 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 01527CBE20E1B5C300B5042A /* FrolloSDK */;
@@ -3822,7 +3813,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -3901,7 +3892,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -4042,7 +4033,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2,3,4";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FrolloSDK iOS Test Host.app/FrolloSDK iOS Test Host";
 			};
 			name = Debug;
@@ -4112,7 +4103,7 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2,3,4";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FrolloSDK iOS Test Host.app/FrolloSDK iOS Test Host";
 				VALIDATE_PRODUCT = YES;
 			};

@@ -54,3 +54,21 @@
 "Error.Network.ConnectionFailure" = "The server couldn't be contacted. Check your internet connection and try again.";
 "Error.Network.InvalidSSL" = "Invalid TLS connection. The TLS certificate does not match the pinned public key. This may be an attempt to intercept data.";
 "Error.Network.UnknownError" = "Unknown error occurred with the network.";
+
+"Error.OAuth.AccessDenied" = "The resource owner or authorization server denied the request.";
+"Error.OAuth.ClientError" = "An authorization error occurring on the client rather than the server. For example, due to a state mismatch or misconfiguration. Should be treated as an unrecoverable authorization error.";
+"Error.OAuth.InvalidClient" = "Client authentication failed (e.g., unknown client, no client authentication included, or unsupported authentication method). The authorization server MAY return an HTTP 401 (Unauthorized) status code to indicate which HTTP authentication schemes are supported.  If the client attempted to authenticate via the \"Authorization\" request header field, the authorization server MUST respond with an HTTP 401 (Unauthorized) status code and include the \"WWW-Authenticate\" response header field matching the authentication scheme used by the client.";
+"Error.OAuth.InvalidClientMetadata" = "The value of one of the Client Metadata fields is invalid and the server has rejected this request. Note that an Authorization Server MAY choose to substitute a valid value for any requested parameter of a Client's Metadata.";
+"Error.OAuth.InvalidGrant" = "The provided authorization grant (e.g., authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.";
+"Error.OAuth.InvalidRedirectURI" = "The value of one or more redirect_uris is invalid.";
+"Error.OAuth.InvalidRequest" = "The request is missing a required parameter, includes an unsupported parameter value (other than grant type), repeats a parameter, includes multiple credentials, utilizes more than one mechanism for authenticating the client, or is otherwise malformed.";
+"Error.OAuth.InvalidScope" = "The requested scope is invalid, unknown, or malformed.";
+"Error.OAuth.UnauthorizedClient" = "The client is not authorized to request an authorization code using this method.";
+"Error.OAuth.UnsupportedGrantType" = "The authorization grant type is not supported by the authorization server.";
+"Error.OAuth.UnsupportedResponseType" = "The authorization server does not support obtaining an authorization code using this method.";
+"Error.OAuth.BrowserError" = "The broswer could not be opened.";
+"Error.OAuth.NetworkError" = "Indicates a network error or server error occurred.";
+"Error.OAuth.OtherAuthorisation" = "An unknown authorisation error occurred.";
+"Error.OAuth.ServerError" = "Indicates a server error occurred.";
+"Error.OAuth.UserCancelled" = "Indicates the user manually cancelled the OAuth authorization code flow.";
+"Error.OAuth.Unknown" = "Unknown error occurred trying to authenticate.";

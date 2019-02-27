@@ -10,7 +10,9 @@ import Foundation
 
 class OAuthService {
     
+    internal let authorizationURL: URL
     internal let network: Network
+    internal let redirectURL: URL
     internal let tokenURL: URL
     
     /// Asynchronous queue all network requests are executed from
@@ -19,8 +21,10 @@ class OAuthService {
     /// Asynchornous queue all network responses are executed on
     internal let responseQueue = DispatchQueue(label: "FrolloSDK.APIResponseQueue", qos: .userInitiated, attributes: .concurrent)
     
-    init(tokenEndpoint: URL, network: Network) {
+    init(authorizationEndpoint: URL, tokenEndpoint: URL, redirectURL: URL, network: Network) {
+        self.authorizationURL = authorizationEndpoint
         self.network = network
+        self.redirectURL = redirectURL
         self.tokenURL = tokenEndpoint
     }
     

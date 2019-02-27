@@ -13,24 +13,26 @@ extension OAuthTokenRequest {
     
     static func testLoginValidData() -> OAuthTokenRequest {
         return OAuthTokenRequest(clientID: String.randomString(length: 32),
-                                 clientSecret: String.randomString(length: 32),
                                  code: nil,
+                                 codeVerifier: nil,
                                  domain: "api.example.com",
                                  grantType: .password,
                                  legacyToken: nil,
                                  password: String.randomString(range: 8...32),
+                                 redirectURI: nil,
                                  refreshToken: nil,
                                  username: "user@example.com")
     }
     
     static func testLoginInvalidData() -> OAuthTokenRequest {
         return OAuthTokenRequest(clientID: String.randomString(length: 32),
-                                 clientSecret: String.randomString(length: 32),
                                  code: nil,
+                                 codeVerifier: nil,
                                  domain: "api.example.com",
                                  grantType: .password,
                                  legacyToken: nil,
                                  password: nil,
+                                 redirectURI: nil,
                                  refreshToken: nil,
                                  username: "user@example.com")
     }
