@@ -25,24 +25,24 @@ public struct FrolloSDKConfiguration {
      
      - parameters:
          - clientID: OAuth2 Client identifier. The unique identifier of the application implementing the SDK
-         - redirectURI: OAuth2 Redirection URI. URI to redirect to after the authorization flow is complete. This should be a deep or universal link to the host app
+         - redirectURL: OAuth2 Redirection URL. URL to redirect to after the authorization flow is complete. This should be a deep or universal link to the host app
          - authorizationEndpoint: URL of the OAuth2 authorization endpoint for web based login
          - tokenEndpoint: URL of the OAuth2 token endpoint for getting tokens and native login
          - serverEndpoint: Base URL of the Frollo API this SDK should point to
      
      - returns: Valid configuration
      */
-    public init(clientID: String, redirectURI: String, authorizationEndpoint: URL, tokenEndpoint: URL, serverEndpoint: URL) {
+    public init(clientID: String, redirectURL: URL, authorizationEndpoint: URL, tokenEndpoint: URL, serverEndpoint: URL) {
         self.authorizationEndpoint = authorizationEndpoint
         self.clientID = clientID
-        self.redirectURI = redirectURI
+        self.redirectURL = redirectURL
         self.serverEndpoint = serverEndpoint
         self.tokenEndpoint = tokenEndpoint
     }
     
     internal let authorizationEndpoint: URL
     internal let clientID: String
-    internal let redirectURI: String
+    internal let redirectURL: URL
     internal let serverEndpoint: URL
     internal let tokenEndpoint: URL
     

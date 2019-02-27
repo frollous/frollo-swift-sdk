@@ -9,6 +9,16 @@
 import CoreData
 import Foundation
 
+#if os(tvOS)
+import AppAUth
+#else
+import AppAuth
+#endif
+
+#if os(iOS)
+import SafariServices
+import UIKit
+#endif
 
 internal protocol AuthenticationDelegate: class {
     
@@ -38,6 +48,8 @@ public class Authentication {
             preferences.loggedIn = newValue
         }
     }
+    
+    internal var authorizationFlow: OIDExternalUserAgentSession?
     
     private let authService: OAuthService
     private let clientID: String
@@ -90,6 +102,83 @@ public class Authentication {
     }
     
     // MARK: - Login
+    
+    #if os(iOS)
+    /**
+     Login a user via web view
+     
+     Initiate the authorization code login flow using a web view
+ 
+     - parameters:
+        - presentingViewController: View controller the Safari Web ViewController should be presented from
+        - completion: Completion handler with any error that occurred
+    */
+    public func loginUserUsingWeb(presenting presentingViewController: UIViewController, completion: @escaping FrolloSDKCompletionHandler) {
+        let config = OIDServiceConfiguration(authorizationEndpoint: authService.authorizationURL, tokenEndpoint: authService.tokenURL)
+        
+        let request = OIDAuthorizationRequest(configuration: config,
+                                              clientId: clientID,
+                                              clientSecret: nil,
+                                              scopes: [OIDScopeOpenID, OIDScopeProfile],
+                                              redirectURL: authService.redirectURL,
+                                              responseType: OIDResponseTypeCode,
+                                              additionalParameters: ["domain": domain])
+        
+        authorizationFlow = OIDAuthState.authState(byPresenting: request, presenting: presentingViewController) { (state, error) in
+            if let authError = error as NSError? {
+                let oAuthError = OAuthError(error: authError)
+                
+                DispatchQueue.main.async {
+                    completion(.failure(oAuthError))
+                }
+            } else if let authState = state,
+                      let authCode = authState.lastAuthorizationResponse.authorizationCode,
+                      let codeVerifier = request.codeVerifier {
+                self.exchangeAuthorizationCode(code: authCode, codeVerifier: codeVerifier) { (result) in
+                    completion(result)
+                }
+            }
+        }
+    }
+    #endif
+    
+    #if os(macOS)
+    /**
+     Login a user via web view
+     
+     Initiate the authorization code login flow using a web view
+     
+     - parameters:
+        - completion: Completion handler with any error that occurred
+     */
+    public func loginUserUsingWeb(completion: @escaping FrolloSDKCompletionHandler) {
+        let config = OIDServiceConfiguration(authorizationEndpoint: authService.authorizationURL, tokenEndpoint: authService.tokenURL)
+        
+        let request = OIDAuthorizationRequest(configuration: config,
+                                              clientId: clientID,
+                                              clientSecret: nil,
+                                              scopes: [OIDScopeOpenID, OIDScopeProfile],
+                                              redirectURL: authService.redirectURL,
+                                              responseType: OIDResponseTypeCode,
+                                              additionalParameters: ["domain": domain])
+        
+        authorizationFlow = OIDAuthState.authState(byPresenting: request) { (state, error) in
+            if let authError = error as NSError? {
+                let oAuthError = OAuthError(error: authError)
+                
+                DispatchQueue.main.async {
+                    completion(.failure(oAuthError))
+                }
+            } else if let authState = state,
+                let authCode = authState.lastAuthorizationResponse.authorizationCode,
+                let codeVerifier = request.codeVerifier {
+                self.exchangeAuthorizationCode(code: authCode, codeVerifier: codeVerifier) { (result) in
+                    completion(result)
+                }
+            }
+        }
+    }
+    #endif
     
     /**
      Login a user using various authentication methods

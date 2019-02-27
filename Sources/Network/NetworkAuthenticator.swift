@@ -9,13 +9,6 @@
 import Foundation
 
 import Alamofire
-#if os(macOS) || os(watchOS)
-import AppAuth
-#elseif os(iOS)
-import AppAuthCore
-#elseif os(tvOS)
-import AppAUth
-#endif
 
 class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     

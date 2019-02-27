@@ -173,6 +173,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     private let frolloHost = "frollo.us"
     
     private var deviceLastUpdated: Date?
+    private var redirectURL: URL!
     
     // MARK: - Setup
     
@@ -262,7 +263,9 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         network = Network(serverEndpoint: configuration.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: pinnedKeys)
         network.delegate = self
         
-        let authService = OAuthService(tokenEndpoint: configuration.tokenEndpoint, network: network)
+        redirectURL = configuration.redirectURL
+        
+        let authService = OAuthService(authorizationEndpoint: configuration.authorizationEndpoint, tokenEndpoint: configuration.tokenEndpoint, redirectURL: configuration.redirectURL, network: network)
         let service = APIService(serverEndpoint: configuration.serverEndpoint, network: network)
         
         Log.manager.service = service
@@ -372,6 +375,29 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
             
             authentication.updateDevice()
         }
+    }
+    
+    /**
+     Application received URL Open request
+     
+     Notify the SDK of an application open URL event. Used to handle OAuth2 login flow and deep links
+     
+     - returns: Indication if the URL was handled successfully or not
+     
+    */
+    public func applicationOpen(url: URL) -> Bool {
+        if url.scheme == redirectURL.scheme,
+            url.user == redirectURL.user,
+            url.password == redirectURL.password,
+            url.host == redirectURL.host,
+            url.port == redirectURL.port,
+            url.path == redirectURL.path {
+            authentication.authorizationFlow?.resumeExternalUserAgentFlow(with: url)
+            
+            return true
+        }
+        
+        return false
     }
     
     // MARK: - Refresh
