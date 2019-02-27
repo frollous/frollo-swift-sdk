@@ -124,19 +124,17 @@ public class Authentication {
                                               responseType: OIDResponseTypeCode,
                                               additionalParameters: ["domain": domain])
         
-        authorizationFlow = OIDAuthState.authState(byPresenting: request, presenting: presentingViewController) { (state, error) in
+        authorizationFlow = OIDAuthorizationService.present(request, presenting: presentingViewController) { (response, error) in
             if let authError = error as NSError? {
                 let oAuthError = OAuthError(error: authError)
                 
                 DispatchQueue.main.async {
                     completion(.failure(oAuthError))
                 }
-            } else if let authState = state,
-                      let authCode = authState.lastAuthorizationResponse.authorizationCode,
+            } else if let authResponse = response,
+                      let authCode = authResponse.authorizationCode,
                       let codeVerifier = request.codeVerifier {
-                self.exchangeAuthorizationCode(code: authCode, codeVerifier: codeVerifier) { (result) in
-                    completion(result)
-                }
+                self.exchangeAuthorizationCode(code: authCode, codeVerifier: codeVerifier, completion: completion)
             }
         }
     }
@@ -162,19 +160,17 @@ public class Authentication {
                                               responseType: OIDResponseTypeCode,
                                               additionalParameters: ["domain": domain])
         
-        authorizationFlow = OIDAuthState.authState(byPresenting: request) { (state, error) in
+        authorizationFlow = OIDAuthorizationService.present(request) { (response, error) in
             if let authError = error as NSError? {
                 let oAuthError = OAuthError(error: authError)
                 
                 DispatchQueue.main.async {
                     completion(.failure(oAuthError))
                 }
-            } else if let authState = state,
-                let authCode = authState.lastAuthorizationResponse.authorizationCode,
+            } else if let authResponse = response,
+                let authCode = authResponse.authorizationCode,
                 let codeVerifier = request.codeVerifier {
-                self.exchangeAuthorizationCode(code: authCode, codeVerifier: codeVerifier) { (result) in
-                    completion(result)
-                }
+                self.exchangeAuthorizationCode(code: authCode, codeVerifier: codeVerifier, completion: completion)
             }
         }
     }

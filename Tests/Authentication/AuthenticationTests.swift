@@ -329,51 +329,6 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         
         try? FileManager.default.removeItem(at: tempFolderPath())
     }
-    
-    // MARK: - Register User
-    
-    func testRegisterUser() {
-        let expectation1 = expectation(description: "Network Request")
-        
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.register.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let path = tempFolderPath()
-        let database = Database(path: path)
-        let preferences = Preferences(path: path)
-        let keychain = Keychain(service: keychainService)
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
-        
-        database.setup { (error) in
-            XCTAssertNil(error)
-            
-            authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password") { (result) in
-                switch result {
-                    case .failure(let error):
-                        XCTFail(error.localizedDescription)
-                    case .success:
-                        XCTAssertNotNil(authentication.fetchUser(context: database.newBackgroundContext()))
-                }
-                
-                expectation1.fulfill()
-            }
-        }
-        
-        wait(for: [expectation1], timeout: 3.0)
-        
-        try? FileManager.default.removeItem(at: tempFolderPath())
-    }
     #endif
     
     #if os(macOS)
