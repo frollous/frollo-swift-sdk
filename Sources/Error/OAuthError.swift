@@ -8,7 +8,11 @@
 
 import Foundation
 
+#if os(tvOS)
+import AppAUth
+#else
 import AppAuth
+#endif
 
 /**
  OAuth Error
@@ -133,13 +137,13 @@ public class OAuthError: FrolloSDKError {
                 switch errorCode {
                     case .networkError:
                         type = .networkError
-                        
+                    
                     case .safariOpenError:
                         type = .browserError
-                        
+                    
                     case OIDErrorCode.userCanceledAuthorizationFlow:
                         type = .userCancelled
-                        
+                    
                     default:
                         type = .otherAuthorisation
                 }
