@@ -12,6 +12,7 @@ import Foundation
 /// Manages all aggregation data including accounts, transactions, categories and merchants
 public class Aggregation: CachedObjects, ResponseHandler {
     
+    /// Notification fired when transactions cache has been updated
     public static let transactionsUpdatedNotification = Notification.Name(rawValue: "FrolloSDK.aggregation.transactionsUpdatedNotification")
     
     internal static let refreshTransactionIDsKey = "FrolloSDKKey.Aggregation.transactionIDs"

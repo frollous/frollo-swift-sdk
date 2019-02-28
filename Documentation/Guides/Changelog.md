@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.0
+
+- OpenID Connect / OAuth2 Login
+
+### Features
+
+- OAuth2 based authentication using ROPC and Authorization Code flows
+
+### Changes
+
+- Improved completion handlers
+- Aggregation enhancements
+
 ## 1.3.0
 
 - Reports

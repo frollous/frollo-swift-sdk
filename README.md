@@ -2,7 +2,7 @@
 
 # Frollo Swift SDK
 
-**V1.3.0**
+**V2.0.0**
 
 - [Features](#features)
 - [Requirements](#requirements)
@@ -11,7 +11,7 @@
 
 ## Features
 
-- Authentication
+- OAuth2 Authentication
 - Aggregation
 - Bills
 - Events

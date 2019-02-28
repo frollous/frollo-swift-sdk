@@ -36,13 +36,22 @@ import FrolloSDK
 
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-    let serverURL = URL(string: "https://<tenant>.frollo.us/api/v1/")!
+    let clientID = "<APPLICATION_CLIENT_ID>"
+    let redirectURL = URL(string: "<REDIRECT_URI>")!
+    let authorizationURL = URL(string: "https://id.frollo.us/oauth/authorize")!
+    let tokenURL = URL(string: "https://id.frollo.us/oauth/token")!
+    let serverURL = URL(string: "https://<API_TENANT>.frollo.us/api/v2/")!
         
-    FrolloSDK.shared.setup(serverURL: serverURL) { (error) in
-        if let setupError = error {
-            fatalError(setupError.localizedDescription)
-        } else {
-            self.completeStartup()
+    let config = FrolloSDKConfiguration(clientID: clientID, redirectURL: redirectURL, authorizationEndpoint: authorizationURL, tokenEndpoint: tokenURL, serverEndpoint: serverURL)
+        
+    FrolloSDK.shared.setup(configuration: config) { (result) in
+        switch result {
+            case .failure(let error):
+                fatalError(error.localizedDescription)
+            case .success:
+                DispatchQueue.main.async {
+                    self.completeStartup()
+                }
         }
     }
 
@@ -107,6 +116,33 @@ let sortDescriptors = [NSSortDescriptor(key: #keyPath(Transaction.transactionDat
 
 // Fetch the transactions
 let transactions = FrolloSDK.shared.aggregation.transactions(context: context, filteredBy: predicate, sortedBy: sortDescriptors)
+```
+
+### Deep Link Handler
+
+Deep links should be forwarded to the SDK to support web based OAuth2 login and other links that can affect application behaviour.
+
+#### iOS
+
+```swift
+func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    return FrolloSDK.shared.applicationOpen(url: url)
+}
+```
+
+#### macOS
+
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+  // Register for GetURL events.
+  NSAppleEventManager.sharedAppleEventManager.setEventHandler(self, andSelector: #selector(handleGetURLEvent:withReplyEvent:), forEventClass: kInternetEventClass, andEventID:kAEGetURL)
+}
+
+func handleGetURLEvent(event: NSAppleEventDescriptor, withReplyEvent replyEvent: NSAppleEventDescriptor) {
+  let URLString = event.paramDescriptorForKeyword(keyDirectObject)
+  let url = URL(string: URLString))
+  FrolloSDK.shared.applicationOpen(url: url
+}
 ```
 
 ### Lifecyle Handlers (Optional)
