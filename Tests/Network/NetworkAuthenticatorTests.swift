@@ -93,7 +93,7 @@ class NetworkAuthenticatorTests: XCTestCase, AuthenticationDelegate {
             expectation1.fulfill()
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1], timeout: 5.0)
         
         OHHTTPStubs.removeAllStubs()
         keychain.removeAll()
@@ -139,7 +139,7 @@ class NetworkAuthenticatorTests: XCTestCase, AuthenticationDelegate {
             expectation1.fulfill()
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1], timeout: 5.0)
         
         OHHTTPStubs.removeAllStubs()
         keychain.removeAll()
