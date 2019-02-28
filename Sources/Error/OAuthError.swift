@@ -103,7 +103,25 @@ public class OAuthError: FrolloSDKError {
     internal required init(error: NSError) {
         systemError = error
         
-        if error.domain == OIDOAuthAuthorizationErrorDomain {
+        if error.domain == OIDGeneralErrorDomain {
+            if let errorCode = OIDErrorCode(rawValue: error.code) {
+                switch errorCode {
+                    case .networkError:
+                        type = .networkError
+                    
+                    case .safariOpenError:
+                        type = .browserError
+                    
+                    case .userCanceledAuthorizationFlow:
+                        type = .userCancelled
+                    
+                    default:
+                        type = .otherAuthorisation
+                }
+            } else {
+                type = .unknown
+            }
+        } else if error.domain == OIDOAuthAuthorizationErrorDomain {
             if let authErrorCode = OIDErrorCodeOAuth(rawValue: error.code) {
                 switch authErrorCode {
                     case .accessDenied:
@@ -132,20 +150,6 @@ public class OAuthError: FrolloSDKError {
                         type = .unsupportedGrantType
                     case .unsupportedResponseType:
                         type = .unsupportedResponseType
-                }
-            } else if let errorCode = OIDErrorCode(rawValue: error.code) {
-                switch errorCode {
-                    case .networkError:
-                        type = .networkError
-                    
-                    case .safariOpenError:
-                        type = .browserError
-                    
-                    case OIDErrorCode.userCanceledAuthorizationFlow:
-                        type = .userCancelled
-                    
-                    default:
-                        type = .otherAuthorisation
                 }
             } else {
                 type = .otherAuthorisation
@@ -190,7 +194,7 @@ public class OAuthError: FrolloSDKError {
             case .unsupportedResponseType:
                 return Localization.string("Error.OAuth.UnsupportedResponseType")
             case .unknown:
-                return Localization.string("Error.OAuth.UnknownError")
+                return Localization.string("Error.OAuth.Unknown")
             case .userCancelled:
                 return Localization.string("Error.OAuth.UserCancelled")
         }
