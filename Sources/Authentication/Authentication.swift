@@ -9,13 +9,15 @@
 import CoreData
 import Foundation
 
-#if os(tvOS)
+#if os(iOS) && CORE
+import AppAuthCore
+#elseif os(tvOS)
 import AppAUth
 #else
 import AppAuth
 #endif
 
-#if os(iOS)
+#if os(iOS) && !CORE
 import SafariServices
 import UIKit
 #endif
@@ -103,7 +105,7 @@ public class Authentication {
     
     // MARK: - Login
     
-    #if os(iOS)
+    #if os(iOS) && !CORE
     /**
      Login a user via web view
      

@@ -8,10 +8,6 @@
 
 import Foundation
 
-#if os(tvOS) || os(iOS)
-import UIKit
-#endif
-
 class UserDefaultsPersistence: PreferencesPersistence {
     
     private let namespacePrefix = "FrolloSDK."

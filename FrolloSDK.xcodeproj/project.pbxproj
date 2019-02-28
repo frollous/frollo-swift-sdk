@@ -737,6 +737,145 @@
 		01E5BEE0222786DF003D85FD /* OAuthErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E5BEDF222786DF003D85FD /* OAuthErrorTests.swift */; };
 		01E5BEE1222786DF003D85FD /* OAuthErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E5BEDF222786DF003D85FD /* OAuthErrorTests.swift */; };
 		01E5BEE2222786DF003D85FD /* OAuthErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E5BEDF222786DF003D85FD /* OAuthErrorTests.swift */; };
+		01E5BEE62227A475003D85FD /* ReportAccountBalance+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01704F5821FAD13D00666DAE /* ReportAccountBalance+CoreDataProperties.swift */; };
+		01E5BEE72227A475003D85FD /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B83A6221A4CBF0022884E /* Result.swift */; };
+		01E5BEE82227A475003D85FD /* APITransactionCurrentReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0B21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift */; };
+		01E5BEE92227A475003D85FD /* Bill+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018240DB21C8B80B005705F9 /* Bill+CoreDataClass.swift */; };
+		01E5BEEA2227A475003D85FD /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C8250620EDDB4F0093400E /* DataError.swift */; };
+		01E5BEEB2227A475003D85FD /* Transaction+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01ED8FC5211A5DE800ACE691 /* Transaction+CoreDataClass.swift */; };
+		01E5BEEC2227A475003D85FD /* APIBillPaymentUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011C198821E3063600490EDD /* APIBillPaymentUpdateRequest.swift */; };
+		01E5BEED2227A475003D85FD /* ProviderLoginForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012C4509212A775D00799A0A /* ProviderLoginForm.swift */; };
+		01E5BEEE2227A475003D85FD /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED86D20E5AAAB00F4516B /* Database.swift */; };
+		01E5BEEF2227A475003D85FD /* NetworkAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B8020FDA1DB005A7D0C /* NetworkAuthenticator.swift */; };
+		01E5BEF02227A475003D85FD /* Transaction+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47A2193CBAD002CC3BB /* Transaction+CoreDataProperties.swift */; };
+		01E5BEF12227A475003D85FD /* TransactionCategory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47B2193CBAD002CC3BB /* TransactionCategory+CoreDataProperties.swift */; };
+		01E5BEF22227A475003D85FD /* FrolloSDKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824FC20EDD6630093400E /* FrolloSDKError.swift */; };
+		01E5BEF32227A475003D85FD /* MessageText+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012606A9219A784C005D8377 /* MessageText+CoreDataProperties.swift */; };
+		01E5BEF42227A475003D85FD /* FrolloSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01527CD820E1C5A600B5042A /* FrolloSDK.swift */; };
+		01E5BEF52227A475003D85FD /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B0425216EC785008C34D7 /* Date.swift */; };
+		01E5BEF62227A475003D85FD /* AccountRefreshStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013A32AE21127A3600B0590B /* AccountRefreshStatus.swift */; };
+		01E5BEF72227A475003D85FD /* Merchant+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483BB4211967A500D0DA87 /* Merchant+CoreDataClass.swift */; };
+		01E5BEF82227A475003D85FD /* APILogRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616B0B2186BFD5003EF2D0 /* APILogRequest.swift */; };
+		01E5BEF92227A475003D85FD /* UserEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B7320F81EA8005A7D0C /* UserEndpoint.swift */; };
+		01E5BEFA2227A475003D85FD /* LoginFormError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E837592149F08100A50E15 /* LoginFormError.swift */; };
+		01E5BEFB2227A475003D85FD /* PublicKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E46D2190F3BD002CC3BB /* PublicKeys.swift */; };
+		01E5BEFC2227A475003D85FD /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48D92106E1C100447E65 /* User+CoreDataClass.swift */; };
+		01E5BEFD2227A475003D85FD /* APIProviderResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097F4210EE2BA0034E857 /* APIProviderResponse.swift */; };
+		01E5BEFE2227A475003D85FD /* OAuthTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A5D221E00AA000C03F0 /* OAuthTokenResponse.swift */; };
+		01E5BEFF2227A475003D85FD /* ReportAccountBalance+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01704F5721FAD13D00666DAE /* ReportAccountBalance+CoreDataClass.swift */; };
+		01E5BF002227A475003D85FD /* APIService+Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126069221992A36005D8377 /* APIService+Messages.swift */; };
+		01E5BF012227A475003D85FD /* APIBillUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E4921DC43A8009356CC /* APIBillUpdateRequest.swift */; };
+		01E5BF022227A475003D85FD /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A63221E07D0000C03F0 /* HTTPHeader.swift */; };
+		01E5BF032227A475003D85FD /* Provider+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097F6210EE3300034E857 /* Provider+CoreDataClass.swift */; };
+		01E5BF042227A475003D85FD /* ReportTransactionHistory+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104E02A21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataClass.swift */; };
+		01E5BF052227A475003D85FD /* BudgetCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B9D21192F1600D0DA87 /* BudgetCategory.swift */; };
+		01E5BF062227A475003D85FD /* APIBillCreateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E4F21DDA9CE009356CC /* APIBillCreateRequest.swift */; };
+		01E5BF072227A475003D85FD /* APIBillPaymentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E5921DDCF38009356CC /* APIBillPaymentResponse.swift */; };
+		01E5BF082227A475003D85FD /* PreferencesPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B486F21054F0B00447E65 /* PreferencesPersistence.swift */; };
+		01E5BF092227A475003D85FD /* BillPayment+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E5621DDCD65009356CC /* BillPayment+CoreDataProperties.swift */; };
+		01E5BF0A2227A475003D85FD /* ProviderAccount+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013A32A8211273A300B0590B /* ProviderAccount+CoreDataClass.swift */; };
+		01E5BF0B2227A475003D85FD /* AccountBalanceTier+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E4812193CBAD002CC3BB /* AccountBalanceTier+CoreDataProperties.swift */; };
+		01E5BF0C2227A475003D85FD /* Bill+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018240DC21C8B80B005705F9 /* Bill+CoreDataProperties.swift */; };
+		01E5BF0D2227A475003D85FD /* APIService+Bills.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101A8DF21C9BDEF00DCFCEB /* APIService+Bills.swift */; };
+		01E5BF0E2227A475003D85FD /* ConsoleLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824ED20EC40FD0093400E /* ConsoleLogger.swift */; };
+		01E5BF0F2227A475003D85FD /* MessageVideo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012606A6219A784C005D8377 /* MessageVideo+CoreDataClass.swift */; };
+		01E5BF102227A475003D85FD /* APIMerchantResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483BB821196E2100D0DA87 /* APIMerchantResponse.swift */; };
+		01E5BF112227A475003D85FD /* APITransactionHistoryReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0621EBEC09008DD61A /* APITransactionHistoryReportResponse.swift */; };
+		01E5BF122227A475003D85FD /* APIAccountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B702117C7E900D0DA87 /* APIAccountResponse.swift */; };
+		01E5BF132227A475003D85FD /* APIUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48DF2107FE6A00447E65 /* APIUserResponse.swift */; };
+		01E5BF142227A475003D85FD /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8152219E637E00A1495F /* Notifications.swift */; };
+		01E5BF152227A475003D85FD /* APIService+Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B7E20FD9F21005A7D0C /* APIService+Device.swift */; };
+		01E5BF162227A475003D85FD /* APIUserUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EAAEE22150663A003D1EAC /* APIUserUpdateRequest.swift */; };
+		01E5BF172227A475003D85FD /* UniqueManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01819143211162DD000E0F80 /* UniqueManagedObject.swift */; };
+		01E5BF182227A475003D85FD /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C8251320EDF6200093400E /* Localization.swift */; };
+		01E5BF192227A475003D85FD /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C8250420EDDB410093400E /* NetworkError.swift */; };
+		01E5BF1A2227A475003D85FD /* APIMessageUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012606B7219A7EF1005D8377 /* APIMessageUpdateRequest.swift */; };
+		01E5BF1B2227A475003D85FD /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B7520F82158005A7D0C /* Endpoint.swift */; };
+		01E5BF1C2227A475003D85FD /* BillPayment+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E5521DDCD65009356CC /* BillPayment+CoreDataClass.swift */; };
+		01E5BF1D2227A475003D85FD /* ReportsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0D21EBFA34008DD61A /* ReportsEndpoint.swift */; };
+		01E5BF1E2227A475003D85FD /* APIService+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8141219D282400A1495F /* APIService+Events.swift */; };
+		01E5BF1F2227A475003D85FD /* Aggregation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEE02211030F30081AD76 /* Aggregation.swift */; };
+		01E5BF202227A475003D85FD /* APITransactionCategoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B9B21192D4A00D0DA87 /* APITransactionCategoryResponse.swift */; };
+		01E5BF212227A475003D85FD /* APIAccountUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B9121190E1700D0DA87 /* APIAccountUpdateRequest.swift */; };
+		01E5BF222227A475003D85FD /* UserDefaultsPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47721926959002CC3BB /* UserDefaultsPersistence.swift */; };
+		01E5BF232227A475003D85FD /* APIUserRegisterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC3D102166D90C0065A4B8 /* APIUserRegisterRequest.swift */; };
+		01E5BF242227A475003D85FD /* BillsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101A8DD21C9BD0F00DCFCEB /* BillsEndpoint.swift */; };
+		01E5BF252227A475003D85FD /* OTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC3D0A2165C1EB0065A4B8 /* OTP.swift */; };
+		01E5BF262227A475003D85FD /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A69221E1E2F000C03F0 /* APIService.swift */; };
+		01E5BF272227A475003D85FD /* ProviderAccount+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47F2193CBAD002CC3BB /* ProviderAccount+CoreDataProperties.swift */; };
+		01E5BF282227A475003D85FD /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED85C20E5A7EA00F4516B /* Authentication.swift */; };
+		01E5BF292227A475003D85FD /* APIProviderAccountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013A32AC2112799500B0590B /* APIProviderAccountResponse.swift */; };
+		01E5BF2A2227A475003D85FD /* FileLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824F420EC75560093400E /* FileLogger.swift */; };
+		01E5BF2B2227A475003D85FD /* Account+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B682117C70600D0DA87 /* Account+CoreDataClass.swift */; };
+		01E5BF2C2227A475003D85FD /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013D2D93210AA38800EEDEC5 /* DeviceInfo.swift */; };
+		01E5BF2D2227A475003D85FD /* Merchant+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E4792193CBAD002CC3BB /* Merchant+CoreDataProperties.swift */; };
+		01E5BF2E2227A475003D85FD /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0160953620F33EB10060791B /* Version.swift */; };
+		01E5BF2F2227A475003D85FD /* ReportTransactionCurrent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104E02C21E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataClass.swift */; };
+		01E5BF302227A475003D85FD /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136D224210011E70062EAEA /* Keychain.swift */; };
+		01E5BF312227A475003D85FD /* ReportTransactionCurrent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104E02D21E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataProperties.swift */; };
+		01E5BF322227A475003D85FD /* OAuthTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A5B221D1A26000C03F0 /* OAuthTokenRequest.swift */; };
+		01E5BF332227A475003D85FD /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068221990377005D8377 /* Messages.swift */; };
+		01E5BF342227A475003D85FD /* APIMessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126069521992AD4005D8377 /* APIMessageResponse.swift */; };
+		01E5BF352227A475003D85FD /* FailableCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDDD210FD7710081AD76 /* FailableCodable.swift */; };
+		01E5BF362227A475003D85FD /* ProviderLoginFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013BC1DE218A6998005A2714 /* ProviderLoginFormViewModel.swift */; };
+		01E5BF372227A475003D85FD /* APIUserResetPasswordRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F1A5F216B289B00119474 /* APIUserResetPasswordRequest.swift */; };
+		01E5BF382227A475003D85FD /* APIProviderAccountUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EAAEE0214F351D003D1EAC /* APIProviderAccountUpdateRequest.swift */; };
+		01E5BF392227A475003D85FD /* FrolloSDKDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 01EED86920E5AA5B00F4516B /* FrolloSDKDataModel.xcdatamodeld */; };
+		01E5BF3A2227A475003D85FD /* MessagesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126069021992909005D8377 /* MessagesEndpoint.swift */; };
+		01E5BF3B2227A475003D85FD /* AccountBalanceTier+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B6A2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift */; };
+		01E5BF3C2227A475003D85FD /* ReportTransactionHistory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104E02B21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataProperties.swift */; };
+		01E5BF3D2227A475003D85FD /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED86120E5A7EA00F4516B /* Preferences.swift */; };
+		01E5BF3E2227A475003D85FD /* OAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A67221E1E21000C03F0 /* OAuthService.swift */; };
+		01E5BF3F2227A475003D85FD /* Message+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068621991963005D8377 /* Message+CoreDataClass.swift */; };
+		01E5BF402227A475003D85FD /* APIUserChangePasswordRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01333D3E216AAF36005764A4 /* APIUserChangePasswordRequest.swift */; };
+		01E5BF412227A475003D85FD /* APIErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017391EF20EF001200C0BB32 /* APIErrorResponse.swift */; };
+		01E5BF422227A475003D85FD /* APITokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F220E220FEAC7600C70B00 /* APITokenResponse.swift */; };
+		01E5BF432227A475003D85FD /* MessageImage+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012606AD219A784C005D8377 /* MessageImage+CoreDataProperties.swift */; };
+		01E5BF442227A475003D85FD /* ResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01819148211178D2000E0F80 /* ResponseHandler.swift */; };
+		01E5BF452227A475003D85FD /* APIEventCreateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F813D219D254000A1495F /* APIEventCreateRequest.swift */; };
+		01E5BF462227A475003D85FD /* APIDeviceUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F813A219CECA200A1495F /* APIDeviceUpdateRequest.swift */; };
+		01E5BF472227A475003D85FD /* PropertyListPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47521926949002CC3BB /* PropertyListPersistence.swift */; };
+		01E5BF482227A475003D85FD /* APIService+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B7C20FD6FB9005A7D0C /* APIService+User.swift */; };
+		01E5BF492227A475003D85FD /* MessageHTML+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012606AA219A784C005D8377 /* MessageHTML+CoreDataClass.swift */; };
+		01E5BF4A2227A475003D85FD /* Bills.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101A8FA21CC649000DCFCEB /* Bills.swift */; };
+		01E5BF4B2227A475003D85FD /* APIProviderAccountCreateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EAAEDE214B6185003D1EAC /* APIProviderAccountCreateRequest.swift */; };
+		01E5BF4C2227A475003D85FD /* APIBillResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018240E021C8BAE3005705F9 /* APIBillResponse.swift */; };
+		01E5BF4D2227A475003D85FD /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47D2193CBAD002CC3BB /* User+CoreDataProperties.swift */; };
+		01E5BF4E2227A475003D85FD /* ReportGrouping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104E03221E8588300D98EE7 /* ReportGrouping.swift */; };
+		01E5BF4F2227A475003D85FD /* NetworkLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824EF20EC410B0093400E /* NetworkLogger.swift */; };
+		01E5BF502227A475003D85FD /* AggregationEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDDB210FC9C60081AD76 /* AggregationEndpoint.swift */; };
+		01E5BF512227A475003D85FD /* OAuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012DDD5D222615A300497E22 /* OAuthError.swift */; };
+		01E5BF522227A475003D85FD /* APIAccountBalanceReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018501C421FFB31000069D87 /* APIAccountBalanceReportResponse.swift */; };
+		01E5BF532227A475003D85FD /* APITransactionUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010EB42A211BF92A005A926A /* APITransactionUpdateRequest.swift */; };
+		01E5BF542227A475003D85FD /* CachedObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E58CF217FD92D00DC56FF /* CachedObjects.swift */; };
+		01E5BF552227A475003D85FD /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A1F5992148DBC9002B9A93 /* Data.swift */; };
+		01E5BF562227A475003D85FD /* DeviceEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B7720F82C98005A7D0C /* DeviceEndpoint.swift */; };
+		01E5BF572227A475003D85FD /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013A32C02112AF4E00B0590B /* DateFormatter.swift */; };
+		01E5BF582227A475003D85FD /* MessageHTML+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012606AB219A784C005D8377 /* MessageHTML+CoreDataProperties.swift */; };
+		01E5BF592227A475003D85FD /* SecKeyPEM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011E87CF213766550026E047 /* SecKeyPEM.swift */; };
+		01E5BF5A2227A475003D85FD /* MessageText+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012606A8219A784C005D8377 /* MessageText+CoreDataClass.swift */; };
+		01E5BF5B2227A475003D85FD /* Message+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068721991963005D8377 /* Message+CoreDataProperties.swift */; };
+		01E5BF5C2227A475003D85FD /* Provider+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47E2193CBAD002CC3BB /* Provider+CoreDataProperties.swift */; };
+		01E5BF5D2227A475003D85FD /* TransactionCategory+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B9721192C3900D0DA87 /* TransactionCategory+CoreDataClass.swift */; };
+		01E5BF5E2227A475003D85FD /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8149219D31C000A1495F /* Events.swift */; };
+		01E5BF5F2227A475003D85FD /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824EB20EC34BA0093400E /* Log.swift */; };
+		01E5BF602227A475003D85FD /* EventsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F813F219D25F000A1495F /* EventsEndpoint.swift */; };
+		01E5BF612227A475003D85FD /* MessageVideo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012606A7219A784C005D8377 /* MessageVideo+CoreDataProperties.swift */; };
+		01E5BF622227A475003D85FD /* FrolloSDKConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A54221CD2AE000C03F0 /* FrolloSDKConfiguration.swift */; };
+		01E5BF632227A475003D85FD /* APIService+Aggregation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDD9210FC8760081AD76 /* APIService+Aggregation.swift */; };
+		01E5BF642227A475003D85FD /* MessageImage+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012606AC219A784C005D8377 /* MessageImage+CoreDataClass.swift */; };
+		01E5BF652227A475003D85FD /* APIBillsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018240E221C8BB6A005705F9 /* APIBillsResponse.swift */; };
+		01E5BF662227A475003D85FD /* APITransactionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01ED8FC9211A5E7A00ACE691 /* APITransactionResponse.swift */; };
+		01E5BF672227A475003D85FD /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED85F20E5A7EA00F4516B /* Network.swift */; };
+		01E5BF682227A475003D85FD /* APIService+Reports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0F21EC02CC008DD61A /* APIService+Reports.swift */; };
+		01E5BF692227A475003D85FD /* Account+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E4802193CBAD002CC3BB /* Account+CoreDataProperties.swift */; };
+		01E5BF6A2227A475003D85FD /* Reports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0921EBF4E5008DD61A /* Reports.swift */; };
+		01E5BF6B2227A475003D85FD /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C8250220EDDB340093400E /* APIError.swift */; };
+		01E5BF6C2227A475003D85FD /* FrolloSDKDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135D31721A3D74500318142 /* FrolloSDKDelegate.swift */; };
+		01E5BF6D2227A475003D85FD /* NotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135D2FC21A2202400318142 /* NotificationPayload.swift */; };
+		01E5BF6E2227A475003D85FD /* APIUniqueResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01819145211168C8000E0F80 /* APIUniqueResponse.swift */; };
+		01E5BF712227A475003D85FD /* FrolloSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 01527CC220E1B5C300B5042A /* FrolloSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01E5BF732227A475003D85FD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 01C8250F20EDEF250093400E /* Localizable.strings */; };
 		01E8375A2149F08100A50E15 /* LoginFormError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E837592149F08100A50E15 /* LoginFormError.swift */; };
 		01EAAEDF214B6185003D1EAC /* APIProviderAccountCreateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EAAEDE214B6185003D1EAC /* APIProviderAccountCreateRequest.swift */; };
 		01EAAEE1214F351D003D1EAC /* APIProviderAccountUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EAAEE0214F351D003D1EAC /* APIProviderAccountUpdateRequest.swift */; };
@@ -1177,6 +1316,8 @@
 		01E0819520FDBA850036133F /* Cartfile.private */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.private; sourceTree = "<group>"; };
 		01E0819720FDC0E90036133F /* refresh_token_valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = refresh_token_valid.json; sourceTree = "<group>"; };
 		01E5BEDF222786DF003D85FD /* OAuthErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthErrorTests.swift; sourceTree = "<group>"; };
+		01E5BF772227A475003D85FD /* FrolloSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FrolloSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		01E5BF792227A796003D85FD /* FrolloSDKCore-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FrolloSDKCore-Info.plist"; sourceTree = "<group>"; };
 		01E837592149F08100A50E15 /* LoginFormError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFormError.swift; sourceTree = "<group>"; };
 		01EAAEDE214B6185003D1EAC /* APIProviderAccountCreateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProviderAccountCreateRequest.swift; sourceTree = "<group>"; };
 		01EAAEE0214F351D003D1EAC /* APIProviderAccountUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProviderAccountUpdateRequest.swift; sourceTree = "<group>"; };
@@ -1243,6 +1384,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				017B48A02105958100447E65 /* FrolloSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		01E5BF6F2227A475003D85FD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1690,6 +1838,7 @@
 				017B48682101B4FE00447E65 /* FrolloSDK macOS Tests.xctest */,
 				017B48782105950F00447E65 /* FrolloSDK tvOS Test Host.app */,
 				017B48C52105958100447E65 /* FrolloSDK tvOS Tests.xctest */,
+				01E5BF772227A475003D85FD /* FrolloSDKCore.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1702,6 +1851,7 @@
 				01BB5A54221CD2AE000C03F0 /* FrolloSDKConfiguration.swift */,
 				0135D31721A3D74500318142 /* FrolloSDKDelegate.swift */,
 				01527CC320E1B5C300B5042A /* Info.plist */,
+				01E5BF792227A796003D85FD /* FrolloSDKCore-Info.plist */,
 				01EED85D20E5A7EA00F4516B /* Aggregation */,
 				01EED85B20E5A7EA00F4516B /* Authentication */,
 				0101A8F921CC647700DCFCEB /* Bills */,
@@ -2420,6 +2570,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		01E5BF702227A475003D85FD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01E5BF712227A475003D85FD /* FrolloSDK.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -2537,6 +2695,25 @@
 			productReference = 017B48C52105958100447E65 /* FrolloSDK tvOS Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		01E5BEE32227A475003D85FD /* FrolloSDKCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 01E5BF742227A475003D85FD /* Build configuration list for PBXNativeTarget "FrolloSDKCore" */;
+			buildPhases = (
+				01E5BEE42227A475003D85FD /* Scan TODO and FIXME flags */,
+				01E5BEE52227A475003D85FD /* Sources */,
+				01E5BF6F2227A475003D85FD /* Frameworks */,
+				01E5BF702227A475003D85FD /* Headers */,
+				01E5BF722227A475003D85FD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FrolloSDKCore;
+			productName = FrolloSDK;
+			productReference = 01E5BF772227A475003D85FD /* FrolloSDKCore.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2597,6 +2774,7 @@
 			projectRoot = "";
 			targets = (
 				01527CBE20E1B5C300B5042A /* FrolloSDK */,
+				01E5BEE32227A475003D85FD /* FrolloSDKCore */,
 				01527CC720E1B5C300B5042A /* FrolloSDK iOS Tests */,
 				017B482C2101B4FE00447E65 /* FrolloSDK macOS Tests */,
 				017B48872105958100447E65 /* FrolloSDK tvOS Tests */,
@@ -2967,6 +3145,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		01E5BF722227A475003D85FD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01E5BF732227A475003D85FD /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -3020,6 +3206,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "case \"$PLATFORM_NAME\" in\nmacosx) plat=Mac;;\niphone*) plat=iOS;;\nwatch*) plat=watchOS;;\ntv*) plat=tvOS;;\nappletv*) plat=tvOS;;\n*) echo \"error: Unknown PLATFORM_NAME: $PLATFORM_NAME\"; exit 1;;\nesac\nfor (( n = 0; n < SCRIPT_INPUT_FILE_COUNT; n++ )); do\nVAR=SCRIPT_INPUT_FILE_$n\nframework=$(basename \"${!VAR}\")\nexport SCRIPT_INPUT_FILE_$n=\"$SRCROOT\"/Carthage/Build/$plat/\"$framework\".framework\ndone\n\n${CARTHAGE:-/usr/local/bin/carthage} copy-frameworks || exit\n\nfor (( n = 0; n < SCRIPT_INPUT_FILE_COUNT; n++ )); do\nVAR=SCRIPT_INPUT_FILE_$n\nsource=${!VAR}.dSYM\ndest=${BUILT_PRODUCTS_DIR}/$(basename \"$source\")\nditto \"$source\" \"$dest\" || exit\ndone\n";
+		};
+		01E5BEE42227A475003D85FD /* Scan TODO and FIXME flags */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Scan TODO and FIXME flags";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}/Sources\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
 		};
 		01EED86F20E5B4C500F4516B /* Scan TODO and FIXME flags */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3521,6 +3721,150 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		01E5BEE52227A475003D85FD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01E5BEE62227A475003D85FD /* ReportAccountBalance+CoreDataProperties.swift in Sources */,
+				01E5BEE72227A475003D85FD /* Result.swift in Sources */,
+				01E5BEE82227A475003D85FD /* APITransactionCurrentReportResponse.swift in Sources */,
+				01E5BEE92227A475003D85FD /* Bill+CoreDataClass.swift in Sources */,
+				01E5BEEA2227A475003D85FD /* DataError.swift in Sources */,
+				01E5BEEB2227A475003D85FD /* Transaction+CoreDataClass.swift in Sources */,
+				01E5BEEC2227A475003D85FD /* APIBillPaymentUpdateRequest.swift in Sources */,
+				01E5BEED2227A475003D85FD /* ProviderLoginForm.swift in Sources */,
+				01E5BEEE2227A475003D85FD /* Database.swift in Sources */,
+				01E5BEEF2227A475003D85FD /* NetworkAuthenticator.swift in Sources */,
+				01E5BEF02227A475003D85FD /* Transaction+CoreDataProperties.swift in Sources */,
+				01E5BEF12227A475003D85FD /* TransactionCategory+CoreDataProperties.swift in Sources */,
+				01E5BEF22227A475003D85FD /* FrolloSDKError.swift in Sources */,
+				01E5BEF32227A475003D85FD /* MessageText+CoreDataProperties.swift in Sources */,
+				01E5BEF42227A475003D85FD /* FrolloSDK.swift in Sources */,
+				01E5BEF52227A475003D85FD /* Date.swift in Sources */,
+				01E5BEF62227A475003D85FD /* AccountRefreshStatus.swift in Sources */,
+				01E5BEF72227A475003D85FD /* Merchant+CoreDataClass.swift in Sources */,
+				01E5BEF82227A475003D85FD /* APILogRequest.swift in Sources */,
+				01E5BEF92227A475003D85FD /* UserEndpoint.swift in Sources */,
+				01E5BEFA2227A475003D85FD /* LoginFormError.swift in Sources */,
+				01E5BEFB2227A475003D85FD /* PublicKeys.swift in Sources */,
+				01E5BEFC2227A475003D85FD /* User+CoreDataClass.swift in Sources */,
+				01E5BEFD2227A475003D85FD /* APIProviderResponse.swift in Sources */,
+				01E5BEFE2227A475003D85FD /* OAuthTokenResponse.swift in Sources */,
+				01E5BEFF2227A475003D85FD /* ReportAccountBalance+CoreDataClass.swift in Sources */,
+				01E5BF002227A475003D85FD /* APIService+Messages.swift in Sources */,
+				01E5BF012227A475003D85FD /* APIBillUpdateRequest.swift in Sources */,
+				01E5BF022227A475003D85FD /* HTTPHeader.swift in Sources */,
+				01E5BF032227A475003D85FD /* Provider+CoreDataClass.swift in Sources */,
+				01E5BF042227A475003D85FD /* ReportTransactionHistory+CoreDataClass.swift in Sources */,
+				01E5BF052227A475003D85FD /* BudgetCategory.swift in Sources */,
+				01E5BF062227A475003D85FD /* APIBillCreateRequest.swift in Sources */,
+				01E5BF072227A475003D85FD /* APIBillPaymentResponse.swift in Sources */,
+				01E5BF082227A475003D85FD /* PreferencesPersistence.swift in Sources */,
+				01E5BF092227A475003D85FD /* BillPayment+CoreDataProperties.swift in Sources */,
+				01E5BF0A2227A475003D85FD /* ProviderAccount+CoreDataClass.swift in Sources */,
+				01E5BF0B2227A475003D85FD /* AccountBalanceTier+CoreDataProperties.swift in Sources */,
+				01E5BF0C2227A475003D85FD /* Bill+CoreDataProperties.swift in Sources */,
+				01E5BF0D2227A475003D85FD /* APIService+Bills.swift in Sources */,
+				01E5BF0E2227A475003D85FD /* ConsoleLogger.swift in Sources */,
+				01E5BF0F2227A475003D85FD /* MessageVideo+CoreDataClass.swift in Sources */,
+				01E5BF102227A475003D85FD /* APIMerchantResponse.swift in Sources */,
+				01E5BF112227A475003D85FD /* APITransactionHistoryReportResponse.swift in Sources */,
+				01E5BF122227A475003D85FD /* APIAccountResponse.swift in Sources */,
+				01E5BF132227A475003D85FD /* APIUserResponse.swift in Sources */,
+				01E5BF142227A475003D85FD /* Notifications.swift in Sources */,
+				01E5BF152227A475003D85FD /* APIService+Device.swift in Sources */,
+				01E5BF162227A475003D85FD /* APIUserUpdateRequest.swift in Sources */,
+				01E5BF172227A475003D85FD /* UniqueManagedObject.swift in Sources */,
+				01E5BF182227A475003D85FD /* Localization.swift in Sources */,
+				01E5BF192227A475003D85FD /* NetworkError.swift in Sources */,
+				01E5BF1A2227A475003D85FD /* APIMessageUpdateRequest.swift in Sources */,
+				01E5BF1B2227A475003D85FD /* Endpoint.swift in Sources */,
+				01E5BF1C2227A475003D85FD /* BillPayment+CoreDataClass.swift in Sources */,
+				01E5BF1D2227A475003D85FD /* ReportsEndpoint.swift in Sources */,
+				01E5BF1E2227A475003D85FD /* APIService+Events.swift in Sources */,
+				01E5BF1F2227A475003D85FD /* Aggregation.swift in Sources */,
+				01E5BF202227A475003D85FD /* APITransactionCategoryResponse.swift in Sources */,
+				01E5BF212227A475003D85FD /* APIAccountUpdateRequest.swift in Sources */,
+				01E5BF222227A475003D85FD /* UserDefaultsPersistence.swift in Sources */,
+				01E5BF232227A475003D85FD /* APIUserRegisterRequest.swift in Sources */,
+				01E5BF242227A475003D85FD /* BillsEndpoint.swift in Sources */,
+				01E5BF252227A475003D85FD /* OTP.swift in Sources */,
+				01E5BF262227A475003D85FD /* APIService.swift in Sources */,
+				01E5BF272227A475003D85FD /* ProviderAccount+CoreDataProperties.swift in Sources */,
+				01E5BF282227A475003D85FD /* Authentication.swift in Sources */,
+				01E5BF292227A475003D85FD /* APIProviderAccountResponse.swift in Sources */,
+				01E5BF2A2227A475003D85FD /* FileLogger.swift in Sources */,
+				01E5BF2B2227A475003D85FD /* Account+CoreDataClass.swift in Sources */,
+				01E5BF2C2227A475003D85FD /* DeviceInfo.swift in Sources */,
+				01E5BF2D2227A475003D85FD /* Merchant+CoreDataProperties.swift in Sources */,
+				01E5BF2E2227A475003D85FD /* Version.swift in Sources */,
+				01E5BF2F2227A475003D85FD /* ReportTransactionCurrent+CoreDataClass.swift in Sources */,
+				01E5BF302227A475003D85FD /* Keychain.swift in Sources */,
+				01E5BF312227A475003D85FD /* ReportTransactionCurrent+CoreDataProperties.swift in Sources */,
+				01E5BF322227A475003D85FD /* OAuthTokenRequest.swift in Sources */,
+				01E5BF332227A475003D85FD /* Messages.swift in Sources */,
+				01E5BF342227A475003D85FD /* APIMessageResponse.swift in Sources */,
+				01E5BF352227A475003D85FD /* FailableCodable.swift in Sources */,
+				01E5BF362227A475003D85FD /* ProviderLoginFormViewModel.swift in Sources */,
+				01E5BF372227A475003D85FD /* APIUserResetPasswordRequest.swift in Sources */,
+				01E5BF382227A475003D85FD /* APIProviderAccountUpdateRequest.swift in Sources */,
+				01E5BF392227A475003D85FD /* FrolloSDKDataModel.xcdatamodeld in Sources */,
+				01E5BF3A2227A475003D85FD /* MessagesEndpoint.swift in Sources */,
+				01E5BF3B2227A475003D85FD /* AccountBalanceTier+CoreDataClass.swift in Sources */,
+				01E5BF3C2227A475003D85FD /* ReportTransactionHistory+CoreDataProperties.swift in Sources */,
+				01E5BF3D2227A475003D85FD /* Preferences.swift in Sources */,
+				01E5BF3E2227A475003D85FD /* OAuthService.swift in Sources */,
+				01E5BF3F2227A475003D85FD /* Message+CoreDataClass.swift in Sources */,
+				01E5BF402227A475003D85FD /* APIUserChangePasswordRequest.swift in Sources */,
+				01E5BF412227A475003D85FD /* APIErrorResponse.swift in Sources */,
+				01E5BF422227A475003D85FD /* APITokenResponse.swift in Sources */,
+				01E5BF432227A475003D85FD /* MessageImage+CoreDataProperties.swift in Sources */,
+				01E5BF442227A475003D85FD /* ResponseHandler.swift in Sources */,
+				01E5BF452227A475003D85FD /* APIEventCreateRequest.swift in Sources */,
+				01E5BF462227A475003D85FD /* APIDeviceUpdateRequest.swift in Sources */,
+				01E5BF472227A475003D85FD /* PropertyListPersistence.swift in Sources */,
+				01E5BF482227A475003D85FD /* APIService+User.swift in Sources */,
+				01E5BF492227A475003D85FD /* MessageHTML+CoreDataClass.swift in Sources */,
+				01E5BF4A2227A475003D85FD /* Bills.swift in Sources */,
+				01E5BF4B2227A475003D85FD /* APIProviderAccountCreateRequest.swift in Sources */,
+				01E5BF4C2227A475003D85FD /* APIBillResponse.swift in Sources */,
+				01E5BF4D2227A475003D85FD /* User+CoreDataProperties.swift in Sources */,
+				01E5BF4E2227A475003D85FD /* ReportGrouping.swift in Sources */,
+				01E5BF4F2227A475003D85FD /* NetworkLogger.swift in Sources */,
+				01E5BF502227A475003D85FD /* AggregationEndpoint.swift in Sources */,
+				01E5BF512227A475003D85FD /* OAuthError.swift in Sources */,
+				01E5BF522227A475003D85FD /* APIAccountBalanceReportResponse.swift in Sources */,
+				01E5BF532227A475003D85FD /* APITransactionUpdateRequest.swift in Sources */,
+				01E5BF542227A475003D85FD /* CachedObjects.swift in Sources */,
+				01E5BF552227A475003D85FD /* Data.swift in Sources */,
+				01E5BF562227A475003D85FD /* DeviceEndpoint.swift in Sources */,
+				01E5BF572227A475003D85FD /* DateFormatter.swift in Sources */,
+				01E5BF582227A475003D85FD /* MessageHTML+CoreDataProperties.swift in Sources */,
+				01E5BF592227A475003D85FD /* SecKeyPEM.swift in Sources */,
+				01E5BF5A2227A475003D85FD /* MessageText+CoreDataClass.swift in Sources */,
+				01E5BF5B2227A475003D85FD /* Message+CoreDataProperties.swift in Sources */,
+				01E5BF5C2227A475003D85FD /* Provider+CoreDataProperties.swift in Sources */,
+				01E5BF5D2227A475003D85FD /* TransactionCategory+CoreDataClass.swift in Sources */,
+				01E5BF5E2227A475003D85FD /* Events.swift in Sources */,
+				01E5BF5F2227A475003D85FD /* Log.swift in Sources */,
+				01E5BF602227A475003D85FD /* EventsEndpoint.swift in Sources */,
+				01E5BF612227A475003D85FD /* MessageVideo+CoreDataProperties.swift in Sources */,
+				01E5BF622227A475003D85FD /* FrolloSDKConfiguration.swift in Sources */,
+				01E5BF632227A475003D85FD /* APIService+Aggregation.swift in Sources */,
+				01E5BF642227A475003D85FD /* MessageImage+CoreDataClass.swift in Sources */,
+				01E5BF652227A475003D85FD /* APIBillsResponse.swift in Sources */,
+				01E5BF662227A475003D85FD /* APITransactionResponse.swift in Sources */,
+				01E5BF672227A475003D85FD /* Network.swift in Sources */,
+				01E5BF682227A475003D85FD /* APIService+Reports.swift in Sources */,
+				01E5BF692227A475003D85FD /* Account+CoreDataProperties.swift in Sources */,
+				01E5BF6A2227A475003D85FD /* Reports.swift in Sources */,
+				01E5BF6B2227A475003D85FD /* APIError.swift in Sources */,
+				01E5BF6C2227A475003D85FD /* FrolloSDKDelegate.swift in Sources */,
+				01E5BF6D2227A475003D85FD /* NotificationPayload.swift in Sources */,
+				01E5BF6E2227A475003D85FD /* APIUniqueResponse.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -3771,6 +4115,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = YES;
+				SDK_VERSION = 2.0;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 				TVOS_DEPLOYMENT_TARGET = 10.0;
@@ -3810,6 +4155,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				SDK_VERSION = 2.0;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 				TVOS_DEPLOYMENT_TARGET = 10.0;
@@ -3857,8 +4203,8 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = MFREL6LQ6B;
-				DYLIB_COMPATIBILITY_VERSION = 2.0;
-				DYLIB_CURRENT_VERSION = 2.0;
+				DYLIB_COMPATIBILITY_VERSION = "$(SDK_VERSION)";
+				DYLIB_CURRENT_VERSION = "$(SDK_VERSION)";
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -3936,8 +4282,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = MFREL6LQ6B;
-				DYLIB_COMPATIBILITY_VERSION = 2.0;
-				DYLIB_CURRENT_VERSION = 2.0;
+				DYLIB_COMPATIBILITY_VERSION = "$(SDK_VERSION)";
+				DYLIB_CURRENT_VERSION = "$(SDK_VERSION)";
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -4549,6 +4895,160 @@
 			};
 			name = Release;
 		};
+		01E5BF752227A475003D85FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 200;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = MFREL6LQ6B;
+				DYLIB_COMPATIBILITY_VERSION = "$(SDK_VERSION)";
+				DYLIB_CURRENT_VERSION = "$(SDK_VERSION)";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Sources/FrolloSDKCore-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-DCORE";
+				PRODUCT_BUNDLE_IDENTIFIER = us.frollo.FrolloSDK;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		01E5BF762227A475003D85FD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 200;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = MFREL6LQ6B;
+				DYLIB_COMPATIBILITY_VERSION = "$(SDK_VERSION)";
+				DYLIB_CURRENT_VERSION = "$(SDK_VERSION)";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Sources/FrolloSDKCore-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_SWIFT_FLAGS = "-DCORE";
+				PRODUCT_BUNDLE_IDENTIFIER = us.frollo.FrolloSDK;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -4611,6 +5111,15 @@
 			buildConfigurations = (
 				017B48C32105958100447E65 /* Debug */,
 				017B48C42105958100447E65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		01E5BF742227A475003D85FD /* Build configuration list for PBXNativeTarget "FrolloSDKCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				01E5BF752227A475003D85FD /* Debug */,
+				01E5BF762227A475003D85FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

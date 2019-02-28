@@ -9,7 +9,9 @@
 import XCTest
 @testable import FrolloSDK
 
-#if os(tvOS)
+#if CORE && os(iOS)
+import AppAuthCore
+#elseif os(tvOS)
 import AppAUth
 #else
 import AppAuth
