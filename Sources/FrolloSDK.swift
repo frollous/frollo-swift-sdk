@@ -30,6 +30,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         
         /// User was logged out
         case loggedOut
+        
     }
     
     private struct FrolloSDKConstants {

@@ -685,6 +685,29 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
+    public func transactionSummary(from fromDate: Date, to toDate: Date, accountIDs: [Int64]? = nil, transactionIDs: [Int64]? = nil, onlyIncludedAccounts: Bool? = nil, onlyIncludedTransactions: Bool? = nil, completion: @escaping (Result<(count: Int64, sum: Decimal), Error>) -> Void) {
+        service.transactionSummary(from: fromDate, to: toDate, accountIDs: accountIDs, transactionIDs: transactionIDs, onlyIncludedAccounts: onlyIncludedAccounts, onlyIncludedTransactions: onlyIncludedTransactions) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    var sum: Decimal = 0
+                    
+                    if let transactionSum = NSDecimalNumber(string: response.sum) as Decimal? {
+                        sum = transactionSum
+                    }
+                    
+                    DispatchQueue.main.async {
+                        completion(.success((count: response.count, sum: sum)))
+                    }
+            }
+        }
+    }
+    
     // MARK: - Transaction Categories
     
     /**

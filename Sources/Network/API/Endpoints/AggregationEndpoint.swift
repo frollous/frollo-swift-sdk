@@ -11,8 +11,12 @@ import Foundation
 enum AggregationEndpoint: Endpoint {
     
     enum QueryParameters: String, Codable {
+        case accountIDs = "account_ids"
+        case accountIncluded = "account_included"
         case fromDate = "from_date"
         case toDate = "to_date"
+        case transactionIDs = "transaction_ids"
+        case transactionIncluded = "transaction_included"
     }
     
     internal var path: String {
@@ -34,6 +38,7 @@ enum AggregationEndpoint: Endpoint {
     case transactions
     case transactionsByID(transactionIDs: [Int64])
     case transactionCategories
+    case transactionSummary
     
     private func urlPath() -> String {
         switch self {
@@ -63,6 +68,8 @@ enum AggregationEndpoint: Endpoint {
                 return "aggregation/transactions?transaction_ids=" + transactionIDs.map { String($0) }.joined(separator: ",")
             case .transactionCategories:
                 return "aggregation/transactions/categories"
+            case .transactionSummary:
+                return "aggregation/transactions/summary"
         }
     }
     
