@@ -168,7 +168,9 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
                                            categoryID: transactionCategoryID,
                                            included: included,
                                            memo: memo,
-                                           userDescription: userDescription)
+                                           userDescription: userDescription,
+                                           includeApplyAll: nil,
+                                           recategoriseAll: nil)
     }
     
 }

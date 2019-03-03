@@ -1903,6 +1903,137 @@ class AggregationTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testExcludeTransaction() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 99703).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_99703_excluded", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let transaction = Transaction(context: managedObjectContext)
+                transaction.populateTestData()
+                transaction.transactionID = 99703
+                transaction.included = true
+                
+                try? managedObjectContext.save()
+                
+                let aggregation = Aggregation(database: database, service: service)
+                
+                aggregation.excludeTransaction(transactionID: 99703, excluded: true, excludeAll: true) { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTFail(error.localizedDescription)
+                        case .success:
+                            let context = database.viewContext
+                            
+                            let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                            fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99703])
+                            
+                            do {
+                                let fetchedTransactions = try context.fetch(fetchRequest)
+                                
+                                XCTAssertEqual(fetchedTransactions.first?.transactionID, 99703)
+                                XCTAssertEqual(fetchedTransactions.first?.included, false)
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testRecategoriseTransaction() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 99703).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_99703", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let transaction = Transaction(context: managedObjectContext)
+                transaction.populateTestData()
+                transaction.transactionID = 99703
+                transaction.transactionCategoryID = 123
+                
+                let oldTransactionCategory = TransactionCategory(context: managedObjectContext)
+                oldTransactionCategory.populateTestData()
+                oldTransactionCategory.transactionCategoryID = 123
+                
+                transaction.transactionCategory = oldTransactionCategory
+                
+                let newTransactionCategory = TransactionCategory(context: managedObjectContext)
+                newTransactionCategory.populateTestData()
+                newTransactionCategory.transactionCategoryID = 81
+                
+                try? managedObjectContext.save()
+                
+                let aggregation = Aggregation(database: database, service: service)
+                
+                aggregation.recategoriseTransaction(transactionID: 99703, transactionCategoryID: 81, recategoriseAll: true) { (result) in
+                    switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99703])
+                        
+                        do {
+                            let fetchedTransactions = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedTransactions.first?.transactionID, 99703)
+                            XCTAssertEqual(fetchedTransactions.first?.transactionCategoryID, 81)
+                            XCTAssertEqual(fetchedTransactions.first?.transactionCategory?.transactionCategoryID, 81)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testUpdatingTransaction() {
         let expectation1 = expectation(description: "Network Request 1")
         

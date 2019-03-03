@@ -634,13 +634,145 @@ public class Aggregation: CachedObjects, ResponseHandler {
     }
     
     /**
+     Exclude a transaction from budgets and reports and update on the host
+     
+     - parameters:
+        - transactionID: ID of the transaction to be updated
+        - excluded: Exclusion status of the transaction. True will mark a transaction as no longer included in budgets etc
+        - excludeAll: Apply exclusion status to all similar transactions
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func excludeTransaction(transactionID: Int64, excluded: Bool, excludeAll: Bool, completion: FrolloSDKCompletionHandler? = nil) {
+        let managedObjectContext = database.newBackgroundContext()
+        
+        guard let transaction = transaction(context: managedObjectContext, transactionID: transactionID)
+            else {
+                let error = DataError(type: .database, subType: .notFound)
+                
+                DispatchQueue.main.async {
+                    completion?(.failure(error))
+                }
+                return
+        }
+        
+        var request: APITransactionUpdateRequest!
+        
+        managedObjectContext.performAndWait {
+            transaction.included = !excluded
+            
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+            
+            request = transaction.updateRequest()
+        }
+        
+        request.includeApplyAll = excludeAll
+        
+        service.updateTransaction(transactionID: transactionID, request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleTransactionResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
+     Recategorise a transaction and update on the host
+     
+     - parameters:
+        - transactionID: ID of the transaction to be updated
+        - transactionCategoryID: The transaction category ID to recategorise the transaction to
+        - recategoriseAll: Apply recategorisation to all similar transactions
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func recategoriseTransaction(transactionID: Int64, transactionCategoryID: Int64, recategoriseAll: Bool, completion: FrolloSDKCompletionHandler? = nil) {
+        let managedObjectContext = database.newBackgroundContext()
+        
+        guard let transaction = transaction(context: managedObjectContext, transactionID: transactionID),
+            let transactionCategory = transactionCategory(context: managedObjectContext, transactionCategoryID: transactionCategoryID)
+            else {
+                let error = DataError(type: .database, subType: .notFound)
+                
+                DispatchQueue.main.async {
+                    completion?(.failure(error))
+                }
+                return
+        }
+        
+        var request: APITransactionUpdateRequest!
+        
+        managedObjectContext.performAndWait {
+            transaction.transactionCategoryID = transactionCategoryID
+            transaction.transactionCategory = transactionCategory
+            
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+            
+            request = transaction.updateRequest()
+        }
+        
+        request.recategoriseAll = recategoriseAll
+        
+        service.updateTransaction(transactionID: transactionID, request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleTransactionResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
      Update a transaction on the host
      
      - parameters:
         - transactionID: ID of the transaction to be updated
+        - includeApplyAll: Apply included flag to all similar transactions (Optional)
+        - recategoriseAll: Apply recategorisation to all similar transactions (Optional)
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func updateTransaction(transactionID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+    public func updateTransaction(transactionID: Int64, includeApplyAll: Bool? = nil, recategoriseAll: Bool? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         let managedObjectContext = database.newBackgroundContext()
         
         guard let transaction = transaction(context: managedObjectContext, transactionID: transactionID)
@@ -658,6 +790,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
         managedObjectContext.performAndWait {
             request = transaction.updateRequest()
         }
+        
+        request.includeApplyAll = includeApplyAll
+        request.recategoriseAll = recategoriseAll
         
         service.updateTransaction(transactionID: transactionID, request: request) { (result) in
             switch result {

@@ -881,6 +881,9 @@
 		01E5BF7E2228B032003D85FD /* transaction_summary.json in Resources */ = {isa = PBXBuildFile; fileRef = 01E5BF7D2228B031003D85FD /* transaction_summary.json */; };
 		01E5BF7F2228B032003D85FD /* transaction_summary.json in Resources */ = {isa = PBXBuildFile; fileRef = 01E5BF7D2228B031003D85FD /* transaction_summary.json */; };
 		01E5BF802228B032003D85FD /* transaction_summary.json in Resources */ = {isa = PBXBuildFile; fileRef = 01E5BF7D2228B031003D85FD /* transaction_summary.json */; };
+		01E5BF82222C88E9003D85FD /* transaction_id_99703_excluded.json in Resources */ = {isa = PBXBuildFile; fileRef = 01E5BF81222C88E8003D85FD /* transaction_id_99703_excluded.json */; };
+		01E5BF83222C88E9003D85FD /* transaction_id_99703_excluded.json in Resources */ = {isa = PBXBuildFile; fileRef = 01E5BF81222C88E8003D85FD /* transaction_id_99703_excluded.json */; };
+		01E5BF84222C88E9003D85FD /* transaction_id_99703_excluded.json in Resources */ = {isa = PBXBuildFile; fileRef = 01E5BF81222C88E8003D85FD /* transaction_id_99703_excluded.json */; };
 		01E8375A2149F08100A50E15 /* LoginFormError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E837592149F08100A50E15 /* LoginFormError.swift */; };
 		01EAAEDF214B6185003D1EAC /* APIProviderAccountCreateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EAAEDE214B6185003D1EAC /* APIProviderAccountCreateRequest.swift */; };
 		01EAAEE1214F351D003D1EAC /* APIProviderAccountUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EAAEE0214F351D003D1EAC /* APIProviderAccountUpdateRequest.swift */; };
@@ -1325,6 +1328,7 @@
 		01E5BF792227A796003D85FD /* FrolloSDKCore-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FrolloSDKCore-Info.plist"; sourceTree = "<group>"; };
 		01E5BF7A222895CA003D85FD /* APITransactionSummaryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionSummaryResponse.swift; sourceTree = "<group>"; };
 		01E5BF7D2228B031003D85FD /* transaction_summary.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_summary.json; sourceTree = "<group>"; };
+		01E5BF81222C88E8003D85FD /* transaction_id_99703_excluded.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_id_99703_excluded.json; sourceTree = "<group>"; };
 		01E837592149F08100A50E15 /* LoginFormError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFormError.swift; sourceTree = "<group>"; };
 		01EAAEDE214B6185003D1EAC /* APIProviderAccountCreateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProviderAccountCreateRequest.swift; sourceTree = "<group>"; };
 		01EAAEE0214F351D003D1EAC /* APIProviderAccountUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProviderAccountUpdateRequest.swift; sourceTree = "<group>"; };
@@ -1936,6 +1940,7 @@
 				015EEDEF210FE51C0081AD76 /* providers_valid.json */,
 				01483BAB2119564500D0DA87 /* transaction_categories_invalid.json */,
 				01483BAC2119564600D0DA87 /* transaction_categories_valid.json */,
+				01E5BF81222C88E8003D85FD /* transaction_id_99703_excluded.json */,
 				01ED8FDF211A868F00ACE691 /* transaction_id_99703.json */,
 				01E5BF7D2228B031003D85FD /* transaction_summary.json */,
 				01ED8FD7211A846300ACE691 /* transactions_2018-08-01_invalid.json */,
@@ -2820,6 +2825,7 @@
 				01ED8FD9211A846500ACE691 /* transactions_2018-08-01_invalid.json in Resources */,
 				017B48E721082DCA00447E65 /* user_details_complete.json in Resources */,
 				01B896C020F2EDA30068069A /* error_invalid_count.json in Resources */,
+				01E5BF82222C88E9003D85FD /* transaction_id_99703_excluded.json in Resources */,
 				01A1F5932148D646002B9A93 /* provider-public-key.der in Resources */,
 				018501D121FFC56F00069D87 /* account_balance_reports_by_day_container_bank_2018-10-29_2019-01-29.json in Resources */,
 				01236D6921EED5F7008DD61A /* transaction_reports_current_budget_category.json in Resources */,
@@ -2932,6 +2938,7 @@
 				01ED8FDA211A846500ACE691 /* transactions_2018-08-01_invalid.json in Resources */,
 				017B48E821082DCA00447E65 /* user_details_complete.json in Resources */,
 				017B48452101B4FE00447E65 /* error_invalid_count.json in Resources */,
+				01E5BF83222C88E9003D85FD /* transaction_id_99703_excluded.json in Resources */,
 				01A1F5942148D646002B9A93 /* provider-public-key.der in Resources */,
 				018501D221FFC56F00069D87 /* account_balance_reports_by_day_container_bank_2018-10-29_2019-01-29.json in Resources */,
 				01236D6A21EED5F7008DD61A /* transaction_reports_current_budget_category.json in Resources */,
@@ -3053,6 +3060,7 @@
 				01ED8FDB211A846500ACE691 /* transactions_2018-08-01_invalid.json in Resources */,
 				017B48E921082DCB00447E65 /* user_details_complete.json in Resources */,
 				017B48A22105958100447E65 /* error_invalid_count.json in Resources */,
+				01E5BF84222C88E9003D85FD /* transaction_id_99703_excluded.json in Resources */,
 				01A1F5952148D646002B9A93 /* provider-public-key.der in Resources */,
 				018501D321FFC56F00069D87 /* account_balance_reports_by_day_container_bank_2018-10-29_2019-01-29.json in Resources */,
 				01236D6B21EED5F7008DD61A /* transaction_reports_current_budget_category.json in Resources */,

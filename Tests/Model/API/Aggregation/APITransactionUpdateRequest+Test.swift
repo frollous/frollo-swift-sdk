@@ -16,7 +16,9 @@ extension APITransactionUpdateRequest {
                                            categoryID: Int64(arc4random()),
                                            included: true,
                                            memo: UUID().uuidString,
-                                           userDescription: UUID().uuidString)
+                                           userDescription: UUID().uuidString,
+                                           includeApplyAll: nil,
+                                           recategoriseAll: nil)
     }
     
 }

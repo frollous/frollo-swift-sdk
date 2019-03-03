@@ -14,7 +14,9 @@ struct APITransactionUpdateRequest: Codable {
         case budgetCategory = "budget_category"
         case categoryID = "category_id"
         case included
+        case includeApplyAll = "include_apply_all"
         case memo
+        case recategoriseAll = "recategorise_all"
         case userDescription = "user_description"
     }
     
@@ -23,5 +25,8 @@ struct APITransactionUpdateRequest: Codable {
     let included: Bool
     let memo: String?
     let userDescription: String?
+    
+    var includeApplyAll: Bool?
+    var recategoriseAll: Bool?
     
 }
