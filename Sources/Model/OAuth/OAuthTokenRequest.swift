@@ -18,7 +18,6 @@ struct OAuthTokenRequest: Codable {
     
     enum Scope: String, Codable, CaseIterable {
         case offlineAccess = "offline_access"
-        case openID = "open_id"
     }
     
     enum CodingKeys: String, CodingKey {
