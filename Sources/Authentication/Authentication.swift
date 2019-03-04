@@ -124,7 +124,7 @@ public class Authentication {
                                               scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail],
                                               redirectURL: authService.redirectURL,
                                               responseType: OIDResponseTypeCode,
-                                              additionalParameters: ["domain": domain])
+                                              additionalParameters: ["audience": service.serverURL.absoluteString, "domain": domain])
         
         authorizationFlow = OIDAuthorizationService.present(request, presenting: presentingViewController) { response, error in
             if let authError = error as NSError? {
@@ -160,7 +160,7 @@ public class Authentication {
                                               scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail],
                                               redirectURL: authService.redirectURL,
                                               responseType: OIDResponseTypeCode,
-                                              additionalParameters: ["domain": domain])
+                                              additionalParameters: ["audience": service.serverURL.absoluteString, "domain": domain])
         
         authorizationFlow = OIDAuthorizationService.present(request) { response, error in
             if let authError = error as NSError? {
@@ -197,8 +197,7 @@ public class Authentication {
             return
         }
         
-        let request = OAuthTokenRequest(audience: service.serverURL.absoluteString,
-                                        clientID: clientID,
+        let request = OAuthTokenRequest(clientID: clientID,
                                         code: nil,
                                         codeVerifier: nil,
                                         domain: domain,
@@ -302,8 +301,7 @@ public class Authentication {
                     }
                 case .success(let userResponse):
                     // Authenticate the user at the token endpoint after creation
-                    let tokenRequest = OAuthTokenRequest(audience: self.service.serverURL.absoluteString,
-                                                         clientID: self.clientID,
+                    let tokenRequest = OAuthTokenRequest(clientID: self.clientID,
                                                          code: nil,
                                                          codeVerifier: nil,
                                                          domain: self.domain,
@@ -577,8 +575,7 @@ public class Authentication {
             return
         }
         
-        let request = OAuthTokenRequest(audience: service.serverURL.absoluteString,
-                                        clientID: clientID,
+        let request = OAuthTokenRequest(clientID: clientID,
                                         code: code,
                                         codeVerifier: codeVerifier,
                                         domain: domain,
@@ -650,8 +647,7 @@ public class Authentication {
             return
         }
         
-        let request = OAuthTokenRequest(audience: service.serverURL.absoluteString,
-                                        clientID: clientID,
+        let request = OAuthTokenRequest(clientID: clientID,
                                         code: nil,
                                         codeVerifier: nil,
                                         domain: domain,
@@ -692,8 +688,7 @@ public class Authentication {
     public func refreshTokens(completion: FrolloSDKCompletionHandler? = nil) {
         service.network.authenticator.refreshTokens()
         
-        let request = OAuthTokenRequest(audience: service.serverURL.absoluteString,
-                                        clientID: clientID,
+        let request = OAuthTokenRequest(clientID: clientID,
                                         code: nil,
                                         codeVerifier: nil,
                                         domain: domain,

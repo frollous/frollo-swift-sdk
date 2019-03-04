@@ -12,8 +12,7 @@ import Foundation
 extension OAuthTokenRequest {
     
     static func testLoginValidData() -> OAuthTokenRequest {
-        return OAuthTokenRequest(audience: "https://api.example.com",
-                                 clientID: String.randomString(length: 32),
+        return OAuthTokenRequest(clientID: String.randomString(length: 32),
                                  code: nil,
                                  codeVerifier: nil,
                                  domain: "api.example.com",
@@ -26,8 +25,7 @@ extension OAuthTokenRequest {
     }
     
     static func testLoginInvalidData() -> OAuthTokenRequest {
-        return OAuthTokenRequest(audience: "https://api.example.com",
-                                 clientID: String.randomString(length: 32),
+        return OAuthTokenRequest(clientID: String.randomString(length: 32),
                                  code: nil,
                                  codeVerifier: nil,
                                  domain: "api.example.com",

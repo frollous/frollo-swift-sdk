@@ -21,7 +21,6 @@ struct OAuthTokenRequest: Codable {
     }
     
     enum CodingKeys: String, CodingKey {
-        case audience
         case clientID = "client_id"
         case code
         case codeVerifier = "code_verifier"
@@ -34,7 +33,6 @@ struct OAuthTokenRequest: Codable {
         case username
     }
     
-    let audience: String
     let clientID: String
     let code: String?
     let codeVerifier: String?
