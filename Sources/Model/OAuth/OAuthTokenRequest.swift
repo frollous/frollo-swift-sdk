@@ -16,7 +16,13 @@ struct OAuthTokenRequest: Codable {
         case refreshToken = "refresh_token"
     }
     
+    enum Scope: String, Codable, CaseIterable {
+        case offlineAccess = "offline_access"
+        case openID = "open_id"
+    }
+    
     enum CodingKeys: String, CodingKey {
+        case audience
         case clientID = "client_id"
         case code
         case codeVerifier = "code_verifier"
@@ -29,6 +35,7 @@ struct OAuthTokenRequest: Codable {
         case username
     }
     
+    let audience: String
     let clientID: String
     let code: String?
     let codeVerifier: String?

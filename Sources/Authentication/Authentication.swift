@@ -121,7 +121,7 @@ public class Authentication {
         let request = OIDAuthorizationRequest(configuration: config,
                                               clientId: clientID,
                                               clientSecret: nil,
-                                              scopes: ["offline_access"],
+                                              scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OAuthTokenRequest.Scope.openID.rawValue],
                                               redirectURL: authService.redirectURL,
                                               responseType: OIDResponseTypeCode,
                                               additionalParameters: ["domain": domain])
@@ -157,7 +157,7 @@ public class Authentication {
         let request = OIDAuthorizationRequest(configuration: config,
                                               clientId: clientID,
                                               clientSecret: nil,
-                                              scopes: ["offline_access"],
+                                              scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OAuthTokenRequest.Scope.openID.rawValue],
                                               redirectURL: authService.redirectURL,
                                               responseType: OIDResponseTypeCode,
                                               additionalParameters: ["domain": domain])
@@ -197,7 +197,8 @@ public class Authentication {
             return
         }
         
-        let request = OAuthTokenRequest(clientID: clientID,
+        let request = OAuthTokenRequest(audience: service.serverURL.absoluteString,
+                                        clientID: clientID,
                                         code: nil,
                                         codeVerifier: nil,
                                         domain: domain,
@@ -301,7 +302,8 @@ public class Authentication {
                     }
                 case .success(let userResponse):
                     // Authenticate the user at the token endpoint after creation
-                    let tokenRequest = OAuthTokenRequest(clientID: self.clientID,
+                    let tokenRequest = OAuthTokenRequest(audience: self.service.serverURL.absoluteString,
+                                                         clientID: self.clientID,
                                                          code: nil,
                                                          codeVerifier: nil,
                                                          domain: self.domain,
@@ -575,7 +577,8 @@ public class Authentication {
             return
         }
         
-        let request = OAuthTokenRequest(clientID: clientID,
+        let request = OAuthTokenRequest(audience: service.serverURL.absoluteString,
+                                        clientID: clientID,
                                         code: code,
                                         codeVerifier: codeVerifier,
                                         domain: domain,
@@ -647,7 +650,8 @@ public class Authentication {
             return
         }
         
-        let request = OAuthTokenRequest(clientID: clientID,
+        let request = OAuthTokenRequest(audience: service.serverURL.absoluteString,
+                                        clientID: clientID,
                                         code: nil,
                                         codeVerifier: nil,
                                         domain: domain,
@@ -688,7 +692,8 @@ public class Authentication {
     public func refreshTokens(completion: FrolloSDKCompletionHandler? = nil) {
         service.network.authenticator.refreshTokens()
         
-        let request = OAuthTokenRequest(clientID: clientID,
+        let request = OAuthTokenRequest(audience: service.serverURL.absoluteString,
+                                        clientID: clientID,
                                         code: nil,
                                         codeVerifier: nil,
                                         domain: domain,
