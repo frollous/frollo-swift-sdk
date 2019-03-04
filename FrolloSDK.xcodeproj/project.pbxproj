@@ -2627,6 +2627,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 01527CD120E1B5C300B5042A /* Build configuration list for PBXNativeTarget "FrolloSDK" */;
 			buildPhases = (
+				01E5BF8D222CD93F003D85FD /* Swift Format */,
 				01EED86F20E5B4C500F4516B /* Scan TODO and FIXME flags */,
 				01527CBA20E1B5C300B5042A /* Sources */,
 				01527CBB20E1B5C300B5042A /* Frameworks */,
@@ -2723,6 +2724,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 01E5BF742227A475003D85FD /* Build configuration list for PBXNativeTarget "FrolloSDKCore" */;
 			buildPhases = (
+				01E5BF8E222CD961003D85FD /* Swift Format */,
 				01E5BEE42227A475003D85FD /* Scan TODO and FIXME flags */,
 				01E5BEE52227A475003D85FD /* Sources */,
 				01E5BF6F2227A475003D85FD /* Frameworks */,
@@ -3256,6 +3258,42 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}/Sources\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
+		};
+		01E5BF8D222CD93F003D85FD /* Swift Format */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Swift Format";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/swiftformat\" --config \"${SRCROOT}/.swiftformat\" \"${SRCROOT}/Sources/\"\n";
+		};
+		01E5BF8E222CD961003D85FD /* Swift Format */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Swift Format";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/swiftformat\" --config \"${SRCROOT}/.swiftformat\" \"${SRCROOT}/Sources/\"\n";
 		};
 		01EED86F20E5B4C500F4516B /* Scan TODO and FIXME flags */ = {
 			isa = PBXShellScriptBuildPhase;
