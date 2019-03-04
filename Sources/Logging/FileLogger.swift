@@ -19,8 +19,8 @@ class FileLogger: Logger {
     private let previousLogFilePath: URL
     
     init(path: URL, previousPath: URL) {
-        logFilePath = path
-        previousLogFilePath = previousPath
+        self.logFilePath = path
+        self.previousLogFilePath = previousPath
         
         let folderPath = path.deletingLastPathComponent()
         if !FileManager.default.fileExists(atPath: folderPath.path) {
@@ -42,7 +42,7 @@ class FileLogger: Logger {
     
     func writeMessage(_ message: String, level: LogLevel) {
         guard let handle = fileHandle
-            else {
+        else {
             return
         }
         
@@ -60,15 +60,15 @@ class FileLogger: Logger {
         
         do {
             try fileHandle = FileHandle(forWritingTo: logFilePath)
-        } catch let error {
+        } catch {
             os_log("Failed to open path for writing log file: %@", error.localizedDescription)
         }
     }
     
     private func closeFile() {
         guard let handle = fileHandle
-            else {
-                return
+        else {
+            return
         }
         
         handle.closeFile()
@@ -81,7 +81,7 @@ class FileLogger: Logger {
             if FileManager.default.fileExists(atPath: previousLogFilePath.path) {
                 do {
                     try FileManager.default.removeItem(at: previousLogFilePath)
-                } catch let error {
+                } catch {
                     os_log("Error removing previous log file %@", error.localizedDescription)
                 }
             }
@@ -89,7 +89,7 @@ class FileLogger: Logger {
             // Move the old one
             do {
                 try FileManager.default.moveItem(at: logFilePath, to: previousLogFilePath)
-            } catch let error {
+            } catch {
                 os_log("Failed to rotate log files, nuking: %@", error.localizedDescription)
                 
                 try? FileManager.default.removeItem(at: logFilePath)

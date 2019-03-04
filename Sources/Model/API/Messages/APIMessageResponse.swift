@@ -101,13 +101,13 @@ struct APIMessageResponse: APIUniqueResponse {
         
         static func == (lhs: APIMessageResponse.Content, rhs: APIMessageResponse.Content) -> Bool {
             switch (lhs, rhs) {
-                case (let .html(lhsPayload), let .html(rhsPayload)):
+                case (let .html(lhsPayload), .html(let rhsPayload)):
                     return lhsPayload == rhsPayload
-                case (let .image(lhsPayload), let .image(rhsPayload)):
+                case (let .image(lhsPayload), .image(let rhsPayload)):
                     return lhsPayload == rhsPayload
-                case (let .text(lhsPayload), let .text(rhsPayload)):
+                case (let .text(lhsPayload), .text(let rhsPayload)):
                     return lhsPayload == rhsPayload
-                case (let .video(lhsPayload), let .video(rhsPayload)):
+                case (let .video(lhsPayload), .video(let rhsPayload)):
                     return lhsPayload == rhsPayload
                 default:
                     return false
@@ -121,7 +121,7 @@ struct APIMessageResponse: APIUniqueResponse {
         enum CodingKeys: String, CodingKey {
             case link
             case openExternal = "open_external"
-            case title = "title"
+            case title
         }
         
         let link: String?
@@ -166,15 +166,15 @@ extension APIMessageResponse: Codable {
             case .html:
                 let contents = try container.decode(Content.HTML.self, forKey: .content)
                 self.content = .html(contents)
-            
+                
             case .image:
                 let contents = try container.decode(Content.Image.self, forKey: .content)
                 self.content = .image(contents)
-            
+                
             case .text:
                 let contents = try container.decode(Content.Text.self, forKey: .content)
                 self.content = .text(contents)
-            
+                
             case .video:
                 let contents = try container.decode(Content.Video.self, forKey: .content)
                 content = .video(contents)
@@ -198,18 +198,18 @@ extension APIMessageResponse: Codable {
         
         if let contents = content {
             switch contents {
-            case .html(let payload):
-                try container.encode(payload, forKey: .content)
-                
-            case .image(let payload):
-                try container.encode(payload, forKey: .content)
-                
-            case .text(let payload):
-                try container.encode(payload, forKey: .content)
-                
-            case .video(let payload):
-                try container.encode(payload, forKey: .content)
-                
+                case .html(let payload):
+                    try container.encode(payload, forKey: .content)
+                    
+                case .image(let payload):
+                    try container.encode(payload, forKey: .content)
+                    
+                case .text(let payload):
+                    try container.encode(payload, forKey: .content)
+                    
+                case .video(let payload):
+                    try container.encode(payload, forKey: .content)
+                    
             }
         }
     }

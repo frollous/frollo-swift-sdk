@@ -104,11 +104,11 @@ public class Reports: ResponseHandler, CachedObjects {
          - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshAccountBalanceReports(period: ReportAccountBalance.Period, from fromDate: Date, to toDate: Date, accountID: Int64? = nil, accountType: Account.AccountType? = nil, completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchAccountBalanceReports(period: period, from: fromDate, to: toDate, accountID: accountID, accountType: accountType) { (result) in
+        service.fetchAccountBalanceReports(period: period, from: fromDate, to: toDate, accountID: accountID, accountType: accountType) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
-                
+                    
                     DispatchQueue.main.async {
                         completion?(.failure(error))
                     }
@@ -118,10 +118,10 @@ public class Reports: ResponseHandler, CachedObjects {
                     self.handleAccountBalanceReportsResponse(response, period: period, from: fromDate, to: toDate, accountID: accountID, accountType: accountType, managedObjectContext: managedObjectContext)
                     
                     self.linkAccountBalanceReportsToAccounts(managedObjectContext: managedObjectContext)
-                
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
-                }
+                    }
             }
         }
     }
@@ -173,7 +173,7 @@ public class Reports: ResponseHandler, CachedObjects {
          - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransactionCurrentReports(grouping: ReportGrouping, budgetCategory: BudgetCategory? = nil, completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchTransactionCurrentReports(grouping: grouping, budgetCategory: budgetCategory) { (result) in
+        service.fetchTransactionCurrentReports(grouping: grouping, budgetCategory: budgetCategory) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -188,7 +188,7 @@ public class Reports: ResponseHandler, CachedObjects {
                     
                     self.linkReportTransactionCurrentToMerchants(managedObjectContext: managedObjectContext)
                     self.linkReportTransactionCurrentToTransactionCategories(managedObjectContext: managedObjectContext)
-                
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -266,7 +266,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransactionHistoryReports(grouping: ReportGrouping, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, budgetCategory: BudgetCategory? = nil, completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchTransactionHistoryReports(grouping: grouping, period: period, fromDate: fromDate, toDate: toDate, budgetCategory: budgetCategory) { (result) in
+        service.fetchTransactionHistoryReports(grouping: grouping, period: period, fromDate: fromDate, toDate: toDate, budgetCategory: budgetCategory) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -281,7 +281,7 @@ public class Reports: ResponseHandler, CachedObjects {
                     
                     self.linkReportTransactionHistoryToMerchants(managedObjectContext: managedObjectContext)
                     self.linkReportTransactionHistoryToTransactionCategories(managedObjectContext: managedObjectContext)
-                
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -430,7 +430,7 @@ public class Reports: ResponseHandler, CachedObjects {
         
         // Sort by date
         let sortedReportResponses = reportsResponse.data.sorted { (responseA: APIAccountBalanceReportResponse.Report, responseB: APIAccountBalanceReportResponse.Report) -> Bool in
-            return responseB.date > responseA.date
+            responseB.date > responseA.date
         }
         
         for reportResponse in sortedReportResponses {
@@ -449,7 +449,7 @@ public class Reports: ResponseHandler, CachedObjects {
     private func handleAccountBalanceReportsForDate(_ dateString: String, managedObjectContext: NSManagedObjectContext, reportsResponses: [APIAccountBalanceReportResponse.Report.BalanceReport], period: ReportAccountBalance.Period, accountID: Int64?, accountType: Account.AccountType?) {
         // Sort by account ID
         let sortedReportResponses = reportsResponses.sorted { (responseA: APIAccountBalanceReportResponse.Report.BalanceReport, responseB: APIAccountBalanceReportResponse.Report.BalanceReport) -> Bool in
-            return responseB.id > responseA.id
+            responseB.id > responseA.id
         }
         
         let reportAccountIDs = sortedReportResponses.map { $0.id }
@@ -491,7 +491,7 @@ public class Reports: ResponseHandler, CachedObjects {
                 for reportResponse in sortedReportResponses {
                     var report: ReportAccountBalance
                     
-                    if index < existingReports.count && existingReports[index].accountID == reportResponse.id {
+                    if index < existingReports.count, existingReports[index].accountID == reportResponse.id {
                         report = existingReports[index]
                         index += 1
                     } else {
@@ -570,10 +570,10 @@ public class Reports: ResponseHandler, CachedObjects {
     private func handleTransactionCurrentDayReportsResponse(_ reportsResponse: [APITransactionCurrentReportResponse.Report], grouping: ReportGrouping, budgetCategory: BudgetCategory? = nil, linkedID: Int64, name: String?, managedObjectContext: NSManagedObjectContext) {
         // Sort by day
         let sortedReportResponses = reportsResponse.sorted { (responseA: APITransactionCurrentReportResponse.Report, responseB: APITransactionCurrentReportResponse.Report) -> Bool in
-            return responseB.day > responseA.day
+            responseB.day > responseA.day
         }
         
-        let reportDays = sortedReportResponses.map { return $0.day }
+        let reportDays = sortedReportResponses.map { $0.day }
         
         managedObjectContext.performAndWait {
             // Fetch existing reports for updating
@@ -607,7 +607,7 @@ public class Reports: ResponseHandler, CachedObjects {
                 for reportResponse in sortedReportResponses {
                     var report: ReportTransactionCurrent
                     
-                    if index < existingReports.count && existingReports[index].day == reportResponse.day {
+                    if index < existingReports.count, existingReports[index].day == reportResponse.day {
                         report = existingReports[index]
                         index += 1
                     } else {
@@ -632,7 +632,7 @@ public class Reports: ResponseHandler, CachedObjects {
                         report.amount = nil
                     }
                     if let value = reportResponse.averageValue {
-                        report.average = NSDecimalNumber(string:value)
+                        report.average = NSDecimalNumber(string: value)
                     } else {
                         report.average = nil
                     }
@@ -680,7 +680,7 @@ public class Reports: ResponseHandler, CachedObjects {
         
         // Sort by date
         let sortedReportResponses = reportsResponse.data.sorted { (responseA: APITransactionHistoryReportsResponse.Report, responseB: APITransactionHistoryReportsResponse.Report) -> Bool in
-            return responseB.date > responseA.date
+            responseB.date > responseA.date
         }
         
         let reportDates = sortedReportResponses.map { $0.date }
@@ -736,7 +736,7 @@ public class Reports: ResponseHandler, CachedObjects {
                 for reportResponse in sortedReportResponses {
                     var report: ReportTransactionHistory
                     
-                    if index < existingReports.count && existingReports[index].dateString == reportResponse.date {
+                    if index < existingReports.count, existingReports[index].dateString == reportResponse.date {
                         report = existingReports[index]
                         index += 1
                     } else {
@@ -792,7 +792,7 @@ public class Reports: ResponseHandler, CachedObjects {
     private func handleTransactionHistoryGroupReportsResponse(_ categoryReportsResponse: [APITransactionHistoryReportsResponse.Report.GroupReport], overallReport: ReportTransactionHistory, managedObjectContext: NSManagedObjectContext) {
         // Sort by linked ID
         let sortedCategoryReportResponses = categoryReportsResponse.sorted(by: { (responseA: APITransactionHistoryReportsResponse.Report.GroupReport, responseB: APITransactionHistoryReportsResponse.Report.GroupReport) -> Bool in
-            return responseB.id > responseA.id
+            responseB.id > responseA.id
         })
         
         var linkedIDs = Set<Int64>()
@@ -804,7 +804,7 @@ public class Reports: ResponseHandler, CachedObjects {
         if let filteredGroupReports = overallReport.reports?.filtered(using: filterPredicate) as? Set<ReportTransactionHistory>,
             let orphanedGroupReports = overallReport.reports?.filtered(using: NSCompoundPredicate(notPredicateWithSubpredicate: filterPredicate)) as? Set<ReportTransactionHistory> {
             let existingGroupReports = filteredGroupReports.sorted(by: { (reportA: ReportTransactionHistory, reportB: ReportTransactionHistory) -> Bool in
-                return reportB.linkedID > reportA.linkedID
+                reportB.linkedID > reportA.linkedID
             })
             
             var index = 0
@@ -812,7 +812,7 @@ public class Reports: ResponseHandler, CachedObjects {
             for groupReportResponse in sortedCategoryReportResponses {
                 var groupReport: ReportTransactionHistory
                 
-                if index < existingGroupReports.count && existingGroupReports[index].linkedID == groupReportResponse.id {
+                if index < existingGroupReports.count, existingGroupReports[index].linkedID == groupReportResponse.id {
                     groupReport = existingGroupReports[index]
                     index += 1
                 } else {

@@ -14,7 +14,7 @@ class ConsoleLogger: Logger {
     private let log: OSLog
     
     init() {
-        log = OSLog(subsystem: Bundle(for: ConsoleLogger.self).bundleIdentifier!, category: "FrolloSDK")
+        self.log = OSLog(subsystem: Bundle(for: ConsoleLogger.self).bundleIdentifier!, category: "FrolloSDK")
     }
     
     func writeMessage(_ message: String, level: LogLevel) {

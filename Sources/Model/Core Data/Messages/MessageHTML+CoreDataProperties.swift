@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension MessageHTML {
-
+    
     /**
      Fetch Request
      
@@ -21,7 +20,7 @@ extension MessageHTML {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MessageHTML> {
         return NSFetchRequest<MessageHTML>(entityName: "MessageHTML")
     }
-
+    
     /// Footer content (optional)
     @NSManaged public var footer: String?
     
@@ -30,5 +29,5 @@ extension MessageHTML {
     
     /// HTML content to be rendered
     @NSManaged public var main: String
-
+    
 }

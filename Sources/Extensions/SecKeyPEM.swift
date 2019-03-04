@@ -11,8 +11,8 @@ import Security
 
 internal func SecKeyCreateWithPEMData(_ keyData: String, _ error: UnsafeMutablePointer<Unmanaged<CFError>?>?) -> SecKey? {
     guard !keyData.isEmpty
-        else {
-            return nil
+    else {
+        return nil
     }
     
     do {
@@ -27,15 +27,13 @@ internal func SecKeyCreateWithPEMData(_ keyData: String, _ error: UnsafeMutableP
         }
         
         guard let derPublicKey = Data(base64Encoded: strippedPEM as String)
-            else {
-                return nil
+        else {
+            return nil
         }
         
-        let keyDict: [NSString: Any] = [
-            kSecAttrKeyType: kSecAttrKeyTypeRSA,
-            kSecAttrKeyClass: kSecAttrKeyClassPublic,
-            kSecAttrKeySizeInBits: NSNumber(value: 256)
-        ]
+        let keyDict: [NSString: Any] = [kSecAttrKeyType: kSecAttrKeyTypeRSA,
+                                        kSecAttrKeyClass: kSecAttrKeyClassPublic,
+                                        kSecAttrKeySizeInBits: NSNumber(value: 256)]
         
         return SecKeyCreateWithData(derPublicKey as CFData, keyDict as CFDictionary, nil)
     } catch {

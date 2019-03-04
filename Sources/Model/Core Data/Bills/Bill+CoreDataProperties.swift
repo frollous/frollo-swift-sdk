@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension Bill {
-
+    
     /**
      Fetch Request
      
@@ -21,7 +20,7 @@ extension Bill {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Bill> {
         return NSFetchRequest<Bill>(entityName: "Bill")
     }
-
+    
     /// Account ID bill is associated with
     @NSManaged public var accountID: Int64
     
@@ -84,10 +83,11 @@ extension Bill {
     
     /// Child bill payments
     @NSManaged public var payments: Set<BillPayment>?
-
+    
 }
 
 // MARK: Generated accessors for payments
+
 extension Bill {
     
     /// Add a payment relationship

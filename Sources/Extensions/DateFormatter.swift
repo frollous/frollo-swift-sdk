@@ -11,11 +11,9 @@ import Foundation
 extension DateFormatter {
     
     static var iso8601Milliseconds: DateFormatter {
-        get {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
-            return dateFormatter
-        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+        return dateFormatter
     }
     
 }

@@ -22,9 +22,7 @@ enum AggregationEndpoint: Endpoint {
     }
     
     internal var path: String {
-        get {
-            return urlPath()
-        }
+        return urlPath()
     }
     
     case account(accountID: Int64)

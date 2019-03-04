@@ -9,7 +9,7 @@
 import Foundation
 
 struct APIProviderAccountUpdateRequest: Codable {
-
+    
     enum CodingKeys: String, CodingKey {
         case loginForm = "login_form"
     }

@@ -16,9 +16,7 @@ enum BillsEndpoint: Endpoint {
     }
     
     internal var path: String {
-        get {
-            return urlPath()
-        }
+        return urlPath()
     }
     
     case bill(billID: Int64)
@@ -38,5 +36,5 @@ enum BillsEndpoint: Endpoint {
                 return "bills/payments"
         }
     }
-
+    
 }

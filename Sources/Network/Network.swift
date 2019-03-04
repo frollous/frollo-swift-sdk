@@ -50,15 +50,15 @@ class Network: SessionDelegate {
         self.serverURL = serverEndpoint
         
         #if os(macOS)
-            let osVersion = "macOS"
+        let osVersion = "macOS"
         #elseif os(iOS)
-            let osVersion = "iOS"
+        let osVersion = "iOS"
         #elseif os(tvOS)
-            let osVersion = "tvOS"
+        let osVersion = "tvOS"
         #elseif os(watchOS)
-            let osVersion = "watchOS"
+        let osVersion = "watchOS"
         #else
-            let osVersion = "unknownOS"
+        let osVersion = "unknownOS"
         #endif
         
         let appBuild = Bundle(for: Network.self).object(forInfoDictionaryKey: VersionConstants.bundleVersion) as! String
@@ -85,7 +85,7 @@ class Network: SessionDelegate {
         if let pinnedKeys = pinnedPublicKeys {
             var serverTrustPolicies: [String: ServerTrustPolicy] = [:]
             
-            pinnedKeys.forEach { (item) in
+            pinnedKeys.forEach { item in
                 if let host = item.key.host {
                     serverTrustPolicies[host] = ServerTrustPolicy.pinPublicKeys(publicKeys: item.value, validateCertificateChain: true, validateHost: true)
                 }
@@ -104,7 +104,7 @@ class Network: SessionDelegate {
     // MARK: - Reset
     
     internal func reset() {
-        sessionManager.session.getAllTasks { (tasks) in
+        sessionManager.session.getAllTasks { tasks in
             tasks.forEach { $0.cancel() }
         }
         
@@ -186,7 +186,7 @@ class Network: SessionDelegate {
                     completion(.failure(dataError))
                 }
             case .failure(let error):
-                self.handleFailure(response: response, error: error) { (processedError) in
+                handleFailure(response: response, error: error) { processedError in
                     completion(.failure(processedError))
                 }
         }
@@ -210,10 +210,10 @@ class Network: SessionDelegate {
                     completion(.failure(dataError))
                 }
             case .failure(let error):
-                self.handleFailure(response: response, error: error) { (processedError) in
+                handleFailure(response: response, error: error) { processedError in
                     completion(.failure(processedError))
                 }
-            }
+        }
     }
     
     internal func handleEmptyResponse(response: DataResponse<Data>, completion: NetworkCompletion) {
@@ -221,7 +221,7 @@ class Network: SessionDelegate {
             case .success:
                 completion(.success(Data()))
             case .failure(let error):
-                self.handleFailure(response: response, error: error) { (processedError) in
+                handleFailure(response: response, error: error) { processedError in
                     completion(.failure(processedError))
                 }
         }

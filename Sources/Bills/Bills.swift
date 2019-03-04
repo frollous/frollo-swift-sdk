@@ -10,7 +10,7 @@ import CoreData
 import Foundation
 
 /// Manages bills and bill payments
-public class Bills: CachedObjects, ResponseHandler  {
+public class Bills: CachedObjects, ResponseHandler {
     
     private let aggregation: Aggregation
     private let database: Database
@@ -124,7 +124,7 @@ public class Bills: CachedObjects, ResponseHandler  {
     }
     
     private func createBill(request: APIBillCreateRequest, completion: FrolloSDKCompletionHandler? = nil) {
-        service.createBill(request: request) { (result) in
+        service.createBill(request: request) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -140,7 +140,7 @@ public class Bills: CachedObjects, ResponseHandler  {
                     self.linkBillsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkBillsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkBillsToTransactionCategories(managedObjectContext: managedObjectContext)
-                
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -156,7 +156,7 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func deleteBill(billID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        service.deleteBill(billID: billID) { (result) in
+        service.deleteBill(billID: billID) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -166,14 +166,14 @@ public class Bills: CachedObjects, ResponseHandler  {
                     }
                 case .success:
                     self.removeCachedBill(billID: billID)
-                
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
             }
         }
     }
-
+    
     /**
      Refresh all available bills from the host.
      
@@ -183,7 +183,7 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBills(completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchBills { (result) in
+        service.fetchBills { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -199,7 +199,7 @@ public class Bills: CachedObjects, ResponseHandler  {
                     self.linkBillsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkBillsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkBillsToTransactionCategories(managedObjectContext: managedObjectContext)
-                
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -215,7 +215,7 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBill(billID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchBill(billID: billID) { (result) in
+        service.fetchBill(billID: billID) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -231,7 +231,7 @@ public class Bills: CachedObjects, ResponseHandler  {
                     self.linkBillsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkBillsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkBillsToTransactionCategories(managedObjectContext: managedObjectContext)
-                
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -250,13 +250,13 @@ public class Bills: CachedObjects, ResponseHandler  {
         let managedObjectContext = database.newBackgroundContext()
         
         guard let bill = bill(context: managedObjectContext, billID: billID)
-            else {
-                let error = DataError(type: .database, subType: .notFound)
-                
-                DispatchQueue.main.async {
-                    completion?(.failure(error))
-                }
-                return
+        else {
+            let error = DataError(type: .database, subType: .notFound)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
         }
         
         var request: APIBillUpdateRequest!
@@ -265,7 +265,7 @@ public class Bills: CachedObjects, ResponseHandler  {
             request = bill.updateRequest()
         }
         
-        service.updateBill(billID: billID, request: request) { (result) in
+        service.updateBill(billID: billID, request: request) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -281,7 +281,7 @@ public class Bills: CachedObjects, ResponseHandler  {
                     self.linkBillsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkBillsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkBillsToTransactionCategories(managedObjectContext: managedObjectContext)
-                
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -336,7 +336,7 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func deleteBillPayment(billPaymentID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        service.deleteBillPayment(billPaymentID: billPaymentID) { (result) in
+        service.deleteBillPayment(billPaymentID: billPaymentID) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -363,7 +363,7 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBillPayments(from fromDate: Date, to toDate: Date, completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchBillPayments(from: fromDate, to: toDate) { (result) in
+        service.fetchBillPayments(from: fromDate, to: toDate) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -377,7 +377,7 @@ public class Bills: CachedObjects, ResponseHandler  {
                     self.handleBillPaymentsResponse(response, from: fromDate, to: toDate, managedObjectContext: managedObjectContext)
                     
                     self.linkBillPaymentsToBills(managedObjectContext: managedObjectContext)
-                
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -393,7 +393,7 @@ public class Bills: CachedObjects, ResponseHandler  {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBillPayment(billPaymentID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchBillPayment(billPaymentID: billPaymentID) { (result) in
+        service.fetchBillPayment(billPaymentID: billPaymentID) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -407,7 +407,7 @@ public class Bills: CachedObjects, ResponseHandler  {
                     self.handleBillPaymentResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkBillPaymentsToBills(managedObjectContext: managedObjectContext)
-                
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -426,13 +426,13 @@ public class Bills: CachedObjects, ResponseHandler  {
         let managedObjectContext = database.newBackgroundContext()
         
         guard let billPayment = billPayment(context: managedObjectContext, billPaymentID: billPaymentID)
-            else {
-                let error = DataError(type: .database, subType: .notFound)
-                
-                DispatchQueue.main.async {
-                    completion?(.failure(error))
-                }
-                return
+        else {
+            let error = DataError(type: .database, subType: .notFound)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
         }
         
         var request: APIBillPaymentUpdateRequest!
@@ -441,7 +441,7 @@ public class Bills: CachedObjects, ResponseHandler  {
             request = billPayment.updateRequest()
         }
         
-        service.updateBillPayment(billPaymentID: billPaymentID, request: request) { (result) in
+        service.updateBillPayment(billPaymentID: billPaymentID, request: request) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -455,7 +455,7 @@ public class Bills: CachedObjects, ResponseHandler  {
                     self.handleBillPaymentResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkBillPaymentsToBills(managedObjectContext: managedObjectContext)
-                
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -621,7 +621,7 @@ public class Bills: CachedObjects, ResponseHandler  {
     private func handleBillPaymentsResponse(_ billPaymentsResponse: [APIBillPaymentResponse], from fromDate: Date, to toDate: Date, managedObjectContext: NSManagedObjectContext) {
         let fromDateString = BillPayment.billDateFormatter.string(from: fromDate)
         let toDateString = BillPayment.billDateFormatter.string(from: toDate)
-            
+        
         let predicate = NSPredicate(format: #keyPath(BillPayment.dateString) + " >= %@ && " + #keyPath(BillPayment.dateString) + " <= %@", argumentArray: [fromDateString, toDateString])
         
         billPaymentsLock.lock()

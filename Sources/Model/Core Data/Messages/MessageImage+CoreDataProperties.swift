@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension MessageImage {
-
+    
     /**
      Fetch Request
      
@@ -21,7 +20,7 @@ extension MessageImage {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MessageImage> {
         return NSFetchRequest<MessageImage>(entityName: "MessageImage")
     }
-
+    
     /// Height of the image in pixels
     @NSManaged public var height: Double
     
@@ -30,5 +29,5 @@ extension MessageImage {
     
     /// Raw value for the image URL
     @NSManaged public var urlString: String
-
+    
 }

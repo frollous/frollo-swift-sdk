@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension MessageText {
-
+    
     /**
      Fetch Request
      
@@ -21,7 +20,7 @@ extension MessageText {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MessageText> {
         return NSFetchRequest<MessageText>(entityName: "MessageText")
     }
-
+    
     /// Design type indicating how the message should be rendered
     @NSManaged public var designType: String
     
@@ -36,5 +35,5 @@ extension MessageText {
     
     /// Text body content (optional)
     @NSManaged public var text: String?
-
+    
 }

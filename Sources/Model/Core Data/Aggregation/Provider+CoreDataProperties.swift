@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension Provider {
-
+    
     /**
      Fetch Request
      
@@ -21,7 +20,7 @@ extension Provider {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Provider> {
         return NSFetchRequest<Provider>(entityName: "Provider")
     }
-
+    
     /// Raw value of the authentication type. Use only in predicates (optional)
     @NSManaged public var authTypeRawValue: String?
     
@@ -108,26 +107,27 @@ extension Provider {
     
     /// Child provider accounts
     @NSManaged public var providerAccounts: Set<ProviderAccount>?
-
+    
 }
 
 // MARK: Generated accessors for providerAccounts
-extension Provider {
 
+extension Provider {
+    
     /// Add a provider account relationship
     @objc(addProviderAccountsObject:)
     @NSManaged public func addToProviderAccounts(_ value: ProviderAccount)
-
+    
     /// Remove a provider account relationship
     @objc(removeProviderAccountsObject:)
     @NSManaged public func removeFromProviderAccounts(_ value: ProviderAccount)
-
+    
     /// Add provider account relationships
     @objc(addProviderAccounts:)
     @NSManaged public func addToProviderAccounts(_ values: Set<ProviderAccount>)
-
+    
     /// Remove provider account relationships
     @objc(removeProviderAccounts:)
     @NSManaged public func removeFromProviderAccounts(_ values: Set<ProviderAccount>)
-
+    
 }

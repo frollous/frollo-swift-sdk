@@ -30,16 +30,16 @@ import Foundation
 internal struct OTP: Equatable {
     /// The moving factor, either timer- or counter-based.
     internal let factor: Factor
-
+    
     /// The secret shared between the client and server.
     internal let secret: Data
-
+    
     /// The cryptographic hash function used to generate the password.
     internal let algorithm: Algorithm
-
+    
     /// The number of digits in the password.
     internal let digits: Int
-
+    
     /// Initializes a new password generator with the given parameters.
     ///
     /// - parameter factor:    The moving factor.
@@ -52,7 +52,7 @@ internal struct OTP: Equatable {
     internal init?(factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) {
         try? self.init(_factor: factor, secret: secret, algorithm: algorithm, digits: digits)
     }
-
+    
     // Eventually, this throwing initializer will replace the failable initializer above. For now, the failable
     // initializer remains to maintain a consistent public API. Since two different initializers cannot overload the
     // same initializer signature with both throwing an failable versions, this new initializer is currently prefixed
@@ -60,15 +60,15 @@ internal struct OTP: Equatable {
     internal init(_factor factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) throws {
         try OTP.validateFactor(factor)
         try OTP.validateDigits(digits)
-
+        
         self.factor = factor
         self.secret = secret
         self.algorithm = algorithm
         self.digits = digits
     }
-
+    
     // MARK: Password Generation
-
+    
     /// Generates the password for the given point in time.
     ///
     /// - parameter time: The target time, represented as a `Date`.
@@ -78,39 +78,39 @@ internal struct OTP: Equatable {
     /// - returns: The generated password, or throws an error if a password could not be generated.
     internal func password(at time: Date) throws -> String {
         try OTP.validateDigits(digits)
-
+        
         let counter = try factor.counterValue(at: time)
         // Ensure the counter value is big-endian
         var bigCounter = counter.bigEndian
-
+        
         // Generate an HMAC value from the key and counter
         let counterData = Data(bytes: &bigCounter, count: MemoryLayout<UInt64>.size)
         let hash = HMAC(algorithm: algorithm, key: secret, data: counterData)
-
+        
         var truncatedHash = hash.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) -> UInt32 in
             // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
-            let offset = ptr[hash.count - 1] & 0x0f
-
+            let offset = ptr[hash.count - 1] & 0x0F
+            
             // Take 4 bytes from the hash, starting at the given byte offset
             let truncatedHashPtr = ptr + Int(offset)
             return truncatedHashPtr.withMemoryRebound(to: UInt32.self, capacity: 1) {
                 $0.pointee
             }
         }
-
+        
         // Ensure the four bytes taken from the hash match the current endian format
         truncatedHash = UInt32(bigEndian: truncatedHash)
         // Discard the most significant bit
-        truncatedHash &= 0x7fffffff
+        truncatedHash &= 0x7FFFFFFF
         // Constrain to the right number of digits
         truncatedHash = truncatedHash % UInt32(pow(10, Float(digits)))
-
+        
         // Pad the string representation with zeros, if necessary
         return String(truncatedHash).padded(with: "0", toLength: digits)
     }
-
+    
     // MARK: Nested Types
-
+    
     /// A moving factor with which a generator produces different one-time passwords over time.
     /// The possible values are `Counter` and `Timer`, with associated values for each.
     internal enum Factor: Equatable {
@@ -122,7 +122,7 @@ internal struct OTP: Equatable {
         /// factor. This period value remains constant, and is used as a divisor for the number of
         /// seconds since the Unix epoch.
         case timer(period: TimeInterval)
-
+        
         /// Calculates the counter value for the moving factor at the target time. For a counter-
         /// based factor, this will be the associated counter value, but for a timer-based factor,
         /// it will be the number of time steps since the Unix epoch, based on the associated
@@ -145,7 +145,7 @@ internal struct OTP: Equatable {
             }
         }
     }
-
+    
     /// A cryptographic hash function used to calculate the HMAC from which a password is derived.
     /// The supported algorithms are SHA-1, SHA-256, and SHA-512.
     internal enum Algorithm: Equatable {
@@ -156,7 +156,7 @@ internal struct OTP: Equatable {
         /// The SHA-512 hash function.
         case sha512
     }
-
+    
     /// An error type enum representing the various errors a `OTP` can throw when computing a
     /// password.
     internal enum Error: Swift.Error {
@@ -204,7 +204,7 @@ private extension OTP.Algorithm {
 
 private extension OTP {
     // MARK: Validation
-
+    
     static func validateDigits(_ digits: Int) throws {
         // https://tools.ietf.org/html/rfc4226#section-5.3 states "Implementations MUST extract a
         // 6-digit code at a minimum and possibly 7 and 8-digit codes."
@@ -213,23 +213,23 @@ private extension OTP {
             throw Error.invalidDigits
         }
     }
-
+    
     static func validateFactor(_ factor: Factor) throws {
         switch factor {
-        case .counter:
-            return
-        case .timer(let period):
-            try validatePeriod(period)
+            case .counter:
+                return
+            case .timer(let period):
+                try validatePeriod(period)
         }
     }
-
+    
     static func validatePeriod(_ period: TimeInterval) throws {
         // The period must be positive and non-zero to produce a valid counter value.
         guard period > 0 else {
             throw Error.invalidPeriod
         }
     }
-
+    
     static func validateTime(_ timeSinceEpoch: TimeInterval) throws {
         // The time must be positive to produce a valid counter value.
         guard timeSinceEpoch >= 0 else {
@@ -250,7 +250,7 @@ private extension String {
         guard paddingCount > 0 else {
             return self
         }
-
+        
         let padding = String(repeating: String(character), count: paddingCount)
         return padding + self
     }

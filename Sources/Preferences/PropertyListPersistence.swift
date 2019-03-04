@@ -17,7 +17,7 @@ class PropertyListPersistence: PreferencesPersistence {
     private var preferencesData = [String: Any]()
     
     init(path: URL) {
-        preferencesPath = path
+        self.preferencesPath = path
         
         loadPreferences()
     }
@@ -47,7 +47,6 @@ class PropertyListPersistence: PreferencesPersistence {
                 self?.synchroniseIfNeeded()
             }
         }
-        
         
         preferencesData[key] = value
     }

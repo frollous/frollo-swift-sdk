@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /**
  Account Balance Report
@@ -59,22 +59,22 @@ public class ReportAccountBalance: NSManagedObject {
     public var date: Date {
         get {
             switch period {
-            case .day:
-                return ReportTransactionHistory.dailyDateFormatter.date(from: dateString)!
-            case .month:
-                return ReportTransactionHistory.monthlyDateFormatter.date(from: dateString)!
-            case .week:
-                return ReportTransactionHistory.weeklyDateFormatter.date(from: dateString)!
+                case .day:
+                    return ReportTransactionHistory.dailyDateFormatter.date(from: dateString)!
+                case .month:
+                    return ReportTransactionHistory.monthlyDateFormatter.date(from: dateString)!
+                case .week:
+                    return ReportTransactionHistory.weeklyDateFormatter.date(from: dateString)!
             }
         }
         set {
             switch period {
-            case .day:
-                dateString = ReportTransactionHistory.dailyDateFormatter.string(from: newValue)
-            case .month:
-                dateString = ReportTransactionHistory.monthlyDateFormatter.string(from: newValue)
-            case .week:
-                dateString = ReportTransactionHistory.weeklyDateFormatter.string(from: newValue)
+                case .day:
+                    dateString = ReportTransactionHistory.dailyDateFormatter.string(from: newValue)
+                case .month:
+                    dateString = ReportTransactionHistory.monthlyDateFormatter.string(from: newValue)
+                case .week:
+                    dateString = ReportTransactionHistory.weeklyDateFormatter.string(from: newValue)
             }
         }
     }
@@ -88,5 +88,5 @@ public class ReportAccountBalance: NSManagedObject {
             periodRawValue = newValue.rawValue
         }
     }
-
+    
 }

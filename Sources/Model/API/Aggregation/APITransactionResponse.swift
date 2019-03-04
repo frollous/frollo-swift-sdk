@@ -18,7 +18,7 @@ struct APITransactionResponse: APIUniqueResponse, Codable {
         case billPaymentID = "bill_payment_id"
         case budgetCategory = "budget_category"
         case categoryID = "category_id"
-        case description = "description"
+        case description
         case id
         case included
         case memo

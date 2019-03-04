@@ -11,9 +11,7 @@ import Foundation
 enum UserEndpoint: Endpoint {
     
     internal var path: String {
-        get {
-            return urlPath()
-        }
+        return urlPath()
     }
     
     case details

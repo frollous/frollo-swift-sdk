@@ -38,7 +38,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         static let keychainService = "FrolloSDKKeychain"
     }
     
-    static internal let dataFolderURL: URL = {
+    internal static let dataFolderURL: URL = {
         #if os(tvOS)
         let folder = FileManager.SearchPathDirectory.cachesDirectory
         #else
@@ -60,98 +60,87 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     
     /// Aggregation - All account and transaction related data see `Aggregation` for details
     public var aggregation: Aggregation {
-        get {
-            guard _setup
-                else {
-                    fatalError("SDK not setup.")
-            }
-            
-            return _aggregation
+        guard _setup
+        else {
+            fatalError("SDK not setup.")
         }
+        
+        return _aggregation
     }
+    
     /// Authentication - All authentication and user related data see `Authentication` for details
     public var authentication: Authentication {
-        get {
-            guard _setup
-                else {
-                    fatalError("SDK not setup.")
-            }
-            
-            return _authentication
+        guard _setup
+        else {
+            fatalError("SDK not setup.")
         }
+        
+        return _authentication
     }
+    
     /// Bills - All bills and bill payments see `Bills` for details
     public var bills: Bills {
-        get {
-            guard _setup
-                else {
-                    fatalError("SDK not setup.")
-            }
-            
-            return _bills
+        guard _setup
+        else {
+            fatalError("SDK not setup.")
         }
+        
+        return _bills
     }
+    
     /// Database - Core Data management and contexts for fetching data. See `Database` for details
     public var database: Database {
-        get {
-            guard _setup
-                else {
-                    fatalError("SDK not setup.")
-            }
-            
-            return _database
+        guard _setup
+        else {
+            fatalError("SDK not setup.")
         }
+        
+        return _database
     }
+    
     /// Events - Triggering and handling of events. See `Events` for details
     public var events: Events {
-        get {
-            guard _setup
-                else {
-                    fatalError("SDK not setup.")
-            }
-            
-            return _events
+        guard _setup
+        else {
+            fatalError("SDK not setup.")
         }
+        
+        return _events
     }
+    
     /// Messages - All messages management. See `Messages` for details
     public var messages: Messages {
-        get {
-            guard _setup
-                else {
-                    fatalError("SDK not setup.")
-            }
-            
-            return _messages
+        guard _setup
+        else {
+            fatalError("SDK not setup.")
         }
+        
+        return _messages
     }
+    
     /// Notifications - Registering and handling of push notifications
     public var notifications: Notifications {
-        get {
-            guard _setup
-                else {
-                    fatalError("SDK not setup.")
-            }
-            
-            return _notifications
+        guard _setup
+        else {
+            fatalError("SDK not setup.")
         }
+        
+        return _notifications
     }
+    
     /// Reports - Aggregation data reports
     public var reports: Reports {
-        get {
-            guard _setup
-                else {
-                    fatalError("SDK not setup.")
-            }
-            
-            return _reports
+        guard _setup
+        else {
+            fatalError("SDK not setup.")
         }
+        
+        return _reports
     }
     
     /// Indicates if the SDK has completed setup or not
     public var setup: Bool {
-        get {
-            return _setup
-        }
+        return _setup
     }
     
     internal let _database: Database
@@ -212,8 +201,8 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     */
     @discardableResult public func setup(configuration: FrolloSDKConfiguration, completion: @escaping FrolloSDKCompletionHandler) -> Progress? {
         guard !_setup
-            else {
-                fatalError("SDK already setup")
+        else {
+            fatalError("SDK already setup")
         }
         
         if version.migrationNeeded() {
@@ -233,15 +222,13 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
             pinToken = true
         }
         
-        if configuration.publicKeyPinningEnabled && (pinServer || pinToken) {
+        if configuration.publicKeyPinningEnabled, pinServer || pinToken {
             let activeKey: SecKey
             let backupKey: SecKey
             
-            let keyDict: [NSString: Any] = [
-                kSecAttrKeyType: kSecAttrKeyTypeRSA,
-                kSecAttrKeyClass: kSecAttrKeyClassPublic,
-                kSecAttrKeySizeInBits: NSNumber(value: 256)
-            ]
+            let keyDict: [NSString: Any] = [kSecAttrKeyType: kSecAttrKeyTypeRSA,
+                                            kSecAttrKeyClass: kSecAttrKeyClassPublic,
+                                            kSecAttrKeySizeInBits: NSNumber(value: 256)]
             
             var keyError: Unmanaged<CFError>?
             
@@ -285,11 +272,11 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         
         // Check for database migration and return progress object if relevant
         if _database.needsMigration() {
-            return _database.migrate { (error) in
+            return _database.migrate { error in
                 if let migrationError = error {
                     completion(.failure(migrationError))
                 } else {
-                    self._database.setup() { (error) in
+                    self._database.setup { error in
                         if let setupError = error {
                             completion(.failure(setupError))
                         } else {
@@ -301,7 +288,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
                 }
             }
         } else {
-            _database.setup { (error) in
+            _database.setup { error in
                 if let setupError = error {
                     completion(.failure(setupError))
                 } else {
@@ -330,7 +317,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         
         keychain.removeAll()
         
-        database.reset { (error) in
+        database.reset { error in
             if let resetError = error {
                 completionHandler?(.failure(resetError))
             } else {
@@ -408,8 +395,8 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     */
     public func refreshData() {
         guard !database.needsMigration()
-            else {
-                return
+        else {
+            return
         }
         
         refreshPrimary()
@@ -461,7 +448,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     private func resumeScheduledRefreshing() {
         cancelRefreshTimer()
         
-        refreshTimer = Timer.scheduledTimer(withTimeInterval: cacheExpiry, repeats: true, block: { (timer: Timer) in
+        refreshTimer = Timer.scheduledTimer(withTimeInterval: cacheExpiry, repeats: true, block: { (_: Timer) in
             self.refreshPrimary()
         })
     }
@@ -485,8 +472,8 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     
     internal func forcedLogout() {
         guard authentication.loggedIn
-            else {
-                return
+        else {
+            return
         }
         
         reset()

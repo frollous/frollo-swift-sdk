@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension BillPayment {
-
+    
     /**
      Fetch Request
      
@@ -21,7 +20,7 @@ extension BillPayment {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<BillPayment> {
         return NSFetchRequest<BillPayment>(entityName: "BillPayment")
     }
-
+    
     /// Unique ID of the bill payment
     @NSManaged public var billPaymentID: Int64
     
@@ -48,5 +47,5 @@ extension BillPayment {
     
     /// Parent bill (Optional)
     @NSManaged public var bill: Bill?
-
+    
 }

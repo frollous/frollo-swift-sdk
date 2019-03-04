@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension Account {
-
+    
     /**
      Fetch Request
      
@@ -21,7 +20,7 @@ extension Account {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Account> {
         return NSFetchRequest<Account>(entityName: "Account")
     }
-
+    
     /// Name of the account holder (optional)
     @NSManaged public var accountHolderName: String?
     
@@ -162,31 +161,33 @@ extension Account {
     
     /// Child transactions
     @NSManaged public var transactions: Set<Transaction>?
-
+    
 }
 
 // MARK: Generated accessors for balanceTiers
-extension Account {
 
+extension Account {
+    
     /// Add an account balance tier relationship
     @objc(addBalanceTiersObject:)
     @NSManaged public func addToBalanceTiers(_ value: AccountBalanceTier)
-
+    
     /// Remove an account balance tier relationship
     @objc(removeBalanceTiersObject:)
     @NSManaged public func removeFromBalanceTiers(_ value: AccountBalanceTier)
-
+    
     /// Add account balance tier relationships
     @objc(addBalanceTiers:)
     @NSManaged public func addToBalanceTiers(_ values: Set<AccountBalanceTier>)
-
+    
     /// Remove account balance tier relationships
     @objc(removeBalanceTiers:)
     @NSManaged public func removeFromBalanceTiers(_ values: Set<AccountBalanceTier>)
-
+    
 }
 
 // MARK: Generated accessors for bills
+
 extension Account {
     
     /// Add a bill relationship
@@ -208,6 +209,7 @@ extension Account {
 }
 
 // MARK: Generated accessors for reports
+
 extension Account {
     
     /// Add a account balance report relationship
@@ -229,22 +231,23 @@ extension Account {
 }
 
 // MARK: Generated accessors for transactions
-extension Account {
 
+extension Account {
+    
     /// Add a transaction relationship
     @objc(addTransactionsObject:)
     @NSManaged public func addToTransactions(_ value: Transaction)
-
+    
     /// Remove a transaction relationship
     @objc(removeTransactionsObject:)
     @NSManaged public func removeFromTransactions(_ value: Transaction)
-
+    
     /// Add transaction relationships
     @objc(addTransactions:)
     @NSManaged public func addToTransactions(_ values: Set<Transaction>)
-
+    
     /// Remove transaction relationships
     @objc(removeTransactions:)
     @NSManaged public func removeFromTransactions(_ values: Set<Transaction>)
-
+    
 }

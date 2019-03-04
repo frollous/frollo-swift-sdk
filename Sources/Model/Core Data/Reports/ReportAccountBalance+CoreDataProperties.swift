@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension ReportAccountBalance {
-
+    
     /**
      Fetch Request
      
@@ -21,7 +20,7 @@ extension ReportAccountBalance {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<ReportAccountBalance> {
         return NSFetchRequest<ReportAccountBalance>(entityName: "ReportAccountBalance")
     }
-
+    
     /// Related account ID. -1 if none linked
     @NSManaged public var accountID: Int64
     
@@ -39,5 +38,5 @@ extension ReportAccountBalance {
     
     /// Related account (Optional)
     @NSManaged public var account: Account?
-
+    
 }

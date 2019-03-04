@@ -11,9 +11,7 @@ import Foundation
 enum EventsEndpoint: Endpoint {
     
     internal var path: String {
-        get {
-            return urlPath()
-        }
+        return urlPath()
     }
     
     case events

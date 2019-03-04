@@ -49,8 +49,8 @@ public class Notifications {
     */
     public func handlePushNotification(userInfo: [AnyHashable: Any]) {
         guard let jsonData = try? JSONSerialization.data(withJSONObject: userInfo, options: [])
-            else {
-                return
+        else {
+            return
         }
         
         let decoder = JSONDecoder()

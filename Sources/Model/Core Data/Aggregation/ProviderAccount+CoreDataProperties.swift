@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension ProviderAccount {
-
+    
     /**
      Fetch Request
      
@@ -21,7 +20,7 @@ extension ProviderAccount {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<ProviderAccount> {
         return NSFetchRequest<ProviderAccount>(entityName: "ProviderAccount")
     }
-
+    
     /// Editable by the user
     @NSManaged public var editable: Bool
     
@@ -54,26 +53,27 @@ extension ProviderAccount {
     
     /// Parent provider
     @NSManaged public var provider: Provider?
-
+    
 }
 
 // MARK: Generated accessors for accounts
-extension ProviderAccount {
 
+extension ProviderAccount {
+    
     /// Add an account relationship
     @objc(addAccountsObject:)
     @NSManaged public func addToAccounts(_ value: Account)
-
+    
     /// Remove an account relationship
     @objc(removeAccountsObject:)
     @NSManaged public func removeFromAccounts(_ value: Account)
-
+    
     /// Add account relationships
     @objc(addAccounts:)
     @NSManaged public func addToAccounts(_ values: Set<Account>)
-
+    
     /// Remove account relationships
     @objc(removeAccounts:)
     @NSManaged public func removeFromAccounts(_ values: Set<Account>)
-
+    
 }

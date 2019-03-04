@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /**
  User Model
@@ -88,7 +88,7 @@ public class User: NSManagedObject {
         case artsAndRecreationsServices = "arts_and_recreations_services"
         
         /// Construction
-        case construction = "construction"
+        case construction
         
         /// Education and Training
         case educationAndTraining = "education_and_training"
@@ -106,10 +106,10 @@ public class User: NSManagedObject {
         case informationMediaAndTelecommunications = "information_media_and_telecommunications"
         
         /// Manufacturing
-        case manufacturing = "manufacturing"
+        case manufacturing
         
         /// Mining
-        case mining = "mining"
+        case mining
         
         /// Other Services
         case otherServices = "other_services"
@@ -148,16 +148,16 @@ public class User: NSManagedObject {
         case communityAndPersonalServiceWorkers = "community_and_personal_service_workers"
         
         /// Labourers
-        case labourers = "labourers"
+        case labourers
         
         /// Machinery Operators and Drivers
         case machineryOperatorsAndDrivers = "machinery_operators_and_drivers"
         
         /// Managers
-        case managers = "managers"
+        case managers
         
         /// Professionals
-        case professionals = "professionals"
+        case professionals
         
         /// Sales Workers
         case salesWorkers = "sales_workers"
@@ -178,13 +178,13 @@ public class User: NSManagedObject {
         case accountAdded = "account_added"
         
         /// The user has completed all setup activities and is now fully active. This includes adding an account and setting a budget
-        case active = "active"
+        case active
         
         /// The user has connected an aggregation account and there is now enough data for the user to setup their budget.
         case budgetReady = "budget_ready"
         
         /// The user is inactive as they have previously added an account but now have no aggregation accounts linked. Similar to `registered`
-        case inactive = "inactive"
+        case inactive
         
         /// The user has registered but not yet completed any setup activities such as adding an aggregation account.
         case registered
@@ -218,7 +218,7 @@ public class User: NSManagedObject {
     /// Gender of the user (optional)
     public var gender: Gender? {
         get {
-            if let rawGender = genderRawValue{
+            if let rawGender = genderRawValue {
                 return Gender(rawValue: rawGender)
             }
             return nil

@@ -83,7 +83,7 @@ struct DeviceInfo {
      - returns: Model identifier or "Unknown" if the model can't be retrieved
     */
     #if os(macOS)
-    @available (macOS 10.3, *)
+    @available(macOS 10.3, *)
     static func modelIdentifier() -> String {
         let platformExpert: io_service_t = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
         
@@ -105,7 +105,7 @@ struct DeviceInfo {
      
      - returns: Serial number or "Unknown" if the serial can't be retrieved
     */
-    @available (macOS 10.3, *)
+    @available(macOS 10.3, *)
     static func serialNumber() -> String {
         let platformExpert: io_service_t = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
         

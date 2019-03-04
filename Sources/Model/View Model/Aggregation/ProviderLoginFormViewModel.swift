@@ -86,7 +86,7 @@ public struct ProviderLoginFormViewModel {
             }
         }
     }
-
+    
     /**
      Convert the view model back to a data model suitable for sending back to the host
      
@@ -119,7 +119,7 @@ public struct ProviderLoginFormViewModel {
                     invalidRowLabel = row.label
                     
                     for field in row.field {
-                        if field.value != nil && field.value?.isEmpty != true {
+                        if field.value != nil, field.value?.isEmpty != true {
                             validValueFound = true
                         }
                     }

@@ -28,7 +28,7 @@ class Preferences {
         #if os(tvOS)
         preferencesPersistence = UserDefaultsPersistence()
         #else
-        preferencesPersistence = PropertyListPersistence(path: path)
+        self.preferencesPersistence = PropertyListPersistence(path: path)
         #endif
     }
     

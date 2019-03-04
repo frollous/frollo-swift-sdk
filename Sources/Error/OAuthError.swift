@@ -22,7 +22,7 @@ import AppAuth
  Represents errors that can be returned from the authorization flow
  */
 public class OAuthError: FrolloSDKError {
-
+    
     /**
      OAuth Error Type
      
@@ -85,15 +85,12 @@ public class OAuthError: FrolloSDKError {
     
     /// Debug description
     public var debugDescription: String {
-        get {
-            return localizedOAuthErrorDebugDescription()
-        }
+        return localizedOAuthErrorDebugDescription()
     }
+    
     /// Localized description
     public var errorDescription: String? {
-        get {
-            return localizedOAuthErrorDescription()
-        }
+        return localizedOAuthErrorDescription()
     }
     
     /// Type of OAuth Error
@@ -103,61 +100,61 @@ public class OAuthError: FrolloSDKError {
     public var systemError: Error?
     
     internal required init(error: NSError) {
-        systemError = error
+        self.systemError = error
         
         if error.domain == OIDGeneralErrorDomain {
             if let errorCode = OIDErrorCode(rawValue: error.code) {
                 switch errorCode {
                     case .networkError:
-                        type = .networkError
-                    
+                        self.type = .networkError
+                        
                     case .safariOpenError:
-                        type = .browserError
-                    
+                        self.type = .browserError
+                        
                     case .userCanceledAuthorizationFlow:
-                        type = .userCancelled
-                    
+                        self.type = .userCancelled
+                        
                     default:
-                        type = .otherAuthorisation
+                        self.type = .otherAuthorisation
                 }
             } else {
-                type = .unknown
+                self.type = .unknown
             }
         } else if error.domain == OIDOAuthAuthorizationErrorDomain {
             if let authErrorCode = OIDErrorCodeOAuth(rawValue: error.code) {
                 switch authErrorCode {
                     case .accessDenied:
-                        type = .accessDenied
+                        self.type = .accessDenied
                     case .clientError:
-                        type = .clientError
+                        self.type = .clientError
                     case .invalidClient:
-                        type = .invalidClient
+                        self.type = .invalidClient
                     case .invalidClientMetadata:
-                        type = .invalidClientMetadata
+                        self.type = .invalidClientMetadata
                     case .invalidGrant:
-                        type = .invalidGrant
+                        self.type = .invalidGrant
                     case .invalidRedirectURI:
-                        type = .invalidRedirectURI
+                        self.type = .invalidRedirectURI
                     case .invalidRequest:
-                        type = .invalidRequest
+                        self.type = .invalidRequest
                     case .invalidScope:
-                        type = .invalidScope
+                        self.type = .invalidScope
                     case .other:
-                        type = .otherAuthorisation
+                        self.type = .otherAuthorisation
                     case .serverError, .temporarilyUnavailable:
-                        type = .serverError
+                        self.type = .serverError
                     case .unauthorizedClient:
-                        type = .unauthorizedClient
+                        self.type = .unauthorizedClient
                     case .unsupportedGrantType:
-                        type = .unsupportedGrantType
+                        self.type = .unsupportedGrantType
                     case .unsupportedResponseType:
-                        type = .unsupportedResponseType
+                        self.type = .unsupportedResponseType
                 }
             } else {
-                type = .otherAuthorisation
+                self.type = .otherAuthorisation
             }
         } else {
-            type = .unknown
+            self.type = .unknown
         }
     }
     
@@ -204,7 +201,7 @@ public class OAuthError: FrolloSDKError {
     
     private func localizedOAuthErrorDebugDescription() -> String {
         var debug = "OAuthError: Type [\(type.rawValue)] "
-
+        
         debug.append(localizedOAuthErrorDescription())
         
         return debug

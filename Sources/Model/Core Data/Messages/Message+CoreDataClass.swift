@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /**
  Message
@@ -18,9 +18,7 @@ import CoreData
 public class Message: NSManagedObject, UniqueManagedObject {
     
     internal var primaryID: Int64 {
-        get {
-            return messageID
-        }
+        return messageID
     }
     
     /**
@@ -47,7 +45,7 @@ public class Message: NSManagedObject, UniqueManagedObject {
     /// Core Data entity description name
     static var entityName = "Message"
     
-    static internal var primaryKey = #keyPath(Message.messageID)
+    internal static var primaryKey = #keyPath(Message.messageID)
     
     /// Action URL. The URL the user should be taken to when interacting with a message. Can be a deeplink or web URL.
     public var actionURL: URL? {
@@ -77,7 +75,7 @@ public class Message: NSManagedObject, UniqueManagedObject {
         get {
             let types = typesRawValue.components(separatedBy: "|")
             return types.filter({ (type) -> Bool in
-                return !type.isEmpty
+                !type.isEmpty
             })
         }
         set {
@@ -119,5 +117,5 @@ public class Message: NSManagedObject, UniqueManagedObject {
         return APIMessageUpdateRequest(interacted: interacted,
                                        read: read)
     }
-
+    
 }

@@ -25,9 +25,7 @@ struct APIAccountUpdateRequest: Codable {
     let nickName: String?
     
     var valid: Bool {
-        get {
-            return !(hidden && included)
-        }
+        return !(hidden && included)
     }
     
 }

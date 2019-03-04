@@ -11,9 +11,7 @@ import Foundation
 enum DeviceEndpoint: Endpoint {
     
     internal var path: String {
-        get {
-            return urlPath()
-        }
+        return urlPath()
     }
     
     case device

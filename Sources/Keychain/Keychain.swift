@@ -97,8 +97,8 @@ class Keychain {
         self.accessGroup = accessGroup
         self.service = service
         
-        baseQuery = [kSecClass as String: kSecClassGenericPassword,
-                     kSecAttrService as String: service                ]
+        self.baseQuery = [kSecClass as String: kSecClassGenericPassword,
+                          kSecAttrService as String: service]
     }
     
     // MARK: - Keychain Values
@@ -123,8 +123,8 @@ class Keychain {
     
     internal func set(key: String, value: String) {
         guard let data = value.data(using: .utf8)
-            else {
-                return
+        else {
+            return
         }
         
         // Update item if it already exists
@@ -189,13 +189,13 @@ class Keychain {
         
         #if os(macOS)
         switch type {
-            case .create:
-                break
-            case .read:
-                query[kSecMatchLimit as String] = kSecMatchLimitOne
-                query[kSecReturnData as String] = kCFBooleanTrue
-            case .remove:
-                query[kSecMatchLimit as String] = kSecMatchLimitAll
+        case .create:
+            break
+        case .read:
+            query[kSecMatchLimit as String] = kSecMatchLimitOne
+            query[kSecReturnData as String] = kCFBooleanTrue
+        case .remove:
+            query[kSecMatchLimit as String] = kSecMatchLimitAll
         }
         #endif
         

@@ -88,16 +88,12 @@ public class DataError: FrolloSDKError {
     
     /// Debug description
     public var debugDescription: String {
-        get {
-            return debugDataErrorDescription()
-        }
+        return debugDataErrorDescription()
     }
     
     /// Error description
     public var errorDescription: String? {
-        get {
-            return localizedDataErrorDescription()
-        }
+        return localizedDataErrorDescription()
     }
     
     internal init(type: DataErrorType, subType: DataErrorSubType) {
@@ -130,9 +126,9 @@ public class DataError: FrolloSDKError {
                         return Localization.string("Error.Data.Authentication.MissingRefreshToken")
                     default:
                         return Localization.string("Error.Data.Authentication.Unknown")
-                    
+                        
                 }
-            
+                
             case .database:
                 switch subType {
                     case .corrupt:
@@ -146,7 +142,7 @@ public class DataError: FrolloSDKError {
                     default:
                         return Localization.string("Error.Data.Database.UnknownError")
                 }
-            
+                
             case .unknown:
                 switch subType {
                     case .unknown:

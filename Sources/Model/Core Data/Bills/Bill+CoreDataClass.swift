@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /**
  Bill
@@ -113,7 +113,7 @@ public class Bill: NSManagedObject, UniqueManagedObject {
     /// Core Data entity description name
     static var entityName = "Bill"
     
-    static internal var primaryKey = #keyPath(Bill.billID)
+    internal static var primaryKey = #keyPath(Bill.billID)
     
     /// Date formatter to convert from stored date string to user's current locale
     public static let billDateFormatter: DateFormatter = {
@@ -124,9 +124,7 @@ public class Bill: NSManagedObject, UniqueManagedObject {
     }()
     
     internal var primaryID: Int64 {
-        get {
-            return billID
-        }
+        return billID
     }
     
     /// Bill Type
@@ -257,5 +255,5 @@ public class Bill: NSManagedObject, UniqueManagedObject {
                                     note: notes,
                                     status: status)
     }
-
+    
 }

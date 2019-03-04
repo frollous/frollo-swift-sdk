@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension User {
-
+    
     /**
      Fetch Request
      
@@ -39,7 +38,7 @@ extension User {
     
     /// Attribution network of the user (optional)
     @NSManaged public var attributionNetwork: String?
-
+    
     /// Date of birth of the user (optional)
     @NSManaged public var dateOfBirth: Date?
     
@@ -96,5 +95,5 @@ extension User {
     
     /// User has a valid password
     @NSManaged public var validPassword: Bool
-
+    
 }

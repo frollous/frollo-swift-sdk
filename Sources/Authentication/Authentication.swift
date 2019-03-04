@@ -110,7 +110,7 @@ public class Authentication {
      Login a user via web view
      
      Initiate the authorization code login flow using a web view
- 
+     
      - parameters:
         - presentingViewController: View controller the Safari Web ViewController should be presented from
         - completion: Completion handler with any error that occurred
@@ -126,7 +126,7 @@ public class Authentication {
                                               responseType: OIDResponseTypeCode,
                                               additionalParameters: ["domain": domain])
         
-        authorizationFlow = OIDAuthorizationService.present(request, presenting: presentingViewController) { (response, error) in
+        authorizationFlow = OIDAuthorizationService.present(request, presenting: presentingViewController) { response, error in
             if let authError = error as NSError? {
                 let oAuthError = OAuthError(error: authError)
                 
@@ -134,8 +134,8 @@ public class Authentication {
                     completion(.failure(oAuthError))
                 }
             } else if let authResponse = response,
-                      let authCode = authResponse.authorizationCode,
-                      let codeVerifier = request.codeVerifier {
+                let authCode = authResponse.authorizationCode,
+                let codeVerifier = request.codeVerifier {
                 self.exchangeAuthorizationCode(code: authCode, codeVerifier: codeVerifier, completion: completion)
             }
         }
@@ -162,7 +162,7 @@ public class Authentication {
                                               responseType: OIDResponseTypeCode,
                                               additionalParameters: ["domain": domain])
         
-        authorizationFlow = OIDAuthorizationService.present(request) { (response, error) in
+        authorizationFlow = OIDAuthorizationService.present(request) { response, error in
             if let authError = error as NSError? {
                 let oAuthError = OAuthError(error: authError)
                 
@@ -188,13 +188,13 @@ public class Authentication {
      */
     public func loginUser(email: String, password: String, completion: @escaping FrolloSDKCompletionHandler) {
         guard !loggedIn
-            else {
-                let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
-                
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-                return
+        else {
+            let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
         }
         
         let request = OAuthTokenRequest(clientID: clientID,
@@ -209,7 +209,7 @@ public class Authentication {
                                         username: email)
         
         // Authorize the user
-        authService.refreshTokens(request: request) { (result) in
+        authService.refreshTokens(request: request) { result in
             switch result {
                 case .failure(let error):
                     DispatchQueue.main.async {
@@ -224,7 +224,7 @@ public class Authentication {
                     self.loggedIn = true
                     
                     // Fetch core details about the user. Fail and logout if we don't get necessary details
-                    self.service.fetchUser { (result) in
+                    self.service.fetchUser { result in
                         switch result {
                             case .failure(let error):
                                 self.loggedIn = false
@@ -268,13 +268,13 @@ public class Authentication {
      */
     public func registerUser(firstName: String, lastName: String?, mobileNumber: String?, postcode: String?, dateOfBirth: Date?, email: String, password: String, completion: @escaping FrolloSDKCompletionHandler) {
         guard !loggedIn
-            else {
-                let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
-                
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-                return
+        else {
+            let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
         }
         
         var address: APIUserRegisterRequest.Address?
@@ -291,7 +291,7 @@ public class Authentication {
                                                          mobileNumber: mobileNumber)
         
         // Create the user on the server and at the authorization endpoint
-        service.registerUser(request: userRegisterRequest) { (result) in
+        service.registerUser(request: userRegisterRequest) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -312,7 +312,7 @@ public class Authentication {
                                                          refreshToken: nil,
                                                          username: email)
                     
-                    self.authService.refreshTokens(request: tokenRequest) { (result) in
+                    self.authService.refreshTokens(request: tokenRequest) { result in
                         switch result {
                             case .failure(let error):
                                 self.loggedIn = false
@@ -357,7 +357,7 @@ public class Authentication {
     public func resetPassword(email: String, completion: @escaping FrolloSDKCompletionHandler) {
         let request = APIUserResetPasswordRequest(email: email)
         
-        service.resetPassword(request: request) { (result) in
+        service.resetPassword(request: request) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -385,16 +385,16 @@ public class Authentication {
      */
     public func refreshUser(completion: FrolloSDKCompletionHandler? = nil) {
         guard loggedIn
-            else {
-                let error = DataError(type: .authentication, subType: .loggedOut)
-                
-                DispatchQueue.main.async {
-                    completion?(.failure(error))
-                }
-                return
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
         }
         
-        service.fetchUser { (result) in
+        service.fetchUser { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -404,7 +404,7 @@ public class Authentication {
                     }
                 case .success(let response):
                     self.handleUserResponse(userResponse: response)
-                
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -422,25 +422,25 @@ public class Authentication {
      */
     public func updateUser(completion: @escaping FrolloSDKCompletionHandler) {
         guard loggedIn
-            else {
-                let error = DataError(type: .authentication, subType: .loggedOut)
-                
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-                return
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
         }
         
         let managedObjectContext = database.newBackgroundContext()
         
         guard let user = fetchUser(context: managedObjectContext)
-            else {
-                let error = DataError(type: .database, subType: .notFound)
-                
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-                return
+        else {
+            let error = DataError(type: .database, subType: .notFound)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
         }
         
         var request: APIUserUpdateRequest!
@@ -449,7 +449,7 @@ public class Authentication {
             request = user.updateRequest()
         }
         
-        service.updateUser(request: request) { (result) in
+        service.updateUser(request: request) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -459,7 +459,7 @@ public class Authentication {
                     }
                 case .success(let response):
                     self.handleUserResponse(userResponse: response)
-                
+                    
                     DispatchQueue.main.async {
                         completion(.success)
                     }
@@ -477,29 +477,29 @@ public class Authentication {
      */
     internal func changePassword(currentPassword: String?, newPassword: String, completion: @escaping FrolloSDKCompletionHandler) {
         guard loggedIn
-            else {
-                let error = DataError(type: .authentication, subType: .loggedOut)
-                
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-                return
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
         }
         
         let changePasswordRequest = APIUserChangePasswordRequest(currentPassword: currentPassword,
                                                                  newPassword: newPassword)
         
         guard changePasswordRequest.valid()
-            else {
-                let error = DataError(type: .api, subType: .passwordTooShort)
-                
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-                return
+        else {
+            let error = DataError(type: .api, subType: .passwordTooShort)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
         }
         
-        service.changePassword(request: changePasswordRequest) { (result) in
+        service.changePassword(request: changePasswordRequest) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -523,16 +523,16 @@ public class Authentication {
     */
     public func deleteUser(completion: @escaping FrolloSDKCompletionHandler) {
         guard loggedIn
-            else {
-                let error = DataError(type: .authentication, subType: .loggedOut)
-                
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-                return
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
         }
         
-        service.deleteUser { (result) in
+        service.deleteUser { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -542,9 +542,9 @@ public class Authentication {
                     }
                 case .success:
                     self.reset()
-                
+                    
                     self.delegate?.authenticationReset()
-                
+                    
                     DispatchQueue.main.async {
                         completion(.success)
                     }
@@ -566,13 +566,13 @@ public class Authentication {
      */
     internal func exchangeAuthorizationCode(code: String, codeVerifier: String?, completion: @escaping FrolloSDKCompletionHandler) {
         guard !loggedIn
-            else {
-                let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
-                
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-                return
+        else {
+            let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
         }
         
         let request = OAuthTokenRequest(clientID: clientID,
@@ -586,7 +586,7 @@ public class Authentication {
                                         refreshToken: nil,
                                         username: nil)
         
-        authService.refreshTokens(request: request) { (result) in
+        authService.refreshTokens(request: request) { result in
             switch result {
                 case .failure(let error):
                     DispatchQueue.main.async {
@@ -595,13 +595,13 @@ public class Authentication {
                 case .success(let response):
                     let createdDate = response.createdAt ?? Date()
                     let expiryDate = createdDate.addingTimeInterval(response.expiresIn)
-            
+                    
                     self.networkAuthenticator.saveTokens(refresh: response.refreshToken, access: response.accessToken, expiry: expiryDate)
-            
+                    
                     self.loggedIn = true
                     
                     // Fetch core details about the user. Fail and logout if we don't get necessary details
-                    self.service.fetchUser { (result) in
+                    self.service.fetchUser { result in
                         switch result {
                             case .failure(let error):
                                 self.loggedIn = false
@@ -638,13 +638,13 @@ public class Authentication {
     */
     public func exchangeLegacyToken(legacyToken: String, completion: @escaping FrolloSDKCompletionHandler) {
         guard loggedIn
-            else {
-                let error = DataError(type: .authentication, subType: .loggedOut)
-                
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-                return
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
         }
         
         let request = OAuthTokenRequest(clientID: clientID,
@@ -658,7 +658,7 @@ public class Authentication {
                                         refreshToken: nil,
                                         username: nil)
         
-        authService.refreshTokens(request: request) { (result) in
+        authService.refreshTokens(request: request) { result in
             switch result {
                 case .failure(let error):
                     self.networkAuthenticator.clearTokens()
@@ -699,7 +699,7 @@ public class Authentication {
                                         refreshToken: networkAuthenticator.refreshToken,
                                         username: nil)
         
-        authService.refreshTokens(request: request) { (result) in
+        authService.refreshTokens(request: request) { result in
             switch result {
                 case .failure(let error):
                     self.networkAuthenticator.clearTokens()
@@ -714,7 +714,7 @@ public class Authentication {
                     self.networkAuthenticator.saveTokens(refresh: response.refreshToken, access: response.accessToken, expiry: expiryDate)
                     
                     completion?(.success)
-                }
+            }
         }
     }
     
@@ -755,13 +755,13 @@ public class Authentication {
      */
     internal func updateDevice(compliant: Bool? = nil, notificationToken: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         guard loggedIn
-            else {
-                let error = DataError(type: .authentication, subType: .loggedOut)
-                
-                DispatchQueue.main.async {
-                    completion?(.failure(error))
-                }
-                return
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
         }
         
         let deviceInfo = DeviceInfo.current()
@@ -773,7 +773,7 @@ public class Authentication {
                                              notificationToken: notificationToken,
                                              timezone: TimeZone.current.identifier)
         
-        service.updateDevice(request: request) { (result) in
+        service.updateDevice(request: request) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -802,11 +802,11 @@ public class Authentication {
     */
     public func logoutUser() {
         guard loggedIn
-            else {
-                return
+        else {
+            return
         }
         
-        service.logoutUser { (result) in
+        service.logoutUser { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -823,7 +823,7 @@ public class Authentication {
     // MARK: - User Model
     
     private func handleUserResponse(userResponse: APIUserResponse) {
-        let managedObjectContext = self.database.newBackgroundContext()
+        let managedObjectContext = database.newBackgroundContext()
         
         managedObjectContext.performAndWait {
             let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
@@ -856,7 +856,7 @@ public class Authentication {
             } catch let error as NSError {
                 Log.error(error.localizedDescription)
                 
-                if error.domain == NSCocoaErrorDomain && error.code == 256, let sqliteError = error.userInfo[NSSQLiteErrorDomain] as? NSNumber, sqliteError.int32Value == 1 {
+                if error.domain == NSCocoaErrorDomain, error.code == 256, let sqliteError = error.userInfo[NSSQLiteErrorDomain] as? NSNumber, sqliteError.int32Value == 1 {
                     Log.error("Critical database error, corrupted.")
                 }
             }

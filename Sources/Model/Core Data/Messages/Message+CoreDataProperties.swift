@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension Message {
-
+    
     /**
      Fetch Request
      
@@ -21,7 +20,7 @@ extension Message {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Message> {
         return NSFetchRequest<Message>(entityName: "Message")
     }
-
+    
     /// Unique identifier of the message
     @NSManaged public var messageID: Int64
     
@@ -60,5 +59,5 @@ extension Message {
     
     /// Action should open the link externally or internally. Externally means the system should handle opening the link.
     @NSManaged public var actionOpenExternal: Bool
-
+    
 }

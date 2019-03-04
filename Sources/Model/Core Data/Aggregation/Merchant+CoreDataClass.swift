@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /**
  Merchant
@@ -16,7 +16,7 @@ import CoreData
  Core Data representation of a merchant object
  */
 public class Merchant: NSManagedObject, UniqueManagedObject {
-
+    
     /**
      Merchant Type
      
@@ -37,12 +37,10 @@ public class Merchant: NSManagedObject, UniqueManagedObject {
     /// Core Data entity description name
     static var entityName = "Merchant"
     
-    static internal var primaryKey = #keyPath(Merchant.merchantID)
+    internal static var primaryKey = #keyPath(Merchant.merchantID)
     
     internal var primaryID: Int64 {
-        get {
-            return merchantID
-        }
+        return merchantID
     }
     
     /// Type of merchant

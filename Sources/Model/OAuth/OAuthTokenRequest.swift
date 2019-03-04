@@ -41,15 +41,13 @@ struct OAuthTokenRequest: Codable {
     let username: String?
     
     var valid: Bool {
-        get {
-            switch grantType {
-                case .authorizationCode:
-                    return code != nil && redirectURI != nil
-                case .password:
-                    return (password != nil && username != nil) || legacyToken != nil
-                case .refreshToken:
-                    return refreshToken != nil
-            }
+        switch grantType {
+            case .authorizationCode:
+                return code != nil && redirectURI != nil
+            case .password:
+                return (password != nil && username != nil) || legacyToken != nil
+            case .refreshToken:
+                return refreshToken != nil
         }
     }
     

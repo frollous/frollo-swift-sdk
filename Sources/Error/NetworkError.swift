@@ -35,16 +35,12 @@ public class NetworkError: FrolloSDKError {
     
     /// Debug description
     public var debugDescription: String {
-        get {
-            return debugNetworkErrorDescription()
-        }
+        return debugNetworkErrorDescription()
     }
     
     /// Error description
     public var errorDescription: String? {
-        get {
-            return localizedNetworkErrorDescription()
-        }
+        return localizedNetworkErrorDescription()
     }
     
     /// Underlying system error that triggered this error
@@ -58,11 +54,11 @@ public class NetworkError: FrolloSDKError {
         
         switch error.domain {
             case NSStreamSocketSSLErrorDomain:
-                type = .invalidSSL
+                self.type = .invalidSSL
             case NSURLErrorDomain:
-                type = .connectionFailure
+                self.type = .connectionFailure
             default:
-                type = .unknown
+                self.type = .unknown
         }
     }
     

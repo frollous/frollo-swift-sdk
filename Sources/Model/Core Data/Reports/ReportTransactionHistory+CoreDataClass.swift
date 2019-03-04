@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /**
  Transaction Report: History
@@ -126,5 +126,5 @@ public class ReportTransactionHistory: NSManagedObject {
             periodRawValue = newValue.rawValue
         }
     }
-
+    
 }

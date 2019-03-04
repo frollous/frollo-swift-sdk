@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /**
  Provider Account
@@ -18,15 +18,13 @@ import CoreData
 public class ProviderAccount: NSManagedObject, UniqueManagedObject {
     
     internal var primaryID: Int64 {
-        get {
-            return providerAccountID
-        }
+        return providerAccountID
     }
-
+    
     /// Core Data entity description name
     static let entityName = "ProviderAccount"
     
-    static internal var primaryKey = #keyPath(ProviderAccount.providerAccountID)
+    internal static var primaryKey = #keyPath(ProviderAccount.providerAccountID)
     
     /// Login Form for MFA etc (optional)
     public var loginForm: ProviderLoginForm? {

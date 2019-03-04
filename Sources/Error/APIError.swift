@@ -80,15 +80,12 @@ public class APIError: FrolloSDKError {
     
     /// Debug description
     public var debugDescription: String {
-        get {
-            return localizedAPIErrorDebugDescription()
-        }
+        return localizedAPIErrorDebugDescription()
     }
+    
     /// Localized description
     public var errorDescription: String? {
-        get {
-            return localizedAPIErrorDescription()
-        }
+        return localizedAPIErrorDescription()
     }
     
     /// Type of API Error
@@ -117,70 +114,70 @@ public class APIError: FrolloSDKError {
             }
         }
         
-        message = errorResponse?.error.errorMessage
-        errorCode = errorResponse?.error.errorCode
+        self.message = errorResponse?.error.errorMessage
+        self.errorCode = errorResponse?.error.errorCode
         
         switch statusCode {
             case 400:
                 if let errorCode = errorResponse?.error.errorCode {
                     switch errorCode {
                         case .invalidMustBeDifferent:
-                            type = .passwordMustBeDifferent
+                            self.type = .passwordMustBeDifferent
                         default:
-                            type = .badRequest
+                            self.type = .badRequest
                     }
                 } else {
-                    type = .badRequest
+                    self.type = .badRequest
                 }
-            
+                
             case 401:
                 if let errorCode = errorResponse?.error.errorCode {
                     switch errorCode {
                         case .invalidAccessToken:
-                            type = .invalidAccessToken
+                            self.type = .invalidAccessToken
                         case .invalidRefreshToken:
-                            type = .invalidRefreshToken
+                            self.type = .invalidRefreshToken
                         case .invalidUsernamePassword:
-                            type = .invalidUsernamePassword
+                            self.type = .invalidUsernamePassword
                         case .suspendedDevice:
-                            type = .suspendedDevice
+                            self.type = .suspendedDevice
                         case .suspendedUser:
-                            type = .suspendedUser
+                            self.type = .suspendedUser
                         case .accountLocked:
-                            type = .accountLocked
+                            self.type = .accountLocked
                         default:
-                            type = .otherAuthorisation
+                            self.type = .otherAuthorisation
                     }
                 } else {
-                    type = .otherAuthorisation
+                    self.type = .otherAuthorisation
                 }
-            
+                
             case 403:
-                type = .unauthorised
-            
+                self.type = .unauthorised
+                
             case 404:
-                type = .notFound
-            
+                self.type = .notFound
+                
             case 409:
-                type = .alreadyExists
-            
+                self.type = .alreadyExists
+                
             case 410:
-                type = .deprecated
-            
+                self.type = .deprecated
+                
             case 429:
-                type = .rateLimit
-            
+                self.type = .rateLimit
+                
             case 500, 503, 504:
-                type = .serverError
-            
+                self.type = .serverError
+                
             case 501:
-                type = .notImplemented
-            
+                self.type = .notImplemented
+                
             case 502:
-                type = .maintenance
-            
+                self.type = .maintenance
+                
             default:
-                type = .unknown
+                self.type = .unknown
         }
     }
     

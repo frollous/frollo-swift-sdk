@@ -57,7 +57,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         self.keychain = keychain
         
         #if !os(watchOS)
-        reachability = NetworkReachabilityManager(host: tokenURL.host!)!
+        self.reachability = NetworkReachabilityManager(host: tokenURL.host!)!
         #endif
         
         loadTokens()
@@ -65,8 +65,8 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     
     internal func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
         guard let url = urlRequest.url, url.absoluteString.hasPrefix(serverURL.absoluteString)
-            else {
-                return urlRequest
+        else {
+            return urlRequest
         }
         
         var request = urlRequest
@@ -79,7 +79,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
                 do {
                     let adaptedRequest = try validateAndAppendAccessToken(request: request)
                     return adaptedRequest
-                } catch let error {
+                } catch {
                     throw error
                 }
             }
@@ -92,12 +92,12 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     
     internal func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
         guard let responseError = error as? AFError
-            else {
-                completion(false, 0)
-                return
+        else {
+            completion(false, 0)
+            return
         }
         
-        lock.lock() ; defer { lock.unlock() }
+        lock.lock(); defer { lock.unlock() }
         
         switch responseError {
             case .responseValidationFailed(reason: .unacceptableStatusCode(let code)):
@@ -135,7 +135,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         var urlRequest = request
         
         let bundleID = String(repeating: Bundle(for: NetworkAuthenticator.self).bundleIdentifier ?? "FrolloSDK", count: 2)
-
+        
         let generator = OTP(factor: .timer(period: 30), secret: bundleID.data(using: .utf8)!, algorithm: .sha256, digits: 8)
         let password = try! generator?.password(at: Date())
         let bearer = String(format: "Bearer %@", password!)
@@ -147,38 +147,38 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     internal func validateAndAppendAccessToken(request: URLRequest) throws -> URLRequest {
         if !validToken() {
             guard refreshToken != nil
-                else {
-                    Log.error("No valid refresh token when trying to refresh access token.")
-
-                    throw DataError(type: .authentication, subType: .missingRefreshToken)
+            else {
+                Log.error("No valid refresh token when trying to refresh access token.")
+                
+                throw DataError(type: .authentication, subType: .missingRefreshToken)
             }
-
+            
             lock.lock()
-
+            
             let semaphore = DispatchSemaphore(value: 0)
-
-            requestsToRetry.append({ (retry: Bool, delay: TimeInterval) in
+            
+            requestsToRetry.append({ (_: Bool, _: TimeInterval) in
                 // Unblock once token has updated
                 semaphore.signal()
             })
-
+            
             refreshTokens()
-
+            
             lock.unlock()
-
+            
             semaphore.wait()
         }
-
+        
         guard let token = accessToken
-            else {
-                throw DataError(type: .authentication, subType: .missingAccessToken)
+        else {
+            throw DataError(type: .authentication, subType: .missingAccessToken)
         }
-
+        
         var urlRequest = request
-
+        
         let bearer = String(format: bearerFormat, token)
         urlRequest.setValue(bearer, forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-
+        
         return urlRequest
     }
     
@@ -199,7 +199,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         
         keychain[KeychainKey.accessToken] = access
         keychain[KeychainKey.refreshToken] = refresh
-    
+        
         let expirySeconds = String(expiry.timeIntervalSince1970)
         keychain[KeychainKey.accessTokenExpiry] = expirySeconds
     }
@@ -217,21 +217,21 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     
     internal func refreshTokens() {
         guard !refreshing
-            else {
-                return
+        else {
+            return
         }
         
         refreshing = true
         
         guard let auth = authentication
-            else {
-                self.requestsToRetry.forEach { $0(false, 0.0) }
-                self.requestsToRetry.removeAll()
-                
-                return
+        else {
+            requestsToRetry.forEach { $0(false, 0.0) }
+            requestsToRetry.removeAll()
+            
+            return
         }
         
-        auth.refreshTokens { (result) in
+        auth.refreshTokens { result in
             switch result {
                 case .failure(let error):
                     if let apiError = error as? APIError, apiError.type == .invalidRefreshToken {
@@ -254,8 +254,8 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     private func validToken() -> Bool {
         guard accessToken != nil,
             let date = expiryDate
-            else {
-                return false
+        else {
+            return false
         }
         
         let adjustedExpiryDate = date.addingTimeInterval(-timeInterval5Minutes)

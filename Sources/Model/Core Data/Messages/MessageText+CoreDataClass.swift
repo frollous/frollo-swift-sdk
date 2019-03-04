@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /**
  Message Text
@@ -29,13 +29,13 @@ public class MessageText: Message {
             imageURLString = newValue?.absoluteString
         }
     }
-
+    
     internal override func update(response: APIMessageResponse, context: NSManagedObjectContext) {
         super.update(response: response, context: context)
         
-        guard case let .text(contents)? = response.content
-            else {
-                return
+        guard case .text(let contents)? = response.content
+        else {
+            return
         }
         
         designType = contents.designType

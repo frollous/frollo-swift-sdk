@@ -19,14 +19,14 @@ extension APIService {
             let url = URL(string: BillsEndpoint.bills.path, relativeTo: self.serverURL)!
             
             guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
-                else {
-                    let dataError = DataError(type: .api, subType: .invalidData)
-                    
-                    completion(.failure(dataError))
-                    return
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { (response) in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APIBillResponse.self, response: response, completion: completion)
             }
         }
@@ -36,7 +36,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: BillsEndpoint.bill(billID: billID).path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { (response) in
+            self.network.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { response in
                 self.network.handleEmptyResponse(response: response, completion: completion)
             }
         }
@@ -46,7 +46,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: BillsEndpoint.bills.path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
                 self.handleBillsReponse(response: response, completion: completion)
             }
         }
@@ -56,7 +56,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: BillsEndpoint.bill(billID: billID).path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APIBillResponse.self, response: response, completion: completion)
             }
         }
@@ -67,11 +67,11 @@ extension APIService {
             let url = URL(string: BillsEndpoint.bill(billID: billID).path, relativeTo: self.serverURL)!
             
             guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: request)
-                else {
-                    let dataError = DataError(type: .api, subType: .invalidData)
-                    
-                    completion(.failure(dataError))
-                    return
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response: DataResponse<Data>) in
@@ -86,7 +86,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: BillsEndpoint.billPayment(billPaymentID: billPaymentID).path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { (response) in
+            self.network.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { response in
                 self.network.handleEmptyResponse(response: response, completion: completion)
             }
         }
@@ -101,7 +101,7 @@ extension APIService {
             let parameters = [BillsEndpoint.QueryParameters.fromDate.rawValue: dateFormatter.string(from: fromDate),
                               BillsEndpoint.QueryParameters.toDate.rawValue: dateFormatter.string(from: toDate)]
             
-            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APIBillPaymentResponse.self, response: response, completion: completion)
             }
         }
@@ -111,7 +111,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: BillsEndpoint.billPayment(billPaymentID: billPaymentID).path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APIBillPaymentResponse.self, response: response, completion: completion)
             }
         }
@@ -122,14 +122,14 @@ extension APIService {
             let url = URL(string: BillsEndpoint.billPayment(billPaymentID: billPaymentID).path, relativeTo: self.serverURL)!
             
             guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: request)
-                else {
-                    let dataError = DataError(type: .api, subType: .invalidData)
-                    
-                    completion(.failure(dataError))
-                    return
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APIBillPaymentResponse.self, response: response, completion: completion)
             }
         }
@@ -156,7 +156,7 @@ extension APIService {
                     completion(.failure(dataError))
                 }
             case .failure(let error):
-                self.network.handleFailure(response: response, error: error) { (error) in
+                network.handleFailure(response: response, error: error) { error in
                     completion(.failure(error))
                 }
         }

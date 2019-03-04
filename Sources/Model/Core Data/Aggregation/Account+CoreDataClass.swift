@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /**
  Account
@@ -18,9 +18,7 @@ import CoreData
 public class Account: NSManagedObject, UniqueManagedObject {
     
     internal var primaryID: Int64 {
-        get {
-            return accountID
-        }
+        return accountID
     }
     
     /**
@@ -272,7 +270,7 @@ public class Account: NSManagedObject, UniqueManagedObject {
     /// Core Data entity description name
     static var entityName = "Account"
     
-    static internal var primaryKey = #keyPath(Account.accountID)
+    internal static var primaryKey = #keyPath(Account.accountID)
     
     /// Account Status
     public var accountStatus: AccountStatus {
@@ -513,5 +511,5 @@ public class Account: NSManagedObject, UniqueManagedObject {
                                        included: included,
                                        nickName: nickName)
     }
-
+    
 }

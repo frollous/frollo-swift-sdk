@@ -13,7 +13,7 @@ internal enum ReportsEndpoint: Endpoint {
     enum QueryParameters: String, Codable {
         case accountID = "account_id"
         case budgetCategory = "budget_category"
-        case container = "container"
+        case container
         case fromDate = "from_date"
         case grouping
         case period
@@ -21,9 +21,7 @@ internal enum ReportsEndpoint: Endpoint {
     }
     
     internal var path: String {
-        get {
-            return urlPath()
-        }
+        return urlPath()
     }
     
     case accountBalance

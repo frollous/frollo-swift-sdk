@@ -20,13 +20,13 @@ class NetworkLogger: Logger {
         guard let network = service,
             network.network.authenticator.refreshToken != nil,
             network.network.authenticator.accessToken != nil
-            else {
-                return
+        else {
+            return
         }
         
         let request = APILogRequest(details: nil, message: message, score: level)
         
-        network.createLog(request: request) { (result) in }
+        network.createLog(request: request) { _ in }
     }
     
 }

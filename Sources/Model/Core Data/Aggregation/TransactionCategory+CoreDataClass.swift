@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /**
  Transaction Category
@@ -50,12 +50,10 @@ public class TransactionCategory: NSManagedObject, UniqueManagedObject {
     /// Core Data entity description name
     static let entityName = "TransactionCategory"
     
-    static internal var primaryKey = #keyPath(TransactionCategory.transactionCategoryID)
+    internal static var primaryKey = #keyPath(TransactionCategory.transactionCategoryID)
     
     internal var primaryID: Int64 {
-        get {
-            return transactionCategoryID
-        }
+        return transactionCategoryID
     }
     
     /// Category
@@ -123,5 +121,5 @@ public class TransactionCategory: NSManagedObject, UniqueManagedObject {
         placement = response.placement
         userDefined = response.userDefined
     }
-
+    
 }

@@ -7,13 +7,13 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /**
  Account Balance Tier
  
- Represents what tier a certain balance on an account falls into. Used for `Account.AccountType.creditScore` 
+ Represents what tier a certain balance on an account falls into. Used for `Account.AccountType.creditScore`
  */
 public class AccountBalanceTier: NSManagedObject {
     
@@ -22,5 +22,5 @@ public class AccountBalanceTier: NSManagedObject {
         minimum = Decimal(response.min) as NSDecimalNumber?
         maximum = Decimal(response.max) as NSDecimalNumber?
     }
-
+    
 }

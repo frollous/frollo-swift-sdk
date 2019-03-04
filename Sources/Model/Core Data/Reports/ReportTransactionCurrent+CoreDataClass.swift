@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /**
  Transaction Report: Current
@@ -33,12 +33,10 @@ public class ReportTransactionCurrent: NSManagedObject {
     
     /// Date - converts the day value of the report to the relevant date in the current month
     public var date: Date? {
-        get {
-            let calendar = Calendar.current
-            var dateComponents = calendar.dateComponents([.year, .month], from: Date())
-            dateComponents.day = Int(day)
-            return calendar.date(from: dateComponents)
-        }
+        let calendar = Calendar.current
+        var dateComponents = calendar.dateComponents([.year, .month], from: Date())
+        dateComponents.day = Int(day)
+        return calendar.date(from: dateComponents)
     }
     
     /// Filter Budget Category - indicates the Budget Category the reports were filtered by (Optional)
@@ -54,7 +52,7 @@ public class ReportTransactionCurrent: NSManagedObject {
             filterBudgetCategoryRawValue = newValue?.rawValue
         }
     }
-
+    
     /// Grouping - how the report response has been broken down
     public var grouping: ReportGrouping {
         get {

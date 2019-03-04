@@ -146,5 +146,5 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
     var nickName: String?
     var totalCashLimit: Balance?
     var totalCreditLine: Balance?
-
+    
 }

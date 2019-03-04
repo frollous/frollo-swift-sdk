@@ -30,7 +30,7 @@ public enum LogLevel: Int, Codable {
 
 class Log {
     
-    static internal let manager = Log(synchronous: false)
+    internal static let manager = Log(synchronous: false)
     
     struct LogConstants {
         static let fileName = Bundle(for: Log.self).bundleIdentifier!
@@ -68,7 +68,7 @@ class Log {
     internal var service: APIService?
     
     internal init(synchronous: Bool) {
-        async = !synchronous
+        self.async = !synchronous
     }
     
     // MARK: - Log Level Setup
@@ -91,21 +91,21 @@ class Log {
                 fallthrough
             case .error:
                 errorLoggers = [consoleLogger, fileLogger, networkLogger]
-        
+                
         }
     }
     
     // MARK: - Log Messages
     
-    class internal func error(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+    internal class func error(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
         manager.errorLog(String(format: "%@.%@[%ld]: %@", className(filePath: file), function, line, message))
     }
     
-    class internal func info(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+    internal class func info(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
         manager.infoLog(String(format: "%@.%@[%ld]: %@", className(filePath: file), function, line, message))
     }
     
-    class internal func debug(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+    internal class func debug(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
         manager.debugLog(String(format: "%@.%@[%ld]: %@", className(filePath: file), function, line, message))
     }
     
@@ -151,7 +151,7 @@ class Log {
         }
     }
     
-    class private func className(filePath: String) -> String {
+    private class func className(filePath: String) -> String {
         let path = filePath as NSString
         let className = path.lastPathComponent as NSString
         return className.deletingPathExtension

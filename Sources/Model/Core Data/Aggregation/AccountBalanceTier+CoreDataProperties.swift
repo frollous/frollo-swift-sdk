@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension AccountBalanceTier {
-
+    
     /**
      Fetch Request
      
@@ -21,7 +20,7 @@ extension AccountBalanceTier {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<AccountBalanceTier> {
         return NSFetchRequest<AccountBalanceTier>(entityName: "AccountBalanceTier")
     }
-
+    
     /// Maximum balance value included in this tier (optional)
     @NSManaged public var maximum: NSDecimalNumber?
     
@@ -33,5 +32,5 @@ extension AccountBalanceTier {
     
     /// Parent account
     @NSManaged public var account: Account?
-
+    
 }

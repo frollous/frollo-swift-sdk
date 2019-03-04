@@ -11,7 +11,7 @@ import Foundation
 import Alamofire
 
 extension APIService {
-
+    
     // MARK: - Account Balance Reports
     
     internal func fetchAccountBalanceReports(period: ReportAccountBalance.Period, from fromDate: Date, to toDate: Date, accountID: Int64? = nil, accountType: Account.AccountType? = nil, completion: @escaping RequestCompletion<APIAccountBalanceReportResponse>) {
@@ -31,7 +31,7 @@ extension APIService {
                 parameters[ReportsEndpoint.QueryParameters.container.rawValue] = container.rawValue
             }
             
-            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APIAccountBalanceReportResponse.self, response: response, completion: completion)
             }
         }
@@ -49,14 +49,14 @@ extension APIService {
                 parameters[ReportsEndpoint.QueryParameters.budgetCategory.rawValue] = category.rawValue
             }
             
-            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APITransactionCurrentReportResponse.self, response: response, completion: completion)
             }
         }
     }
     
     // MARK: - Transaction History Reports
-
+    
     internal func fetchTransactionHistoryReports(grouping: ReportGrouping, period: ReportTransactionHistory.Period, fromDate: Date, toDate: Date, budgetCategory: BudgetCategory?, completion: @escaping RequestCompletion<APITransactionHistoryReportsResponse>) {
         requestQueue.async {
             let url = URL(string: ReportsEndpoint.transactionsHistory.path, relativeTo: self.serverURL)!
@@ -72,10 +72,10 @@ extension APIService {
                 parameters[ReportsEndpoint.QueryParameters.budgetCategory.rawValue] = category.rawValue
             }
             
-            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APITransactionHistoryReportsResponse.self, response: response, completion: completion)
             }
         }
     }
-
+    
 }

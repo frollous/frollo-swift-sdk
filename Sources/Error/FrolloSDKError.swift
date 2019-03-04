@@ -13,6 +13,4 @@ import Foundation
  
  Conforms to localizable error and debug description
  */
-public protocol FrolloSDKError: LocalizedError, CustomDebugStringConvertible {
-    
-}
+public protocol FrolloSDKError: LocalizedError, CustomDebugStringConvertible {}

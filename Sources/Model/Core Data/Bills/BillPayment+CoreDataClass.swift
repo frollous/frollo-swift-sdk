@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /**
  Bill Payment
@@ -16,7 +16,7 @@ import CoreData
  Core Data model of the bill payment.
  */
 public class BillPayment: NSManagedObject, UniqueManagedObject {
-
+    
     /// Core Data entity description name
     static var entityName = "BillPayment"
     
@@ -29,12 +29,10 @@ public class BillPayment: NSManagedObject, UniqueManagedObject {
     }()
     
     internal var primaryID: Int64 {
-        get {
-            return billPaymentID
-        }
+        return billPaymentID
     }
     
-    static internal var primaryKey = #keyPath(BillPayment.billPaymentID)
+    internal static var primaryKey = #keyPath(BillPayment.billPaymentID)
     
     /// Date of the bill payment
     public var date: Date {

@@ -10,7 +10,7 @@ import Foundation
 
 struct APITokenResponse: Codable {
     
-    enum CodingKeys : String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case accessToken = "access_token"
         case accessTokenExpiry = "access_token_exp"
         case refreshToken = "refresh_token"

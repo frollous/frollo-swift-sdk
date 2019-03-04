@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension Merchant {
-
+    
     /**
      Fetch Request
      
@@ -21,7 +20,7 @@ extension Merchant {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Merchant> {
         return NSFetchRequest<Merchant>(entityName: "Merchant")
     }
-
+    
     /// Unique ID for the merchant
     @NSManaged public var merchantID: Int64
     
@@ -45,10 +44,11 @@ extension Merchant {
     
     /// Related transactions
     @NSManaged public var transactions: Set<Transaction>?
-
+    
 }
 
 // MARK: Generated accessors for bills
+
 extension Merchant {
     
     /// Add a bill relationship
@@ -70,27 +70,29 @@ extension Merchant {
 }
 
 // MARK: Generated accessors for transactions
-extension Merchant {
 
+extension Merchant {
+    
     /// Add a transaction relationship
     @objc(addTransactionsObject:)
     @NSManaged public func addToTransactions(_ value: Transaction)
-
+    
     /// Remove a transaction relationship
     @objc(removeTransactionsObject:)
     @NSManaged public func removeFromTransactions(_ value: Transaction)
-
+    
     /// Add transaction relationships
     @objc(addTransactions:)
     @NSManaged public func addToTransactions(_ values: Set<Transaction>)
-
+    
     /// Remove transaction relationships
     @objc(removeTransactions:)
     @NSManaged public func removeFromTransactions(_ values: Set<Transaction>)
-
+    
 }
 
 // MARK: Generated accessors for historyReports
+
 extension Merchant {
     
     /// Add a transaction history report relationship
@@ -112,6 +114,7 @@ extension Merchant {
 }
 
 // MARK: Generated accessors for currentReports
+
 extension Merchant {
     
     /// Add a transaction current report relationship
@@ -131,4 +134,3 @@ extension Merchant {
     @NSManaged public func removeFromCurrentReports(_ values: NSSet)
     
 }
-

@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension Transaction {
-
+    
     /**
      Fetch Request
      
@@ -21,7 +20,7 @@ extension Transaction {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Transaction> {
         return NSFetchRequest<Transaction>(entityName: "Transaction")
     }
-
+    
     /// Parent account ID
     @NSManaged public var accountID: Int64
     
@@ -78,5 +77,5 @@ extension Transaction {
     
     /// Related transaction category
     @NSManaged public var transactionCategory: TransactionCategory?
-
+    
 }

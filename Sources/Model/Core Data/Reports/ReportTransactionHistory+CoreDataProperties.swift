@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension ReportTransactionHistory {
-
+    
     /**
      Fetch Request
      
@@ -21,7 +20,7 @@ extension ReportTransactionHistory {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<ReportTransactionHistory> {
         return NSFetchRequest<ReportTransactionHistory>(entityName: "ReportTransactionHistory")
     }
-
+    
     /// Budget value for the report (Optional)
     @NSManaged public var budget: NSDecimalNumber?
     
@@ -60,26 +59,27 @@ extension ReportTransactionHistory {
     
     /// Related merchant (Optional)
     @NSManaged public var merchant: Merchant?
-
+    
 }
 
 // MARK: Generated accessors for reports
-extension ReportTransactionHistory {
 
+extension ReportTransactionHistory {
+    
     /// Add a transaction history report relationship
     @objc(addReportsObject:)
     @NSManaged public func addToReports(_ value: ReportTransactionHistory)
-
+    
     /// Remove a transaction history report relationship
     @objc(removeReportsObject:)
     @NSManaged public func removeFromReports(_ value: ReportTransactionHistory)
-
+    
     /// Add transaction history report relationships
     @objc(addReports:)
     @NSManaged public func addToReports(_ values: NSSet)
-
+    
     /// Remove transaction history report relationships
     @objc(removeReports:)
     @NSManaged public func removeFromReports(_ values: NSSet)
-
+    
 }

@@ -94,7 +94,7 @@ public class Messages: CachedObjects, ResponseHandler {
             predicates.append(filterPredicate)
         }
         
-    return fetchedResultsController(type: Message.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
+        return fetchedResultsController(type: Message.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -104,7 +104,7 @@ public class Messages: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshMessages(completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchMessages { (result) in
+        service.fetchMessages { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -116,7 +116,7 @@ public class Messages: CachedObjects, ResponseHandler {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleMessagesResponse(response, unread: false, managedObjectContext: managedObjectContext)
-                
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -132,7 +132,7 @@ public class Messages: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshMessage(messageID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchMessage(messageID: messageID) { (result) in
+        service.fetchMessage(messageID: messageID) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -163,13 +163,13 @@ public class Messages: CachedObjects, ResponseHandler {
         let managedObjectContext = database.newBackgroundContext()
         
         guard let message = message(context: managedObjectContext, messageID: messageID)
-            else {
-                let error = DataError(type: .database, subType: .notFound)
-                
-                DispatchQueue.main.async {
-                    completion?(.failure(error))
-                }
-                return
+        else {
+            let error = DataError(type: .database, subType: .notFound)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
         }
         
         var request: APIMessageUpdateRequest!
@@ -178,7 +178,7 @@ public class Messages: CachedObjects, ResponseHandler {
             request = message.updateRequest()
         }
         
-        service.updateMessage(messageID: messageID, request: request) { (result) in
+        service.updateMessage(messageID: messageID, request: request) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -190,7 +190,7 @@ public class Messages: CachedObjects, ResponseHandler {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleMessageResponse(response, managedObjectContext: managedObjectContext)
-                
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -205,7 +205,7 @@ public class Messages: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshUnreadMessages(completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchUnreadMessages { (result) in
+        service.fetchUnreadMessages { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -217,7 +217,7 @@ public class Messages: CachedObjects, ResponseHandler {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleMessagesResponse(response, unread: true, managedObjectContext: managedObjectContext)
-                
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -229,14 +229,14 @@ public class Messages: CachedObjects, ResponseHandler {
     
     internal func handleMessageNotification(_ notification: NotificationPayload) {
         guard let messageID = notification.userMessageID
-            else {
-                return
+        else {
+            return
         }
         
-        let managedObjectContext = self.database.newBackgroundContext()
+        let managedObjectContext = database.newBackgroundContext()
         
         if message(context: managedObjectContext, messageID: messageID) == nil {
-            refreshMessage(messageID: messageID) { (result) in
+            refreshMessage(messageID: messageID) { result in
                 switch result {
                     case .failure(let error):
                         Log.error(error.localizedDescription)
@@ -311,7 +311,7 @@ public class Messages: CachedObjects, ResponseHandler {
     private func updateMessageObjectsWithResponse(_ messagesResponse: [APIMessageResponse], filterPredicate: NSPredicate?, managedObjectContext: NSManagedObjectContext) {
         // Sort by ID
         let sortedObjectResponses = messagesResponse.sorted(by: { (responseA: APIMessageResponse, responseB: APIMessageResponse) -> Bool in
-            return responseB.id > responseA.id
+            responseB.id > responseA.id
         })
         
         // Build id list predicate
@@ -338,7 +338,7 @@ public class Messages: CachedObjects, ResponseHandler {
                 for objectResponse in sortedObjectResponses {
                     var object: Message
                     
-                    if index < existingObjects.count && existingObjects[index].primaryID == objectResponse.id {
+                    if index < existingObjects.count, existingObjects[index].primaryID == objectResponse.id {
                         object = existingObjects[index]
                         index += 1
                     } else {

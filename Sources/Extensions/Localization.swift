@@ -10,7 +10,7 @@ import Foundation
 
 class Localization {
     
-    static internal func string(_ key: String) -> String {
+    internal static func string(_ key: String) -> String {
         return NSLocalizedString(key, tableName: "Localizable", bundle: Bundle(for: self), value: "", comment: "")
     }
     

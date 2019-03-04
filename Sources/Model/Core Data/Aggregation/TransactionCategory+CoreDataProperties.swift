@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension TransactionCategory {
-
+    
     /**
      Fetch Request
      
@@ -21,7 +20,7 @@ extension TransactionCategory {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<TransactionCategory> {
         return NSFetchRequest<TransactionCategory>(entityName: "TransactionCategory")
     }
-
+    
     /// Raw value of the transaction category type. Use only in predicates
     @NSManaged public var categoryTypeRawValue: String
     
@@ -54,10 +53,11 @@ extension TransactionCategory {
     
     /// Related transactions
     @NSManaged public var transactions: Set<Transaction>?
-
+    
 }
 
 // MARK: Generated accessors for bills
+
 extension TransactionCategory {
     
     /// Add a bill relationship
@@ -79,27 +79,29 @@ extension TransactionCategory {
 }
 
 // MARK: Generated accessors for transactions
-extension TransactionCategory {
 
+extension TransactionCategory {
+    
     /// Add a transaction relationship
     @objc(addTransactionsObject:)
     @NSManaged public func addToTransactions(_ value: Transaction)
-
+    
     /// Remove a transaction relationship
     @objc(removeTransactionsObject:)
     @NSManaged public func removeFromTransactions(_ value: Transaction)
-
+    
     /// Add transaction relationships
     @objc(addTransactions:)
     @NSManaged public func addToTransactions(_ values: Set<Transaction>)
-
+    
     /// Remove transaction relationships
     @objc(removeTransactions:)
     @NSManaged public func removeFromTransactions(_ values: Set<Transaction>)
-
+    
 }
 
 // MARK: Generated accessors for historyReports
+
 extension TransactionCategory {
     
     /// Add a transaction history report relationship
@@ -121,6 +123,7 @@ extension TransactionCategory {
 }
 
 // MARK: Generated accessors for currentReports
+
 extension TransactionCategory {
     
     /// Add a transaction current report relationship

@@ -40,7 +40,7 @@ public class Events {
         let request = APIEventCreateRequest(delayMinutes: delay ?? 0,
                                             event: eventName)
         
-        service.createEvent(request: request) { (result) in
+        service.createEvent(request: request) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -74,18 +74,18 @@ public class Events {
         switch eventName {
             case EventNames.test:
                 Log.info("Test event received")
-            
+                
                 completion?(true, nil)
-            
+                
             case EventNames.transactionsUpdated:
                 Log.debug("Transactions updated event received")
-            
+                
                 if let transactionIDs = notification?.transactionIDs, !transactionIDs.isEmpty {
                     NotificationCenter.default.post(name: Aggregation.refreshTransactionsNotification, object: self, userInfo: [Aggregation.refreshTransactionIDsKey: transactionIDs])
                 }
-            
+                
                 completion?(true, nil)
-            
+                
             default:
                 // Event not recognised
                 completion?(false, nil)

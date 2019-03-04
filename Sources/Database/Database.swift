@@ -23,9 +23,7 @@ public class Database {
     
     /// Main thread context for use by views see `NSPersistentContainer` for details
     public var viewContext: NSManagedObjectContext {
-        get {
-            return persistentContainer.viewContext
-        }
+        return persistentContainer.viewContext
     }
     
     internal let storeURL: URL
@@ -48,7 +46,7 @@ public class Database {
         - path: Path to folder where the database should be stored
      */
     internal init(path: URL) {
-        storeURL = path.appendingPathComponent(DatabaseConstants.storeName).appendingPathExtension(DatabaseConstants.storeExtension)
+        self.storeURL = path.appendingPathComponent(DatabaseConstants.storeName).appendingPathExtension(DatabaseConstants.storeExtension)
         
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
         persistentContainer = NSPersistentContainer(name: DatabaseConstants.storeName, managedObjectModel: Database.model)
@@ -67,14 +65,14 @@ public class Database {
     internal func setup(completionHandler: @escaping (FrolloSDKError?) -> Void) {
         migrationLock.lock()
         
-        persistentContainer.loadPersistentStores { (persistentStoreDescription, error) in
+        persistentContainer.loadPersistentStores { _, error in
             if let setupError = error {
                 Log.error(setupError.localizedDescription)
                 
                 // Fallback to resetting the store
                 self.destroyPersistentStore()
                 
-                self.persistentContainer.loadPersistentStores(completionHandler: { (persistentStoreDescription, secondarySetupError) in
+                self.persistentContainer.loadPersistentStores(completionHandler: { _, secondarySetupError in
                     if let setupError = secondarySetupError {
                         Log.error(setupError.localizedDescription)
                         
@@ -103,8 +101,8 @@ public class Database {
      */
     internal func needsMigration() -> Bool {
         guard FileManager.default.fileExists(atPath: storeURL.path)
-            else {
-                return false
+        else {
+            return false
         }
         
         do {
@@ -112,7 +110,7 @@ public class Database {
             
             let model = NSManagedObjectModel(contentsOf: Bundle(for: type(of: self)).url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!)!
             return !model.isConfiguration(withName: nil, compatibleWithStoreMetadata: storeMetadata)
-        } catch let error {
+        } catch {
             Log.error(error.localizedDescription)
             
             return false
@@ -130,7 +128,7 @@ public class Database {
      */
     @discardableResult internal func migrate(completionHandler: @escaping (Error?) -> Void) -> Progress? {
         migrationLock.lock()
-
+        
         let progress = Progress(totalUnitCount: 1)
         
         DispatchQueue.global(qos: .userInitiated).async {

@@ -57,7 +57,7 @@ protocol ResponseHandler {
                                                                              linkedKeys: [KeyPath<T, Int64>],
                                                                              filterPredicate: NSPredicate?,
                                                                              managedObjectContext: NSManagedObjectContext) -> [KeyPath<T, Int64>: Set<Int64>]
-
+    
 }
 
 extension ResponseHandler {
@@ -96,7 +96,7 @@ extension ResponseHandler {
                                                                                                          managedObjectContext: NSManagedObjectContext) -> [KeyPath<T, Int64>: Set<Int64>] {
         // Sort by ID
         let sortedObjectResponses = objectsResponse.sorted(by: { (responseA: APIUniqueResponse, responseB: APIUniqueResponse) -> Bool in
-            return responseB.id > responseA.id
+            responseB.id > responseA.id
         })
         
         // Build id list predicate
@@ -127,7 +127,7 @@ extension ResponseHandler {
                 for objectResponse in sortedObjectResponses {
                     var object: T
                     
-                    if index < existingObjects.count && existingObjects[index].primaryID == objectResponse.id {
+                    if index < existingObjects.count, existingObjects[index].primaryID == objectResponse.id {
                         object = existingObjects[index]
                         index += 1
                     } else {
@@ -169,13 +169,13 @@ extension ResponseHandler {
     }
     
     @discardableResult internal func linkObjectToParentObject<T: NSManagedObject, U: UniqueManagedObject & NSManagedObject>(type: T.Type,
-                                                                                                                                parentType: U.Type,
-                                                                                                                                objectFilterPredicate: NSPredicate? = nil,
-                                                                                                                                parentFilterPredicate: NSPredicate? = nil,
-                                                                                                                                managedObjectContext: NSManagedObjectContext,
-                                                                                                                                linkedIDs: Set<Int64>,
-                                                                                                                                linkedKey: KeyPath<T, Int64>,
-                                                                                                                                linkedKeyName: String) -> Set<Int64> {
+                                                                                                                            parentType: U.Type,
+                                                                                                                            objectFilterPredicate: NSPredicate? = nil,
+                                                                                                                            parentFilterPredicate: NSPredicate? = nil,
+                                                                                                                            managedObjectContext: NSManagedObjectContext,
+                                                                                                                            linkedIDs: Set<Int64>,
+                                                                                                                            linkedKey: KeyPath<T, Int64>,
+                                                                                                                            linkedKeyName: String) -> Set<Int64> {
         var missingLinkedIDs = Set<Int64>()
         
         managedObjectContext.performAndWait {
@@ -213,7 +213,7 @@ extension ResponseHandler {
                     
                     var parentObject = parentObjects[currentParentObjectIndex]
                     if parentObject.primaryID != object[keyPath: linkedKey] {
-                        for index in currentParentObjectIndex...(parentObjects.count-1) {
+                        for index in currentParentObjectIndex...(parentObjects.count - 1) {
                             parentObject = parentObjects[index]
                             
                             if parentObject.primaryID == object[keyPath: linkedKey] {
@@ -232,7 +232,7 @@ extension ResponseHandler {
                 }
                 
                 missingLinkedIDs = linkedIDs.subtracting(matchedParentObjectIDs)
-            } catch let error {
+            } catch {
                 Log.error(error.localizedDescription)
             }
         }

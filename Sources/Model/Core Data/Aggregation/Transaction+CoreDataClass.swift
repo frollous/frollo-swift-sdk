@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /**
  Transaction
@@ -59,7 +59,7 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
     /// Core Data entity description name
     static var entityName = "Transaction"
     
-    static internal var primaryKey = #keyPath(Transaction.transactionID)
+    internal static var primaryKey = #keyPath(Transaction.transactionID)
     
     /// Date formatter to convert from stored date string to user's current locale
     public static let transactionDateFormatter: DateFormatter = {
@@ -70,9 +70,7 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
     }()
     
     internal var primaryID: Int64 {
-        get {
-            return transactionID
-        }
+        return transactionID
     }
     
     /// Transaction Base Type
@@ -131,7 +129,7 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
             transactionDateString = Transaction.transactionDateFormatter.string(from: newValue)
         }
     }
-
+    
     // MARK: - Updating Object
     
     internal func linkObject(object: NSManagedObject) {

@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension MessageVideo {
-
+    
     /**
      Fetch Request
      
@@ -21,7 +20,7 @@ extension MessageVideo {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MessageVideo> {
         return NSFetchRequest<MessageVideo>(entityName: "MessageVideo")
     }
-
+    
     /// Height in pixels of the video
     @NSManaged public var height: Double
     
@@ -42,5 +41,5 @@ extension MessageVideo {
     
     /// Raw value for the video URL
     @NSManaged public var urlString: String
-
+    
 }

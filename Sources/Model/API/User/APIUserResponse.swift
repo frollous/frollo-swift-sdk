@@ -92,5 +92,5 @@ struct APIUserResponse: Codable {
     let mobileNumber: String?
     let occupation: User.Occupation?
     let previousAddress: Address?
-
+    
 }

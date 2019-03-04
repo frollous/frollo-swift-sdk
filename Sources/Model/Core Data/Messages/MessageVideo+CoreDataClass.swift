@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /**
  Message Video
@@ -43,9 +43,9 @@ public class MessageVideo: Message {
     internal override func update(response: APIMessageResponse, context: NSManagedObjectContext) {
         super.update(response: response, context: context)
         
-        guard case let .video(contents)? = response.content
-            else {
-                return
+        guard case .video(let contents)? = response.content
+        else {
+            return
         }
         
         autoplay = contents.autoplay
@@ -56,5 +56,5 @@ public class MessageVideo: Message {
         urlString = contents.url
         width = contents.width ?? -1
     }
-
+    
 }

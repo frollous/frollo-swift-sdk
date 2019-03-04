@@ -159,4 +159,3 @@ public enum AccountRefreshAdditionalStatus: String, Codable {
     case verifyPersonalDetails = "verify_personal_details"
     
 }
-

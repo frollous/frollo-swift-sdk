@@ -36,15 +36,15 @@ class Version {
         #if os(tvOS)
         preferencesPersistence = UserDefaultsPersistence()
         #else
-        preferencesPersistence = PropertyListPersistence(path: path)
+        self.preferencesPersistence = PropertyListPersistence(path: path)
         #endif
         
-        currentVersion = Bundle(for: Version.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
-        previousVersion = preferencesPersistence[VersionConstants.appVersionLast] as? String
+        self.currentVersion = Bundle(for: Version.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
+        self.previousVersion = preferencesPersistence[VersionConstants.appVersionLast] as? String
         if let appVersionHistory = preferencesPersistence[VersionConstants.appVersionHistory] as? [String] {
-            versionHistory = appVersionHistory
+            self.versionHistory = appVersionHistory
         } else {
-            versionHistory = [String]()
+            self.versionHistory = [String]()
         }
     }
     
@@ -71,8 +71,8 @@ class Version {
      */
     internal func migrateVersion() {
         guard previousVersion != nil
-            else {
-                return
+        else {
+            return
         }
         
         // Stubbed for future. Replace nil check with let and iterate through versions

@@ -50,16 +50,12 @@ public class LoginFormError: FrolloSDKError {
     
     /// Debug description
     public var debugDescription: String {
-        get {
-            return debugDataErrorDescription()
-        }
+        return debugDataErrorDescription()
     }
     
     /// Error description
     public var errorDescription: String? {
-        get {
-            return localizedDataErrorDescription()
-        }
+        return localizedDataErrorDescription()
     }
     
     internal init(type: LoginFormErrorType, fieldName: String) {

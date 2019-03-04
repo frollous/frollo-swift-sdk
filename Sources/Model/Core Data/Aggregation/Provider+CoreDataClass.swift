@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /**
  Provider
@@ -18,9 +18,7 @@ import CoreData
 public class Provider: NSManagedObject, UniqueManagedObject {
     
     internal var primaryID: Int64 {
-        get {
-            return providerID
-        }
+        return providerID
     }
     
     /**
@@ -40,7 +38,7 @@ public class Provider: NSManagedObject, UniqueManagedObject {
         case oAuth = "oauth"
         
         /// Unknown
-        case unknown = "unknown"
+        case unknown
         
     }
     
@@ -79,10 +77,10 @@ public class Provider: NSManagedObject, UniqueManagedObject {
         case token
         
         /// Unknown
-        case unknown = "unknown"
+        case unknown
         
     }
-
+    
     /**
      Provider Status
      
@@ -107,7 +105,7 @@ public class Provider: NSManagedObject, UniqueManagedObject {
     /// Core Data entity description name
     static let entityName = "Provider"
     
-    static internal var primaryKey = #keyPath(Provider.providerID)
+    internal static var primaryKey = #keyPath(Provider.providerID)
     
     /// Authentication Type (optional)
     public var authType: AuthType? {

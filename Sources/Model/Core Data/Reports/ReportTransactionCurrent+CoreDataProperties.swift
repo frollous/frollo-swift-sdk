@@ -7,12 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension ReportTransactionCurrent {
-
+    
     /**
      Fetch Request
      
@@ -21,7 +20,7 @@ extension ReportTransactionCurrent {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<ReportTransactionCurrent> {
         return NSFetchRequest<ReportTransactionCurrent>(entityName: "ReportTransactionCurrent")
     }
-
+    
     /// Spend
     @NSManaged public var amount: NSDecimalNumber?
     
@@ -57,5 +56,5 @@ extension ReportTransactionCurrent {
     
     /// Related transaction category (Optional)
     @NSManaged public var transactionCategory: TransactionCategory?
-
+    
 }

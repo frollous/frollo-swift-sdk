@@ -11,9 +11,7 @@ import Foundation
 internal enum MessagesEndpoint: Endpoint {
     
     internal var path: String {
-        get {
-            return urlPath()
-        }
+        return urlPath()
     }
     
     case message(messageID: Int64)

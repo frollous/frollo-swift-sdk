@@ -89,13 +89,13 @@ public struct ProviderLoginForm: Codable {
         
         /**
          Image data. Converts the binary array into usable data.
- 
+         
          - Returns: Data representing the image
         */
         public func imageData() -> Data? {
             guard let imageArray = image
-                else {
-                    return nil
+            else {
+                return nil
             }
             
             let unsignedArray = imageArray.map {
@@ -220,16 +220,16 @@ public struct ProviderLoginForm: Codable {
     */
     public mutating func encryptValues(encryptionKey: String, encryptionAlias: String) {
         guard let publicKey = SecKeyCreateWithPEMData(encryptionKey, nil)
-            else {
-                return
+        else {
+            return
         }
         
         for rowIndex in row.indices {
             for fieldIndex in row[rowIndex].field.indices {
                 guard let value = row[rowIndex].field[fieldIndex].value,
                     !value.isEmpty
-                    else {
-                        continue
+                else {
+                    continue
                 }
                 
                 let data = value.data(using: .utf8)!
@@ -241,19 +241,19 @@ public struct ProviderLoginForm: Codable {
                 
                 let transform = SecEncryptTransformCreate(publicKey, &error)
                 guard error == nil
-                    else {
-                        continue
+                else {
+                    continue
                 }
                 
                 guard SecTransformSetAttribute(transform, kSecTransformInputAttributeName, data as CFData, &error)
-                    else {
-                        continue
+                else {
+                    continue
                 }
                 
                 encryptedData = SecTransformExecute(transform, &error) as? Data
                 guard error == nil
-                    else {
-                        continue
+                else {
+                    continue
                 }
                 #else
                 let blockSize = SecKeyGetBlockSize(publicKey)
@@ -286,9 +286,9 @@ public struct ProviderLoginForm: Codable {
     public func validateForm() -> (Bool, Error?) {
         for currentRow in row {
             for currentField in currentRow.field {
-                if !currentField.isOptional && (currentField.value == nil || currentField.value?.isEmpty == true) {
+                if !currentField.isOptional, currentField.value == nil || currentField.value?.isEmpty == true {
                     // Required field not filled
-                    return (false,LoginFormError(type: .missingRequiredField, fieldName: currentField.name))
+                    return (false, LoginFormError(type: .missingRequiredField, fieldName: currentField.name))
                 } else if let value = currentField.value, let maxLength = currentField.maxLength, value.count > maxLength {
                     // Value is too long
                     return (false, LoginFormError(type: .maxLengthExceeded, fieldName: currentField.name))
