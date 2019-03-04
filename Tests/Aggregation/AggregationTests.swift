@@ -1573,6 +1573,70 @@ class AggregationTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testRefreshPaginatedTransactions() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (request) -> OHHTTPStubsResponse in
+            if let requestURL = request.url, let queryItems = URLComponents(url: requestURL, resolvingAgainstBaseURL: true)?.queryItems {
+                var skip: Int = 0
+                
+                for queryItem in queryItems {
+                    if queryItem.name == "skip", let value = queryItem.value, let skipCount = Int(value) {
+                        skip = skipCount
+                    }
+                }
+                
+                if skip == 200 {
+                    return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-12-04_count_200_skip_200", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+                }
+            }
+            
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-12-04_count_200_skip_0", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, service: service)
+            
+            let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
+            let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
+            
+            aggregation.refreshTransactions(from: fromDate, to: toDate) { (result) in
+                switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    let context = database.viewContext
+                    
+                    let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                    
+                    do {
+                        let fetchedTransactions = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedTransactions.count, 315)
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testRefreshTransactionByIDIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         

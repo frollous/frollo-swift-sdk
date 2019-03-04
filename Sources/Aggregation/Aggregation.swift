@@ -27,6 +27,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
     
     private let database: Database
     private let service: APIService
+    private let transactionBatchSize = 200
     
     private var linkingProviderIDs = Set<Int64>()
     private var linkingProviderAccountIDs = Set<Int64>()
@@ -539,7 +540,11 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshTransactions(from fromDate: Date, to toDate: Date, completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchTransactions(from: fromDate, to: toDate) { (result) in
+        refreshNextTransactions(from: fromDate, to: toDate, skip: 0, updatedTransactionIDs: [], completion: completion)
+    }
+    
+    private func refreshNextTransactions(from fromDate: Date, to toDate: Date, skip: Int, updatedTransactionIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
+        service.fetchTransactions(from: fromDate, to: toDate, count: transactionBatchSize, skip: skip) { (result) in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -550,18 +555,24 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleTransactionsResponse(response, from: fromDate, to: toDate, managedObjectContext: managedObjectContext)
+                    let updatedIDs = self.handleTransactionsResponse(response, from: fromDate, to: toDate, managedObjectContext: managedObjectContext) + updatedTransactionIDs
                     
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
                     
-                    NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
-                
-                    DispatchQueue.main.async {
-                        completion?(.success)
+                    if response.count >= self.transactionBatchSize {
+                        self.refreshNextTransactions(from: fromDate, to: toDate, skip: skip + self.transactionBatchSize, updatedTransactionIDs: updatedIDs, completion: completion)
+                    } else {
+                        self.removeTransactions(from: fromDate, to: toDate, excludingIDs: updatedIDs, managedObjectContext: managedObjectContext)
+                        
+                        NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
+                        
+                        DispatchQueue.main.async {
+                            completion?(.success)
+                        }
                     }
-            }
+                }
         }
     }
     
@@ -1314,22 +1325,104 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
-    private func handleTransactionsResponse(_ transactionsResponse: [APITransactionResponse], from fromDate: Date, to toDate: Date, managedObjectContext: NSManagedObjectContext) {
-        let fromDateString = Transaction.transactionDateFormatter.string(from: fromDate)
-        let toDateString = Transaction.transactionDateFormatter.string(from: toDate)
+    private func handleTransactionsResponse(_ transactionsResponse: [APITransactionResponse], from fromDate: Date, to toDate: Date, managedObjectContext: NSManagedObjectContext) -> [Int64] {
+        // Sort by ID
+        let sortedObjectResponses = transactionsResponse.sorted(by: { (responseA: APITransactionResponse, responseB: APITransactionResponse) -> Bool in
+            return responseB.id > responseA.id
+        })
         
-        let predicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " >= %@ && " + #keyPath(Transaction.transactionDateString) + " <= %@", argumentArray: [fromDateString, toDateString])
+        // Build id list predicate
+        let objectIDs = sortedObjectResponses.map { $0.id }
         
-        handleTransactionsResponse(transactionsResponse, predicate: predicate, managedObjectContext: managedObjectContext)
+        var linkedAccountIDs = Set<Int64>()
+        var linkedMerchantIDs = Set<Int64>()
+        var linkedTransactionCategoryIDs = Set<Int64>()
+        
+        managedObjectContext.performAndWait {
+            // Fetch existing objects for updating
+            let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+            
+            let fromDateString = Transaction.transactionDateFormatter.string(from: fromDate)
+            let toDateString = Transaction.transactionDateFormatter.string(from: toDate)
+            let filterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " >= %@ && " + #keyPath(Transaction.transactionDateString) + " <= %@", argumentArray: [fromDateString, toDateString])
+            let transactionIDPredicate = NSPredicate(format: #keyPath(Transaction.transactionID) + " IN %@", argumentArray: [objectIDs])
+            
+            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [filterPredicate, transactionIDPredicate])
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)]
+            
+            do {
+                let existingObjects = try managedObjectContext.fetch(fetchRequest)
+                
+                var index = 0
+                
+                for objectResponse in sortedObjectResponses {
+                    var object: Transaction
+                    
+                    if index < existingObjects.count && existingObjects[index].primaryID == objectResponse.id {
+                        object = existingObjects[index]
+                        index += 1
+                    } else {
+                        object = Transaction(context: managedObjectContext)
+                    }
+                    
+                    object.update(response: objectResponse, context: managedObjectContext)
+                    
+                    linkedAccountIDs.insert(object.accountID)
+                    linkedMerchantIDs.insert(object.merchantID)
+                    linkedTransactionCategoryIDs.insert(object.transactionCategoryID)
+                }
+            } catch let fetchError {
+                Log.error(fetchError.localizedDescription)
+            }
+        }
+        
+        linkingAccountIDs = linkingAccountIDs.union(linkedAccountIDs)
+        linkingMerchantIDs = linkingMerchantIDs.union(linkedMerchantIDs)
+        linkingTransactionCategoryIDs = linkingTransactionCategoryIDs.union(linkedTransactionCategoryIDs)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+        
+        return objectIDs
+    }
+    
+    private func removeTransactions(from fromDate: Date, to toDate: Date, excludingIDs: [Int64], managedObjectContext: NSManagedObjectContext) {
+        managedObjectContext.performAndWait {
+            // Fetch and delete any leftovers
+            let deleteRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+            
+            let fromDateString = Transaction.transactionDateFormatter.string(from: fromDate)
+            let toDateString = Transaction.transactionDateFormatter.string(from: toDate)
+            let filterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " >= %@ && " + #keyPath(Transaction.transactionDateString) + " <= %@", argumentArray: [fromDateString, toDateString])
+            let transactionIDPredicate = NSPredicate(format: "NOT " + #keyPath(Transaction.transactionID) + " IN %@", argumentArray: [excludingIDs])
+            deleteRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [filterPredicate, transactionIDPredicate])
+            
+            do {
+                let deleteObjects = try managedObjectContext.fetch(deleteRequest)
+                
+                for deleteObject in deleteObjects {
+                    managedObjectContext.delete(deleteObject)
+                }
+            } catch let fetchError {
+                Log.error(fetchError.localizedDescription)
+            }
+       
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
     }
     
     private func handleTransactionsResponse(_ transactionsResponse: [APITransactionResponse], transactionIDs: [Int64], managedObjectContext: NSManagedObjectContext) {
         let predicate = NSPredicate(format: #keyPath(Transaction.transactionID) + " IN %@", argumentArray: [transactionIDs])
         
-        handleTransactionsResponse(transactionsResponse, predicate: predicate, managedObjectContext: managedObjectContext)
-    }
-    
-    private func handleTransactionsResponse(_ transactionsResponse: [APITransactionResponse], predicate: NSPredicate, managedObjectContext: NSManagedObjectContext) {
         transactionLock.lock()
         
         defer {

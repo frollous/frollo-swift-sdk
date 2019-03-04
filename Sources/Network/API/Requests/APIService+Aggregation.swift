@@ -152,14 +152,16 @@ extension APIService {
     
     // MARK: - Transactions
     
-    internal func fetchTransactions(from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<[APITransactionResponse]>) {
+    internal func fetchTransactions(from fromDate: Date, to toDate: Date, count: Int, skip: Int, completion: @escaping RequestCompletion<[APITransactionResponse]>) {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.transactions.path, relativeTo: self.serverURL)!
             
             let dateFormatter = Transaction.transactionDateFormatter
             
             let parameters = [AggregationEndpoint.QueryParameters.fromDate.rawValue: dateFormatter.string(from: fromDate),
-                              AggregationEndpoint.QueryParameters.toDate.rawValue: dateFormatter.string(from: toDate)]
+                              AggregationEndpoint.QueryParameters.toDate.rawValue: dateFormatter.string(from: toDate),
+                              AggregationEndpoint.QueryParameters.count.rawValue: String(count),
+                              AggregationEndpoint.QueryParameters.skip.rawValue: String(skip)]
             
             self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response) in
                 self.network.handleArrayResponse(type: APITransactionResponse.self, response: response, dateDecodingStrategy: .formatted(Transaction.transactionDateFormatter), completion: completion)

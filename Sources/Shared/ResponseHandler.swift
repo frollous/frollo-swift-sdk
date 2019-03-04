@@ -11,35 +11,61 @@ import Foundation
 
 protocol ResponseHandler {
     
+    /**
+     Link objects of with a parent object relationship to each other at the Core Data level
+     
+     - parameters:
+         - type: Managed object with a unique identifier type to apply this operation to
+         - parentType: Managed object with a unique identifier type to link the child objects to
+         - objectFilterPredicate: Filter what child objects are fetched by this operation
+         - parentFilterPredicate: Filter what parent objects are fetched by this operation
+         - managedObjectContext: Managed object context to execute this operation on
+         - linkedIDs: IDs of the parent object to be fetched and their related children (as determined by the `linkedKey` parameter)
+         - linkedKey: Key path of the linked key on the child object
+         - linkedKeyName: String representation of the linked key on the child object
+    */
     func linkObjectToParentObject<T: UniqueManagedObject & NSManagedObject, U: UniqueManagedObject & NSManagedObject>(type: T.Type,
-                                                                                                                            parentType: U.Type,
-                                                                                                                            objectFilterPredicate: NSPredicate?,
-                                                                                                                            parentFilterPredicate: NSPredicate?,
-                                                                                                                            managedObjectContext: NSManagedObjectContext,
-                                                                                                                            linkedIDs: Set<Int64>,
-                                                                                                                            linkedKey: KeyPath<T, Int64>,
-                                                                                                                            linkedKeyName: String) -> Set<Int64>
+                                                                                                                      parentType: U.Type,
+                                                                                                                      objectFilterPredicate: NSPredicate?,
+                                                                                                                      parentFilterPredicate: NSPredicate?,
+                                                                                                                      managedObjectContext: NSManagedObjectContext,
+                                                                                                                      linkedIDs: Set<Int64>,
+                                                                                                                      linkedKey: KeyPath<T, Int64>,
+                                                                                                                      linkedKeyName: String) -> Set<Int64>
     
     func updateObjectWithResponse<T: UniqueManagedObject & NSManagedObject>(type: T.Type,
-                                                                               objectResponse: APIUniqueResponse,
-                                                                               primaryKey: String,
-                                                                               managedObjectContext: NSManagedObjectContext)
+                                                                            objectResponse: APIUniqueResponse,
+                                                                            primaryKey: String,
+                                                                            managedObjectContext: NSManagedObjectContext)
     
+    /**
+     Update objects in the cache with server response
+     
+     Updates, creates and deletes objects in the cache based on the server response. Utilises unique identifiers on the managed object to determine what objects should exist in the cache.
+     
+     - parameters:
+         - type: Managed object with a unique identifier type to apply this operation to
+         - objectResponse: An array of unique JSON objects returned from the server
+         - primaryKey: The primary key of the managed object
+         - linkedKeys: An array of linked key paths to be returned indicating what objects need linking to parent objects
+         - filterPredicate:  Filter what cached objects are fetched by this operation
+         - managedObjectContext: Managed object context to execute this operation on
+    */
     func updateObjectsWithResponse<T: UniqueManagedObject & NSManagedObject>(type: T.Type,
-                                                                                objectsResponse: [APIUniqueResponse],
-                                                                                primaryKey: String,
-                                                                                linkedKeys: [KeyPath<T, Int64>],
-                                                                                filterPredicate: NSPredicate?,
-                                                                                managedObjectContext: NSManagedObjectContext) -> [KeyPath<T, Int64>: Set<Int64>]
+                                                                             objectsResponse: [APIUniqueResponse],
+                                                                             primaryKey: String,
+                                                                             linkedKeys: [KeyPath<T, Int64>],
+                                                                             filterPredicate: NSPredicate?,
+                                                                             managedObjectContext: NSManagedObjectContext) -> [KeyPath<T, Int64>: Set<Int64>]
 
 }
 
 extension ResponseHandler {
     
     internal func updateObjectWithResponse<T: UniqueManagedObject & NSManagedObject>(type: T.Type,
-                                                                                        objectResponse: APIUniqueResponse,
-                                                                                        primaryKey: String,
-                                                                                        managedObjectContext: NSManagedObjectContext) {
+                                                                                     objectResponse: APIUniqueResponse,
+                                                                                     primaryKey: String,
+                                                                                     managedObjectContext: NSManagedObjectContext) {
         managedObjectContext.performAndWait {
             // Fetch existing providers for updating
             let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
@@ -62,15 +88,12 @@ extension ResponseHandler {
         }
     }
     
-    /**
-     Some of that crazy voodoo shit
-    */
     @discardableResult internal func updateObjectsWithResponse<T: UniqueManagedObject & NSManagedObject>(type: T.Type,
-                                                                                                            objectsResponse: [APIUniqueResponse],
-                                                                                                            primaryKey: String,
-                                                                                                            linkedKeys: [KeyPath<T, Int64>],
-                                                                                                            filterPredicate: NSPredicate?,
-                                                                                                            managedObjectContext: NSManagedObjectContext) -> [KeyPath<T, Int64>: Set<Int64>] {
+                                                                                                         objectsResponse: [APIUniqueResponse],
+                                                                                                         primaryKey: String,
+                                                                                                         linkedKeys: [KeyPath<T, Int64>],
+                                                                                                         filterPredicate: NSPredicate?,
+                                                                                                         managedObjectContext: NSManagedObjectContext) -> [KeyPath<T, Int64>: Set<Int64>] {
         // Sort by ID
         let sortedObjectResponses = objectsResponse.sorted(by: { (responseA: APIUniqueResponse, responseB: APIUniqueResponse) -> Bool in
             return responseB.id > responseA.id

@@ -531,7 +531,7 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        service.fetchTransactions(from: Date(timeIntervalSince1970: 1533124800), to: Date(timeIntervalSince1970: 1535673600)) { (result) in
+        service.fetchTransactions(from: Date(timeIntervalSince1970: 1533124800), to: Date(timeIntervalSince1970: 1535673600), count: 500, skip: 0) { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -579,7 +579,7 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        service.fetchTransactions(from: Date(timeIntervalSince1970: 1533124800), to: Date(timeIntervalSince1970: 1535673600)) { (result) in
+        service.fetchTransactions(from: Date(timeIntervalSince1970: 1533124800), to: Date(timeIntervalSince1970: 1535673600), count: 500, skip: 0) { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
