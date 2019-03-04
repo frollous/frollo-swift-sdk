@@ -121,7 +121,7 @@ public class Authentication {
         let request = OIDAuthorizationRequest(configuration: config,
                                               clientId: clientID,
                                               clientSecret: nil,
-                                              scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID],
+                                              scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail],
                                               redirectURL: authService.redirectURL,
                                               responseType: OIDResponseTypeCode,
                                               additionalParameters: ["domain": domain])
@@ -157,7 +157,7 @@ public class Authentication {
         let request = OIDAuthorizationRequest(configuration: config,
                                               clientId: clientID,
                                               clientSecret: nil,
-                                              scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID],
+                                              scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail],
                                               redirectURL: authService.redirectURL,
                                               responseType: OIDResponseTypeCode,
                                               additionalParameters: ["domain": domain])
