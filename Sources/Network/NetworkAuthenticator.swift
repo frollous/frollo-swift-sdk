@@ -108,9 +108,13 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
                             switch apiError.type {
                                 case .invalidAccessToken:
                                     // Refresh the token
-                                    requestsToRetry.append(completion)
-                                    
-                                    refreshTokens()
+                                    if request.retryCount < 3 {
+                                        requestsToRetry.append(completion)
+                                        
+                                        refreshTokens()
+                                    } else {
+                                        completion(false, 0)
+                                    }
                                 default:
                                     completion(false, 0)
                             }

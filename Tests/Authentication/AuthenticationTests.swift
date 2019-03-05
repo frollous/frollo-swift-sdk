@@ -167,7 +167,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         }
         
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_auth_head", ofType: "json")!, status: 401, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_access_token", ofType: "json")!, status: 401, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let path = tempFolderPath()
@@ -195,7 +195,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                         XCTAssertNil(networkAuthenticator.expiryDate)
                         
                         if let apiError = error as? APIError {
-                            XCTAssertEqual(apiError.type, .otherAuthorisation)
+                            XCTAssertEqual(apiError.type, .invalidAccessToken)
                         } else {
                             XCTFail("Wrong error returned")
                         }
