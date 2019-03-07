@@ -1479,14 +1479,12 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
-        let legacyToken = String.randomString(length: 32)
-        
         database.setup { (error) in
             XCTAssertNil(error)
             
             authentication.loggedIn = true
             
-            authentication.exchangeLegacyToken(legacyToken: legacyToken) { (result) in
+            authentication.exchangeLegacyToken { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -1496,6 +1494,56 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                         XCTAssertEqual(networkAuthenticator.accessToken, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
                         XCTAssertEqual(networkAuthenticator.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
                         XCTAssertEqual(networkAuthenticator.expiryDate, Date(timeIntervalSince1970: 2550794799))
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
+    }
+    
+    func testExchangeMissingRefreshTokenFails() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let preferences = Preferences(path: path)
+        let keychain = Keychain(service: keychainService)
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            authentication.loggedIn = true
+            
+            authentication.exchangeLegacyToken { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNil(networkAuthenticator.accessToken)
+                        XCTAssertNil(networkAuthenticator.refreshToken)
+                        XCTAssertNil(networkAuthenticator.expiryDate)
+                    
+                        if let authError = error as? DataError {
+                            XCTAssertEqual(authError.type, .authentication)
+                            XCTAssertEqual(authError.subType, .missingRefreshToken)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Missing refresh token should fail")
                 }
                 
                 expectation1.fulfill()

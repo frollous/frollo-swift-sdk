@@ -630,16 +630,25 @@ public class Authentication {
     /**
      Exchange legacy access token
      
-     Exchange a legacy access token for a new valid refresh access token pair.
+     Exchange a legacy access token if it exists for a new valid refresh access token pair.
      
      - parameters:
-        - legacyToken: Legacy access token to be exchanged
         - completion: Completion handler with any error that occurred
     */
-    public func exchangeLegacyToken(legacyToken: String, completion: @escaping FrolloSDKCompletionHandler) {
+    public func exchangeLegacyToken(completion: @escaping FrolloSDKCompletionHandler) {
         guard loggedIn
         else {
             let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        
+        guard let refreshToken = networkAuthenticator.refreshToken
+        else {
+            let error = DataError(type: .authentication, subType: .missingRefreshToken)
             
             DispatchQueue.main.async {
                 completion(.failure(error))
@@ -652,7 +661,7 @@ public class Authentication {
                                         codeVerifier: nil,
                                         domain: domain,
                                         grantType: .password,
-                                        legacyToken: legacyToken,
+                                        legacyToken: refreshToken,
                                         password: nil,
                                         redirectURI: nil,
                                         refreshToken: nil,
