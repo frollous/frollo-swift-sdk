@@ -11,6 +11,9 @@ import Foundation
 struct APILogRequest: Codable {
     
     let details: String?
+    let deviceID: String
+    let deviceName: String
+    let deviceType: String
     let message: String
     let score: LogLevel
     

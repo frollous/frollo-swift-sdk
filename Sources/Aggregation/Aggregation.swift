@@ -831,6 +831,20 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Transaction summary
+     
+     Retrieves sum and count of transactions for specified filters
+     
+     - parameters:
+         - fromDate: Start date to fetch transactions from (inclusive)
+         - toDate: End date to fetch transactions up to (inclusive)
+         - accountIDs: A list of account IDs to fetch associated transactions from
+         - transactionIDs: A list of transaction IDs to fetch
+         - onlyIncludedAccounts: Only include transactions from accounts not marked as excluded from budget
+         - onlyIncludedTransactions: Only include transactions not marked as excluded
+         - completion: Completion handler with count and sum of transactions if successful or error if it fails
+    */
     public func transactionSummary(from fromDate: Date, to toDate: Date, accountIDs: [Int64]? = nil, transactionIDs: [Int64]? = nil, onlyIncludedAccounts: Bool? = nil, onlyIncludedTransactions: Bool? = nil, completion: @escaping (Result<(count: Int64, sum: Decimal), Error>) -> Void) {
         service.transactionSummary(from: fromDate, to: toDate, accountIDs: accountIDs, transactionIDs: transactionIDs, onlyIncludedAccounts: onlyIncludedAccounts, onlyIncludedTransactions: onlyIncludedTransactions) { result in
             switch result {

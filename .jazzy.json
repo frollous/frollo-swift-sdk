@@ -22,7 +22,6 @@
 		        "FrolloSDKDelegate",
 			"FrolloSDKConfiguration",
   			"FrolloSDKCompletionHandler",
-  			"FrolloSDKAuthenticationNotification",
         		"LogLevel",
             "EmptyResult",
             "Result"

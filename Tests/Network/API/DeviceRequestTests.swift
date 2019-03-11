@@ -39,7 +39,12 @@ class DeviceRequestTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let request = APILogRequest(details: "Details Content", message: "Log message", score: .error)
+        let request = APILogRequest(details: "Details Content",
+                                    deviceID: UUID().uuidString,
+                                    deviceName: String.randomString(range: 1...32),
+                                    deviceType: String.randomString(range: 1...15),
+                                    message: String.randomString(range: 1...256),
+                                    score: .error)
         
         service.createLog(request: request) { (result) in
             switch result {
