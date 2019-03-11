@@ -53,16 +53,6 @@ extension APIService {
         }
     }
     
-    internal func logoutUser(completion: @escaping NetworkCompletion) {
-        requestQueue.async {
-            let url = URL(string: UserEndpoint.logout.path, relativeTo: self.serverURL)!
-            
-            self.network.sessionManager.request(url, method: .put, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { response in
-                self.network.handleEmptyResponse(response: response, completion: completion)
-            }
-        }
-    }
-    
     internal func registerUser(request: APIUserRegisterRequest, completion: @escaping UserRequestCompletion) {
         requestQueue.async {
             let url = URL(string: UserEndpoint.register.path, relativeTo: self.serverURL)!

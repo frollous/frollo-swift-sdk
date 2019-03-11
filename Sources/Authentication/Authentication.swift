@@ -815,15 +815,6 @@ public class Authentication {
             return
         }
         
-        service.logoutUser { result in
-            switch result {
-                case .failure(let error):
-                    Log.error(error.localizedDescription)
-                case .success:
-                    break
-            }
-        }
-        
         reset()
         
         delegate?.authenticationReset()
