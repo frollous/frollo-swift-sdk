@@ -204,37 +204,6 @@ class UserRequestTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
-    func testLogoutUser() {
-        let expectation1 = expectation(description: "Network Request")
-        
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.logout.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        
-        service.logoutUser() { (result) in
-            switch result {
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
-                case .success:
-                    break
-            }
-            
-            expectation1.fulfill()
-        }
-        
-        wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
-    }
-    
     func testChangePassword() {
         let expectation1 = expectation(description: "Network Request")
         

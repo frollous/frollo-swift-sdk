@@ -806,10 +806,6 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.logout.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
-        }
-        
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
