@@ -1,0 +1,115 @@
+//
+//  Copyright © 2018 Frollo. All rights reserved.
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+// 
+//      http://www.apache.org/licenses/LICENSE-2.0
+// 
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
+
+import XCTest
+@testable import FrolloSDK
+
+import OHHTTPStubs
+
+class SurveysTests: XCTestCase {
+
+    let keychainService = "SurveysTests"
+    
+    
+    override func setUp() {
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
+    
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        
+        OHHTTPStubs.removeAllStubs()
+        Keychain(service: keychainService).removeAll()
+    }
+    
+    func testFetchSurvey() {
+        
+        let expectation1 = expectation(description: "Network Request 1")
+        let surveyKey = "FINANCIAL_WELLBEING"
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + SurveysEndpoint.survey(key: surveyKey).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "survey_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let surveys = Surveys(service: service)
+        surveys.fetchSurvey(surveyKey: surveyKey, completion: { (result) in
+            switch result {
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            case .success(let survey):
+                XCTAssertEqual(survey.key, surveyKey)
+                XCTAssertEqual(survey.questions?.count, 1)
+            }
+            expectation1.fulfill()
+        })
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testSubmitSurvey() {
+        
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + SurveysEndpoint.surveys.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "submit_survey_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let surveys = Surveys(service: service)
+        surveys.submitSurvey(survey: Survey.createTestSurvey()) { (result) in
+            switch result {
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            case .success(let survey):
+                XCTAssertEqual(survey.key, Survey.createTestSurvey().key)
+                XCTAssertEqual(survey.questions?.count, 1)
+                XCTAssertEqual(survey.questions?[0].answers?.count, 1)
+            }
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    
+}
+
+
+extension Survey{
+    
+    static func createTestSurvey() -> Survey{
+        let answer = SurveyAnswer(identifier: "jfh34-231", title: nil, displayText: nil, iconURL: nil, value: "3", selected: true)
+        let question = SurveyQuestion(identifier: "asd23-df34", type: nil, title: nil, displayText: nil, iconURL: nil, questionOptional: nil, answers: [answer])
+        return Survey(key: "FINANCIAL_WELLBEING", name: nil, questions: [question])
+    }
+}

@@ -1,0 +1,24 @@
+{
+  "key": "FINANCIAL_WELLBEING",
+  "name": "Wellbeing Survey",
+  "questions": [
+    {
+      "identifier": "asd23-df34",
+      "type": "slider",
+      "title": "How do you feel about your finances?",
+      "display_text": "This let's us understand the level of support we should give you to keep you on the right track.",
+      "icon_url": "https://content.frollo.us/surveys/images/question_icon.png",
+      "optional": false,
+      "answers": [
+        {
+          "identifier": "jfh34-231",
+          "title": "OK",
+          "display_text": "I know enough but need to put things into practice. Sometimes I worry about money.",
+          "icon_url": "https://content.frollo.us/surveys/images/medium_face_emoji.png",
+          "value": "3",
+          "selected": false
+        }
+      ]
+    }
+  ]
+}
