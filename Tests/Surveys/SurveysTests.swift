@@ -60,6 +60,7 @@ class SurveysTests: XCTestCase {
             case .success(let survey):
                 XCTAssertEqual(survey.key, surveyKey)
                 XCTAssertEqual(survey.questions?.count, 1)
+                XCTAssertEqual(survey.questions?[0].type, SurveyQuestion.QuestionType.slider)
             }
             expectation1.fulfill()
         })

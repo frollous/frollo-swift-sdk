@@ -29,7 +29,7 @@ public struct SurveyQuestion: Codable {
     // Unique identifier of the question within a survey.
     public let identifier: String?
     // Type of the question. View will be presented according to the type.
-    public let type: String?
+    public let type: QuestionType?
     // Title of question to be displayed in view.
     public let title: String?
     // Additional text to give more explanation on question.
@@ -42,11 +42,19 @@ public struct SurveyQuestion: Codable {
     public let answers: [SurveyAnswer]?
     
     enum CodingKeys: String, CodingKey {
-        case identifier, type, title
+        case identifier
+        case type
+        case title
         case displayText = "display_text"
         case iconURL = "icon_url"
         case questionOptional = "optional"
         case answers
+    }
+    
+    public enum QuestionType: String, Codable {
+        case slider
+        case multipleChoice = "multiple_choice"
+        
     }
 }
 
