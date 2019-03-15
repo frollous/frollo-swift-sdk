@@ -923,6 +923,7 @@
 		01EEDB1D20EAEA2000F4516B /* DatabaseMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EEDB1C20EAEA2000F4516B /* DatabaseMigrationTests.swift */; };
 		01F220E320FEAC7600C70B00 /* APITokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F220E220FEAC7600C70B00 /* APITokenResponse.swift */; };
 		01F220EA20FECA9100C70B00 /* refresh_token_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01F220E820FECA8900C70B00 /* refresh_token_invalid.json */; };
+		2F657DA3223B26B300471B85 /* Survey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA2223B26B300471B85 /* Survey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1358,6 +1359,7 @@
 		01EEDB1C20EAEA2000F4516B /* DatabaseMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseMigrationTests.swift; sourceTree = "<group>"; };
 		01F220E220FEAC7600C70B00 /* APITokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITokenResponse.swift; sourceTree = "<group>"; };
 		01F220E820FECA8900C70B00 /* refresh_token_invalid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = refresh_token_invalid.json; sourceTree = "<group>"; };
+		2F657DA2223B26B300471B85 /* Survey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Survey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1865,6 +1867,7 @@
 		01527CC120E1B5C300B5042A /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				2F657DA1223B24E400471B85 /* Surveys */,
 				01527CC220E1B5C300B5042A /* FrolloSDK.h */,
 				01527CD820E1C5A600B5042A /* FrolloSDK.swift */,
 				01BB5A54221CD2AE000C03F0 /* FrolloSDKConfiguration.swift */,
@@ -2120,6 +2123,7 @@
 				0135D2FC21A2202400318142 /* NotificationPayload.swift */,
 				012C4509212A775D00799A0A /* ProviderLoginForm.swift */,
 				0104E03221E8588300D98EE7 /* ReportGrouping.swift */,
+				2F657DA2223B26B300471B85 /* Survey.swift */,
 			);
 			path = Transient;
 			sourceTree = "<group>";
@@ -2581,6 +2585,13 @@
 				017B48E32108287600447E65 /* user_details_invalid.json */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		2F657DA1223B24E400471B85 /* Surveys */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Surveys;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3402,6 +3413,7 @@
 				0104E03021E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataClass.swift in Sources */,
 				0136D225210011E70062EAEA /* Keychain.swift in Sources */,
 				0104E03121E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataProperties.swift in Sources */,
+				2F657DA3223B26B300471B85 /* Survey.swift in Sources */,
 				01BB5A5C221D1A26000C03F0 /* OAuthTokenRequest.swift in Sources */,
 				0126068321990377005D8377 /* Messages.swift in Sources */,
 				0126069621992AD4005D8377 /* APIMessageResponse.swift in Sources */,
