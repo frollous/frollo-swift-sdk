@@ -138,6 +138,16 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         return _reports
     }
     
+    /// Surveys - Handling surveys
+    public var surveys: Surveys {
+        guard _setup
+        else {
+            fatalError("SDK not setup.")
+        }
+        
+        return _surveys
+    }
+    
     /// Indicates if the SDK has completed setup or not
     public var setup: Bool {
         return _setup
@@ -157,6 +167,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     internal var network: Network!
     internal var refreshTimer: Timer?
     internal var _reports: Reports!
+    internal var _surveys: Surveys!
     internal var _setup = false
     
     private let cacheExpiry: TimeInterval = 120
@@ -266,6 +277,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         _messages = Messages(database: _database, service: service)
         _notifications = Notifications(authentication: _authentication, events: _events, messages: _messages)
         _reports = Reports(database: _database, service: service, aggregation: _aggregation)
+        _surveys = Surveys(service: service)
         
         _events.delegate = delegate
         _messages.delegate = delegate
