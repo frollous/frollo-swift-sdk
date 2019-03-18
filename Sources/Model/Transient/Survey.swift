@@ -16,7 +16,7 @@
 
 import Foundation
 
-public class Survey: NSObject, Codable {
+public class Survey: Codable {
     // id of the survey. Uniquely identifies a survey.
     public let id: Int?
     // key of the survey. used to fetch a survey.
@@ -27,7 +27,7 @@ public class Survey: NSObject, Codable {
     public let questions: [SurveyQuestion]?
 }
 
-public class SurveyQuestion: NSObject, Codable {
+public class SurveyQuestion: Codable {
     // Unique identifier of the question within a survey.
     public let id: Int?
     // Type of the question. View will be presented according to the type.
@@ -60,7 +60,7 @@ public class SurveyQuestion: NSObject, Codable {
     }
 }
 
-public class SurveyAnswer: NSObject, Codable {
+public class SurveyAnswer: Codable {
     // Unique identifier of the answer.
     public let id: Int?
     // Title of answer.
