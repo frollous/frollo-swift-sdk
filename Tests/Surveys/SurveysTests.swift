@@ -38,7 +38,7 @@ class SurveysTests: XCTestCase {
     func testFetchSurvey() {
         
         let expectation1 = expectation(description: "Network Request 1")
-        let surveyKey = "FINANCIAL_WELLBEING"
+        let surveyKey = "FINANCIAL_WELLBEING_4"
         
         let config = FrolloSDKConfiguration.testConfig()
         
@@ -53,14 +53,15 @@ class SurveysTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let surveys = Surveys(service: service)
+        let testSurvey = Survey.createTestSurvey()
         surveys.fetchSurvey(surveyKey: surveyKey, completion: { (result) in
             switch result {
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             case .success(let survey):
-                XCTAssertEqual(survey.key, surveyKey)
-                XCTAssertEqual(survey.questions?.count, 1)
-                XCTAssertEqual(survey.questions?[0].type, SurveyQuestion.QuestionType.slider)
+                XCTAssertEqual(survey.key, testSurvey!.key)
+                XCTAssertEqual(survey.questions?.count, 2)
+                XCTAssertEqual(survey.questions?[0].type, SurveyQuestion.QuestionType.multipleChoice)
             }
             expectation1.fulfill()
         })
@@ -86,12 +87,13 @@ class SurveysTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let surveys = Surveys(service: service)
-        surveys.submitSurvey(survey: Survey.createTestSurvey()) { (result) in
+        let testSurvey = Survey.createTestSurvey()
+        surveys.submitSurvey(survey: testSurvey!) { (result) in
             switch result {
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             case .success(let survey):
-                XCTAssertEqual(survey.key, Survey.createTestSurvey().key)
+                XCTAssertEqual(survey.key, testSurvey!.key)
                 XCTAssertEqual(survey.questions?.count, 1)
                 XCTAssertEqual(survey.questions?[0].answers?.count, 1)
             }
@@ -108,9 +110,15 @@ class SurveysTests: XCTestCase {
 
 extension Survey{
     
-    static func createTestSurvey() -> Survey{
-        let answer = SurveyAnswer(identifier: "jfh34-231", title: nil, displayText: nil, iconURL: nil, value: "3", selected: true)
-        let question = SurveyQuestion(identifier: "asd23-df34", type: nil, title: nil, displayText: nil, iconURL: nil, questionOptional: nil, answers: [answer])
-        return Survey(key: "FINANCIAL_WELLBEING", name: nil, questions: [question])
+    static func createTestSurvey() -> Survey?{
+        let jsonString = "{\"id\": 4,\"key\": \"FINANCIAL_WELLBEING_4\",\"name\": \"Wellbeing Survey\",\"questions\": [{\"id\": 4,\"type\": \"multiple_choice\",\"title\": \"How do you feel about your finances?\",\"display_text\": \"This let' us understand the level of support we should give you to keep you on the right track.\",\"answers\": [{\"id\": 12,\"title\": \"NEEDS FIXING\",\"display_text\": \"Always feel overwhelmed and I am always worried about money.\",\"value\": \"1\",\"selected\": false},{\"id\": 13,\"title\": \"NOT GREAT\",\"display_text\": \"Often feel overwhelmed and I worry about my money.\",\"value\": \"2\",\"selected\": false},{\"id\": 14,\"title\": \"OK\",\"display_text\": \"I know enough but need to put things into practice. Sometimes I worry about money.\",\"value\": \"3\",\"selected\": false},{\"id\": 15,\"title\": \"GOOD\",\"display_text\": \"I feel comfortable about my money situations and rarely I worry about money.\",\"value\": \"4\",\"selected\": false},{\"id\": 16,\"title\": \"GREAT\",\"display_text\": \"Have mastered my finance and never worry about money.\",\"value\": \"5\",\"selected\": true}]},{\"id\": 3,\"type\": \"slider\",\"title\": \"Frollo is here to help you!\",\"display_text\": \"We aim to personalise every experience. So we can provide you with meaningful financial direction, please let us know why you are here. I am here to...\",\"answers\": [{\"id\": 9,\"display_text\": \"Save for a goal\",\"value\": \"1\",\"selected\": true},{\"id\": 10,\"display_text\": \"Find out where my money goes\",\"value\": \"2\",\"selected\": false},{\"id\": 11,\"display_text\": \"Get support in paying off debt\",\"value\": \"3\",\"selected\": false}]}]}"
+        
+        if let jsonData = jsonString.data(using: .utf8)
+        {
+            let survey = try? JSONDecoder().decode(Survey.self, from: jsonData)
+            return survey
+        }
+        return nil
+        
     }
 }

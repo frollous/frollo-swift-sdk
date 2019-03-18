@@ -16,8 +16,10 @@
 
 import Foundation
 
-public struct Survey: Codable {
-    // key of the survey. Uniquely identifies a survey.
+public class Survey: NSObject, Codable {
+    // id of the survey. Uniquely identifies a survey.
+    public let id: Int?
+    // key of the survey. used to fetch a survey.
     public let key: String?
     // Name of the survey.
     public let name: String?
@@ -25,9 +27,9 @@ public struct Survey: Codable {
     public let questions: [SurveyQuestion]?
 }
 
-public struct SurveyQuestion: Codable {
+public class SurveyQuestion: NSObject, Codable {
     // Unique identifier of the question within a survey.
-    public let identifier: String?
+    public let id: Int?
     // Type of the question. View will be presented according to the type.
     public let type: QuestionType?
     // Title of question to be displayed in view.
@@ -39,10 +41,10 @@ public struct SurveyQuestion: Codable {
     // True if the question is optional.
     public let questionOptional: Bool?
     // List of answers of the survey question.
-    public let answers: [SurveyAnswer]?
+    public var answers: [SurveyAnswer]?
     
     enum CodingKeys: String, CodingKey {
-        case identifier
+        case id
         case type
         case title
         case displayText = "display_text"
@@ -58,9 +60,9 @@ public struct SurveyQuestion: Codable {
     }
 }
 
-public struct SurveyAnswer: Codable {
+public class SurveyAnswer: NSObject, Codable {
     // Unique identifier of the answer.
-    public let identifier: String?
+    public let id: Int?
     // Title of answer.
     public let title: String?
     // Display text of answer.
@@ -68,12 +70,12 @@ public struct SurveyAnswer: Codable {
     // Url of answer icon.
     public let iconURL: String?
     // Value of the answer.
-    public let value: String?
+    public var value: String?
     // True if answer is selected.
-    public let selected: Bool?
+    public var selected: Bool?
     
     enum CodingKeys: String, CodingKey {
-        case identifier, title
+        case id, title
         case displayText = "display_text"
         case iconURL = "icon_url"
         case value, selected
