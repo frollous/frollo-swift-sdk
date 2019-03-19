@@ -30,7 +30,7 @@ public class Surveys: ResponseHandler {
      
      - parameters:
      - surveyKey: key of the survey to fetch
-     - completion: Optional completion handler with optional error if the request fails and survey model if succeeds
+     - completion: Completion handler with optional error if the request fails and survey model if succeeds
      */
     
     public func fetchSurvey(surveyKey: String, completion: @escaping (Result<Survey, Error>) -> Void) {

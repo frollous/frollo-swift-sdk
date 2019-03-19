@@ -53,15 +53,16 @@ class SurveysTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let surveys = Surveys(service: service)
-        let testSurvey = Survey.createTestSurvey()
         surveys.fetchSurvey(surveyKey: surveyKey, completion: { (result) in
             switch result {
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             case .success(let survey):
-                XCTAssertEqual(survey.key, testSurvey!.key)
+                XCTAssertEqual(survey.key, "FINANCIAL_WELLBEING_4")
                 XCTAssertEqual(survey.questions.count, 2)
-                XCTAssertEqual(survey.questions[0].type, SurveyQuestion.QuestionType.multipleChoice)
+                XCTAssertEqual(survey.questions[0].type, Survey.Question.QuestionType.multipleChoice)
+                XCTAssertEqual(survey.questions[1].id, 4)
+                XCTAssertEqual(survey.questions[0].answers.count, 3)
             }
             expectation1.fulfill()
         })
@@ -96,6 +97,9 @@ class SurveysTests: XCTestCase {
                 XCTAssertEqual(survey.key, testSurvey!.key)
                 XCTAssertEqual(survey.questions.count, 1)
                 XCTAssertEqual(survey.questions[0].answers.count, 1)
+                XCTAssertEqual(survey.questions[0].id, 4)
+                XCTAssertEqual(survey.questions[0].answers.count, 1)
+                XCTAssertEqual(survey.questions[0].answers[0].id, 3)
             }
             expectation1.fulfill()
         }
@@ -107,17 +111,11 @@ class SurveysTests: XCTestCase {
 }
 
 
-extension Survey{
-    
+extension Survey {
     static func createTestSurvey() -> Survey?{
-        let jsonString = "{\"id\": 4,\"key\": \"FINANCIAL_WELLBEING_4\",\"name\": \"Wellbeing Survey\",\"questions\": [{\"id\": 4,\"type\": \"multiple_choice\",\"title\": \"How do you feel about your finances?\",\"display_text\": \"This let' us understand the level of support we should give you to keep you on the right track.\",\"answers\": [{\"id\": 12,\"title\": \"NEEDS FIXING\",\"display_text\": \"Always feel overwhelmed and I am always worried about money.\",\"value\": \"1\",\"selected\": false},{\"id\": 13,\"title\": \"NOT GREAT\",\"display_text\": \"Often feel overwhelmed and I worry about my money.\",\"value\": \"2\",\"selected\": false},{\"id\": 14,\"title\": \"OK\",\"display_text\": \"I know enough but need to put things into practice. Sometimes I worry about money.\",\"value\": \"3\",\"selected\": false},{\"id\": 15,\"title\": \"GOOD\",\"display_text\": \"I feel comfortable about my money situations and rarely I worry about money.\",\"value\": \"4\",\"selected\": false},{\"id\": 16,\"title\": \"GREAT\",\"display_text\": \"Have mastered my finance and never worry about money.\",\"value\": \"5\",\"selected\": true}]},{\"id\": 3,\"type\": \"slider\",\"title\": \"Frollo is here to help you!\",\"display_text\": \"We aim to personalise every experience. So we can provide you with meaningful financial direction, please let us know why you are here. I am here to...\",\"answers\": [{\"id\": 9,\"display_text\": \"Save for a goal\",\"value\": \"1\",\"selected\": true},{\"id\": 10,\"display_text\": \"Find out where my money goes\",\"value\": \"2\",\"selected\": false},{\"id\": 11,\"display_text\": \"Get support in paying off debt\",\"value\": \"3\",\"selected\": false}]}]}"
+        let answer = Question.Answer(id: 0, title: nil, displayText: nil, iconURL: nil, value: "1", selected: true)
+        let question = Question(id: 1, type: Survey.Question.QuestionType.multipleChoice, title: "", displayText: nil, iconURL: nil, questionOptional: nil, answers: [answer])
         
-        if let jsonData = jsonString.data(using: .utf8)
-        {
-            let survey = try? JSONDecoder().decode(Survey.self, from: jsonData)
-            return survey
-        }
-        return nil
-        
+        return Survey(id: 3, key: "FINANCIAL_WELLBEING_4", name: "", questions: [question])
     }
 }
