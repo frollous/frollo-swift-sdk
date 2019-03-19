@@ -79,7 +79,7 @@ public struct NotificationPayload: Codable {
             public let subtitle: String?
             
             /// An array of strings containing replacement values for variables in your title string. Each %@ character in the string specified by subtitle-loc-key is replaced by a value from this array. The first item in the array replaces the first instance of the %@ character in the string, the second item replaces the second instance, and so on.
-            public let subtitleLocArgs: [String]
+            public let subtitleLocArgs: [String]?
             
             /// The key for a localized subtitle string. Use this key, instead of the subtitle key, to retrieve the subtitle from your app's Localizable.strings file. The value must contain the name of a key in your strings file.
             public let subtitleLocKey: String?
