@@ -17,12 +17,24 @@ fastlane_version "2.106.0"
 
 default_platform(:ios)
 
+ private_lane :cisetup do
+    #setup_jenkins
+
+    ensure_git_status_clean
+
+    xcode_select "/Applications/Xcode.app"
+
+    unlock_keychain(ENV['KEYCHAIN_PASSWORD'])
+      password: "mysecret"
+    )
+end
+
 platform :ios do
   desc "Frollo SDK testing and deployment"
 
   lane :test do
     begin
-      #setup_jenkins
+      cisetup
 
       if carthage_cache_exist(bucket: 'frollo-carthage-cache')
         carthage_cache_install(
