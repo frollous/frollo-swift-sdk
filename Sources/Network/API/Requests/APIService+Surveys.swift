@@ -34,7 +34,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: SurveysEndpoint.surveys.path, relativeTo: self.serverURL)!
             
-            guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: request)
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
             else {
                 let dataError = DataError(type: .api, subType: .invalidData)
                 
