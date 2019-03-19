@@ -16,6 +16,7 @@
 
 import Foundation
 
+/// Manages surveysx
 public class Surveys: ResponseHandler {
     
     private let service: APIService
