@@ -1,0 +1,23 @@
+{
+  "id": 4,
+  "key": "FINANCIAL_WELLBEING_4",
+  "name": "Wellbeing Survey",
+  "questions": [
+    {
+      "id": 4,
+      "type": "slider",
+      "title": "How do you feel about your finances?",
+      "display_text": "This let's us understand the level of support we should give you to keep you on the right track.",
+      "optional": false,
+      "answers": [
+        {
+          "id": 3,
+          "title": "OK",
+          "display_text": "I know enough but need to put things into practice. Sometimes I worry about money.",
+          "value": "3",
+          "selected": false
+        }
+      ]
+    }
+  ]
+}
