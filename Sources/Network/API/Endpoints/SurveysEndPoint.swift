@@ -28,7 +28,7 @@ internal enum SurveysEndpoint: Endpoint {
     private func urlPath() -> String {
         switch self {
             case .survey(let key):
-                return "user/surveys" + String(key)
+                return "user/surveys/" + String(key)
             case .surveys:
                 return "user/surveys"
         }
