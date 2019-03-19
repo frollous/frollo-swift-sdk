@@ -24,8 +24,8 @@ default_platform(:ios)
 
     xcode_select "/Applications/Xcode.app"
 
-    unlock_keychain(ENV['KEYCHAIN_PASSWORD'])
-      password: "mysecret"
+    unlock_keychain(
+      password: ENV['KEYCHAIN_PASSWORD']
     )
 end
 
