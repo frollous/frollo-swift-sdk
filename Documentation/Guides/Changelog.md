@@ -1,4 +1,11 @@
 # Changelog
+## 2.1
+
+- Surveys
+
+### Features
+
+- Survey get and update
 
 ## 2.0
 

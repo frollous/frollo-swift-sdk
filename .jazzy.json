@@ -96,6 +96,13 @@
     ]
   },
   {
+    "name": "Surveys",
+    "children": [
+      "Surveys",
+      "Survey"
+    ]
+  },
+  {
     "name": "Database",
     "children": [
       "Database"
