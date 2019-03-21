@@ -38,10 +38,21 @@ class DatabaseResetTests: XCTestCase {
                         continue
                 }
                 
-                for _ in 0..<100 {
+                var uniqueIDs = Set<Int64>()
+                
+                for _ in 1..<100 {
                     let model = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
                     if let testableModel = model as? TestableCoreData {
                         testableModel.populateTestData()
+                    }
+                    
+                    // Check for unique ID constraint violations
+                    if let uniqueModel = model as? UniqueManagedObject {
+                        if uniqueIDs.contains(uniqueModel.primaryID) {
+                            context.delete(model)
+                        } else {
+                            uniqueIDs.insert(uniqueModel.primaryID)
+                        }
                     }
                 }
             }

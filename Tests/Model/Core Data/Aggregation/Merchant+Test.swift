@@ -20,7 +20,7 @@ import Foundation
 extension Merchant: TestableCoreData {
     
     func populateTestData() {
-        merchantID = Int64(arc4random())
+        merchantID = Int64.random(in: 1...Int64.max)
         merchantType = .retailer
         name = UUID().uuidString
         smallLogoURLString = "https://example.com/merchant.png"

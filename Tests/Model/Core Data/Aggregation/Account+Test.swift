@@ -20,8 +20,8 @@ import Foundation
 extension Account: TestableCoreData {
     
     func populateTestData() {
-        accountID = Int64(arc4random())
-        providerAccountID = Int64(arc4random())
+        accountID = Int64.random(in: 1...Int64.max)
+        providerAccountID = Int64.random(in: 1...Int64.max)
         accountName = UUID().uuidString
         nickName = UUID().uuidString
         providerName = UUID().uuidString

@@ -20,7 +20,7 @@ import Foundation
 extension TransactionCategory: TestableCoreData {
     
     func populateTestData() {
-        transactionCategoryID = Int64(arc4random())
+        transactionCategoryID = Int64.random(in: 1...Int64.max)
         categoryType = .expense
         defaultBudgetCategory = .living
         iconURLString = "https://example.com/category.png"

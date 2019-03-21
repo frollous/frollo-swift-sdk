@@ -20,10 +20,10 @@ import Foundation
 extension BillPayment: TestableCoreData {
     
     @objc func populateTestData() {
-        billPaymentID = Int64.random(in: 1...100000000)
-        billID = Int64.random(in: 1...1000000000)
+        billPaymentID = Int64.random(in: 1...Int64.max)
+        billID = Int64.random(in: 1...Int64.max)
         name = String.randomString(range: 5...30)
-        merchantID = Int64.random(in: 1...1000000)
+        merchantID = Int64.random(in: 1...Int64.max)
         dateString = "2021-01-01"
         paymentStatus = Bill.PaymentStatus.allCases.randomElement()!
         frequency = Bill.Frequency.allCases.randomElement()!

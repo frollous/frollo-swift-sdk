@@ -20,10 +20,10 @@ import Foundation
 extension Transaction: TestableCoreData {
     
     func populateTestData() {
-        transactionID = Int64(arc4random())
-        accountID = Int64(arc4random())
-        merchantID = Int64(arc4random())
-        transactionCategoryID = Int64(arc4random())
+        transactionID = Int64.random(in: 1...Int64.max)
+        accountID = Int64.random(in: 1...Int64.max)
+        merchantID = Int64.random(in: 1...Int64.max)
+        transactionCategoryID = Int64.random(in: 1...Int64.max)
         memo = UUID().uuidString
         originalDescription = UUID().uuidString
         simpleDescription = UUID().uuidString

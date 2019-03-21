@@ -20,8 +20,8 @@ import Foundation
 extension ProviderAccount: TestableCoreData {
     
     func populateTestData() {
-        providerAccountID = Int64(arc4random())
-        providerID = Int64(arc4random())
+        providerAccountID = Int64.random(in: 1...Int64.max)
+        providerID = Int64.random(in: 1...Int64.max)
         editable = true
         lastRefreshed = Date(timeIntervalSince1970: 1533183204)
         nextRefresh = Date(timeIntervalSince1970: 1533183224)

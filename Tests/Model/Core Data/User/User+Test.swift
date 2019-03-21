@@ -25,7 +25,7 @@ extension User: TestableCoreData {
         dateFormatter.dateFormat = "yyyy-MM"
         let date = dateFormatter.date(from: "1990-01")
         
-        userID = Int64(arc4random())
+        userID = Int64.random(in: 1...Int64.max)
         firstName = UUID().uuidString
         lastName = UUID().uuidString
         email = firstName.lowercased() + "@frollo.us"

@@ -20,8 +20,8 @@ import Foundation
 extension Bill: TestableCoreData {
     
     @objc func populateTestData() {
-        billID = Int64.random(in: 1...100000)
-        accountID = Int64.random(in: 1...100000)
+        billID = Int64.random(in: 1...Int64.max)
+        accountID = Int64.random(in: 1...Int64.max)
         averageAmount = 400.13
         billType = BillType.allCases.randomElement()!
         details = String.randomString(range: 5...50)

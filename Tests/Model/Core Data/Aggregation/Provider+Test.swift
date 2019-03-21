@@ -20,7 +20,7 @@ import Foundation
 extension Provider: TestableCoreData {
     
     func populateTestData() {
-        providerID = Int64(arc4random())
+        providerID = Int64.random(in: 1...Int64.max)
         name = UUID().uuidString
         smallLogoURLString = "https://example.com/small.png"
         status = .supported

@@ -20,10 +20,10 @@ import Foundation
 extension Message: TestableCoreData {
     
     @objc func populateTestData() {
-        messageID = Int64.random(in: 1...10000000)
+        messageID = Int64.random(in: 1...Int64.max)
         event = String.randomString(range: 1...30)
-        userEventID = Int64.random(in: 1...100000)
-        placement = Int64.random(in: 1...100000)
+        userEventID = Int64.random(in: 1...Int64.max)
+        placement = Int64.random(in: 1...Int64.max)
         persists = Bool.random()
         read = Bool.random()
         interacted = Bool.random()
