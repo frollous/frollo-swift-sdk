@@ -34,7 +34,7 @@ platform :ios do
 
   lane :test do
     begin
-      cisetup
+      #cisetup
 
       if carthage_cache_exist(bucket: 'frollo-carthage-cache')
         carthage_cache_install(
@@ -56,6 +56,10 @@ platform :ios do
           clean: true,
           build: true,
           destination: "platform=watchOS Simulator,name=Apple Watch Series 4 - 44mm")
+
+      xcodebuild(scheme: "FrolloSDKCore",
+          clean: true,
+          build: true)
 
    	  run_tests(scheme: "FrolloSDK macOS Tests",
       		  clean: true,

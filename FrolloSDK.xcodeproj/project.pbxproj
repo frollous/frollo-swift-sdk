@@ -327,6 +327,10 @@
 		01405E6E21DF1D2E009356CC /* bill_payment_id_12345.json in Resources */ = {isa = PBXBuildFile; fileRef = 01405E6D21DF1D2D009356CC /* bill_payment_id_12345.json */; };
 		01405E6F21DF1D2E009356CC /* bill_payment_id_12345.json in Resources */ = {isa = PBXBuildFile; fileRef = 01405E6D21DF1D2D009356CC /* bill_payment_id_12345.json */; };
 		01405E7021DF1D2E009356CC /* bill_payment_id_12345.json in Resources */ = {isa = PBXBuildFile; fileRef = 01405E6D21DF1D2D009356CC /* bill_payment_id_12345.json */; };
+		01456B7422433BD10077FC56 /* Surveys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA4223B2FB300471B85 /* Surveys.swift */; };
+		01456B7522433D060077FC56 /* Survey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA2223B26B300471B85 /* Survey.swift */; };
+		01456B7622433D550077FC56 /* APIService+Surveys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA6223B314100471B85 /* APIService+Surveys.swift */; };
+		01456B7722433D830077FC56 /* SurveysEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA8223B323A00471B85 /* SurveysEndpoint.swift */; };
 		01483B6C2117C70600D0DA87 /* Account+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B682117C70600D0DA87 /* Account+CoreDataClass.swift */; };
 		01483B6E2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B6A2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift */; };
 		01483B712117C7E900D0DA87 /* APIAccountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B702117C7E900D0DA87 /* APIAccountResponse.swift */; };
@@ -926,7 +930,7 @@
 		2F657DA3223B26B300471B85 /* Survey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA2223B26B300471B85 /* Survey.swift */; };
 		2F657DA5223B2FB300471B85 /* Surveys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA4223B2FB300471B85 /* Surveys.swift */; };
 		2F657DA7223B314100471B85 /* APIService+Surveys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA6223B314100471B85 /* APIService+Surveys.swift */; };
-		2F657DA9223B323A00471B85 /* SurveysEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA8223B323A00471B85 /* SurveysEndPoint.swift */; };
+		2F657DA9223B323A00471B85 /* SurveysEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA8223B323A00471B85 /* SurveysEndpoint.swift */; };
 		2F657DAC223B39EE00471B85 /* SurveysTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DAB223B39EE00471B85 /* SurveysTests.swift */; };
 		2F657DAF223B467000471B85 /* survey_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F657DAE223B467000471B85 /* survey_response.json */; };
 		2F657DB0223B467000471B85 /* survey_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F657DAE223B467000471B85 /* survey_response.json */; };
@@ -1374,7 +1378,7 @@
 		2F657DA2223B26B300471B85 /* Survey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Survey.swift; sourceTree = "<group>"; };
 		2F657DA4223B2FB300471B85 /* Surveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Surveys.swift; sourceTree = "<group>"; };
 		2F657DA6223B314100471B85 /* APIService+Surveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+Surveys.swift"; sourceTree = "<group>"; };
-		2F657DA8223B323A00471B85 /* SurveysEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveysEndPoint.swift; sourceTree = "<group>"; };
+		2F657DA8223B323A00471B85 /* SurveysEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveysEndpoint.swift; sourceTree = "<group>"; };
 		2F657DAB223B39EE00471B85 /* SurveysTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveysTests.swift; sourceTree = "<group>"; };
 		2F657DAE223B467000471B85 /* survey_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = survey_response.json; sourceTree = "<group>"; };
 		2F657DB4223B56DF00471B85 /* submit_survey_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = submit_survey_response.json; sourceTree = "<group>"; };
@@ -1885,7 +1889,6 @@
 		01527CC120E1B5C300B5042A /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				2F657DA1223B24E400471B85 /* Surveys */,
 				01527CC220E1B5C300B5042A /* FrolloSDK.h */,
 				01527CD820E1C5A600B5042A /* FrolloSDK.swift */,
 				01BB5A54221CD2AE000C03F0 /* FrolloSDKConfiguration.swift */,
@@ -1908,6 +1911,7 @@
 				01EED86020E5A7EA00F4516B /* Preferences */,
 				01236D0821EBF4CD008DD61A /* Reports */,
 				01819147211178AC000E0F80 /* Shared */,
+				2F657DA1223B24E400471B85 /* Surveys */,
 				0160953520F33E980060791B /* Version */,
 			);
 			path = Sources;
@@ -2289,7 +2293,7 @@
 				0126069021992909005D8377 /* MessagesEndpoint.swift */,
 				01236D0D21EBFA34008DD61A /* ReportsEndpoint.swift */,
 				01874B7320F81EA8005A7D0C /* UserEndpoint.swift */,
-				2F657DA8223B323A00471B85 /* SurveysEndPoint.swift */,
+				2F657DA8223B323A00471B85 /* SurveysEndpoint.swift */,
 			);
 			path = Endpoints;
 			sourceTree = "<group>";
@@ -3480,7 +3484,7 @@
 				01F220E320FEAC7600C70B00 /* APITokenResponse.swift in Sources */,
 				012606B6219A784D005D8377 /* MessageImage+CoreDataProperties.swift in Sources */,
 				01819149211178D2000E0F80 /* ResponseHandler.swift in Sources */,
-				2F657DA9223B323A00471B85 /* SurveysEndPoint.swift in Sources */,
+				2F657DA9223B323A00471B85 /* SurveysEndpoint.swift in Sources */,
 				011F813E219D254000A1495F /* APIEventCreateRequest.swift in Sources */,
 				011F813B219CECA200A1495F /* APIDeviceUpdateRequest.swift in Sources */,
 				0159E47621926949002CC3BB /* PropertyListPersistence.swift in Sources */,
@@ -3901,6 +3905,7 @@
 				01E5BF082227A475003D85FD /* PreferencesPersistence.swift in Sources */,
 				01E5BF092227A475003D85FD /* BillPayment+CoreDataProperties.swift in Sources */,
 				01E5BF0A2227A475003D85FD /* ProviderAccount+CoreDataClass.swift in Sources */,
+				01456B7522433D060077FC56 /* Survey.swift in Sources */,
 				01E5BF0B2227A475003D85FD /* AccountBalanceTier+CoreDataProperties.swift in Sources */,
 				01E5BF0C2227A475003D85FD /* Bill+CoreDataProperties.swift in Sources */,
 				01E5BF0D2227A475003D85FD /* APIService+Bills.swift in Sources */,
@@ -3957,6 +3962,7 @@
 				01E5BF3F2227A475003D85FD /* Message+CoreDataClass.swift in Sources */,
 				01E5BF402227A475003D85FD /* APIUserChangePasswordRequest.swift in Sources */,
 				01E5BF412227A475003D85FD /* APIErrorResponse.swift in Sources */,
+				01456B7722433D830077FC56 /* SurveysEndpoint.swift in Sources */,
 				01E5BF422227A475003D85FD /* APITokenResponse.swift in Sources */,
 				01E5BF432227A475003D85FD /* MessageImage+CoreDataProperties.swift in Sources */,
 				01E5BF442227A475003D85FD /* ResponseHandler.swift in Sources */,
@@ -3964,6 +3970,7 @@
 				01E5BF462227A475003D85FD /* APIDeviceUpdateRequest.swift in Sources */,
 				01E5BF472227A475003D85FD /* PropertyListPersistence.swift in Sources */,
 				01E5BF482227A475003D85FD /* APIService+User.swift in Sources */,
+				01456B7422433BD10077FC56 /* Surveys.swift in Sources */,
 				01E5BF492227A475003D85FD /* MessageHTML+CoreDataClass.swift in Sources */,
 				01E5BF4A2227A475003D85FD /* Bills.swift in Sources */,
 				01E5BF4B2227A475003D85FD /* APIProviderAccountCreateRequest.swift in Sources */,
@@ -3980,6 +3987,7 @@
 				01E5BF562227A475003D85FD /* DeviceEndpoint.swift in Sources */,
 				01E5BF572227A475003D85FD /* DateFormatter.swift in Sources */,
 				01E5BF582227A475003D85FD /* MessageHTML+CoreDataProperties.swift in Sources */,
+				01456B7622433D550077FC56 /* APIService+Surveys.swift in Sources */,
 				01E5BF592227A475003D85FD /* SecKeyPEM.swift in Sources */,
 				01E5BF5A2227A475003D85FD /* MessageText+CoreDataClass.swift in Sources */,
 				01E5BF5B2227A475003D85FD /* Message+CoreDataProperties.swift in Sources */,
@@ -5107,9 +5115,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = us.frollo.FrolloSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -5180,9 +5190,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = us.frollo.FrolloSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
