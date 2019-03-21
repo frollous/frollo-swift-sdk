@@ -34,7 +34,7 @@ platform :ios do
 
   lane :test do
     begin
-      #cisetup
+      cisetup
 
       if carthage_cache_exist(bucket: 'frollo-carthage-cache')
         carthage_cache_install(
