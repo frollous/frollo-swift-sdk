@@ -153,14 +153,14 @@ public class Survey: Codable {
                 case answerType = "type"
             }
             
-            /// type of a answer
+            /// type of an answer
             public enum AnswerType: String, Codable {
                 
                 /// answer with normal selection
                 case normalSelection = "normal_selection"
                 
                 /// answer with open end
-                case opneEnded = "open_ended"
+                case openEnded = "open_ended"
                 
             }
         }
