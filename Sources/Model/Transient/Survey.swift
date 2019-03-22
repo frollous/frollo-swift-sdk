@@ -44,10 +44,10 @@ public class Survey: Codable {
     }
     
     /**
-    Question
+     Question
      
-    Question of a Survey
-    */
+     Question of a Survey
+     */
     public class Question: Codable {
         
         /// Unique identifier of the question within a survey.
@@ -101,6 +101,9 @@ public class Survey: Codable {
             /// question with multiple choice select view
             case multipleChoice = "multiple_choice"
             
+            /// question with checkbox view
+            case checkbox
+            
         }
         
         /**
@@ -128,14 +131,18 @@ public class Survey: Codable {
             /// True if answer is selected.
             public var selected: Bool
             
+            /// Type of the answer.
+            public var answerType: AnswerType
+            
             ///initilizer
-            init(id: Int64, title: String?, displayText: String?, iconURL: String?, value: String, selected: Bool) {
+            init(id: Int64, title: String?, displayText: String?, iconURL: String?, value: String, selected: Bool, answerType: AnswerType) {
                 self.id = id
                 self.title = title
                 self.displayText = displayText
                 self.iconURL = iconURL
                 self.value = value
                 self.selected = selected
+                self.answerType = answerType
             }
             
             private enum CodingKeys: String, CodingKey {
@@ -143,6 +150,18 @@ public class Survey: Codable {
                 case displayText = "display_text"
                 case iconURL = "icon_url"
                 case value, selected
+                case answerType = "type"
+            }
+            
+            /// type of a answer
+            public enum AnswerType: String, Codable {
+                
+                /// answer with normal selection
+                case normalSelection = "normal_selection"
+                
+                /// answer with open end
+                case opneEnded = "open_ended"
+                
             }
         }
     }

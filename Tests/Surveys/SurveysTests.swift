@@ -38,7 +38,7 @@ class SurveysTests: XCTestCase {
     func testFetchSurvey() {
         
         let expectation1 = expectation(description: "Network Request 1")
-        let surveyKey = "FINANCIAL_WELLBEING_4"
+        let surveyKey = "FINANCIAL_WELLBEING"
         
         let config = FrolloSDKConfiguration.testConfig()
         
@@ -58,11 +58,11 @@ class SurveysTests: XCTestCase {
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             case .success(let survey):
-                XCTAssertEqual(survey.key, "FINANCIAL_WELLBEING_4")
-                XCTAssertEqual(survey.questions.count, 2)
-                XCTAssertEqual(survey.questions[0].type, Survey.Question.QuestionType.multipleChoice)
-                XCTAssertEqual(survey.questions[1].id, 4)
-                XCTAssertEqual(survey.questions[0].answers.count, 3)
+                XCTAssertEqual(survey.key, surveyKey)
+                XCTAssertEqual(survey.questions.count, 1)
+                XCTAssertEqual(survey.questions[0].type, Survey.Question.QuestionType.slider)
+                XCTAssertEqual(survey.questions[0].id, 1)
+                XCTAssertEqual(survey.questions[0].answers.count, 1)
             }
             expectation1.fulfill()
         })
@@ -97,9 +97,10 @@ class SurveysTests: XCTestCase {
                 XCTAssertEqual(survey.key, testSurvey!.key)
                 XCTAssertEqual(survey.questions.count, 1)
                 XCTAssertEqual(survey.questions[0].answers.count, 1)
-                XCTAssertEqual(survey.questions[0].id, 4)
+                XCTAssertEqual(survey.questions[0].id, 1)
                 XCTAssertEqual(survey.questions[0].answers.count, 1)
-                XCTAssertEqual(survey.questions[0].answers[0].id, 3)
+                XCTAssertEqual(survey.questions[0].answers[0].id, 1)
+                XCTAssertEqual(survey.questions[0].answers[0].answerType, Survey.Question.Answer.AnswerType.normalSelection)
             }
             expectation1.fulfill()
         }
@@ -113,9 +114,9 @@ class SurveysTests: XCTestCase {
 
 extension Survey {
     static func createTestSurvey() -> Survey?{
-        let answer = Question.Answer(id: 0, title: nil, displayText: nil, iconURL: nil, value: "1", selected: true)
+        let answer = Question.Answer(id: 0, title: nil, displayText: nil, iconURL: nil, value: "1", selected: true, answerType : Question.Answer.AnswerType.normalSelection)
         let question = Question(id: 1, type: Survey.Question.QuestionType.multipleChoice, title: "", displayText: nil, iconURL: nil, questionOptional: nil, answers: [answer])
         
-        return Survey(id: 3, key: "FINANCIAL_WELLBEING_4", name: "", questions: [question])
+        return Survey(id: 3, key: "FINANCIAL_WELLBEING", name: "", questions: [question])
     }
 }
