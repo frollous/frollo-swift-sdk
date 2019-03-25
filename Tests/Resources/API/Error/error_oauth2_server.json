@@ -1,0 +1,4 @@
+{
+	"error": "server_error",
+	"error_description": "Authorization server not configured with default connection."
+}
