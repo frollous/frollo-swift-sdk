@@ -113,7 +113,7 @@ class NetworkAuthenticatorTests: XCTestCase, AuthenticationDelegate {
         let config = FrolloSDKConfiguration.testConfig()
         
         stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_invalid", ofType: "json")!, status: 401, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_oauth2_invalid_grant", ofType: "json")!, status: 401, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
@@ -135,8 +135,8 @@ class NetworkAuthenticatorTests: XCTestCase, AuthenticationDelegate {
                     XCTAssertNil(service.network.authenticator.refreshToken)
                     XCTAssertNil(service.network.authenticator.expiryDate)
                     
-                    if let apiError = error as? APIError {
-                        XCTAssertEqual(apiError.type, .otherAuthorisation)
+                    if let oAuth2Error = error as? OAuth2Error {
+                        XCTAssertEqual(oAuth2Error.type, OAuth2ErrorResponse.ErrorType.invalidGrant.rawValue)
                     } else {
                         XCTFail("Wrong type of error")
                     }

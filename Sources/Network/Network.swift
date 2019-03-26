@@ -176,7 +176,24 @@ class Network: SessionDelegate {
         }
     }
     
-    internal func handleResponse<T: Codable>(type: T.Type, response: DataResponse<Data>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<T>) {
+    internal func handleOAuth2Failure(response: DataResponse<Data>, error: Error, completion: (_: FrolloSDKError) -> Void) {
+        if let parsedError = error as? DataError, parsedError.type == .authentication, parsedError.subType == .missingRefreshToken {
+            reset()
+            
+            delegate?.forcedLogout()
+            
+            completion(parsedError)
+        } else if (response.response?.statusCode) != nil {
+            let oAuth2Error = OAuth2Error(response: response.data)
+            completion(oAuth2Error)
+        } else {
+            let systemError = error as NSError
+            let networkError = NetworkError(error: systemError)
+            completion(networkError)
+        }
+    }
+    
+    internal func handleResponse<T: Codable>(errorType: ErrorType = .Normal, type: T.Type, response: DataResponse<Data>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<T>) {
         switch response.result {
             case .success(let value):
                 let decoder = JSONDecoder()
@@ -194,9 +211,16 @@ class Network: SessionDelegate {
                     completion(.failure(dataError))
                 }
             case .failure(let error):
-                handleFailure(response: response, error: error) { processedError in
-                    completion(.failure(processedError))
+                if errorType == .OAuth2 {
+                    handleOAuth2Failure(response: response, error: error) { processedError in
+                        completion(.failure(processedError))
+                    }
+                } else {
+                    handleFailure(response: response, error: error) { processedError in
+                        completion(.failure(processedError))
+                    }
                 }
+                
         }
     }
     

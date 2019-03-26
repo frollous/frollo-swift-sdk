@@ -1,0 +1,5 @@
+{
+  "error": "invalid_request",
+  "error_description": "Request was missing the 'redirect_uri' parameter.",
+  "error_uri": "See the full API docs at https://authorization-server.com/docs/access_token"
+}
