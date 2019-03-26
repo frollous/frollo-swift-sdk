@@ -110,7 +110,8 @@
       "DataError",
       "LoginFormError",
       "NetworkError",
-      "OAuthError"
+      "OAuthError",
+      "OAuth2Error"
     ]
   }
   ]
