@@ -188,7 +188,7 @@ public class OAuthError: FrolloSDKError {
                 case .invalidGrant:
                     self.type = .invalidGrant
                 case .invalidScope:
-                    self.type = .invalidGrant
+                    self.type = .invalidScope
                 case .unauthorizedClient:
                     self.type = .unauthorizedClient
                 case .unsupportedGrantType:
