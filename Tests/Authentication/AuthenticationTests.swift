@@ -115,7 +115,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let config = FrolloSDKConfiguration.testConfig()
         
         stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_oauth2_unauthorized_client", ofType: "json")!, status: 400, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_oauth2_invalid_grant", ofType: "json")!, status: 400, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
@@ -147,7 +147,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                         XCTAssertNil(networkAuthenticator.expiryDate)
                     
                         if let oAuth2Error = error as? OAuth2Error {
-                            XCTAssertEqual(oAuth2Error.type, OAuth2ErrorResponse.ErrorType.unauthorizedClient.rawValue)
+                            XCTAssertEqual(oAuth2Error.type, OAuth2ErrorResponse.ErrorType.invalidGrant.rawValue)
                         } else {
                             XCTFail("Wrong error returned")
                         }
