@@ -380,7 +380,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                         XCTAssertNil(networkAuthenticator.refreshToken)
                         XCTAssertNil(networkAuthenticator.expiryDate)
                         
-                        if let authError = error as? OAuthError {
+                        if let authError = error as? OAuth2Error {
                             XCTAssertEqual(authError.type, .clientError)
                         } else {
                             XCTFail("Wrong error returned")
