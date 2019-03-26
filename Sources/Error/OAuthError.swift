@@ -166,6 +166,41 @@ public class OAuthError: FrolloSDKError {
         }
     }
     
+    internal required init(response: Data?) {
+        
+        var errorResponse: OAuth2ErrorResponse?
+        
+        if let json = response {
+            let decoder = JSONDecoder()
+            do {
+                errorResponse = try decoder.decode(OAuth2ErrorResponse.self, from: json)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        
+        if let response = errorResponse {
+            switch response.errorType {
+                case .invalidRequest:
+                    self.type = .invalidRequest
+                case .invalidClient:
+                    self.type = .invalidClient
+                case .invalidGrant:
+                    self.type = .invalidGrant
+                case .invalidScope:
+                    self.type = .invalidGrant
+                case .unauthorizedClient:
+                    self.type = .unauthorizedClient
+                case .unsupportedGrantType:
+                    self.type = .unsupportedGrantType
+                case .serverError:
+                    self.type = .serverError
+            }
+        } else {
+            self.type = .networkError
+        }
+    }
+    
     // MARK: - Descriptions
     
     private func localizedOAuthErrorDescription() -> String {

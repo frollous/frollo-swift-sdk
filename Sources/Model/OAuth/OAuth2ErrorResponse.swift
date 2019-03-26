@@ -16,10 +16,10 @@
 
 import Foundation
 
-public struct OAuth2ErrorResponse: Codable {
+internal struct OAuth2ErrorResponse: Codable {
     
     /// Type of Error
-    public enum ErrorType: String, Codable, CaseIterable {
+    internal enum ErrorType: String, Codable, CaseIterable {
         
         /// The request is missing a parameter so the server can’t proceed with the request.
         case invalidRequest = "invalid_request"
@@ -42,24 +42,22 @@ public struct OAuth2ErrorResponse: Codable {
         /// Server error
         case serverError = "server_error"
         
-        /// Any other errors, default value
-        case oAuth2Error = "oauth2_error"
     }
     
     /// Coding keys
-    public enum CodingKeys: String, CodingKey {
+    internal enum CodingKeys: String, CodingKey {
         case errorDescription = "error_description"
         case errorUri = "error_uri"
         case errorType = "error"
     }
     
     /// Type of error
-    public let errorType: ErrorType
+    internal let errorType: ErrorType
     
     /// Description or error
-    public let errorDescription: String?
+    internal let errorDescription: String?
     
     /// Optional Uri from Authentication Server
-    public let errorUri: String?
+    internal let errorUri: String?
     
 }

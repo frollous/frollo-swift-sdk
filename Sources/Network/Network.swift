@@ -47,12 +47,12 @@ class Network: SessionDelegate {
      Initialise a network stack pointing to an API at a specific URL
      
      - parameters:
-        - serverEndpoint: Base URL endpoint of the API, e.g. https://api.example.com/v1/
-        - networkAuthenticator: The authentication service for authenticating requests and managing tokens
-        - pinnedPublicKeys: Dictionary of hosts and their public keys to pin the server's certificates against (Optional)
+     - serverEndpoint: Base URL endpoint of the API, e.g. https://api.example.com/v1/
+     - networkAuthenticator: The authentication service for authenticating requests and managing tokens
+     - pinnedPublicKeys: Dictionary of hosts and their public keys to pin the server's certificates against (Optional)
      
-        - warning: If using certificate pinning make sure you pin a second public key as a backup in case the production private/public key pair becomes compromised. Failure to do this will render your app unusable until updated with the new public/private key pair.
-    */
+     - warning: If using certificate pinning make sure you pin a second public key as a backup in case the production private/public key pair becomes compromised. Failure to do this will render your app unusable until updated with the new public/private key pair.
+     */
     internal init(serverEndpoint: URL, networkAuthenticator: NetworkAuthenticator, pinnedPublicKeys: [URL: [SecKey]]? = nil) {
         self.authenticator = networkAuthenticator
         self.serverURL = serverEndpoint
@@ -162,6 +162,7 @@ class Network: SessionDelegate {
             let apiError = APIError(statusCode: statusCode, response: response.data)
             
             let clearTokenStatuses: [APIError.APIErrorType] = [.invalidRefreshToken, .suspendedDevice, .suspendedUser, .otherAuthorisation]
+            
             if clearTokenStatuses.contains(apiError.type) {
                 reset()
                 
@@ -183,9 +184,24 @@ class Network: SessionDelegate {
             delegate?.forcedLogout()
             
             completion(parsedError)
-        } else if (response.response?.statusCode) != nil {
-            let oAuth2Error = OAuth2Error(response: response.data)
+            
+        } else if let parsedError = error as? FrolloSDKError {
+            
+            completion(parsedError)
+            
+        } else if let _ = response.response?.statusCode {
+            
+            let oAuth2Error = OAuthError(response: response.data)
+            
+            let clearTokenStatuses: [OAuthError.OAuthErrorType] = [.invalidClient, .invalidRequest, .invalidGrant, .invalidScope, .unauthorizedClient, .unsupportedGrantType, .serverError]
+            
+            if clearTokenStatuses.contains(oAuth2Error.type) {
+                reset()
+                
+                delegate?.forcedLogout()
+            }
             completion(oAuth2Error)
+            
         } else {
             let systemError = error as NSError
             let networkError = NetworkError(error: systemError)

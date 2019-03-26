@@ -135,8 +135,8 @@ class NetworkAuthenticatorTests: XCTestCase, AuthenticationDelegate {
                     XCTAssertNil(service.network.authenticator.refreshToken)
                     XCTAssertNil(service.network.authenticator.expiryDate)
                     
-                    if let oAuth2Error = error as? OAuth2Error {
-                        XCTAssertEqual(oAuth2Error.type, OAuth2ErrorResponse.ErrorType.invalidGrant.rawValue)
+                    if let apiError = error as? APIError {
+                        XCTAssertEqual(apiError.type, .otherAuthorisation)
                     } else {
                         XCTFail("Wrong type of error")
                     }
