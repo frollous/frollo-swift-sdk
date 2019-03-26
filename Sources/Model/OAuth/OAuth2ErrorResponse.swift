@@ -16,9 +16,9 @@
 
 import Foundation
 
-struct OAuth2ErrorResponse: Codable {
+public struct OAuth2ErrorResponse: Codable {
     
-    enum ErrorType: String, Codable, CaseIterable {
+    public enum ErrorType: String, Codable, CaseIterable {
         case invalidRequest = "invalid_request"
         case invalidClient = "invalid_client"
         case invalidGrant = "invalid_grant"
@@ -26,14 +26,17 @@ struct OAuth2ErrorResponse: Codable {
         case unauthorizedClient = "unauthorized_client"
         case unsupportedGrantType = "unsupported_grant_type"
         case serverError = "server_error"
+        case oAuth2Error = "oauth2_error"
     }
     
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case errorDescription = "error_description"
-        case error
+        case errorUri = "error_uri"
+        case errorType = "error"
     }
     
-    let error: ErrorType
-    let errorDescription: String?
+    public let errorType: ErrorType
+    public let errorDescription: String?
+    public let errorUri: String?
     
 }

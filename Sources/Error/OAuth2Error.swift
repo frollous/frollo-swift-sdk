@@ -16,10 +16,21 @@
 
 import Foundation
 
+/**
+ OAuth2 Error
+ 
+ Represents errors that can be returned from OAuth2 authorization flow
+ */
 public class OAuth2Error: FrolloSDKError {
     
-    public var debugDescription: String
-    public var error: String
+    /// Debug description
+    public let debugDescription: String
+    
+    /// Type of OAuth2 Error
+    public let type: String
+    
+    /// Optional error uri returned from authentication server
+    public let errorUri: String?
     
     internal required init(response: Data?) {
         
@@ -35,10 +46,12 @@ public class OAuth2Error: FrolloSDKError {
         }
         
         self.debugDescription = errorResponse?.errorDescription ?? ""
-        self.error = errorResponse?.error.rawValue ?? ""
+        self.type = errorResponse?.errorType.rawValue ?? OAuth2ErrorResponse.ErrorType.oAuth2Error.rawValue
+        self.errorUri = errorResponse?.errorUri
     }
 }
 
+/// Type of error to expect. OAuth2 if error form authentication server otherwise normal
 internal enum ErrorType: String {
     case OAuth2
     case Normal

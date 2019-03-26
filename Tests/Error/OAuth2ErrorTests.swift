@@ -36,15 +36,77 @@ class OAuth2ErrorTests: XCTestCase {
         return try! Data(contentsOf: errorJSONPath)
     }
     
-    // MARK: - Bad Request Tests
+    // MARK: - Server Error Tests
     
-    func testoAuthServerError() {
+    func tesOAuthServerError() {
         let errorJSON = errorJSONNamed("error_oauth2_server")
         
         let error = OAuth2Error(response: errorJSON)
         
         XCTAssertEqual(error.debugDescription, "Authorization server not configured with default connection.")
-        XCTAssertEqual(error.error, "server_error")
+        XCTAssertEqual(error.type, "server_error")
+        
+    }
+    
+    // MARK: - Invalid Request Tests
+    
+    func testOAuthInvalidRequestError() {
+        let errorJSON = errorJSONNamed("error_oauth2_invalid_request")
+        
+        let error = OAuth2Error(response: errorJSON)
+        
+        XCTAssertEqual(error.debugDescription, "Request was missing the 'redirect_uri' parameter.")
+        XCTAssertEqual(error.type, "invalid_request")
+        XCTAssertEqual(error.errorUri, "See the full API docs at https://authorization-server.com/docs/access_token")
+        
+    }
+    
+    // MARK: - Invalid Client Tests
+    
+    func testOAuthInvalidClientError() {
+        let errorJSON = errorJSONNamed("error_oauth2_invalid_client")
+        
+        let error = OAuth2Error(response: errorJSON)
+        
+        XCTAssertEqual(error.debugDescription, "Invalid client request")
+        XCTAssertEqual(error.type, "invalid_client")
+        
+    }
+    
+    // MARK: - Invalid Grant Tests
+    
+    func testOAuthInvalidGrantError() {
+        let errorJSON = errorJSONNamed("error_oauth2_invalid_grant")
+        
+        let error = OAuth2Error(response: errorJSON)
+        
+        XCTAssertEqual(error.debugDescription, "Invalid Grant Request")
+        XCTAssertEqual(error.type, "invalid_grant")
+        
+    }
+    
+    // MARK: - Invalid Scope Tests
+    
+    func testOAuthInvalidScopeError() {
+        let errorJSON = errorJSONNamed("error_oauth2_invalid_scope")
+        
+        let error = OAuth2Error(response: errorJSON)
+        
+        XCTAssertEqual(error.debugDescription, "Invalid scope request.")
+        XCTAssertEqual(error.type, "invalid_scope")
+        
+    }
+    
+    // MARK: - Invalid Unaothorized Client Tests
+    
+    func testOAuthUnauthorizedClientError() {
+        let errorJSON = errorJSONNamed("error_oauth2_unauthorized_client")
+        
+        let error = OAuth2Error(response: errorJSON)
+        
+        XCTAssertEqual(error.debugDescription, "Unauthorized client request.")
+        XCTAssertEqual(error.type, "unauthorized_client")
+        XCTAssertEqual(error.errorUri, "See the full API docs at https://authorization-server.com/docs/access_token")
         
     }
 }

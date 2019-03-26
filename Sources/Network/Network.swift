@@ -183,10 +183,10 @@ class Network: SessionDelegate {
             delegate?.forcedLogout()
             
             completion(parsedError)
-        }else if (response.response?.statusCode) != nil {
+        } else if (response.response?.statusCode) != nil {
             let oAuth2Error = OAuth2Error(response: response.data)
             completion(oAuth2Error)
-        }else {
+        } else {
             let systemError = error as NSError
             let networkError = NetworkError(error: systemError)
             completion(networkError)

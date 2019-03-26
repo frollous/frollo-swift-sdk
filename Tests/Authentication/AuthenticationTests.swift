@@ -115,7 +115,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let config = FrolloSDKConfiguration.testConfig()
         
         stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_username_password", ofType: "json")!, status: 401, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_oauth2_unauthorized_client", ofType: "json")!, status: 400, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
@@ -141,13 +141,13 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                         XCTAssertFalse(authentication.loggedIn)
                         
                         XCTAssertNil(authentication.fetchUser(context: database.newBackgroundContext()))
-                    
+                        
                         XCTAssertNil(networkAuthenticator.accessToken)
                         XCTAssertNil(networkAuthenticator.refreshToken)
                         XCTAssertNil(networkAuthenticator.expiryDate)
                     
-                        if let apiError = error as? APIError {
-                            XCTAssertEqual(apiError.type, .invalidUsernamePassword)
+                        if let oAuth2Error = error as? OAuth2Error {
+                            XCTAssertEqual(oAuth2Error.type, OAuth2ErrorResponse.ErrorType.unauthorizedClient.rawValue)
                         } else {
                             XCTFail("Wrong error returned")
                         }
@@ -513,7 +513,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let config = FrolloSDKConfiguration.testConfig()
         
         stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_username_password", ofType: "json")!, status: 401, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_oauth2_invalid_request", ofType: "json")!, status: 400, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.register.path)) { (request) -> OHHTTPStubsResponse in
@@ -544,8 +544,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                         XCTAssertNil(networkAuthenticator.refreshToken)
                         XCTAssertNil(networkAuthenticator.expiryDate)
                         
-                        if let apiError = error as? APIError {
-                            XCTAssertEqual(apiError.type, .invalidUsernamePassword)
+                        if let oAuth2Error = error as? OAuth2Error {
+                            XCTAssertEqual(oAuth2Error.type, OAuth2ErrorResponse.ErrorType.invalidRequest.rawValue)
                         } else {
                             XCTFail("Wrong error returned")
                         }
@@ -1389,8 +1389,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                         XCTAssertNil(networkAuthenticator.refreshToken)
                         XCTAssertNil(networkAuthenticator.expiryDate)
                         
-                        if let apiError = error as? APIError {
-                            XCTAssertEqual(apiError.type, .invalidUsernamePassword)
+                        if let oAuth2Error = error as? OAuth2Error {
+                            XCTAssertEqual(oAuth2Error.type, OAuth2ErrorResponse.ErrorType.oAuth2Error.rawValue)
                         } else {
                             XCTFail("Wrong error returned")
                         }
@@ -1413,7 +1413,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let config = FrolloSDKConfiguration.testConfig()
         
         stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, status: 401, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
@@ -1446,8 +1446,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                         XCTAssertNil(networkAuthenticator.refreshToken)
                         XCTAssertNil(networkAuthenticator.expiryDate)
                         
-                        if let apiError = error as? APIError {
-                            XCTAssertEqual(apiError.type, .otherAuthorisation)
+                        if let apiError = error as? DataError {
+                            XCTAssertEqual(apiError.type, .api)
                         } else {
                             XCTFail("Wrong error returned")
                         }

@@ -1,0 +1,5 @@
+{
+  "error": "unauthorized_client",
+  "error_description": "Unauthorized client request.",
+  "error_uri": "See the full API docs at https://authorization-server.com/docs/access_token"
+}
