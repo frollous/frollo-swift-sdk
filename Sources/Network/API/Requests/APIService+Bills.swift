@@ -35,7 +35,7 @@ extension APIService {
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: APIBillResponse.self, response: response, completion: completion)
+                self.network.handleResponse(type: APIBillResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
@@ -45,7 +45,7 @@ extension APIService {
             let url = URL(string: BillsEndpoint.bill(billID: billID).path, relativeTo: self.serverURL)!
             
             self.network.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { response in
-                self.network.handleEmptyResponse(response: response, completion: completion)
+                self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
@@ -65,7 +65,7 @@ extension APIService {
             let url = URL(string: BillsEndpoint.bill(billID: billID).path, relativeTo: self.serverURL)!
             
             self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: APIBillResponse.self, response: response, completion: completion)
+                self.network.handleResponse(type: APIBillResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
@@ -83,7 +83,7 @@ extension APIService {
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response: DataResponse<Data>) in
-                self.network.handleResponse(type: APIBillResponse.self, response: response, completion: completion)
+                self.network.handleResponse(type: APIBillResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
@@ -95,7 +95,7 @@ extension APIService {
             let url = URL(string: BillsEndpoint.billPayment(billPaymentID: billPaymentID).path, relativeTo: self.serverURL)!
             
             self.network.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { response in
-                self.network.handleEmptyResponse(response: response, completion: completion)
+                self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
@@ -110,7 +110,7 @@ extension APIService {
                               BillsEndpoint.QueryParameters.toDate.rawValue: dateFormatter.string(from: toDate)]
             
             self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
-                self.network.handleArrayResponse(type: APIBillPaymentResponse.self, response: response, completion: completion)
+                self.network.handleArrayResponse(type: APIBillPaymentResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
@@ -120,7 +120,7 @@ extension APIService {
             let url = URL(string: BillsEndpoint.billPayment(billPaymentID: billPaymentID).path, relativeTo: self.serverURL)!
             
             self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: APIBillPaymentResponse.self, response: response, completion: completion)
+                self.network.handleResponse(type: APIBillPaymentResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
@@ -138,7 +138,7 @@ extension APIService {
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: APIBillPaymentResponse.self, response: response, completion: completion)
+                self.network.handleResponse(type: APIBillPaymentResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
@@ -164,7 +164,7 @@ extension APIService {
                     completion(.failure(dataError))
                 }
             case .failure(let error):
-                network.handleFailure(response: response, error: error) { error in
+                network.handleFailure(type: APIError.self, response: response, error: error) { error in
                     completion(.failure(error))
                 }
         }

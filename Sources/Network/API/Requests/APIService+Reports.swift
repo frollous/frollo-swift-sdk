@@ -40,7 +40,7 @@ extension APIService {
             }
             
             self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: APIAccountBalanceReportResponse.self, response: response, completion: completion)
+                self.network.handleResponse(type: APIAccountBalanceReportResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
@@ -58,7 +58,7 @@ extension APIService {
             }
             
             self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: APITransactionCurrentReportResponse.self, response: response, completion: completion)
+                self.network.handleResponse(type: APITransactionCurrentReportResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
@@ -81,7 +81,7 @@ extension APIService {
             }
             
             self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: APITransactionHistoryReportsResponse.self, response: response, completion: completion)
+                self.network.handleResponse(type: APITransactionHistoryReportsResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }

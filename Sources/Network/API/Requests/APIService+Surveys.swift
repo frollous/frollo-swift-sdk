@@ -24,7 +24,7 @@ extension APIService {
             let url = URL(string: SurveysEndpoint.survey(key: surveyKey).path, relativeTo: self.serverURL)!
             
             self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: Survey.self, response: response, completion: completion)
+                self.network.handleResponse(type: Survey.self, errorType: APIError.self, response: response, completion: completion)
                 
             }
         }
@@ -43,7 +43,7 @@ extension APIService {
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: Survey.self, response: response, completion: completion)
+                self.network.handleResponse(type: Survey.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }

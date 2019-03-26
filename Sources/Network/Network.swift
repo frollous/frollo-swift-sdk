@@ -47,12 +47,12 @@ class Network: SessionDelegate {
      Initialise a network stack pointing to an API at a specific URL
      
      - parameters:
-        - serverEndpoint: Base URL endpoint of the API, e.g. https://api.example.com/v1/
-        - networkAuthenticator: The authentication service for authenticating requests and managing tokens
-        - pinnedPublicKeys: Dictionary of hosts and their public keys to pin the server's certificates against (Optional)
+     - serverEndpoint: Base URL endpoint of the API, e.g. https://api.example.com/v1/
+     - networkAuthenticator: The authentication service for authenticating requests and managing tokens
+     - pinnedPublicKeys: Dictionary of hosts and their public keys to pin the server's certificates against (Optional)
      
-        - warning: If using certificate pinning make sure you pin a second public key as a backup in case the production private/public key pair becomes compromised. Failure to do this will render your app unusable until updated with the new public/private key pair.
-    */
+     - warning: If using certificate pinning make sure you pin a second public key as a backup in case the production private/public key pair becomes compromised. Failure to do this will render your app unusable until updated with the new public/private key pair.
+     */
     internal init(serverEndpoint: URL, networkAuthenticator: NetworkAuthenticator, pinnedPublicKeys: [URL: [SecKey]]? = nil) {
         self.authenticator = networkAuthenticator
         self.serverURL = serverEndpoint
@@ -149,7 +149,7 @@ class Network: SessionDelegate {
     
     // MARK: - Response Handling
     
-    internal func handleFailure(response: DataResponse<Data>, error: Error, completion: (_: FrolloSDKError) -> Void) {
+    internal func handleFailure<T: ResponseError>(type: T.Type, response: DataResponse<Data>, error: Error, completion: (_: FrolloSDKError) -> Void) {
         if let parsedError = error as? DataError, parsedError.type == .authentication, parsedError.subType == .missingRefreshToken {
             reset()
             
@@ -159,16 +159,27 @@ class Network: SessionDelegate {
         } else if let parsedError = error as? FrolloSDKError {
             completion(parsedError)
         } else if let statusCode = response.response?.statusCode {
-            let apiError = APIError(statusCode: statusCode, response: response.data)
+            let responseError = T(statusCode: statusCode, response: response.data)
             
-            let clearTokenStatuses: [APIError.APIErrorType] = [.invalidRefreshToken, .suspendedDevice, .suspendedUser, .otherAuthorisation]
-            if clearTokenStatuses.contains(apiError.type) {
-                reset()
+            if let apiError = responseError as? APIError {
+                let clearTokenStatuses: [APIError.APIErrorType] = [.invalidRefreshToken, .suspendedDevice, .suspendedUser, .otherAuthorisation]
                 
-                delegate?.forcedLogout()
+                if clearTokenStatuses.contains(apiError.type) {
+                    reset()
+                    
+                    delegate?.forcedLogout()
+                }
+            } else if let oAuth2Error = responseError as? OAuth2Error {
+                let clearTokenStatuses: [OAuth2Error.OAuth2ErrorType] = [.invalidClient, .invalidRequest, .invalidGrant, .invalidScope, .unauthorizedClient, .unsupportedGrantType, .serverError]
+                
+                if clearTokenStatuses.contains(oAuth2Error.type) {
+                    reset()
+                    
+                    delegate?.forcedLogout()
+                }
             }
             
-            completion(apiError)
+            completion(responseError)
         } else {
             let systemError = error as NSError
             let networkError = NetworkError(error: systemError)
@@ -176,24 +187,7 @@ class Network: SessionDelegate {
         }
     }
     
-    internal func handleOAuth2Failure(response: DataResponse<Data>, error: Error, completion: (_: FrolloSDKError) -> Void) {
-        if let parsedError = error as? DataError, parsedError.type == .authentication, parsedError.subType == .missingRefreshToken {
-            reset()
-            
-            delegate?.forcedLogout()
-            
-            completion(parsedError)
-        } else if (response.response?.statusCode) != nil {
-            let oAuth2Error = OAuth2Error(response: response.data)
-            completion(oAuth2Error)
-        } else {
-            let systemError = error as NSError
-            let networkError = NetworkError(error: systemError)
-            completion(networkError)
-        }
-    }
-    
-    internal func handleResponse<T: Codable>(errorType: ErrorType = .Normal, type: T.Type, response: DataResponse<Data>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<T>) {
+    internal func handleResponse<T: Codable, U: ResponseError>(type: T.Type, errorType: U.Type, response: DataResponse<Data>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<T>) {
         switch response.result {
             case .success(let value):
                 let decoder = JSONDecoder()
@@ -211,20 +205,13 @@ class Network: SessionDelegate {
                     completion(.failure(dataError))
                 }
             case .failure(let error):
-                if errorType == .OAuth2 {
-                    handleOAuth2Failure(response: response, error: error) { processedError in
-                        completion(.failure(processedError))
-                    }
-                } else {
-                    handleFailure(response: response, error: error) { processedError in
-                        completion(.failure(processedError))
-                    }
+                handleFailure(type: errorType, response: response, error: error) { processedError in
+                    completion(.failure(processedError))
                 }
-                
         }
     }
     
-    internal func handleArrayResponse<T: Codable>(type: T.Type, response: DataResponse<Data>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<[T]>) {
+    internal func handleArrayResponse<T: Codable, U: ResponseError>(type: T.Type, errorType: U.Type, response: DataResponse<Data>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<[T]>) {
         switch response.result {
             case .success(let value):
                 let decoder = JSONDecoder()
@@ -242,18 +229,18 @@ class Network: SessionDelegate {
                     completion(.failure(dataError))
                 }
             case .failure(let error):
-                handleFailure(response: response, error: error) { processedError in
+                handleFailure(type: errorType, response: response, error: error) { processedError in
                     completion(.failure(processedError))
                 }
         }
     }
     
-    internal func handleEmptyResponse(response: DataResponse<Data>, completion: NetworkCompletion) {
+    internal func handleEmptyResponse<T: ResponseError>(errorType: T.Type, response: DataResponse<Data>, completion: NetworkCompletion) {
         switch response.result {
             case .success:
                 completion(.success(Data()))
             case .failure(let error):
-                handleFailure(response: response, error: error) { processedError in
+                handleFailure(type: errorType, response: response, error: error) { processedError in
                     completion(.failure(processedError))
                 }
         }

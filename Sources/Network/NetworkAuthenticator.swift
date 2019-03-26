@@ -79,17 +79,12 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         
         var request = urlRequest
         
-        if let relativePath = request.url?.relativePath {
-            if relativePath.contains(UserEndpoint.register.path) || relativePath.contains(UserEndpoint.resetPassword.path) {
-                // Use the OTP for authorisation
-                return appendOTPHeader(request: request)
-            } else {
-                do {
-                    let adaptedRequest = try validateAndAppendAccessToken(request: request)
-                    return adaptedRequest
-                } catch {
-                    throw error
-                }
+        if let relativePath = request.url?.relativePath, !(relativePath.contains(UserEndpoint.register.path) || relativePath.contains(UserEndpoint.resetPassword.path)) {
+            do {
+                let adaptedRequest = try validateAndAppendAccessToken(request: request)
+                return adaptedRequest
+            } catch {
+                throw error
             }
         }
         
@@ -142,19 +137,6 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     }
     
     // MARK: - Auth Headers
-    
-    private func appendOTPHeader(request: URLRequest) -> URLRequest {
-        var urlRequest = request
-        
-        let bundleID = String(repeating: Bundle(for: NetworkAuthenticator.self).bundleIdentifier ?? "FrolloSDK", count: 2)
-        
-        let generator = OTP(factor: .timer(period: 30), secret: bundleID.data(using: .utf8)!, algorithm: .sha256, digits: 8)
-        let password = try! generator?.password(at: Date())
-        let bearer = String(format: "Bearer %@", password!)
-        urlRequest.setValue(bearer, forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-        
-        return urlRequest
-    }
     
     internal func validateAndAppendAccessToken(request: URLRequest) throws -> URLRequest {
         if !validToken() {

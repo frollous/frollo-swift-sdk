@@ -38,7 +38,7 @@ class OAuthErrorTests: XCTestCase {
     func testAccessDeniedError() {
         let error = NSError(domain: OIDOAuthAuthorizationErrorDomain, code: OIDErrorCodeOAuth.accessDenied.rawValue, userInfo: nil)
         
-        let authError = OAuthError(error: error)
+        let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .accessDenied)
         XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.AccessDenied"))
     }
@@ -46,7 +46,7 @@ class OAuthErrorTests: XCTestCase {
     func testClientError() {
         let error = NSError(domain: OIDOAuthAuthorizationErrorDomain, code: OIDErrorCodeOAuth.clientError.rawValue, userInfo: nil)
         
-        let authError = OAuthError(error: error)
+        let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .clientError)
         XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.ClientError"))
     }
@@ -54,7 +54,7 @@ class OAuthErrorTests: XCTestCase {
     func testInvalidClientError() {
         let error = NSError(domain: OIDOAuthAuthorizationErrorDomain, code: OIDErrorCodeOAuth.invalidClient.rawValue, userInfo: nil)
         
-        let authError = OAuthError(error: error)
+        let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .invalidClient)
         XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidClient"))
     }
@@ -62,7 +62,7 @@ class OAuthErrorTests: XCTestCase {
     func testInvalidClientMetadataError() {
         let error = NSError(domain: OIDOAuthAuthorizationErrorDomain, code: OIDErrorCodeOAuth.invalidClientMetadata.rawValue, userInfo: nil)
         
-        let authError = OAuthError(error: error)
+        let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .invalidClientMetadata)
         XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidClientMetadata"))
     }
@@ -70,7 +70,7 @@ class OAuthErrorTests: XCTestCase {
     func testInvalidGrantError() {
         let error = NSError(domain: OIDOAuthAuthorizationErrorDomain, code: OIDErrorCodeOAuth.invalidGrant.rawValue, userInfo: nil)
         
-        let authError = OAuthError(error: error)
+        let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .invalidGrant)
         XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidGrant"))
     }
@@ -78,7 +78,7 @@ class OAuthErrorTests: XCTestCase {
     func testInvalidRedirectURIError() {
         let error = NSError(domain: OIDOAuthAuthorizationErrorDomain, code: OIDErrorCodeOAuth.invalidRedirectURI.rawValue, userInfo: nil)
         
-        let authError = OAuthError(error: error)
+        let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .invalidRedirectURI)
         XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidRedirectURI"))
     }
@@ -86,7 +86,7 @@ class OAuthErrorTests: XCTestCase {
     func testInvalidRequestError() {
         let error = NSError(domain: OIDOAuthAuthorizationErrorDomain, code: OIDErrorCodeOAuth.invalidRequest.rawValue, userInfo: nil)
         
-        let authError = OAuthError(error: error)
+        let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .invalidRequest)
         XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidRequest"))
     }
@@ -94,7 +94,7 @@ class OAuthErrorTests: XCTestCase {
     func testInvalidScopeError() {
         let error = NSError(domain: OIDOAuthAuthorizationErrorDomain, code: OIDErrorCodeOAuth.invalidScope.rawValue, userInfo: nil)
         
-        let authError = OAuthError(error: error)
+        let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .invalidScope)
         XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidScope"))
     }
@@ -102,7 +102,7 @@ class OAuthErrorTests: XCTestCase {
     func testUnauthorizedClientError() {
         let error = NSError(domain: OIDOAuthAuthorizationErrorDomain, code: OIDErrorCodeOAuth.unauthorizedClient.rawValue, userInfo: nil)
         
-        let authError = OAuthError(error: error)
+        let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .unauthorizedClient)
         XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.UnauthorizedClient"))
     }
@@ -110,7 +110,7 @@ class OAuthErrorTests: XCTestCase {
     func testUnsupportedGrantTypeError() {
         let error = NSError(domain: OIDOAuthAuthorizationErrorDomain, code: OIDErrorCodeOAuth.unsupportedGrantType.rawValue, userInfo: nil)
         
-        let authError = OAuthError(error: error)
+        let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .unsupportedGrantType)
         XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.UnsupportedGrantType"))
     }
@@ -118,7 +118,7 @@ class OAuthErrorTests: XCTestCase {
     func testUnsupportedResponseTypeError() {
         let error = NSError(domain: OIDOAuthAuthorizationErrorDomain, code: OIDErrorCodeOAuth.unsupportedResponseType.rawValue, userInfo: nil)
         
-        let authError = OAuthError(error: error)
+        let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .unsupportedResponseType)
         XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.UnsupportedResponseType"))
     }
@@ -126,7 +126,7 @@ class OAuthErrorTests: XCTestCase {
     func testBrowserError() {
         let error = NSError(domain: OIDGeneralErrorDomain, code: OIDErrorCode.safariOpenError.rawValue, userInfo: nil)
         
-        let authError = OAuthError(error: error)
+        let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .browserError)
         XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.BrowserError"))
     }
@@ -134,7 +134,7 @@ class OAuthErrorTests: XCTestCase {
     func testNetworkError() {
         let error = NSError(domain: OIDGeneralErrorDomain, code: OIDErrorCode.networkError.rawValue, userInfo: nil)
         
-        let authError = OAuthError(error: error)
+        let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .networkError)
         XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.NetworkError"))
     }
@@ -142,7 +142,7 @@ class OAuthErrorTests: XCTestCase {
     func testServerError() {
         let error = NSError(domain: OIDOAuthAuthorizationErrorDomain, code: OIDErrorCodeOAuth.serverError.rawValue, userInfo: nil)
         
-        let authError = OAuthError(error: error)
+        let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .serverError)
         XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.ServerError"))
     }
@@ -150,7 +150,7 @@ class OAuthErrorTests: XCTestCase {
     func testUserCancelledError() {
         let error = OIDErrorUtilities.error(with: .userCanceledAuthorizationFlow, underlyingError: nil, description: nil) as NSError
         
-        let authError = OAuthError(error: error)
+        let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .userCancelled)
         XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.UserCancelled"))
     }
@@ -158,15 +158,15 @@ class OAuthErrorTests: XCTestCase {
     func testOtherAuthorisationError() {
         let error = NSError(domain: OIDOAuthAuthorizationErrorDomain, code: -0xF000, userInfo: nil)
         
-        let authError = OAuthError(error: error)
-        XCTAssertEqual(authError.type, .otherAuthorisation)
+        let authError = OAuth2Error(error: error)
+        XCTAssertEqual(authError.type, .otherAuthorization)
         XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.OtherAuthorisation"))
     }
     
     func testUnknownError() {
         let error = NSError(domain: "Unknown", code: -1, userInfo: nil)
         
-        let authError = OAuthError(error: error)
+        let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .unknown)
         XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.Unknown"))
     }

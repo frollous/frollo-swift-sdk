@@ -136,7 +136,7 @@ public class Authentication {
         
         authorizationFlow = OIDAuthorizationService.present(request, presenting: presentingViewController) { response, error in
             if let authError = error as NSError? {
-                let oAuthError = OAuthError(error: authError)
+                let oAuthError = OAuth2Error(error: authError)
                 
                 DispatchQueue.main.async {
                     completion(.failure(oAuthError))
@@ -172,7 +172,7 @@ public class Authentication {
         
         authorizationFlow = OIDAuthorizationService.present(request) { response, error in
             if let authError = error as NSError? {
-                let oAuthError = OAuthError(error: authError)
+                let oAuthError = OAuth2Error(error: authError)
                 
                 DispatchQueue.main.async {
                     completion(.failure(oAuthError))

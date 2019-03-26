@@ -36,7 +36,7 @@ extension APIService {
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { response in
-                self.network.handleEmptyResponse(response: response, completion: completion)
+                self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
@@ -46,7 +46,7 @@ extension APIService {
             let url = URL(string: UserEndpoint.user.path, relativeTo: self.serverURL)!
             
             self.network.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { response in
-                self.network.handleEmptyResponse(response: response, completion: completion)
+                self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
@@ -95,7 +95,7 @@ extension APIService {
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 202...202).responseData(queue: self.responseQueue) { response in
-                self.network.handleEmptyResponse(response: response, completion: completion)
+                self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
@@ -143,7 +143,7 @@ extension APIService {
                     completion(.failure(dataError))
                 }
             case .failure(let error):
-                network.handleFailure(response: response, error: error) { processedError in
+                network.handleFailure(type: APIError.self, response: response, error: error) { processedError in
                     completion(.failure(processedError))
                 }
         }

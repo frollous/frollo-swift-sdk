@@ -16,22 +16,8 @@
 
 import Foundation
 
-internal struct OAuth2ErrorResponse: Codable {
+protocol ResponseError: FrolloSDKError {
     
-    /// Coding keys
-    internal enum CodingKeys: String, CodingKey {
-        case errorDescription = "error_description"
-        case errorUri = "error_uri"
-        case errorType = "error"
-    }
-    
-    /// Type of error
-    internal let errorType: OAuth2Error.OAuth2ErrorType
-    
-    /// Description or error
-    internal let errorDescription: String?
-    
-    /// Optional URI from Authentication Server
-    internal let errorUri: String?
+    init(statusCode: Int, response: Data?)
     
 }

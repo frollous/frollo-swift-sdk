@@ -21,7 +21,7 @@ import Foundation
  
  Represents errors that can be returned from the API
  */
-public class APIError: FrolloSDKError {
+public class APIError: FrolloSDKError, ResponseError {
     
     /**
      API Error Type

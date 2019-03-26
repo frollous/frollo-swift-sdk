@@ -41,10 +41,9 @@ class OAuth2ErrorTests: XCTestCase {
     func tesOAuthServerError() {
         let errorJSON = errorJSONNamed("error_oauth2_server")
         
-        let error = OAuth2Error(response: errorJSON)
+        let error = OAuth2Error(statusCode: 400, response: errorJSON)
         
-        XCTAssertEqual(error.debugDescription, "Authorization server not configured with default connection.")
-        XCTAssertEqual(error.type, "server_error")
+        XCTAssertEqual(error.type, .serverError)
         
     }
     
@@ -53,12 +52,10 @@ class OAuth2ErrorTests: XCTestCase {
     func testOAuthInvalidRequestError() {
         let errorJSON = errorJSONNamed("error_oauth2_invalid_request")
         
-        let error = OAuth2Error(response: errorJSON)
+        let error = OAuth2Error(statusCode: 400, response: errorJSON)
         
-        XCTAssertEqual(error.debugDescription, "Request was missing the 'redirect_uri' parameter.")
-        XCTAssertEqual(error.type, "invalid_request")
-        XCTAssertEqual(error.errorUri, "See the full API docs at https://authorization-server.com/docs/access_token")
-        
+        XCTAssertEqual(error.type, .invalidRequest)
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.OAuth.InvalidRequest"))
     }
     
     // MARK: - Invalid Client Tests
@@ -66,10 +63,9 @@ class OAuth2ErrorTests: XCTestCase {
     func testOAuthInvalidClientError() {
         let errorJSON = errorJSONNamed("error_oauth2_invalid_client")
         
-        let error = OAuth2Error(response: errorJSON)
+        let error = OAuth2Error(statusCode: 400, response: errorJSON)
         
-        XCTAssertEqual(error.debugDescription, "Invalid client request")
-        XCTAssertEqual(error.type, "invalid_client")
+        XCTAssertEqual(error.type, .invalidClient)
         
     }
     
@@ -78,10 +74,9 @@ class OAuth2ErrorTests: XCTestCase {
     func testOAuthInvalidGrantError() {
         let errorJSON = errorJSONNamed("error_oauth2_invalid_grant")
         
-        let error = OAuth2Error(response: errorJSON)
+        let error = OAuth2Error(statusCode: 400, response: errorJSON)
         
-        XCTAssertEqual(error.debugDescription, "Invalid Grant Request")
-        XCTAssertEqual(error.type, "invalid_grant")
+        XCTAssertEqual(error.type, .invalidGrant)
         
     }
     
@@ -90,10 +85,9 @@ class OAuth2ErrorTests: XCTestCase {
     func testOAuthInvalidScopeError() {
         let errorJSON = errorJSONNamed("error_oauth2_invalid_scope")
         
-        let error = OAuth2Error(response: errorJSON)
+        let error = OAuth2Error(statusCode: 400, response: errorJSON)
         
-        XCTAssertEqual(error.debugDescription, "Invalid scope request.")
-        XCTAssertEqual(error.type, "invalid_scope")
+        XCTAssertEqual(error.type, .invalidScope)
         
     }
     
@@ -102,11 +96,10 @@ class OAuth2ErrorTests: XCTestCase {
     func testOAuthUnauthorizedClientError() {
         let errorJSON = errorJSONNamed("error_oauth2_unauthorized_client")
         
-        let error = OAuth2Error(response: errorJSON)
+        let error = OAuth2Error(statusCode: 400, response: errorJSON)
         
-        XCTAssertEqual(error.debugDescription, "Unauthorized client request.")
-        XCTAssertEqual(error.type, "unauthorized_client")
-        XCTAssertEqual(error.errorUri, "See the full API docs at https://authorization-server.com/docs/access_token")
+        XCTAssertEqual(error.type, .unauthorizedClient)
+
         
     }
 }
