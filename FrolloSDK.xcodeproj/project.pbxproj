@@ -233,7 +233,7 @@
 		012C451E212B850900799A0A /* provider_login_form_captcha.json in Resources */ = {isa = PBXBuildFile; fileRef = 012C451D212B850700799A0A /* provider_login_form_captcha.json */; };
 		012C451F212B850900799A0A /* provider_login_form_captcha.json in Resources */ = {isa = PBXBuildFile; fileRef = 012C451D212B850700799A0A /* provider_login_form_captcha.json */; };
 		012C4520212B850900799A0A /* provider_login_form_captcha.json in Resources */ = {isa = PBXBuildFile; fileRef = 012C451D212B850700799A0A /* provider_login_form_captcha.json */; };
-		012DDD5E222615A300497E22 /* OAuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012DDD5D222615A300497E22 /* OAuthError.swift */; };
+		012DDD5E222615A300497E22 /* OAuth2Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012DDD5D222615A300497E22 /* OAuth2Error.swift */; };
 		01333D3F216AAF36005764A4 /* APIUserChangePasswordRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01333D3E216AAF36005764A4 /* APIUserChangePasswordRequest.swift */; };
 		01333D42216AB115005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01333D40216AB094005764A4 /* APIUserChangePasswordRequest+Test.swift */; };
 		01333D43216AB115005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01333D40216AB094005764A4 /* APIUserChangePasswordRequest+Test.swift */; };
@@ -473,6 +473,8 @@
 		01743B18212BCF9A0082DA00 /* provider_login_form_validation.json in Resources */ = {isa = PBXBuildFile; fileRef = 01743B17212BCF9A0082DA00 /* provider_login_form_validation.json */; };
 		01743B19212BCF9A0082DA00 /* provider_login_form_validation.json in Resources */ = {isa = PBXBuildFile; fileRef = 01743B17212BCF9A0082DA00 /* provider_login_form_validation.json */; };
 		01743B1A212BCF9A0082DA00 /* provider_login_form_validation.json in Resources */ = {isa = PBXBuildFile; fileRef = 01743B17212BCF9A0082DA00 /* provider_login_form_validation.json */; };
+		0175C801224ADC070065AF9F /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C800224ADC070065AF9F /* ResponseError.swift */; };
+		0175C802224ADC070065AF9F /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C800224ADC070065AF9F /* ResponseError.swift */; };
 		017B48322101B4FE00447E65 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016DD0A320EF365100F41919 /* APIErrorTests.swift */; };
 		017B48332101B4FE00447E65 /* DatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EEDB1A20EAE2CE00F4516B /* DatabaseTests.swift */; };
 		017B48342101B4FE00447E65 /* NetworkAuthenticatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E0819220FDB6F30036133F /* NetworkAuthenticatorTests.swift */; };
@@ -710,10 +712,6 @@
 		01BB5A7B221F8054000C03F0 /* token_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01BB5A7A221F8054000C03F0 /* token_invalid.json */; };
 		01BB5A7C221F8054000C03F0 /* token_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01BB5A7A221F8054000C03F0 /* token_invalid.json */; };
 		01BB5A7D221F8054000C03F0 /* token_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01BB5A7A221F8054000C03F0 /* token_invalid.json */; };
-		01BC3D0B2165C1EC0065A4B8 /* OTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC3D0A2165C1EB0065A4B8 /* OTP.swift */; };
-		01BC3D0D2165C5500065A4B8 /* OTPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC3D0C2165C5500065A4B8 /* OTPTests.swift */; };
-		01BC3D0E2165C5500065A4B8 /* OTPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC3D0C2165C5500065A4B8 /* OTPTests.swift */; };
-		01BC3D0F2165C5500065A4B8 /* OTPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC3D0C2165C5500065A4B8 /* OTPTests.swift */; };
 		01BC3D112166D90C0065A4B8 /* APIUserRegisterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC3D102166D90C0065A4B8 /* APIUserRegisterRequest.swift */; };
 		01BC3D132166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC3D122166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift */; };
 		01BC3D142166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC3D122166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift */; };
@@ -800,7 +798,6 @@
 		01E5BF222227A475003D85FD /* UserDefaultsPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47721926959002CC3BB /* UserDefaultsPersistence.swift */; };
 		01E5BF232227A475003D85FD /* APIUserRegisterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC3D102166D90C0065A4B8 /* APIUserRegisterRequest.swift */; };
 		01E5BF242227A475003D85FD /* BillsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101A8DD21C9BD0F00DCFCEB /* BillsEndpoint.swift */; };
-		01E5BF252227A475003D85FD /* OTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC3D0A2165C1EB0065A4B8 /* OTP.swift */; };
 		01E5BF262227A475003D85FD /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A69221E1E2F000C03F0 /* APIService.swift */; };
 		01E5BF272227A475003D85FD /* ProviderAccount+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47F2193CBAD002CC3BB /* ProviderAccount+CoreDataProperties.swift */; };
 		01E5BF282227A475003D85FD /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED85C20E5A7EA00F4516B /* Authentication.swift */; };
@@ -844,7 +841,7 @@
 		01E5BF4E2227A475003D85FD /* ReportGrouping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104E03221E8588300D98EE7 /* ReportGrouping.swift */; };
 		01E5BF4F2227A475003D85FD /* NetworkLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824EF20EC410B0093400E /* NetworkLogger.swift */; };
 		01E5BF502227A475003D85FD /* AggregationEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDDB210FC9C60081AD76 /* AggregationEndpoint.swift */; };
-		01E5BF512227A475003D85FD /* OAuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012DDD5D222615A300497E22 /* OAuthError.swift */; };
+		01E5BF512227A475003D85FD /* OAuth2Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012DDD5D222615A300497E22 /* OAuth2Error.swift */; };
 		01E5BF522227A475003D85FD /* APIAccountBalanceReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018501C421FFB31000069D87 /* APIAccountBalanceReportResponse.swift */; };
 		01E5BF532227A475003D85FD /* APITransactionUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010EB42A211BF92A005A926A /* APITransactionUpdateRequest.swift */; };
 		01E5BF542227A475003D85FD /* CachedObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E58CF217FD92D00DC56FF /* CachedObjects.swift */; };
@@ -946,7 +943,6 @@
 		2FE1802F22498A2200B87AAB /* error_oauth2_unauthorized_client.json in Resources */ = {isa = PBXBuildFile; fileRef = 2FE1802422498A2200B87AAB /* error_oauth2_unauthorized_client.json */; };
 		2FE1803022498A2200B87AAB /* error_oauth2_unauthorized_client.json in Resources */ = {isa = PBXBuildFile; fileRef = 2FE1802422498A2200B87AAB /* error_oauth2_unauthorized_client.json */; };
 		2FE1803222498B5100B87AAB /* OAuth2ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE180072248892800B87AAB /* OAuth2ErrorResponse.swift */; };
-		2FE180342249F9D200B87AAB /* ErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE180332249F9D200B87AAB /* ErrorType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1110,7 +1106,7 @@
 		012C4515212A967700799A0A /* provider_login_form_multiple_choice.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_login_form_multiple_choice.json; sourceTree = "<group>"; };
 		012C4516212A967800799A0A /* provider_login_form_login.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_login_form_login.json; sourceTree = "<group>"; };
 		012C451D212B850700799A0A /* provider_login_form_captcha.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_login_form_captcha.json; sourceTree = "<group>"; };
-		012DDD5D222615A300497E22 /* OAuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthError.swift; sourceTree = "<group>"; };
+		012DDD5D222615A300497E22 /* OAuth2Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Error.swift; sourceTree = "<group>"; };
 		01333D3E216AAF36005764A4 /* APIUserChangePasswordRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserChangePasswordRequest.swift; sourceTree = "<group>"; };
 		01333D40216AB094005764A4 /* APIUserChangePasswordRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIUserChangePasswordRequest+Test.swift"; sourceTree = "<group>"; };
 		0135D2FC21A2202400318142 /* NotificationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPayload.swift; sourceTree = "<group>"; };
@@ -1240,6 +1236,7 @@
 		01743B0F212BC04E0082DA00 /* provider_login_form_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_login_form_token.json; sourceTree = "<group>"; };
 		01743B13212BC3280082DA00 /* provider_login_form_options.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_login_form_options.json; sourceTree = "<group>"; };
 		01743B17212BCF9A0082DA00 /* provider_login_form_validation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_login_form_validation.json; sourceTree = "<group>"; };
+		0175C800224ADC070065AF9F /* ResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseError.swift; sourceTree = "<group>"; };
 		017B48682101B4FE00447E65 /* FrolloSDK macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FrolloSDK macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		017B486C2105433B00447E65 /* PreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesTests.swift; sourceTree = "<group>"; };
 		017B486F21054F0B00447E65 /* PreferencesPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesPersistence.swift; sourceTree = "<group>"; };
@@ -1332,8 +1329,6 @@
 		01BB5A71221F55F9000C03F0 /* OAuthTokenRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OAuthTokenRequest+Test.swift"; sourceTree = "<group>"; };
 		01BB5A76221F5973000C03F0 /* token_valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = token_valid.json; sourceTree = "<group>"; };
 		01BB5A7A221F8054000C03F0 /* token_invalid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = token_invalid.json; sourceTree = "<group>"; };
-		01BC3D0A2165C1EB0065A4B8 /* OTP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTP.swift; sourceTree = "<group>"; };
-		01BC3D0C2165C5500065A4B8 /* OTPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPTests.swift; sourceTree = "<group>"; };
 		01BC3D102166D90C0065A4B8 /* APIUserRegisterRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserRegisterRequest.swift; sourceTree = "<group>"; };
 		01BC3D122166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIUserRegisterRequest+Test.swift"; sourceTree = "<group>"; };
 		01C824E820EB2F570093400E /* Data+Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Random.swift"; sourceTree = "<group>"; };
@@ -1390,7 +1385,6 @@
 		2FE1802222498A2100B87AAB /* error_oauth2_invalid_scope.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_oauth2_invalid_scope.json; sourceTree = "<group>"; };
 		2FE1802322498A2100B87AAB /* error_oauth2_invalid_grant.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_oauth2_invalid_grant.json; sourceTree = "<group>"; };
 		2FE1802422498A2200B87AAB /* error_oauth2_unauthorized_client.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_oauth2_unauthorized_client.json; sourceTree = "<group>"; };
-		2FE180332249F9D200B87AAB /* ErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2233,7 +2227,6 @@
 			isa = PBXGroup;
 			children = (
 				017B48FB21084BA200447E65 /* AuthenticationTests.swift */,
-				01BC3D0C2165C5500065A4B8 /* OTPTests.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -2349,7 +2342,6 @@
 		01B896A220F2EDA30068069A /* Error */ = {
 			isa = PBXGroup;
 			children = (
-				2FE1801B224987CE00B87AAB /* OAuth2 */,
 				011C198E21E42AF200490EDD /* error_account_locked.json */,
 				01B896B220F2EDA30068069A /* error_aggregator.json */,
 				01B896C820F3106A0068069A /* error_bad_format.json */,
@@ -2423,6 +2415,12 @@
 		01BB5A75221F5973000C03F0 /* OAuth */ = {
 			isa = PBXGroup;
 			children = (
+				2FE1802122498A2100B87AAB /* error_oauth2_invalid_client.json */,
+				2FE1802322498A2100B87AAB /* error_oauth2_invalid_grant.json */,
+				2FE1802222498A2100B87AAB /* error_oauth2_invalid_scope.json */,
+				2FE1802422498A2200B87AAB /* error_oauth2_unauthorized_client.json */,
+				2FE1801C224987EB00B87AAB /* error_oauth2_invalid_request.json */,
+				2FE1800F2248A9D000B87AAB /* error_oauth2_server.json */,
 				01BB5A7A221F8054000C03F0 /* token_invalid.json */,
 				01BB5A76221F5973000C03F0 /* token_valid.json */,
 			);
@@ -2472,8 +2470,8 @@
 				01C824FC20EDD6630093400E /* FrolloSDKError.swift */,
 				01E837592149F08100A50E15 /* LoginFormError.swift */,
 				01C8250420EDDB410093400E /* NetworkError.swift */,
-				012DDD5D222615A300497E22 /* OAuthError.swift */,
-				2FE180332249F9D200B87AAB /* ErrorType.swift */,
+				012DDD5D222615A300497E22 /* OAuth2Error.swift */,
+				0175C800224ADC070065AF9F /* ResponseError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -2542,7 +2540,6 @@
 			isa = PBXGroup;
 			children = (
 				01EED85C20E5A7EA00F4516B /* Authentication.swift */,
-				01BC3D0A2165C1EB0065A4B8 /* OTP.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -2618,19 +2615,6 @@
 				017B48E32108287600447E65 /* user_details_invalid.json */,
 			);
 			path = User;
-			sourceTree = "<group>";
-		};
-		2FE1801B224987CE00B87AAB /* OAuth2 */ = {
-			isa = PBXGroup;
-			children = (
-				2FE1802122498A2100B87AAB /* error_oauth2_invalid_client.json */,
-				2FE1802322498A2100B87AAB /* error_oauth2_invalid_grant.json */,
-				2FE1802222498A2100B87AAB /* error_oauth2_invalid_scope.json */,
-				2FE1802422498A2200B87AAB /* error_oauth2_unauthorized_client.json */,
-				2FE1801C224987EB00B87AAB /* error_oauth2_invalid_request.json */,
-				2FE1800F2248A9D000B87AAB /* error_oauth2_server.json */,
-			);
-			path = OAuth2;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3420,6 +3404,7 @@
 				01BB5A5E221E00AA000C03F0 /* OAuthTokenResponse.swift in Sources */,
 				01704F5921FAD13D00666DAE /* ReportAccountBalance+CoreDataClass.swift in Sources */,
 				0126069321992A36005D8377 /* APIService+Messages.swift in Sources */,
+				0175C801224ADC070065AF9F /* ResponseError.swift in Sources */,
 				01405E4A21DC43A8009356CC /* APIBillUpdateRequest.swift in Sources */,
 				01BB5A64221E07D0000C03F0 /* HTTPHeader.swift in Sources */,
 				016097F8210EE3300034E857 /* Provider+CoreDataClass.swift in Sources */,
@@ -3457,7 +3442,6 @@
 				0159E47821926959002CC3BB /* UserDefaultsPersistence.swift in Sources */,
 				01BC3D112166D90C0065A4B8 /* APIUserRegisterRequest.swift in Sources */,
 				0101A8DE21C9BD0F00DCFCEB /* BillsEndpoint.swift in Sources */,
-				01BC3D0B2165C1EC0065A4B8 /* OTP.swift in Sources */,
 				01BB5A6A221E1E2F000C03F0 /* APIService.swift in Sources */,
 				0159E4882193CBAD002CC3BB /* ProviderAccount+CoreDataProperties.swift in Sources */,
 				01EED86220E5A7EB00F4516B /* Authentication.swift in Sources */,
@@ -3499,11 +3483,10 @@
 				01EAAEDF214B6185003D1EAC /* APIProviderAccountCreateRequest.swift in Sources */,
 				018240E121C8BAE3005705F9 /* APIBillResponse.swift in Sources */,
 				0159E4862193CBAD002CC3BB /* User+CoreDataProperties.swift in Sources */,
-				2FE180342249F9D200B87AAB /* ErrorType.swift in Sources */,
 				0104E03321E8588300D98EE7 /* ReportGrouping.swift in Sources */,
 				01C824F020EC410B0093400E /* NetworkLogger.swift in Sources */,
 				015EEDDC210FC9C60081AD76 /* AggregationEndpoint.swift in Sources */,
-				012DDD5E222615A300497E22 /* OAuthError.swift in Sources */,
+				012DDD5E222615A300497E22 /* OAuth2Error.swift in Sources */,
 				018501C521FFB31000069D87 /* APIAccountBalanceReportResponse.swift in Sources */,
 				010EB42B211BF92A005A926A /* APITransactionUpdateRequest.swift in Sources */,
 				017E58D0217FD92D00DC56FF /* CachedObjects.swift in Sources */,
@@ -3565,7 +3548,6 @@
 				01483B94211913F200D0DA87 /* APIAccountUpdateRequest+Test.swift in Sources */,
 				01405E6321DEDFEA009356CC /* BillPaymentTests.swift in Sources */,
 				01483B7E2117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */,
-				01BC3D0D2165C5500065A4B8 /* OTPTests.swift in Sources */,
 				01E0819420FDB7150036133F /* NetworkAuthenticatorTests.swift in Sources */,
 				01555F2821812C62004A313A /* DeviceRequestTests.swift in Sources */,
 				0126069921994A0D005D8377 /* MessagesRequestTests.swift in Sources */,
@@ -3673,7 +3655,6 @@
 				01483B95211913F200D0DA87 /* APIAccountUpdateRequest+Test.swift in Sources */,
 				01405E6421DEDFEA009356CC /* BillPaymentTests.swift in Sources */,
 				01483B7F2117F51600D0DA87 /* AccountBalanceTier+Test.swift in Sources */,
-				01BC3D0E2165C5500065A4B8 /* OTPTests.swift in Sources */,
 				017B48342101B4FE00447E65 /* NetworkAuthenticatorTests.swift in Sources */,
 				01555F2921812C62004A313A /* DeviceRequestTests.swift in Sources */,
 				0126069A21994A0D005D8377 /* MessagesRequestTests.swift in Sources */,
@@ -3790,7 +3771,6 @@
 				017B48902105958100447E65 /* VersionTests.swift in Sources */,
 				01405E6521DEDFEA009356CC /* BillPaymentTests.swift in Sources */,
 				015EEDFF211018420081AD76 /* ProviderTests.swift in Sources */,
-				01BC3D0F2165C5500065A4B8 /* OTPTests.swift in Sources */,
 				017B48FE21084BA200447E65 /* AuthenticationTests.swift in Sources */,
 				01555F2A21812C62004A313A /* DeviceRequestTests.swift in Sources */,
 				0126069B21994A0D005D8377 /* MessagesRequestTests.swift in Sources */,
@@ -3900,6 +3880,7 @@
 				01E5BEFE2227A475003D85FD /* OAuthTokenResponse.swift in Sources */,
 				01E5BEFF2227A475003D85FD /* ReportAccountBalance+CoreDataClass.swift in Sources */,
 				01E5BF002227A475003D85FD /* APIService+Messages.swift in Sources */,
+				0175C802224ADC070065AF9F /* ResponseError.swift in Sources */,
 				01E5BF012227A475003D85FD /* APIBillUpdateRequest.swift in Sources */,
 				2FE1803222498B5100B87AAB /* OAuth2ErrorResponse.swift in Sources */,
 				01E5BF022227A475003D85FD /* HTTPHeader.swift in Sources */,
@@ -3937,7 +3918,6 @@
 				01E5BF222227A475003D85FD /* UserDefaultsPersistence.swift in Sources */,
 				01E5BF232227A475003D85FD /* APIUserRegisterRequest.swift in Sources */,
 				01E5BF242227A475003D85FD /* BillsEndpoint.swift in Sources */,
-				01E5BF252227A475003D85FD /* OTP.swift in Sources */,
 				01E5BF262227A475003D85FD /* APIService.swift in Sources */,
 				01E5BF272227A475003D85FD /* ProviderAccount+CoreDataProperties.swift in Sources */,
 				01E5BF282227A475003D85FD /* Authentication.swift in Sources */,
@@ -3982,7 +3962,7 @@
 				01E5BF4E2227A475003D85FD /* ReportGrouping.swift in Sources */,
 				01E5BF4F2227A475003D85FD /* NetworkLogger.swift in Sources */,
 				01E5BF502227A475003D85FD /* AggregationEndpoint.swift in Sources */,
-				01E5BF512227A475003D85FD /* OAuthError.swift in Sources */,
+				01E5BF512227A475003D85FD /* OAuth2Error.swift in Sources */,
 				01E5BF522227A475003D85FD /* APIAccountBalanceReportResponse.swift in Sources */,
 				01E5BF532227A475003D85FD /* APITransactionUpdateRequest.swift in Sources */,
 				01E5BF542227A475003D85FD /* CachedObjects.swift in Sources */,

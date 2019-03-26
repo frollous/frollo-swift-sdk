@@ -41,7 +41,7 @@ class OAuth2ErrorTests: XCTestCase {
     func tesOAuthServerError() {
         let errorJSON = errorJSONNamed("error_oauth2_server")
         
-        let error = OAuthError(response: errorJSON)
+        let error = OAuth2Error(statusCode: 400, response: errorJSON)
         
         XCTAssertEqual(error.type, .serverError)
         
@@ -52,12 +52,10 @@ class OAuth2ErrorTests: XCTestCase {
     func testOAuthInvalidRequestError() {
         let errorJSON = errorJSONNamed("error_oauth2_invalid_request")
         
-        let error = OAuthError(response: errorJSON)
+        let error = OAuth2Error(statusCode: 400, response: errorJSON)
         
         XCTAssertEqual(error.type, .invalidRequest)
-        XCTAssertEqual(error.debugDescription, Localization.string("Error.OAuth.InvalidRequest"))
-        
-        
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.OAuth.InvalidRequest"))
     }
     
     // MARK: - Invalid Client Tests
@@ -65,7 +63,7 @@ class OAuth2ErrorTests: XCTestCase {
     func testOAuthInvalidClientError() {
         let errorJSON = errorJSONNamed("error_oauth2_invalid_client")
         
-        let error = OAuthError(response: errorJSON)
+        let error = OAuth2Error(statusCode: 400, response: errorJSON)
         
         XCTAssertEqual(error.type, .invalidClient)
         
@@ -76,7 +74,7 @@ class OAuth2ErrorTests: XCTestCase {
     func testOAuthInvalidGrantError() {
         let errorJSON = errorJSONNamed("error_oauth2_invalid_grant")
         
-        let error = OAuthError(response: errorJSON)
+        let error = OAuth2Error(statusCode: 400, response: errorJSON)
         
         XCTAssertEqual(error.type, .invalidGrant)
         
@@ -87,7 +85,7 @@ class OAuth2ErrorTests: XCTestCase {
     func testOAuthInvalidScopeError() {
         let errorJSON = errorJSONNamed("error_oauth2_invalid_scope")
         
-        let error = OAuthError(response: errorJSON)
+        let error = OAuth2Error(statusCode: 400, response: errorJSON)
         
         XCTAssertEqual(error.type, .invalidScope)
         
@@ -98,7 +96,7 @@ class OAuth2ErrorTests: XCTestCase {
     func testOAuthUnauthorizedClientError() {
         let errorJSON = errorJSONNamed("error_oauth2_unauthorized_client")
         
-        let error = OAuthError(response: errorJSON)
+        let error = OAuth2Error(statusCode: 400, response: errorJSON)
         
         XCTAssertEqual(error.type, .unauthorizedClient)
 

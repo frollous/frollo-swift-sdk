@@ -135,8 +135,8 @@ class NetworkAuthenticatorTests: XCTestCase, AuthenticationDelegate {
                     XCTAssertNil(service.network.authenticator.refreshToken)
                     XCTAssertNil(service.network.authenticator.expiryDate)
                     
-                    if let apiError = error as? APIError {
-                        XCTAssertEqual(apiError.type, .otherAuthorisation)
+                    if let apiError = error as? OAuth2Error {
+                        XCTAssertEqual(apiError.type, .invalidGrant)
                     } else {
                         XCTFail("Wrong type of error")
                     }
@@ -482,7 +482,7 @@ class NetworkAuthenticatorTests: XCTestCase, AuthenticationDelegate {
     
     // MARK: - Adapter Header Tests
     
-    func testOTPHeaderAppendedToRegistrationRequest() {
+    func testNoHeaderAppendedToRegistrationRequest() {
         let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
@@ -491,24 +491,14 @@ class NetworkAuthenticatorTests: XCTestCase, AuthenticationDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let bundleID = "us.frollo.FrolloSDK"
-        let seed = String(repeating: bundleID, count: 2)
-        
-        let generator = OTP(factor: .timer(period: 30), secret: seed.data(using: .utf8)!, algorithm: .sha256, digits: 8)
-        let password = try! generator?.password(at: Date())
-        let bearer = String(format: "Bearer %@", password!)
-        
         let userURL = URL(string: UserEndpoint.register.path, relativeTo: config.serverEndpoint)!
         let request = network.sessionManager.request(userURL, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
         do {
             let adaptedRequest = try service.network.authenticator.adapt(request.request!)
             
-            if let authorizationHeader = adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue) {
-                XCTAssertEqual(authorizationHeader, bearer)
-            } else {
-                XCTFail("No auth header")
+            if adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue) != nil {
+                XCTFail("Authorization Header found")
             }
-            
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -516,7 +506,7 @@ class NetworkAuthenticatorTests: XCTestCase, AuthenticationDelegate {
         keychain.removeAll()
     }
     
-    func testOTPHeaderAppendedToResetPasswordRequest() {
+    func testNoHeaderAppendedToResetPasswordRequest() {
         let config = FrolloSDKConfiguration.testConfig()
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
@@ -525,24 +515,14 @@ class NetworkAuthenticatorTests: XCTestCase, AuthenticationDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let bundleID = "us.frollo.FrolloSDK"
-        let seed = String(repeating: bundleID, count: 2)
-        
-        let generator = OTP(factor: .timer(period: 30), secret: seed.data(using: .utf8)!, algorithm: .sha256, digits: 8)
-        let password = try! generator?.password(at: Date())
-        let bearer = String(format: "Bearer %@", password!)
-        
         let userURL = URL(string: UserEndpoint.resetPassword.path, relativeTo: config.serverEndpoint)!
         let request = network.sessionManager.request(userURL, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
         do {
             let adaptedRequest = try service.network.authenticator.adapt(request.request!)
             
-            if let authorizationHeader = adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue) {
-                XCTAssertEqual(authorizationHeader, bearer)
-            } else {
-                XCTFail("No auth header")
+            if adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue) != nil {
+                XCTFail("Authorization Header found")
             }
-            
         } catch {
             XCTFail(error.localizedDescription)
         }

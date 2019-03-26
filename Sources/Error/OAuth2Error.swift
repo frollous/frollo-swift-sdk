@@ -29,62 +29,62 @@ import AppAuth
  
  Represents errors that can be returned from the authorization flow
  */
-public class OAuthError: FrolloSDKError {
+public class OAuth2Error: FrolloSDKError, ResponseError {
     
     /**
      OAuth Error Type
      
      Type of error that has occurred during authorization
      */
-    public enum OAuthErrorType: String {
+    public enum OAuth2ErrorType: String, Codable, CaseIterable {
         
         /// Access denied
-        case accessDenied
+        case accessDenied = "access_denied"
         
         /// Client error
-        case clientError
+        case clientError = "client_error"
         
         /// Invalid client
-        case invalidClient
+        case invalidClient = "invalid_client"
         
         /// Invalid client metadata
-        case invalidClientMetadata
+        case invalidClientMetadata = "invalid_client_metadata"
         
         /// Invalid grant
-        case invalidGrant
+        case invalidGrant = "invalid_grant"
         
         /// Invalid redirect URL
-        case invalidRedirectURI
+        case invalidRedirectURI = "invalid_redirect_uri"
         
         /// Invalid request
-        case invalidRequest
+        case invalidRequest = "invalid_request"
         
         /// Invalid scope
-        case invalidScope
+        case invalidScope = "invalid_scope"
         
         /// Unauthorized client
-        case unauthorizedClient
+        case unauthorizedClient = "unauthorized_client"
         
         /// Unsupported grant type
-        case unsupportedGrantType
+        case unsupportedGrantType = "unauthorized_grant_type"
         
         /// Unsupported response type
-        case unsupportedResponseType
+        case unsupportedResponseType = "unsupported_response_type"
         
         /// The browser could not be opened
-        case browserError
+        case browserError = "browser_error"
         
         /// A network error occurred during authentication
-        case networkError
+        case networkError = "network_error"
         
         /// A server error occurred during authentication
-        case serverError
+        case serverError = "server_error"
         
         /// User cancelled the authentication request
-        case userCancelled
+        case userCancelled = "user_cancelled"
         
-        /// An unknown issue with authorisation has occurred
-        case otherAuthorisation
+        /// An unknown issue with authorization has occurred
+        case otherAuthorization = "other_authorization"
         
         /// Unknown error
         case unknown
@@ -102,7 +102,7 @@ public class OAuthError: FrolloSDKError {
     }
     
     /// Type of OAuth Error
-    public var type: OAuthErrorType
+    public var type: OAuth2ErrorType
     
     /// System error if available
     public var systemError: Error?
@@ -123,7 +123,7 @@ public class OAuthError: FrolloSDKError {
                         self.type = .userCancelled
                         
                     default:
-                        self.type = .otherAuthorisation
+                        self.type = .otherAuthorization
                 }
             } else {
                 self.type = .unknown
@@ -148,7 +148,7 @@ public class OAuthError: FrolloSDKError {
                     case .invalidScope:
                         self.type = .invalidScope
                     case .other:
-                        self.type = .otherAuthorisation
+                        self.type = .otherAuthorization
                     case .serverError, .temporarilyUnavailable:
                         self.type = .serverError
                     case .unauthorizedClient:
@@ -159,15 +159,14 @@ public class OAuthError: FrolloSDKError {
                         self.type = .unsupportedResponseType
                 }
             } else {
-                self.type = .otherAuthorisation
+                self.type = .otherAuthorization
             }
         } else {
             self.type = .unknown
         }
     }
     
-    internal required init(response: Data?) {
-        
+    internal required init(statusCode: Int, response: Data?) {
         var errorResponse: OAuth2ErrorResponse?
         
         if let json = response {
@@ -180,22 +179,7 @@ public class OAuthError: FrolloSDKError {
         }
         
         if let response = errorResponse {
-            switch response.errorType {
-                case .invalidRequest:
-                    self.type = .invalidRequest
-                case .invalidClient:
-                    self.type = .invalidClient
-                case .invalidGrant:
-                    self.type = .invalidGrant
-                case .invalidScope:
-                    self.type = .invalidScope
-                case .unauthorizedClient:
-                    self.type = .unauthorizedClient
-                case .unsupportedGrantType:
-                    self.type = .unsupportedGrantType
-                case .serverError:
-                    self.type = .serverError
-            }
+            self.type = response.errorType
         } else {
             self.type = .networkError
         }
@@ -225,7 +209,7 @@ public class OAuthError: FrolloSDKError {
                 return Localization.string("Error.OAuth.InvalidScope")
             case .networkError:
                 return Localization.string("Error.OAuth.NetworkError")
-            case .otherAuthorisation:
+            case .otherAuthorization:
                 return Localization.string("Error.OAuth.OtherAuthorisation")
             case .serverError:
                 return Localization.string("Error.OAuth.ServerError")

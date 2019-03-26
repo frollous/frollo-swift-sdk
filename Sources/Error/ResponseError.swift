@@ -16,13 +16,8 @@
 
 import Foundation
 
-/**
- Error Type
- 
- Type of error to expect. OAuth2 if error form authentication server otherwise normal
- */
-
-internal enum ErrorType: String {
-    case OAuth2
-    case Normal
+protocol ResponseError: FrolloSDKError {
+    
+    init(statusCode: Int, response: Data?)
+    
 }

@@ -33,7 +33,7 @@ extension APIService {
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { response in
-                self.network.handleEmptyResponse(response: response, completion: completion)
+                self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
@@ -51,7 +51,7 @@ extension APIService {
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { response in
-                self.network.handleEmptyResponse(response: response, completion: completion)
+                self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
             }
         }
     }

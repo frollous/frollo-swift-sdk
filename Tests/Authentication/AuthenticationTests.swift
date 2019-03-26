@@ -115,7 +115,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let config = FrolloSDKConfiguration.testConfig()
         
         stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_username_password", ofType: "json")!, status: 401, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_oauth2_invalid_grant", ofType: "json")!, status: 401, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
@@ -146,8 +146,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                         XCTAssertNil(networkAuthenticator.refreshToken)
                         XCTAssertNil(networkAuthenticator.expiryDate)
                     
-                        if let apiError = error as? APIError {
-                            XCTAssertEqual(apiError.type, .invalidUsernamePassword)
+                        if let apiError = error as? OAuth2Error {
+                            XCTAssertEqual(apiError.type, .invalidGrant)
                         } else {
                             XCTFail("Wrong error returned")
                         }
@@ -312,7 +312,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                         XCTAssertNil(networkAuthenticator.refreshToken)
                         XCTAssertNil(networkAuthenticator.expiryDate)
                     
-                        if let authError = error as? OAuthError {
+                        if let authError = error as? OAuth2Error {
                             XCTAssertEqual(authError.type, .clientError)
                         } else {
                             XCTFail("Wrong error returned")
@@ -544,8 +544,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                         XCTAssertNil(networkAuthenticator.refreshToken)
                         XCTAssertNil(networkAuthenticator.expiryDate)
                         
-                        if let oAuthError = error as? OAuthError {
-                            XCTAssertEqual(oAuthError.type, OAuthError.OAuthErrorType.invalidRequest)
+                        if let oAuthError = error as? OAuth2Error {
+                            XCTAssertEqual(oAuthError.type, OAuth2Error.OAuth2ErrorType.invalidRequest)
                         } else {
                             XCTFail("Wrong error returned")
                         }
@@ -1356,7 +1356,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let config = FrolloSDKConfiguration.testConfig()
         
         stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, status: 401, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_oauth2_invalid_grant", ofType: "json")!, status: 401, headers: [HTTPHeader.contentType.rawValue: "application/json"])
 
         }
         
@@ -1390,8 +1390,8 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
                         XCTAssertNil(networkAuthenticator.refreshToken)
                         XCTAssertNil(networkAuthenticator.expiryDate)
                         
-                        if let oAuthError = error as? OAuthError {
-                            XCTAssertEqual(oAuthError.type, OAuthError.OAuthErrorType.networkError)
+                        if let oAuthError = error as? OAuth2Error {
+                            XCTAssertEqual(oAuthError.type, .invalidGrant)
                         } else {
                             XCTFail("Wrong error returned")
                         }

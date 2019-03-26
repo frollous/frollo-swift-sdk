@@ -18,32 +18,6 @@ import Foundation
 
 internal struct OAuth2ErrorResponse: Codable {
     
-    /// Type of Error
-    internal enum ErrorType: String, Codable, CaseIterable {
-        
-        /// The request is missing a parameter so the server can’t proceed with the request.
-        case invalidRequest = "invalid_request"
-        
-        /// Client authentication failed, such as if the request contains an invalid client ID or secret.
-        case invalidClient = "invalid_client"
-        
-        /// The authorization code (or user’s password for the password grant type) is invalid or expired.
-        case invalidGrant = "invalid_grant"
-        
-        /// For access token requests that include a scope (password or client_credentials grants), this error indicates an invalid scope value in the request.
-        case invalidScope = "invalid_scope"
-        
-        /// This client is not authorized to use the requested grant type.
-        case unauthorizedClient = "unauthorized_client"
-        
-        /// If a grant type is requested that the authorization server doesn’t recognize, use this code.
-        case unsupportedGrantType = "unsupported_grant_type"
-        
-        /// Server error
-        case serverError = "server_error"
-        
-    }
-    
     /// Coding keys
     internal enum CodingKeys: String, CodingKey {
         case errorDescription = "error_description"
@@ -52,12 +26,12 @@ internal struct OAuth2ErrorResponse: Codable {
     }
     
     /// Type of error
-    internal let errorType: ErrorType
+    internal let errorType: OAuth2Error.OAuth2ErrorType
     
     /// Description or error
     internal let errorDescription: String?
     
-    /// Optional Uri from Authentication Server
+    /// Optional URI from Authentication Server
     internal let errorUri: String?
     
 }
