@@ -1,0 +1,66 @@
+{
+	"id": 14,
+	"name": "Save for a holiday",
+	"description": "Saving for a holiday and paying before you go removes the pain of jetlag and a credit card bill when you get home!",
+	"source": "suggested",
+	"goal_type": "save",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/14/small/app/1491902415.png?1491902415",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/14/large/app/1491902546.png?1491902546",
+	"community": {
+		"average_target_amount": 10669,
+		"average_months": 7,
+		"started_count": 194,
+		"active_count": 154,
+		"completed_count": 108
+	},
+	"suggested_challenges": [{
+		"id": 16,
+		"name": "Bus vs Uber",
+		"description": "Reduce your spend with Uber!\r\n\r\nYou must spend 50% less this month on UBER. Using taxis will still count, we mean use your feet, bike, bus or train!\r\n\r\nBe sensible, don't drink and drive or put yourself at risk!",
+		"steps": ["Download tripview or the opal app and find out when the next bus is coming.\r", "Walk to work.\r", "Ride share sensibly."],
+		"source": "suggested",
+		"challenge_type": "merchant",
+		"frequency": "monthly",
+		"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/16/small/app/1491946556.png?1491946556",
+		"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/16/large/app/1491946668.png?1491946668",
+		"community": {
+			"average_saving_amount": 66,
+			"started_count": 14,
+			"active_count": 2,
+			"completed_count": 6
+		},
+		"budgets": [{
+			"challenge_budget_id": 24,
+			"name": "Uber",
+			"previous_amount": 254,
+			"suggest_amount": 203
+		}]
+	}, {
+		"id": 17,
+		"name": "Go Green",
+		"description": "Help the environment by reducing your carbon footprint and save money at the same time! Reduce your gas and electricity bill by reducing your energy usage and use the car less.\r\n\r\nReduce utilities spend by $50 by considering other providers or moving payments to direct debit to get a better deal.\r\n\r\nReduce Automotive/Fuel by $20",
+		"steps": ["Electricity - Switch off lights when you leave a room. Kill that aircon! Fans are just as good.\r", "Gas - Switch that heater off and put on your favourite knitted sweater.\r", "Water - Turn the tap off while you clean your teeth. Do you really need 20 minutes in the shower?\r", "Fuel - Why not go for a cycle instead of that Sunday drive? Take advantage of Opal $2.50 Sundays."],
+		"source": "suggested",
+		"challenge_type": "transaction_category",
+		"frequency": "monthly",
+		"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/17/small/app/1492772102.png?1492772102",
+		"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/17/large/app/1492772399.png?1492772399",
+		"community": {
+			"average_saving_amount": 71,
+			"started_count": 57,
+			"active_count": 9,
+			"completed_count": 20
+		},
+		"budgets": [{
+			"challenge_budget_id": 25,
+			"name": "Utilities",
+			"previous_amount": 70,
+			"suggest_amount": 56
+		}, {
+			"challenge_budget_id": 26,
+			"name": "Automotive/Fuel",
+			"previous_amount": 8,
+			"suggest_amount": 6
+		}]
+	}]
+}

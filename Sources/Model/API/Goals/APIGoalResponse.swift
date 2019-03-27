@@ -42,7 +42,7 @@ struct APIGoalResponse: APIUniqueResponse, Codable {
         
         let activeCount: Int64
         let averageMonths: Int64
-        let averageTargetAmount: String
+        let averageTargetAmount: Int64
         let completedCount: Int64
         let startedCount: Int64
         

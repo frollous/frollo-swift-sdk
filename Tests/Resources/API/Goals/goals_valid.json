@@ -1,0 +1,166 @@
+[{
+	"id": 24,
+	"name": "House renovation",
+	"description": "Home improvements cost money. However, if they are done well they should pay a handsome return over time!",
+	"source": "suggested",
+	"goal_type": "save",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/24/small/app/1491914661.png?1491914661",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/24/large/app/1491914662.png?1491914662",
+	"community": {
+		"average_target_amount": 47999,
+		"average_months": 29,
+		"started_count": 27,
+		"active_count": 13,
+		"completed_count": 3
+	}
+}, {
+	"id": 23,
+	"name": "Save for education",
+	"description": "Education costs mount up quickly, find some smart challenges from our community to reach your target!",
+	"source": "suggested",
+	"goal_type": "save",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/23/small/app/1491913376.png?1491913376",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/23/large/app/1491913377.png?1491913377",
+	"community": {
+		"average_target_amount": 13020,
+		"average_months": 15,
+		"started_count": 28,
+		"active_count": 17,
+		"completed_count": 6
+	}
+}, {
+	"id": 22,
+	"name": "Emergency fund",
+	"description": "Nice work, an emergency fund will ensure you don't have any additional stress when the unexpected happens.",
+	"source": "suggested",
+	"goal_type": "save",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/22/small/app/1491912823.png?1491912823",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/22/large/app/1491912823.png?1491912823",
+	"community": {
+		"average_target_amount": 4832,
+		"average_months": 3,
+		"started_count": 29,
+		"active_count": 15,
+		"completed_count": 10
+	}
+}, {
+	"id": 21,
+	"name": "Save for a wedding",
+	"description": "Congratulations love bird! A wedding could cost approx $35 grand! You may need to make sacrifices to have your dream day.",
+	"source": "suggested",
+	"goal_type": "save",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/21/small/app/1491901720.png?1491901720",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/21/large/app/1491912501.png?1491912501",
+	"community": {
+		"average_target_amount": 10199,
+		"average_months": 20,
+		"started_count": 31,
+		"active_count": 15,
+		"completed_count": 12
+	}
+}, {
+	"id": 20,
+	"name": "Reduce debt",
+	"description": "Way to go! Finding ways to save a few dollars today can dramatically reduce the cost of debt, save yourself months on personal loans or years on your mortgage.",
+	"source": "suggested",
+	"goal_type": "debt",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/20/small/app/1491912337.png?1491912337",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/20/large/app/1491912338.png?1491912338",
+	"community": {
+		"average_target_amount": 14800,
+		"average_months": 4,
+		"started_count": 168,
+		"active_count": 83,
+		"completed_count": 24
+	}
+}, {
+	"id": 19,
+	"name": "Super size my retirement savings",
+	"description": "The amount we need to live on in a happy retirement, may mean you should start saving extra soon.",
+	"source": "suggested",
+	"goal_type": "save",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/19/small/app/1491911471.png?1491911471",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/19/large/app/1491911473.png?1491911473",
+	"community": {
+		"average_target_amount": 12000,
+		"average_months": 12,
+		"started_count": 2,
+		"active_count": 0,
+		"completed_count": 2
+	}
+}, {
+	"id": 18,
+	"name": "Invest in shares / managed fund",
+	"description": "Money makes money. Invest in equities and diversify your future income streams. Remember returns are not guaranteed and invest here for the long term.",
+	"source": "suggested",
+	"goal_type": "save",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/18/small/app/1491907573.png?1491907573",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/18/large/app/1491910297.png?1491910297",
+	"community": {
+		"average_target_amount": 5000,
+		"average_months": 3,
+		"started_count": 7,
+		"active_count": 5,
+		"completed_count": 3
+	}
+}, {
+	"id": 17,
+	"name": "Buy Investment property",
+	"description": "Having an investment property is an awesome goal. This can set you up well for later life and increase your wealth.",
+	"source": "suggested",
+	"goal_type": "save",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/17/small/app/1491907119.png?1491907119",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/17/large/app/1491907120.png?1491907120",
+	"community": {
+		"average_target_amount": 36376,
+		"average_months": 14,
+		"started_count": 73,
+		"active_count": 32,
+		"completed_count": 12
+	}
+}, {
+	"id": 16,
+	"name": "Save for a house deposit",
+	"description": "Congratulations on embarking on this life goal, use our challenges to help you reach your dream faster.",
+	"source": "suggested",
+	"goal_type": "save",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/16/small/app/1491903431.png?1491903431",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/16/large/app/1491903430.png?1491903430",
+	"community": {
+		"average_target_amount": 30894,
+		"average_months": 16,
+		"started_count": 21,
+		"active_count": 14,
+		"completed_count": 4
+	}
+}, {
+	"id": 15,
+	"name": "Save for a car",
+	"description": "Saving for a car is a great goal to have. A car is a great source of independence but don't forget to allow for the running costs in your monthly budget",
+	"source": "suggested",
+	"goal_type": "save",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/15/small/app/1491903095.png?1491903095",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/15/large/app/1491903253.png?1491903253",
+	"community": {
+		"average_target_amount": 18243,
+		"average_months": 19,
+		"started_count": 85,
+		"active_count": 7,
+		"completed_count": 66
+	}
+}, {
+	"id": 14,
+	"name": "Save for a holiday",
+	"description": "Saving for a holiday and paying before you go removes the pain of jetlag and a credit card bill when you get home!",
+	"source": "suggested",
+	"goal_type": "save",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/14/small/app/1491902415.png?1491902415",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/goals/14/large/app/1491902546.png?1491902546",
+	"community": {
+		"average_target_amount": 10669,
+		"average_months": 7,
+		"started_count": 194,
+		"active_count": 154,
+		"completed_count": 108
+	}
+}]

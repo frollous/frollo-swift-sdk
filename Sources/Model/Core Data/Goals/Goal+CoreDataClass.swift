@@ -103,7 +103,7 @@ public class Goal: NSManagedObject, UniqueManagedObject {
         goalID = response.id
         activeCount = response.community.activeCount
         averageMonths = response.community.averageMonths
-        averageTargetAmount = NSDecimalNumber(string: response.community.averageTargetAmount)
+        averageTargetAmount = Decimal(response.community.averageTargetAmount) as NSDecimalNumber
         completedCount = response.community.completedCount
         details = response.description
         goalType = response.goalType

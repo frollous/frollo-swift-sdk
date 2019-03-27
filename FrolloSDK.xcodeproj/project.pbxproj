@@ -518,6 +518,24 @@
 		0175C84D224B26360065AF9F /* UserGoalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C84C224B26360065AF9F /* UserGoalTests.swift */; };
 		0175C84E224B26360065AF9F /* UserGoalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C84C224B26360065AF9F /* UserGoalTests.swift */; };
 		0175C84F224B26360065AF9F /* UserGoalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C84C224B26360065AF9F /* UserGoalTests.swift */; };
+		0175C851224B2A870065AF9F /* GoalsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C850224B2A870065AF9F /* GoalsEndpoint.swift */; };
+		0175C852224B2A870065AF9F /* GoalsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C850224B2A870065AF9F /* GoalsEndpoint.swift */; };
+		0175C854224B2B530065AF9F /* APIService+Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C853224B2B530065AF9F /* APIService+Goals.swift */; };
+		0175C855224B2B530065AF9F /* APIService+Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C853224B2B530065AF9F /* APIService+Goals.swift */; };
+		0175C859224B2FBE0065AF9F /* Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C858224B2FBE0065AF9F /* Goals.swift */; };
+		0175C85A224B2FBE0065AF9F /* Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C858224B2FBE0065AF9F /* Goals.swift */; };
+		0175C85D224B34240065AF9F /* GoalsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C85C224B34240065AF9F /* GoalsTests.swift */; };
+		0175C85E224B34240065AF9F /* GoalsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C85C224B34240065AF9F /* GoalsTests.swift */; };
+		0175C85F224B34240065AF9F /* GoalsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C85C224B34240065AF9F /* GoalsTests.swift */; };
+		0175C862224B38C50065AF9F /* goal_id_14.json in Resources */ = {isa = PBXBuildFile; fileRef = 0175C861224B38C50065AF9F /* goal_id_14.json */; };
+		0175C863224B38C50065AF9F /* goal_id_14.json in Resources */ = {isa = PBXBuildFile; fileRef = 0175C861224B38C50065AF9F /* goal_id_14.json */; };
+		0175C864224B38C50065AF9F /* goal_id_14.json in Resources */ = {isa = PBXBuildFile; fileRef = 0175C861224B38C50065AF9F /* goal_id_14.json */; };
+		0175C866224B39350065AF9F /* goals_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 0175C865224B39350065AF9F /* goals_valid.json */; };
+		0175C867224B39350065AF9F /* goals_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 0175C865224B39350065AF9F /* goals_valid.json */; };
+		0175C868224B39350065AF9F /* goals_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 0175C865224B39350065AF9F /* goals_valid.json */; };
+		0175C86A224B39E00065AF9F /* GoalsRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C869224B39E00065AF9F /* GoalsRequestTests.swift */; };
+		0175C86B224B39E00065AF9F /* GoalsRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C869224B39E00065AF9F /* GoalsRequestTests.swift */; };
+		0175C86C224B39E00065AF9F /* GoalsRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C869224B39E00065AF9F /* GoalsRequestTests.swift */; };
 		017B48322101B4FE00447E65 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016DD0A320EF365100F41919 /* APIErrorTests.swift */; };
 		017B48332101B4FE00447E65 /* DatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EEDB1A20EAE2CE00F4516B /* DatabaseTests.swift */; };
 		017B48342101B4FE00447E65 /* NetworkAuthenticatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E0819220FDB6F30036133F /* NetworkAuthenticatorTests.swift */; };
@@ -1309,6 +1327,13 @@
 		0175C83F224B21FD0065AF9F /* UserGoal+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserGoal+Test.swift"; sourceTree = "<group>"; };
 		0175C843224B24BF0065AF9F /* APIUserGoalResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIUserGoalResponse+Test.swift"; sourceTree = "<group>"; };
 		0175C84C224B26360065AF9F /* UserGoalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGoalTests.swift; sourceTree = "<group>"; };
+		0175C850224B2A870065AF9F /* GoalsEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsEndpoint.swift; sourceTree = "<group>"; };
+		0175C853224B2B530065AF9F /* APIService+Goals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+Goals.swift"; sourceTree = "<group>"; };
+		0175C858224B2FBE0065AF9F /* Goals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goals.swift; sourceTree = "<group>"; };
+		0175C85C224B34240065AF9F /* GoalsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsTests.swift; sourceTree = "<group>"; };
+		0175C861224B38C50065AF9F /* goal_id_14.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = goal_id_14.json; sourceTree = "<group>"; };
+		0175C865224B39350065AF9F /* goals_valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = goals_valid.json; sourceTree = "<group>"; };
+		0175C869224B39E00065AF9F /* GoalsRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsRequestTests.swift; sourceTree = "<group>"; };
 		017B48682101B4FE00447E65 /* FrolloSDK macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FrolloSDK macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		017B486C2105433B00447E65 /* PreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesTests.swift; sourceTree = "<group>"; };
 		017B486F21054F0B00447E65 /* PreferencesPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesPersistence.swift; sourceTree = "<group>"; };
@@ -1525,8 +1550,8 @@
 		0101949C20F595C900334482 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				01BB5A6B221F5484000C03F0 /* OAuth */,
 				01874B7920F834BD005A7D0C /* API */,
+				01BB5A6B221F5484000C03F0 /* OAuth */,
 				0101949D20F595F300334482 /* NetworkTests.swift */,
 				01E0819220FDB6F30036133F /* NetworkAuthenticatorTests.swift */,
 			);
@@ -1986,6 +2011,7 @@
 				01C824FB20EDD64E0093400E /* Error */,
 				011F8148219D31AB00A1495F /* Events */,
 				01C8251020EDF56E0093400E /* Extensions */,
+				0175C857224B2FA20065AF9F /* Goals */,
 				0136D223210011D90062EAEA /* Keychain */,
 				01C824EA20EC32DE0093400E /* Logging */,
 				0126068121990158005D8377 /* Messages */,
@@ -2014,6 +2040,7 @@
 				016DD0A220EF356D00F41919 /* Error */,
 				011F8147219D317900A1495F /* Events */,
 				01C824E720EB2F4A0093400E /* Extensions */,
+				0175C85B224B34090065AF9F /* Goals */,
 				015EEDED210FDF1A0081AD76 /* Hosts */,
 				0136D2262100679A0062EAEA /* Keychain */,
 				01C824F120EC4CD90093400E /* Logging */,
@@ -2293,6 +2320,31 @@
 			path = Goals;
 			sourceTree = "<group>";
 		};
+		0175C857224B2FA20065AF9F /* Goals */ = {
+			isa = PBXGroup;
+			children = (
+				0175C858224B2FBE0065AF9F /* Goals.swift */,
+			);
+			path = Goals;
+			sourceTree = "<group>";
+		};
+		0175C85B224B34090065AF9F /* Goals */ = {
+			isa = PBXGroup;
+			children = (
+				0175C85C224B34240065AF9F /* GoalsTests.swift */,
+			);
+			path = Goals;
+			sourceTree = "<group>";
+		};
+		0175C860224B38C50065AF9F /* Goals */ = {
+			isa = PBXGroup;
+			children = (
+				0175C861224B38C50065AF9F /* goal_id_14.json */,
+				0175C865224B39350065AF9F /* goals_valid.json */,
+			);
+			path = Goals;
+			sourceTree = "<group>";
+		};
 		017B486B2105431200447E65 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
@@ -2419,10 +2471,11 @@
 				01874B7720F82C98005A7D0C /* DeviceEndpoint.swift */,
 				01874B7520F82158005A7D0C /* Endpoint.swift */,
 				011F813F219D25F000A1495F /* EventsEndpoint.swift */,
+				0175C850224B2A870065AF9F /* GoalsEndpoint.swift */,
 				0126069021992909005D8377 /* MessagesEndpoint.swift */,
 				01236D0D21EBFA34008DD61A /* ReportsEndpoint.swift */,
-				01874B7320F81EA8005A7D0C /* UserEndpoint.swift */,
 				2F657DA8223B323A00471B85 /* SurveysEndpoint.swift */,
+				01874B7320F81EA8005A7D0C /* UserEndpoint.swift */,
 			);
 			path = Endpoints;
 			sourceTree = "<group>";
@@ -2434,6 +2487,7 @@
 				0101A8DF21C9BDEF00DCFCEB /* APIService+Bills.swift */,
 				01874B7E20FD9F21005A7D0C /* APIService+Device.swift */,
 				011F8141219D282400A1495F /* APIService+Events.swift */,
+				0175C853224B2B530065AF9F /* APIService+Goals.swift */,
 				0126069221992A36005D8377 /* APIService+Messages.swift */,
 				01236D0F21EC02CC008DD61A /* APIService+Reports.swift */,
 				01874B7C20FD6FB9005A7D0C /* APIService+User.swift */,
@@ -2449,6 +2503,7 @@
 				0101A8E621C9C28E00DCFCEB /* BillsRequestTests.swift */,
 				01555F2721812C62004A313A /* DeviceRequestTests.swift */,
 				011F8143219D2A3E00A1495F /* EventsRequestTests.swift */,
+				0175C869224B39E00065AF9F /* GoalsRequestTests.swift */,
 				0126069821994A0D005D8377 /* MessagesRequestTests.swift */,
 				01236D1121EC0D96008DD61A /* ReportsRequestTests.swift */,
 				01874B7A20F834D1005A7D0C /* UserRequestTests.swift */,
@@ -2459,13 +2514,14 @@
 		01B896A120F2EDA30068069A /* API */ = {
 			isa = PBXGroup;
 			children = (
-				2F657DAD223B461000471B85 /* Surveys */,
 				015EEDDF210FDA4D0081AD76 /* Aggregation */,
 				0101A8E121C9C24700DCFCEB /* Bills */,
 				01E0819620FDC0E90036133F /* Device */,
 				01B896A220F2EDA30068069A /* Error */,
+				0175C860224B38C50065AF9F /* Goals */,
 				0126069C219A5409005D8377 /* Messages */,
 				01236D3321EEBE30008DD61A /* Reports */,
+				2F657DAD223B461000471B85 /* Surveys */,
 				01F220E420FEBB6B00C70B00 /* User */,
 			);
 			path = API;
@@ -3025,6 +3081,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01236D4E21EEBE30008DD61A /* transaction_reports_history_txn_category_monthly_lifestyle_2018-01-01_2018-12-31.json in Resources */,
+				0175C866224B39350065AF9F /* goals_valid.json in Resources */,
 				01ED8FD9211A846500ACE691 /* transactions_2018-08-01_invalid.json in Resources */,
 				017B48E721082DCA00447E65 /* user_details_complete.json in Resources */,
 				01B896C020F2EDA30068069A /* error_invalid_count.json in Resources */,
@@ -3058,6 +3115,7 @@
 				018501CE21FFC56F00069D87 /* account_balance_reports_by_day_2018-10-29_2019-01-29.json in Resources */,
 				01874B6520F6C0C7005A7D0C /* frollo.cer in Resources */,
 				013A32BD21129B3200B0590B /* provider_account_id_123.json in Resources */,
+				0175C862224B38C50065AF9F /* goal_id_14.json in Resources */,
 				0101949A20F5815800334482 /* FakeDatabaseModel.sqlite-shm in Resources */,
 				01B896CC20F3106B0068069A /* error_missing_code.json in Resources */,
 				2FE1802E22498A2200B87AAB /* error_oauth2_unauthorized_client.json in Resources */,
@@ -3151,6 +3209,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01236D4F21EEBE30008DD61A /* transaction_reports_history_txn_category_monthly_lifestyle_2018-01-01_2018-12-31.json in Resources */,
+				0175C867224B39350065AF9F /* goals_valid.json in Resources */,
 				01ED8FDA211A846500ACE691 /* transactions_2018-08-01_invalid.json in Resources */,
 				017B48E821082DCA00447E65 /* user_details_complete.json in Resources */,
 				017B48452101B4FE00447E65 /* error_invalid_count.json in Resources */,
@@ -3184,6 +3243,7 @@
 				018501CF21FFC56F00069D87 /* account_balance_reports_by_day_2018-10-29_2019-01-29.json in Resources */,
 				017B484F2101B4FE00447E65 /* frollo.cer in Resources */,
 				013A32BE21129B3200B0590B /* provider_account_id_123.json in Resources */,
+				0175C863224B38C50065AF9F /* goal_id_14.json in Resources */,
 				017B48502101B4FE00447E65 /* FakeDatabaseModel.sqlite-shm in Resources */,
 				017B48512101B4FE00447E65 /* error_missing_code.json in Resources */,
 				2FE1802F22498A2200B87AAB /* error_oauth2_unauthorized_client.json in Resources */,
@@ -3286,6 +3346,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01236D5021EEBE30008DD61A /* transaction_reports_history_txn_category_monthly_lifestyle_2018-01-01_2018-12-31.json in Resources */,
+				0175C868224B39350065AF9F /* goals_valid.json in Resources */,
 				01ED8FDB211A846500ACE691 /* transactions_2018-08-01_invalid.json in Resources */,
 				017B48E921082DCB00447E65 /* user_details_complete.json in Resources */,
 				017B48A22105958100447E65 /* error_invalid_count.json in Resources */,
@@ -3319,6 +3380,7 @@
 				018501D021FFC56F00069D87 /* account_balance_reports_by_day_2018-10-29_2019-01-29.json in Resources */,
 				017B48AC2105958100447E65 /* frollo.cer in Resources */,
 				013A32BF21129B3200B0590B /* provider_account_id_123.json in Resources */,
+				0175C864224B38C50065AF9F /* goal_id_14.json in Resources */,
 				017B48AD2105958100447E65 /* FakeDatabaseModel.sqlite-shm in Resources */,
 				017B48AE2105958100447E65 /* error_missing_code.json in Resources */,
 				2FE1803022498A2200B87AAB /* error_oauth2_unauthorized_client.json in Resources */,
@@ -3569,6 +3631,7 @@
 				018B0426216EC785008C34D7 /* Date.swift in Sources */,
 				013A32AF21127A3600B0590B /* AccountRefreshStatus.swift in Sources */,
 				01483BB6211967A500D0DA87 /* Merchant+CoreDataClass.swift in Sources */,
+				0175C859224B2FBE0065AF9F /* Goals.swift in Sources */,
 				01616B0C2186BFD5003EF2D0 /* APILogRequest.swift in Sources */,
 				01874B7420F81EA8005A7D0C /* UserEndpoint.swift in Sources */,
 				01E8375A2149F08100A50E15 /* LoginFormError.swift in Sources */,
@@ -3580,6 +3643,7 @@
 				0126069321992A36005D8377 /* APIService+Messages.swift in Sources */,
 				0175C801224ADC070065AF9F /* ResponseError.swift in Sources */,
 				01405E4A21DC43A8009356CC /* APIBillUpdateRequest.swift in Sources */,
+				0175C854224B2B530065AF9F /* APIService+Goals.swift in Sources */,
 				01BB5A64221E07D0000C03F0 /* HTTPHeader.swift in Sources */,
 				016097F8210EE3300034E857 /* Provider+CoreDataClass.swift in Sources */,
 				0104E02E21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataClass.swift in Sources */,
@@ -3616,6 +3680,7 @@
 				01483B9C21192D4A00D0DA87 /* APITransactionCategoryResponse.swift in Sources */,
 				01483B9221190E1700D0DA87 /* APIAccountUpdateRequest.swift in Sources */,
 				0159E47821926959002CC3BB /* UserDefaultsPersistence.swift in Sources */,
+				0175C851224B2A870065AF9F /* GoalsEndpoint.swift in Sources */,
 				01BC3D112166D90C0065A4B8 /* APIUserRegisterRequest.swift in Sources */,
 				0175C80D224AF5410065AF9F /* Goal+CoreDataClass.swift in Sources */,
 				0101A8DE21C9BD0F00DCFCEB /* BillsEndpoint.swift in Sources */,
@@ -3709,6 +3774,7 @@
 				01236D1721EC2466008DD61A /* APITransactionHistoryReportResponse+Test.swift in Sources */,
 				015EEDEA210FDAB20081AD76 /* AggregationRequestTests.swift in Sources */,
 				01ED8FCC211A660900ACE691 /* APITransactionResponse+Test.swift in Sources */,
+				0175C85D224B34240065AF9F /* GoalsTests.swift in Sources */,
 				0175C840224B21FD0065AF9F /* UserGoal+Test.swift in Sources */,
 				01BB5A51221CC727000C03F0 /* DatabaseResetTests.swift in Sources */,
 				01483B822117F65500D0DA87 /* AccountBalanceTierTests.swift in Sources */,
@@ -3748,6 +3814,7 @@
 				0101A8FD21CC832600DCFCEB /* BillTests.swift in Sources */,
 				01236D6E21EED72C008DD61A /* ReportsTests.swift in Sources */,
 				01C824F920EC8EF90093400E /* ConsoleLoggerTests.swift in Sources */,
+				0175C86A224B39E00065AF9F /* GoalsRequestTests.swift in Sources */,
 				013A32CB2112BE6600B0590B /* ProviderAccountTests.swift in Sources */,
 				011F8137219CE5D100A1495F /* UserDefaultsPersistenceTests.swift in Sources */,
 				01483BA02119318D00D0DA87 /* APITransactionCategoryResponse+Test.swift in Sources */,
@@ -3823,6 +3890,7 @@
 				01236D1821EC2466008DD61A /* APITransactionHistoryReportResponse+Test.swift in Sources */,
 				015EEDEB210FDAB20081AD76 /* AggregationRequestTests.swift in Sources */,
 				01ED8FCD211A660900ACE691 /* APITransactionResponse+Test.swift in Sources */,
+				0175C85E224B34240065AF9F /* GoalsTests.swift in Sources */,
 				0175C841224B21FD0065AF9F /* UserGoal+Test.swift in Sources */,
 				01BB5A52221CC727000C03F0 /* DatabaseResetTests.swift in Sources */,
 				01483B832117F65500D0DA87 /* AccountBalanceTierTests.swift in Sources */,
@@ -3862,6 +3930,7 @@
 				0101A8FE21CC832600DCFCEB /* BillTests.swift in Sources */,
 				01236D6F21EED72C008DD61A /* ReportsTests.swift in Sources */,
 				017B48372101B4FE00447E65 /* ConsoleLoggerTests.swift in Sources */,
+				0175C86B224B39E00065AF9F /* GoalsRequestTests.swift in Sources */,
 				013A32CC2112BE6600B0590B /* ProviderAccountTests.swift in Sources */,
 				011F8138219CE5D100A1495F /* UserDefaultsPersistenceTests.swift in Sources */,
 				01483BA12119318D00D0DA87 /* APITransactionCategoryResponse+Test.swift in Sources */,
@@ -3946,6 +4015,7 @@
 				01236D1921EC2466008DD61A /* APITransactionHistoryReportResponse+Test.swift in Sources */,
 				015EEDEC210FDAB20081AD76 /* AggregationRequestTests.swift in Sources */,
 				01ED8FCE211A660900ACE691 /* APITransactionResponse+Test.swift in Sources */,
+				0175C85F224B34240065AF9F /* GoalsTests.swift in Sources */,
 				01BB5A53221CC728000C03F0 /* DatabaseResetTests.swift in Sources */,
 				017B488D2105958100447E65 /* APIErrorTests.swift in Sources */,
 				0135D30221A255B000318142 /* NotificationsTests.swift in Sources */,
@@ -3985,6 +4055,7 @@
 				01236D7021EED72C008DD61A /* ReportsTests.swift in Sources */,
 				017B48932105958100447E65 /* DatabaseMigrationTests.swift in Sources */,
 				01483B752117D80100D0DA87 /* APIAccountResponse+Test.swift in Sources */,
+				0175C86C224B39E00065AF9F /* GoalsRequestTests.swift in Sources */,
 				011F8139219CE5D100A1495F /* UserDefaultsPersistenceTests.swift in Sources */,
 				016097F0210EA27E0034E857 /* Keychain+Test.swift in Sources */,
 				017B48942105958100447E65 /* NetworkTests.swift in Sources */,
@@ -4076,6 +4147,7 @@
 				01E5BEF52227A475003D85FD /* Date.swift in Sources */,
 				01E5BEF62227A475003D85FD /* AccountRefreshStatus.swift in Sources */,
 				01E5BEF72227A475003D85FD /* Merchant+CoreDataClass.swift in Sources */,
+				0175C85A224B2FBE0065AF9F /* Goals.swift in Sources */,
 				01E5BEF82227A475003D85FD /* APILogRequest.swift in Sources */,
 				01E5BEF92227A475003D85FD /* UserEndpoint.swift in Sources */,
 				01E5BEFA2227A475003D85FD /* LoginFormError.swift in Sources */,
@@ -4087,6 +4159,7 @@
 				01E5BF002227A475003D85FD /* APIService+Messages.swift in Sources */,
 				0175C802224ADC070065AF9F /* ResponseError.swift in Sources */,
 				01E5BF012227A475003D85FD /* APIBillUpdateRequest.swift in Sources */,
+				0175C855224B2B530065AF9F /* APIService+Goals.swift in Sources */,
 				2FE1803222498B5100B87AAB /* OAuth2ErrorResponse.swift in Sources */,
 				01E5BF022227A475003D85FD /* HTTPHeader.swift in Sources */,
 				01E5BF032227A475003D85FD /* Provider+CoreDataClass.swift in Sources */,
@@ -4123,6 +4196,7 @@
 				01E5BF1F2227A475003D85FD /* Aggregation.swift in Sources */,
 				01E5BF202227A475003D85FD /* APITransactionCategoryResponse.swift in Sources */,
 				01E5BF212227A475003D85FD /* APIAccountUpdateRequest.swift in Sources */,
+				0175C852224B2A870065AF9F /* GoalsEndpoint.swift in Sources */,
 				01E5BF222227A475003D85FD /* UserDefaultsPersistence.swift in Sources */,
 				0175C80E224AF5410065AF9F /* Goal+CoreDataClass.swift in Sources */,
 				01E5BF232227A475003D85FD /* APIUserRegisterRequest.swift in Sources */,

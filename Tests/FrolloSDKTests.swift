@@ -439,6 +439,27 @@ class FrolloSDKTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testGoalsAfterSetup() {
+        let expectation1 = expectation(description: "Setup")
+        
+        var config = FrolloSDKConfiguration.testConfig()
+        config.publicKeyPinningEnabled = false
+        
+        let sdk = FrolloSDK()
+        sdk.setup(configuration: config) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    _ = sdk.goals
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testMessagesAfterSetup() {
         let expectation1 = expectation(description: "Setup")
         

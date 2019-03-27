@@ -22,7 +22,7 @@ extension APIGoalResponse {
     static func testCompleteData() -> APIGoalResponse {
         let community = Community(activeCount: Int64.random(in: 1...Int64.max),
                                   averageMonths: Int64.random(in: 1...Int64.max),
-                                  averageTargetAmount: "10200",
+                                  averageTargetAmount: 10200,
                                   completedCount: Int64.random(in: 1...Int64.max),
                                   startedCount: Int64.random(in: 1...Int64.max))
         
