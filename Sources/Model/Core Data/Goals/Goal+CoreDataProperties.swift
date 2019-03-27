@@ -24,17 +24,36 @@ extension Goal {
         return NSFetchRequest<Goal>(entityName: "Goal")
     }
     
-    @NSManaged public var goalID: Int64
-    @NSManaged public var name: String
-    @NSManaged public var details: String?
-    @NSManaged public var sourceRawValue: String
-    @NSManaged public var goalTypeRawValue: String
-    @NSManaged public var smallLogoURLString: String?
-    @NSManaged public var largeLogoURLString: String?
-    @NSManaged public var averageTargetAmount: NSDecimalNumber
-    @NSManaged public var averageMonths: Int64
-    @NSManaged public var startedCount: Int64
     @NSManaged public var activeCount: Int64
+    @NSManaged public var averageMonths: Int64
+    @NSManaged public var averageTargetAmount: NSDecimalNumber
     @NSManaged public var completedCount: Int64
+    @NSManaged public var details: String?
+    @NSManaged public var goalID: Int64
+    @NSManaged public var goalTypeRawValue: String
+    @NSManaged public var largeLogoURLString: String?
+    @NSManaged public var name: String
+    @NSManaged public var smallLogoURLString: String?
+    @NSManaged public var sourceRawValue: String
+    @NSManaged public var startedCount: Int64
+    @NSManaged public var userGoals: NSSet?
+    
+}
+
+// MARK: Generated accessors for userGoals
+
+extension Goal {
+    
+    @objc(addUserGoalsObject:)
+    @NSManaged public func addToUserGoals(_ value: UserGoal)
+    
+    @objc(removeUserGoalsObject:)
+    @NSManaged public func removeFromUserGoals(_ value: UserGoal)
+    
+    @objc(addUserGoals:)
+    @NSManaged public func addToUserGoals(_ values: NSSet)
+    
+    @objc(removeUserGoals:)
+    @NSManaged public func removeFromUserGoals(_ values: NSSet)
     
 }

@@ -125,13 +125,22 @@
         <attribute name="averageTargetAmount" attributeType="Decimal" defaultValueString="0" syncable="YES"/>
         <attribute name="completedCount" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="details" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="goalID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="goalID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="goalTypeRawValue" attributeType="String" syncable="YES"/>
         <attribute name="largeLogoURLString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="smallLogoURLString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sourceRawValue" attributeType="String" syncable="YES"/>
         <attribute name="startedCount" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="userGoals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="UserGoal" inverseName="goal" inverseEntity="UserGoal" syncable="YES"/>
+        <fetchIndex name="byGoalIDIndex">
+            <fetchIndexElement property="goalID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="goalID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="Merchant" representedClassName=".Merchant" syncable="YES">
         <attribute name="merchantID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
@@ -425,12 +434,37 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
+    <entity name="UserGoal" representedClassName=".UserGoal" syncable="YES">
+        <attribute name="challengeEndDateString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="currency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="currentSavedAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="currentTargetAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="endDateString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="estimatedEndDateString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="goalID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="interestRate" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="monthlySavingAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="startAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="startDateString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="statusRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="targetAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="userGoalID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="goal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Goal" inverseName="userGoals" inverseEntity="Goal" syncable="YES"/>
+        <fetchIndex name="byUserGoalIDIndex">
+            <fetchIndexElement property="userGoalID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="userGoalID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
     <elements>
         <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="750"/>
         <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
         <element name="Bill" positionX="-378" positionY="162" width="128" height="360"/>
         <element name="BillPayment" positionX="-378" positionY="162" width="128" height="180"/>
-        <element name="Goal" positionX="-378" positionY="162" width="128" height="225"/>
+        <element name="Goal" positionX="-378" positionY="162" width="128" height="240"/>
         <element name="Merchant" positionX="498.47265625" positionY="19.75" width="128" height="165"/>
         <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="240"/>
         <element name="MessageHTML" positionX="-317.359375" positionY="757.66015625" width="128" height="90"/>
@@ -445,5 +479,6 @@
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="330"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="210"/>
         <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>
+        <element name="UserGoal" positionX="-360" positionY="180" width="128" height="270"/>
     </elements>
 </model>
