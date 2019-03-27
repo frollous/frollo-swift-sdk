@@ -27,7 +27,7 @@ class GoalTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testUpdatingGoal() {
+    func testFetchingGoal() {
         let database = Database(path: tempFolderPath())
         
         let managedObjectContext = database.newBackgroundContext()

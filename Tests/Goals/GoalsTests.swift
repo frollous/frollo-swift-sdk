@@ -272,4 +272,322 @@ class GoalsTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    // MARK: - User Goals
+    
+    func testFetchUserGoalByID() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            let id: Int64 = 12345
+            
+            managedObjectContext.performAndWait {
+                let testUserGoal = UserGoal(context: managedObjectContext)
+                testUserGoal.populateTestData()
+                testUserGoal.userGoalID = id
+                
+                try! managedObjectContext.save()
+            }
+            
+            let goals = Goals(database: database, service: service)
+            
+            let userGoal = goals.userGoal(context: database.viewContext, userGoalID: id)
+            
+            XCTAssertNotNil(userGoal)
+            XCTAssertEqual(userGoal?.userGoalID, id)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchUserGoals() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testUserGoal1 = UserGoal(context: managedObjectContext)
+                testUserGoal1.populateTestData()
+                testUserGoal1.status = .active
+                
+                let testUserGoal2 = UserGoal(context: managedObjectContext)
+                testUserGoal2.populateTestData()
+                testUserGoal2.status = .failed
+                
+                let testUserGoal3 = UserGoal(context: managedObjectContext)
+                testUserGoal3.populateTestData()
+                testUserGoal3.status = .active
+                
+                try! managedObjectContext.save()
+            }
+            
+            let goals = Goals(database: database, service: service)
+            
+            let predicate = NSPredicate(format: #keyPath(UserGoal.statusRawValue) + " == %@", argumentArray: [UserGoal.Status.active.rawValue])
+            let fetchedUserGoals = goals.userGoals(context: database.viewContext, filteredBy: predicate)
+            
+            XCTAssertNotNil(fetchedUserGoals)
+            XCTAssertEqual(fetchedUserGoals?.count, 2)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testUserGoalsFetchedResultsController() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testUserGoal1 = UserGoal(context: managedObjectContext)
+                testUserGoal1.populateTestData()
+                testUserGoal1.status = .completed
+                
+                let testUserGoal2 = UserGoal(context: managedObjectContext)
+                testUserGoal2.populateTestData()
+                testUserGoal2.status = .completed
+                
+                let testUserGoal3 = UserGoal(context: managedObjectContext)
+                testUserGoal3.populateTestData()
+                testUserGoal3.status = .failed
+                
+                try! managedObjectContext.save()
+            }
+            
+            let goals = Goals(database: database, service: service)
+            
+            let predicate = NSPredicate(format: #keyPath(UserGoal.statusRawValue) + " == %@", argumentArray: [UserGoal.Status.failed.rawValue])
+            let fetchedResultsController = goals.userGoalsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
+            
+            do {
+                try fetchedResultsController?.performFetch()
+                
+                XCTAssertNotNil(fetchedResultsController?.fetchedObjects)
+                XCTAssertEqual(fetchedResultsController?.fetchedObjects?.count, 1)
+                
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testRefreshUserGoals() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + GoalsEndpoint.userGoals.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_goals_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let goals = Goals(database: database, service: service)
+            
+            goals.refreshUserGoals() { (result) in
+                switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    let context = database.viewContext
+                    
+                    let fetchRequest: NSFetchRequest<UserGoal> = UserGoal.fetchRequest()
+                    
+                    do {
+                        let fetchedUserGoals = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedUserGoals.count, 2)
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testRefreshUserGoalByID() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + GoalsEndpoint.userGoal(userGoalID: 137).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_goals_id_137", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let goals = Goals(database: database, service: service)
+            
+            goals.refreshUserGoal(userGoalID: 137) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<UserGoal> = UserGoal.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "userGoalID == %ld", argumentArray: [137])
+                        
+                        do {
+                            let fetchedUserGoals = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedUserGoals.first?.userGoalID, 137)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testUserGoalsLinkingToGoals() {
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Goal Request")
+        let expectation3 = expectation(description: "Network User Goal Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + GoalsEndpoint.goals.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "goals_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + GoalsEndpoint.userGoals.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_goals_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        let goals = Goals(database: database, service: service)
+        
+        goals.refreshGoals() { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+        
+        goals.refreshUserGoals() { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+        
+        let context = database.viewContext
+        
+        let fetchRequest: NSFetchRequest<UserGoal> = UserGoal.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "userGoalID == %ld", argumentArray: [136])
+        
+        do {
+            let fetchedUserGoals = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedUserGoals.count, 1)
+            
+            if let userGoal = fetchedUserGoals.first {
+                XCTAssertNotNil(userGoal.goal)
+                
+                XCTAssertEqual(userGoal.goalID, userGoal.goal?.goalID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
 }

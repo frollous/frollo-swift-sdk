@@ -1,0 +1,17 @@
+{
+	"user_goal_id": 137,
+	"goal_id": 16,
+	"status": "active",
+	"currency": "AUD",
+	"start_amount": 0,
+	"target_amount": 50000,
+	"monthly_saving_amount": 1000,
+	"current_saved_amount": 0,
+	"current_target_amount": 0,
+	"interest_rate": "3.00",
+	"start_date": "2019-03-28",
+	"base_end_date": "2023-03-28",
+	"challenge_end_date": "2023-03-28",
+	"estimated_end_date": "2023-03-28",
+	"user_challenges": []
+}

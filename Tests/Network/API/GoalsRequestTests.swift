@@ -167,11 +167,45 @@ class GoalsRequestTests: XCTestCase {
     }
     
     func testFetchUserGoalByID() {
-        XCTFail()
-    }
-    
-    func testUserGoalsLinkingToGoals() {
-        XCTFail()
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + GoalsEndpoint.userGoal(userGoalID: 137).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_goals_id_137", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        service.fetchUserGoal(userGoalID: 137) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.id, 137)
+                    XCTAssertEqual(response.goalID, 16)
+                    XCTAssertEqual(response.status, .active)
+                    XCTAssertEqual(response.currency, "AUD")
+                    XCTAssertEqual(response.startAmount, 0)
+                    XCTAssertEqual(response.targetAmount, 50000)
+                    XCTAssertEqual(response.monthlySavingAmount, 1000)
+                    XCTAssertEqual(response.currentSavedAmount, 0)
+                    XCTAssertEqual(response.currentTargetAmount, 0)
+                    XCTAssertEqual(response.interestRate, "3.00")
+                    XCTAssertEqual(response.startDate, "2019-03-28")
+                    XCTAssertEqual(response.baseEndDate, "2023-03-28")
+                    XCTAssertEqual(response.challengeEndDate, "2023-03-28")
+                    XCTAssertEqual(response.estimatedEndDate, "2023-03-28")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
     }
 
 }
