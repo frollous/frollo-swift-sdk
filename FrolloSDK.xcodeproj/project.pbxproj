@@ -536,6 +536,9 @@
 		0175C86A224B39E00065AF9F /* GoalsRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C869224B39E00065AF9F /* GoalsRequestTests.swift */; };
 		0175C86B224B39E00065AF9F /* GoalsRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C869224B39E00065AF9F /* GoalsRequestTests.swift */; };
 		0175C86C224B39E00065AF9F /* GoalsRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C869224B39E00065AF9F /* GoalsRequestTests.swift */; };
+		0175C86E224B484B0065AF9F /* user_goals_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 0175C86D224B484A0065AF9F /* user_goals_valid.json */; };
+		0175C86F224B484B0065AF9F /* user_goals_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 0175C86D224B484A0065AF9F /* user_goals_valid.json */; };
+		0175C870224B484B0065AF9F /* user_goals_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 0175C86D224B484A0065AF9F /* user_goals_valid.json */; };
 		017B48322101B4FE00447E65 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016DD0A320EF365100F41919 /* APIErrorTests.swift */; };
 		017B48332101B4FE00447E65 /* DatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EEDB1A20EAE2CE00F4516B /* DatabaseTests.swift */; };
 		017B48342101B4FE00447E65 /* NetworkAuthenticatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E0819220FDB6F30036133F /* NetworkAuthenticatorTests.swift */; };
@@ -1334,6 +1337,7 @@
 		0175C861224B38C50065AF9F /* goal_id_14.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = goal_id_14.json; sourceTree = "<group>"; };
 		0175C865224B39350065AF9F /* goals_valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = goals_valid.json; sourceTree = "<group>"; };
 		0175C869224B39E00065AF9F /* GoalsRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsRequestTests.swift; sourceTree = "<group>"; };
+		0175C86D224B484A0065AF9F /* user_goals_valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user_goals_valid.json; sourceTree = "<group>"; };
 		017B48682101B4FE00447E65 /* FrolloSDK macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FrolloSDK macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		017B486C2105433B00447E65 /* PreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesTests.swift; sourceTree = "<group>"; };
 		017B486F21054F0B00447E65 /* PreferencesPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesPersistence.swift; sourceTree = "<group>"; };
@@ -2341,6 +2345,7 @@
 			children = (
 				0175C861224B38C50065AF9F /* goal_id_14.json */,
 				0175C865224B39350065AF9F /* goals_valid.json */,
+				0175C86D224B484A0065AF9F /* user_goals_valid.json */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -3170,6 +3175,7 @@
 				018501DB2203A6E100069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json in Resources */,
 				01E5BF7E2228B032003D85FD /* transaction_summary.json in Resources */,
 				01ED8FE0211A868F00ACE691 /* transaction_id_99703.json in Resources */,
+				0175C86E224B484B0065AF9F /* user_goals_valid.json in Resources */,
 				01236D5121EEBE30008DD61A /* transaction_reports_history_txn_category_weekly_2018-01-01_2018-12-31.json in Resources */,
 				0101A90821CC90E000DCFCEB /* bill_id_12345.json in Resources */,
 				0126069F219A5409005D8377 /* messages_unread.json in Resources */,
@@ -3298,6 +3304,7 @@
 				018501DC2203A6E100069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json in Resources */,
 				01E5BF7F2228B032003D85FD /* transaction_summary.json in Resources */,
 				01ED8FE1211A868F00ACE691 /* transaction_id_99703.json in Resources */,
+				0175C86F224B484B0065AF9F /* user_goals_valid.json in Resources */,
 				01236D5221EEBE30008DD61A /* transaction_reports_history_txn_category_weekly_2018-01-01_2018-12-31.json in Resources */,
 				0101A90921CC90E000DCFCEB /* bill_id_12345.json in Resources */,
 				012606A0219A5409005D8377 /* messages_unread.json in Resources */,
@@ -3435,6 +3442,7 @@
 				018501DD2203A6E100069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json in Resources */,
 				01E5BF802228B032003D85FD /* transaction_summary.json in Resources */,
 				01ED8FE2211A868F00ACE691 /* transaction_id_99703.json in Resources */,
+				0175C870224B484B0065AF9F /* user_goals_valid.json in Resources */,
 				01236D5321EEBE30008DD61A /* transaction_reports_history_txn_category_weekly_2018-01-01_2018-12-31.json in Resources */,
 				0101A90A21CC90E000DCFCEB /* bill_id_12345.json in Resources */,
 				012606A1219A5409005D8377 /* messages_unread.json in Resources */,

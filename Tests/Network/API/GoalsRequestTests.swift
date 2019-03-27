@@ -117,5 +117,61 @@ class GoalsRequestTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    // MARK: - User Goal Tests
+    
+    func testFetchUserGoals() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + GoalsEndpoint.userGoals.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_goals_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        service.fetchUserGoals { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 2)
+                    
+                    if let firstGoal = response.first {
+                        XCTAssertEqual(firstGoal.id, 136)
+                        XCTAssertEqual(firstGoal.goalID, 14)
+                        XCTAssertEqual(firstGoal.status, .active)
+                        XCTAssertEqual(firstGoal.currency, "AUD")
+                        XCTAssertEqual(firstGoal.startAmount, 0)
+                        XCTAssertEqual(firstGoal.targetAmount, 10000)
+                        XCTAssertEqual(firstGoal.monthlySavingAmount, 300)
+                        XCTAssertEqual(firstGoal.currentSavedAmount, 0)
+                        XCTAssertEqual(firstGoal.currentTargetAmount, 0)
+                        XCTAssertEqual(firstGoal.interestRate, "2.90")
+                        XCTAssertEqual(firstGoal.startDate, "2019-03-27")
+                        XCTAssertEqual(firstGoal.baseEndDate, "2021-12-27")
+                        XCTAssertEqual(firstGoal.challengeEndDate, "2020-07-27")
+                        XCTAssertEqual(firstGoal.estimatedEndDate, "2021-12-27")
+                    }
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchUserGoalByID() {
+        XCTFail()
+    }
+    
+    func testUserGoalsLinkingToGoals() {
+        XCTFail()
+    }
 
 }

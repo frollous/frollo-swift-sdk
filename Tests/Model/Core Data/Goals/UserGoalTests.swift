@@ -27,7 +27,7 @@ class UserGoalTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func test() {
+    func testUpdatingUserGoal() {
         let database = Database(path: tempFolderPath())
         
         let managedObjectContext = database.newBackgroundContext()
@@ -42,16 +42,16 @@ class UserGoalTests: XCTestCase {
             XCTAssertEqual(userGoalResponse.goalID, userGoal.goalID)
             XCTAssertEqual(userGoalResponse.challengeEndDate, userGoal.challengeEndDateString)
             XCTAssertEqual(userGoalResponse.currency, userGoal.currency)
-            XCTAssertEqual(userGoalResponse.currentSavedAmount, userGoal.currentSavedAmount.stringValue)
-            XCTAssertEqual(userGoalResponse.currentTargetAmount, userGoal.currentTargetAmount.stringValue)
+            XCTAssertEqual(userGoalResponse.currentSavedAmount, userGoal.currentSavedAmount.int64Value)
+            XCTAssertEqual(userGoalResponse.currentTargetAmount, userGoal.currentTargetAmount.int64Value)
             XCTAssertEqual(userGoalResponse.baseEndDate, userGoal.endDateString)
             XCTAssertEqual(userGoalResponse.estimatedEndDate, userGoal.estimatedEndDateString)
             XCTAssertEqual(userGoalResponse.interestRate, userGoal.interestRate.stringValue)
-            XCTAssertEqual(userGoalResponse.monthlySavingAmount, userGoal.monthlySavingAmount.stringValue)
-            XCTAssertEqual(userGoalResponse.startAmount, userGoal.startAmount.stringValue)
+            XCTAssertEqual(userGoalResponse.monthlySavingAmount, userGoal.monthlySavingAmount.int64Value)
+            XCTAssertEqual(userGoalResponse.startAmount, userGoal.startAmount.int64Value)
             XCTAssertEqual(userGoalResponse.startDate, userGoal.startDateString)
             XCTAssertEqual(userGoalResponse.status, userGoal.status)
-            XCTAssertEqual(userGoalResponse.targetAmount, userGoal.targetAmount.stringValue)
+            XCTAssertEqual(userGoalResponse.targetAmount, userGoal.targetAmount.int64Value)
         }
     }
 

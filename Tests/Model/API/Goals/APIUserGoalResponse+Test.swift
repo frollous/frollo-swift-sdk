@@ -24,16 +24,16 @@ extension APIUserGoalResponse {
                                    baseEndDate: "2023-03-01",
                                    challengeEndDate: "2022-03-01",
                                    currency: "AUD",
-                                   currentSavedAmount: "4537.98",
-                                   currentTargetAmount: "1113.86",
+                                   currentSavedAmount: 4537,
+                                   currentTargetAmount: 1113,
                                    estimatedEndDate: "2021-03-01",
                                    goalID: Int64.random(in: 1...Int64.max),
                                    interestRate: "2.8",
-                                   monthlySavingAmount: "255",
-                                   startAmount: "3000",
+                                   monthlySavingAmount: 255,
+                                   startAmount: 3000,
                                    startDate: "2018-12-15",
                                    status: UserGoal.Status.allCases.randomElement()!,
-                                   targetAmount: "10000")
+                                   targetAmount: 10000)
     }
     
 }

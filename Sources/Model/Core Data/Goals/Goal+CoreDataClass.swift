@@ -88,9 +88,9 @@ public class Goal: NSManagedObject, UniqueManagedObject {
     // MARK: - Updating object
     
     internal func linkObject(object: NSManagedObject) {
-//        if let userGoal = object as? UserGoal {
-//            addToUser
-//        }
+        if let userGoal = object as? UserGoal {
+            addToUserGoals(userGoal)
+        }
     }
     
     internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {

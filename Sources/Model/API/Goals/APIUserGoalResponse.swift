@@ -39,15 +39,15 @@ struct APIUserGoalResponse: APIUniqueResponse, Codable {
     let baseEndDate: String
     let challengeEndDate: String
     let currency: String
-    let currentSavedAmount: String
-    let currentTargetAmount: String
+    let currentSavedAmount: Int64
+    let currentTargetAmount: Int64
     let estimatedEndDate: String
     let goalID: Int64
     let interestRate: String
-    let monthlySavingAmount: String
-    let startAmount: String
+    let monthlySavingAmount: Int64
+    let startAmount: Int64
     let startDate: String
     let status: UserGoal.Status
-    let targetAmount: String
+    let targetAmount: Int64
     
 }

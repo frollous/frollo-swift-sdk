@@ -40,4 +40,24 @@ extension APIService {
         }
     }
     
+    internal func fetchUserGoals(completion: @escaping RequestCompletion<[APIUserGoalResponse]>) {
+        requestQueue.async {
+            let url = URL(string: GoalsEndpoint.userGoals.path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+                self.network.handleArrayResponse(type: APIUserGoalResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func fetchUserGoal(userGoalID: Int64, completion: @escaping RequestCompletion<APIUserGoalResponse>) {
+        requestQueue.async {
+            let url = URL(string: GoalsEndpoint.userGoal(userGoalID: userGoalID).path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APIUserGoalResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
 }

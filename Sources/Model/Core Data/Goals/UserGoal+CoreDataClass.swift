@@ -108,16 +108,16 @@ public class UserGoal: NSManagedObject, UniqueManagedObject {
         goalID = response.goalID
         challengeEndDateString = response.challengeEndDate
         currency = response.currency
-        currentSavedAmount = NSDecimalNumber(string: response.currentSavedAmount)
-        currentTargetAmount = NSDecimalNumber(string: response.currentTargetAmount)
+        currentSavedAmount = Decimal(response.currentSavedAmount) as NSDecimalNumber
+        currentTargetAmount = Decimal(response.currentTargetAmount) as NSDecimalNumber
         endDateString = response.baseEndDate
         estimatedEndDateString = response.estimatedEndDate
         interestRate = NSDecimalNumber(string: response.interestRate)
-        monthlySavingAmount = NSDecimalNumber(string: response.monthlySavingAmount)
-        startAmount = NSDecimalNumber(string: response.startAmount)
+        monthlySavingAmount = Decimal(response.monthlySavingAmount) as NSDecimalNumber
+        startAmount = Decimal(response.startAmount) as NSDecimalNumber
         startDateString = response.startDate
         status = response.status
-        targetAmount = NSDecimalNumber(string: response.targetAmount)
+        targetAmount = Decimal(response.targetAmount) as NSDecimalNumber
     }
     
 }
