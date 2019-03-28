@@ -572,6 +572,12 @@
 		0175C8A6224C86980065AF9F /* UserChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C8A5224C86980065AF9F /* UserChallengeTests.swift */; };
 		0175C8A7224C86980065AF9F /* UserChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C8A5224C86980065AF9F /* UserChallengeTests.swift */; };
 		0175C8A8224C86980065AF9F /* UserChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C8A5224C86980065AF9F /* UserChallengeTests.swift */; };
+		0175C8AA224C89320065AF9F /* ChallengesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C8A9224C89320065AF9F /* ChallengesEndpoint.swift */; };
+		0175C8AB224C89320065AF9F /* ChallengesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C8A9224C89320065AF9F /* ChallengesEndpoint.swift */; };
+		0175C8AD224C8E9E0065AF9F /* APIService+Challenges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C8AC224C8E9E0065AF9F /* APIService+Challenges.swift */; };
+		0175C8AE224C8E9E0065AF9F /* APIService+Challenges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C8AC224C8E9E0065AF9F /* APIService+Challenges.swift */; };
+		0175C8B1224C981C0065AF9F /* Challenges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C8B0224C981C0065AF9F /* Challenges.swift */; };
+		0175C8B2224C981C0065AF9F /* Challenges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C8B0224C981C0065AF9F /* Challenges.swift */; };
 		017B48322101B4FE00447E65 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016DD0A320EF365100F41919 /* APIErrorTests.swift */; };
 		017B48332101B4FE00447E65 /* DatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EEDB1A20EAE2CE00F4516B /* DatabaseTests.swift */; };
 		017B48342101B4FE00447E65 /* NetworkAuthenticatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E0819220FDB6F30036133F /* NetworkAuthenticatorTests.swift */; };
@@ -1384,6 +1390,9 @@
 		0175C89E224C84390065AF9F /* APIUserChallengeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserChallengeResponse.swift; sourceTree = "<group>"; };
 		0175C8A1224C853E0065AF9F /* APIUserChallengeResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIUserChallengeResponse+Test.swift"; sourceTree = "<group>"; };
 		0175C8A5224C86980065AF9F /* UserChallengeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserChallengeTests.swift; sourceTree = "<group>"; };
+		0175C8A9224C89320065AF9F /* ChallengesEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesEndpoint.swift; sourceTree = "<group>"; };
+		0175C8AC224C8E9E0065AF9F /* APIService+Challenges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+Challenges.swift"; sourceTree = "<group>"; };
+		0175C8B0224C981C0065AF9F /* Challenges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenges.swift; sourceTree = "<group>"; };
 		017B48682101B4FE00447E65 /* FrolloSDK macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FrolloSDK macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		017B486C2105433B00447E65 /* PreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesTests.swift; sourceTree = "<group>"; };
 		017B486F21054F0B00447E65 /* PreferencesPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesPersistence.swift; sourceTree = "<group>"; };
@@ -2059,6 +2068,7 @@
 				01EED85D20E5A7EA00F4516B /* Aggregation */,
 				01EED85B20E5A7EA00F4516B /* Authentication */,
 				0101A8F921CC647700DCFCEB /* Bills */,
+				0175C8AF224C980A0065AF9F /* Challenges */,
 				01EED86C20E5AA8B00F4516B /* Database */,
 				01C824FB20EDD64E0093400E /* Error */,
 				011F8148219D31AB00A1495F /* Events */,
@@ -2440,6 +2450,14 @@
 			path = Challenges;
 			sourceTree = "<group>";
 		};
+		0175C8AF224C980A0065AF9F /* Challenges */ = {
+			isa = PBXGroup;
+			children = (
+				0175C8B0224C981C0065AF9F /* Challenges.swift */,
+			);
+			path = Challenges;
+			sourceTree = "<group>";
+		};
 		017B486B2105431200447E65 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
@@ -2564,6 +2582,7 @@
 			children = (
 				015EEDDB210FC9C60081AD76 /* AggregationEndpoint.swift */,
 				0101A8DD21C9BD0F00DCFCEB /* BillsEndpoint.swift */,
+				0175C8A9224C89320065AF9F /* ChallengesEndpoint.swift */,
 				01874B7720F82C98005A7D0C /* DeviceEndpoint.swift */,
 				01874B7520F82158005A7D0C /* Endpoint.swift */,
 				011F813F219D25F000A1495F /* EventsEndpoint.swift */,
@@ -2581,13 +2600,14 @@
 			children = (
 				015EEDD9210FC8760081AD76 /* APIService+Aggregation.swift */,
 				0101A8DF21C9BDEF00DCFCEB /* APIService+Bills.swift */,
+				0175C8AC224C8E9E0065AF9F /* APIService+Challenges.swift */,
 				01874B7E20FD9F21005A7D0C /* APIService+Device.swift */,
 				011F8141219D282400A1495F /* APIService+Events.swift */,
 				0175C853224B2B530065AF9F /* APIService+Goals.swift */,
 				0126069221992A36005D8377 /* APIService+Messages.swift */,
 				01236D0F21EC02CC008DD61A /* APIService+Reports.swift */,
-				01874B7C20FD6FB9005A7D0C /* APIService+User.swift */,
 				2F657DA6223B314100471B85 /* APIService+Surveys.swift */,
+				01874B7C20FD6FB9005A7D0C /* APIService+User.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -3732,6 +3752,7 @@
 				012606B2219A784D005D8377 /* MessageText+CoreDataProperties.swift in Sources */,
 				01527CD920E1C5A600B5042A /* FrolloSDK.swift in Sources */,
 				018B0426216EC785008C34D7 /* Date.swift in Sources */,
+				0175C8B1224C981C0065AF9F /* Challenges.swift in Sources */,
 				013A32AF21127A3600B0590B /* AccountRefreshStatus.swift in Sources */,
 				01483BB6211967A500D0DA87 /* Merchant+CoreDataClass.swift in Sources */,
 				0175C859224B2FBE0065AF9F /* Goals.swift in Sources */,
@@ -3801,6 +3822,7 @@
 				0160953720F33EB10060791B /* Version.swift in Sources */,
 				2F657DA5223B2FB300471B85 /* Surveys.swift in Sources */,
 				01E5BF7B222895CA003D85FD /* APITransactionSummaryResponse.swift in Sources */,
+				0175C8AA224C89320065AF9F /* ChallengesEndpoint.swift in Sources */,
 				0104E03021E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataClass.swift in Sources */,
 				0136D225210011E70062EAEA /* Keychain.swift in Sources */,
 				0175C813224AF8A20065AF9F /* APIGoalResponse.swift in Sources */,
@@ -3810,6 +3832,7 @@
 				0126068321990377005D8377 /* Messages.swift in Sources */,
 				0126069621992AD4005D8377 /* APIMessageResponse.swift in Sources */,
 				015EEDDE210FD7710081AD76 /* FailableCodable.swift in Sources */,
+				0175C8AD224C8E9E0065AF9F /* APIService+Challenges.swift in Sources */,
 				013BC1DF218A6998005A2714 /* ProviderLoginFormViewModel.swift in Sources */,
 				011F1A60216B289B00119474 /* APIUserResetPasswordRequest.swift in Sources */,
 				01EAAEE1214F351D003D1EAC /* APIProviderAccountUpdateRequest.swift in Sources */,
@@ -4272,6 +4295,7 @@
 				01E5BEF32227A475003D85FD /* MessageText+CoreDataProperties.swift in Sources */,
 				01E5BEF42227A475003D85FD /* FrolloSDK.swift in Sources */,
 				01E5BEF52227A475003D85FD /* Date.swift in Sources */,
+				0175C8B2224C981C0065AF9F /* Challenges.swift in Sources */,
 				01E5BEF62227A475003D85FD /* AccountRefreshStatus.swift in Sources */,
 				01E5BEF72227A475003D85FD /* Merchant+CoreDataClass.swift in Sources */,
 				0175C85A224B2FBE0065AF9F /* Goals.swift in Sources */,
@@ -4341,6 +4365,7 @@
 				01E5BF2D2227A475003D85FD /* Merchant+CoreDataProperties.swift in Sources */,
 				01E5BF2E2227A475003D85FD /* Version.swift in Sources */,
 				01E5BF7C222895CA003D85FD /* APITransactionSummaryResponse.swift in Sources */,
+				0175C8AB224C89320065AF9F /* ChallengesEndpoint.swift in Sources */,
 				01E5BF2F2227A475003D85FD /* ReportTransactionCurrent+CoreDataClass.swift in Sources */,
 				01E5BF302227A475003D85FD /* Keychain.swift in Sources */,
 				0175C814224AF8A20065AF9F /* APIGoalResponse.swift in Sources */,
@@ -4350,6 +4375,7 @@
 				01E5BF342227A475003D85FD /* APIMessageResponse.swift in Sources */,
 				01E5BF352227A475003D85FD /* FailableCodable.swift in Sources */,
 				01E5BF362227A475003D85FD /* ProviderLoginFormViewModel.swift in Sources */,
+				0175C8AE224C8E9E0065AF9F /* APIService+Challenges.swift in Sources */,
 				01E5BF372227A475003D85FD /* APIUserResetPasswordRequest.swift in Sources */,
 				01E5BF382227A475003D85FD /* APIProviderAccountUpdateRequest.swift in Sources */,
 				01E5BF392227A475003D85FD /* FrolloSDKDataModel.xcdatamodeld in Sources */,

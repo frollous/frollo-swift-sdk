@@ -88,6 +88,16 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         return _bills
     }
     
+    /// Challenges - All challenges and user challenges see `Challenges` for details
+    public var challenges: Challenges {
+        guard _setup
+        else {
+            fatalError("SDK not setup.")
+        }
+        
+        return _challenges
+    }
+    
     /// Database - Core Data management and contexts for fetching data. See `Database` for details
     public var database: Database {
         guard _setup
@@ -171,6 +181,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     internal var _aggregation: Aggregation!
     internal var _authentication: Authentication!
     internal var _bills: Bills!
+    internal var _challenges: Challenges!
     internal var _events: Events!
     internal var _goals: Goals!
     internal var _messages: Messages!
@@ -286,6 +297,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         _bills = Bills(database: _database, service: service, aggregation: _aggregation)
         _events = Events(service: service)
         _goals = Goals(database: _database, service: service)
+        _challenges = Challenges(database: _database, service: service)
         _messages = Messages(database: _database, service: service)
         _notifications = Notifications(authentication: _authentication, events: _events, messages: _messages)
         _reports = Reports(database: _database, service: service, aggregation: _aggregation)

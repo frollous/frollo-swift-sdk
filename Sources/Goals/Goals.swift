@@ -17,7 +17,7 @@
 import CoreData
 import Foundation
 
-/// Manages user goals and tracking
+/// Manages goals and user goals tracking
 public class Goals: CachedObjects, ResponseHandler {
     
     private let database: Database
@@ -94,7 +94,7 @@ public class Goals: CachedObjects, ResponseHandler {
                     
                     self.handleGoalsResponse(response, managedObjectContext: managedObjectContext)
                     
-                    //self.linkUserGoalsToGoals()
+                    self.linkUserGoalsToGoals(managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -124,7 +124,7 @@ public class Goals: CachedObjects, ResponseHandler {
                     
                     self.handleGoalResponse(response, managedObjectContext: managedObjectContext)
                     
-                    //self.linkUserGoalsToGoals()
+                    self.linkUserGoalsToGoals(managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
