@@ -542,6 +542,21 @@
 		0175C872224C27680065AF9F /* user_goals_id_137.json in Resources */ = {isa = PBXBuildFile; fileRef = 0175C871224C27670065AF9F /* user_goals_id_137.json */; };
 		0175C873224C27680065AF9F /* user_goals_id_137.json in Resources */ = {isa = PBXBuildFile; fileRef = 0175C871224C27670065AF9F /* user_goals_id_137.json */; };
 		0175C874224C27680065AF9F /* user_goals_id_137.json in Resources */ = {isa = PBXBuildFile; fileRef = 0175C871224C27670065AF9F /* user_goals_id_137.json */; };
+		0175C87E224C36780065AF9F /* Challenge+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C87C224C36780065AF9F /* Challenge+CoreDataClass.swift */; };
+		0175C87F224C36780065AF9F /* Challenge+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C87C224C36780065AF9F /* Challenge+CoreDataClass.swift */; };
+		0175C880224C36780065AF9F /* Challenge+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C87D224C36780065AF9F /* Challenge+CoreDataProperties.swift */; };
+		0175C881224C36780065AF9F /* Challenge+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C87D224C36780065AF9F /* Challenge+CoreDataProperties.swift */; };
+		0175C884224C4DEE0065AF9F /* Challenge+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C883224C4DEE0065AF9F /* Challenge+Test.swift */; };
+		0175C885224C4DEE0065AF9F /* Challenge+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C883224C4DEE0065AF9F /* Challenge+Test.swift */; };
+		0175C886224C4DEE0065AF9F /* Challenge+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C883224C4DEE0065AF9F /* Challenge+Test.swift */; };
+		0175C889224C53840065AF9F /* APIChallengeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C888224C53840065AF9F /* APIChallengeResponse.swift */; };
+		0175C88A224C53840065AF9F /* APIChallengeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C888224C53840065AF9F /* APIChallengeResponse.swift */; };
+		0175C88D224C558F0065AF9F /* APIChallengeResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C88C224C558F0065AF9F /* APIChallengeResponse+Test.swift */; };
+		0175C88E224C558F0065AF9F /* APIChallengeResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C88C224C558F0065AF9F /* APIChallengeResponse+Test.swift */; };
+		0175C88F224C558F0065AF9F /* APIChallengeResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C88C224C558F0065AF9F /* APIChallengeResponse+Test.swift */; };
+		0175C891224C6B630065AF9F /* ChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C890224C6B630065AF9F /* ChallengeTests.swift */; };
+		0175C892224C6B630065AF9F /* ChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C890224C6B630065AF9F /* ChallengeTests.swift */; };
+		0175C893224C6B630065AF9F /* ChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C890224C6B630065AF9F /* ChallengeTests.swift */; };
 		017B48322101B4FE00447E65 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016DD0A320EF365100F41919 /* APIErrorTests.swift */; };
 		017B48332101B4FE00447E65 /* DatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EEDB1A20EAE2CE00F4516B /* DatabaseTests.swift */; };
 		017B48342101B4FE00447E65 /* NetworkAuthenticatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E0819220FDB6F30036133F /* NetworkAuthenticatorTests.swift */; };
@@ -1342,6 +1357,12 @@
 		0175C869224B39E00065AF9F /* GoalsRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsRequestTests.swift; sourceTree = "<group>"; };
 		0175C86D224B484A0065AF9F /* user_goals_valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user_goals_valid.json; sourceTree = "<group>"; };
 		0175C871224C27670065AF9F /* user_goals_id_137.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user_goals_id_137.json; sourceTree = "<group>"; };
+		0175C87C224C36780065AF9F /* Challenge+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Challenge+CoreDataClass.swift"; sourceTree = "<group>"; };
+		0175C87D224C36780065AF9F /* Challenge+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Challenge+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0175C883224C4DEE0065AF9F /* Challenge+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Challenge+Test.swift"; sourceTree = "<group>"; };
+		0175C888224C53840065AF9F /* APIChallengeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIChallengeResponse.swift; sourceTree = "<group>"; };
+		0175C88C224C558F0065AF9F /* APIChallengeResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIChallengeResponse+Test.swift"; sourceTree = "<group>"; };
+		0175C890224C6B630065AF9F /* ChallengeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeTests.swift; sourceTree = "<group>"; };
 		017B48682101B4FE00447E65 /* FrolloSDK macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FrolloSDK macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		017B486C2105433B00447E65 /* PreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesTests.swift; sourceTree = "<group>"; };
 		017B486F21054F0B00447E65 /* PreferencesPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesPersistence.swift; sourceTree = "<group>"; };
@@ -1893,6 +1914,7 @@
 				01819145211168C8000E0F80 /* APIUniqueResponse.swift */,
 				016097F1210EE26C0034E857 /* Aggregation */,
 				018240DF21C8BA55005705F9 /* Bills */,
+				0175C887224C53610065AF9F /* Challenges */,
 				013D2D84210A889200EEDEC5 /* Device */,
 				011F813C219D251000A1495F /* Events */,
 				0175C811224AF88C0065AF9F /* Goals */,
@@ -1939,6 +1961,7 @@
 			children = (
 				015EEDE0210FDA570081AD76 /* Aggregation */,
 				0101A8EA21CC4F6B00DCFCEB /* Bills */,
+				0175C88B224C556E0065AF9F /* Challenges */,
 				013D2D88210A8AE900EEDEC5 /* Device */,
 				0175C81B224AFE1F0065AF9F /* Goals */,
 				012606D2219BC2A2005D8377 /* Messages */,
@@ -2279,6 +2302,7 @@
 			children = (
 				016097F3210EE2820034E857 /* Aggregation */,
 				018240DA21C8B7F5005705F9 /* Bills */,
+				0175C87B224C36780065AF9F /* Challenges */,
 				0175C80A224AF5410065AF9F /* Goals */,
 				0126068421990397005D8377 /* Messages */,
 				0104E02921E84EC700D98EE7 /* Reports */,
@@ -2355,6 +2379,40 @@
 			path = Goals;
 			sourceTree = "<group>";
 		};
+		0175C87B224C36780065AF9F /* Challenges */ = {
+			isa = PBXGroup;
+			children = (
+				0175C87C224C36780065AF9F /* Challenge+CoreDataClass.swift */,
+				0175C87D224C36780065AF9F /* Challenge+CoreDataProperties.swift */,
+			);
+			path = Challenges;
+			sourceTree = "<group>";
+		};
+		0175C882224C4DD80065AF9F /* Challenges */ = {
+			isa = PBXGroup;
+			children = (
+				0175C883224C4DEE0065AF9F /* Challenge+Test.swift */,
+				0175C890224C6B630065AF9F /* ChallengeTests.swift */,
+			);
+			path = Challenges;
+			sourceTree = "<group>";
+		};
+		0175C887224C53610065AF9F /* Challenges */ = {
+			isa = PBXGroup;
+			children = (
+				0175C888224C53840065AF9F /* APIChallengeResponse.swift */,
+			);
+			path = Challenges;
+			sourceTree = "<group>";
+		};
+		0175C88B224C556E0065AF9F /* Challenges */ = {
+			isa = PBXGroup;
+			children = (
+				0175C88C224C558F0065AF9F /* APIChallengeResponse+Test.swift */,
+			);
+			path = Challenges;
+			sourceTree = "<group>";
+		};
 		017B486B2105431200447E65 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
@@ -2394,6 +2452,7 @@
 			children = (
 				015EEDFA210FE5440081AD76 /* Aggregation */,
 				0101A8F421CC54DA00DCFCEB /* Bills */,
+				0175C882224C4DD80065AF9F /* Challenges */,
 				0175C815224AFC6E0065AF9F /* Goals */,
 				012606C5219BA998005D8377 /* Messages */,
 				01236D1A21EC2FA2008DD61A /* Reports */,
@@ -3637,6 +3696,7 @@
 				0175C83D224B1DCE0065AF9F /* APIUserGoalResponse.swift in Sources */,
 				011C198921E3063600490EDD /* APIBillPaymentUpdateRequest.swift in Sources */,
 				012C450A212A775D00799A0A /* ProviderLoginForm.swift in Sources */,
+				0175C87E224C36780065AF9F /* Challenge+CoreDataClass.swift in Sources */,
 				01EED86E20E5AAAB00F4516B /* Database.swift in Sources */,
 				01874B8120FDA1DD005A7D0C /* NetworkAuthenticator.swift in Sources */,
 				0159E4832193CBAD002CC3BB /* Transaction+CoreDataProperties.swift in Sources */,
@@ -3669,6 +3729,7 @@
 				017B487021054F0B00447E65 /* PreferencesPersistence.swift in Sources */,
 				01405E5821DDCD65009356CC /* BillPayment+CoreDataProperties.swift in Sources */,
 				013A32AA211273A300B0590B /* ProviderAccount+CoreDataClass.swift in Sources */,
+				0175C889224C53840065AF9F /* APIChallengeResponse.swift in Sources */,
 				0159E48A2193CBAD002CC3BB /* AccountBalanceTier+CoreDataProperties.swift in Sources */,
 				018240DE21C8B80B005705F9 /* Bill+CoreDataProperties.swift in Sources */,
 				0101A8E021C9BDEF00DCFCEB /* APIService+Bills.swift in Sources */,
@@ -3732,6 +3793,7 @@
 				0126068821991963005D8377 /* Message+CoreDataClass.swift in Sources */,
 				01333D3F216AAF36005764A4 /* APIUserChangePasswordRequest.swift in Sources */,
 				017391F020EF001200C0BB32 /* APIErrorResponse.swift in Sources */,
+				0175C880224C36780065AF9F /* Challenge+CoreDataProperties.swift in Sources */,
 				01F220E320FEAC7600C70B00 /* APITokenResponse.swift in Sources */,
 				012606B6219A784D005D8377 /* MessageImage+CoreDataProperties.swift in Sources */,
 				01819149211178D2000E0F80 /* ResponseHandler.swift in Sources */,
@@ -3839,6 +3901,7 @@
 				01BC3D132166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift in Sources */,
 				011F8144219D2A3E00A1495F /* EventsRequestTests.swift in Sources */,
 				2F657DAC223B39EE00471B85 /* SurveysTests.swift in Sources */,
+				0175C891224C6B630065AF9F /* ChallengeTests.swift in Sources */,
 				011F8133219CDCD900A1495F /* APIMessageResponseTests.swift in Sources */,
 				01483B732117D80100D0DA87 /* APIAccountResponse+Test.swift in Sources */,
 				016097EE210EA27E0034E857 /* Keychain+Test.swift in Sources */,
@@ -3871,6 +3934,7 @@
 				0101A8F121CC4FD700DCFCEB /* APIBillsResponse+Test.swift in Sources */,
 				015EEE05211037CE0081AD76 /* Provider+Test.swift in Sources */,
 				2FE180152248AA9200B87AAB /* OAuth2ErrorTests.swift in Sources */,
+				0175C88D224C558F0065AF9F /* APIChallengeResponse+Test.swift in Sources */,
 				0175C825224AFF190065AF9F /* GoalTests.swift in Sources */,
 				01E5BEE0222786DF003D85FD /* OAuthErrorTests.swift in Sources */,
 				01BB5A72221F55F9000C03F0 /* OAuthTokenRequest+Test.swift in Sources */,
@@ -3891,6 +3955,7 @@
 				01483BA42119321A00D0DA87 /* TransactionCategory+Test.swift in Sources */,
 				012606C7219BA9B7005D8377 /* Message+Test.swift in Sources */,
 				012606CF219BBD75005D8377 /* String+Random.swift in Sources */,
+				0175C884224C4DEE0065AF9F /* Challenge+Test.swift in Sources */,
 				01527CCE20E1B5C300B5042A /* FrolloSDKTests.swift in Sources */,
 				011F8117219BE3B800A1495F /* MessageHTML+Test.swift in Sources */,
 				01C824E920EB2F570093400E /* Data+Random.swift in Sources */,
@@ -3955,6 +4020,7 @@
 				01BC3D142166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift in Sources */,
 				011F8145219D2A3E00A1495F /* EventsRequestTests.swift in Sources */,
 				2F657DB2223B4C3800471B85 /* SurveysTests.swift in Sources */,
+				0175C892224C6B630065AF9F /* ChallengeTests.swift in Sources */,
 				011F8134219CDCD900A1495F /* APIMessageResponseTests.swift in Sources */,
 				01483B742117D80100D0DA87 /* APIAccountResponse+Test.swift in Sources */,
 				016097EF210EA27E0034E857 /* Keychain+Test.swift in Sources */,
@@ -3987,6 +4053,7 @@
 				0101A8F221CC4FD800DCFCEB /* APIBillsResponse+Test.swift in Sources */,
 				015EEE06211037CE0081AD76 /* Provider+Test.swift in Sources */,
 				2FE180162248AA9800B87AAB /* OAuth2ErrorTests.swift in Sources */,
+				0175C88E224C558F0065AF9F /* APIChallengeResponse+Test.swift in Sources */,
 				0175C826224AFF190065AF9F /* GoalTests.swift in Sources */,
 				01E5BEE1222786DF003D85FD /* OAuthErrorTests.swift in Sources */,
 				01BB5A73221F55F9000C03F0 /* OAuthTokenRequest+Test.swift in Sources */,
@@ -4007,6 +4074,7 @@
 				01483BA52119321A00D0DA87 /* TransactionCategory+Test.swift in Sources */,
 				012606C8219BA9B7005D8377 /* Message+Test.swift in Sources */,
 				012606D0219BBD75005D8377 /* String+Random.swift in Sources */,
+				0175C885224C4DEE0065AF9F /* Challenge+Test.swift in Sources */,
 				017B48402101B4FE00447E65 /* FrolloSDKTests.swift in Sources */,
 				011F8118219BE3B800A1495F /* MessageHTML+Test.swift in Sources */,
 				017B48412101B4FE00447E65 /* Data+Random.swift in Sources */,
@@ -4080,6 +4148,7 @@
 				011F8146219D2A3E00A1495F /* EventsRequestTests.swift in Sources */,
 				2F657DB3223B4C3800471B85 /* SurveysTests.swift in Sources */,
 				011F8135219CDCD900A1495F /* APIMessageResponseTests.swift in Sources */,
+				0175C893224C6B630065AF9F /* ChallengeTests.swift in Sources */,
 				017B48952105958100447E65 /* DataErrorTests.swift in Sources */,
 				017B48962105958100447E65 /* PreferencesTests.swift in Sources */,
 				012606D6219BC2BE005D8377 /* APIMessageReponse+Test.swift in Sources */,
@@ -4112,6 +4181,7 @@
 				0101A8F321CC4FD800DCFCEB /* APIBillsResponse+Test.swift in Sources */,
 				015EEE07211037CE0081AD76 /* Provider+Test.swift in Sources */,
 				2FE180172248AA9900B87AAB /* OAuth2ErrorTests.swift in Sources */,
+				0175C88F224C558F0065AF9F /* APIChallengeResponse+Test.swift in Sources */,
 				01E5BEE2222786DF003D85FD /* OAuthErrorTests.swift in Sources */,
 				01BB5A74221F55F9000C03F0 /* OAuthTokenRequest+Test.swift in Sources */,
 				01483B792117DC3800D0DA87 /* Account+Test.swift in Sources */,
@@ -4132,6 +4202,7 @@
 				01483BAA21194AEC00D0DA87 /* TransactionCategoryTests.swift in Sources */,
 				012606C9219BA9B7005D8377 /* Message+Test.swift in Sources */,
 				012606D1219BBD75005D8377 /* String+Random.swift in Sources */,
+				0175C886224C4DEE0065AF9F /* Challenge+Test.swift in Sources */,
 				017B489D2105958100447E65 /* FrolloSDKTests.swift in Sources */,
 				011F8119219BE3B800A1495F /* MessageHTML+Test.swift in Sources */,
 				017B489E2105958100447E65 /* Data+Random.swift in Sources */,
@@ -4153,6 +4224,7 @@
 				0175C83E224B1DCE0065AF9F /* APIUserGoalResponse.swift in Sources */,
 				01E5BEEC2227A475003D85FD /* APIBillPaymentUpdateRequest.swift in Sources */,
 				01E5BEED2227A475003D85FD /* ProviderLoginForm.swift in Sources */,
+				0175C87F224C36780065AF9F /* Challenge+CoreDataClass.swift in Sources */,
 				01E5BEEE2227A475003D85FD /* Database.swift in Sources */,
 				01E5BEEF2227A475003D85FD /* NetworkAuthenticator.swift in Sources */,
 				01E5BEF02227A475003D85FD /* Transaction+CoreDataProperties.swift in Sources */,
@@ -4185,6 +4257,7 @@
 				01E5BF072227A475003D85FD /* APIBillPaymentResponse.swift in Sources */,
 				01E5BF082227A475003D85FD /* PreferencesPersistence.swift in Sources */,
 				01E5BF092227A475003D85FD /* BillPayment+CoreDataProperties.swift in Sources */,
+				0175C88A224C53840065AF9F /* APIChallengeResponse.swift in Sources */,
 				01E5BF0A2227A475003D85FD /* ProviderAccount+CoreDataClass.swift in Sources */,
 				01456B7522433D060077FC56 /* Survey.swift in Sources */,
 				01E5BF0B2227A475003D85FD /* AccountBalanceTier+CoreDataProperties.swift in Sources */,
@@ -4248,6 +4321,7 @@
 				01E5BF402227A475003D85FD /* APIUserChangePasswordRequest.swift in Sources */,
 				01E5BF412227A475003D85FD /* APIErrorResponse.swift in Sources */,
 				01456B7722433D830077FC56 /* SurveysEndpoint.swift in Sources */,
+				0175C881224C36780065AF9F /* Challenge+CoreDataProperties.swift in Sources */,
 				01E5BF422227A475003D85FD /* APITokenResponse.swift in Sources */,
 				01E5BF432227A475003D85FD /* MessageImage+CoreDataProperties.swift in Sources */,
 				01E5BF442227A475003D85FD /* ResponseHandler.swift in Sources */,

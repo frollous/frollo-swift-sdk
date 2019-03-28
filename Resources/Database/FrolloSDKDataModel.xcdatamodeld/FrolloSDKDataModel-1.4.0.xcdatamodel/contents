@@ -119,6 +119,29 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
+    <entity name="Challenge" representedClassName=".Challenge" syncable="YES">
+        <attribute name="activeCount" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="averageSavingAmount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="challengeID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="challengeTypeRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="completedCount" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="details" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="frequencyRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="largeLogoURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="smallLogoURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sourceRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="startedCount" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="stepsRawValue" optional="YES" attributeType="Binary" syncable="YES"/>
+        <fetchIndex name="byChallengeIDIndex">
+            <fetchIndexElement property="challengeID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="challengeID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
     <entity name="Goal" representedClassName=".Goal" syncable="YES">
         <attribute name="activeCount" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="averageMonths" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
@@ -464,6 +487,7 @@
         <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
         <element name="Bill" positionX="-378" positionY="162" width="128" height="360"/>
         <element name="BillPayment" positionX="-378" positionY="162" width="128" height="180"/>
+        <element name="Challenge" positionX="-342" positionY="198" width="128" height="240"/>
         <element name="Goal" positionX="-378" positionY="162" width="128" height="240"/>
         <element name="Merchant" positionX="498.47265625" positionY="19.75" width="128" height="165"/>
         <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="240"/>
