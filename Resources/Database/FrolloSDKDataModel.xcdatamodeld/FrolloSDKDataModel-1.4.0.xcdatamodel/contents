@@ -133,6 +133,7 @@
         <attribute name="sourceRawValue" attributeType="String" syncable="YES"/>
         <attribute name="startedCount" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="stepsRawValue" optional="YES" attributeType="Binary" syncable="YES"/>
+        <relationship name="userChallenges" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="UserChallenge" inverseName="challenge" inverseEntity="UserChallenge" syncable="YES"/>
         <fetchIndex name="byChallengeIDIndex">
             <fetchIndexElement property="challengeID" type="Binary" order="ascending"/>
         </fetchIndex>
@@ -457,6 +458,26 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
+    <entity name="UserChallenge" representedClassName=".UserChallenge" syncable="YES">
+        <attribute name="challengeID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="currency" attributeType="String" syncable="YES"/>
+        <attribute name="currentSpendAmount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="endDateString" attributeType="String" syncable="YES"/>
+        <attribute name="previousAmount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="startDateString" attributeType="String" syncable="YES"/>
+        <attribute name="statusRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="targetAmount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="userChallengeID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="challenge" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Challenge" inverseName="userChallenges" inverseEntity="Challenge" syncable="YES"/>
+        <fetchIndex name="byUserChallengeIDIndex">
+            <fetchIndexElement property="userChallengeID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="userChallengeID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
     <entity name="UserGoal" representedClassName=".UserGoal" syncable="YES">
         <attribute name="challengeEndDateString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="currency" optional="YES" attributeType="String" syncable="YES"/>
@@ -487,7 +508,7 @@
         <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
         <element name="Bill" positionX="-378" positionY="162" width="128" height="360"/>
         <element name="BillPayment" positionX="-378" positionY="162" width="128" height="180"/>
-        <element name="Challenge" positionX="-342" positionY="198" width="128" height="240"/>
+        <element name="Challenge" positionX="-342" positionY="198" width="128" height="255"/>
         <element name="Goal" positionX="-378" positionY="162" width="128" height="240"/>
         <element name="Merchant" positionX="498.47265625" positionY="19.75" width="128" height="165"/>
         <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="240"/>
@@ -504,5 +525,6 @@
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="210"/>
         <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>
         <element name="UserGoal" positionX="-360" positionY="180" width="128" height="270"/>
+        <element name="UserChallenge" positionX="-324" positionY="216" width="128" height="195"/>
     </elements>
 </model>

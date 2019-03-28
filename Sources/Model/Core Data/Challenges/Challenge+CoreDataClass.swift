@@ -123,9 +123,9 @@ public class Challenge: NSManagedObject, UniqueManagedObject {
     // MARK: - Updating object
     
     internal func linkObject(object: NSManagedObject) {
-//        if let userChallenge = object as? UserChallenge {
-//            addToUserChallenges(userChallenge)
-//        }
+        if let userChallenge = object as? UserChallenge {
+            addToUserChallenges(userChallenge)
+        }
     }
     
     internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
