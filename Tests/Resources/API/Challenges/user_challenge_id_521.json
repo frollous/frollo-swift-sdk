@@ -1,0 +1,20 @@
+{
+	"user_challenge_id": 521,
+	"challenge_id": 18,
+	"status": "active",
+	"currency": "AUD",
+	"previous_amount": 37,
+	"target_amount": 33,
+	"current_spend_amount": 0,
+	"current_target_amount": 0,
+	"start_date": "2019-03-26",
+	"end_date": "2019-04-01",
+	"budgets": [{
+		"user_challenge_budget_id": 720,
+		"challenge_budget_id": 27,
+		"name": "Groceries",
+		"previous_amount": 37,
+		"target_amount": 33,
+		"current_spend_amount": 0
+	}]
+}

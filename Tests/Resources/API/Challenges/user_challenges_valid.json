@@ -1,0 +1,67 @@
+[{
+	"user_challenge_id": 525,
+	"challenge_id": 17,
+	"status": "active",
+	"currency": "AUD",
+	"previous_amount": 78,
+	"target_amount": 62,
+	"current_spend_amount": 0,
+	"current_target_amount": 0,
+	"start_date": "2019-03-27",
+	"end_date": "2019-04-26",
+	"budgets": [{
+		"user_challenge_budget_id": 724,
+		"challenge_budget_id": 26,
+		"name": "Automotive/Fuel",
+		"previous_amount": 8,
+		"target_amount": 6,
+		"current_spend_amount": 0
+	}, {
+		"user_challenge_budget_id": 725,
+		"challenge_budget_id": 25,
+		"name": "Utilities",
+		"previous_amount": 70,
+		"target_amount": 56,
+		"current_spend_amount": 0
+	}],
+	"user_goal_id": 136
+}, {
+	"user_challenge_id": 524,
+	"challenge_id": 16,
+	"status": "active",
+	"currency": "AUD",
+	"previous_amount": 254,
+	"target_amount": 203,
+	"current_spend_amount": 0,
+	"current_target_amount": 0,
+	"start_date": "2019-03-27",
+	"end_date": "2019-04-26",
+	"budgets": [{
+		"user_challenge_budget_id": 723,
+		"challenge_budget_id": 24,
+		"name": "Uber",
+		"previous_amount": 254,
+		"target_amount": 203,
+		"current_spend_amount": 0
+	}],
+	"user_goal_id": 136
+}, {
+	"user_challenge_id": 521,
+	"challenge_id": 18,
+	"status": "active",
+	"currency": "AUD",
+	"previous_amount": 37,
+	"target_amount": 33,
+	"current_spend_amount": 0,
+	"current_target_amount": 0,
+	"start_date": "2019-03-26",
+	"end_date": "2019-04-01",
+	"budgets": [{
+		"user_challenge_budget_id": 720,
+		"challenge_budget_id": 27,
+		"name": "Groceries",
+		"previous_amount": 37,
+		"target_amount": 33,
+		"current_spend_amount": 0
+	}]
+}]

@@ -24,6 +24,7 @@ public class Challenges: CachedObjects, ResponseHandler {
     private let service: APIService
     
     private let challengeLock = NSLock()
+    private let userChallengeLock = NSLock()
     
     private var linkingChallengeIDs = Set<Int64>()
     
@@ -38,8 +39,8 @@ public class Challenges: CachedObjects, ResponseHandler {
      Fetch challenge by ID from the cache
      
      - parameters:
-     - context: Managed object context to fetch these from; background or main thread
-     - challengeID: Unique challenge ID to fetch
+        - context: Managed object context to fetch these from; background or main thread
+        - challengeID: Unique challenge ID to fetch
      */
     public func challenge(context: NSManagedObjectContext, challengeID: Int64) -> Challenge? {
         return cachedObject(type: Challenge.self, context: context, objectID: challengeID, objectKey: #keyPath(Challenge.challengeID))
@@ -49,10 +50,10 @@ public class Challenges: CachedObjects, ResponseHandler {
      Fetch challenges from the cache
      
      - parameters:
-     - context: Managed object context to fetch these from; background or main thread
-     - filteredBy: Predicate of properties to match for fetching. See `Challenge` for properties (Optional)
-     - sortedBy: Array of sort descriptors to sort the results by. Defaults to challengeID ascending (Optional)
-     - limit: Fetch limit to set maximum number of returned items (Optional)
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `Challenge` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to challengeID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func challenges(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Challenge.challengeID), ascending: true)], limit: Int? = nil) -> [Challenge]? {
         return cachedObjects(type: Challenge.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
@@ -62,10 +63,10 @@ public class Challenges: CachedObjects, ResponseHandler {
      Fetched results controller of Challenges from the cache
      
      - parameters:
-     - context: Managed object context to fetch these from; background or main thread
-     - filteredBy: Predicate of properties to match for fetching. See `Challenge` for properties (Optional)
-     - sortedBy: Array of sort descriptors to sort the results by. Defaults to challengeID ascending (Optional)
-     - limit: Fetch limit to set maximum number of returned items (Optional)
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `Challenge` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to challengeID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func challengesFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Challenge.challengeID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Challenge>? {
         return fetchedResultsController(type: Challenge.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
@@ -77,7 +78,7 @@ public class Challenges: CachedObjects, ResponseHandler {
      Includes user created and system challenges
      
      - parameters:
-     - completion: Optional completion handler with optional error if the request fails67
+        - completion: Optional completion handler with optional error if the request fails67
      */
     public func refreshChallenges(completion: FrolloSDKCompletionHandler? = nil) {
         service.fetchChallenges { result in
@@ -106,8 +107,8 @@ public class Challenges: CachedObjects, ResponseHandler {
      Refresh a specific challenge by ID from the host
      
      - parameters:
-     - challengeID: ID of the challenge to fetch
-     - completion: Optional completion handler with optional error if the request fails
+        - challengeID: ID of the challenge to fetch
+        - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshChallenge(challengeID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
         service.fetchChallenge(challengeID: challengeID) { result in
@@ -128,6 +129,130 @@ public class Challenges: CachedObjects, ResponseHandler {
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
+            }
+        }
+    }
+    
+    // MARK: - User Challenges
+    
+    /**
+     Fetch user challenge by ID from the cache
+     
+     - parameters:
+     - context: Managed object context to fetch these from; background or main thread
+     - userChallengeID: Unique user challenge ID to fetch
+     */
+    public func userChallenge(context: NSManagedObjectContext, userChallengeID: Int64) -> UserChallenge? {
+        return cachedObject(type: UserChallenge.self, context: context, objectID: userChallengeID, objectKey: #keyPath(UserChallenge.userChallengeID))
+    }
+    
+    /**
+     Fetch user challenges from the cache
+     
+     - parameters:
+     - context: Managed object context to fetch these from; background or main thread
+     - filteredBy: Predicate of properties to match for fetching. See `UserChallenge` for properties (Optional)
+     - sortedBy: Array of sort descriptors to sort the results by. Defaults to userChallengeID ascending (Optional)
+     - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func userChallenges(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(UserChallenge.userChallengeID), ascending: true)], limit: Int? = nil) -> [UserChallenge]? {
+        return cachedObjects(type: UserChallenge.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Fetched results controller of User Challenges from the cache
+     
+     - parameters:
+     - context: Managed object context to fetch these from; background or main thread
+     - filteredBy: Predicate of properties to match for fetching. See `UserChallenge` for properties (Optional)
+     - sortedBy: Array of sort descriptors to sort the results by. Defaults to userChallengeID ascending (Optional)
+     - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func userChallengesFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(UserChallenge.userChallengeID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<UserChallenge>? {
+        return fetchedResultsController(type: UserChallenge.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Refresh all available user challenges from the host.
+     
+     Includes all challenge statuses
+     
+     - parameters:
+     - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshUserChallenges(completion: FrolloSDKCompletionHandler? = nil) {
+        service.fetchUserChallenges { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleUserChallengesResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    self.linkUserChallengesToChallenges(managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
+     Refresh a specific user challenge by ID from the host
+     
+     - parameters:
+     - userChallengeID: ID of the user challenge to fetch
+     - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshUserChallenge(userChallengeID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        service.fetchUserChallenge(userChallengeID: userChallengeID) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleUserChallengeResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    self.linkUserChallengesToChallenges(managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    // MARK: - Linking Objects
+    
+    private func linkUserChallengesToChallenges(managedObjectContext: NSManagedObjectContext) {
+        challengeLock.lock()
+        userChallengeLock.lock()
+        
+        defer {
+            challengeLock.unlock()
+            userChallengeLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: UserChallenge.self, parentType: Challenge.self, managedObjectContext: managedObjectContext, linkedIDs: linkingChallengeIDs, linkedKey: \UserChallenge.challengeID, linkedKeyName: #keyPath(UserChallenge.challengeID))
+        
+        linkingChallengeIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
             }
         }
     }
@@ -160,6 +285,46 @@ public class Challenges: CachedObjects, ResponseHandler {
         }
         
         updateObjectsWithResponse(type: Challenge.self, objectsResponse: challengesResponse, primaryKey: #keyPath(Challenge.challengeID), linkedKeys: [], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleUserChallengeResponse(_ challengeResponse: APIUserChallengeResponse, managedObjectContext: NSManagedObjectContext) {
+        userChallengeLock.lock()
+        
+        defer {
+            userChallengeLock.unlock()
+        }
+        
+        updateObjectWithResponse(type: UserChallenge.self, objectResponse: challengeResponse, primaryKey: #keyPath(UserChallenge.userChallengeID), managedObjectContext: managedObjectContext)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleUserChallengesResponse(_ userChallengesResponse: [APIUserChallengeResponse], managedObjectContext: NSManagedObjectContext) {
+        userChallengeLock.lock()
+        
+        defer {
+            userChallengeLock.unlock()
+        }
+        
+        let updatedLinkedIDs = updateObjectsWithResponse(type: UserChallenge.self, objectsResponse: userChallengesResponse, primaryKey: #keyPath(UserChallenge.userChallengeID), linkedKeys: [\UserChallenge.challengeID], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        
+        if let challengeIDs = updatedLinkedIDs[\UserChallenge.challengeID] {
+            linkingChallengeIDs = linkingChallengeIDs.union(challengeIDs)
+        }
         
         managedObjectContext.performAndWait {
             do {

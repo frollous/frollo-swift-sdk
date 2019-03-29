@@ -269,5 +269,323 @@ class ChallengesTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
         OHHTTPStubs.removeAllStubs()
     }
+    
+    // MARK: - User Challenge Tests
+    
+    func testFetchUserChallengeByID() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            let id: Int64 = 12345
+            
+            managedObjectContext.performAndWait {
+                let testUserChallenge = UserChallenge(context: managedObjectContext)
+                testUserChallenge.populateTestData()
+                testUserChallenge.userChallengeID = id
+                
+                try! managedObjectContext.save()
+            }
+            
+            let challenges = Challenges(database: database, service: service)
+            
+            let userChallenge = challenges.userChallenge(context: database.viewContext, userChallengeID: id)
+            
+            XCTAssertNotNil(userChallenge)
+            XCTAssertEqual(userChallenge?.userChallengeID, id)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchUserChallenges() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testUserChallenge1 = UserChallenge(context: managedObjectContext)
+                testUserChallenge1.populateTestData()
+                testUserChallenge1.status = .active
+                
+                let testUserChallenge2 = UserChallenge(context: managedObjectContext)
+                testUserChallenge2.populateTestData()
+                testUserChallenge2.status = .failed
+                
+                let testUserChallenge3 = UserChallenge(context: managedObjectContext)
+                testUserChallenge3.populateTestData()
+                testUserChallenge3.status = .active
+                
+                try! managedObjectContext.save()
+            }
+            
+            let challenges = Challenges(database: database, service: service)
+            
+            let predicate = NSPredicate(format: #keyPath(UserChallenge.statusRawValue) + " == %@", argumentArray: [UserChallenge.Status.active.rawValue])
+            let fetchedUserChallenges = challenges.userChallenges(context: database.viewContext, filteredBy: predicate)
+            
+            XCTAssertNotNil(fetchedUserChallenges)
+            XCTAssertEqual(fetchedUserChallenges?.count, 2)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testUserChallengesFetchedResultsController() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testUserChallenge1 = UserChallenge(context: managedObjectContext)
+                testUserChallenge1.populateTestData()
+                testUserChallenge1.status = .completed
+                
+                let testUserChallenge2 = UserChallenge(context: managedObjectContext)
+                testUserChallenge2.populateTestData()
+                testUserChallenge2.status = .completed
+                
+                let testUserChallenge3 = UserChallenge(context: managedObjectContext)
+                testUserChallenge3.populateTestData()
+                testUserChallenge3.status = .failed
+                
+                try! managedObjectContext.save()
+            }
+            
+            let challenges = Challenges(database: database, service: service)
+            
+            let predicate = NSPredicate(format: #keyPath(UserChallenge.statusRawValue) + " == %@", argumentArray: [UserChallenge.Status.failed.rawValue])
+            let fetchedResultsController = challenges.userChallengesFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
+            
+            do {
+                try fetchedResultsController?.performFetch()
+                
+                XCTAssertNotNil(fetchedResultsController?.fetchedObjects)
+                XCTAssertEqual(fetchedResultsController?.fetchedObjects?.count, 1)
+                
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testRefreshUserChallenges() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ChallengesEndpoint.userChallenges.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_challenges_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let challenges = Challenges(database: database, service: service)
+            
+            challenges.refreshUserChallenges() { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<UserChallenge> = UserChallenge.fetchRequest()
+                        
+                        do {
+                            let fetchedUserChallenges = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedUserChallenges.count, 3)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testRefreshUserChallengeByID() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ChallengesEndpoint.userChallenge(userChallengeID: 521).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_challenge_id_521", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let challenges = Challenges(database: database, service: service)
+            
+            challenges.refreshUserChallenge(userChallengeID: 521) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<UserChallenge> = UserChallenge.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "userChallengeID == %ld", argumentArray: [521])
+                        
+                        do {
+                            let fetchedUserChallenges = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedUserChallenges.first?.userChallengeID, 521)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testUserChallengesLinkingToChallenges() {
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Challenge Request")
+        let expectation3 = expectation(description: "Network User Challenge Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ChallengesEndpoint.challenges.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "challenges_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ChallengesEndpoint.userChallenges.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_challenges_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        let challenges = Challenges(database: database, service: service)
+        
+        challenges.refreshChallenges() { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+        
+        challenges.refreshUserChallenges() { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+        
+        let context = database.viewContext
+        
+        let fetchRequest: NSFetchRequest<UserChallenge> = UserChallenge.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "userChallengeID == %ld", argumentArray: [524])
+        
+        do {
+            let fetchedUserChallenges = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedUserChallenges.count, 1)
+            
+            if let userChallenge = fetchedUserChallenges.first {
+                XCTAssertNotNil(userChallenge.challenge)
+                
+                XCTAssertEqual(userChallenge.challengeID, userChallenge.challenge?.challengeID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
+        OHHTTPStubs.removeAllStubs()
+    }
 
 }

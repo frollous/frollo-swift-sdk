@@ -40,4 +40,24 @@ extension APIService {
         }
     }
     
+    internal func fetchUserChallenges(completion: @escaping RequestCompletion<[APIUserChallengeResponse]>) {
+        requestQueue.async {
+            let url = URL(string: ChallengesEndpoint.userChallenges.path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+                self.network.handleArrayResponse(type: APIUserChallengeResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func fetchUserChallenge(userChallengeID: Int64, completion: @escaping RequestCompletion<APIUserChallengeResponse>) {
+        requestQueue.async {
+            let url = URL(string: ChallengesEndpoint.userChallenge(userChallengeID: userChallengeID).path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APIUserChallengeResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
 }
