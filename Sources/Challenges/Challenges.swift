@@ -77,7 +77,7 @@ public class Challenges: CachedObjects, ResponseHandler {
      Includes user created and system challenges
      
      - parameters:
-     - completion: Optional completion handler with optional error if the request fails
+     - completion: Optional completion handler with optional error if the request fails67
      */
     public func refreshChallenges(completion: FrolloSDKCompletionHandler? = nil) {
         service.fetchChallenges { result in

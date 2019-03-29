@@ -1,0 +1,235 @@
+[{
+	"id": 24,
+	"name": "Telco savings",
+	"description": "Investigate your telecoms packages. You can even use our bill finding feature and see how much you spend each month.\r\n\r\nShop around or ask yourself the hard question, can I do without cable TV?",
+	"steps": ["Review your mobile bill and see if you are exceeding your data plan.\r", "You could get more data for the same price and reduce your overspend.\r", "Drop some of the packages you have on cable TV.\r", "Find the shows you want on streaming services, you may have to wait but you can still binge watch."],
+	"source": "suggested",
+	"challenge_type": "transaction_category",
+	"frequency": "monthly",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/24/small/app/1492485916.png?1492485916",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/24/large/app/1492485917.png?1492485917",
+	"community": {
+		"average_saving_amount": 89,
+		"started_count": 12,
+		"active_count": 1,
+		"completed_count": 2
+	},
+	"budgets": [{
+		"challenge_budget_id": 33,
+		"name": "Cable/Satellite/Telecom"
+	}]
+}, {
+	"id": 23,
+	"name": "Entertainment Cutbacks",
+	"description": "Plan to entertain yourself at home.\r\n\r\nIf you can't stand your own company, invite yourself over to a friends house.",
+	"steps": ["Make a plan, it is easier to stop yourself heading out when you have an alternative option.\r", "Dig out an old DVD or netflix and chill.\r", "Put on some music or read a book, surprising how quickly a week can go by!"],
+	"source": "suggested",
+	"challenge_type": "transaction_category",
+	"frequency": "weekly",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/23/small/app/1492485304.png?1492485304",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/23/large/app/1492485305.png?1492485305",
+	"community": {
+		"average_saving_amount": -1,
+		"started_count": 5,
+		"active_count": 0,
+		"completed_count": 1
+	},
+	"budgets": [{
+		"challenge_budget_id": 32,
+		"name": "Entertainment/Recreation"
+	}]
+}, {
+	"id": 22,
+	"name": "Travel Cuts",
+	"description": "Plan your day in a smart way and walk or cycle to work.\r\n\r\nEasier said than done, but a moment of hardship will give you benefits in your health and your wallet!",
+	"steps": ["Walk or cycle to work or to visit friends.\r", "Do you really need to go interstate, maybe have a staycation!\r", "Travel on Sundays on public transport."],
+	"source": "suggested",
+	"challenge_type": "transaction_category",
+	"frequency": "weekly",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/22/small/app/1492484245.png?1492484245",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/22/large/app/1492484513.png?1492484513",
+	"community": {
+		"average_saving_amount": 35,
+		"started_count": 30,
+		"active_count": 2,
+		"completed_count": 18
+	},
+	"budgets": [{
+		"challenge_budget_id": 31,
+		"name": "Travel"
+	}]
+}, {
+	"id": 21,
+	"name": "Shop-a-Stop-It",
+	"description": "Resist that urge to shop! Resist the urge, be it new shoes, handbags or a new pair of party pants.\r\n\r\nPutting a pause on the urge to shop for 1 month will set good habits. Check what you spend a month on shopping and look to save that same amount.",
+	"steps": ["Don't put yourself in the situation where temptation can arise.\r", "Talk to your friends and encourage them to support you as you try for a bit of hardship this month.\r", "Check out your wardrobe and see if you can pull out something you have not worn for a while, maybe it will feel like new again?\r", "Maybe look to see what you can sell to fund a shopping trip next month, don't undo all the hard work this month."],
+	"source": "suggested",
+	"challenge_type": "transaction_category",
+	"frequency": "monthly",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/21/small/app/1492483039.png?1492483039",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/21/large/app/1492483548.png?1492483548",
+	"community": {
+		"average_saving_amount": 155,
+		"started_count": 4,
+		"active_count": 0,
+		"completed_count": 3
+	},
+	"budgets": [{
+		"challenge_budget_id": 30,
+		"name": "Personal/Family"
+	}]
+}, {
+	"id": 20,
+	"name": "Drop the coffee shop",
+	"description": "1 less coffee a day will save you between $20-$25 a week.\r\n\r\nSimples, walk past the coffee shop and make a cup of tea at home in the office. $20 a week is $1,000 a year...amazing how these things add up!",
+	"steps": ["Put the kettle on.\r", "Wait.\r", "Make a cup of tea or coffee.\r", "Save $3.50!"],
+	"source": "suggested",
+	"challenge_type": "transaction_category",
+	"frequency": "monthly",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/20/small/app/1492493556.png?1492493556",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/20/large/app/1492493557.png?1492493557",
+	"community": {
+		"average_saving_amount": 7,
+		"started_count": 5,
+		"active_count": 0,
+		"completed_count": 1
+	},
+	"budgets": [{
+		"challenge_budget_id": 29,
+		"name": "Restaurants"
+	}]
+}, {
+	"id": 15,
+	"name": "Plastic vs Cash",
+	"description": "This challenge involves reducing the number of times you go to the ATM.\r\n\r\nYou must also withdraw only $50 per person in your household per week.\r\n\r\nIf paying for something on plastic costs more than by paying in cash (eg less than $10 take the smart choice and pay in cash and save money)",
+	"steps": ["Visit the ATM at the beginning of the month and withdraw the absolute minimum you may require.\r", "Safely store some cash at home to reduce the temptation.\r", "Create a new habit of using plastic and discover where your money goes.\r", "Tap responsibly!"],
+	"source": "suggested",
+	"challenge_type": "transaction_category",
+	"frequency": "monthly",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/15/small/app/1491915908.png?1491915908",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/15/large/app/1491915909.png?1491915909",
+	"community": {
+		"average_saving_amount": 140,
+		"started_count": 31,
+		"active_count": 6,
+		"completed_count": 9
+	},
+	"budgets": [{
+		"challenge_budget_id": 23,
+		"name": "ATM/Cash Withdrawals"
+	}]
+}, {
+	"id": 18,
+	"name": "Grocery bash",
+	"description": "Reduce your weekly shop. Try a different supermarket. Shop at the local market. Smash, grab and run like hell. Do whatever it takes to get next weeks groceries under control!\r\n\r\nReduce grocery shop by 15%",
+	"steps": ["Switch supermarkets. Try a budget supermarket next week.\r", "Reduce, reuse, recycle. Don't buy more than you need. Plan meals that allow you to buy ingredients in bulk. Leftovers? That's lunch.\r", "Go own brand? Some things may taste just as good?\r", "Brocolli bro. Veggies are cheap, who said chilli had to have meat in it?"],
+	"source": "suggested",
+	"challenge_type": "transaction_category",
+	"frequency": "weekly",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/18/small/app/1491916865.png?1491916865",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/18/large/app/1491917021.png?1491917021",
+	"community": {
+		"average_saving_amount": 24,
+		"started_count": 58,
+		"active_count": 4,
+		"completed_count": 24
+	},
+	"user": {
+		"user_challenge_id": 521,
+		"status": "active",
+		"currency": "AUD",
+		"previous_amount": 37,
+		"target_amount": 33,
+		"current_spend_amount": 0,
+		"current_target_amount": 0,
+		"start_date": "2019-03-26",
+		"end_date": "2019-04-01",
+		"budgets": [{
+			"user_challenge_budget_id": 720,
+			"challenge_budget_id": 27,
+			"name": "Groceries",
+			"previous_amount": 37,
+			"target_amount": 33,
+			"current_spend_amount": 0
+		}]
+	}
+}, {
+	"id": 16,
+	"name": "Bus vs Uber",
+	"description": "Reduce your spend with Uber!\r\n\r\nYou must spend 50% less this month on UBER. Using taxis will still count, we mean use your feet, bike, bus or train!\r\n\r\nBe sensible, don't drink and drive or put yourself at risk!",
+	"steps": ["Download tripview or the opal app and find out when the next bus is coming.\r", "Walk to work.\r", "Ride share sensibly."],
+	"source": "suggested",
+	"challenge_type": "merchant",
+	"frequency": "monthly",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/16/small/app/1491946556.png?1491946556",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/16/large/app/1491946668.png?1491946668",
+	"community": {
+		"average_saving_amount": 64,
+		"started_count": 15,
+		"active_count": 3,
+		"completed_count": 6
+	},
+	"user": {
+		"user_challenge_id": 524,
+		"status": "active",
+		"currency": "AUD",
+		"previous_amount": 254,
+		"target_amount": 203,
+		"current_spend_amount": 0,
+		"current_target_amount": 0,
+		"start_date": "2019-03-27",
+		"end_date": "2019-04-26",
+		"budgets": [{
+			"user_challenge_budget_id": 723,
+			"challenge_budget_id": 24,
+			"name": "Uber",
+			"previous_amount": 254,
+			"target_amount": 203,
+			"current_spend_amount": 0
+		}],
+		"user_goal_id": 136
+	}
+}, {
+	"id": 17,
+	"name": "Go Green",
+	"description": "Help the environment by reducing your carbon footprint and save money at the same time! Reduce your gas and electricity bill by reducing your energy usage and use the car less.\r\n\r\nReduce utilities spend by $50 by considering other providers or moving payments to direct debit to get a better deal.\r\n\r\nReduce Automotive/Fuel by $20",
+	"steps": ["Electricity - Switch off lights when you leave a room. Kill that aircon! Fans are just as good.\r", "Gas - Switch that heater off and put on your favourite knitted sweater.\r", "Water - Turn the tap off while you clean your teeth. Do you really need 20 minutes in the shower?\r", "Fuel - Why not go for a cycle instead of that Sunday drive? Take advantage of Opal $2.50 Sundays."],
+	"source": "suggested",
+	"challenge_type": "transaction_category",
+	"frequency": "monthly",
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/17/small/app/1492772102.png?1492772102",
+	"large_logo_url": "https://frollo-sandbox.s3.amazonaws.com/challenges/17/large/app/1492772399.png?1492772399",
+	"community": {
+		"average_saving_amount": 69,
+		"started_count": 58,
+		"active_count": 10,
+		"completed_count": 20
+	},
+	"user": {
+		"user_challenge_id": 525,
+		"status": "active",
+		"currency": "AUD",
+		"previous_amount": 78,
+		"target_amount": 62,
+		"current_spend_amount": 0,
+		"current_target_amount": 0,
+		"start_date": "2019-03-27",
+		"end_date": "2019-04-26",
+		"budgets": [{
+			"user_challenge_budget_id": 724,
+			"challenge_budget_id": 26,
+			"name": "Automotive/Fuel",
+			"previous_amount": 8,
+			"target_amount": 6,
+			"current_spend_amount": 0
+		}, {
+			"user_challenge_budget_id": 725,
+			"challenge_budget_id": 25,
+			"name": "Utilities",
+			"previous_amount": 70,
+			"target_amount": 56,
+			"current_spend_amount": 0
+		}],
+		"user_goal_id": 136
+	}
+}]

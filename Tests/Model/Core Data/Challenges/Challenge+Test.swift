@@ -32,9 +32,7 @@ extension Challenge: TestableCoreData {
         smallLogoURLString = "https://example.com/small.png"
         source = Source.allCases.randomElement()!
         startedCount = Int64.random(in: 1...Int64.max)
-        
-        let stepsJSON = "[\"Stay at home and cook all week\",\"Eat out on a weekend night only\",\"Do a weekly shop and spend less than $75. This is easier to do at somewhere like Aldi\"]"
-        stepsRawValue = try! JSONSerialization.data(withJSONObject: stepsJSON, options: [])
+        steps = ["Stay at home and cook all week","Eat out on a weekend night only","Do a weekly shop and spend less than $75. This is easier to do at somewhere like Aldi"]
     }
     
 }
