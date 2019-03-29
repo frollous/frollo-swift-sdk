@@ -55,7 +55,7 @@ class OAuth2ErrorTests: XCTestCase {
         let error = OAuth2Error(statusCode: 400, response: errorJSON)
         
         XCTAssertEqual(error.type, .invalidRequest)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.OAuth.InvalidRequest"))
+        XCTAssertEqual(error.localizedDescription, "Request was missing the 'redirect_uri' parameter.")
     }
     
     // MARK: - Invalid Client Tests
