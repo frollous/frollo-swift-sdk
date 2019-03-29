@@ -157,10 +157,10 @@ public class Survey: Codable {
             public enum AnswerType: String, Codable {
                 
                 /// answer with normal selection
-                case normalSelection = "normal_selection"
+                case selection
                 
-                /// answer with open end
-                case openEnded = "open_ended"
+                /// answer with open input option
+                case freeform
                 
             }
         }
