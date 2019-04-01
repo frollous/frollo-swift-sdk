@@ -13,7 +13,7 @@
             "answers": [
                 {
                     "id": 1,
-                    "type": "normal_selection",
+                    "type": "selection",
                     "title": "OK",
                     "display_text": "I know enough but need to put things into practice. Sometimes I worry about money.",
                     "icon_url": "https://content.frollo.us/surveys/images/medium_face_emoji.png",
