@@ -1,3 +1,3 @@
-github "Alamofire/Alamofire" "4.8.1"
-github "AliSoftware/OHHTTPStubs" "6.1.0"
-github "openid/AppAuth-iOS" "0c822671e56cedf159a6d27ccf0669b689c0f2b5"
+github "Alamofire/Alamofire" "4.8.2"
+github "AliSoftware/OHHTTPStubs" "6.2.0"
+github "openid/AppAuth-iOS" "1.0.0.rc1"
