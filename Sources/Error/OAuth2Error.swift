@@ -105,6 +105,8 @@ public class OAuth2Error: FrolloSDKError, ResponseError {
     /// System error if available
     public var systemError: Error?
     
+    private var oauth2ErrorDescription: String?
+    
     internal required init(error: NSError) {
         self.systemError = error
         
@@ -178,6 +180,7 @@ public class OAuth2Error: FrolloSDKError, ResponseError {
         
         if let response = errorResponse {
             self.type = response.errorType
+            self.oauth2ErrorDescription = response.errorDescription
         } else {
             self.type = .networkError
         }
@@ -186,42 +189,48 @@ public class OAuth2Error: FrolloSDKError, ResponseError {
     // MARK: - Descriptions
     
     private func localizedOAuthErrorDescription() -> String {
-        switch type {
-            case .accessDenied:
-                return Localization.string("Error.OAuth.AccessDenied")
-            case .browserError:
-                return Localization.string("Error.OAuth.BrowserError")
-            case .clientError:
-                return Localization.string("Error.OAuth.ClientError")
-            case .invalidClient:
-                return Localization.string("Error.OAuth.InvalidClient")
-            case .invalidClientMetadata:
-                return Localization.string("Error.OAuth.InvalidClientMetadata")
-            case .invalidGrant:
-                return Localization.string("Error.OAuth.InvalidGrant")
-            case .invalidRedirectURI:
-                return Localization.string("Error.OAuth.InvalidRedirectURI")
-            case .invalidRequest:
-                return Localization.string("Error.OAuth.InvalidRequest")
-            case .invalidScope:
-                return Localization.string("Error.OAuth.InvalidScope")
-            case .networkError:
-                return Localization.string("Error.OAuth.NetworkError")
-            case .otherAuthorization:
-                return Localization.string("Error.OAuth.OtherAuthorisation")
-            case .serverError:
-                return Localization.string("Error.OAuth.ServerError")
-            case .unauthorizedClient:
-                return Localization.string("Error.OAuth.UnauthorizedClient")
-            case .unsupportedGrantType:
-                return Localization.string("Error.OAuth.UnsupportedGrantType")
-            case .unsupportedResponseType:
-                return Localization.string("Error.OAuth.UnsupportedResponseType")
-            case .unknown:
-                return Localization.string("Error.OAuth.Unknown")
-            case .userCancelled:
-                return Localization.string("Error.OAuth.UserCancelled")
+        
+        if let error = oauth2ErrorDescription {
+            return error
+        } else {
+            switch type {
+                case .accessDenied:
+                    return Localization.string("Error.OAuth.AccessDenied")
+                case .browserError:
+                    return Localization.string("Error.OAuth.BrowserError")
+                case .clientError:
+                    return Localization.string("Error.OAuth.ClientError")
+                case .invalidClient:
+                    return Localization.string("Error.OAuth.InvalidClient")
+                case .invalidClientMetadata:
+                    return Localization.string("Error.OAuth.InvalidClientMetadata")
+                case .invalidGrant:
+                    return Localization.string("Error.OAuth.InvalidGrant")
+                case .invalidRedirectURI:
+                    return Localization.string("Error.OAuth.InvalidRedirectURI")
+                case .invalidRequest:
+                    return Localization.string("Error.OAuth.InvalidRequest")
+                case .invalidScope:
+                    return Localization.string("Error.OAuth.InvalidScope")
+                case .networkError:
+                    return Localization.string("Error.OAuth.NetworkError")
+                case .otherAuthorization:
+                    return Localization.string("Error.OAuth.OtherAuthorisation")
+                case .serverError:
+                    return Localization.string("Error.OAuth.ServerError")
+                case .unauthorizedClient:
+                    return Localization.string("Error.OAuth.UnauthorizedClient")
+                case .unsupportedGrantType:
+                    return Localization.string("Error.OAuth.UnsupportedGrantType")
+                case .unsupportedResponseType:
+                    return Localization.string("Error.OAuth.UnsupportedResponseType")
+                case .unknown:
+                    return Localization.string("Error.OAuth.Unknown")
+                case .userCancelled:
+                    return Localization.string("Error.OAuth.UserCancelled")
+            }
         }
+        
     }
     
     private func localizedOAuthErrorDebugDescription() -> String {

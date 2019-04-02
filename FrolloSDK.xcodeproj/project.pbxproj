@@ -3332,7 +3332,7 @@
 			inputPaths = (
 				Alamofire,
 				OHHTTPStubs,
-				AppAUth,
+				AppAuth,
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (
