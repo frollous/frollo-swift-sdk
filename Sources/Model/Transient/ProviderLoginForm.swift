@@ -109,7 +109,7 @@ public struct ProviderLoginForm: Codable {
             let unsignedArray = imageArray.map {
                 UInt8(bitPattern: $0)
             }
-            return Data(bytes: unsignedArray)
+            return Data(unsignedArray)
         }
         
     }
