@@ -46,6 +46,7 @@ class GoalsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let challenges = Challenges(database: database, service: service)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -62,7 +63,7 @@ class GoalsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let goals = Goals(database: database, service: service)
+            let goals = Goals(database: database, challenges: challenges, service: service)
             
             let goal = goals.goal(context: database.viewContext, goalID: id)
             
@@ -86,6 +87,7 @@ class GoalsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let challenges = Challenges(database: database, service: service)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -108,7 +110,7 @@ class GoalsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let goals = Goals(database: database, service: service)
+            let goals = Goals(database: database, challenges: challenges, service: service)
             
             let predicate = NSPredicate(format: #keyPath(Goal.goalTypeRawValue) + " == %@", argumentArray: [Goal.GoalType.save.rawValue])
             let fetchedGoals = goals.goals(context: database.viewContext, filteredBy: predicate)
@@ -133,6 +135,7 @@ class GoalsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let challenges = Challenges(database: database, service: service)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -155,7 +158,7 @@ class GoalsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let goals = Goals(database: database, service: service)
+            let goals = Goals(database: database, challenges: challenges, service: service)
             
             let predicate = NSPredicate(format: #keyPath(Goal.goalTypeRawValue) + " == %@", argumentArray: [Goal.GoalType.debt.rawValue])
             let fetchedResultsController = goals.goalsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
@@ -192,11 +195,12 @@ class GoalsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let challenges = Challenges(database: database, service: service)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let goals = Goals(database: database, service: service)
+            let goals = Goals(database: database, challenges: challenges, service: service)
             
             goals.refreshGoals() { (result) in
                 switch result {
@@ -239,11 +243,12 @@ class GoalsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let challenges = Challenges(database: database, service: service)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let goals = Goals(database: database, service: service)
+            let goals = Goals(database: database, challenges: challenges, service: service)
             
             goals.refreshGoal(goalID: 12345) { (result) in
                 switch result {
@@ -259,6 +264,12 @@ class GoalsTests: XCTestCase {
                             let fetchedGoals = try context.fetch(fetchRequest)
                             
                             XCTAssertEqual(fetchedGoals.first?.goalID, 14)
+                            
+                            XCTAssertNotNil(fetchedGoals.first?.suggestedChallenges)
+                            
+                            if let suggestedChallenges = fetchedGoals.first?.suggestedChallenges {
+                                XCTAssertEqual(suggestedChallenges.count, 2)
+                            }
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -285,6 +296,7 @@ class GoalsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let challenges = Challenges(database: database, service: service)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -301,7 +313,7 @@ class GoalsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let goals = Goals(database: database, service: service)
+            let goals = Goals(database: database, challenges: challenges, service: service)
             
             let userGoal = goals.userGoal(context: database.viewContext, userGoalID: id)
             
@@ -325,6 +337,7 @@ class GoalsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let challenges = Challenges(database: database, service: service)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -347,7 +360,7 @@ class GoalsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let goals = Goals(database: database, service: service)
+            let goals = Goals(database: database, challenges: challenges, service: service)
             
             let predicate = NSPredicate(format: #keyPath(UserGoal.statusRawValue) + " == %@", argumentArray: [UserGoal.Status.active.rawValue])
             let fetchedUserGoals = goals.userGoals(context: database.viewContext, filteredBy: predicate)
@@ -372,6 +385,7 @@ class GoalsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let challenges = Challenges(database: database, service: service)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -394,7 +408,7 @@ class GoalsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let goals = Goals(database: database, service: service)
+            let goals = Goals(database: database, challenges: challenges, service: service)
             
             let predicate = NSPredicate(format: #keyPath(UserGoal.statusRawValue) + " == %@", argumentArray: [UserGoal.Status.failed.rawValue])
             let fetchedResultsController = goals.userGoalsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
@@ -431,11 +445,12 @@ class GoalsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let challenges = Challenges(database: database, service: service)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let goals = Goals(database: database, service: service)
+            let goals = Goals(database: database, challenges: challenges, service: service)
             
             goals.refreshUserGoals() { (result) in
                 switch result {
@@ -478,11 +493,12 @@ class GoalsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let challenges = Challenges(database: database, service: service)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let goals = Goals(database: database, service: service)
+            let goals = Goals(database: database, challenges: challenges, service: service)
             
             goals.refreshUserGoal(userGoalID: 137) { (result) in
                 switch result {
@@ -531,6 +547,7 @@ class GoalsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let challenges = Challenges(database: database, service: service)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -540,7 +557,7 @@ class GoalsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        let goals = Goals(database: database, service: service)
+        let goals = Goals(database: database, challenges: challenges, service: service)
         
         goals.refreshGoals() { (result) in
             switch result {

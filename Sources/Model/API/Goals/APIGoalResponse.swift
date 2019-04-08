@@ -27,6 +27,7 @@ struct APIGoalResponse: APIUniqueResponse, Codable {
         case name
         case smallLogoURL = "small_logo_url"
         case source
+        case suggestedChallenges = "suggested_challenges"
         //case user
     }
     
@@ -56,6 +57,7 @@ struct APIGoalResponse: APIUniqueResponse, Codable {
     let name: String
     let smallLogoURL: String?
     let source: Goal.Source
+    let suggestedChallenges: [APIChallengeResponse]?
     //let user: APIUserGoalResponse?
     
 }

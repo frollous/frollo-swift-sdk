@@ -110,6 +110,8 @@ class GoalsRequestTests: XCTestCase {
                     XCTAssertEqual(response.name, "Save for a holiday")
                     XCTAssertEqual(response.smallLogoURL, "https://frollo-sandbox.s3.amazonaws.com/goals/14/small/app/1491902415.png?1491902415")
                     XCTAssertEqual(response.source, .suggested)
+                    XCTAssertNotNil(response.suggestedChallenges)
+                    XCTAssertEqual(response.suggestedChallenges?.count, 2)
             }
             
             expectation1.fulfill()

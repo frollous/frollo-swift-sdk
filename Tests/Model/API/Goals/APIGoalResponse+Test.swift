@@ -26,6 +26,8 @@ extension APIGoalResponse {
                                   completedCount: Int64.random(in: 1...Int64.max),
                                   startedCount: Int64.random(in: 1...Int64.max))
         
+        let challenges = [APIChallengeResponse.testCompleteData(), APIChallengeResponse.testCompleteData()]
+        
         return APIGoalResponse(id: Int64.random(in: 1...Int64.max),
                                community: community,
                                description: String.randomString(range: 10...200),
@@ -33,7 +35,8 @@ extension APIGoalResponse {
                                largeLogoURL: "https://example.com/large.png",
                                name: String.randomString(range: 5...50),
                                smallLogoURL: "https://example.com/small.png",
-                               source: Goal.Source.allCases.randomElement()!)
+                               source: Goal.Source.allCases.randomElement()!,
+                               suggestedChallenges: challenges)
     }
     
 }

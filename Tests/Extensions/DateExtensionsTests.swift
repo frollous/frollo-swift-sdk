@@ -31,7 +31,7 @@ class DateExtensionsTests: XCTestCase {
     func testTimeZoneIsAEDT() {
         // AEDT is UTC +11
         
-        XCTAssertTrue((TimeZone.current.abbreviation() == "AEDT") || (TimeZone.current.abbreviation() == "GMT+11"), "Time zone doesn't match AEDT - tests will fail. Dates are hard coded to AEDT")
+        XCTAssertTrue((TimeZone.current.abbreviation() == "AEST") || (TimeZone.current.abbreviation() == "GMT+10"), "Time zone doesn't match AEST - tests will fail. Dates are hard coded to AEST")
     }
 
     func testStartOfMonthAEDT() {

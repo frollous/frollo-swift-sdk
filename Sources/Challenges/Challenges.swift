@@ -23,8 +23,8 @@ public class Challenges: CachedObjects, ResponseHandler {
     private let database: Database
     private let service: APIService
     
-    private let challengeLock = NSLock()
-    private let userChallengeLock = NSLock()
+    internal let challengeLock = NSLock()
+    internal let userChallengeLock = NSLock()
     
     private var linkingChallengeIDs = Set<Int64>()
     
@@ -259,14 +259,37 @@ public class Challenges: CachedObjects, ResponseHandler {
     
     // MARK: - Response Handling
     
-    private func handleChallengeResponse(_ challengeResponse: APIChallengeResponse, managedObjectContext: NSManagedObjectContext) {
+    internal func handleChallengeResponse(_ challengeResponse: APIChallengeResponse, linkedGoal: Goal? = nil, managedObjectContext: NSManagedObjectContext) {
         challengeLock.lock()
         
         defer {
             challengeLock.unlock()
         }
         
-        updateObjectWithResponse(type: Challenge.self, objectResponse: challengeResponse, primaryKey: #keyPath(Challenge.challengeID), managedObjectContext: managedObjectContext)
+        managedObjectContext.performAndWait {
+            // Fetch existing providers for updating
+            let fetchRequest: NSFetchRequest<Challenge> = Challenge.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: #keyPath(Challenge.challengeID) + " == %ld", argumentArray: [challengeResponse.id])
+            
+            do {
+                let existingObjects = try managedObjectContext.fetch(fetchRequest)
+                
+                let object: Challenge
+                if let existingObject = existingObjects.first {
+                    object = existingObject
+                } else {
+                    object = Challenge(context: managedObjectContext)
+                }
+                
+                object.update(response: challengeResponse, context: managedObjectContext)
+                
+                if let goal = linkedGoal {
+                    object.addToGoals(goal)
+                }
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
         
         managedObjectContext.performAndWait {
             do {

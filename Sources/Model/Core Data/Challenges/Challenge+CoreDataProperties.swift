@@ -39,6 +39,26 @@ extension Challenge {
     
     /// Raw value storing the steps. Do not use (optional)
     @NSManaged public var stepsRawValue: Data?
+    @NSManaged public var goals: NSSet?
+    @NSManaged public var userChallenges: NSSet?
+    
+}
+
+// MARK: Generated accessors for userGoals
+
+extension Challenge {
+    
+    @objc(addGoalsObject:)
+    @NSManaged public func addToGoals(_ value: Goal)
+    
+    @objc(removeGoalsObject:)
+    @NSManaged public func removeFromGoals(_ value: Goal)
+    
+    @objc(addGoals:)
+    @NSManaged public func addToGoals(_ values: NSSet)
+    
+    @objc(removeGoals:)
+    @NSManaged public func removeFromGoals(_ values: NSSet)
     
 }
 

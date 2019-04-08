@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18D109" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.4.0">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18E226" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.4.0">
     <entity name="Account" representedClassName=".Account" syncable="YES">
         <attribute name="accountHolderName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
@@ -133,6 +133,7 @@
         <attribute name="sourceRawValue" attributeType="String" syncable="YES"/>
         <attribute name="startedCount" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="stepsRawValue" optional="YES" attributeType="Binary" syncable="YES"/>
+        <relationship name="goals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Goal" inverseName="suggestedChallenges" inverseEntity="Goal" syncable="YES"/>
         <relationship name="userChallenges" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="UserChallenge" inverseName="challenge" inverseEntity="UserChallenge" syncable="YES"/>
         <fetchIndex name="byChallengeIDIndex">
             <fetchIndexElement property="challengeID" type="Binary" order="ascending"/>
@@ -156,6 +157,7 @@
         <attribute name="smallLogoURLString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sourceRawValue" attributeType="String" syncable="YES"/>
         <attribute name="startedCount" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="suggestedChallenges" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Challenge" inverseName="goals" inverseEntity="Challenge" syncable="YES"/>
         <relationship name="userGoals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="UserGoal" inverseName="goal" inverseEntity="UserGoal" syncable="YES"/>
         <fetchIndex name="byGoalIDIndex">
             <fetchIndexElement property="goalID" type="Binary" order="ascending"/>
@@ -508,8 +510,8 @@
         <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
         <element name="Bill" positionX="-378" positionY="162" width="128" height="360"/>
         <element name="BillPayment" positionX="-378" positionY="162" width="128" height="180"/>
-        <element name="Challenge" positionX="-342" positionY="198" width="128" height="255"/>
-        <element name="Goal" positionX="-378" positionY="162" width="128" height="240"/>
+        <element name="Challenge" positionX="-342" positionY="198" width="128" height="270"/>
+        <element name="Goal" positionX="-378" positionY="162" width="128" height="255"/>
         <element name="Merchant" positionX="498.47265625" positionY="19.75" width="128" height="165"/>
         <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="240"/>
         <element name="MessageHTML" positionX="-317.359375" positionY="757.66015625" width="128" height="90"/>
@@ -524,7 +526,7 @@
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="330"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="210"/>
         <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>
-        <element name="UserGoal" positionX="-360" positionY="180" width="128" height="270"/>
         <element name="UserChallenge" positionX="-324" positionY="216" width="128" height="195"/>
+        <element name="UserGoal" positionX="-360" positionY="180" width="128" height="270"/>
     </elements>
 </model>

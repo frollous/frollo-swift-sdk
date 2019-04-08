@@ -88,6 +88,9 @@ public class Goal: NSManagedObject, UniqueManagedObject {
     // MARK: - Updating object
     
     internal func linkObject(object: NSManagedObject) {
+        if let challenge = object as? Challenge {
+            addToSuggestedChallenges(challenge)
+        }
         if let userGoal = object as? UserGoal {
             addToUserGoals(userGoal)
         }

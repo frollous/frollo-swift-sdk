@@ -20,6 +20,7 @@ import Foundation
 /// Manages goals and user goals tracking
 public class Goals: CachedObjects, ResponseHandler {
     
+    private let challenges: Challenges
     private let database: Database
     private let service: APIService
     
@@ -28,8 +29,9 @@ public class Goals: CachedObjects, ResponseHandler {
     
     private var linkingGoalIDs = Set<Int64>()
     
-    internal init(database: Database, service: APIService) {
+    internal init(database: Database, challenges: Challenges, service: APIService) {
         self.database = database
+        self.challenges = challenges
         self.service = service
     }
     
@@ -267,9 +269,32 @@ public class Goals: CachedObjects, ResponseHandler {
             goalLock.unlock()
         }
         
-        updateObjectWithResponse(type: Goal.self, objectResponse: goalResponse, primaryKey: #keyPath(Goal.goalID), managedObjectContext: managedObjectContext)
-        
         managedObjectContext.performAndWait {
+            // Fetch existing providers for updating
+            let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: #keyPath(Goal.goalID) + " == %ld", argumentArray: [goalResponse.id])
+            
+            do {
+                let existingGoals = try managedObjectContext.fetch(fetchRequest)
+                
+                let goal: Goal
+                if let existingGoal = existingGoals.first {
+                    goal = existingGoal
+                } else {
+                    goal = Goal(context: managedObjectContext)
+                }
+                
+                goal.update(response: goalResponse, context: managedObjectContext)
+                
+                if let challengeResponses = goalResponse.suggestedChallenges {
+                    for challengeResponse in challengeResponses {
+                        challenges.handleChallengeResponse(challengeResponse, linkedGoal: goal, managedObjectContext: managedObjectContext)
+                    }
+                }
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+            
             do {
                 try managedObjectContext.save()
             } catch let error as NSError {
@@ -286,7 +311,61 @@ public class Goals: CachedObjects, ResponseHandler {
             goalLock.unlock()
         }
         
-        updateObjectsWithResponse(type: Goal.self, objectsResponse: goalsResponse, primaryKey: #keyPath(Goal.goalID), linkedKeys: [], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        // Sort by ID
+        let sortedGoalResponses = goalsResponse.sorted(by: { (responseA: APIUniqueResponse, responseB: APIUniqueResponse) -> Bool in
+            responseB.id > responseA.id
+        })
+        
+        // Build id list predicate
+        let goalIDs = sortedGoalResponses.map { $0.id }
+        
+        managedObjectContext.performAndWait {
+            // Fetch existing goals for updating
+            let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: #keyPath(Goal.goalID) + " IN %@", argumentArray: [goalIDs])
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Goal.goalID), ascending: true)]
+            
+            do {
+                let existingGoals = try managedObjectContext.fetch(fetchRequest)
+                
+                var index = 0
+                
+                for goalResponse in sortedGoalResponses {
+                    var goal: Goal
+                    
+                    if index < existingGoals.count, existingGoals[index].primaryID == goalResponse.id {
+                        goal = existingGoals[index]
+                        index += 1
+                    } else {
+                        goal = Goal(context: managedObjectContext)
+                    }
+                    
+                    goal.update(response: goalResponse, context: managedObjectContext)
+                    
+                    if let challengeResponses = goalResponse.suggestedChallenges {
+                        for challengeResponse in challengeResponses {
+                            challenges.handleChallengeResponse(challengeResponse, linkedGoal: goal, managedObjectContext: managedObjectContext)
+                        }
+                    }
+                }
+                
+                // Fetch and delete any leftovers
+                let deleteRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
+                deleteRequest.predicate = NSPredicate(format: "NOT " + #keyPath(Goal.goalID) + " IN %@", argumentArray: [goalIDs])
+                
+                do {
+                    let deleteGoals = try managedObjectContext.fetch(deleteRequest)
+                    
+                    for deleteGoal in deleteGoals {
+                        managedObjectContext.delete(deleteGoal)
+                    }
+                } catch let fetchError {
+                    Log.error(fetchError.localizedDescription)
+                }
+            } catch let fetchError {
+                Log.error(fetchError.localizedDescription)
+            }
+        }
         
         managedObjectContext.performAndWait {
             do {

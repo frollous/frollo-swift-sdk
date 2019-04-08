@@ -36,7 +36,26 @@ extension Goal {
     @NSManaged public var smallLogoURLString: String?
     @NSManaged public var sourceRawValue: String
     @NSManaged public var startedCount: Int64
+    @NSManaged public var suggestedChallenges: NSSet?
     @NSManaged public var userGoals: NSSet?
+    
+}
+
+// MARK: Generated accessors for suggestedChallenges
+
+extension Goal {
+    
+    @objc(addSuggestedChallengesObject:)
+    @NSManaged public func addToSuggestedChallenges(_ value: Challenge)
+    
+    @objc(removeSuggestedChallengesObject:)
+    @NSManaged public func removeFromSuggestedChallenges(_ value: Challenge)
+    
+    @objc(addSuggestedChallenges:)
+    @NSManaged public func addToSuggestedChallenges(_ values: NSSet)
+    
+    @objc(removeSuggestedChallenges:)
+    @NSManaged public func removeFromSuggestedChallenges(_ values: NSSet)
     
 }
 
