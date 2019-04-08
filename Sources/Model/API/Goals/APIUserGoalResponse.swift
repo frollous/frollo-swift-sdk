@@ -41,7 +41,7 @@ struct APIUserGoalResponse: APIUniqueResponse, Codable {
     let challengeEndDate: String
     let currency: String
     let currentSavedAmount: Int64
-    let currentTargetAmount: Int64
+    let currentTargetAmount: Int64?
     let estimatedEndDate: String
     let goalID: Int64
     let interestRate: String

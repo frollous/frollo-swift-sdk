@@ -109,7 +109,6 @@ public class UserGoal: NSManagedObject, UniqueManagedObject {
         challengeEndDateString = response.challengeEndDate
         currency = response.currency
         currentSavedAmount = Decimal(response.currentSavedAmount) as NSDecimalNumber
-        currentTargetAmount = Decimal(response.currentTargetAmount) as NSDecimalNumber
         endDateString = response.baseEndDate
         estimatedEndDateString = response.estimatedEndDate
         interestRate = NSDecimalNumber(string: response.interestRate)
@@ -118,6 +117,10 @@ public class UserGoal: NSManagedObject, UniqueManagedObject {
         startDateString = response.startDate
         status = response.status
         targetAmount = Decimal(response.targetAmount) as NSDecimalNumber
+        
+        if let currentTargetAmountRawValue = response.currentTargetAmount {
+            currentTargetAmount = Decimal(currentTargetAmountRawValue) as NSDecimalNumber
+        }
     }
     
 }
