@@ -251,7 +251,8 @@ public class Goals: CachedObjects, ResponseHandler {
         managedObjectContext.performAndWait {
             do {
                 try managedObjectContext.save()
-            } catch {
+            } catch let error as NSError {
+                Log.debug(error.debugDescription)
                 Log.error(error.localizedDescription)
             }
         }
@@ -271,7 +272,8 @@ public class Goals: CachedObjects, ResponseHandler {
         managedObjectContext.performAndWait {
             do {
                 try managedObjectContext.save()
-            } catch {
+            } catch let error as NSError {
+                Log.debug(error.debugDescription)
                 Log.error(error.localizedDescription)
             }
         }
@@ -289,7 +291,8 @@ public class Goals: CachedObjects, ResponseHandler {
         managedObjectContext.performAndWait {
             do {
                 try managedObjectContext.save()
-            } catch {
+            } catch let error as NSError {
+                Log.debug(error.debugDescription)
                 Log.error(error.localizedDescription)
             }
         }
@@ -307,7 +310,8 @@ public class Goals: CachedObjects, ResponseHandler {
         managedObjectContext.performAndWait {
             do {
                 try managedObjectContext.save()
-            } catch {
+            } catch let error as NSError {
+                Log.debug(error.debugDescription)
                 Log.error(error.localizedDescription)
             }
         }
@@ -329,7 +333,8 @@ public class Goals: CachedObjects, ResponseHandler {
         managedObjectContext.performAndWait {
             do {
                 try managedObjectContext.save()
-            } catch {
+            } catch let error as NSError {
+                Log.debug(error.debugDescription)
                 Log.error(error.localizedDescription)
             }
         }

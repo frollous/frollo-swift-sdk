@@ -17,7 +17,7 @@
 import XCTest
 @testable import FrolloSDK
 
-#if CORE && os(iOS)
+#if CORE && os(iOS) 
 import AppAuthCore
 #else
 import AppAuth
