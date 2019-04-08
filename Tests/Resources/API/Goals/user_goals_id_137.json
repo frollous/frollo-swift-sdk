@@ -13,5 +13,24 @@
 	"base_end_date": "2023-03-28",
 	"challenge_end_date": "2023-03-28",
 	"estimated_end_date": "2023-03-28",
-	"user_challenges": []
+	"user_challenges": [{
+		"user_challenge_id": 524,
+		"challenge_id": 16,
+		"status": "active",
+		"currency": "AUD",
+		"previous_amount": 254,
+		"target_amount": 203,
+		"current_spend_amount": 0,
+		"current_target_amount": 0,
+		"start_date": "2019-03-27",
+		"end_date": "2019-04-26",
+		"budgets": [{
+			"user_challenge_budget_id": 723,
+			"challenge_budget_id": 24,
+			"name": "Uber",
+			"previous_amount": 254,
+			"target_amount": 203,
+			"current_spend_amount": 0
+		}]
+	}]
 }

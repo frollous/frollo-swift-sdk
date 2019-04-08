@@ -471,6 +471,7 @@
         <attribute name="targetAmount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="userChallengeID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="challenge" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Challenge" inverseName="userChallenges" inverseEntity="Challenge" syncable="YES"/>
+        <relationship name="userGoal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserGoal" inverseName="userChallenges" inverseEntity="UserGoal" syncable="YES"/>
         <fetchIndex name="byUserChallengeIDIndex">
             <fetchIndexElement property="userChallengeID" type="Binary" order="ascending"/>
         </fetchIndex>
@@ -496,6 +497,7 @@
         <attribute name="targetAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="userGoalID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="goal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Goal" inverseName="userGoals" inverseEntity="Goal" syncable="YES"/>
+        <relationship name="userChallenges" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserChallenge" inverseName="userGoal" inverseEntity="UserChallenge" syncable="YES"/>
         <fetchIndex name="byUserGoalIDIndex">
             <fetchIndexElement property="userGoalID" type="Binary" order="ascending"/>
         </fetchIndex>
@@ -526,7 +528,7 @@
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="330"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="210"/>
         <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>
-        <element name="UserChallenge" positionX="-324" positionY="216" width="128" height="195"/>
-        <element name="UserGoal" positionX="-360" positionY="180" width="128" height="270"/>
+        <element name="UserChallenge" positionX="-324" positionY="216" width="128" height="210"/>
+        <element name="UserGoal" positionX="-360" positionY="180" width="128" height="285"/>
     </elements>
 </model>

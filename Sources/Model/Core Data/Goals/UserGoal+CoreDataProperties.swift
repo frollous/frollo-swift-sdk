@@ -39,5 +39,22 @@ extension UserGoal {
     @NSManaged public var challengeEndDateString: String
     @NSManaged public var estimatedEndDateString: String
     @NSManaged public var goal: Goal?
+    @NSManaged public var userChallenges: NSSet?
+    
+}
+
+extension UserGoal {
+    
+    @objc(addUserChallengesObject:)
+    @NSManaged public func addToUserChallenges(_ value: UserChallenge)
+    
+    @objc(removeUserChallengesObject:)
+    @NSManaged public func removeFromUserChallenges(_ value: UserChallenge)
+    
+    @objc(addUserChallenges:)
+    @NSManaged public func addToUserChallenges(_ values: NSSet)
+    
+    @objc(removeUserChallenges:)
+    @NSManaged public func removeFromUserChallenges(_ values: NSSet)
     
 }

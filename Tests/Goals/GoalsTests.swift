@@ -465,6 +465,9 @@ class GoalsTests: XCTestCase {
                         let fetchedUserGoals = try context.fetch(fetchRequest)
                         
                         XCTAssertEqual(fetchedUserGoals.count, 2)
+                        
+                        XCTAssertNotNil(fetchedUserGoals.first?.userChallenges)
+                        XCTAssertEqual(fetchedUserGoals.first?.userChallenges?.count, 2)
                     } catch {
                         XCTFail(error.localizedDescription)
                     }
@@ -514,6 +517,9 @@ class GoalsTests: XCTestCase {
                             let fetchedUserGoals = try context.fetch(fetchRequest)
                             
                             XCTAssertEqual(fetchedUserGoals.first?.userGoalID, 137)
+                            
+                            XCTAssertNotNil(fetchedUserGoals.first?.userChallenges)
+                            XCTAssertEqual(fetchedUserGoals.first?.userChallenges?.count, 1)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }

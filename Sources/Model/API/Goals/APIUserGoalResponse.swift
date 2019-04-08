@@ -33,6 +33,7 @@ struct APIUserGoalResponse: APIUniqueResponse, Codable {
         case startDate = "start_date"
         case status
         case targetAmount = "target_amount"
+        case userChallenges = "user_challenges"
     }
     
     var id: Int64
@@ -49,5 +50,6 @@ struct APIUserGoalResponse: APIUniqueResponse, Codable {
     let startDate: String
     let status: UserGoal.Status
     let targetAmount: Int64
+    let userChallenges: [APIUserChallengeResponse]?
     
 }

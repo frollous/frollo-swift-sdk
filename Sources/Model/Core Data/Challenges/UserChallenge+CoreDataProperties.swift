@@ -34,5 +34,6 @@ extension UserChallenge {
     @NSManaged public var startDateString: String
     @NSManaged public var endDateString: String
     @NSManaged public var challenge: Challenge?
+    @NSManaged public var userGoal: UserGoal?
     
 }

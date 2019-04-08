@@ -33,7 +33,8 @@ extension APIUserGoalResponse {
                                    startAmount: 3000,
                                    startDate: "2018-12-15",
                                    status: UserGoal.Status.allCases.randomElement()!,
-                                   targetAmount: 10000)
+                                   targetAmount: 10000,
+                                   userChallenges: [APIUserChallengeResponse.testCompleteData(), APIUserChallengeResponse.testCompleteData()])
     }
     
 }

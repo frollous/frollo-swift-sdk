@@ -289,9 +289,7 @@ public class Challenges: CachedObjects, ResponseHandler {
             } catch {
                 Log.error(error.localizedDescription)
             }
-        }
-        
-        managedObjectContext.performAndWait {
+            
             do {
                 try managedObjectContext.save()
             } catch {
@@ -318,16 +316,39 @@ public class Challenges: CachedObjects, ResponseHandler {
         }
     }
     
-    private func handleUserChallengeResponse(_ challengeResponse: APIUserChallengeResponse, managedObjectContext: NSManagedObjectContext) {
+    internal func handleUserChallengeResponse(_ userChallengeResponse: APIUserChallengeResponse, linkedUserGoal: UserGoal? = nil, managedObjectContext: NSManagedObjectContext) {
         userChallengeLock.lock()
         
         defer {
             userChallengeLock.unlock()
         }
         
-        updateObjectWithResponse(type: UserChallenge.self, objectResponse: challengeResponse, primaryKey: #keyPath(UserChallenge.userChallengeID), managedObjectContext: managedObjectContext)
+        updateObjectWithResponse(type: UserChallenge.self, objectResponse: userChallengeResponse, primaryKey: #keyPath(UserChallenge.userChallengeID), managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
+            // Fetch existing providers for updating
+            let fetchRequest: NSFetchRequest<UserChallenge> = UserChallenge.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: #keyPath(UserChallenge.userChallengeID) + " == %ld", argumentArray: [userChallengeResponse.id])
+            
+            do {
+                let existingObjects = try managedObjectContext.fetch(fetchRequest)
+                
+                let object: UserChallenge
+                if let existingObject = existingObjects.first {
+                    object = existingObject
+                } else {
+                    object = UserChallenge(context: managedObjectContext)
+                }
+                
+                object.update(response: userChallengeResponse, context: managedObjectContext)
+                
+                if let userGoal = linkedUserGoal {
+                    object.userGoal = userGoal
+                }
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+            
             do {
                 try managedObjectContext.save()
             } catch {
