@@ -19,8 +19,6 @@ import Foundation
 
 #if os(iOS) && CORE
 import AppAuthCore
-#elseif os(tvOS)
-import AppAUth
 #else
 import AppAuth
 #endif
