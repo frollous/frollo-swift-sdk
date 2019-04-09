@@ -34,7 +34,7 @@ enum GoalsEndpoint: Endpoint {
             case .goals:
                 return "goals"
             case .userGoal(let userGoalID):
-                return "goals/user" + String(userGoalID)
+                return "goals/user/" + String(userGoalID)
             case .userGoals:
                 return "goals/user"
         }
