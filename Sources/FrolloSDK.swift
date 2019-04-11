@@ -286,6 +286,8 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         if _database.needsMigration() {
             return _database.migrate { error in
                 if let migrationError = error {
+                    self._database.destroyPersistentStore()
+                    
                     completion(.failure(migrationError))
                 } else {
                     self._database.setup { error in
