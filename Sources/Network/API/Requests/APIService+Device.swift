@@ -20,7 +20,7 @@ import Alamofire
 
 extension APIService {
     
-    internal func createLog(request: APILogRequest, completion: @escaping NetworkCompletion) {
+    internal func createLog(request: APIDeviceLogRequest, completion: @escaping NetworkCompletion) {
         requestQueue.async {
             let url = URL(string: DeviceEndpoint.log.path, relativeTo: self.serverURL)!
             

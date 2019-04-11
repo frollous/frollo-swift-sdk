@@ -454,7 +454,7 @@
 		016097F0210EA27E0034E857 /* Keychain+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097ED210EA27E0034E857 /* Keychain+Test.swift */; };
 		016097F5210EE2BB0034E857 /* APIProviderResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097F4210EE2BA0034E857 /* APIProviderResponse.swift */; };
 		016097F8210EE3300034E857 /* Provider+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097F6210EE3300034E857 /* Provider+CoreDataClass.swift */; };
-		01616B0C2186BFD5003EF2D0 /* APILogRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616B0B2186BFD5003EF2D0 /* APILogRequest.swift */; };
+		01616B0C2186BFD5003EF2D0 /* APIDeviceLogRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616B0B2186BFD5003EF2D0 /* APIDeviceLogRequest.swift */; };
 		01616B0E2186C4E8003EF2D0 /* NetworkLoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616B0D2186C4E8003EF2D0 /* NetworkLoggerTests.swift */; };
 		01616B0F2186C4E8003EF2D0 /* NetworkLoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616B0D2186C4E8003EF2D0 /* NetworkLoggerTests.swift */; };
 		01616B102186C4E8003EF2D0 /* NetworkLoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616B0D2186C4E8003EF2D0 /* NetworkLoggerTests.swift */; };
@@ -757,7 +757,7 @@
 		01E5BEF52227A475003D85FD /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B0425216EC785008C34D7 /* Date.swift */; };
 		01E5BEF62227A475003D85FD /* AccountRefreshStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013A32AE21127A3600B0590B /* AccountRefreshStatus.swift */; };
 		01E5BEF72227A475003D85FD /* Merchant+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483BB4211967A500D0DA87 /* Merchant+CoreDataClass.swift */; };
-		01E5BEF82227A475003D85FD /* APILogRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616B0B2186BFD5003EF2D0 /* APILogRequest.swift */; };
+		01E5BEF82227A475003D85FD /* APIDeviceLogRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616B0B2186BFD5003EF2D0 /* APIDeviceLogRequest.swift */; };
 		01E5BEF92227A475003D85FD /* UserEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B7320F81EA8005A7D0C /* UserEndpoint.swift */; };
 		01E5BEFA2227A475003D85FD /* LoginFormError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E837592149F08100A50E15 /* LoginFormError.swift */; };
 		01E5BEFB2227A475003D85FD /* PublicKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E46D2190F3BD002CC3BB /* PublicKeys.swift */; };
@@ -1242,7 +1242,7 @@
 		016097ED210EA27E0034E857 /* Keychain+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Keychain+Test.swift"; sourceTree = "<group>"; };
 		016097F4210EE2BA0034E857 /* APIProviderResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProviderResponse.swift; sourceTree = "<group>"; };
 		016097F6210EE3300034E857 /* Provider+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Provider+CoreDataClass.swift"; sourceTree = "<group>"; };
-		01616B0B2186BFD5003EF2D0 /* APILogRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APILogRequest.swift; sourceTree = "<group>"; };
+		01616B0B2186BFD5003EF2D0 /* APIDeviceLogRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIDeviceLogRequest.swift; sourceTree = "<group>"; };
 		01616B0D2186C4E8003EF2D0 /* NetworkLoggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLoggerTests.swift; sourceTree = "<group>"; };
 		016DD0A320EF365100F41919 /* APIErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorTests.swift; sourceTree = "<group>"; };
 		01704F5721FAD13D00666DAE /* ReportAccountBalance+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportAccountBalance+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -1839,7 +1839,7 @@
 			isa = PBXGroup;
 			children = (
 				011F813A219CECA200A1495F /* APIDeviceUpdateRequest.swift */,
-				01616B0B2186BFD5003EF2D0 /* APILogRequest.swift */,
+				01616B0B2186BFD5003EF2D0 /* APIDeviceLogRequest.swift */,
 				01F220E220FEAC7600C70B00 /* APITokenResponse.swift */,
 			);
 			path = Device;
@@ -3456,7 +3456,7 @@
 				018B0426216EC785008C34D7 /* Date.swift in Sources */,
 				013A32AF21127A3600B0590B /* AccountRefreshStatus.swift in Sources */,
 				01483BB6211967A500D0DA87 /* Merchant+CoreDataClass.swift in Sources */,
-				01616B0C2186BFD5003EF2D0 /* APILogRequest.swift in Sources */,
+				01616B0C2186BFD5003EF2D0 /* APIDeviceLogRequest.swift in Sources */,
 				01874B7420F81EA8005A7D0C /* UserEndpoint.swift in Sources */,
 				01E8375A2149F08100A50E15 /* LoginFormError.swift in Sources */,
 				0159E46E2190F3BD002CC3BB /* PublicKeys.swift in Sources */,
@@ -3939,7 +3939,7 @@
 				01E5BEF52227A475003D85FD /* Date.swift in Sources */,
 				01E5BEF62227A475003D85FD /* AccountRefreshStatus.swift in Sources */,
 				01E5BEF72227A475003D85FD /* Merchant+CoreDataClass.swift in Sources */,
-				01E5BEF82227A475003D85FD /* APILogRequest.swift in Sources */,
+				01E5BEF82227A475003D85FD /* APIDeviceLogRequest.swift in Sources */,
 				01E5BEF92227A475003D85FD /* UserEndpoint.swift in Sources */,
 				01E5BEFA2227A475003D85FD /* LoginFormError.swift in Sources */,
 				01E5BEFB2227A475003D85FD /* PublicKeys.swift in Sources */,
