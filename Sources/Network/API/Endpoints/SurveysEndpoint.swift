@@ -22,13 +22,17 @@ internal enum SurveysEndpoint: Endpoint {
         return urlPath()
     }
     
-    case survey(key: String)
+    case survey(key: String, latest: Bool)
     case surveys
     
     private func urlPath() -> String {
         switch self {
-            case .survey(let key):
-                return "user/surveys/" + String(key)
+            case .survey(let key, let latest):
+                if latest {
+                    return "user/surveys/" + String(key) + String("?latest=true")
+                } else {
+                    return "user/surveys/" + String(key)
+                }
             case .surveys:
                 return "user/surveys"
         }

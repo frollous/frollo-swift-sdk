@@ -42,7 +42,7 @@ class SurveysTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + SurveysEndpoint.survey(key: surveyKey).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + SurveysEndpoint.survey(key: surveyKey, latest: false).path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "survey_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -53,7 +53,7 @@ class SurveysTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let surveys = Surveys(service: service)
-        surveys.fetchSurvey(surveyKey: surveyKey, completion: { (result) in
+        surveys.fetchSurvey(surveyKey: surveyKey, latest: true, completion: { (result) in
             switch result {
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -66,6 +66,7 @@ class SurveysTests: XCTestCase {
             }
             expectation1.fulfill()
         })
+        
         
         wait(for: [expectation1], timeout: 3.0)
         OHHTTPStubs.removeAllStubs()
