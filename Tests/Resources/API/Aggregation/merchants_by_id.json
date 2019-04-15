@@ -1,30 +1,12 @@
 [{
-	"id": 22,
-	"name": "Blooms The Chemist",
+	"id": 238,
+	"name": "The Occidental Hotel",
 	"merchant_type": "retailer",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/22/original/b92916c3b708b802e38072ee76523b14_d735b04e00161f6a3025a40cd770783502ffda0c3409684663d6c1267d24d524.png?1519084393",
-	"small_logo_revision": 1
+	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/238/original/occidental.png?1519084243",
+	"small_logo_revision": 2
 }, {
-	"id": 1,
-	"name": "Sportsbet Pty Ltd",
-	"merchant_type": "retailer",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/30/original/sportsbet_square_bigger.png?1519084410",
-	"small_logo_revision": 1
-}, {
-	"id": 31,
-	"name": "PayPal",
-	"merchant_type": "retailer",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/31/original/paypal_2014_logo_detail.png?1519084260",
-	"small_logo_revision": 3
-}, {
-	"id": 106,
-	"name": "Menulog Pty Ltd",
-	"merchant_type": "retailer",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/106/original/Screen_Shot_2017-02-17_at_12.48.16_pm.png?1519084556",
-	"small_logo_revision": 1
-}, {
-	"id": 691,
-	"name": "MYER",
+	"id": 686,
+	"name": "Rent",
 	"merchant_type": "retailer",
 	"small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
 	"small_logo_revision": 0

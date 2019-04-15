@@ -158,7 +158,7 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
         budgetCategory = response.budgetCategory
         currency = response.amount.currency
         included = response.included
-        merchantID = response.merchantID
+        merchantID = response.merchant.id
         memo = response.memo
         originalDescription = response.description.original
         postDateString = response.postDate
@@ -167,6 +167,28 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
         transactionCategoryID = response.categoryID
         transactionDateString = response.transactionDate
         userDescription = response.description.user
+        
+        // Only update info if present to avoid losing information when fetching on different APIs
+        if let merchantPhone = response.merchant.phone {
+            phone = merchantPhone
+        }
+        
+        if let merchantWebsite = response.merchant.website {
+            website = merchantWebsite
+        }
+        
+        if let location = response.merchant.location {
+            addressLine1 = location.line1
+            addressLine2 = location.line2
+            addressLine3 = location.line3
+            country = location.country
+            formattedAddress = location.formattedAddress
+            latitude = location.latitude ?? Double.nan
+            longitude = location.longitude ?? Double.nan
+            postcode = location.postcode
+            state = location.state
+            suburb = location.suburb
+        }
     }
     
     internal func updateRequest() -> APITransactionUpdateRequest {

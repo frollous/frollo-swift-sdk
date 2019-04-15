@@ -319,6 +319,14 @@ public class Database {
         } catch {
             Log.error(error.localizedDescription)
         }
+        
+        // Fallback cleanup
+        let databaseSHMFileURL = storeURL.deletingPathExtension().appendingPathExtension("sqlite-shm")
+        let databaseWALFileURL = storeURL.deletingPathExtension().appendingPathExtension("sqlite-wal")
+        let databaseFiles = [storeURL, databaseSHMFileURL, databaseWALFileURL]
+        for file in databaseFiles {
+            try? FileManager.default.removeItem(at: file)
+        }
     }
     
     // MARK: - Managed Object Contexts

@@ -26,18 +26,35 @@ extension APITransactionResponse {
                                       simple: UUID().uuidString,
                                       user: UUID().uuidString)
         
-        return APITransactionResponse(id: Int64(arc4random()),
-                                      accountID: Int64(arc4random()),
+        let location = Merchant.Location(country: String.randomString(range: 1...50),
+                                         formattedAddress: String.randomString(range: 1...100),
+                                         latitude: Double.random(in: 0...90),
+                                         line1: String.randomString(range: 1...50),
+                                         line2: String.randomString(range: 1...50),
+                                         line3: String.randomString(range: 1...50),
+                                         longitude: Double.random(in: 0...90),
+                                         postcode: String.randomString(length: 4),
+                                         state: String.randomString(range: 1...50),
+                                         suburb: String.randomString(range: 1...50))
+        
+        let merchant = Merchant(id: Int64.random(in: 1...Int64.max),
+                                location: location,
+                                name: String.randomString(range: 1...50),
+                                phone: String.randomString(length: 9),
+                                website: String.randomString(range: 10...100))
+        
+        return APITransactionResponse(id: Int64.random(in: 1...Int64.max),
+                                      accountID: Int64.random(in: 1...Int64.max),
                                       amount: amount,
                                       baseType: .debit,
-                                      billID: Int64(arc4random()),
-                                      billPaymentID: Int64(arc4random()),
+                                      billID: Int64.random(in: 1...Int64.max),
+                                      billPaymentID: Int64.random(in: 1...Int64.max),
                                       budgetCategory: .living,
-                                      categoryID: Int64(arc4random()),
+                                      categoryID:Int64.random(in: 1...Int64.max),
                                       description: description,
                                       included: true,
                                       memo: UUID().uuidString,
-                                      merchantID: Int64(arc4random()),
+                                      merchant: merchant,
                                       postDate: "2018-08-05",
                                       status: .posted,
                                       transactionDate: "2018-08-03")
@@ -50,18 +67,24 @@ extension APITransactionResponse {
                                       simple: nil,
                                       user: nil)
         
-        return APITransactionResponse(id: Int64(arc4random()),
-                                      accountID: Int64(arc4random()),
+        let merchant = Merchant(id: Int64.random(in: 1...Int64.max),
+                                location: nil,
+                                name: String.randomString(range: 5...50),
+                                phone: nil,
+                                website: nil)
+        
+        return APITransactionResponse(id: Int64.random(in: 1...Int64.max),
+                                      accountID: Int64.random(in: 1...Int64.max),
                                       amount: amount,
                                       baseType: .debit,
                                       billID: nil,
                                       billPaymentID: nil,
                                       budgetCategory: .living,
-                                      categoryID: Int64(arc4random()),
+                                      categoryID: Int64.random(in: 1...Int64.max),
                                       description: description,
                                       included: true,
                                       memo: nil,
-                                      merchantID: Int64(arc4random()),
+                                      merchant: merchant,
                                       postDate: nil,
                                       status: .posted,
                                       transactionDate: "2018-08-03")

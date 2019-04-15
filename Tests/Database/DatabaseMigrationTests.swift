@@ -36,7 +36,7 @@ class DatabaseMigrationTests: XCTestCase {
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(Progress.totalUnitCount), let progress = object as? Progress {
-            XCTAssertEqual(progress.totalUnitCount, 3)
+            XCTAssertEqual(progress.totalUnitCount, 4)
             
             progress.removeObserver(self, forKeyPath: #keyPath(Progress.totalUnitCount))
         }
@@ -44,8 +44,8 @@ class DatabaseMigrationTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func populateTestDataNamed(name: String) -> URL {
-        let tempFolder = tempFolderPath()
+    private func populateTestDataNamed(name: String, path: URL? = nil) -> URL {
+        let tempFolder = path ?? tempFolderPath()
         
         let databaseFileURL = Bundle(for: type(of: self)).url(forResource: name, withExtension: "sqlite")!
         let databaseSHMFileURL = databaseFileURL.deletingPathExtension().appendingPathExtension("sqlite-shm")
@@ -178,6 +178,34 @@ class DatabaseMigrationTests: XCTestCase {
                 
                 expectation1.fulfill()
             })
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+    }
+    
+    func testDatabaseResetsIfMigrationFails() {
+        let expectation1 = XCTestExpectation(description: "Migration Completion")
+        
+        try? FileManager.default.createDirectory(at: FrolloSDK.dataFolderURL, withIntermediateDirectories: true, attributes: nil)
+        _ = populateTestDataNamed(name: fakeTestDataModelName, path: FrolloSDK.dataFolderURL)
+        
+        sleep(1)
+        
+        var config = FrolloSDKConfiguration.testConfig()
+        config.publicKeyPinningEnabled = false
+        
+        let sdk = FrolloSDK()
+        sdk.setup(configuration: config) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertNotNil(error)
+                    
+                    XCTAssertFalse(FileManager.default.fileExists(atPath: sdk._database.storeURL.path))
+                        
+                    expectation1.fulfill()
+                case .success:
+                    XCTFail("Invalid model should fail")
+            }
         }
         
         wait(for: [expectation1], timeout: 5.0)
