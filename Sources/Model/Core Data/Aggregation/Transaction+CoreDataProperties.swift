@@ -32,6 +32,15 @@ extension Transaction {
     /// Parent account ID
     @NSManaged public var accountID: Int64
     
+    /// Address of the merchant line 1
+    @NSManaged public var addressLine1: String?
+    
+    /// Address of the merchant line 2
+    @NSManaged public var addressLine2: String?
+    
+    /// Address of the merchant line 3
+    @NSManaged public var addressLine3: String?
+    
     /// Amount the transaction is for
     @NSManaged public var amount: NSDecimalNumber
     
@@ -41,11 +50,23 @@ extension Transaction {
     /// Raw value of the budget category. Only use in predicates
     @NSManaged public var budgetCategoryRawValue: String?
     
+    /// Country of the merchant
+    @NSManaged public var country: String?
+    
     /// Currency ISO code of the transaction
     @NSManaged public var currency: String
     
+    /// Address of the merchant formatted for display
+    @NSManaged public var formattedAddress: String?
+    
     /// Included in budget
     @NSManaged public var included: Bool
+    
+    /// Latitude of the merchant location
+    @NSManaged public var latitude: Double
+    
+    /// Longitude of the merchant location
+    @NSManaged public var longitude: Double
     
     /// Memo or notes added to the transaction (optional)
     @NSManaged public var memo: String?
@@ -56,14 +77,25 @@ extension Transaction {
     /// Original description of the transaction
     @NSManaged public var originalDescription: String
     
+    /// Phone number of the merchant
+    @NSManaged public var phone: String?
+    
+    /// Postcode of the merchant
+    @NSManaged public var postcode: String?
+    
     /// Raw value of the post date. Use only in predicates (optional)
     @NSManaged public var postDateString: String?
     
     /// Simplified description of the transaction (optional)
     @NSManaged public var simpleDescription: String?
     
+    @NSManaged public var state: String?
+    
     /// Raw value of the transaction status. Use only in predicates
     @NSManaged public var statusRawValue: String
+    
+    /// Suburb of the merchant
+    @NSManaged public var suburb: String?
     
     /// Transaction Category ID related to the transaction
     @NSManaged public var transactionCategoryID: Int64
@@ -85,5 +117,8 @@ extension Transaction {
     
     /// Related transaction category
     @NSManaged public var transactionCategory: TransactionCategory?
+    
+    /// Website of the merchant
+    @NSManaged public var website: String?
     
 }

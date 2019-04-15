@@ -1,0 +1,39 @@
+{
+	"id": 194630,
+	"account_id": 939,
+	"base_type": "debit",
+	"status": "posted",
+	"included": true,
+	"transaction_date": "2019-02-14",
+	"post_date": "2018-07-29",
+	"amount": {
+		"amount": "-59.00",
+		"currency": "AUD"
+	},
+	"description": {
+		"original": "THE OCCIDENTAL HOTEL SYDNEY",
+		"simple": "The Occidental Hotel",
+		"user": "Occi"
+	},
+	"budget_category": "lifestyle",
+	"category_id": 77,
+	"memo": "Remind me",
+	"merchant": {
+		"id": 238,
+		"name": "The Occidental Hotel",
+		"phone": "(02) 9299 2531",
+		"website": "https://www.theoccidental.com",
+		"location": {
+      		"formatted_address": "10 Falcon St, Crows Nest NSW 2065, Australia",
+      		"line_1": "10 Falcon St",
+      		"line_2": "Suite 2 Level 3",
+      		"line_3": "Building 2 MLC",
+      		"suburb": "Crows Nest",
+      		"state": "NSW",
+      		"postcode": "2065",
+      		"country": "Australia",
+      		"latitude": -33.827499,
+      		"longitude": 151.201699
+    	}
+	}
+}
