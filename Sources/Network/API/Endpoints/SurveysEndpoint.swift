@@ -18,21 +18,21 @@ import Foundation
 
 internal enum SurveysEndpoint: Endpoint {
     
+    enum QueryParameters: String, Codable {
+        case latest
+    }
+    
     internal var path: String {
         return urlPath()
     }
     
-    case survey(key: String, latest: Bool)
+    case survey(key: String)
     case surveys
     
     private func urlPath() -> String {
         switch self {
-            case .survey(let key, let latest):
-                if latest {
-                    return "user/surveys/" + String(key) + String("?latest=true")
-                } else {
-                    return "user/surveys/" + String(key)
-                }
+            case .survey(let key):
+                return "user/surveys/" + String(key)
             case .surveys:
                 return "user/surveys"
         }
