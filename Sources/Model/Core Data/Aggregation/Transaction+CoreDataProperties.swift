@@ -89,6 +89,7 @@ extension Transaction {
     /// Simplified description of the transaction (optional)
     @NSManaged public var simpleDescription: String?
     
+    /// State of the merchant
     @NSManaged public var state: String?
     
     /// Raw value of the transaction status. Use only in predicates
