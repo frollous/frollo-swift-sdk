@@ -29,7 +29,7 @@ extension APIService {
                 parameters = [SurveysEndpoint.QueryParameters.latest.rawValue: latest]
             }
             
-            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: Survey.self, errorType: APIError.self, response: response, completion: completion)
                 
             }
