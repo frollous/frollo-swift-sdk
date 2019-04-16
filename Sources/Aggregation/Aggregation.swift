@@ -1412,7 +1412,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         updateObjectWithResponse(type: Transaction.self, objectResponse: transactionResponse, primaryKey: #keyPath(Transaction.transactionID), managedObjectContext: managedObjectContext)
         
         linkingAccountIDs.insert(transactionResponse.accountID)
-        linkingMerchantIDs.insert(transactionResponse.merchantID)
+        linkingMerchantIDs.insert(transactionResponse.merchant.id)
         linkingTransactionCategoryIDs.insert(transactionResponse.categoryID)
         
         managedObjectContext.performAndWait {

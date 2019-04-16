@@ -4,7 +4,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": false,
-	"transaction_date": "2019-01-06",
+	"transaction_date": "2019-02-14",
 	"post_date": "2018-07-29",
 	"amount": {
 		"amount": "-59.00",
@@ -16,14 +16,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 238
+	"merchant": {
+		"id": 238,
+		"name": "The Occidental Hotel",
+		"phone": "(02) 9299 2531",
+		"website": "https://www.theoccidental.com"
+	}
 }, {
 	"id": 194629,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": false,
-	"transaction_date": "2019-01-06",
+	"transaction_date": "2019-02-14",
 	"post_date": "2018-07-29",
 	"amount": {
 		"amount": "-40.00",
@@ -35,14 +40,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 238
+	"merchant": {
+		"id": 238,
+		"name": "The Occidental Hotel",
+		"phone": "(02) 9299 2531",
+		"website": "https://www.theoccidental.com"
+	}
 }, {
 	"id": 194500,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-05",
+	"transaction_date": "2019-02-13",
 	"post_date": "2018-07-28",
 	"amount": {
 		"amount": "-23.00",
@@ -54,14 +64,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 23
+	"merchant": {
+		"id": 23,
+		"name": "IGA grocery stores",
+		"phone": "(03) 5257 3127",
+		"website": "https://www.iga.com.au"
+	}
 }, {
 	"id": 99650,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-05",
+	"transaction_date": "2019-02-13",
 	"post_date": "2018-01-02",
 	"amount": {
 		"amount": "-100.00",
@@ -73,14 +88,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 80,
-	"merchant_id": 24
+	"merchant": {
+		"id": 24,
+		"name": "Cash Withdrawal"
+	}
 }, {
 	"id": 194560,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-04",
+	"transaction_date": "2019-02-12",
 	"post_date": "2018-07-27",
 	"amount": {
 		"amount": "-20.00",
@@ -92,14 +110,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 44
+	"merchant": {
+		"id": 44,
+		"name": "Coles",
+		"phone": "(02) 8912 3400",
+		"website": "https://www.coles.com.au"
+	}
 }, {
 	"id": 194072,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-04",
+	"transaction_date": "2019-02-12",
 	"post_date": "2018-07-27",
 	"amount": {
 		"amount": "-185.00",
@@ -111,16 +134,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 76,
-	"merchant_id": 1,
-	"bill_id": 1251,
-	"bill_payment_id": 8007
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 99604,
 	"account_id": 542,
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-04",
+	"transaction_date": "2019-02-12",
 	"post_date": "2018-01-01",
 	"amount": {
 		"amount": "2700.00",
@@ -132,14 +156,17 @@
 	},
 	"budget_category": "income",
 	"category_id": 84,
-	"merchant_id": 1
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 99584,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-04",
+	"transaction_date": "2019-02-12",
 	"post_date": "2018-01-01",
 	"amount": {
 		"amount": "-185.00",
@@ -151,16 +178,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 76,
-	"merchant_id": 1,
-	"bill_id": 1252,
-	"bill_payment_id": 8034
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	},
+	"bill_id": 1306,
+	"bill_payment_id": 8134
 }, {
 	"id": 99565,
 	"account_id": 545,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-04",
+	"transaction_date": "2019-02-12",
 	"post_date": "2018-01-01",
 	"amount": {
 		"amount": "-6.00",
@@ -171,14 +201,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 61,
-	"merchant_id": 1
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 99564,
 	"account_id": 545,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-04",
+	"transaction_date": "2019-02-12",
 	"post_date": "2018-01-01",
 	"amount": {
 		"amount": "-20.37",
@@ -189,14 +222,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 69,
-	"merchant_id": 1
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 99563,
 	"account_id": 545,
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-04",
+	"transaction_date": "2019-02-12",
 	"post_date": "2018-01-01",
 	"amount": {
 		"amount": "3.82",
@@ -207,14 +243,17 @@
 	},
 	"budget_category": "goals",
 	"category_id": 92,
-	"merchant_id": 1
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 194430,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-03",
+	"transaction_date": "2019-02-11",
 	"post_date": "2018-07-26",
 	"amount": {
 		"amount": "-59.69",
@@ -226,14 +265,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 2
+	"merchant": {
+		"id": 2,
+		"name": "Woolworths",
+		"phone": "(02) 8565 9336",
+		"website": "https://www.woolworths.com.au"
+	}
 }, {
 	"id": 194291,
 	"account_id": 937,
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-03",
+	"transaction_date": "2019-02-11",
 	"post_date": "2018-07-26",
 	"amount": {
 		"amount": "100.00",
@@ -245,14 +289,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 83,
-	"merchant_id": 65
+	"merchant": {
+		"id": 65,
+		"name": "Direct Credit"
+	}
 }, {
 	"id": 99690,
 	"account_id": 542,
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-03",
+	"transaction_date": "2019-02-11",
 	"post_date": "2017-12-31",
 	"amount": {
 		"amount": "100.00",
@@ -264,14 +311,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 83,
-	"merchant_id": 65
+	"merchant": {
+		"id": 65,
+		"name": "Direct Credit"
+	}
 }, {
 	"id": 194197,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-02",
+	"transaction_date": "2019-02-10",
 	"post_date": "2018-07-25",
 	"amount": {
 		"amount": "-100.00",
@@ -283,14 +333,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 80,
-	"merchant_id": 24
+	"merchant": {
+		"id": 24,
+		"name": "Cash Withdrawal"
+	}
 }, {
 	"id": 99651,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-02",
+	"transaction_date": "2019-02-10",
 	"post_date": "2017-12-30",
 	"amount": {
 		"amount": "-20.00",
@@ -302,14 +355,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 80,
-	"merchant_id": 24
+	"merchant": {
+		"id": 24,
+		"name": "Cash Withdrawal"
+	}
 }, {
 	"id": 194908,
 	"account_id": 940,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-01",
+	"transaction_date": "2019-02-09",
 	"post_date": "2018-07-24",
 	"amount": {
 		"amount": "-6.00",
@@ -320,14 +376,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 79,
-	"merchant_id": 1
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 194907,
 	"account_id": 940,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-01",
+	"transaction_date": "2019-02-09",
 	"post_date": "2018-07-24",
 	"amount": {
 		"amount": "-20.37",
@@ -338,14 +397,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 69,
-	"merchant_id": 1
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 194906,
 	"account_id": 940,
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-01",
+	"transaction_date": "2019-02-09",
 	"post_date": "2018-07-24",
 	"amount": {
 		"amount": "3.82",
@@ -356,14 +418,17 @@
 	},
 	"budget_category": "goals",
 	"category_id": 92,
-	"merchant_id": 1
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 194375,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2019-01-01",
+	"transaction_date": "2019-02-09",
 	"post_date": "2018-07-24",
 	"amount": {
 		"amount": "-12.50",
@@ -375,14 +440,17 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 71,
-	"merchant_id": 31
+	"merchant": {
+		"id": 31,
+		"name": "PayPal"
+	}
 }, {
 	"id": 194789,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-31",
+	"transaction_date": "2019-02-08",
 	"post_date": "2018-07-23",
 	"amount": {
 		"amount": "-8.00",
@@ -394,14 +462,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 81
+	"merchant": {
+		"id": 81,
+		"name": "McDonald's",
+		"phone": "(02) 9550 4804",
+		"website": "https://www.mcdonalds.com.au"
+	}
 }, {
 	"id": 194431,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-31",
+	"transaction_date": "2019-02-08",
 	"post_date": "2018-07-23",
 	"amount": {
 		"amount": "-12.50",
@@ -413,14 +486,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 2
+	"merchant": {
+		"id": 2,
+		"name": "Woolworths",
+		"phone": "(02) 8565 9336",
+		"website": "https://www.woolworths.com.au"
+	}
 }, {
 	"id": 194339,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-31",
+	"transaction_date": "2019-02-08",
 	"post_date": "2018-07-23",
 	"amount": {
 		"amount": "-25.00",
@@ -432,90 +510,17 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 79,
-	"merchant_id": 148
-}, {
-	"id": 234868,
-	"account_id": 1157,
-	"base_type": "other",
-	"status": "posted",
-	"included": false,
-	"transaction_date": "2018-12-31",
-	"post_date": "2018-12-31",
-	"amount": {
-		"amount": "0.00",
-		"currency": "PNT"
-	},
-	"description": {
-		"original": "Data includes the history of previous credit applications; such as the type of credit, value requested and creditor’s name. This data is used by creditors to check for full disclosure of current debt, as well as infer capacity to repay future debt.",
-		"simple": "0 Credit Enquiries"
-	},
-	"budget_category": "income",
-	"category_id": 60,
-	"merchant_id": 1
-}, {
-	"id": 234869,
-	"account_id": 1157,
-	"base_type": "other",
-	"status": "posted",
-	"included": false,
-	"transaction_date": "2018-12-31",
-	"post_date": "2018-12-31",
-	"amount": {
-		"amount": "0.00",
-		"currency": "PNT"
-	},
-	"description": {
-		"original": "Data will stipulate debts that were unpaid for a period greater than 90 days. A Default logged with the credit bureau will state the type of debt, date, and debt status. Defaults marked as unpaid debts severely detriment a persons credit score.",
-		"simple": "0 Credit Defaults"
-	},
-	"budget_category": "income",
-	"category_id": 60,
-	"merchant_id": 1
-}, {
-	"id": 234870,
-	"account_id": 1157,
-	"base_type": "other",
-	"status": "posted",
-	"included": false,
-	"transaction_date": "2018-12-31",
-	"post_date": "2018-12-31",
-	"amount": {
-		"amount": "0.00",
-		"currency": "PNT"
-	},
-	"description": {
-		"original": "Data in relation to legal stipulations connected to a person. This includes director or proprietorships which may improve a credit score. Also includes any court judgements, bankruptcies and debt agreements, these severely detriment credit scores.",
-		"simple": "0 Public Records"
-	},
-	"budget_category": "income",
-	"category_id": 60,
-	"merchant_id": 1
-}, {
-	"id": 234871,
-	"account_id": 1157,
-	"base_type": "other",
-	"status": "posted",
-	"included": false,
-	"transaction_date": "2018-12-31",
-	"post_date": "2018-12-31",
-	"amount": {
-		"amount": "0.00",
-		"currency": "PNT"
-	},
-	"description": {
-		"original": "Data such as address, residential status, profession, employment history and other fields commonly entered in a credit application. These fields are used to categorise people’s attributes in order to assess a person’s consistency and character.",
-		"simple": "0 Social Factors"
-	},
-	"budget_category": "income",
-	"category_id": 60,
-	"merchant_id": 1
+	"merchant": {
+		"id": 148,
+		"name": "Charge/Fee"
+	}
 }, {
 	"id": 194790,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-30",
+	"transaction_date": "2019-02-07",
 	"post_date": "2018-07-22",
 	"amount": {
 		"amount": "-10.00",
@@ -527,14 +532,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 81
+	"merchant": {
+		"id": 81,
+		"name": "McDonald's",
+		"phone": "(02) 9550 4804",
+		"website": "https://www.mcdonalds.com.au"
+	}
 }, {
 	"id": 194198,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-30",
+	"transaction_date": "2019-02-07",
 	"post_date": "2018-07-22",
 	"amount": {
 		"amount": "-20.00",
@@ -546,14 +556,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 80,
-	"merchant_id": 24
+	"merchant": {
+		"id": 24,
+		"name": "Cash Withdrawal"
+	}
 }, {
 	"id": 99652,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-30",
+	"transaction_date": "2019-02-07",
 	"post_date": "2017-12-27",
 	"amount": {
 		"amount": "-20.00",
@@ -565,14 +578,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 80,
-	"merchant_id": 24
+	"merchant": {
+		"id": 24,
+		"name": "Cash Withdrawal"
+	}
 }, {
 	"id": 194791,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-29",
+	"transaction_date": "2019-02-06",
 	"post_date": "2018-07-21",
 	"amount": {
 		"amount": "-8.00",
@@ -584,14 +600,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 81
+	"merchant": {
+		"id": 81,
+		"name": "McDonald's",
+		"phone": "(02) 9550 4804",
+		"website": "https://www.mcdonalds.com.au"
+	}
 }, {
 	"id": 194631,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": false,
-	"transaction_date": "2018-12-29",
+	"transaction_date": "2019-02-06",
 	"post_date": "2018-07-21",
 	"amount": {
 		"amount": "-120.00",
@@ -603,14 +624,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 238
+	"merchant": {
+		"id": 238,
+		"name": "The Occidental Hotel",
+		"phone": "(02) 9299 2531",
+		"website": "https://www.theoccidental.com"
+	}
 }, {
 	"id": 194501,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-29",
+	"transaction_date": "2019-02-06",
 	"post_date": "2018-07-21",
 	"amount": {
 		"amount": "-7.95",
@@ -622,14 +648,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 23
+	"merchant": {
+		"id": 23,
+		"name": "IGA grocery stores",
+		"phone": "(03) 5257 3127",
+		"website": "https://www.iga.com.au"
+	}
 }, {
 	"id": 194366,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-29",
+	"transaction_date": "2019-02-06",
 	"post_date": "2018-07-21",
 	"amount": {
 		"amount": "-23.00",
@@ -641,14 +672,17 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 78,
-	"merchant_id": 204
+	"merchant": {
+		"id": 204,
+		"name": "Uber"
+	}
 }, {
 	"id": 194367,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-28",
+	"transaction_date": "2019-02-05",
 	"post_date": "2018-07-20",
 	"amount": {
 		"amount": "-27.00",
@@ -660,14 +694,17 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 78,
-	"merchant_id": 204
+	"merchant": {
+		"id": 204,
+		"name": "Uber"
+	}
 }, {
 	"id": 194073,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-28",
+	"transaction_date": "2019-02-05",
 	"post_date": "2018-07-20",
 	"amount": {
 		"amount": "-185.00",
@@ -679,16 +716,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 76,
-	"merchant_id": 1,
-	"bill_id": 1251,
-	"bill_payment_id": 8008
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 99585,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-28",
+	"transaction_date": "2019-02-05",
 	"post_date": "2017-12-25",
 	"amount": {
 		"amount": "-185.00",
@@ -700,16 +738,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 76,
-	"merchant_id": 1,
-	"bill_id": 1252,
-	"bill_payment_id": 8035
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	},
+	"bill_id": 1306,
+	"bill_payment_id": 8135
 }, {
 	"id": 194561,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-27",
+	"transaction_date": "2019-02-04",
 	"post_date": "2018-07-19",
 	"amount": {
 		"amount": "-24.50",
@@ -721,14 +762,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 44
+	"merchant": {
+		"id": 44,
+		"name": "Coles",
+		"phone": "(02) 8912 3400",
+		"website": "https://www.coles.com.au"
+	}
 }, {
 	"id": 194199,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-27",
+	"transaction_date": "2019-02-04",
 	"post_date": "2018-07-19",
 	"amount": {
 		"amount": "-20.00",
@@ -740,14 +786,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 80,
-	"merchant_id": 24
+	"merchant": {
+		"id": 24,
+		"name": "Cash Withdrawal"
+	}
 }, {
 	"id": 194632,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-26",
+	"transaction_date": "2019-02-03",
 	"post_date": "2018-07-18",
 	"amount": {
 		"amount": "-85.00",
@@ -759,14 +808,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 249
+	"merchant": {
+		"id": 249,
+		"name": "Burger Project",
+		"phone": "(02) 9259 5600",
+		"website": "https://www.burgerproject.com"
+	}
 }, {
 	"id": 194792,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-25",
+	"transaction_date": "2019-02-02",
 	"post_date": "2018-07-17",
 	"amount": {
 		"amount": "-8.00",
@@ -778,14 +832,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 81
+	"merchant": {
+		"id": 81,
+		"name": "McDonald's",
+		"phone": "(02) 9550 4804",
+		"website": "https://www.mcdonalds.com.au"
+	}
 }, {
 	"id": 194432,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-25",
+	"transaction_date": "2019-02-02",
 	"post_date": "2018-07-17",
 	"amount": {
 		"amount": "-15.95",
@@ -797,14 +856,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 2
+	"merchant": {
+		"id": 2,
+		"name": "Woolworths",
+		"phone": "(02) 8565 9336",
+		"website": "https://www.woolworths.com.au"
+	}
 }, {
 	"id": 194376,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-25",
+	"transaction_date": "2019-02-02",
 	"post_date": "2018-07-17",
 	"amount": {
 		"amount": "-15.95",
@@ -816,14 +880,17 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 71,
-	"merchant_id": 31
+	"merchant": {
+		"id": 31,
+		"name": "PayPal"
+	}
 }, {
 	"id": 99653,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-25",
+	"transaction_date": "2019-02-02",
 	"post_date": "2017-12-22",
 	"amount": {
 		"amount": "-20.00",
@@ -835,14 +902,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 80,
-	"merchant_id": 24
+	"merchant": {
+		"id": 24,
+		"name": "Cash Withdrawal"
+	}
 }, {
 	"id": 99617,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-25",
+	"transaction_date": "2019-02-02",
 	"post_date": "2017-12-22",
 	"amount": {
 		"amount": "-40.00",
@@ -854,14 +924,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 78,
-	"merchant_id": 41
+	"merchant": {
+		"id": 41,
+		"name": "Transport for NSW"
+	}
 }, {
 	"id": 194793,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-24",
+	"transaction_date": "2019-02-01",
 	"post_date": "2018-07-16",
 	"amount": {
 		"amount": "-8.00",
@@ -873,14 +946,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 81
+	"merchant": {
+		"id": 81,
+		"name": "McDonald's",
+		"phone": "(02) 9550 4804",
+		"website": "https://www.mcdonalds.com.au"
+	}
 }, {
 	"id": 194368,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-24",
+	"transaction_date": "2019-02-01",
 	"post_date": "2018-07-16",
 	"amount": {
 		"amount": "-33.00",
@@ -892,14 +970,17 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 78,
-	"merchant_id": 204
+	"merchant": {
+		"id": 204,
+		"name": "Uber"
+	}
 }, {
 	"id": 194794,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-23",
+	"transaction_date": "2019-01-31",
 	"post_date": "2018-07-15",
 	"amount": {
 		"amount": "-8.00",
@@ -911,14 +992,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 81
+	"merchant": {
+		"id": 81,
+		"name": "McDonald's",
+		"phone": "(02) 9550 4804",
+		"website": "https://www.mcdonalds.com.au"
+	}
 }, {
 	"id": 194733,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-23",
+	"transaction_date": "2019-01-31",
 	"post_date": "2018-07-15",
 	"amount": {
 		"amount": "-30.00",
@@ -930,14 +1016,19 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 68,
-	"merchant_id": 72
+	"merchant": {
+		"id": 72,
+		"name": "Bunnings",
+		"phone": "(02) 9462 0300",
+		"website": "https://www.bunnings.com.au"
+	}
 }, {
 	"id": 194502,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-23",
+	"transaction_date": "2019-01-31",
 	"post_date": "2018-07-15",
 	"amount": {
 		"amount": "-21.50",
@@ -949,14 +1040,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 23
+	"merchant": {
+		"id": 23,
+		"name": "IGA grocery stores",
+		"phone": "(03) 5257 3127",
+		"website": "https://www.iga.com.au"
+	}
 }, {
 	"id": 194369,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-23",
+	"transaction_date": "2019-01-31",
 	"post_date": "2018-07-15",
 	"amount": {
 		"amount": "-21.00",
@@ -968,14 +1064,17 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 78,
-	"merchant_id": 204
+	"merchant": {
+		"id": 204,
+		"name": "Uber"
+	}
 }, {
 	"id": 194634,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-22",
+	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
 	"amount": {
 		"amount": "-44.00",
@@ -987,14 +1086,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 248
+	"merchant": {
+		"id": 248,
+		"name": "The Tree House",
+		"phone": "(02) 8458 8980",
+		"website": "https://www.thetreehousehotel.com.au"
+	}
 }, {
 	"id": 194633,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-22",
+	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
 	"amount": {
 		"amount": "-22.00",
@@ -1006,14 +1110,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 248
+	"merchant": {
+		"id": 248,
+		"name": "The Tree House",
+		"phone": "(02) 8458 8980",
+		"website": "https://www.thetreehousehotel.com.au"
+	}
 }, {
 	"id": 194397,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-22",
+	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
 	"amount": {
 		"amount": "-11.99",
@@ -1025,14 +1134,17 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 64,
-	"merchant_id": 14
+	"merchant": {
+		"id": 14,
+		"name": "Apple Inc"
+	}
 }, {
 	"id": 194370,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-22",
+	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
 	"amount": {
 		"amount": "-46.00",
@@ -1044,14 +1156,17 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 78,
-	"merchant_id": 204
+	"merchant": {
+		"id": 204,
+		"name": "Uber"
+	}
 }, {
 	"id": 194200,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-22",
+	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
 	"amount": {
 		"amount": "-20.00",
@@ -1063,14 +1178,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 80,
-	"merchant_id": 24
+	"merchant": {
+		"id": 24,
+		"name": "Cash Withdrawal"
+	}
 }, {
 	"id": 194153,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-22",
+	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
 	"amount": {
 		"amount": "-40.00",
@@ -1082,14 +1200,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 78,
-	"merchant_id": 41
+	"merchant": {
+		"id": 41,
+		"name": "Transport for NSW"
+	}
 }, {
 	"id": 194745,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-21",
+	"transaction_date": "2019-01-29",
 	"post_date": "2018-07-13",
 	"amount": {
 		"amount": "-60.00",
@@ -1101,14 +1222,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 66,
-	"merchant_id": 97
+	"merchant": {
+		"id": 97,
+		"name": "Dan Murphy",
+		"phone": "1300 723 388",
+		"website": "https://www.danmurphys.com.au"
+	}
 }, {
 	"id": 194562,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-21",
+	"transaction_date": "2019-01-29",
 	"post_date": "2018-07-13",
 	"amount": {
 		"amount": "-40.00",
@@ -1120,14 +1246,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 44
+	"merchant": {
+		"id": 44,
+		"name": "Coles",
+		"phone": "(02) 8912 3400",
+		"website": "https://www.coles.com.au"
+	}
 }, {
 	"id": 194324,
 	"account_id": 939,
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-21",
+	"transaction_date": "2019-01-29",
 	"post_date": "2018-07-13",
 	"amount": {
 		"amount": "1000.00",
@@ -1138,14 +1269,17 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 81,
-	"merchant_id": 1
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 194305,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-21",
+	"transaction_date": "2019-01-29",
 	"post_date": "2018-07-13",
 	"amount": {
 		"amount": "-1000.00",
@@ -1156,14 +1290,17 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 81,
-	"merchant_id": 1
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 194074,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-21",
+	"transaction_date": "2019-01-29",
 	"post_date": "2018-07-13",
 	"amount": {
 		"amount": "-185.00",
@@ -1175,16 +1312,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 76,
-	"merchant_id": 1,
-	"bill_id": 1251,
-	"bill_payment_id": 8009
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 99698,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-21",
+	"transaction_date": "2019-01-29",
 	"post_date": "2017-12-18",
 	"amount": {
 		"amount": "-1000.00",
@@ -1195,14 +1333,17 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 81,
-	"merchant_id": 1
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 99586,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-21",
+	"transaction_date": "2019-01-29",
 	"post_date": "2017-12-18",
 	"amount": {
 		"amount": "-185.00",
@@ -1214,16 +1355,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 76,
-	"merchant_id": 1,
-	"bill_id": 1252,
-	"bill_payment_id": 8036
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	},
+	"bill_id": 1306,
+	"bill_payment_id": 8136
 }, {
 	"id": 194280,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-20",
+	"transaction_date": "2019-01-28",
 	"post_date": "2018-07-12",
 	"amount": {
 		"amount": "-70.00",
@@ -1235,16 +1379,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 70,
-	"merchant_id": 19,
-	"bill_id": 1249,
-	"bill_payment_id": 7987
+	"merchant": {
+		"id": 19,
+		"name": "Optus"
+	}
 }, {
 	"id": 99685,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-20",
+	"transaction_date": "2019-01-28",
 	"post_date": "2017-12-17",
 	"amount": {
 		"amount": "-70.00",
@@ -1256,14 +1401,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 70,
-	"merchant_id": 19
+	"merchant": {
+		"id": 19,
+		"name": "Optus"
+	}
 }, {
 	"id": 99654,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-20",
+	"transaction_date": "2019-01-28",
 	"post_date": "2017-12-17",
 	"amount": {
 		"amount": "-50.00",
@@ -1275,14 +1423,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 80,
-	"merchant_id": 24
+	"merchant": {
+		"id": 24,
+		"name": "Cash Withdrawal"
+	}
 }, {
 	"id": 194635,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-19",
+	"transaction_date": "2019-01-27",
 	"post_date": "2018-07-11",
 	"amount": {
 		"amount": "-74.00",
@@ -1294,14 +1445,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 292
+	"merchant": {
+		"id": 292,
+		"name": "SUSHI PTY. LTD.",
+		"phone": "(02) 9387 3774",
+		"website": "http://www.sushitrain.com.au"
+	}
 }, {
 	"id": 194433,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-19",
+	"transaction_date": "2019-01-27",
 	"post_date": "2018-07-11",
 	"amount": {
 		"amount": "-159.41",
@@ -1313,14 +1469,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 2
+	"merchant": {
+		"id": 2,
+		"name": "Woolworths",
+		"phone": "(02) 8565 9336",
+		"website": "https://www.woolworths.com.au"
+	}
 }, {
 	"id": 194795,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-18",
+	"transaction_date": "2019-01-26",
 	"post_date": "2018-07-10",
 	"amount": {
 		"amount": "-8.00",
@@ -1332,14 +1493,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 81
+	"merchant": {
+		"id": 81,
+		"name": "McDonald's",
+		"phone": "(02) 9550 4804",
+		"website": "https://www.mcdonalds.com.au"
+	}
 }, {
 	"id": 194796,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-17",
+	"transaction_date": "2019-01-25",
 	"post_date": "2018-07-09",
 	"amount": {
 		"amount": "-8.00",
@@ -1351,14 +1517,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 81
+	"merchant": {
+		"id": 81,
+		"name": "McDonald's",
+		"phone": "(02) 9550 4804",
+		"website": "https://www.mcdonalds.com.au"
+	}
 }, {
 	"id": 194201,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-17",
+	"transaction_date": "2019-01-25",
 	"post_date": "2018-07-09",
 	"amount": {
 		"amount": "-50.00",
@@ -1370,14 +1541,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 80,
-	"merchant_id": 24
+	"merchant": {
+		"id": 24,
+		"name": "Cash Withdrawal"
+	}
 }, {
 	"id": 194160,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-17",
+	"transaction_date": "2019-01-25",
 	"post_date": "2018-07-09",
 	"amount": {
 		"amount": "-39.90",
@@ -1389,16 +1563,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 70,
-	"merchant_id": 205,
-	"bill_id": 1248,
-	"bill_payment_id": 7980
+	"merchant": {
+		"id": 205,
+		"name": "Amaysim"
+	}
 }, {
 	"id": 99655,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-17",
+	"transaction_date": "2019-01-25",
 	"post_date": "2017-12-14",
 	"amount": {
 		"amount": "-20.00",
@@ -1410,14 +1585,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 80,
-	"merchant_id": 24
+	"merchant": {
+		"id": 24,
+		"name": "Cash Withdrawal"
+	}
 }, {
 	"id": 99625,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-17",
+	"transaction_date": "2019-01-25",
 	"post_date": "2017-12-14",
 	"amount": {
 		"amount": "-39.90",
@@ -1429,14 +1607,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 70,
-	"merchant_id": 205
+	"merchant": {
+		"id": 205,
+		"name": "Amaysim"
+	},
+	"bill_id": 1302,
+	"bill_payment_id": 8110
 }, {
 	"id": 194757,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-16",
+	"transaction_date": "2019-01-24",
 	"post_date": "2018-07-08",
 	"amount": {
 		"amount": "-40.00",
@@ -1448,14 +1631,17 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 94,
-	"merchant_id": 125
+	"merchant": {
+		"id": 125,
+		"name": "BIG W"
+	}
 }, {
 	"id": 194503,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-16",
+	"transaction_date": "2019-01-24",
 	"post_date": "2018-07-08",
 	"amount": {
 		"amount": "-12.60",
@@ -1467,14 +1653,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 23
+	"merchant": {
+		"id": 23,
+		"name": "IGA grocery stores",
+		"phone": "(03) 5257 3127",
+		"website": "https://www.iga.com.au"
+	}
 }, {
 	"id": 194636,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-15",
+	"transaction_date": "2019-01-23",
 	"post_date": "2018-07-07",
 	"amount": {
 		"amount": "-65.00",
@@ -1486,14 +1677,17 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 107
+	"merchant": {
+		"id": 107,
+		"name": "The Brew House Hotel"
+	}
 }, {
 	"id": 99656,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-15",
+	"transaction_date": "2019-01-23",
 	"post_date": "2017-12-12",
 	"amount": {
 		"amount": "-20.00",
@@ -1505,14 +1699,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 80,
-	"merchant_id": 24
+	"merchant": {
+		"id": 24,
+		"name": "Cash Withdrawal"
+	}
 }, {
 	"id": 194202,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-14",
+	"transaction_date": "2019-01-22",
 	"post_date": "2018-07-06",
 	"amount": {
 		"amount": "-20.00",
@@ -1524,14 +1721,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 80,
-	"merchant_id": 24
+	"merchant": {
+		"id": 24,
+		"name": "Cash Withdrawal"
+	}
 }, {
 	"id": 194075,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-14",
+	"transaction_date": "2019-01-22",
 	"post_date": "2018-07-06",
 	"amount": {
 		"amount": "-185.00",
@@ -1543,16 +1743,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 76,
-	"merchant_id": 1,
-	"bill_id": 1251,
-	"bill_payment_id": 8010
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 99587,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-14",
+	"transaction_date": "2019-01-22",
 	"post_date": "2017-12-11",
 	"amount": {
 		"amount": "-185.00",
@@ -1564,16 +1765,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 76,
-	"merchant_id": 1,
-	"bill_id": 1252,
-	"bill_payment_id": 8037
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	},
+	"bill_id": 1306,
+	"bill_payment_id": 8137
 }, {
 	"id": 194563,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-13",
+	"transaction_date": "2019-01-21",
 	"post_date": "2018-07-05",
 	"amount": {
 		"amount": "-10.00",
@@ -1585,14 +1789,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 44
+	"merchant": {
+		"id": 44,
+		"name": "Coles",
+		"phone": "(02) 8912 3400",
+		"website": "https://www.coles.com.au"
+	}
 }, {
 	"id": 194409,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-13",
+	"transaction_date": "2019-01-21",
 	"post_date": "2018-07-05",
 	"amount": {
 		"amount": "-17.99",
@@ -1604,14 +1813,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 64,
-	"merchant_id": 40
+	"merchant": {
+		"id": 40,
+		"name": "Netflix"
+	},
+	"bill_id": 1304,
+	"bill_payment_id": 8119
 }, {
 	"id": 194637,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-12",
+	"transaction_date": "2019-01-20",
 	"post_date": "2018-07-04",
 	"amount": {
 		"amount": "-150.00",
@@ -1623,14 +1837,17 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 1
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 194203,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-12",
+	"transaction_date": "2019-01-20",
 	"post_date": "2018-07-04",
 	"amount": {
 		"amount": "-20.00",
@@ -1642,14 +1859,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 80,
-	"merchant_id": 24
+	"merchant": {
+		"id": 24,
+		"name": "Cash Withdrawal"
+	}
 }, {
 	"id": 194118,
 	"account_id": 937,
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-12",
+	"transaction_date": "2019-01-20",
 	"post_date": "2018-07-04",
 	"amount": {
 		"amount": "4050.00",
@@ -1661,14 +1881,17 @@
 	},
 	"budget_category": "income",
 	"category_id": 84,
-	"merchant_id": 1
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 194797,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-11",
+	"transaction_date": "2019-01-19",
 	"post_date": "2018-07-03",
 	"amount": {
 		"amount": "-8.00",
@@ -1680,14 +1903,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 81
+	"merchant": {
+		"id": 81,
+		"name": "McDonald's",
+		"phone": "(02) 9550 4804",
+		"website": "https://www.mcdonalds.com.au"
+	}
 }, {
 	"id": 194434,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-11",
+	"transaction_date": "2019-01-19",
 	"post_date": "2018-07-03",
 	"amount": {
 		"amount": "-39.00",
@@ -1699,14 +1927,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 2
+	"merchant": {
+		"id": 2,
+		"name": "Woolworths",
+		"phone": "(02) 8565 9336",
+		"website": "https://www.woolworths.com.au"
+	}
 }, {
 	"id": 194798,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-10",
+	"transaction_date": "2019-01-18",
 	"post_date": "2018-07-02",
 	"amount": {
 		"amount": "-8.00",
@@ -1718,14 +1951,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 81
+	"merchant": {
+		"id": 81,
+		"name": "McDonald's",
+		"phone": "(02) 9550 4804",
+		"website": "https://www.mcdonalds.com.au"
+	}
 }, {
 	"id": 194638,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-10",
+	"transaction_date": "2019-01-18",
 	"post_date": "2018-07-02",
 	"amount": {
 		"amount": "-53.00",
@@ -1737,14 +1975,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 292
+	"merchant": {
+		"id": 292,
+		"name": "SUSHI PTY. LTD.",
+		"phone": "(02) 9387 3774",
+		"website": "http://www.sushitrain.com.au"
+	}
 }, {
 	"id": 194504,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-10",
+	"transaction_date": "2019-01-18",
 	"post_date": "2018-07-02",
 	"amount": {
 		"amount": "-34.95",
@@ -1756,14 +1999,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 23
+	"merchant": {
+		"id": 23,
+		"name": "IGA grocery stores",
+		"phone": "(03) 5257 3127",
+		"website": "https://www.iga.com.au"
+	}
 }, {
 	"id": 99657,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-10",
+	"transaction_date": "2019-01-18",
 	"post_date": "2017-12-07",
 	"amount": {
 		"amount": "-50.00",
@@ -1775,14 +2023,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 80,
-	"merchant_id": 24
+	"merchant": {
+		"id": 24,
+		"name": "Cash Withdrawal"
+	}
 }, {
 	"id": 99618,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-10",
+	"transaction_date": "2019-01-18",
 	"post_date": "2017-12-07",
 	"amount": {
 		"amount": "-40.00",
@@ -1794,14 +2045,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 78,
-	"merchant_id": 41
+	"merchant": {
+		"id": 41,
+		"name": "Transport for NSW"
+	}
 }, {
 	"id": 194799,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-09",
+	"transaction_date": "2019-01-17",
 	"post_date": "2018-07-01",
 	"amount": {
 		"amount": "-8.00",
@@ -1813,14 +2067,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 81
+	"merchant": {
+		"id": 81,
+		"name": "McDonald's",
+		"phone": "(02) 9550 4804",
+		"website": "https://www.mcdonalds.com.au"
+	}
 }, {
 	"id": 194564,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-08",
+	"transaction_date": "2019-01-16",
 	"post_date": "2018-06-30",
 	"amount": {
 		"amount": "-25.50",
@@ -1832,14 +2091,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 44
+	"merchant": {
+		"id": 44,
+		"name": "Coles",
+		"phone": "(02) 8912 3400",
+		"website": "https://www.coles.com.au"
+	}
 }, {
 	"id": 194172,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-08",
+	"transaction_date": "2019-01-16",
 	"post_date": "2018-06-30",
 	"amount": {
 		"amount": "-70.00",
@@ -1851,16 +2115,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 90,
-	"merchant_id": 57,
-	"bill_id": 1250,
-	"bill_payment_id": 7994
+	"merchant": {
+		"id": 57,
+		"name": "AGL"
+	}
 }, {
 	"id": 99631,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-08",
+	"transaction_date": "2019-01-16",
 	"post_date": "2017-12-05",
 	"amount": {
 		"amount": "-70.00",
@@ -1872,14 +2137,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 90,
-	"merchant_id": 57
+	"merchant": {
+		"id": 57,
+		"name": "AGL"
+	}
 }, {
 	"id": 194435,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-07",
+	"transaction_date": "2019-01-15",
 	"post_date": "2018-06-29",
 	"amount": {
 		"amount": "-63.00",
@@ -1891,14 +2159,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 2
+	"merchant": {
+		"id": 2,
+		"name": "Woolworths",
+		"phone": "(02) 8565 9336",
+		"website": "https://www.woolworths.com.au"
+	}
 }, {
 	"id": 194204,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-07",
+	"transaction_date": "2019-01-15",
 	"post_date": "2018-06-29",
 	"amount": {
 		"amount": "-50.00",
@@ -1910,14 +2183,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 80,
-	"merchant_id": 24
+	"merchant": {
+		"id": 24,
+		"name": "Cash Withdrawal"
+	}
 }, {
 	"id": 194152,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-07",
+	"transaction_date": "2019-01-15",
 	"post_date": "2018-06-29",
 	"amount": {
 		"amount": "-40.00",
@@ -1929,14 +2205,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 78,
-	"merchant_id": 41
+	"merchant": {
+		"id": 41,
+		"name": "Transport for NSW"
+	}
 }, {
 	"id": 194076,
 	"account_id": 937,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-07",
+	"transaction_date": "2019-01-15",
 	"post_date": "2018-06-29",
 	"amount": {
 		"amount": "-185.00",
@@ -1948,16 +2227,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 76,
-	"merchant_id": 1,
-	"bill_id": 1251,
-	"bill_payment_id": 8011
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 99588,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-07",
+	"transaction_date": "2019-01-15",
 	"post_date": "2017-12-04",
 	"amount": {
 		"amount": "-185.00",
@@ -1969,16 +2249,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 76,
-	"merchant_id": 1,
-	"bill_id": 1252,
-	"bill_payment_id": 8038
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	},
+	"bill_id": 1306,
+	"bill_payment_id": 8138
 }, {
 	"id": 194640,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": false,
-	"transaction_date": "2018-12-06",
+	"transaction_date": "2019-01-14",
 	"post_date": "2018-06-28",
 	"amount": {
 		"amount": "-59.00",
@@ -1990,14 +2273,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 238
+	"merchant": {
+		"id": 238,
+		"name": "The Occidental Hotel",
+		"phone": "(02) 9299 2531",
+		"website": "https://www.theoccidental.com"
+	}
 }, {
 	"id": 194639,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": false,
-	"transaction_date": "2018-12-06",
+	"transaction_date": "2019-01-14",
 	"post_date": "2018-06-28",
 	"amount": {
 		"amount": "-40.00",
@@ -2009,14 +2297,19 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 77,
-	"merchant_id": 238
+	"merchant": {
+		"id": 238,
+		"name": "The Occidental Hotel",
+		"phone": "(02) 9299 2531",
+		"website": "https://www.theoccidental.com"
+	}
 }, {
 	"id": 194505,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-05",
+	"transaction_date": "2019-01-13",
 	"post_date": "2018-06-27",
 	"amount": {
 		"amount": "-23.00",
@@ -2028,14 +2321,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 23
+	"merchant": {
+		"id": 23,
+		"name": "IGA grocery stores",
+		"phone": "(03) 5257 3127",
+		"website": "https://www.iga.com.au"
+	}
 }, {
 	"id": 99658,
 	"account_id": 542,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-05",
+	"transaction_date": "2019-01-13",
 	"post_date": "2017-12-02",
 	"amount": {
 		"amount": "-100.00",
@@ -2047,14 +2345,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 80,
-	"merchant_id": 24
+	"merchant": {
+		"id": 24,
+		"name": "Cash Withdrawal"
+	}
 }, {
 	"id": 194565,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-04",
+	"transaction_date": "2019-01-12",
 	"post_date": "2018-06-26",
 	"amount": {
 		"amount": "-20.00",
@@ -2066,14 +2367,19 @@
 	},
 	"budget_category": "living",
 	"category_id": 66,
-	"merchant_id": 44
+	"merchant": {
+		"id": 44,
+		"name": "Coles",
+		"phone": "(02) 8912 3400",
+		"website": "https://www.coles.com.au"
+	}
 }, {
 	"id": 194377,
 	"account_id": 939,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-04",
+	"transaction_date": "2019-01-12",
 	"post_date": "2018-06-26",
 	"amount": {
 		"amount": "-12.50",
@@ -2085,14 +2391,17 @@
 	},
 	"budget_category": "lifestyle",
 	"category_id": 71,
-	"merchant_id": 31
+	"merchant": {
+		"id": 31,
+		"name": "PayPal"
+	}
 }, {
 	"id": 194292,
 	"account_id": 937,
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-04",
+	"transaction_date": "2019-01-12",
 	"post_date": "2018-06-26",
 	"amount": {
 		"amount": "100.00",
@@ -2104,14 +2413,17 @@
 	},
 	"budget_category": "one_off",
 	"category_id": 83,
-	"merchant_id": 65
+	"merchant": {
+		"id": 65,
+		"name": "Direct Credit"
+	}
 }, {
 	"id": 99605,
 	"account_id": 542,
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-04",
+	"transaction_date": "2019-01-12",
 	"post_date": "2017-12-01",
 	"amount": {
 		"amount": "2700.00",
@@ -2123,14 +2435,17 @@
 	},
 	"budget_category": "income",
 	"category_id": 84,
-	"merchant_id": 1
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 99569,
 	"account_id": 545,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-04",
+	"transaction_date": "2019-01-12",
 	"post_date": "2017-12-01",
 	"amount": {
 		"amount": "-6.00",
@@ -2141,14 +2456,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 61,
-	"merchant_id": 1
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 99568,
 	"account_id": 545,
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-04",
+	"transaction_date": "2019-01-12",
 	"post_date": "2017-12-01",
 	"amount": {
 		"amount": "-20.37",
@@ -2159,14 +2477,17 @@
 	},
 	"budget_category": "living",
 	"category_id": 69,
-	"merchant_id": 1
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 99567,
 	"account_id": 545,
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-04",
+	"transaction_date": "2019-01-12",
 	"post_date": "2017-12-01",
 	"amount": {
 		"amount": "3.82",
@@ -2177,14 +2498,17 @@
 	},
 	"budget_category": "goals",
 	"category_id": 92,
-	"merchant_id": 1
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }, {
 	"id": 99566,
 	"account_id": 545,
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
-	"transaction_date": "2018-12-04",
+	"transaction_date": "2019-01-12",
 	"post_date": "2017-12-01",
 	"amount": {
 		"amount": "1189.00",
@@ -2195,5 +2519,8 @@
 	},
 	"budget_category": "goals",
 	"category_id": 92,
-	"merchant_id": 1
+	"merchant": {
+		"id": 1,
+		"name": "Unknown"
+	}
 }]

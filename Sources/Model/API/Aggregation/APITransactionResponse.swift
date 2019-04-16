@@ -30,7 +30,7 @@ struct APITransactionResponse: APIUniqueResponse, Codable {
         case id
         case included
         case memo
-        case merchantID = "merchant_id"
+        case merchant
         case postDate = "post_date"
         case status
         case transactionDate = "transaction_date"
@@ -62,6 +62,44 @@ struct APITransactionResponse: APIUniqueResponse, Codable {
         
     }
     
+    struct Merchant: Codable {
+        
+        struct Location: Codable {
+            
+            enum CodingKeys: String, CodingKey {
+                case country
+                case formattedAddress = "formatted_address"
+                case latitude
+                case line1 = "line_1"
+                case line2 = "line_2"
+                case line3 = "line_3"
+                case longitude
+                case postcode
+                case state
+                case suburb
+            }
+            
+            let country: String?
+            let formattedAddress: String?
+            let latitude: Double?
+            let line1: String?
+            let line2: String?
+            let line3: String?
+            let longitude: Double?
+            let postcode: String?
+            let state: String?
+            let suburb: String?
+            
+        }
+        
+        let id: Int64
+        let location: Location?
+        let name: String
+        let phone: String?
+        let website: String?
+        
+    }
+    
     var id: Int64
     let accountID: Int64
     let amount: Amount
@@ -73,7 +111,7 @@ struct APITransactionResponse: APIUniqueResponse, Codable {
     let description: Description
     let included: Bool
     let memo: String?
-    let merchantID: Int64
+    let merchant: Merchant
     let postDate: String?
     let status: Transaction.Status
     let transactionDate: String
