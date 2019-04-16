@@ -840,6 +840,83 @@ public class Aggregation: CachedObjects, ResponseHandler {
     }
     
     /**
+     Transaction search
+     
+     Search for transactions from the server. Transactions will be cached and a list of matching transaction IDs returned.
+     Search results are paginated and retrieving the full list of more than 200 will require incrementing the `page` parameter.
+     
+     Example:
+         // Fetch results 201-400
+         transactionSearch(searchTerm: "supermarket", page: 1)
+     
+     The search term will match the following fields on a transaction:
+     
+     * `originalDescription`
+     * `simpleDescription`
+     * `userDescription`
+     * `amount`
+     * `Merchant.name`
+     * `TransactionCategory.name`
+     
+     Magic search terms can also be used where the following will match specific types or properties rather than the fields above.
+     
+     * excluded - Only transactions where `included` is false
+     * pending - Only transactions where `status` is pending
+     * income - Budget category is income
+     * living - Budget category is living
+     * lifestyle - Budget category is lifestyle
+     * goals - Budget category is goals
+     
+     - parameters:
+         - searchTerm: Search term to match, either text, amount or magic term
+         - page: Page to start search from. Defaults to 0
+         - fromDate: Date to start search from (Optional)
+         - toDate: Date to search up to (Optional)
+         - accountIDs: A list of account IDs to restrict search to
+         - onlyIncludedAccounts: Only return results from accounts included in the budget
+    */
+    public func transactionSearch(searchTerm: String, page: Int = 0, from fromDate: Date? = nil, to toDate: Date? = nil, accountIDs: [Int64]? = nil, onlyIncludedAccounts: Bool? = nil, completion: @escaping (Result<[Int64], Error>) -> Void) {
+        guard !searchTerm.isEmpty
+        else {
+            let error = DataError(type: .api, subType: .invalidData)
+            
+            Log.debug("Search term is empty")
+            
+            completion(.failure(error))
+            return
+        }
+        
+        let offset = transactionBatchSize * page
+        
+        service.transactionSearch(searchTerm: searchTerm, count: transactionBatchSize, skip: offset, from: fromDate, to: toDate, accountIDs: accountIDs, onlyIncludedAccounts: onlyIncludedAccounts) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    let transactionIDs = response.map { $0.id }
+                    
+                    self.handleTransactionsResponse(response, transactionIDs: transactionIDs, managedObjectContext: managedObjectContext)
+                    
+                    self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
+                    
+                    DispatchQueue.main.async {
+                        completion(.success(transactionIDs))
+                    }
+            }
+        }
+    }
+    
+    /**
      Transaction summary
      
      Retrieves sum and count of transactions for specified filters
