@@ -19,11 +19,17 @@ import Foundation
 
 extension APIService {
     
-    internal func fetchSurvey(surveyKey: String, completion: @escaping RequestCompletion<Survey>) {
+    internal func fetchSurvey(surveyKey: String, latest: Bool, completion: @escaping RequestCompletion<Survey>) {
         requestQueue.async {
             let url = URL(string: SurveysEndpoint.survey(key: surveyKey).path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            var parameters: [String: Any]?
+            
+            if latest {
+                parameters = [SurveysEndpoint.QueryParameters.latest.rawValue: latest]
+            }
+            
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: Survey.self, errorType: APIError.self, response: response, completion: completion)
                 
             }
