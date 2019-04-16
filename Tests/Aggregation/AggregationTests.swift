@@ -2270,15 +2270,15 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, service: service)
             
-            let fromDate = Transaction.transactionDateFormatter.date(from: "2018-07-01")!
-            let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
+            let fromDate = Transaction.transactionDateFormatter.date(from: "2019-03-01")!
+            let toDate = Transaction.transactionDateFormatter.date(from: "2019-04-30")!
             
             aggregation.transactionSearch(searchTerm: "Occidental", page: 0, from: fromDate, to: toDate, accountIDs: [544], onlyIncludedAccounts: true) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success(let transactionIDs):
-                        XCTAssertEqual(transactionIDs, [99863, 99869, 99868, 99870])
+                        XCTAssertEqual(transactionIDs, [194611, 194620, 194619, 194621])
                         
                         let context = database.viewContext
                         
