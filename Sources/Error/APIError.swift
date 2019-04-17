@@ -27,7 +27,7 @@ public class APIError: FrolloSDKError, ResponseError {
      API Error Type
      
      Type of error that has occurred on the API
-    */
+     */
     public enum APIErrorType: String {
         
         /// Deprecated API

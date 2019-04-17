@@ -29,7 +29,7 @@ public class User: NSManagedObject {
      Feature Flags
      
      Represents features which are available to the user
-    */
+     */
     public struct FeatureFlag: Codable, Equatable {
         
         /// Feature enabled or disabled
@@ -44,7 +44,7 @@ public class User: NSManagedObject {
      Gender
      
      Represents the gender of the user
-    */
+     */
     public enum Gender: String, Codable {
         
         /// Female
@@ -62,7 +62,7 @@ public class User: NSManagedObject {
      Household Type
      
      Represents the make up of the household
-    */
+     */
     public enum HouseholdType: String, Codable {
         
         /// Couple with no dependents
@@ -83,7 +83,7 @@ public class User: NSManagedObject {
      Industry
      
      Represents the industry the user works in
-    */
+     */
     public enum Industry: String, Codable {
         
         /// Accommodation and Food Services
@@ -146,7 +146,7 @@ public class User: NSManagedObject {
      Occupation
      
      Represents occupation of the user
-    */
+     */
     public enum Occupation: String, Codable {
         
         /// Clerical and Administrative Workers
@@ -179,7 +179,7 @@ public class User: NSManagedObject {
      User Status
      
      Status indicating the current state of the user in the onboarding and setting up process.
-    */
+     */
     public enum Status: String, Codable {
         
         /// An aggregation account has been added

@@ -18,7 +18,7 @@ import Foundation
 
 import Alamofire
 
-protocol NetworkDelegate: class {
+protocol NetworkDelegate: AnyObject {
     
     func forcedLogout()
     
@@ -103,8 +103,8 @@ class Network: SessionDelegate {
         super.init()
         
         self.sessionManager = SessionManager(configuration: configuration, delegate: self, serverTrustPolicyManager: serverTrustManager)
-        self.sessionManager.adapter = authenticator
-        self.sessionManager.retrier = authenticator
+        sessionManager.adapter = authenticator
+        sessionManager.retrier = authenticator
     }
     
     // MARK: - Reset

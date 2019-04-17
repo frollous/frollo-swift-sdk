@@ -33,22 +33,22 @@ struct DeviceInfo {
     
     /**
      Unique identifier for the device
-    */
+     */
     let deviceID: String
     
     /**
      User defined name for the device, e.g. "Jacob's iPhone"
-    */
+     */
     let deviceName: String
     
     /**
      Type and model of device, e.g. iPhone X
-    */
+     */
     let deviceType: String
     
     /**
      Device information about the current device
-    */
+     */
     static func current() -> DeviceInfo {
         #if os(macOS)
         let deviceID = serialNumber()
@@ -71,7 +71,7 @@ struct DeviceInfo {
      Cross platform name
      
      - returns: String with hardware ID of the device, e.g. iPhone1,2
-    */
+     */
     static func platform() -> String {
         var systemInfo = utsname()
         uname(&systemInfo)
@@ -89,7 +89,7 @@ struct DeviceInfo {
      - Note: Use DeviceInfo platform() on other platforms
      
      - returns: Model identifier or "Unknown" if the model can't be retrieved
-    */
+     */
     #if os(macOS)
     @available(macOS 10.3, *)
     static func modelIdentifier() -> String {
@@ -112,7 +112,7 @@ struct DeviceInfo {
      - Note: Use UIDevice identifierForVendor on other platforms
      
      - returns: Serial number or "Unknown" if the serial can't be retrieved
-    */
+     */
     @available(macOS 10.3, *)
     static func serialNumber() -> String {
         let platformExpert: io_service_t = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))

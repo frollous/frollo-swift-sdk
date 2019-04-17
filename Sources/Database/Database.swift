@@ -69,7 +69,7 @@ public class Database {
      
      - parameters:
         - completionHandler: Completion handler is called with error indicating if the setup was successful or not
-    */
+     */
     internal func setup(completionHandler: @escaping (FrolloSDKError?) -> Void) {
         migrationLock.lock()
         
@@ -295,7 +295,7 @@ public class Database {
     
     /**
      Resets the persistent store and rebuilds the persistent container
-    */
+     */
     internal func reset(completionHandler: @escaping (Error?) -> Void) {
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
         persistentContainer = NSPersistentContainer(name: DatabaseConstants.storeName, managedObjectModel: Database.model)
@@ -310,7 +310,7 @@ public class Database {
     
     /**
      Deletes the persistent score on disk removing all data. Also resets corrupted databases
-    */
+     */
     internal func destroyPersistentStore() {
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: Database.model)
         
@@ -335,7 +335,7 @@ public class Database {
      Calls the persistent container to generate a new background managed object context
      
      - seealso: [NSPersistentContainer Documentation](https://developer.apple.com/documentation/coredata/nspersistentcontainer)
-    */
+     */
     public func newBackgroundContext() -> NSManagedObjectContext {
         return persistentContainer.newBackgroundContext()
     }

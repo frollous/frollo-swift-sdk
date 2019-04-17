@@ -182,7 +182,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
      Initialises the SDK
      
      Initialises an SDK instance. Only one instance should be instantiated. Setup must be run before use
-    */
+     */
     internal init() {
         // Create data folder if it doesn't exist
         if !FileManager.default.fileExists(atPath: FrolloSDK.dataFolderURL.path) {
@@ -196,7 +196,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         self._database = Database(path: FrolloSDK.dataFolderURL)
         self.keychain = Keychain(service: FrolloSDKConstants.keychainService)
         self.preferences = Preferences(path: FrolloSDK.dataFolderURL)
-        self.version = Version(path: FrolloSDK.dataFolderURL, keychain: self.keychain)
+        self.version = Version(path: FrolloSDK.dataFolderURL, keychain: keychain)
     }
     
     /**
@@ -209,7 +209,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         - completion: Completion handler with optional error if something goes wrong during the setup process
      
      - returns: Progress object indicating the migration progress so far if needed
-    */
+     */
     @discardableResult public func setup(configuration: FrolloSDKConfiguration, completion: @escaping FrolloSDKCompletionHandler) -> Progress? {
         guard !_setup
         else {
@@ -323,7 +323,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
      
      - parameters:
         - completion: Completion handler with option error if something goes wrong (optional)
-    */
+     */
     public func reset(completionHandler: FrolloSDKCompletionHandler? = nil) {
         pauseScheduledRefreshing()
         
@@ -348,7 +348,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
      Application entered the background or is about to terminate.
      
      Notify the SDK of an app lifecycle change. Call this to ensure proper refreshing of cache data occurs when the app enters background or resumes.
-    */
+     */
     public func applicationDidEnterBackground() {
         pauseScheduledRefreshing()
     }
@@ -386,7 +386,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
      
      - returns: Indication if the URL was handled successfully or not
      
-    */
+     */
     public func applicationOpen(url: URL) -> Bool {
         if url.scheme == redirectURL.scheme,
             url.user == redirectURL.user,
@@ -406,7 +406,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     
     /**
      Refreshes all cached data in an optimised way. Fetches most urgent data first and then proceeds to update other caches if needed.
-    */
+     */
     public func refreshData() {
         guard !database.needsMigration()
         else {
@@ -428,7 +428,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     
     /**
      Refresh data from the most time sensitive and important APIs, e.g. accounts, transactions
-    */
+     */
     private func refreshPrimary() {
         aggregation.refreshProviderAccounts()
         aggregation.refreshAccounts()
@@ -439,7 +439,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     
     /**
      Refresh data from other important APIs that frequently change but are less time sensitive, e.g. bill payments
-    */
+     */
     private func refreshSecondary() {
         let fromDate = Date().startOfLastMonth()
         let toDate = Date().addingTimeInterval(31622400).endOfMonth()
@@ -449,7 +449,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     
     /**
      Refresh data from long lived sources which don't change often, e.g. transaction categories, providers
-    */
+     */
     private func refreshSystem() {
         aggregation.refreshProviders()
         aggregation.refreshTransactionCategories()

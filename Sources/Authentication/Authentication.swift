@@ -28,7 +28,7 @@ import SafariServices
 import UIKit
 #endif
 
-internal protocol AuthenticationDelegate: class {
+internal protocol AuthenticationDelegate: AnyObject {
     
     func authenticationReset()
     
@@ -47,7 +47,7 @@ public class Authentication {
     
     /**
      Indicates if the user is currently authorised with Frollo
-    */
+     */
     public internal(set) var loggedIn: Bool {
         get {
             return preferences.loggedIn
@@ -90,7 +90,7 @@ public class Authentication {
      Fetch the first available user model from the cache
      
      - Returns: User object if found
-    */
+     */
     public func fetchUser(context: NSManagedObjectContext) -> User? {
         var user: User?
         
@@ -120,7 +120,7 @@ public class Authentication {
      - parameters:
         - presentingViewController: View controller the Safari Web ViewController should be presented from
         - completion: Completion handler with any error that occurred
-    */
+     */
     public func loginUserUsingWeb(presenting presentingViewController: UIViewController, completion: @escaping FrolloSDKCompletionHandler) {
         let config = OIDServiceConfiguration(authorizationEndpoint: authService.authorizationURL, tokenEndpoint: authService.tokenURL)
         
@@ -526,7 +526,7 @@ public class Authentication {
      
      - parameters:
         - completion: Completion handler with any error that occurred
-    */
+     */
     public func deleteUser(completion: @escaping FrolloSDKCompletionHandler) {
         guard loggedIn
         else {
@@ -640,7 +640,7 @@ public class Authentication {
      
      - parameters:
         - completion: Completion handler with any error that occurred
-    */
+     */
     public func exchangeLegacyToken(completion: @escaping FrolloSDKCompletionHandler) {
         guard loggedIn
         else {
@@ -699,7 +699,7 @@ public class Authentication {
      
      - parameters:
         - completion: Completion handler with any error that occurred (Optional)
-    */
+     */
     public func refreshTokens(completion: FrolloSDKCompletionHandler? = nil) {
         service.network.authenticator.refreshTokens()
         
@@ -742,7 +742,7 @@ public class Authentication {
      
      - parameters:
         - request: URL Request to be authenticated and provided the access token
-    */
+     */
     public func authenticateRequest(_ request: URLRequest) throws -> URLRequest {
         return try service.network.authenticator.validateAndAppendAccessToken(request: request)
     }
@@ -755,7 +755,7 @@ public class Authentication {
      - parameters:
         - compliant: Indicates if the device is compliant or not
         - completion: Completion handler with any error that occurred (optional)
-    */
+     */
     public func updateDeviceCompliance(_ compliant: Bool, completion: FrolloSDKCompletionHandler? = nil) {
         updateDevice(compliant: compliant, notificationToken: nil, completion: completion)
     }
@@ -814,7 +814,7 @@ public class Authentication {
      */
     /**
      Log out the user from the server. This revokes the refresh token for the current device if not already revoked and resets the token storage.
-    */
+     */
     public func logoutUser() {
         guard loggedIn
         else {

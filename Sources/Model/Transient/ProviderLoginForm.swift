@@ -31,7 +31,7 @@ public struct ProviderLoginForm: Codable {
      Multiple rows may have the same `fieldRowChoice` indication the user should select one row and fill that in.
      
      - seealso: `ProviderLoginFormViewModel`
-    */
+     */
     public struct Row: Codable {
         
         /// List of fields for the row
@@ -56,7 +56,7 @@ public struct ProviderLoginForm: Codable {
     
     /**
      Field representing a piece of information to be entered and validated
-    */
+     */
     public struct Field: Codable {
         
         /// Unique ID of the field
@@ -99,7 +99,7 @@ public struct ProviderLoginForm: Codable {
          Image data. Converts the binary array into usable data.
          
          - Returns: Data representing the image
-        */
+         */
         public func imageData() -> Data? {
             guard let imageArray = image
             else {
@@ -118,7 +118,7 @@ public struct ProviderLoginForm: Codable {
      Option
      
      Details for display of an option if the field contains a list of options
-    */
+     */
     public struct Option: Codable {
         
         /// Text to be displayed to the user
@@ -136,7 +136,7 @@ public struct ProviderLoginForm: Codable {
      Validation
      
      Represents a regular expression and associated error to be performed on a field.
-    */
+     */
     public struct Validation: Codable {
         
         /// Error message to be displayed if the regex doesn't match
@@ -151,7 +151,7 @@ public struct ProviderLoginForm: Codable {
      Field Type
      
      Type of field indicating what type of data will be provided and how it should be displayed
-    */
+     */
     public enum FieldType: String, Codable {
         
         /// Checkbox. Show a standard check box to the user
@@ -178,7 +178,7 @@ public struct ProviderLoginForm: Codable {
      Form Type
      
      Indicates what the form is requesting information for
-    */
+     */
     public enum FormType: String, Codable {
         
         /// Image, for example captchas to be entered by the user
@@ -225,7 +225,7 @@ public struct ProviderLoginForm: Codable {
      - parameters:
         - encryptionKey: PEM formatted public key to use for encryption
         - encryptionAlias: Alias of the encryption key appended to the value fields
-    */
+     */
     public mutating func encryptValues(encryptionKey: String, encryptionAlias: String) {
         guard let publicKey = SecKeyCreateWithPEMData(encryptionKey, nil)
         else {
@@ -290,7 +290,7 @@ public struct ProviderLoginForm: Codable {
      Validate the form values. Checks max length, required fields and evaluates any regex provided
      
      - Returns: Tuple indicating if validation passed and optionally any error encountered if it failed
-    */
+     */
     public func validateForm() -> (Bool, Error?) {
         for currentRow in row {
             for currentField in currentRow.field {

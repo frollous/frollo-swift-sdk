@@ -17,7 +17,7 @@
 import CoreData
 import Foundation
 
-internal protocol UniqueManagedObject: class {
+internal protocol UniqueManagedObject: AnyObject {
     
     static var entityName: String { get }
     static var primaryKey: String { get }

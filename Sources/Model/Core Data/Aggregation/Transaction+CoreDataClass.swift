@@ -29,7 +29,7 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
      Transaction Base Type
      
      The basic type of transaction
-    */
+     */
     public enum BaseType: String, Codable {
         
         /// Credit
@@ -50,7 +50,7 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
      Transaction Status
      
      Status of the transaction's lifecycle
-    */
+     */
     public enum Status: String, Codable {
         
         /// Pending. Transaction is authorised but not posted

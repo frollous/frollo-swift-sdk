@@ -107,10 +107,10 @@ class FileLogger: Logger {
     
     private func startHandlingExceptions() {
         FileLogger.exceptionHandler = NSGetUncaughtExceptionHandler()
-        NSSetUncaughtExceptionHandler({ exception in
+        NSSetUncaughtExceptionHandler { exception in
             os_log("exception: %@)", exception)
             FileLogger.exceptionHandler?(exception)
-        })
+        }
     }
     
     private func stopHandlingExceptions() {

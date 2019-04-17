@@ -35,7 +35,7 @@ public class Survey: Codable {
     /// List of all questions within a survey.
     public let questions: [Question]
     
-    ///initilizer
+    /// initilizer
     init(id: Int64, key: String, name: String?, questions: [Question]) {
         self.id = id
         self.key = key
@@ -71,7 +71,7 @@ public class Survey: Codable {
         /// List of answers of the survey question.
         public var answers: [Answer]
         
-        ///initilizer
+        /// initilizer
         init(id: Int64, type: QuestionType, title: String, displayText: String?, iconURL: String?, questionOptional: Bool?, answers: [Answer]) {
             self.id = id
             self.type = type
@@ -134,7 +134,7 @@ public class Survey: Codable {
             /// Type of the answer.
             public var answerType: AnswerType
             
-            ///initilizer
+            /// initilizer
             init(id: Int64, title: String?, displayText: String?, iconURL: String?, value: String, selected: Bool, answerType: AnswerType) {
                 self.id = id
                 self.title = title

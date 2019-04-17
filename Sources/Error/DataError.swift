@@ -27,7 +27,7 @@ public class DataError: FrolloSDKError {
      Data Error Type
      
      High level type of the error
-    */
+     */
     public enum DataErrorType: String {
         
         /// API data error - intercepts potential issues before being sent to API
@@ -48,7 +48,7 @@ public class DataError: FrolloSDKError {
      Data Error Sub Type
      
      Detailed type of the error
-    */
+     */
     public enum DataErrorSubType: String {
         
         /// API - Invalid Data

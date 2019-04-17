@@ -151,10 +151,10 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
             
             let semaphore = DispatchSemaphore(value: 0)
             
-            requestsToRetry.append({ (_: Bool, _: TimeInterval) in
+            requestsToRetry.append { (_: Bool, _: TimeInterval) in
                 // Unblock once token has updated
                 semaphore.signal()
-            })
+            }
             
             refreshTokens()
             
@@ -185,7 +185,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
          - refresh: Refresh token
          - access: Access token
          - expiry: Access token expiry date
-    */
+     */
     internal func saveTokens(refresh: String, access: String, expiry: Date) {
         refreshToken = refresh
         accessToken = access
@@ -200,7 +200,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     
     /**
      Clear the cached tokens and delete any keychain persisted tokens
-    */
+     */
     internal func clearTokens() {
         accessToken = nil
         expiryDate = nil

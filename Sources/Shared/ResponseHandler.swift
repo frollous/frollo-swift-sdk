@@ -31,7 +31,7 @@ protocol ResponseHandler {
          - linkedIDs: IDs of the parent object to be fetched and their related children (as determined by the `linkedKey` parameter)
          - linkedKey: Key path of the linked key on the child object
          - linkedKeyName: String representation of the linked key on the child object
-    */
+     */
     func linkObjectToParentObject<T: UniqueManagedObject & NSManagedObject, U: UniqueManagedObject & NSManagedObject>(type: T.Type,
                                                                                                                       parentType: U.Type,
                                                                                                                       objectFilterPredicate: NSPredicate?,
@@ -58,7 +58,7 @@ protocol ResponseHandler {
          - linkedKeys: An array of linked key paths to be returned indicating what objects need linking to parent objects
          - filterPredicate:  Filter what cached objects are fetched by this operation
          - managedObjectContext: Managed object context to execute this operation on
-    */
+     */
     func updateObjectsWithResponse<T: UniqueManagedObject & NSManagedObject>(type: T.Type,
                                                                              objectsResponse: [APIUniqueResponse],
                                                                              primaryKey: String,

@@ -33,7 +33,7 @@ public class Account: NSManagedObject, UniqueManagedObject {
      Account Status
      
      Status of the account according to the `Provider`
-    */
+     */
     public enum AccountStatus: String, Codable, CaseIterable {
         
         /// Account is fully active
@@ -54,7 +54,7 @@ public class Account: NSManagedObject, UniqueManagedObject {
      Account Sub Type
      
      Sub type of the account indicating more detail what the account is
-    */
+     */
     public enum AccountSubType: String, Codable, CaseIterable {
         
         /// Other or unknown sub type
@@ -171,7 +171,7 @@ public class Account: NSManagedObject, UniqueManagedObject {
      Account Type
      
      Main type of the account as determined by container
-    */
+     */
     public enum AccountType: String, Codable, CaseIterable {
         
         /// Bank account
@@ -207,7 +207,7 @@ public class Account: NSManagedObject, UniqueManagedObject {
      Account Classification
      
      More detailed classification of the type of account
-    */
+     */
     public enum Classification: String, Codable, CaseIterable {
         
         /// Add on card account
@@ -237,7 +237,7 @@ public class Account: NSManagedObject, UniqueManagedObject {
      Grouping of Accounts
      
      What account group the account should appear in
-    */
+     */
     public enum Group: String, Codable, CaseIterable {
         
         /// Bank accounts

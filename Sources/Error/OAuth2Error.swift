@@ -157,7 +157,7 @@ public class OAuth2Error: FrolloSDKError, ResponseError {
                         self.type = .unsupportedGrantType
                     case .unsupportedResponseType:
                         self.type = .unsupportedResponseType
-                        @unknown default:
+                    @unknown default:
                         self.type = .otherAuthorization
                 }
             } else {

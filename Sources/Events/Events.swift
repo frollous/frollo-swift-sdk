@@ -43,7 +43,7 @@ public class Events {
         - eventName: Name of the event to trigger. Unrecognised ones will be ignored by the host
         - delay: Delay in minutes for the host to delay the event (optional)
         - completion: Completion handler with option error if something occurs (optional)
-    */
+     */
     public func triggerEvent(_ eventName: String, after delay: Int64? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         let request = APIEventCreateRequest(delayMinutes: delay ?? 0,
                                             event: eventName)
@@ -71,7 +71,7 @@ public class Events {
         - eventName: Name of the event to be handled. Unrecognised ones will be ignored
         - notification: Payload of the associated notification (optional)
         - completion: Completion handler indicating if the event was handled and any error that may have occurred (optional)
-    */
+     */
     internal func handleEvent(_ eventName: String, notification: NotificationPayload? = nil, completion: ((_ handled: Bool, _ error: Error?) -> Void)? = nil) {
         defer {
             DispatchQueue.main.async {
