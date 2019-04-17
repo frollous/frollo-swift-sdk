@@ -1010,13 +1010,6 @@
 			remoteGlobalIDString = 01527CBE20E1B5C300B5042A;
 			remoteInfo = FrolloSDK;
 		};
-		017B488B2105958100447E65 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 01527CB420E1B49800B5042A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0136D22F2101775B0062EAEA;
-			remoteInfo = FrolloSDKTestHost;
-		};
 		017B48C7210595C700447E65 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 01527CB420E1B49800B5042A /* Project object */;
@@ -2822,7 +2815,6 @@
 			);
 			dependencies = (
 				017B48882105958100447E65 /* PBXTargetDependency */,
-				017B488A2105958100447E65 /* PBXTargetDependency */,
 				017B48C8210595C700447E65 /* PBXTargetDependency */,
 			);
 			name = "FrolloSDK tvOS Tests";
@@ -2862,7 +2854,7 @@
 				TargetAttributes = {
 					0136D22F2101775B0062EAEA = {
 						CreatedOnToolsVersion = 9.4.1;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						SystemCapabilities = {
 							com.apple.Keychain = {
 								enabled = 1;
@@ -2871,11 +2863,11 @@
 					};
 					01527CBE20E1B5C300B5042A = {
 						CreatedOnToolsVersion = 9.4.1;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 					};
 					01527CC720E1B5C300B5042A = {
 						CreatedOnToolsVersion = 9.4.1;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						TestTargetID = 0136D22F2101775B0062EAEA;
 					};
 					017B482C2101B4FE00447E65 = {
@@ -4128,11 +4120,6 @@
 			target = 01527CBE20E1B5C300B5042A /* FrolloSDK */;
 			targetProxy = 017B48892105958100447E65 /* PBXContainerItemProxy */;
 		};
-		017B488A2105958100447E65 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0136D22F2101775B0062EAEA /* FrolloSDK iOS Test Host */;
-			targetProxy = 017B488B2105958100447E65 /* PBXContainerItemProxy */;
-		};
 		017B48C8210595C700447E65 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 017B48772105950F00447E65 /* FrolloSDK tvOS Test Host */;
@@ -4350,7 +4337,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDK_VERSION = 2.1;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 				TVOS_DEPLOYMENT_TARGET = 10.0;
 				WATCHOS_DEPLOYMENT_TARGET = 4.0;
@@ -4391,7 +4378,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				SDK_VERSION = 2.1;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 				TVOS_DEPLOYMENT_TARGET = 10.0;
 				WATCHOS_DEPLOYMENT_TARGET = 4.0;
