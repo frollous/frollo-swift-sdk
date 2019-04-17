@@ -30,6 +30,7 @@ class DeviceRequestTests: XCTestCase {
 
     override func tearDown() {
         OHHTTPStubs.removeAllStubs()
+        Keychain(service: keychainService).removeAll()
     }
     
     func testLog() {

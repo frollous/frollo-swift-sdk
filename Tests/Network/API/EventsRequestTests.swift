@@ -29,6 +29,7 @@ class EventsRequestTests: XCTestCase {
 
     override func tearDown() {
         OHHTTPStubs.removeAllStubs()
+        Keychain(service: keychainService).removeAll()
     }
 
     func testCreateEvent() {
