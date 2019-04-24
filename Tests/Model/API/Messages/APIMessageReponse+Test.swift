@@ -56,7 +56,8 @@ extension APIMessageResponse {
                                   placement: Int64.random(in: 1...1000),
                                   read: Bool.random(),
                                   title: String.randomString(range: 1...100),
-                                  userEventID: Int64.random(in: 1...100000))
+                                  userEventID: Int64.random(in: 1...100000),
+                                  autoDismiss: true)
     }
     
 }
