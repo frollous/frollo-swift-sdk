@@ -68,7 +68,7 @@ extension Message {
     /// Action should open the link externally or internally. Externally means the system should handle opening the link.
     @NSManaged public var actionOpenExternal: Bool
     
-    /// Action should open the link externally or internally. Externally means the system should handle opening the link.
+    /// Specifies whether the message will be dismissed automatically or manually. True means automatically. False means manually
     @NSManaged public var autoDismiss: Bool
     
 }
