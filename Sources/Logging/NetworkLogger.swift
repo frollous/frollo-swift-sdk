@@ -34,12 +34,12 @@ class NetworkLogger: Logger {
         
         let deviceInfo = DeviceInfo.current()
         
-        let request = APILogRequest(details: nil,
-                                    deviceID: deviceInfo.deviceID,
-                                    deviceName: deviceInfo.deviceName,
-                                    deviceType: deviceInfo.deviceType,
-                                    message: message,
-                                    score: level)
+        let request = APIDeviceLogRequest(details: nil,
+                                          deviceID: deviceInfo.deviceID,
+                                          deviceName: deviceInfo.deviceName,
+                                          deviceType: deviceInfo.deviceType,
+                                          message: message,
+                                          score: level)
         
         network.createLog(request: request) { _ in }
     }

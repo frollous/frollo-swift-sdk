@@ -16,7 +16,18 @@
 
 import Foundation
 
-struct APILogRequest: Codable {
+struct APIDeviceLogRequest: Codable {
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case details
+        case deviceID = "device_id"
+        case deviceName = "device_name"
+        case deviceType = "device_type"
+        case message
+        case score
+        
+    }
     
     let details: String?
     let deviceID: String

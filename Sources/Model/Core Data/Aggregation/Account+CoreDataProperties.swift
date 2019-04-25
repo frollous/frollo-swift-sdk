@@ -24,7 +24,7 @@ extension Account {
      Fetch Request
      
      - returns: Fetch request for `Account` type
-    */
+     */
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Account> {
         return NSFetchRequest<Account>(entityName: "Account")
     }

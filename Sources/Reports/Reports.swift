@@ -110,7 +110,7 @@ public class Reports: ResponseHandler, CachedObjects {
          - accountID: ID of the account to fetch balance reports from (Optional)
          - accountType: Account container types to fetch balance reports from (Optional)
          - completion: Optional completion handler with optional error if the request fails
-    */
+     */
     public func refreshAccountBalanceReports(period: ReportAccountBalance.Period, from fromDate: Date, to toDate: Date, accountID: Int64? = nil, accountType: Account.AccountType? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         service.fetchAccountBalanceReports(period: period, from: fromDate, to: toDate, accountID: accountID, accountType: accountType) { result in
             switch result {

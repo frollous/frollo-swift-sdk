@@ -18,6 +18,10 @@ import Foundation
 
 internal enum SurveysEndpoint: Endpoint {
     
+    enum QueryParameters: String, Codable {
+        case latest
+    }
+    
     internal var path: String {
         return urlPath()
     }

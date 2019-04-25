@@ -23,6 +23,7 @@ enum AggregationEndpoint: Endpoint {
         case accountIncluded = "account_included"
         case count
         case fromDate = "from_date"
+        case searchTerm = "search_term"
         case skip
         case toDate = "to_date"
         case transactionIDs = "transaction_ids"
@@ -46,6 +47,7 @@ enum AggregationEndpoint: Endpoint {
     case transactions
     case transactionsByID(transactionIDs: [Int64])
     case transactionCategories
+    case transactionSearch
     case transactionSummary
     
     private func urlPath() -> String {
@@ -76,6 +78,8 @@ enum AggregationEndpoint: Endpoint {
                 return "aggregation/transactions?transaction_ids=" + transactionIDs.map { String($0) }.joined(separator: ",")
             case .transactionCategories:
                 return "aggregation/transactions/categories"
+            case .transactionSearch:
+                return "aggregation/transactions/search"
             case .transactionSummary:
                 return "aggregation/transactions/summary"
         }

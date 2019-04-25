@@ -215,6 +215,36 @@ extension APIService {
         }
     }
     
+    internal func transactionSearch(searchTerm: String, count: Int, skip: Int, from fromDate: Date? = nil, to toDate: Date? = nil, accountIDs: [Int64]? = nil, onlyIncludedAccounts: Bool? = nil, completion: @escaping RequestCompletion<[APITransactionResponse]>) {
+        requestQueue.async {
+            let url = URL(string: AggregationEndpoint.transactionSearch.path, relativeTo: self.serverURL)!
+            
+            let dateFormatter = Transaction.transactionDateFormatter
+            
+            var parameters = [AggregationEndpoint.QueryParameters.searchTerm.rawValue: searchTerm]
+            
+            if let from = fromDate {
+                parameters[AggregationEndpoint.QueryParameters.fromDate.rawValue] = dateFormatter.string(from: from)
+            }
+            
+            if let to = toDate {
+                parameters[AggregationEndpoint.QueryParameters.toDate.rawValue] = dateFormatter.string(from: to)
+            }
+            
+            if let ids = accountIDs {
+                parameters[AggregationEndpoint.QueryParameters.accountIDs.rawValue] = ids.map { String($0) }.joined(separator: ",")
+            }
+            
+            if let included = onlyIncludedAccounts {
+                parameters[AggregationEndpoint.QueryParameters.accountIncluded.rawValue] = included ? "true" : "false"
+            }
+            
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+                self.network.handleArrayResponse(type: APITransactionResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     internal func transactionSummary(from fromDate: Date? = nil, to toDate: Date? = nil, accountIDs: [Int64]? = nil, transactionIDs: [Int64]? = nil, onlyIncludedAccounts: Bool? = nil, onlyIncludedTransactions: Bool? = nil, completion: @escaping RequestCompletion<APITransactionSummaryResponse>) {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.transactionSummary.path, relativeTo: self.serverURL)!

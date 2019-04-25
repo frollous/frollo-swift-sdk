@@ -29,7 +29,7 @@ public class Bill: NSManagedObject, UniqueManagedObject {
      Bill Type
      
      Detailed type of bill
-    */
+     */
     public enum BillType: String, Codable, CaseIterable {
         
         /// General bill
@@ -50,7 +50,7 @@ public class Bill: NSManagedObject, UniqueManagedObject {
      Frequency
      
      How often the `BillPayment`s occur
-    */
+     */
     public enum Frequency: String, Codable, CaseIterable {
         
         /// Annually
@@ -86,7 +86,7 @@ public class Bill: NSManagedObject, UniqueManagedObject {
      Payment Status
      
      Status of the latest bill payment
-    */
+     */
     public enum PaymentStatus: String, Codable, CaseIterable {
         
         /// Payment is due
@@ -107,7 +107,7 @@ public class Bill: NSManagedObject, UniqueManagedObject {
      Bill Status
      
      Status of the bill indicating if the user has confirmed it or not
-    */
+     */
     public enum Status: String, Codable, CaseIterable {
         
         /// Confirmed

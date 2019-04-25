@@ -33,7 +33,7 @@ public class Message: NSManagedObject, UniqueManagedObject {
      Content Type
      
      Indicates the content type of the message and how it should be rendered
-    */
+     */
     public enum ContentType: String, CaseIterable, Codable {
         
         /// The content is HTML and should be rendered in a `WKWebView`
@@ -82,9 +82,9 @@ public class Message: NSManagedObject, UniqueManagedObject {
     public var messageTypes: [String] {
         get {
             let types = typesRawValue.components(separatedBy: "|")
-            return types.filter({ (type) -> Bool in
+            return types.filter { (type) -> Bool in
                 !type.isEmpty
-            })
+            }
         }
         set {
             let typesString = newValue.joined(separator: "|")

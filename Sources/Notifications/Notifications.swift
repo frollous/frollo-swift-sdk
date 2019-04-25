@@ -40,7 +40,7 @@ public class Notifications {
      
      - parameters:
         - token: Raw token data received from APNS to be sent to the host
-    */
+     */
     public func registerPushNotificationToken(_ token: Data) {
         let notificationToken = token.hexEncodedString()
         
@@ -54,7 +54,7 @@ public class Notifications {
      
      - parameters:
         - userInfo: Notification user info payload received from the push
-    */
+     */
     public func handlePushNotification(userInfo: [AnyHashable: Any]) {
         guard let jsonData = try? JSONSerialization.data(withJSONObject: userInfo, options: [])
         else {

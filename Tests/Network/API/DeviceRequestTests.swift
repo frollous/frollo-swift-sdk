@@ -30,6 +30,7 @@ class DeviceRequestTests: XCTestCase {
 
     override func tearDown() {
         OHHTTPStubs.removeAllStubs()
+        Keychain(service: keychainService).removeAll()
     }
     
     func testLog() {
@@ -47,7 +48,7 @@ class DeviceRequestTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let request = APILogRequest(details: "Details Content",
+        let request = APIDeviceLogRequest(details: "Details Content",
                                     deviceID: UUID().uuidString,
                                     deviceName: String.randomString(range: 1...32),
                                     deviceType: String.randomString(range: 1...15),

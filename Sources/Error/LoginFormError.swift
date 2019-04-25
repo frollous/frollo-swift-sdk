@@ -27,7 +27,7 @@ public class LoginFormError: FrolloSDKError {
      Login Form Error Type
      
      Indicates the issue of the error
-    */
+     */
     public enum LoginFormErrorType: String {
         
         /// A required multiple choice field has not been selected

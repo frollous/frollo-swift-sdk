@@ -27,7 +27,7 @@ public class NetworkError: FrolloSDKError {
      Network error type
      
      Indicates the type of error
-    */
+     */
     public enum NetworkErrorType: String {
         
         /// Connection failure - usually poor connectivity

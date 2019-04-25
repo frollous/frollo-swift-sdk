@@ -105,7 +105,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - completion: Optional completion handler with optional error if the request fails
-    */
+     */
     public func refreshProviders(completion: FrolloSDKCompletionHandler? = nil) {
         service.fetchProviders { result in
             switch result {
@@ -137,7 +137,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
      - parameters:
         - providerID: ID of the provider to fetch
         - completion: Optional completion handler with optional error if the request fails
-    */
+     */
     public func refreshProvider(providerID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
         service.fetchProvider(providerID: providerID) { result in
             switch result {
@@ -171,7 +171,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
         - providerAccountID: Unique provider account ID to fetch
-    */
+     */
     public func providerAccount(context: NSManagedObjectContext, providerAccountID: Int64) -> ProviderAccount? {
         return cachedObject(type: ProviderAccount.self, context: context, objectID: providerAccountID, objectKey: #keyPath(ProviderAccount.providerAccountID))
     }
@@ -184,7 +184,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - filteredBy: Predicate of properties to match for fetching. See `ProviderAccount` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerAccountID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
-    */
+     */
     public func providerAccounts(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)], limit: Int? = nil) -> [ProviderAccount]? {
         return cachedObjects(type: ProviderAccount.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
@@ -197,7 +197,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - filteredBy: Predicate of properties to match for fetching. See `ProviderAccount` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerAccountID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
-    */
+     */
     public func providerAccountsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<ProviderAccount>? {
         return fetchedResultsController(type: ProviderAccount.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
@@ -207,7 +207,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - completion: Optional completion handler with optional error if the request fails
-    */
+     */
     public func refreshProviderAccounts(completion: FrolloSDKCompletionHandler? = nil) {
         service.fetchProviderAccounts { result in
             switch result {
@@ -301,7 +301,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
      - parameters:
         - providerAccountID: ID of the provider account to be deleted
         - completion: Optional completion handler with optional error if the request fails
-    */
+     */
     public func deleteProviderAccount(providerAccountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
         service.deleteProviderAccount(providerAccountID: providerAccountID) { result in
             switch result {
@@ -458,7 +458,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
      - parameters:
         - accountID: ID of the account to be updated
         - completion: Optional completion handler with optional error if the request fails
-    */
+     */
     public func updateAccount(accountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
         let managedObjectContext = database.newBackgroundContext()
         
@@ -546,7 +546,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - fromDate: Start date to fetch transactions from (inclusive)
         - toDate: End date to fetch transactions up to (inclusive)
         - completion: Optional completion handler with optional error if the request fails
-    */
+     */
     public func refreshTransactions(from fromDate: Date, to toDate: Date, completion: FrolloSDKCompletionHandler? = nil) {
         refreshNextTransactions(from: fromDate, to: toDate, skip: 0, updatedTransactionIDs: [], completion: completion)
     }
@@ -840,6 +840,83 @@ public class Aggregation: CachedObjects, ResponseHandler {
     }
     
     /**
+     Transaction search
+     
+     Search for transactions from the server. Transactions will be cached and a list of matching transaction IDs returned.
+     Search results are paginated and retrieving the full list of more than 200 will require incrementing the `page` parameter.
+     
+     Example:
+         // Fetch results 201-400
+         transactionSearch(searchTerm: "supermarket", page: 1)
+     
+     The search term will match the following fields on a transaction:
+     
+     * `originalDescription`
+     * `simpleDescription`
+     * `userDescription`
+     * `amount`
+     * `Merchant.name`
+     * `TransactionCategory.name`
+     
+     Magic search terms can also be used where the following will match specific types or properties rather than the fields above.
+     
+     * excluded - Only transactions where `included` is false
+     * pending - Only transactions where `status` is pending
+     * income - Budget category is income
+     * living - Budget category is living
+     * lifestyle - Budget category is lifestyle
+     * goals - Budget category is goals
+     
+     - parameters:
+         - searchTerm: Search term to match, either text, amount or magic term
+         - page: Page to start search from. Defaults to 0
+         - fromDate: Date to start search from (Optional)
+         - toDate: Date to search up to (Optional)
+         - accountIDs: A list of account IDs to restrict search to
+         - onlyIncludedAccounts: Only return results from accounts included in the budget
+     */
+    public func transactionSearch(searchTerm: String, page: Int = 0, from fromDate: Date? = nil, to toDate: Date? = nil, accountIDs: [Int64]? = nil, onlyIncludedAccounts: Bool? = nil, completion: @escaping (Result<[Int64], Error>) -> Void) {
+        guard !searchTerm.isEmpty
+        else {
+            let error = DataError(type: .api, subType: .invalidData)
+            
+            Log.debug("Search term is empty")
+            
+            completion(.failure(error))
+            return
+        }
+        
+        let offset = transactionBatchSize * page
+        
+        service.transactionSearch(searchTerm: searchTerm, count: transactionBatchSize, skip: offset, from: fromDate, to: toDate, accountIDs: accountIDs, onlyIncludedAccounts: onlyIncludedAccounts) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    let transactionIDs = response.map { $0.id }
+                    
+                    self.handleTransactionsResponse(response, transactionIDs: transactionIDs, managedObjectContext: managedObjectContext)
+                    
+                    self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
+                    
+                    DispatchQueue.main.async {
+                        completion(.success(transactionIDs))
+                    }
+            }
+        }
+    }
+    
+    /**
      Transaction summary
      
      Retrieves sum and count of transactions for specified filters
@@ -852,7 +929,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
          - onlyIncludedAccounts: Only include transactions from accounts not marked as excluded from budget
          - onlyIncludedTransactions: Only include transactions not marked as excluded
          - completion: Completion handler with count and sum of transactions if successful or error if it fails
-    */
+     */
     public func transactionSummary(from fromDate: Date, to toDate: Date, accountIDs: [Int64]? = nil, transactionIDs: [Int64]? = nil, onlyIncludedAccounts: Bool? = nil, onlyIncludedTransactions: Bool? = nil, completion: @escaping (Result<(count: Int64, sum: Decimal), Error>) -> Void) {
         service.transactionSummary(from: fromDate, to: toDate, accountIDs: accountIDs, transactionIDs: transactionIDs, onlyIncludedAccounts: onlyIncludedAccounts, onlyIncludedTransactions: onlyIncludedTransactions) { result in
             switch result {
@@ -920,7 +997,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - completion: Optional completion handler with optional error if the request fails
-    */
+     */
     public func refreshTransactionCategories(completion: FrolloSDKCompletionHandler? = nil) {
         service.fetchTransactionCategories { result in
             switch result {
@@ -988,7 +1065,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - completion: Optional completion handler with optional error if the request fails
-    */
+     */
     internal func refreshMerchants(completion: FrolloSDKCompletionHandler? = nil) {
         service.fetchMerchants { result in
             switch result {
@@ -1335,7 +1412,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         updateObjectWithResponse(type: Transaction.self, objectResponse: transactionResponse, primaryKey: #keyPath(Transaction.transactionID), managedObjectContext: managedObjectContext)
         
         linkingAccountIDs.insert(transactionResponse.accountID)
-        linkingMerchantIDs.insert(transactionResponse.merchantID)
+        linkingMerchantIDs.insert(transactionResponse.merchant.id)
         linkingTransactionCategoryIDs.insert(transactionResponse.categoryID)
         
         managedObjectContext.performAndWait {

@@ -26,7 +26,7 @@ public struct ProviderLoginFormViewModel {
     
     /**
      Cell that represents one or more rows that can be selected for a particular cell in the login form view
-    */
+     */
     public struct Cell {
         
         /// The field row choice ID used to identify multiple choice rows
@@ -71,7 +71,7 @@ public struct ProviderLoginFormViewModel {
         - loginForm: Model of the provider login form to generate view model from
      
      - Returns: View model representing the login form model
-    */
+     */
     public init(loginForm: ProviderLoginForm) {
         self.id = loginForm.id
         self.forgetPasswordURL = loginForm.forgetPasswordURL
@@ -99,7 +99,7 @@ public struct ProviderLoginFormViewModel {
      Convert the view model back to a data model suitable for sending back to the host
      
      - Returns: Login form model representation of the view model in its current state
-    */
+     */
     public func dataModel() -> ProviderLoginForm {
         var rows = [ProviderLoginForm.Row]()
         for cell in cells {
@@ -113,7 +113,7 @@ public struct ProviderLoginFormViewModel {
      Validate any multiple choice rows have at least one valid value filled
      
      - Returns: Tuple indicating if the validation passed and optionally any additional information as an error if it failed
-    */
+     */
     public func validateMultipleChoice() -> (Bool, Error?) {
         // Validate multiple field choice
         var validValueFound = true

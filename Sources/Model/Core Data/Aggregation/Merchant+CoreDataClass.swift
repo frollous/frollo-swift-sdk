@@ -29,7 +29,7 @@ public class Merchant: NSManagedObject, UniqueManagedObject {
      Merchant Type
      
      The type of merchant so non-retail ones can be identified
-    */
+     */
     public enum MerchantType: String, Codable {
         
         /// Retailer

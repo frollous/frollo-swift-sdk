@@ -29,6 +29,7 @@ class NotificationsTests: XCTestCase {
 
     override func tearDown() {
         OHHTTPStubs.removeAllStubs()
+        Keychain(service: keychainService).removeAll()
     }
     
     func dataWithHexString(hex: String) -> Data {

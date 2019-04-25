@@ -1140,7 +1140,7 @@ class AggregationTests: XCTestCase {
                         do {
                             let fetchedAccounts = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedAccounts.count, 4)
+                            XCTAssertEqual(fetchedAccounts.count, 8)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -1517,7 +1517,7 @@ class AggregationTests: XCTestCase {
                         do {
                             let fetchedTransactions = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedTransactions.count, 179)
+                            XCTAssertEqual(fetchedTransactions.count, 111)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -1567,7 +1567,7 @@ class AggregationTests: XCTestCase {
                         do {
                             let fetchedTransactions = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedTransactions.count, 176)
+                            XCTAssertEqual(fetchedTransactions.count, 108)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -1597,11 +1597,11 @@ class AggregationTests: XCTestCase {
                 }
                 
                 if skip == 200 {
-                    return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-12-04_count_200_skip_200", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+                    return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-12-04_count_200_skip_200", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
                 }
             }
             
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-12-04_count_200_skip_0", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-12-04_count_200_skip_0", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
@@ -1631,7 +1631,7 @@ class AggregationTests: XCTestCase {
                     do {
                         let fetchedTransactions = try context.fetch(fetchRequest)
                         
-                        XCTAssertEqual(fetchedTransactions.count, 315)
+                        XCTAssertEqual(fetchedTransactions.count, 311)
                     } catch {
                         XCTFail(error.localizedDescription)
                     }
@@ -1650,8 +1650,8 @@ class AggregationTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 99703).path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_99703", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
@@ -1666,7 +1666,7 @@ class AggregationTests: XCTestCase {
             
             let aggregation = Aggregation(database: database, service: service)
             
-            aggregation.refreshTransaction(transactionID: 99703) { (result) in
+            aggregation.refreshTransaction(transactionID: 194630) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -1674,12 +1674,12 @@ class AggregationTests: XCTestCase {
                         let context = database.viewContext
                         
                         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-                        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99703])
+                        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
                         
                         do {
                             let fetchedTransactions = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedTransactions.first?.transactionID, 99703)
+                            XCTAssertEqual(fetchedTransactions.first?.transactionID, 194630)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -1728,7 +1728,7 @@ class AggregationTests: XCTestCase {
                         do {
                             let fetchedTransactions = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedTransactions.count, 179)
+                            XCTAssertEqual(fetchedTransactions.count, 111)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -1805,7 +1805,7 @@ class AggregationTests: XCTestCase {
         let context = database.viewContext
         
         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99704])
+        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
         
         do {
             let fetchedTransactions = try context.fetch(fetchRequest)
@@ -1870,7 +1870,7 @@ class AggregationTests: XCTestCase {
             let context = database.viewContext
             
             let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99704])
+            fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
             
             do {
                 let fetchedTransactions = try context.fetch(fetchRequest)
@@ -1956,7 +1956,7 @@ class AggregationTests: XCTestCase {
         let context = database.viewContext
         
         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99704])
+        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
         
         do {
             let fetchedTransactions = try context.fetch(fetchRequest)
@@ -1980,8 +1980,8 @@ class AggregationTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 99703).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_99703_excluded", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630_excluded", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
@@ -1999,14 +1999,14 @@ class AggregationTests: XCTestCase {
             managedObjectContext.performAndWait {
                 let transaction = Transaction(context: managedObjectContext)
                 transaction.populateTestData()
-                transaction.transactionID = 99703
+                transaction.transactionID = 194630
                 transaction.included = true
                 
                 try? managedObjectContext.save()
                 
                 let aggregation = Aggregation(database: database, service: service)
                 
-                aggregation.excludeTransaction(transactionID: 99703, excluded: true, excludeAll: true) { (result) in
+                aggregation.excludeTransaction(transactionID: 194630, excluded: true, excludeAll: true) { (result) in
                     switch result {
                         case .failure(let error):
                             XCTFail(error.localizedDescription)
@@ -2014,12 +2014,12 @@ class AggregationTests: XCTestCase {
                             let context = database.viewContext
                             
                             let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-                            fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99703])
+                            fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
                             
                             do {
                                 let fetchedTransactions = try context.fetch(fetchRequest)
                                 
-                                XCTAssertEqual(fetchedTransactions.first?.transactionID, 99703)
+                                XCTAssertEqual(fetchedTransactions.first?.transactionID, 194630)
                                 XCTAssertEqual(fetchedTransactions.first?.included, false)
                             } catch {
                                 XCTFail(error.localizedDescription)
@@ -2040,8 +2040,8 @@ class AggregationTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 99703).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_99703", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
@@ -2059,7 +2059,7 @@ class AggregationTests: XCTestCase {
             managedObjectContext.performAndWait {
                 let transaction = Transaction(context: managedObjectContext)
                 transaction.populateTestData()
-                transaction.transactionID = 99703
+                transaction.transactionID = 194630
                 transaction.transactionCategoryID = 123
                 
                 let oldTransactionCategory = TransactionCategory(context: managedObjectContext)
@@ -2070,13 +2070,13 @@ class AggregationTests: XCTestCase {
                 
                 let newTransactionCategory = TransactionCategory(context: managedObjectContext)
                 newTransactionCategory.populateTestData()
-                newTransactionCategory.transactionCategoryID = 81
+                newTransactionCategory.transactionCategoryID = 77
                 
                 try? managedObjectContext.save()
                 
                 let aggregation = Aggregation(database: database, service: service)
                 
-                aggregation.recategoriseTransaction(transactionID: 99703, transactionCategoryID: 81, recategoriseAll: true) { (result) in
+                aggregation.recategoriseTransaction(transactionID: 194630, transactionCategoryID: 77, recategoriseAll: true) { (result) in
                     switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -2084,14 +2084,14 @@ class AggregationTests: XCTestCase {
                         let context = database.viewContext
                         
                         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-                        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99703])
+                        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
                         
                         do {
                             let fetchedTransactions = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedTransactions.first?.transactionID, 99703)
-                            XCTAssertEqual(fetchedTransactions.first?.transactionCategoryID, 81)
-                            XCTAssertEqual(fetchedTransactions.first?.transactionCategory?.transactionCategoryID, 81)
+                            XCTAssertEqual(fetchedTransactions.first?.transactionID, 194630)
+                            XCTAssertEqual(fetchedTransactions.first?.transactionCategoryID, 77)
+                            XCTAssertEqual(fetchedTransactions.first?.transactionCategory?.transactionCategoryID, 77)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -2111,8 +2111,8 @@ class AggregationTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 99703).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_99703", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
@@ -2130,13 +2130,13 @@ class AggregationTests: XCTestCase {
             managedObjectContext.performAndWait {
                 let transaction = Transaction(context: managedObjectContext)
                 transaction.populateTestData()
-                transaction.transactionID = 99703
+                transaction.transactionID = 194630
                 
                 try? managedObjectContext.save()
                 
                 let aggregation = Aggregation(database: database, service: service)
                 
-                aggregation.updateTransaction(transactionID: 99703) { (result) in
+                aggregation.updateTransaction(transactionID: 194630) { (result) in
                     switch result {
                         case .failure(let error):
                             XCTFail(error.localizedDescription)
@@ -2144,12 +2144,12 @@ class AggregationTests: XCTestCase {
                             let context = database.viewContext
                             
                             let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-                            fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [99703])
+                            fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
                             
                             do {
                                 let fetchedTransactions = try context.fetch(fetchRequest)
                                 
-                                XCTAssertEqual(fetchedTransactions.first?.transactionID, 99703)
+                                XCTAssertEqual(fetchedTransactions.first?.transactionID, 194630)
                             } catch {
                                 XCTFail(error.localizedDescription)
                             }
@@ -2220,7 +2220,7 @@ class AggregationTests: XCTestCase {
             do {
                 let fetchedTransactions = try context.fetch(fetchRequest)
                 
-                XCTAssertEqual(fetchedTransactions.count, 179)
+                XCTAssertEqual(fetchedTransactions.count, 111)
             } catch {
                 XCTFail(error.localizedDescription)
             }
@@ -2231,10 +2231,10 @@ class AggregationTests: XCTestCase {
             do {
                 let fetchedMerchants = try context.fetch(merchantFetchRequest)
                 
-                XCTAssertEqual(fetchedMerchants.count, 5)
+                XCTAssertEqual(fetchedMerchants.count, 2)
                 
                 if let merchant = fetchedMerchants.first {
-                    XCTAssertEqual(merchant.merchantID, 1)
+                    XCTAssertEqual(merchant.merchantID, 238)
                 } else {
                     XCTFail("No merchant")
                 }
@@ -2246,6 +2246,59 @@ class AggregationTests: XCTestCase {
         }
         
         wait(for: [expectation3], timeout: 8.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testTransactionSearch() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSearch.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_search", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, service: service)
+            
+            let fromDate = Transaction.transactionDateFormatter.date(from: "2019-03-01")!
+            let toDate = Transaction.transactionDateFormatter.date(from: "2019-04-30")!
+            
+            aggregation.transactionSearch(searchTerm: "Occidental", page: 0, from: fromDate, to: toDate, accountIDs: [544], onlyIncludedAccounts: true) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success(let transactionIDs):
+                        XCTAssertEqual(transactionIDs, [194611, 194620, 194619, 194621])
+                        
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: #keyPath(Transaction.transactionID) + " IN %@", argumentArray: [transactionIDs])
+                        
+                        do {
+                            let fetchedTransactions = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedTransactions.count, 4)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
         OHHTTPStubs.removeAllStubs()
     }
     
@@ -2466,7 +2519,7 @@ class AggregationTests: XCTestCase {
                         do {
                             let fetchedTransactionCategories = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedTransactionCategories.count, 43)
+                            XCTAssertEqual(fetchedTransactionCategories.count, 63)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -2757,10 +2810,10 @@ class AggregationTests: XCTestCase {
                         do {
                             let fetchedMerchants = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedMerchants.count, 5)
+                            XCTAssertEqual(fetchedMerchants.count, 2)
                             
                             if let merchant = fetchedMerchants.last {
-                                XCTAssertEqual(merchant.merchantID, 691)
+                                XCTAssertEqual(merchant.merchantID, 686)
                             } else {
                                 XCTFail("No merchants")
                             }

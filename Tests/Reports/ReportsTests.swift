@@ -433,14 +433,14 @@ class ReportsTests: XCTestCase {
         do {
             let fetchedReports = try context.fetch(fetchRequest)
             
-            XCTAssertEqual(fetchedReports.count, 188)
+            XCTAssertEqual(fetchedReports.count, 376)
             
             if let lastReport = fetchedReports.last {
                 XCTAssertEqual(lastReport.dateString, "2019-01-29")
-                XCTAssertEqual(lastReport.accountID, 543)
+                XCTAssertEqual(lastReport.accountID, 938)
                 XCTAssertEqual(lastReport.currency, "AUD")
                 XCTAssertEqual(lastReport.period, .day)
-                XCTAssertEqual(lastReport.value, NSDecimalNumber(string: "2309.12"))
+                XCTAssertEqual(lastReport.value, NSDecimalNumber(string: "42000"))
             } else {
                 XCTFail("Reports not found")
             }

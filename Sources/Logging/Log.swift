@@ -16,7 +16,7 @@
 
 import Foundation
 
-internal protocol Logger: class {
+internal protocol Logger: AnyObject {
     
     func writeMessage(_ message: String, level: LogLevel)
     

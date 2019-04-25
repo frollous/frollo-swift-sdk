@@ -18,7 +18,7 @@ import Foundation
 
 import Alamofire
 
-protocol NetworkDelegate: class {
+protocol NetworkDelegate: AnyObject {
     
     func forcedLogout()
     
@@ -41,7 +41,7 @@ class Network: SessionDelegate {
     internal var authenticator: NetworkAuthenticator
     internal var sessionManager: SessionManager!
     
-    private let APIVersion = "2.1"
+    private let APIVersion = "2.2"
     
     /**
      Initialise a network stack pointing to an API at a specific URL
@@ -73,7 +73,6 @@ class Network: SessionDelegate {
         let appVersion = Bundle(for: Network.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
         let bundleID = Bundle(for: Network.self).bundleIdentifier!
         let systemVersion = ProcessInfo.processInfo.operatingSystemVersionString
-        let userAgent = String(format: "%@|SDK%@|B%@|%@%@|API%@", arguments: [bundleID, appVersion, appBuild, osVersion, systemVersion, APIVersion])
         
         #if !os(watchOS)
         reachability = NetworkReachabilityManager(host: serverURL.host!)!
@@ -84,8 +83,7 @@ class Network: SessionDelegate {
         configuration.httpAdditionalHeaders = [HTTPHeader.apiVersion.rawValue: APIVersion,
                                                HTTPHeader.bundleID.rawValue: bundleID,
                                                HTTPHeader.deviceVersion.rawValue: osVersion + systemVersion,
-                                               HTTPHeader.softwareVersion.rawValue: String(format: "SDK%@-B%@", arguments: [appVersion, appBuild]),
-                                               HTTPHeader.userAgent.rawValue: userAgent]
+                                               HTTPHeader.softwareVersion.rawValue: String(format: "SDK%@-B%@", arguments: [appVersion, appBuild])]
         
         var serverTrustManager: ServerTrustPolicyManager?
         
@@ -105,8 +103,8 @@ class Network: SessionDelegate {
         super.init()
         
         self.sessionManager = SessionManager(configuration: configuration, delegate: self, serverTrustPolicyManager: serverTrustManager)
-        self.sessionManager.adapter = authenticator
-        self.sessionManager.retrier = authenticator
+        sessionManager.adapter = authenticator
+        sessionManager.retrier = authenticator
     }
     
     // MARK: - Reset

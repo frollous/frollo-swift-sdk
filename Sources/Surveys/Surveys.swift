@@ -30,12 +30,13 @@ public class Surveys: ResponseHandler {
      
      - parameters:
      - surveyKey: key of the survey to fetch
+     - latest: Optional parameter to fetch latest published survey if true. By default false.
      - completion: Completion handler with optional error if the request fails and survey model if succeeds
      */
     
-    public func fetchSurvey(surveyKey: String, completion: @escaping (Result<Survey, Error>) -> Void) {
+    public func fetchSurvey(surveyKey: String, latest: Bool = false, completion: @escaping (Result<Survey, Error>) -> Void) {
         
-        service.fetchSurvey(surveyKey: surveyKey) { result in
+        service.fetchSurvey(surveyKey: surveyKey, latest: latest) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)

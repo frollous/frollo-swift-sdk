@@ -33,7 +33,7 @@ public class Provider: NSManagedObject, UniqueManagedObject {
      Provider Authentication Type
      
      How the provider performs authentication.
-    */
+     */
     public enum AuthType: String, Codable {
         
         /// Credentials. Using the user's login credentials
@@ -54,7 +54,7 @@ public class Provider: NSManagedObject, UniqueManagedObject {
      Provider Encryption Type
      
      The type of login form encryption supported by the provider if applicable
-    */
+     */
     public enum EncryptionType: String, Codable {
         
         /// Unsupported
@@ -69,7 +69,7 @@ public class Provider: NSManagedObject, UniqueManagedObject {
      MFA Type
      
      Type of MFA the provider uses to authenticate
-    */
+     */
     public enum MFAType: String, Codable {
         
         /// Image- usually a captcha
@@ -93,7 +93,7 @@ public class Provider: NSManagedObject, UniqueManagedObject {
      Provider Status
      
      Status of the support of the provider
-    */
+     */
     public enum Status: String, Codable {
         
         /// Beta. Support is still being developed so may have some issues

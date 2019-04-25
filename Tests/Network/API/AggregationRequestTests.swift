@@ -348,7 +348,7 @@ class AggregationRequestTests: XCTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success(let response):
-                    XCTAssertEqual(response.count, 4)
+                    XCTAssertEqual(response.count, 8)
                     
                     if let firstAccount = response.first {
                         XCTAssertEqual(firstAccount.id, 542)
@@ -544,25 +544,38 @@ class AggregationRequestTests: XCTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success(let response):
-                    XCTAssertEqual(response.count, 179)
+                    XCTAssertEqual(response.count, 111)
                     
                     if let firstTransaction = response.first {
-                        XCTAssertEqual(firstTransaction.id, 99704)
-                        XCTAssertEqual(firstTransaction.accountID, 544)
-                        XCTAssertEqual(firstTransaction.amount.amount, "1000.00")
+                        XCTAssertEqual(firstTransaction.id, 194630)
+                        XCTAssertEqual(firstTransaction.accountID, 939)
+                        XCTAssertEqual(firstTransaction.amount.amount, "-59.00")
                         XCTAssertEqual(firstTransaction.amount.currency, "AUD")
-                        XCTAssertEqual(firstTransaction.baseType, .credit)
+                        XCTAssertEqual(firstTransaction.baseType, .debit)
                         XCTAssertEqual(firstTransaction.budgetCategory, .lifestyle)
-                        XCTAssertEqual(firstTransaction.description.original, "Credit Card Payment")
-                        XCTAssertEqual(firstTransaction.description.simple, "Payment")
-                        XCTAssertEqual(firstTransaction.description.user, "My Payment")
-                        XCTAssertEqual(firstTransaction.included, true)
-                        XCTAssertEqual(firstTransaction.merchantID, 1)
+                        XCTAssertEqual(firstTransaction.description.original, "THE OCCIDENTAL HOTEL SYDNEY")
+                        XCTAssertEqual(firstTransaction.description.simple, "The Occidental Hotel")
+                        XCTAssertEqual(firstTransaction.description.user, "Occi")
+                        XCTAssertEqual(firstTransaction.included, false)
+                        XCTAssertEqual(firstTransaction.merchant.id, 238)
+                        XCTAssertEqual(firstTransaction.merchant.name, "The Occidental Hotel")
+                        XCTAssertEqual(firstTransaction.merchant.phone, "(02) 9299 2531")
+                        XCTAssertEqual(firstTransaction.merchant.website, "https://www.theoccidental.com")
+                        XCTAssertEqual(firstTransaction.merchant.location?.formattedAddress, "10 Falcon St, Crows Nest NSW 2065, Australia")
+                        XCTAssertEqual(firstTransaction.merchant.location?.line1, "10 Falcon St")
+                        XCTAssertEqual(firstTransaction.merchant.location?.line2, "Suite 2 Level 3")
+                        XCTAssertEqual(firstTransaction.merchant.location?.line3, "Building 2 MLC")
+                        XCTAssertEqual(firstTransaction.merchant.location?.suburb, "Crows Nest")
+                        XCTAssertEqual(firstTransaction.merchant.location?.state, "NSW")
+                        XCTAssertEqual(firstTransaction.merchant.location?.postcode, "2065")
+                        XCTAssertEqual(firstTransaction.merchant.location?.country, "Australia")
+                        XCTAssertEqual(firstTransaction.merchant.location?.latitude, -33.827499)
+                        XCTAssertEqual(firstTransaction.merchant.location?.longitude, 151.201699)
                         XCTAssertEqual(firstTransaction.memo, "Remind me")
-                        XCTAssertEqual(firstTransaction.postDate, "2018-03-01")
+                        XCTAssertEqual(firstTransaction.postDate, "2018-07-29")
                         XCTAssertEqual(firstTransaction.status, .posted)
-                        XCTAssertEqual(firstTransaction.categoryID, 81)
-                        XCTAssertEqual(firstTransaction.transactionDate, "2018-08-08")
+                        XCTAssertEqual(firstTransaction.categoryID, 77)
+                        XCTAssertEqual(firstTransaction.transactionDate, "2019-02-14")
                     }
             }
             
@@ -592,10 +605,10 @@ class AggregationRequestTests: XCTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success(let response):
-                    XCTAssertEqual(response.count, 176)
+                    XCTAssertEqual(response.count, 108)
                     
                     if let firstTransaction = response.first {
-                        XCTAssertEqual(firstTransaction.id, 99704)
+                        XCTAssertEqual(firstTransaction.id, 194630)
                     }
             }
             
@@ -610,8 +623,8 @@ class AggregationRequestTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 99703).path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_99703", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
@@ -620,12 +633,12 @@ class AggregationRequestTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        service.fetchTransaction(transactionID: 99703) { (result) in
+        service.fetchTransaction(transactionID: 194630) { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success(let response):
-                    XCTAssertEqual(response.id, 99703)
+                    XCTAssertEqual(response.id, 194630)
             }
             
             expectation1.fulfill()
@@ -639,8 +652,8 @@ class AggregationRequestTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 99703).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_99703", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
@@ -650,13 +663,13 @@ class AggregationRequestTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let request = APITransactionUpdateRequest.testCompleteData()
-        service.updateTransaction(transactionID: 99703, request: request) { (result) in
+        service.updateTransaction(transactionID: 194630, request: request) { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success(let response):
-                    XCTAssertEqual(response.id, 99703)
-                    XCTAssertEqual(response.accountID, 543)
+                    XCTAssertEqual(response.id, 194630)
+                    XCTAssertEqual(response.accountID, 939)
             }
             
             expectation1.fulfill()
@@ -685,7 +698,7 @@ class AggregationRequestTests: XCTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success(let response):
-                    XCTAssertEqual(response.count, 43)
+                    XCTAssertEqual(response.count, 63)
                     
                     if let firstCategory = response.first {
                         XCTAssertEqual(firstCategory.id, 60)
