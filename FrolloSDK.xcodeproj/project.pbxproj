@@ -937,9 +937,9 @@
 		01F220E320FEAC7600C70B00 /* APITokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F220E220FEAC7600C70B00 /* APITokenResponse.swift */; };
 		01F220EA20FECA9100C70B00 /* refresh_token_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01F220E820FECA8900C70B00 /* refresh_token_invalid.json */; };
 		033D46C92272856500E0C6D6 /* APITransactionTagsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46C82272856500E0C6D6 /* APITransactionTagsResponse.swift */; };
-		033D46CC22728E0100E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46CA22728BF600E0C6D6 /* transactions_suggested_tags.json */; };
-		033D46CD22728E0E00E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46CA22728BF600E0C6D6 /* transactions_suggested_tags.json */; };
-		033D46CE22728E0E00E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46CA22728BF600E0C6D6 /* transactions_suggested_tags.json */; };
+		033D46D42272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */; };
+		033D46D52272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */; };
+		033D46D62272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */; };
 		2F657DA3223B26B300471B85 /* Survey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA2223B26B300471B85 /* Survey.swift */; };
 		2F657DA5223B2FB300471B85 /* Surveys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA4223B2FB300471B85 /* Surveys.swift */; };
 		2F657DA7223B314100471B85 /* APIService+Surveys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA6223B314100471B85 /* APIService+Surveys.swift */; };
@@ -1409,7 +1409,7 @@
 		01F220E220FEAC7600C70B00 /* APITokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITokenResponse.swift; sourceTree = "<group>"; };
 		01F220E820FECA8900C70B00 /* refresh_token_invalid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = refresh_token_invalid.json; sourceTree = "<group>"; };
 		033D46C82272856500E0C6D6 /* APITransactionTagsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionTagsResponse.swift; sourceTree = "<group>"; };
-		033D46CA22728BF600E0C6D6 /* transactions_suggested_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = transactions_suggested_tags.json; path = "../../../../../../frollo-ios-sdk/Tests/Resources/API/Aggregation/transactions_suggested_tags.json"; sourceTree = "<group>"; };
+		033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transactions_suggested_tags.json; sourceTree = "<group>"; };
 		2F657DA2223B26B300471B85 /* Survey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Survey.swift; sourceTree = "<group>"; };
 		2F657DA4223B2FB300471B85 /* Surveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Surveys.swift; sourceTree = "<group>"; };
 		2F657DA6223B314100471B85 /* APIService+Surveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+Surveys.swift"; sourceTree = "<group>"; };
@@ -2025,7 +2025,7 @@
 				01ED8FD8211A846500ACE691 /* transactions_2018-08-01_valid.json */,
 				01E5BF85222CC8E5003D85FD /* transactions_2018-12-04_count_200_skip_0.json */,
 				01E5BF86222CC8E6003D85FD /* transactions_2018-12-04_count_200_skip_200.json */,
-				033D46CA22728BF600E0C6D6 /* transactions_suggested_tags.json */,
+				033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */,
 			);
 			path = Aggregation;
 			sourceTree = "<group>";
@@ -2946,7 +2946,7 @@
 				01236D4E21EEBE30008DD61A /* transaction_reports_history_txn_category_monthly_lifestyle_2018-01-01_2018-12-31.json in Resources */,
 				01ED8FD9211A846500ACE691 /* transactions_2018-08-01_invalid.json in Resources */,
 				017B48E721082DCA00447E65 /* user_details_complete.json in Resources */,
-				033D46CC22728E0100E0C6D6 /* transactions_suggested_tags.json in Resources */,
+				033D46D42272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */,
 				01B896C020F2EDA30068069A /* error_invalid_count.json in Resources */,
 				01E5BF82222C88E9003D85FD /* transaction_id_194630_excluded.json in Resources */,
 				01A1F5932148D646002B9A93 /* provider-public-key.der in Resources */,
@@ -3074,7 +3074,7 @@
 				01236D4F21EEBE30008DD61A /* transaction_reports_history_txn_category_monthly_lifestyle_2018-01-01_2018-12-31.json in Resources */,
 				01ED8FDA211A846500ACE691 /* transactions_2018-08-01_invalid.json in Resources */,
 				017B48E821082DCA00447E65 /* user_details_complete.json in Resources */,
-				033D46CD22728E0E00E0C6D6 /* transactions_suggested_tags.json in Resources */,
+				033D46D52272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */,
 				017B48452101B4FE00447E65 /* error_invalid_count.json in Resources */,
 				01E5BF83222C88E9003D85FD /* transaction_id_194630_excluded.json in Resources */,
 				01A1F5942148D646002B9A93 /* provider-public-key.der in Resources */,
@@ -3211,7 +3211,7 @@
 				01236D5021EEBE30008DD61A /* transaction_reports_history_txn_category_monthly_lifestyle_2018-01-01_2018-12-31.json in Resources */,
 				01ED8FDB211A846500ACE691 /* transactions_2018-08-01_invalid.json in Resources */,
 				017B48E921082DCB00447E65 /* user_details_complete.json in Resources */,
-				033D46CE22728E0E00E0C6D6 /* transactions_suggested_tags.json in Resources */,
+				033D46D62272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */,
 				017B48A22105958100447E65 /* error_invalid_count.json in Resources */,
 				01E5BF84222C88E9003D85FD /* transaction_id_194630_excluded.json in Resources */,
 				01A1F5952148D646002B9A93 /* provider-public-key.der in Resources */,

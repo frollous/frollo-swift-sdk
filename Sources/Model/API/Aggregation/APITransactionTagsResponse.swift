@@ -26,7 +26,7 @@ struct APITransactionTagResponse: Codable {
     }
     
     let name: String
-    let count: Int64
-    let lastUsedAt: String
-    let createdAt: String
+    let count: Int64?
+    let lastUsedAt: String?
+    let createdAt: String?
 }
