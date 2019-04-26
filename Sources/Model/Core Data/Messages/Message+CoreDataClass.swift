@@ -115,6 +115,7 @@ public class Message: NSManagedObject, UniqueManagedObject {
         read = response.read
         title = response.title
         userEventID = response.userEventID ?? -1
+        autoDismiss = response.autoDismiss
         
         actionURLString = response.action?.link
         actionOpenExternal = response.action?.openExternal ?? false
