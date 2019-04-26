@@ -23,13 +23,15 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: SurveysEndpoint.survey(key: surveyKey).path, relativeTo: self.serverURL)!
             
-            var parameters: [String: Any]?
+            var parameters: [String: Bool]?
             
             if latest {
                 parameters = [SurveysEndpoint.QueryParameters.latest.rawValue: latest]
             }
             
-            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            let urlEncoding = URLEncoding(destination: .queryString, arrayEncoding: .brackets, boolEncoding: .literal)
+            
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: urlEncoding, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: Survey.self, errorType: APIError.self, response: response, completion: completion)
                 
             }
