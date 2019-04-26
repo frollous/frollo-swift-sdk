@@ -197,6 +197,8 @@ public class Authentication {
         else {
             let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
             
+            Log.error(error.localizedDescription)
+            
             DispatchQueue.main.async {
                 completion(.failure(error))
             }
@@ -250,8 +252,7 @@ public class Authentication {
                                 DispatchQueue.main.async {
                                     completion(.success)
                                 }
-                        }
-                    }
+                    } }
             }
             
         }
@@ -276,6 +277,8 @@ public class Authentication {
         guard !loggedIn
         else {
             let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
+            
+            Log.error(error.localizedDescription)
             
             DispatchQueue.main.async {
                 completion(.failure(error))
@@ -394,6 +397,8 @@ public class Authentication {
         else {
             let error = DataError(type: .authentication, subType: .loggedOut)
             
+            Log.error(error.localizedDescription)
+            
             DispatchQueue.main.async {
                 completion?(.failure(error))
             }
@@ -430,6 +435,8 @@ public class Authentication {
         guard loggedIn
         else {
             let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
             
             DispatchQueue.main.async {
                 completion(.failure(error))
@@ -486,6 +493,8 @@ public class Authentication {
         else {
             let error = DataError(type: .authentication, subType: .loggedOut)
             
+            Log.error(error.localizedDescription)
+            
             DispatchQueue.main.async {
                 completion(.failure(error))
             }
@@ -532,6 +541,8 @@ public class Authentication {
         else {
             let error = DataError(type: .authentication, subType: .loggedOut)
             
+            Log.error(error.localizedDescription)
+            
             DispatchQueue.main.async {
                 completion(.failure(error))
             }
@@ -574,6 +585,8 @@ public class Authentication {
         guard !loggedIn
         else {
             let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
+            
+            Log.error(error.localizedDescription)
             
             DispatchQueue.main.async {
                 completion(.failure(error))
@@ -646,6 +659,8 @@ public class Authentication {
         else {
             let error = DataError(type: .authentication, subType: .loggedOut)
             
+            Log.error(error.localizedDescription)
+            
             DispatchQueue.main.async {
                 completion(.failure(error))
             }
@@ -655,6 +670,8 @@ public class Authentication {
         guard let refreshToken = networkAuthenticator.refreshToken
         else {
             let error = DataError(type: .authentication, subType: .missingRefreshToken)
+            
+            Log.error(error.localizedDescription)
             
             DispatchQueue.main.async {
                 completion(.failure(error))
@@ -773,6 +790,8 @@ public class Authentication {
         else {
             let error = DataError(type: .authentication, subType: .loggedOut)
             
+            Log.error(error.localizedDescription)
+            
             DispatchQueue.main.async {
                 completion?(.failure(error))
             }
@@ -818,6 +837,8 @@ public class Authentication {
     public func logoutUser() {
         guard loggedIn
         else {
+            Log.info("Cannot logout. User is not logged in.")
+            
             return
         }
         
@@ -873,6 +894,8 @@ public class Authentication {
     
     internal func reset() {
         guard loggedIn else {
+            Log.debug("Reset did nothing as user not logged in")
+            
             return
         }
         

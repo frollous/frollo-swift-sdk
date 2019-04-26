@@ -46,6 +46,8 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -76,7 +78,9 @@ class ReportsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let aggregation = Aggregation(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2017-06-01")!
@@ -107,11 +111,15 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
@@ -173,11 +181,15 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
@@ -239,11 +251,15 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
@@ -305,11 +321,15 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
@@ -377,6 +397,8 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -386,7 +408,9 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        let aggregation = Aggregation(database: database, service: service)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         
         aggregation.refreshAccounts() { (result) in
             switch result {
@@ -484,6 +508,8 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -493,7 +519,9 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let aggregation = Aggregation(database: database, service: service)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         let oldFromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
@@ -647,6 +675,8 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -656,7 +686,9 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        let aggregation = Aggregation(database: database, service: service)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
@@ -788,6 +820,8 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -823,7 +857,9 @@ class ReportsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let aggregation = Aggregation(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fetchedReports = reports.currentTransactionReports(context: database.viewContext, grouping: .budgetCategory)
@@ -852,11 +888,15 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             reports.refreshTransactionCurrentReports(grouping: .budgetCategory) { (result) in
@@ -942,11 +982,15 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             reports.refreshTransactionCurrentReports(grouping: .merchant) { (result) in
@@ -1031,11 +1075,15 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             reports.refreshTransactionCurrentReports(grouping: .transactionCategory) { (result) in
@@ -1120,11 +1168,15 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             reports.refreshTransactionCurrentReports(grouping: .transactionCategory, budgetCategory: .lifestyle) { (result) in
@@ -1217,6 +1269,8 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1226,7 +1280,9 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let aggregation = Aggregation(database: database, service: service)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation)
             
         reports.refreshTransactionCurrentReports(grouping: .transactionCategory) { (result) in
@@ -1390,6 +1446,8 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1399,7 +1457,9 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let aggregation = Aggregation(database: database, service: service)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation)
             
         reports.refreshTransactionCurrentReports(grouping: .transactionCategory, budgetCategory: .lifestyle) { (result) in
@@ -1614,6 +1674,8 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1623,7 +1685,9 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let aggregation = Aggregation(database: database, service: service)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         aggregation.refreshMerchants() { (result) in
@@ -1697,6 +1761,8 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1706,7 +1772,9 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let aggregation = Aggregation(database: database, service: service)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         aggregation.refreshTransactionCategories() { (result) in
@@ -1773,6 +1841,8 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1825,7 +1895,9 @@ class ReportsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let aggregation = Aggregation(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2017-06-01")!
@@ -1857,11 +1929,15 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
@@ -1956,11 +2032,15 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
@@ -2054,11 +2134,15 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
@@ -2152,11 +2236,15 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
@@ -2248,11 +2336,15 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
@@ -2346,11 +2438,15 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
@@ -2460,6 +2556,8 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -2469,7 +2567,9 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let aggregation = Aggregation(database: database, service: service)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         let oldFromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
@@ -2697,6 +2797,8 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -2706,7 +2808,9 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let aggregation = Aggregation(database: database, service: service)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
@@ -2935,6 +3039,8 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -2944,7 +3050,9 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        let aggregation = Aggregation(database: database, service: service)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
@@ -3121,6 +3229,8 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -3130,7 +3240,9 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let aggregation = Aggregation(database: database, service: service)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         aggregation.refreshMerchants() { (result) in
@@ -3208,6 +3320,8 @@ class ReportsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -3218,7 +3332,9 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let aggregation = Aggregation(database: database, service: service)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation)
             
         aggregation.refreshTransactionCategories() { (result) in
