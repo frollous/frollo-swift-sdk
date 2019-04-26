@@ -53,7 +53,7 @@ class SurveysTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let surveys = Surveys(service: service)
-        surveys.fetchSurvey(surveyKey: surveyKey, completion: { (result) in
+        surveys.fetchSurvey(surveyKey: surveyKey, latest: true, completion: { (result) in
             switch result {
             case .failure(let error):
                 XCTFail(error.localizedDescription)
