@@ -292,6 +292,24 @@ extension APIService {
         }
     }
     
+    // MARK: - Transaction Tags
+    
+    internal func fetchTransactionSuggestedTags(searchTerm: String, sort: AggregationEndpoint.SortType, order: OrderType, completion: @escaping RequestCompletion<[APITransactionTagResponse]>) {
+        
+        var parameters: [String: String] = [:]
+        parameters[AggregationEndpoint.QueryParameters.searchTerm.rawValue] = searchTerm
+        parameters[AggregationEndpoint.QueryParameters.sort.rawValue] = sort.rawValue
+        parameters[AggregationEndpoint.QueryParameters.order.rawValue] = order.rawValue
+        
+        requestQueue.async {
+            let url = URL(string: AggregationEndpoint.transactionSuggestedTags.path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+                self.network.handleArrayResponse(type: APITransactionTagResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     // MARK: - Merchants
     
     internal func fetchMerchants(completion: @escaping RequestCompletion<[APIMerchantResponse]>) {
