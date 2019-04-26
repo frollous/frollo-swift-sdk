@@ -23,7 +23,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: SurveysEndpoint.survey(key: surveyKey).path, relativeTo: self.serverURL)!
             
-            var parameters: [String: Any]?
+            var parameters: [String: Bool]?
             
             if latest {
                 parameters = [SurveysEndpoint.QueryParameters.latest.rawValue: latest]
