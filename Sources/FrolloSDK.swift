@@ -274,7 +274,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         _aggregation = Aggregation(database: _database, service: service, authentication: _authentication)
         _bills = Bills(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
         _events = Events(service: service, authentication: _authentication)
-        _messages = Messages(database: _database, service: service)
+        _messages = Messages(database: _database, service: service, authentication: authentication)
         _notifications = Notifications(authentication: _authentication, events: _events, messages: _messages)
         _reports = Reports(database: _database, service: service, aggregation: _aggregation)
         _surveys = Surveys(service: service)
