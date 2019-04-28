@@ -44,9 +44,14 @@ class EventsTests: XCTestCase {
         
         let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let database = Database(path: tempFolderPath())
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
-        let events = Events(service: service)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        authentication.loggedIn = true
+        let events = Events(service: service, authentication: authentication)
         
         events.triggerEvent("TEST_EVENT", after: 5) { (result) in
             switch result {
@@ -54,6 +59,49 @@ class EventsTests: XCTestCase {
                     XCTFail(error.localizedDescription)
                 case .success:
                     break
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testTriggerEventFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + EventsEndpoint.events.path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let database = Database(path: tempFolderPath())
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        authentication.loggedIn = false
+        let events = Events(service: service, authentication: authentication)
+        
+        events.triggerEvent("TEST_EVENT", after: 5) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertNotNil(error)
+                    
+                    if let loggedOutError = error as? DataError {
+                        XCTAssertEqual(loggedOutError.type, .authentication)
+                        XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                    } else {
+                        XCTFail("Wrong error type returned")
+                    }
+                case .success:
+                    XCTFail("User logged out, request should fail")
             }
             
             expectation1.fulfill()
@@ -71,9 +119,14 @@ class EventsTests: XCTestCase {
         
         let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let database = Database(path: tempFolderPath())
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
-        let events = Events(service: service)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        authentication.loggedIn = true
+        let events = Events(service: service, authentication: authentication)
         
         let eventName = "TEST_EVENT"
         
@@ -96,9 +149,14 @@ class EventsTests: XCTestCase {
         
         let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let database = Database(path: tempFolderPath())
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
-        let events = Events(service: service)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        authentication.loggedIn = true
+        let events = Events(service: service, authentication: authentication)
         
         let eventName = "UNKNOWN_EVENT"
         
@@ -134,9 +192,14 @@ class EventsTests: XCTestCase {
         
         let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let database = Database(path: tempFolderPath())
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
-        let events = Events(service: service)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        authentication.loggedIn = true
+        let events = Events(service: service, authentication: authentication)
         
         let notificationUpdated = NotificationPayload.testTransactionUpdatedData()
         
