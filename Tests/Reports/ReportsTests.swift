@@ -81,7 +81,7 @@ class ReportsTests: XCTestCase {
             let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2017-06-01")!
             let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-01-31")!
@@ -94,6 +94,58 @@ class ReportsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 5)
+    }
+    
+    func testRefreshingAccountBalanceReportsFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_day_2018-10-29_2019-01-29", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = false
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            
+            let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
+            let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
+            
+            reports.refreshAccountBalanceReports(period: .day, from: fromDate, to: toDate) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let loggedOutError = error as? DataError {
+                            XCTAssertEqual(loggedOutError.type, .authentication)
+                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        } else {
+                            XCTFail("Wrong error type returned")
+                        }
+                    case .success:
+                        XCTFail("User logged out, request should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 10.0)
+        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchingAccountBalanceReportsByDay() {
@@ -120,7 +172,7 @@ class ReportsTests: XCTestCase {
             let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
             let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
@@ -190,7 +242,7 @@ class ReportsTests: XCTestCase {
             let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
             let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
@@ -260,7 +312,7 @@ class ReportsTests: XCTestCase {
             let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
             let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
@@ -330,7 +382,7 @@ class ReportsTests: XCTestCase {
             let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
             let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
@@ -427,7 +479,7 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation2], timeout: 3.0)
                 
-        let reports = Reports(database: database, service: service, aggregation: aggregation)
+        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
         
         let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
         let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
@@ -522,7 +574,7 @@ class ReportsTests: XCTestCase {
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation)
+        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
         
         let oldFromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
         let oldToDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
@@ -689,7 +741,7 @@ class ReportsTests: XCTestCase {
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation)
+        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
         
         let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
         let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2019-01-29")!
@@ -860,7 +912,7 @@ class ReportsTests: XCTestCase {
             let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             let fetchedReports = reports.currentTransactionReports(context: database.viewContext, grouping: .budgetCategory)
             
@@ -871,6 +923,55 @@ class ReportsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 5)
+    }
+    
+    func testRefreshingCurrentReportsFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsCurrent.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_budget_category", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = false
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            
+            reports.refreshTransactionCurrentReports(grouping: .budgetCategory) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let loggedOutError = error as? DataError {
+                            XCTAssertEqual(loggedOutError.type, .authentication)
+                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        } else {
+                            XCTFail("Wrong error type returned")
+                        }
+                    case .success:
+                        XCTFail("User logged out, request should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 10.0)
+        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchingCurrentReportsByBudgetCategory() {
@@ -897,7 +998,7 @@ class ReportsTests: XCTestCase {
             let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             reports.refreshTransactionCurrentReports(grouping: .budgetCategory) { (result) in
                 switch result {
@@ -991,7 +1092,7 @@ class ReportsTests: XCTestCase {
             let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             reports.refreshTransactionCurrentReports(grouping: .merchant) { (result) in
                 switch result {
@@ -1084,7 +1185,7 @@ class ReportsTests: XCTestCase {
             let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             reports.refreshTransactionCurrentReports(grouping: .transactionCategory) { (result) in
                 switch result {
@@ -1177,7 +1278,7 @@ class ReportsTests: XCTestCase {
             let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             reports.refreshTransactionCurrentReports(grouping: .transactionCategory, budgetCategory: .lifestyle) { (result) in
                 switch result {
@@ -1283,7 +1384,7 @@ class ReportsTests: XCTestCase {
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation)
+        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
         reports.refreshTransactionCurrentReports(grouping: .transactionCategory) { (result) in
             switch result {
@@ -1460,7 +1561,7 @@ class ReportsTests: XCTestCase {
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation)
+        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
         reports.refreshTransactionCurrentReports(grouping: .transactionCategory, budgetCategory: .lifestyle) { (result) in
             switch result {
@@ -1688,7 +1789,7 @@ class ReportsTests: XCTestCase {
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation)
+        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
         
         aggregation.refreshMerchants() { (result) in
             switch result {
@@ -1775,7 +1876,7 @@ class ReportsTests: XCTestCase {
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation)
+        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
         
         aggregation.refreshTransactionCategories() { (result) in
             switch result {
@@ -1898,7 +1999,7 @@ class ReportsTests: XCTestCase {
             let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2017-06-01")!
             let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-01-31")!
@@ -1912,6 +2013,58 @@ class ReportsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 5)
+    }
+    
+    func testRefreshingHistoryReportsByFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_budget_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = false
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            
+            let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
+            let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
+            
+            reports.refreshTransactionHistoryReports(grouping: .budgetCategory, period: .month, from: fromDate, to: toDate) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let loggedOutError = error as? DataError {
+                            XCTAssertEqual(loggedOutError.type, .authentication)
+                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        } else {
+                            XCTFail("Wrong error type returned")
+                        }
+                    case .success:
+                        XCTFail("User logged out, request should fail")
+                }
+                        
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
     }
     
     func testFetchingHistoryReportsByBudgetCategory() {
@@ -1938,7 +2091,7 @@ class ReportsTests: XCTestCase {
             let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
             let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -2041,7 +2194,7 @@ class ReportsTests: XCTestCase {
             let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
             let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -2143,7 +2296,7 @@ class ReportsTests: XCTestCase {
             let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
             let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -2245,7 +2398,7 @@ class ReportsTests: XCTestCase {
             let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
             let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -2345,7 +2498,7 @@ class ReportsTests: XCTestCase {
             let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
             let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -2447,7 +2600,7 @@ class ReportsTests: XCTestCase {
             let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
             let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -2570,7 +2723,7 @@ class ReportsTests: XCTestCase {
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation)
+        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
         
         let oldFromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
         let oldToDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -2811,7 +2964,7 @@ class ReportsTests: XCTestCase {
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation)
+        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
         
         let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
         let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -3053,7 +3206,7 @@ class ReportsTests: XCTestCase {
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation)
+        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
         
         let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
         let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -3243,7 +3396,7 @@ class ReportsTests: XCTestCase {
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation)
+        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
         
         aggregation.refreshMerchants() { (result) in
             switch result {
@@ -3335,7 +3488,7 @@ class ReportsTests: XCTestCase {
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation)
+        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
         aggregation.refreshTransactionCategories() { (result) in
             switch result {
