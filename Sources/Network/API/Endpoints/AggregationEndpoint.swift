@@ -28,6 +28,18 @@ enum AggregationEndpoint: Endpoint {
         case toDate = "to_date"
         case transactionIDs = "transaction_ids"
         case transactionIncluded = "transaction_included"
+        case sort
+        case order
+    }
+    
+    enum OrderType: String {
+        case asc
+        case desc
+    }
+    
+    enum SortType: String {
+        case name
+        case relevance
     }
     
     internal var path: String {
@@ -49,6 +61,7 @@ enum AggregationEndpoint: Endpoint {
     case transactionCategories
     case transactionSearch
     case transactionSummary
+    case transactionSuggestedTags
     
     private func urlPath() -> String {
         switch self {
@@ -82,6 +95,8 @@ enum AggregationEndpoint: Endpoint {
                 return "aggregation/transactions/search"
             case .transactionSummary:
                 return "aggregation/transactions/summary"
+            case .transactionSuggestedTags:
+                return "aggregation/transactions/tags/suggested"
         }
     }
     
