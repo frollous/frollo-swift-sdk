@@ -14,11 +14,6 @@
 // limitations under the License.
 //
 
-enum OrderType: String {
-    case asc
-    case desc
-}
-
 import Foundation
 
 enum AggregationEndpoint: Endpoint {
@@ -35,6 +30,11 @@ enum AggregationEndpoint: Endpoint {
         case transactionIncluded = "transaction_included"
         case sort
         case order
+    }
+    
+    enum OrderType: String {
+        case asc
+        case desc
     }
     
     enum SortType: String {

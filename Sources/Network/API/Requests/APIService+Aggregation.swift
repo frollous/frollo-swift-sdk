@@ -294,7 +294,7 @@ extension APIService {
     
     // MARK: - Transaction Tags
     
-    internal func fetchTransactionSuggestedTags(searchTerm: String, sort: AggregationEndpoint.SortType, order: OrderType, completion: @escaping RequestCompletion<[APITransactionTagResponse]>) {
+    internal func fetchTransactionSuggestedTags(searchTerm: String, sort: AggregationEndpoint.SortType = .name, order: AggregationEndpoint.OrderType = .asc, completion: @escaping RequestCompletion<[APITransactionTagResponse]>) {
         
         var parameters: [String: String] = [:]
         parameters[AggregationEndpoint.QueryParameters.searchTerm.rawValue] = searchTerm
