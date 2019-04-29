@@ -104,13 +104,21 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             managedObjectContext.performAndWait {
                 let testMessage1 = Message(context: managedObjectContext)
                 testMessage1.populateTestData()
+                testMessage1.contentType = .text
+                testMessage1.messageTypes = ["information"]
+                testMessage1.read = false
                 
                 let testMessage2 = Message(context: managedObjectContext)
                 testMessage2.populateTestData()
+                testMessage2.contentType = .text
+                testMessage2.messageTypes = ["warning"]
+                testMessage2.read = false
                 
                 let testMessage3 = Message(context: managedObjectContext)
                 testMessage3.populateTestData()
+                testMessage3.contentType = .text
                 testMessage3.messageTypes = ["derp", "test"]
+                testMessage3.read = false
                 
                 try! managedObjectContext.save()
             }
@@ -119,7 +127,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             authentication.loggedIn = true
             let messages = Messages(database: database, service: service, authentication: authentication)
             
-            let fetchedMessages = messages.messages(context: database.viewContext, messageTypes: ["information", "warning"])
+            let fetchedMessages = messages.messages(context: database.viewContext, contentType: .text, messageTypes: ["information", "warning"], unread: true)
             
             XCTAssertNotNil(fetchedMessages)
             XCTAssertEqual(fetchedMessages?.count, 2)
@@ -152,13 +160,19 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             managedObjectContext.performAndWait {
                 let testMessage1 = Message(context: managedObjectContext)
                 testMessage1.populateTestData()
+                testMessage1.contentType = .text
+                testMessage1.read = false
                 
                 let testMessage2 = Message(context: managedObjectContext)
                 testMessage2.populateTestData()
+                testMessage2.contentType = .text
                 testMessage2.messageTypes = ["derp", "test"]
+                testMessage2.read = false
                 
                 let testMessage3 = Message(context: managedObjectContext)
                 testMessage3.populateTestData()
+                testMessage3.contentType = .text
+                testMessage3.read = false
                 
                 try! managedObjectContext.save()
             }
@@ -167,7 +181,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             authentication.loggedIn = true
             let messages = Messages(database: database, service: service, authentication: authentication)
             
-            let fetchedResultsController = messages.messagesFetchedResultsController(context: database.viewContext, messageTypes: ["information", "warning"])
+            let fetchedResultsController = messages.messagesFetchedResultsController(context: database.viewContext, contentType: .text, messageTypes: ["information", "warning"], unread: true)
             
             do {
                 try fetchedResultsController?.performFetch()

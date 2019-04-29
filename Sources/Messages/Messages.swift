@@ -56,12 +56,23 @@ public class Messages: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - contentType: Filter the message by the type of content it contains (optional)
         - messageTypes: Array of message types to find matching Messages for (optional)
+        - unread: Only return messages that are read or unread (optional)
         - filteredBy: Predicate of properties to match for fetching. See `Message` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to messageID ascending (Optional)
      */
-    public func messages(context: NSManagedObjectContext, messageTypes: [String]? = nil, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Message.messageID), ascending: true)], limit: Int? = nil) -> [Message]? {
+    public func messages(context: NSManagedObjectContext,
+                         contentType: Message.ContentType? = nil,
+                         messageTypes: [String]? = nil,
+                         unread: Bool? = nil,
+                         filteredBy predicate: NSPredicate? = nil,
+                         sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Message.messageID), ascending: true)],
+                         limit: Int? = nil) -> [Message]? {
         var predicates = [NSPredicate]()
+        if let type = contentType {
+            predicates.append(NSPredicate(format: #keyPath(Message.contentTypeRawValue) + " == %@", argumentArray: [type.rawValue]))
+        }
         if let types = messageTypes {
             var messageTypePredicates = [NSPredicate]()
             
@@ -71,6 +82,9 @@ public class Messages: CachedObjects, ResponseHandler {
             
             let compoundPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: messageTypePredicates)
             predicates.append(compoundPredicate)
+        }
+        if let unreadFilter = unread {
+            predicates.append(NSPredicate(format: #keyPath(Message.read) + " == %ld", argumentArray: [!unreadFilter]))
         }
         if let filterPredicate = predicate {
             predicates.append(filterPredicate)
@@ -84,12 +98,23 @@ public class Messages: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - contentType: Filter the message by the type of content it contains (optional)
         - messageTypes: Array of message types to find matching Messages for (optional)
+        - unread: Only return messages that are read or unread (optional)
         - filteredBy: Predicate of properties to match for fetching. See `Message` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to messageID ascending (Optional)
      */
-    public func messagesFetchedResultsController(context: NSManagedObjectContext, messageTypes: [String]? = nil, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Message.messageID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Message>? {
+    public func messagesFetchedResultsController(context: NSManagedObjectContext,
+                                                 contentType: Message.ContentType? = nil,
+                                                 messageTypes: [String]? = nil,
+                                                 unread: Bool? = nil,
+                                                 filteredBy predicate: NSPredicate? = nil,
+                                                 sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Message.messageID), ascending: true)],
+                                                 limit: Int? = nil) -> NSFetchedResultsController<Message>? {
         var predicates = [NSPredicate]()
+        if let type = contentType {
+            predicates.append(NSPredicate(format: #keyPath(Message.contentTypeRawValue) + " == %@", argumentArray: [type.rawValue]))
+        }
         if let types = messageTypes {
             var messageTypePredicates = [NSPredicate]()
             
@@ -99,6 +124,9 @@ public class Messages: CachedObjects, ResponseHandler {
             
             let compoundPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: messageTypePredicates)
             predicates.append(compoundPredicate)
+        }
+        if let unreadFilter = unread {
+            predicates.append(NSPredicate(format: #keyPath(Message.read) + " == %ld", argumentArray: [!unreadFilter]))
         }
         if let filterPredicate = predicate {
             predicates.append(filterPredicate)
