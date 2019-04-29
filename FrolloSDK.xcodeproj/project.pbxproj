@@ -944,6 +944,9 @@
 		033D46D62272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */; };
 		03D965B022768C92009BC283 /* SuggestedTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D965AF22768C92009BC283 /* SuggestedTag.swift */; };
 		03D965B122768C92009BC283 /* SuggestedTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D965AF22768C92009BC283 /* SuggestedTag.swift */; };
+		03D965B52276DFDB009BC283 /* transactions_user_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 03D965B22276DFD2009BC283 /* transactions_user_tags.json */; };
+		03D965B62276DFDC009BC283 /* transactions_user_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 03D965B22276DFD2009BC283 /* transactions_user_tags.json */; };
+		03D965B72276DFDC009BC283 /* transactions_user_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 03D965B22276DFD2009BC283 /* transactions_user_tags.json */; };
 		03EB8B18227671A80080F59B /* APITransactionTagsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46C82272856500E0C6D6 /* APITransactionTagsResponse.swift */; };
 		2F657DA3223B26B300471B85 /* Survey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA2223B26B300471B85 /* Survey.swift */; };
 		2F657DA5223B2FB300471B85 /* Surveys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA4223B2FB300471B85 /* Surveys.swift */; };
@@ -1418,6 +1421,7 @@
 		033D46D12272C83800E0C6D6 /* Tag+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transactions_suggested_tags.json; sourceTree = "<group>"; };
 		03D965AF22768C92009BC283 /* SuggestedTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedTag.swift; sourceTree = "<group>"; };
+		03D965B22276DFD2009BC283 /* transactions_user_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transactions_user_tags.json; sourceTree = "<group>"; };
 		2F657DA2223B26B300471B85 /* Survey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Survey.swift; sourceTree = "<group>"; };
 		2F657DA4223B2FB300471B85 /* Surveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Surveys.swift; sourceTree = "<group>"; };
 		2F657DA6223B314100471B85 /* APIService+Surveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+Surveys.swift"; sourceTree = "<group>"; };
@@ -2034,6 +2038,7 @@
 				01E5BF85222CC8E5003D85FD /* transactions_2018-12-04_count_200_skip_0.json */,
 				01E5BF86222CC8E6003D85FD /* transactions_2018-12-04_count_200_skip_200.json */,
 				033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */,
+				03D965B22276DFD2009BC283 /* transactions_user_tags.json */,
 			);
 			path = Aggregation;
 			sourceTree = "<group>";
@@ -3050,6 +3055,7 @@
 				012606BE219A8BAD005D8377 /* message_id_12345.json in Resources */,
 				01B896BB20F2EDA30068069A /* error_invalid_username_password.json in Resources */,
 				0128DB5721F819A800DB3E62 /* FrolloSDKDataModel-1.3.0.sqlite-shm in Resources */,
+				03D965B52276DFDB009BC283 /* transactions_user_tags.json in Resources */,
 				011F812B219BF4E100A1495F /* FrolloSDKDataModel-1.1.0.sqlite in Resources */,
 				01B896C220F2EDA30068069A /* error_invalid_length.json in Resources */,
 				01483B8E211808DE00D0DA87 /* account_id_542.json in Resources */,
@@ -3178,6 +3184,7 @@
 				012606BF219A8BAD005D8377 /* message_id_12345.json in Resources */,
 				017B485F2101B4FE00447E65 /* error_invalid_username_password.json in Resources */,
 				0128DB5821F819A800DB3E62 /* FrolloSDKDataModel-1.3.0.sqlite-shm in Resources */,
+				03D965B62276DFDC009BC283 /* transactions_user_tags.json in Resources */,
 				011F812C219BF4E100A1495F /* FrolloSDKDataModel-1.1.0.sqlite in Resources */,
 				017B48602101B4FE00447E65 /* error_invalid_length.json in Resources */,
 				01483B8F211808DE00D0DA87 /* account_id_542.json in Resources */,
@@ -3315,6 +3322,7 @@
 				012606C0219A8BAD005D8377 /* message_id_12345.json in Resources */,
 				017B48BC2105958100447E65 /* error_invalid_username_password.json in Resources */,
 				0128DB5921F819A800DB3E62 /* FrolloSDKDataModel-1.3.0.sqlite-shm in Resources */,
+				03D965B72276DFDC009BC283 /* transactions_user_tags.json in Resources */,
 				011F812D219BF4E100A1495F /* FrolloSDKDataModel-1.1.0.sqlite in Resources */,
 				017B48BD2105958100447E65 /* error_invalid_length.json in Resources */,
 				01483B90211808DE00D0DA87 /* account_id_542.json in Resources */,

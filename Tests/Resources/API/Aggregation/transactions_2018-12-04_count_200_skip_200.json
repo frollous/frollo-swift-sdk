@@ -4,6 +4,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": false,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-14",
 	"post_date": "2018-07-29",
 	"amount": {
@@ -28,6 +29,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": false,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-14",
 	"post_date": "2018-07-29",
 	"amount": {
@@ -52,6 +54,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-13",
 	"post_date": "2018-07-28",
 	"amount": {
@@ -76,6 +79,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-13",
 	"post_date": "2018-01-02",
 	"amount": {
@@ -98,6 +102,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-12",
 	"post_date": "2018-07-27",
 	"amount": {
@@ -122,6 +127,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-12",
 	"post_date": "2018-07-27",
 	"amount": {
@@ -144,6 +150,7 @@
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-12",
 	"post_date": "2018-01-01",
 	"amount": {
@@ -166,6 +173,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-12",
 	"post_date": "2018-01-01",
 	"amount": {
@@ -190,6 +198,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-12",
 	"post_date": "2018-01-01",
 	"amount": {
@@ -211,6 +220,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-12",
 	"post_date": "2018-01-01",
 	"amount": {
@@ -232,6 +242,7 @@
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-12",
 	"post_date": "2018-01-01",
 	"amount": {
@@ -253,6 +264,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-11",
 	"post_date": "2018-07-26",
 	"amount": {
@@ -277,6 +289,7 @@
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-11",
 	"post_date": "2018-07-26",
 	"amount": {
@@ -299,6 +312,7 @@
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-11",
 	"post_date": "2017-12-31",
 	"amount": {
@@ -321,6 +335,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-10",
 	"post_date": "2018-07-25",
 	"amount": {
@@ -343,6 +358,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-10",
 	"post_date": "2017-12-30",
 	"amount": {
@@ -365,6 +381,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-09",
 	"post_date": "2018-07-24",
 	"amount": {
@@ -386,6 +403,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-09",
 	"post_date": "2018-07-24",
 	"amount": {
@@ -407,6 +425,7 @@
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-09",
 	"post_date": "2018-07-24",
 	"amount": {
@@ -428,6 +447,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-09",
 	"post_date": "2018-07-24",
 	"amount": {
@@ -450,6 +470,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-08",
 	"post_date": "2018-07-23",
 	"amount": {
@@ -474,6 +495,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-08",
 	"post_date": "2018-07-23",
 	"amount": {
@@ -498,6 +520,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-08",
 	"post_date": "2018-07-23",
 	"amount": {
@@ -520,6 +543,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-07",
 	"post_date": "2018-07-22",
 	"amount": {
@@ -544,6 +568,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-07",
 	"post_date": "2018-07-22",
 	"amount": {
@@ -566,6 +591,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-07",
 	"post_date": "2017-12-27",
 	"amount": {
@@ -588,6 +614,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-06",
 	"post_date": "2018-07-21",
 	"amount": {
@@ -612,6 +639,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": false,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-06",
 	"post_date": "2018-07-21",
 	"amount": {
@@ -636,6 +664,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-06",
 	"post_date": "2018-07-21",
 	"amount": {
@@ -660,6 +689,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-06",
 	"post_date": "2018-07-21",
 	"amount": {
@@ -682,6 +712,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-05",
 	"post_date": "2018-07-20",
 	"amount": {
@@ -704,6 +735,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-05",
 	"post_date": "2018-07-20",
 	"amount": {
@@ -726,6 +758,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-05",
 	"post_date": "2017-12-25",
 	"amount": {
@@ -750,6 +783,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-04",
 	"post_date": "2018-07-19",
 	"amount": {
@@ -774,6 +808,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-04",
 	"post_date": "2018-07-19",
 	"amount": {
@@ -796,6 +831,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-03",
 	"post_date": "2018-07-18",
 	"amount": {
@@ -820,6 +856,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-02",
 	"post_date": "2018-07-17",
 	"amount": {
@@ -844,6 +881,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-02",
 	"post_date": "2018-07-17",
 	"amount": {
@@ -868,6 +906,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-02",
 	"post_date": "2018-07-17",
 	"amount": {
@@ -890,6 +929,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-02",
 	"post_date": "2017-12-22",
 	"amount": {
@@ -912,6 +952,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-02",
 	"post_date": "2017-12-22",
 	"amount": {
@@ -934,6 +975,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-01",
 	"post_date": "2018-07-16",
 	"amount": {
@@ -958,6 +1000,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-01",
 	"post_date": "2018-07-16",
 	"amount": {
@@ -980,6 +1023,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-31",
 	"post_date": "2018-07-15",
 	"amount": {
@@ -1004,6 +1048,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-31",
 	"post_date": "2018-07-15",
 	"amount": {
@@ -1028,6 +1073,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-31",
 	"post_date": "2018-07-15",
 	"amount": {
@@ -1052,6 +1098,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-31",
 	"post_date": "2018-07-15",
 	"amount": {
@@ -1074,6 +1121,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
 	"amount": {
@@ -1098,6 +1146,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
 	"amount": {
@@ -1122,6 +1171,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
 	"amount": {
@@ -1144,6 +1194,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
 	"amount": {
@@ -1166,6 +1217,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
 	"amount": {
@@ -1188,6 +1240,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
 	"amount": {
@@ -1210,6 +1263,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-29",
 	"post_date": "2018-07-13",
 	"amount": {
@@ -1234,6 +1288,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-29",
 	"post_date": "2018-07-13",
 	"amount": {
@@ -1258,6 +1313,7 @@
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-29",
 	"post_date": "2018-07-13",
 	"amount": {
@@ -1279,6 +1335,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-29",
 	"post_date": "2018-07-13",
 	"amount": {
@@ -1300,6 +1357,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-29",
 	"post_date": "2018-07-13",
 	"amount": {
@@ -1322,6 +1380,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-29",
 	"post_date": "2017-12-18",
 	"amount": {
@@ -1343,6 +1402,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-29",
 	"post_date": "2017-12-18",
 	"amount": {
@@ -1367,6 +1427,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-28",
 	"post_date": "2018-07-12",
 	"amount": {
@@ -1389,6 +1450,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-28",
 	"post_date": "2017-12-17",
 	"amount": {
@@ -1411,6 +1473,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-28",
 	"post_date": "2017-12-17",
 	"amount": {
@@ -1433,6 +1496,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-27",
 	"post_date": "2018-07-11",
 	"amount": {
@@ -1457,6 +1521,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-27",
 	"post_date": "2018-07-11",
 	"amount": {
@@ -1481,6 +1546,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-26",
 	"post_date": "2018-07-10",
 	"amount": {
@@ -1505,6 +1571,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-25",
 	"post_date": "2018-07-09",
 	"amount": {
@@ -1529,6 +1596,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-25",
 	"post_date": "2018-07-09",
 	"amount": {
@@ -1551,6 +1619,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-25",
 	"post_date": "2018-07-09",
 	"amount": {
@@ -1573,6 +1642,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-25",
 	"post_date": "2017-12-14",
 	"amount": {
@@ -1595,6 +1665,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-25",
 	"post_date": "2017-12-14",
 	"amount": {
@@ -1619,6 +1690,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-24",
 	"post_date": "2018-07-08",
 	"amount": {
@@ -1641,6 +1713,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-24",
 	"post_date": "2018-07-08",
 	"amount": {
@@ -1665,6 +1738,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-23",
 	"post_date": "2018-07-07",
 	"amount": {
@@ -1687,6 +1761,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-23",
 	"post_date": "2017-12-12",
 	"amount": {
@@ -1709,6 +1784,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-22",
 	"post_date": "2018-07-06",
 	"amount": {
@@ -1731,6 +1807,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-22",
 	"post_date": "2018-07-06",
 	"amount": {
@@ -1753,6 +1830,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-22",
 	"post_date": "2017-12-11",
 	"amount": {
@@ -1777,6 +1855,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-21",
 	"post_date": "2018-07-05",
 	"amount": {
@@ -1801,6 +1880,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-21",
 	"post_date": "2018-07-05",
 	"amount": {
@@ -1825,6 +1905,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-20",
 	"post_date": "2018-07-04",
 	"amount": {
@@ -1847,6 +1928,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-20",
 	"post_date": "2018-07-04",
 	"amount": {
@@ -1869,6 +1951,7 @@
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-20",
 	"post_date": "2018-07-04",
 	"amount": {
@@ -1891,6 +1974,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-19",
 	"post_date": "2018-07-03",
 	"amount": {
@@ -1915,6 +1999,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-19",
 	"post_date": "2018-07-03",
 	"amount": {
@@ -1939,6 +2024,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-18",
 	"post_date": "2018-07-02",
 	"amount": {
@@ -1963,6 +2049,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-18",
 	"post_date": "2018-07-02",
 	"amount": {
@@ -1987,6 +2074,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-18",
 	"post_date": "2018-07-02",
 	"amount": {
@@ -2011,6 +2099,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-18",
 	"post_date": "2017-12-07",
 	"amount": {
@@ -2033,6 +2122,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-18",
 	"post_date": "2017-12-07",
 	"amount": {
@@ -2055,6 +2145,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-17",
 	"post_date": "2018-07-01",
 	"amount": {
@@ -2079,6 +2170,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-16",
 	"post_date": "2018-06-30",
 	"amount": {
@@ -2103,6 +2195,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-16",
 	"post_date": "2018-06-30",
 	"amount": {
@@ -2125,6 +2218,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-16",
 	"post_date": "2017-12-05",
 	"amount": {
@@ -2147,6 +2241,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-15",
 	"post_date": "2018-06-29",
 	"amount": {
@@ -2171,6 +2266,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-15",
 	"post_date": "2018-06-29",
 	"amount": {
@@ -2193,6 +2289,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-15",
 	"post_date": "2018-06-29",
 	"amount": {
@@ -2215,6 +2312,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-15",
 	"post_date": "2018-06-29",
 	"amount": {
@@ -2237,6 +2335,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-15",
 	"post_date": "2017-12-04",
 	"amount": {
@@ -2261,6 +2360,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": false,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-14",
 	"post_date": "2018-06-28",
 	"amount": {
@@ -2285,6 +2385,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": false,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-14",
 	"post_date": "2018-06-28",
 	"amount": {
@@ -2309,6 +2410,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-13",
 	"post_date": "2018-06-27",
 	"amount": {
@@ -2333,6 +2435,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-13",
 	"post_date": "2017-12-02",
 	"amount": {
@@ -2355,6 +2458,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-12",
 	"post_date": "2018-06-26",
 	"amount": {
@@ -2379,6 +2483,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-12",
 	"post_date": "2018-06-26",
 	"amount": {
@@ -2401,6 +2506,7 @@
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-12",
 	"post_date": "2018-06-26",
 	"amount": {
@@ -2423,6 +2529,7 @@
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-12",
 	"post_date": "2017-12-01",
 	"amount": {
@@ -2445,6 +2552,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-12",
 	"post_date": "2017-12-01",
 	"amount": {
@@ -2466,6 +2574,7 @@
 	"base_type": "debit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-12",
 	"post_date": "2017-12-01",
 	"amount": {
@@ -2487,6 +2596,7 @@
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-12",
 	"post_date": "2017-12-01",
 	"amount": {
@@ -2508,6 +2618,7 @@
 	"base_type": "credit",
 	"status": "posted",
 	"included": true,
+    "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-12",
 	"post_date": "2017-12-01",
 	"amount": {
