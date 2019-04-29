@@ -62,6 +62,7 @@ enum AggregationEndpoint: Endpoint {
     case transactionSearch
     case transactionSummary
     case transactionSuggestedTags
+    case transactionUserTags
     
     private func urlPath() -> String {
         switch self {
@@ -97,6 +98,8 @@ enum AggregationEndpoint: Endpoint {
                 return "aggregation/transactions/summary"
             case .transactionSuggestedTags:
                 return "aggregation/transactions/tags/suggested"
+            case .transactionUserTags:
+                return "aggregation/transactions/tags/user"
         }
     }
     
