@@ -19,10 +19,12 @@ import Foundation
 /// Manages surveys
 public class Surveys: ResponseHandler {
     
+    private let authentication: Authentication
     private let service: APIService
     
-    internal init(service: APIService) {
+    internal init(service: APIService, authentication: Authentication) {
         self.service = service
+        self.authentication = authentication
     }
     
     /**
@@ -35,6 +37,17 @@ public class Surveys: ResponseHandler {
      */
     
     public func fetchSurvey(surveyKey: String, latest: Bool = false, completion: @escaping (Result<Survey, Error>) -> Void) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
+        }
         
         service.fetchSurvey(surveyKey: surveyKey, latest: latest) { result in
             switch result {
@@ -63,6 +76,18 @@ public class Surveys: ResponseHandler {
      */
     
     public func submitSurvey(survey: Survey, completion: @escaping (Result<Survey, Error>) -> Void) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        
         service.submitSurvey(request: survey) { result in
             switch result {
                 case .failure(let error):

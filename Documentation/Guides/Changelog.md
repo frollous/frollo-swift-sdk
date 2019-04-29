@@ -1,13 +1,20 @@
 # Changelog
-## 2.1
+## 2.1.0
 
 - Surveys
 
 ### Features
 
-- Survey get and update
+- Surveys
+- Transaction Search
 
-## 2.0
+### Changes
+
+- Improved handling of logged out status
+- Transactions enhancements
+- Swift 5 support
+
+## 2.0.0
 
 - OpenID Connect / OAuth2 Login
 

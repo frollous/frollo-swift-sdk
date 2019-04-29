@@ -44,6 +44,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
     internal let transactionCategoryLock = NSLock()
     internal let userTagsLock = NSLock()
     
+    private let authentication: Authentication
     private let database: Database
     private let service: APIService
     private let transactionBatchSize = 200
@@ -56,9 +57,10 @@ public class Aggregation: CachedObjects, ResponseHandler {
     private var refreshingMerchantIDs = Set<Int64>()
     private var refreshingProviderIDs = Set<Int64>()
     
-    internal init(database: Database, service: APIService) {
+    internal init(database: Database, service: APIService, authentication: Authentication) {
         self.database = database
         self.service = service
+        self.authentication = authentication
         
         NotificationCenter.default.addObserver(forName: Aggregation.refreshTransactionsNotification, object: nil, queue: .main) { notification in
             guard let transactionIDs = notification.userInfo?[Aggregation.refreshTransactionIDsKey] as? [Int64]
@@ -88,12 +90,27 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - status: Filter by status of the provider support (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `Provider` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func providers(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Provider.providerID), ascending: true)], limit: Int? = nil) -> [Provider]? {
-        return cachedObjects(type: Provider.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func providers(context: NSManagedObjectContext,
+                          status: Provider.Status? = nil,
+                          filteredBy predicate: NSPredicate? = nil,
+                          sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Provider.providerID), ascending: true)],
+                          limit: Int? = nil) -> [Provider]? {
+        var predicates = [NSPredicate]()
+        
+        if let filterStatus = status {
+            predicates.append(NSPredicate(format: #keyPath(Provider.statusRawValue) + " == %@", argumentArray: [filterStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: Provider.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -101,12 +118,27 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - status: Filter by status of the provider support (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `Provider` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func providersFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Provider.providerID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Provider>? {
-        return fetchedResultsController(type: Provider.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func providersFetchedResultsController(context: NSManagedObjectContext,
+                                                  status: Provider.Status? = nil,
+                                                  filteredBy predicate: NSPredicate? = nil,
+                                                  sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Provider.providerID), ascending: true)],
+                                                  limit: Int? = nil) -> NSFetchedResultsController<Provider>? {
+        var predicates = [NSPredicate]()
+        
+        if let filterStatus = status {
+            predicates.append(NSPredicate(format: #keyPath(Provider.statusRawValue) + " == %@", argumentArray: [filterStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return fetchedResultsController(type: Provider.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -118,6 +150,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshProviders(completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchProviders { result in
             switch result {
                 case .failure(let error):
@@ -150,6 +194,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshProvider(providerID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchProvider(providerID: providerID) { result in
             switch result {
                 case .failure(let error):
@@ -192,12 +248,27 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - refreshStatus: Filter by the current refresh status of the provider account (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `ProviderAccount` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerAccountID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func providerAccounts(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)], limit: Int? = nil) -> [ProviderAccount]? {
-        return cachedObjects(type: ProviderAccount.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func providerAccounts(context: NSManagedObjectContext,
+                                 refreshStatus: AccountRefreshStatus? = nil,
+                                 filteredBy predicate: NSPredicate? = nil,
+                                 sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)],
+                                 limit: Int? = nil) -> [ProviderAccount]? {
+        var predicates = [NSPredicate]()
+        
+        if let filterRefreshStatus = refreshStatus {
+            predicates.append(NSPredicate(format: #keyPath(ProviderAccount.refreshStatusRawValue) + " == %@", argumentArray: [filterRefreshStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: ProviderAccount.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -205,12 +276,27 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - refreshStatus: Filter by the current refresh status of the provider account (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `ProviderAccount` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerAccountID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func providerAccountsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<ProviderAccount>? {
-        return fetchedResultsController(type: ProviderAccount.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func providerAccountsFetchedResultsController(context: NSManagedObjectContext,
+                                                         refreshStatus: AccountRefreshStatus? = nil,
+                                                         filteredBy predicate: NSPredicate? = nil,
+                                                         sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)],
+                                                         limit: Int? = nil) -> NSFetchedResultsController<ProviderAccount>? {
+        var predicates = [NSPredicate]()
+        
+        if let filterRefreshStatus = refreshStatus {
+            predicates.append(NSPredicate(format: #keyPath(ProviderAccount.refreshStatusRawValue) + " == %@", argumentArray: [filterRefreshStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return fetchedResultsController(type: ProviderAccount.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -220,6 +306,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshProviderAccounts(completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchProviderAccounts { result in
             switch result {
                 case .failure(let error):
@@ -251,6 +349,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshProviderAccount(providerAccountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchProviderAccount(providerAccountID: providerAccountID) { result in
             switch result {
                 case .failure(let error):
@@ -282,6 +392,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func createProviderAccount(providerID: Int64, loginForm: ProviderLoginForm, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         let request = APIProviderAccountCreateRequest(loginForm: loginForm, providerID: providerID)
         
         service.createProviderAccount(request: request) { result in
@@ -314,6 +436,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func deleteProviderAccount(providerAccountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.deleteProviderAccount(providerAccountID: providerAccountID) { result in
             switch result {
                 case .failure(let error):
@@ -340,6 +474,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func updateProviderAccount(providerAccountID: Int64, loginForm: ProviderLoginForm, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         let request = APIProviderAccountUpdateRequest(loginForm: loginForm)
         
         service.updateProviderAccount(providerAccountID: providerAccountID, request: request) { result in
@@ -382,12 +528,69 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - accountStatus: Filter by the account status (Optional)
+        - accountSubType: Filter by the sub type of account (Optional)
+        - accountType: Filter by the type of the account (Optional)
+        - classification: Filter by the classification of the account (Optional)
+        - favourite: Filter by favourited accounts (Optional)
+        - hidden: Filter by hidden accounts (Optional)
+        - included: Filter by accounts included in the budget (Optional)
+        - refreshStatus: Filter by the current refresh status of the provider account (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `Account` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to accountID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func accounts(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Account.accountID), ascending: true)], limit: Int? = nil) -> [Account]? {
-        return cachedObjects(type: Account.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func accounts(context: NSManagedObjectContext,
+                         accountStatus: Account.AccountStatus? = nil,
+                         accountSubType: Account.AccountSubType? = nil,
+                         accountType: Account.AccountType? = nil,
+                         classification: Account.Classification? = nil,
+                         favourite: Bool? = nil,
+                         hidden: Bool? = nil,
+                         included: Bool? = nil,
+                         refreshStatus: AccountRefreshStatus? = nil,
+                         filteredBy predicate: NSPredicate? = nil,
+                         sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Account.accountID), ascending: true)],
+                         limit: Int? = nil) -> [Account]? {
+        var predicates = [NSPredicate]()
+        
+        if let filterAccountStatus = accountStatus {
+            predicates.append(NSPredicate(format: #keyPath(Account.accountStatusRawValue) + " == %@", argumentArray: [filterAccountStatus.rawValue]))
+        }
+        
+        if let filterAccountSubType = accountSubType {
+            predicates.append(NSPredicate(format: #keyPath(Account.accountSubTypeRawValue) + " == %@", argumentArray: [filterAccountSubType.rawValue]))
+        }
+        
+        if let filterAccountType = accountType {
+            predicates.append(NSPredicate(format: #keyPath(Account.accountTypeRawValue) + " == %@", argumentArray: [filterAccountType.rawValue]))
+        }
+        
+        if let filterClassification = classification {
+            predicates.append(NSPredicate(format: #keyPath(Account.classificationRawValue) + " == %@", argumentArray: [filterClassification.rawValue]))
+        }
+        
+        if let filterFavourite = favourite {
+            predicates.append(NSPredicate(format: #keyPath(Account.favourite) + " == %ld", argumentArray: [filterFavourite]))
+        }
+        
+        if let filterHidden = hidden {
+            predicates.append(NSPredicate(format: #keyPath(Account.hidden) + " == %ld", argumentArray: [filterHidden]))
+        }
+        
+        if let filterIncluded = included {
+            predicates.append(NSPredicate(format: #keyPath(Account.included) + " == %ld", argumentArray: [filterIncluded]))
+        }
+        
+        if let filterRefreshStatus = refreshStatus {
+            predicates.append(NSPredicate(format: #keyPath(Account.refreshStatusRawValue) + " == %@", argumentArray: [filterRefreshStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: Account.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -395,12 +598,69 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - accountStatus: Filter by the account status (Optional)
+        - accountSubType: Filter by the sub type of account (Optional)
+        - accountType: Filter by the type of the account (Optional)
+        - classification: Filter by the classification of the account (Optional)
+        - favourite: Filter by favourited accounts (Optional)
+        - hidden: Filter by hidden accounts (Optional)
+        - included: Filter by accounts included in the budget (Optional)
+        - refreshStatus: Filter by the current refresh status of the provider account (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `Account` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to accountID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func accountsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Account.accountID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Account>? {
-        return fetchedResultsController(type: Account.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func accountsFetchedResultsController(context: NSManagedObjectContext,
+                                                 accountStatus: Account.AccountStatus? = nil,
+                                                 accountSubType: Account.AccountSubType? = nil,
+                                                 accountType: Account.AccountType? = nil,
+                                                 classification: Account.Classification? = nil,
+                                                 favourite: Bool? = nil,
+                                                 hidden: Bool? = nil,
+                                                 included: Bool? = nil,
+                                                 refreshStatus: AccountRefreshStatus? = nil,
+                                                 filteredBy predicate: NSPredicate? = nil,
+                                                 sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Account.accountID), ascending: true)],
+                                                 limit: Int? = nil) -> NSFetchedResultsController<Account>? {
+        var predicates = [NSPredicate]()
+        
+        if let filterAccountStatus = accountStatus {
+            predicates.append(NSPredicate(format: #keyPath(Account.accountStatusRawValue) + " == %@", argumentArray: [filterAccountStatus.rawValue]))
+        }
+        
+        if let filterAccountSubType = accountSubType {
+            predicates.append(NSPredicate(format: #keyPath(Account.accountSubTypeRawValue) + " == %@", argumentArray: [filterAccountSubType.rawValue]))
+        }
+        
+        if let filterAccountType = accountType {
+            predicates.append(NSPredicate(format: #keyPath(Account.accountTypeRawValue) + " == %@", argumentArray: [filterAccountType.rawValue]))
+        }
+        
+        if let filterClassification = classification {
+            predicates.append(NSPredicate(format: #keyPath(Account.classificationRawValue) + " == %@", argumentArray: [filterClassification.rawValue]))
+        }
+        
+        if let filterFavourite = favourite {
+            predicates.append(NSPredicate(format: #keyPath(Account.favourite) + " == %ld", argumentArray: [filterFavourite]))
+        }
+        
+        if let filterHidden = hidden {
+            predicates.append(NSPredicate(format: #keyPath(Account.hidden) + " == %ld", argumentArray: [filterHidden]))
+        }
+        
+        if let filterIncluded = included {
+            predicates.append(NSPredicate(format: #keyPath(Account.included) + " == %ld", argumentArray: [filterIncluded]))
+        }
+        
+        if let filterRefreshStatus = refreshStatus {
+            predicates.append(NSPredicate(format: #keyPath(Account.refreshStatusRawValue) + " == %@", argumentArray: [filterRefreshStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return fetchedResultsController(type: Account.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -410,6 +670,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshAccounts(completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchAccounts { result in
             switch result {
                 case .failure(let error):
@@ -441,6 +713,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshAccount(accountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchAccount(accountID: accountID) { result in
             switch result {
                 case .failure(let error):
@@ -471,6 +755,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func updateAccount(accountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         let managedObjectContext = database.newBackgroundContext()
         
         guard let account = account(context: managedObjectContext, accountID: accountID)
@@ -529,12 +825,39 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - baseType: Filter by base type of the transaction (Optional)
+        - budgetCategory: Filter by budget category of the transaction (Optional)
+        - status: Filter by the status of the transaction (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `Transaction` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func transactions(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)], limit: Int? = nil) -> [Transaction]? {
-        return cachedObjects(type: Transaction.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func transactions(context: NSManagedObjectContext,
+                             baseType: Transaction.BaseType? = nil,
+                             budgetCategory: BudgetCategory? = nil,
+                             status: Transaction.Status? = nil,
+                             filteredBy predicate: NSPredicate? = nil,
+                             sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)],
+                             limit: Int? = nil) -> [Transaction]? {
+        var predicates = [NSPredicate]()
+        
+        if let filterBaseType = baseType {
+            predicates.append(NSPredicate(format: #keyPath(Transaction.baseTypeRawValue) + " == %@", argumentArray: [filterBaseType.rawValue]))
+        }
+        
+        if let filterBudgetCategory = budgetCategory {
+            predicates.append(NSPredicate(format: #keyPath(Transaction.budgetCategoryRawValue) + " == %@", argumentArray: [filterBudgetCategory.rawValue]))
+        }
+        
+        if let filterStatus = status {
+            predicates.append(NSPredicate(format: #keyPath(Transaction.statusRawValue) + " == %@", argumentArray: [filterStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: Transaction.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -542,12 +865,39 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - baseType: Filter by base type of the transaction (Optional)
+        - budgetCategory: Filter by budget category of the transaction (Optional)
+        - status: Filter by the status of the transaction (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `Transaction` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func transactionsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Transaction>? {
-        return fetchedResultsController(type: Transaction.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func transactionsFetchedResultsController(context: NSManagedObjectContext,
+                                                     baseType: Transaction.BaseType? = nil,
+                                                     budgetCategory: BudgetCategory? = nil,
+                                                     status: Transaction.Status? = nil,
+                                                     filteredBy predicate: NSPredicate? = nil,
+                                                     sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)],
+                                                     limit: Int? = nil) -> NSFetchedResultsController<Transaction>? {
+        var predicates = [NSPredicate]()
+        
+        if let filterBaseType = baseType {
+            predicates.append(NSPredicate(format: #keyPath(Transaction.baseTypeRawValue) + " == %@", argumentArray: [filterBaseType.rawValue]))
+        }
+        
+        if let filterBudgetCategory = budgetCategory {
+            predicates.append(NSPredicate(format: #keyPath(Transaction.budgetCategoryRawValue) + " == %@", argumentArray: [filterBudgetCategory.rawValue]))
+        }
+        
+        if let filterStatus = status {
+            predicates.append(NSPredicate(format: #keyPath(Transaction.statusRawValue) + " == %@", argumentArray: [filterStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return fetchedResultsController(type: Transaction.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -563,6 +913,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
     }
     
     private func refreshNextTransactions(from fromDate: Date, to toDate: Date, skip: Int, updatedTransactionIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchTransactions(from: fromDate, to: toDate, count: transactionBatchSize, skip: skip) { result in
             switch result {
                 case .failure(let error):
@@ -603,6 +965,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransaction(transactionID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchTransaction(transactionID: transactionID) { result in
             switch result {
                 case .failure(let error):
@@ -637,6 +1011,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
          - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransactions(transactionIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchTransactions(transactionIDs: transactionIDs) { result in
             switch result {
                 case .failure(let error):
@@ -673,6 +1059,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func excludeTransaction(transactionID: Int64, excluded: Bool, excludeAll: Bool, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         let managedObjectContext = database.newBackgroundContext()
         
         guard let transaction = transaction(context: managedObjectContext, transactionID: transactionID)
@@ -737,6 +1135,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func recategoriseTransaction(transactionID: Int64, transactionCategoryID: Int64, recategoriseAll: Bool, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         let managedObjectContext = database.newBackgroundContext()
         
         guard let transaction = transaction(context: managedObjectContext, transactionID: transactionID),
@@ -803,6 +1213,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func updateTransaction(transactionID: Int64, includeApplyAll: Bool? = nil, recategoriseAll: Bool? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         let managedObjectContext = database.newBackgroundContext()
         
         guard let transaction = transaction(context: managedObjectContext, transactionID: transactionID)
@@ -887,6 +1309,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
          - onlyIncludedAccounts: Only return results from accounts included in the budget
      */
     public func transactionSearch(searchTerm: String, page: Int = 0, from fromDate: Date? = nil, to toDate: Date? = nil, accountIDs: [Int64]? = nil, onlyIncludedAccounts: Bool? = nil, completion: @escaping (Result<[Int64], Error>) -> Void) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        
         guard !searchTerm.isEmpty
         else {
             let error = DataError(type: .api, subType: .invalidData)
@@ -942,6 +1376,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
          - completion: Completion handler with count and sum of transactions if successful or error if it fails
      */
     public func transactionSummary(from fromDate: Date, to toDate: Date, accountIDs: [Int64]? = nil, transactionIDs: [Int64]? = nil, onlyIncludedAccounts: Bool? = nil, onlyIncludedTransactions: Bool? = nil, completion: @escaping (Result<(count: Int64, sum: Decimal), Error>) -> Void) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        
         service.transactionSummary(from: fromDate, to: toDate, accountIDs: accountIDs, transactionIDs: transactionIDs, onlyIncludedAccounts: onlyIncludedAccounts, onlyIncludedTransactions: onlyIncludedTransactions) { result in
             switch result {
                 case .failure(let error):
@@ -982,12 +1428,33 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - defaultBudgetCategory: Filter by the default budget category associated with the transaction category (Optional)
+        - type: Filter by type of category (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `TransactionCategory` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionCategoryID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func transactionCategories(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(TransactionCategory.transactionCategoryID), ascending: true)], limit: Int? = nil) -> [TransactionCategory]? {
-        return cachedObjects(type: TransactionCategory.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func transactionCategories(context: NSManagedObjectContext,
+                                      defaultBudgetCategory: BudgetCategory? = nil,
+                                      type: TransactionCategory.CategoryType? = nil,
+                                      filteredBy predicate: NSPredicate? = nil,
+                                      sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(TransactionCategory.transactionCategoryID), ascending: true)],
+                                      limit: Int? = nil) -> [TransactionCategory]? {
+        var predicates = [NSPredicate]()
+        
+        if let filterBudgetCategory = defaultBudgetCategory {
+            predicates.append(NSPredicate(format: #keyPath(TransactionCategory.defaultBudgetCategoryRawValue) + " == %@", argumentArray: [filterBudgetCategory.rawValue]))
+        }
+        
+        if let filterType = type {
+            predicates.append(NSPredicate(format: #keyPath(TransactionCategory.categoryTypeRawValue) + " == %@", argumentArray: [filterType.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: TransactionCategory.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -999,8 +1466,27 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionCategoryID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func transactionCategoriesFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(TransactionCategory.transactionCategoryID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<TransactionCategory>? {
-        return fetchedResultsController(type: TransactionCategory.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func transactionCategoriesFetchedResultsController(context: NSManagedObjectContext,
+                                                              defaultBudgetCategory: BudgetCategory? = nil,
+                                                              type: TransactionCategory.CategoryType? = nil,
+                                                              filteredBy predicate: NSPredicate? = nil,
+                                                              sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(TransactionCategory.transactionCategoryID), ascending: true)],
+                                                              limit: Int? = nil) -> NSFetchedResultsController<TransactionCategory>? {
+        var predicates = [NSPredicate]()
+        
+        if let filterBudgetCategory = defaultBudgetCategory {
+            predicates.append(NSPredicate(format: #keyPath(TransactionCategory.defaultBudgetCategoryRawValue) + " == %@", argumentArray: [filterBudgetCategory.rawValue]))
+        }
+        
+        if let filterType = type {
+            predicates.append(NSPredicate(format: #keyPath(TransactionCategory.categoryTypeRawValue) + " == %@", argumentArray: [filterType.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return fetchedResultsController(type: TransactionCategory.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -1010,6 +1496,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransactionCategories(completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchTransactionCategories { result in
             switch result {
                 case .failure(let error):
@@ -1105,12 +1603,27 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - type: Filter merchants by the type (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `Merchant` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to merchantID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func merchants(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)], limit: Int? = nil) -> [Merchant]? {
-        return cachedObjects(type: Merchant.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func merchants(context: NSManagedObjectContext,
+                          type: Merchant.MerchantType? = nil,
+                          filteredBy predicate: NSPredicate? = nil,
+                          sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)],
+                          limit: Int? = nil) -> [Merchant]? {
+        var predicates = [NSPredicate]()
+        
+        if let filterType = type {
+            predicates.append(NSPredicate(format: #keyPath(Merchant.merchantTypeRawValue) + " == %@", argumentArray: [filterType.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: Merchant.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -1118,11 +1631,26 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - type: Filter merchants by the type (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `Merchant` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to merchantID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func merchantsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Merchant>? {
+    public func merchantsFetchedResultsController(context: NSManagedObjectContext,
+                                                  type: Merchant.MerchantType? = nil,
+                                                  filteredBy predicate: NSPredicate? = nil,
+                                                  sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)],
+                                                  limit: Int? = nil) -> NSFetchedResultsController<Merchant>? {
+        var predicates = [NSPredicate]()
+        
+        if let filterType = type {
+            predicates.append(NSPredicate(format: #keyPath(Merchant.merchantTypeRawValue) + " == %@", argumentArray: [filterType.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
         return fetchedResultsController(type: Merchant.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
     
@@ -1133,6 +1661,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     internal func refreshMerchants(completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchMerchants { result in
             switch result {
                 case .failure(let error):
@@ -1163,6 +1703,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshMerchant(merchantID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchMerchant(merchantID: merchantID) { result in
             switch result {
                 case .failure(let error):
@@ -1193,6 +1745,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshMerchants(merchantIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchMerchants(merchantIDs: merchantIDs) { result in
             switch result {
                 case .failure(let error):

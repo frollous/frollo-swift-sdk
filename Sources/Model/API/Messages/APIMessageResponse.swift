@@ -35,6 +35,7 @@ struct APIMessageResponse: APIUniqueResponse {
         case read
         case title
         case userEventID = "user_event_id"
+        case autoDismiss = "auto_dismiss"
         
     }
     
@@ -150,6 +151,7 @@ struct APIMessageResponse: APIUniqueResponse {
     let read: Bool
     let title: String?
     let userEventID: Int64?
+    let autoDismiss: Bool
     
 }
 
@@ -169,6 +171,7 @@ extension APIMessageResponse: Codable {
         read = try container.decode(Bool.self, forKey: .read)
         title = try container.decodeIfPresent(String.self, forKey: .title)
         userEventID = try container.decodeIfPresent(Int64.self, forKey: .userEventID)
+        autoDismiss = try container.decode(Bool.self, forKey: .autoDismiss)
         
         switch contentType {
             case .html:

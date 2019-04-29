@@ -49,6 +49,8 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -65,7 +67,9 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 try! managedObjectContext.save()
             }
             
-            let messages = Messages(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let messages = Messages(database: database, service: service, authentication: authentication)
             
             let message = messages.message(context: database.viewContext, messageID: id)
             
@@ -89,6 +93,8 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -98,20 +104,30 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             managedObjectContext.performAndWait {
                 let testMessage1 = Message(context: managedObjectContext)
                 testMessage1.populateTestData()
+                testMessage1.contentType = .text
+                testMessage1.messageTypes = ["information"]
+                testMessage1.read = false
                 
                 let testMessage2 = Message(context: managedObjectContext)
                 testMessage2.populateTestData()
+                testMessage2.contentType = .text
+                testMessage2.messageTypes = ["warning"]
+                testMessage2.read = false
                 
                 let testMessage3 = Message(context: managedObjectContext)
                 testMessage3.populateTestData()
+                testMessage3.contentType = .text
                 testMessage3.messageTypes = ["derp", "test"]
+                testMessage3.read = false
                 
                 try! managedObjectContext.save()
             }
             
-            let messages = Messages(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let messages = Messages(database: database, service: service, authentication: authentication)
             
-            let fetchedMessages = messages.messages(context: database.viewContext, messageTypes: ["information", "warning"])
+            let fetchedMessages = messages.messages(context: database.viewContext, contentType: .text, messageTypes: ["information", "warning"], unread: true)
             
             XCTAssertNotNil(fetchedMessages)
             XCTAssertEqual(fetchedMessages?.count, 2)
@@ -133,6 +149,8 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -142,20 +160,28 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             managedObjectContext.performAndWait {
                 let testMessage1 = Message(context: managedObjectContext)
                 testMessage1.populateTestData()
+                testMessage1.contentType = .text
+                testMessage1.read = false
                 
                 let testMessage2 = Message(context: managedObjectContext)
                 testMessage2.populateTestData()
+                testMessage2.contentType = .text
                 testMessage2.messageTypes = ["derp", "test"]
+                testMessage2.read = false
                 
                 let testMessage3 = Message(context: managedObjectContext)
                 testMessage3.populateTestData()
+                testMessage3.contentType = .text
+                testMessage3.read = false
                 
                 try! managedObjectContext.save()
             }
             
-            let messages = Messages(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let messages = Messages(database: database, service: service, authentication: authentication)
             
-            let fetchedResultsController = messages.messagesFetchedResultsController(context: database.viewContext, messageTypes: ["information", "warning"])
+            let fetchedResultsController = messages.messagesFetchedResultsController(context: database.viewContext, contentType: .text, messageTypes: ["information", "warning"], unread: true)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -189,11 +215,15 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let messages = Messages(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let messages = Messages(database: database, service: service, authentication: authentication)
             
             messages.refreshMessages(completion: { (result) in
                 switch result {
@@ -233,6 +263,54 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testRefreshMessagesFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.messages.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = false
+            let messages = Messages(database: database, service: service, authentication: authentication)
+            
+            messages.refreshMessages { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let loggedOutError = error as? DataError {
+                            XCTAssertEqual(loggedOutError.type, .authentication)
+                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        } else {
+                            XCTFail("Wrong error type returned")
+                        }
+                    case .success:
+                        XCTFail("User logged out, request should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testRefreshMessageByID() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -250,11 +328,15 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let messages = Messages(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let messages = Messages(database: database, service: service, authentication: authentication)
             
             messages.refreshMessage(messageID: id) { (result) in
                 switch result {
@@ -282,6 +364,56 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testRefreshMessageByIDFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let id: Int64 = 12345
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: id).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = false
+            let messages = Messages(database: database, service: service, authentication: authentication)
+            
+            messages.refreshMessage(messageID: id) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let loggedOutError = error as? DataError {
+                            XCTAssertEqual(loggedOutError.type, .authentication)
+                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        } else {
+                            XCTFail("Wrong error type returned")
+                        }
+                    case .success:
+                        XCTFail("User logged out, request should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testUpdateMessage() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -297,6 +429,8 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -310,7 +444,9 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 
                 try? managedObjectContext.save()
                 
-                let messages = Messages(database: database, service: service)
+                let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+                authentication.loggedIn = true
+                let messages = Messages(database: database, service: service, authentication: authentication)
                 
                 messages.updateMessage(messageID: 12345, completion: { (result) in
                     switch result {
@@ -339,6 +475,54 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testUpdateMessageByIDFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = false
+            let messages = Messages(database: database, service: service, authentication: authentication)
+            
+            messages.updateMessage(messageID: 12345) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let loggedOutError = error as? DataError {
+                            XCTAssertEqual(loggedOutError.type, .authentication)
+                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        } else {
+                            XCTFail("Wrong error type returned")
+                        }
+                    case .success:
+                        XCTFail("User logged out, request should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testUpdateMessageNotFound() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -354,6 +538,8 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -367,7 +553,9 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 
                 try? managedObjectContext.save()
                 
-                let messages = Messages(database: database, service: service)
+                let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+                authentication.loggedIn = true
+                let messages = Messages(database: database, service: service, authentication: authentication)
                 
                 messages.updateMessage(messageID: 12345, completion: { (result) in
                     switch result {
@@ -405,11 +593,15 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let messages = Messages(database: database, service: service)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let messages = Messages(database: database, service: service, authentication: authentication)
             
             messages.refreshUnreadMessages { (result) in
                 switch result {
@@ -451,6 +643,54 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testRefreshUnreadMessagesFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.unread.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_unread", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = false
+            let messages = Messages(database: database, service: service, authentication: authentication)
+            
+            messages.refreshUnreadMessages { (result) in
+                switch result {
+                case .failure(let error):
+                    XCTAssertNotNil(error)
+                    
+                    if let loggedOutError = error as? DataError {
+                        XCTAssertEqual(loggedOutError.type, .authentication)
+                        XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                    } else {
+                        XCTFail("Wrong error type returned")
+                    }
+                case .success:
+                    XCTFail("User logged out, request should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testHandlingPushMessageTriggersDelegate() {
         let expectation1 = expectation(description: "Network Request")
         
@@ -470,7 +710,12 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let messages = Messages(database: database, service: service)
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        authentication.loggedIn = true
+        let messages = Messages(database: database, service: service, authentication: authentication)
         messages.delegate = self
         
         database.setup { (error) in

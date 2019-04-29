@@ -141,6 +141,7 @@
         <attribute name="actionOpenExternal" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="actionTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="actionURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="autoDismiss" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="contentTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="event" attributeType="String" syncable="YES"/>
         <attribute name="interacted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
