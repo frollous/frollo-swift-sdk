@@ -885,21 +885,25 @@ class ReportsTests: XCTestCase {
                 testReport1.populateTestData()
                 testReport1.grouping = .budgetCategory
                 testReport1.filterBudgetCategory = nil
+                testReport1.linkedID = -1
                 
                 let testReport2 = ReportTransactionCurrent(context: managedObjectContext)
                 testReport2.populateTestData()
                 testReport2.grouping = .merchant
                 testReport2.filterBudgetCategory = nil
+                testReport2.linkedID = -1
                 
                 let testReport3 = ReportTransactionCurrent(context: managedObjectContext)
                 testReport3.populateTestData()
                 testReport3.grouping = .budgetCategory
                 testReport3.filterBudgetCategory = nil
+                testReport3.linkedID = -1
                 
                 let testReport4 = ReportTransactionCurrent(context: managedObjectContext)
                 testReport4.populateTestData()
                 testReport4.grouping = .transactionCategory
                 testReport4.filterBudgetCategory = nil
+                testReport4.linkedID = -1
                 
                 let testReport5 = ReportTransactionCurrent(context: managedObjectContext)
                 testReport5.populateTestData()
@@ -914,7 +918,7 @@ class ReportsTests: XCTestCase {
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
-            let fetchedReports = reports.currentTransactionReports(context: database.viewContext, grouping: .budgetCategory)
+            let fetchedReports = reports.currentTransactionReports(context: database.viewContext, overall: true, grouping: .budgetCategory)
             
             XCTAssertNotNil(fetchedReports)
             XCTAssertEqual(fetchedReports?.count, 2)
@@ -1957,6 +1961,7 @@ class ReportsTests: XCTestCase {
                 testReport1.grouping = .budgetCategory
                 testReport1.period = .day
                 testReport1.filterBudgetCategory = nil
+                testReport1.linkedID = -1
                 
                 let testReport2 = ReportTransactionHistory(context: managedObjectContext)
                 testReport2.populateTestData()
@@ -1964,6 +1969,7 @@ class ReportsTests: XCTestCase {
                 testReport2.grouping = .merchant
                 testReport2.period = .month
                 testReport2.filterBudgetCategory = nil
+                testReport2.linkedID = -1
                 
                 let testReport3 = ReportTransactionHistory(context: managedObjectContext)
                 testReport3.populateTestData()
@@ -1971,6 +1977,7 @@ class ReportsTests: XCTestCase {
                 testReport3.grouping = .budgetCategory
                 testReport3.period = .month
                 testReport3.filterBudgetCategory = nil
+                testReport3.linkedID = -1
                 
                 let testReport4 = ReportTransactionHistory(context: managedObjectContext)
                 testReport4.populateTestData()
@@ -1985,6 +1992,7 @@ class ReportsTests: XCTestCase {
                 testReport5.grouping = .budgetCategory
                 testReport5.period = .month
                 testReport5.filterBudgetCategory = .living
+                testReport5.linkedID = -1
                 
                 let testReport6 = ReportTransactionHistory(context: managedObjectContext)
                 testReport6.populateTestData()
@@ -1992,6 +2000,7 @@ class ReportsTests: XCTestCase {
                 testReport6.grouping = .budgetCategory
                 testReport6.period = .month
                 testReport6.filterBudgetCategory = nil
+                testReport6.linkedID = -1
                 
                 try! managedObjectContext.save()
             }
@@ -2004,7 +2013,7 @@ class ReportsTests: XCTestCase {
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2017-06-01")!
             let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-01-31")!
             
-            let fetchedReports = reports.historyTransactionReports(context: database.viewContext, from: fromDate, to: toDate, grouping: .budgetCategory, period: .month)
+            let fetchedReports = reports.historyTransactionReports(context: database.viewContext, from: fromDate, to: toDate, overall: true, grouping: .budgetCategory, period: .month)
             
             XCTAssertNotNil(fetchedReports)
             XCTAssertEqual(fetchedReports?.count, 1)
