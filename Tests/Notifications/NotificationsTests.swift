@@ -66,8 +66,8 @@ class NotificationsTests: XCTestCase {
         let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-        let events = Events(service: service)
-        let messages = Messages(database: database, service: service)
+        let events = Events(service: service, authentication: authentication)
+        let messages = Messages(database: database, service: service, authentication: authentication)
         
         let notifications = Notifications(authentication: authentication, events: events, messages: messages)
         
@@ -95,8 +95,8 @@ class NotificationsTests: XCTestCase {
         let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-        let events = Events(service: service)
-        let messages = Messages(database: database, service: service)
+        let events = Events(service: service, authentication: authentication)
+        let messages = Messages(database: database, service: service, authentication: authentication)
         
         let notifications = Notifications(authentication: authentication, events: events, messages: messages)
         
@@ -133,8 +133,9 @@ class NotificationsTests: XCTestCase {
         let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-        let events = Events(service: service)
-        let messages = Messages(database: database, service: service)
+        authentication.loggedIn = true
+        let events = Events(service: service, authentication: authentication)
+        let messages = Messages(database: database, service: service, authentication: authentication)
         
         let notifications = Notifications(authentication: authentication, events: events, messages: messages)
         
@@ -149,7 +150,7 @@ class NotificationsTests: XCTestCase {
             notifications.handlePushNotification(userInfo: json)
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1], timeout: 5.0)
     }
 
 }

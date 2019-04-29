@@ -36,7 +36,6 @@ class SurveysTests: XCTestCase {
     }
     
     func testFetchSurvey() {
-        
         let expectation1 = expectation(description: "Network Request 1")
         let surveyKey = "FINANCIAL_WELLBEING"
         
@@ -51,21 +50,71 @@ class SurveysTests: XCTestCase {
         let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
-        let surveys = Surveys(service: service)
-        surveys.fetchSurvey(surveyKey: surveyKey, completion: { (result) in
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        authentication.loggedIn = true
+        let surveys = Surveys(service: service, authentication: authentication)
+        surveys.fetchSurvey(surveyKey: surveyKey) { (result) in
             switch result {
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            case .success(let survey):
-                XCTAssertEqual(survey.key, surveyKey)
-                XCTAssertEqual(survey.questions.count, 1)
-                XCTAssertEqual(survey.questions[0].type, Survey.Question.QuestionType.slider)
-                XCTAssertEqual(survey.questions[0].id, 1)
-                XCTAssertEqual(survey.questions[0].answers.count, 1)
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let survey):
+                    XCTAssertEqual(survey.key, surveyKey)
+                    XCTAssertEqual(survey.questions.count, 1)
+                    XCTAssertEqual(survey.questions[0].type, Survey.Question.QuestionType.slider)
+                    XCTAssertEqual(survey.questions[0].id, 1)
+                    XCTAssertEqual(survey.questions[0].answers.count, 1)
             }
             expectation1.fulfill()
-        })
+        }
+        
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testFetchSurveyFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let surveyKey = "FINANCIAL_WELLBEING"
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + SurveysEndpoint.survey(key: surveyKey).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "survey_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        authentication.loggedIn = false
+        let surveys = Surveys(service: service, authentication: authentication)
+        surveys.fetchSurvey(surveyKey: surveyKey) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertNotNil(error)
+                    
+                    if let loggedOutError = error as? DataError {
+                        XCTAssertEqual(loggedOutError.type, .authentication)
+                        XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                    } else {
+                        XCTFail("Wrong error type returned")
+                    }
+                case .success:
+                    XCTFail("User logged out, request should fail")
+            }
+            
+            expectation1.fulfill()
+        }
         
         
         wait(for: [expectation1], timeout: 3.0)
@@ -73,7 +122,6 @@ class SurveysTests: XCTestCase {
     }
     
     func testSubmitSurvey() {
-        
         let expectation1 = expectation(description: "Network Request 1")
         
         let config = FrolloSDKConfiguration.testConfig()
@@ -87,22 +135,71 @@ class SurveysTests: XCTestCase {
         let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
-        let surveys = Surveys(service: service)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        authentication.loggedIn = true
+        let surveys = Surveys(service: service, authentication: authentication)
         let testSurvey = Survey.createTestSurvey()
         surveys.submitSurvey(survey: testSurvey!) { (result) in
             switch result {
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            case .success(let survey):
-                XCTAssertEqual(survey.key, testSurvey!.key)
-                XCTAssertEqual(survey.questions.count, 1)
-                XCTAssertEqual(survey.questions[0].id, 1)
-                XCTAssertEqual(survey.questions[0].answers.count, 2)
-                XCTAssertEqual(survey.questions[0].answers[0].id, 1)
-                XCTAssertEqual(survey.questions[0].answers[0].answerType, Survey.Question.Answer.AnswerType.selection)
-                XCTAssertEqual(survey.questions[0].answers[1].answerType, Survey.Question.Answer.AnswerType.freeform)
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let survey):
+                    XCTAssertEqual(survey.key, testSurvey!.key)
+                    XCTAssertEqual(survey.questions.count, 1)
+                    XCTAssertEqual(survey.questions[0].id, 1)
+                    XCTAssertEqual(survey.questions[0].answers.count, 2)
+                    XCTAssertEqual(survey.questions[0].answers[0].id, 1)
+                    XCTAssertEqual(survey.questions[0].answers[0].answerType, Survey.Question.Answer.AnswerType.selection)
+                    XCTAssertEqual(survey.questions[0].answers[1].answerType, Survey.Question.Answer.AnswerType.freeform)
             }
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testSubmitSurveyFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + SurveysEndpoint.surveys.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "submit_survey_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        authentication.loggedIn = false
+        let surveys = Surveys(service: service, authentication: authentication)
+        let testSurvey = Survey.createTestSurvey()
+        surveys.submitSurvey(survey: testSurvey!) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertNotNil(error)
+                    
+                    if let loggedOutError = error as? DataError {
+                        XCTAssertEqual(loggedOutError.type, .authentication)
+                        XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                    } else {
+                        XCTFail("Wrong error type returned")
+                    }
+                case .success:
+                    XCTFail("User logged out, request should fail")
+            }
+            
             expectation1.fulfill()
         }
         

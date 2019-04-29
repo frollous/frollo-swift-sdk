@@ -33,6 +33,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
     internal let transactionLock = NSLock()
     internal let transactionCategoryLock = NSLock()
     
+    private let authentication: Authentication
     private let database: Database
     private let service: APIService
     private let transactionBatchSize = 200
@@ -45,9 +46,10 @@ public class Aggregation: CachedObjects, ResponseHandler {
     private var refreshingMerchantIDs = Set<Int64>()
     private var refreshingProviderIDs = Set<Int64>()
     
-    internal init(database: Database, service: APIService) {
+    internal init(database: Database, service: APIService, authentication: Authentication) {
         self.database = database
         self.service = service
+        self.authentication = authentication
         
         NotificationCenter.default.addObserver(forName: Aggregation.refreshTransactionsNotification, object: nil, queue: .main) { notification in
             guard let transactionIDs = notification.userInfo?[Aggregation.refreshTransactionIDsKey] as? [Int64]
@@ -107,6 +109,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshProviders(completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchProviders { result in
             switch result {
                 case .failure(let error):
@@ -139,6 +153,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshProvider(providerID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchProvider(providerID: providerID) { result in
             switch result {
                 case .failure(let error):
@@ -209,6 +235,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshProviderAccounts(completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchProviderAccounts { result in
             switch result {
                 case .failure(let error):
@@ -240,6 +278,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshProviderAccount(providerAccountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchProviderAccount(providerAccountID: providerAccountID) { result in
             switch result {
                 case .failure(let error):
@@ -271,6 +321,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func createProviderAccount(providerID: Int64, loginForm: ProviderLoginForm, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         let request = APIProviderAccountCreateRequest(loginForm: loginForm, providerID: providerID)
         
         service.createProviderAccount(request: request) { result in
@@ -303,6 +365,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func deleteProviderAccount(providerAccountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.deleteProviderAccount(providerAccountID: providerAccountID) { result in
             switch result {
                 case .failure(let error):
@@ -329,6 +403,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func updateProviderAccount(providerAccountID: Int64, loginForm: ProviderLoginForm, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         let request = APIProviderAccountUpdateRequest(loginForm: loginForm)
         
         service.updateProviderAccount(providerAccountID: providerAccountID, request: request) { result in
@@ -399,6 +485,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshAccounts(completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchAccounts { result in
             switch result {
                 case .failure(let error):
@@ -430,6 +528,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshAccount(accountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchAccount(accountID: accountID) { result in
             switch result {
                 case .failure(let error):
@@ -460,6 +570,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func updateAccount(accountID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         let managedObjectContext = database.newBackgroundContext()
         
         guard let account = account(context: managedObjectContext, accountID: accountID)
@@ -552,6 +674,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
     }
     
     private func refreshNextTransactions(from fromDate: Date, to toDate: Date, skip: Int, updatedTransactionIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchTransactions(from: fromDate, to: toDate, count: transactionBatchSize, skip: skip) { result in
             switch result {
                 case .failure(let error):
@@ -592,6 +726,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransaction(transactionID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchTransaction(transactionID: transactionID) { result in
             switch result {
                 case .failure(let error):
@@ -626,6 +772,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
          - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransactions(transactionIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchTransactions(transactionIDs: transactionIDs) { result in
             switch result {
                 case .failure(let error):
@@ -662,6 +820,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func excludeTransaction(transactionID: Int64, excluded: Bool, excludeAll: Bool, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         let managedObjectContext = database.newBackgroundContext()
         
         guard let transaction = transaction(context: managedObjectContext, transactionID: transactionID)
@@ -726,6 +896,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func recategoriseTransaction(transactionID: Int64, transactionCategoryID: Int64, recategoriseAll: Bool, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         let managedObjectContext = database.newBackgroundContext()
         
         guard let transaction = transaction(context: managedObjectContext, transactionID: transactionID),
@@ -792,6 +974,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func updateTransaction(transactionID: Int64, includeApplyAll: Bool? = nil, recategoriseAll: Bool? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         let managedObjectContext = database.newBackgroundContext()
         
         guard let transaction = transaction(context: managedObjectContext, transactionID: transactionID)
@@ -876,6 +1070,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
          - onlyIncludedAccounts: Only return results from accounts included in the budget
     */
     public func transactionSearch(searchTerm: String, page: Int = 0, from fromDate: Date? = nil, to toDate: Date? = nil, accountIDs: [Int64]? = nil, onlyIncludedAccounts: Bool? = nil, completion: @escaping (Result<[Int64], Error>) -> Void) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        
         guard !searchTerm.isEmpty
         else {
             let error = DataError(type: .api, subType: .invalidData)
@@ -931,6 +1137,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
          - completion: Completion handler with count and sum of transactions if successful or error if it fails
     */
     public func transactionSummary(from fromDate: Date, to toDate: Date, accountIDs: [Int64]? = nil, transactionIDs: [Int64]? = nil, onlyIncludedAccounts: Bool? = nil, onlyIncludedTransactions: Bool? = nil, completion: @escaping (Result<(count: Int64, sum: Decimal), Error>) -> Void) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        
         service.transactionSummary(from: fromDate, to: toDate, accountIDs: accountIDs, transactionIDs: transactionIDs, onlyIncludedAccounts: onlyIncludedAccounts, onlyIncludedTransactions: onlyIncludedTransactions) { result in
             switch result {
                 case .failure(let error):
@@ -999,6 +1217,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshTransactionCategories(completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchTransactionCategories { result in
             switch result {
                 case .failure(let error):
@@ -1067,6 +1297,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
     */
     internal func refreshMerchants(completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchMerchants { result in
             switch result {
                 case .failure(let error):
@@ -1097,6 +1339,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshMerchant(merchantID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchMerchant(merchantID: merchantID) { result in
             switch result {
                 case .failure(let error):
@@ -1127,6 +1381,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshMerchants(merchantIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchMerchants(merchantIDs: merchantIDs) { result in
             switch result {
                 case .failure(let error):

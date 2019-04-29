@@ -270,14 +270,14 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         Log.manager.service = service
         Log.logLevel = configuration.logLevel
         
-        _aggregation = Aggregation(database: _database, service: service)
         _authentication = Authentication(database: _database, clientID: configuration.clientID, domain: configuration.serverEndpoint.host ?? configuration.serverEndpoint.absoluteString, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
-        _bills = Bills(database: _database, service: service, aggregation: _aggregation)
-        _events = Events(service: service)
-        _messages = Messages(database: _database, service: service)
+        _aggregation = Aggregation(database: _database, service: service, authentication: _authentication)
+        _bills = Bills(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
+        _events = Events(service: service, authentication: _authentication)
+        _messages = Messages(database: _database, service: service, authentication: _authentication)
         _notifications = Notifications(authentication: _authentication, events: _events, messages: _messages)
-        _reports = Reports(database: _database, service: service, aggregation: _aggregation)
-        _surveys = Surveys(service: service)
+        _reports = Reports(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
+        _surveys = Surveys(service: service, authentication: _authentication)
         
         _events.delegate = delegate
         _messages.delegate = delegate

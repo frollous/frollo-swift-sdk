@@ -21,6 +21,7 @@ import Foundation
 public class Reports: ResponseHandler, CachedObjects {
     
     private let aggregation: Aggregation
+    private let authentication: Authentication
     private let database: Database
     private let service: APIService
     
@@ -35,10 +36,11 @@ public class Reports: ResponseHandler, CachedObjects {
     private var linkingHistoryTransactionCategoryIDs = Set<Int64>()
     private var refreshingMerchantIDs = Set<Int64>()
     
-    internal init(database: Database, service: APIService, aggregation: Aggregation) {
+    internal init(database: Database, service: APIService, aggregation: Aggregation, authentication: Authentication) {
         self.database = database
         self.service = service
         self.aggregation = aggregation
+        self.authentication = authentication
     }
     
     // MARK: - Account Balance Reports
@@ -112,6 +114,18 @@ public class Reports: ResponseHandler, CachedObjects {
          - completion: Optional completion handler with optional error if the request fails
     */
     public func refreshAccountBalanceReports(period: ReportAccountBalance.Period, from fromDate: Date, to toDate: Date, accountID: Int64? = nil, accountType: Account.AccountType? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchAccountBalanceReports(period: period, from: fromDate, to: toDate, accountID: accountID, accountType: accountType) { result in
             switch result {
                 case .failure(let error):
@@ -181,6 +195,18 @@ public class Reports: ResponseHandler, CachedObjects {
          - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransactionCurrentReports(grouping: ReportGrouping, budgetCategory: BudgetCategory? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchTransactionCurrentReports(grouping: grouping, budgetCategory: budgetCategory) { result in
             switch result {
                 case .failure(let error):
@@ -274,6 +300,18 @@ public class Reports: ResponseHandler, CachedObjects {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransactionHistoryReports(grouping: ReportGrouping, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, budgetCategory: BudgetCategory? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchTransactionHistoryReports(grouping: grouping, period: period, fromDate: fromDate, toDate: toDate, budgetCategory: budgetCategory) { result in
             switch result {
                 case .failure(let error):
