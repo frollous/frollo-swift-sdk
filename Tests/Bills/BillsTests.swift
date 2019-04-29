@@ -100,15 +100,24 @@ class BillsTests: XCTestCase {
             managedObjectContext.performAndWait {
                 let testBill1 = Bill(context: managedObjectContext)
                 testBill1.populateTestData()
-                testBill1.status = .estimated
+                testBill1.frequency = .weekly
+                testBill1.paymentStatus = .due
+                testBill1.status = .confirmed
+                testBill1.billType = .bill
                 
                 let testBill2 = Bill(context: managedObjectContext)
                 testBill2.populateTestData()
+                testBill2.frequency = .weekly
+                testBill2.paymentStatus = .due
                 testBill2.status = .confirmed
+                testBill2.billType = .bill
                 
                 let testBill3 = Bill(context: managedObjectContext)
                 testBill3.populateTestData()
+                testBill3.frequency = .monthly
+                testBill3.paymentStatus = .due
                 testBill3.status = .estimated
+                testBill3.billType = .manual
                 
                 try! managedObjectContext.save()
             }
@@ -118,8 +127,7 @@ class BillsTests: XCTestCase {
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
-            let predicate = NSPredicate(format: "statusRawValue == %@", argumentArray: [Bill.Status.estimated.rawValue])
-            let fetchedBills = bills.bills(context: database.viewContext, filteredBy: predicate)
+            let fetchedBills = bills.bills(context: database.viewContext, frequency: .weekly, paymentStatus: .due, status: .confirmed, type: .bill)
             
             XCTAssertNotNil(fetchedBills)
             XCTAssertEqual(fetchedBills?.count, 2)
@@ -152,15 +160,24 @@ class BillsTests: XCTestCase {
             managedObjectContext.performAndWait {
                 let testBill1 = Bill(context: managedObjectContext)
                 testBill1.populateTestData()
+                testBill1.frequency = .weekly
+                testBill1.paymentStatus = .due
                 testBill1.status = .estimated
+                testBill1.billType = .bill
                 
                 let testBill2 = Bill(context: managedObjectContext)
                 testBill2.populateTestData()
-                testBill2.status = .confirmed
+                testBill2.frequency = .weekly
+                testBill2.paymentStatus = .due
+                testBill2.status = .estimated
+                testBill2.billType = .bill
                 
                 let testBill3 = Bill(context: managedObjectContext)
                 testBill3.populateTestData()
-                testBill3.status = .estimated
+                testBill3.frequency = .monthly
+                testBill3.paymentStatus = .due
+                testBill3.status = .confirmed
+                testBill3.billType = .manual
                 
                 try! managedObjectContext.save()
             }
@@ -170,8 +187,7 @@ class BillsTests: XCTestCase {
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
-            let predicate = NSPredicate(format: "statusRawValue == %@", argumentArray: [Bill.Status.estimated.rawValue])
-            let fetchedResultsController = bills.billsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
+            let fetchedResultsController = bills.billsFetchedResultsController(context: managedObjectContext, frequency: .weekly, paymentStatus: .due, status: .estimated, type: .bill)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -1152,14 +1168,17 @@ class BillsTests: XCTestCase {
                 let testBillPayment1 = BillPayment(context: managedObjectContext)
                 testBillPayment1.populateTestData()
                 testBillPayment1.frequency = .weekly
+                testBillPayment1.paymentStatus = .due
                 
                 let testBillPayment2 = BillPayment(context: managedObjectContext)
                 testBillPayment2.populateTestData()
                 testBillPayment2.frequency = .weekly
+                testBillPayment2.paymentStatus = .due
                 
                 let testBillPayment3 = BillPayment(context: managedObjectContext)
                 testBillPayment3.populateTestData()
                 testBillPayment3.frequency = .monthly
+                testBillPayment3.paymentStatus = .future
                 
                 try! managedObjectContext.save()
             }
@@ -1169,8 +1188,7 @@ class BillsTests: XCTestCase {
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
-            let predicate = NSPredicate(format: "frequencyRawValue == %@", argumentArray: [Bill.Frequency.weekly.rawValue])
-            let fetchedBillPayments = bills.billPayments(context: database.viewContext, filteredBy: predicate)
+            let fetchedBillPayments = bills.billPayments(context: database.viewContext, frequency: .weekly, status: .due)
             
             XCTAssertNotNil(fetchedBillPayments)
             XCTAssertEqual(fetchedBillPayments?.count, 2)
@@ -1204,14 +1222,17 @@ class BillsTests: XCTestCase {
                 let testBillPayment1 = BillPayment(context: managedObjectContext)
                 testBillPayment1.populateTestData()
                 testBillPayment1.frequency = .weekly
+                testBillPayment1.paymentStatus = .overdue
                 
                 let testBillPayment2 = BillPayment(context: managedObjectContext)
                 testBillPayment2.populateTestData()
                 testBillPayment2.frequency = .monthly
+                testBillPayment2.paymentStatus = .due
                 
                 let testBillPayment3 = BillPayment(context: managedObjectContext)
                 testBillPayment3.populateTestData()
                 testBillPayment3.frequency = .weekly
+                testBillPayment3.paymentStatus = .overdue
                 
                 try! managedObjectContext.save()
             }
@@ -1221,8 +1242,7 @@ class BillsTests: XCTestCase {
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
-            let predicate = NSPredicate(format: "frequencyRawValue == %@", argumentArray: [Bill.Frequency.weekly.rawValue])
-            let fetchedResultsController = bills.billPaymentsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
+            let fetchedResultsController = bills.billPaymentsFetchedResultsController(context: managedObjectContext, frequency: .weekly, status: .overdue)
             
             do {
                 try fetchedResultsController?.performFetch()
