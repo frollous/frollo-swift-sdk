@@ -2298,12 +2298,3 @@ public class Aggregation: CachedObjects, ResponseHandler {
             }
         }
     }
-    
-    private func handleUserTagsResponse(_ tagResponse: [APITransactionTagResponse], managedObjectContext: NSManagedObjectContext) {
-        // update user tag objects
-        // link user tags
-    }
-    
-    private func updateUserTagObjects() {}
-    
-}
