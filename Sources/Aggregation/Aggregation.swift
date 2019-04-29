@@ -79,12 +79,27 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - status: Filter by status of the provider support (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `Provider` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func providers(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Provider.providerID), ascending: true)], limit: Int? = nil) -> [Provider]? {
-        return cachedObjects(type: Provider.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func providers(context: NSManagedObjectContext,
+                          status: Provider.Status? = nil,
+                          filteredBy predicate: NSPredicate? = nil,
+                          sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Provider.providerID), ascending: true)],
+                          limit: Int? = nil) -> [Provider]? {
+        var predicates = [NSPredicate]()
+        
+        if let filterStatus = status {
+            predicates.append(NSPredicate(format: #keyPath(Provider.statusRawValue) + " == %@", argumentArray: [filterStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: Provider.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -92,12 +107,27 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - status: Filter by status of the provider support (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `Provider` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func providersFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Provider.providerID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Provider>? {
-        return fetchedResultsController(type: Provider.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func providersFetchedResultsController(context: NSManagedObjectContext,
+                                                  status: Provider.Status? = nil,
+                                                  filteredBy predicate: NSPredicate? = nil,
+                                                  sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Provider.providerID), ascending: true)],
+                                                  limit: Int? = nil) -> NSFetchedResultsController<Provider>? {
+        var predicates = [NSPredicate]()
+        
+        if let filterStatus = status {
+            predicates.append(NSPredicate(format: #keyPath(Provider.statusRawValue) + " == %@", argumentArray: [filterStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return fetchedResultsController(type: Provider.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -207,12 +237,27 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - refreshStatus: Filter by the current refresh status of the provider account (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `ProviderAccount` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerAccountID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
     */
-    public func providerAccounts(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)], limit: Int? = nil) -> [ProviderAccount]? {
-        return cachedObjects(type: ProviderAccount.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func providerAccounts(context: NSManagedObjectContext,
+                                 refreshStatus: AccountRefreshStatus? = nil,
+                                 filteredBy predicate: NSPredicate? = nil,
+                                 sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)],
+                                 limit: Int? = nil) -> [ProviderAccount]? {
+        var predicates = [NSPredicate]()
+        
+        if let filterRefreshStatus = refreshStatus {
+            predicates.append(NSPredicate(format: #keyPath(ProviderAccount.refreshStatusRawValue) + " == %@", argumentArray: [filterRefreshStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: ProviderAccount.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -220,11 +265,26 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - refreshStatus: Filter by the current refresh status of the provider account (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `ProviderAccount` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to providerAccountID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
     */
-    public func providerAccountsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<ProviderAccount>? {
+    public func providerAccountsFetchedResultsController(context: NSManagedObjectContext,
+                                                         refreshStatus: AccountRefreshStatus? = nil,
+                                                         filteredBy predicate: NSPredicate? = nil,
+                                                         sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ProviderAccount.providerAccountID), ascending: true)],
+                                                         limit: Int? = nil) -> NSFetchedResultsController<ProviderAccount>? {
+        var predicates = [NSPredicate]()
+        
+        if let filterRefreshStatus = refreshStatus {
+            predicates.append(NSPredicate(format: #keyPath(ProviderAccount.refreshStatusRawValue) + " == %@", argumentArray: [filterRefreshStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
         return fetchedResultsController(type: ProviderAccount.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
     
@@ -457,12 +517,69 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - accountStatus: Filter by the account status (Optional)
+        - accountSubType: Filter by the sub type of account (Optional)
+        - accountType: Filter by the type of the account (Optional)
+        - classification: Filter by the classification of the account (Optional)
+        - favourite: Filter by favourited accounts (Optional)
+        - hidden: Filter by hidden accounts (Optional)
+        - included: Filter by accounts included in the budget (Optional)
+        - refreshStatus: Filter by the current refresh status of the provider account (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `Account` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to accountID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func accounts(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Account.accountID), ascending: true)], limit: Int? = nil) -> [Account]? {
-        return cachedObjects(type: Account.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func accounts(context: NSManagedObjectContext,
+                         accountStatus: Account.AccountStatus? = nil,
+                         accountSubType: Account.AccountSubType? = nil,
+                         accountType: Account.AccountType? = nil,
+                         classification: Account.Classification? = nil,
+                         favourite: Bool? = nil,
+                         hidden: Bool? = nil,
+                         included: Bool? = nil,
+                         refreshStatus: AccountRefreshStatus? = nil,
+                         filteredBy predicate: NSPredicate? = nil,
+                         sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Account.accountID), ascending: true)],
+                         limit: Int? = nil) -> [Account]? {
+        var predicates = [NSPredicate]()
+        
+        if let filterAccountStatus = accountStatus {
+            predicates.append(NSPredicate(format: #keyPath(Account.accountStatusRawValue) + " == %@", argumentArray: [filterAccountStatus.rawValue]))
+        }
+        
+        if let filterAccountSubType = accountSubType {
+            predicates.append(NSPredicate(format: #keyPath(Account.accountSubTypeRawValue) + " == %@", argumentArray: [filterAccountSubType.rawValue]))
+        }
+        
+        if let filterAccountType = accountType {
+            predicates.append(NSPredicate(format: #keyPath(Account.accountTypeRawValue) + " == %@", argumentArray: [filterAccountType.rawValue]))
+        }
+        
+        if let filterClassification = classification {
+            predicates.append(NSPredicate(format: #keyPath(Account.classificationRawValue) + " == %@", argumentArray: [filterClassification.rawValue]))
+        }
+        
+        if let filterFavourite = favourite {
+            predicates.append(NSPredicate(format: #keyPath(Account.favourite) + " == %ld", argumentArray: [filterFavourite]))
+        }
+        
+        if let filterHidden = hidden {
+            predicates.append(NSPredicate(format: #keyPath(Account.hidden) + " == %ld", argumentArray: [filterHidden]))
+        }
+        
+        if let filterIncluded = included {
+            predicates.append(NSPredicate(format: #keyPath(Account.included) + " == %ld", argumentArray: [filterIncluded]))
+        }
+        
+        if let filterRefreshStatus = refreshStatus {
+            predicates.append(NSPredicate(format: #keyPath(Account.refreshStatusRawValue) + " == %@", argumentArray: [filterRefreshStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: Account.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -470,12 +587,69 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - accountStatus: Filter by the account status (Optional)
+        - accountSubType: Filter by the sub type of account (Optional)
+        - accountType: Filter by the type of the account (Optional)
+        - classification: Filter by the classification of the account (Optional)
+        - favourite: Filter by favourited accounts (Optional)
+        - hidden: Filter by hidden accounts (Optional)
+        - included: Filter by accounts included in the budget (Optional)
+        - refreshStatus: Filter by the current refresh status of the provider account (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `Account` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to accountID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func accountsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Account.accountID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Account>? {
-        return fetchedResultsController(type: Account.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func accountsFetchedResultsController(context: NSManagedObjectContext,
+                                                 accountStatus: Account.AccountStatus? = nil,
+                                                 accountSubType: Account.AccountSubType? = nil,
+                                                 accountType: Account.AccountType? = nil,
+                                                 classification: Account.Classification? = nil,
+                                                 favourite: Bool? = nil,
+                                                 hidden: Bool? = nil,
+                                                 included: Bool? = nil,
+                                                 refreshStatus: AccountRefreshStatus? = nil,
+                                                 filteredBy predicate: NSPredicate? = nil,
+                                                 sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Account.accountID), ascending: true)],
+                                                 limit: Int? = nil) -> NSFetchedResultsController<Account>? {
+        var predicates = [NSPredicate]()
+        
+        if let filterAccountStatus = accountStatus {
+            predicates.append(NSPredicate(format: #keyPath(Account.accountStatusRawValue) + " == %@", argumentArray: [filterAccountStatus.rawValue]))
+        }
+        
+        if let filterAccountSubType = accountSubType {
+            predicates.append(NSPredicate(format: #keyPath(Account.accountSubTypeRawValue) + " == %@", argumentArray: [filterAccountSubType.rawValue]))
+        }
+        
+        if let filterAccountType = accountType {
+            predicates.append(NSPredicate(format: #keyPath(Account.accountTypeRawValue) + " == %@", argumentArray: [filterAccountType.rawValue]))
+        }
+        
+        if let filterClassification = classification {
+            predicates.append(NSPredicate(format: #keyPath(Account.classificationRawValue) + " == %@", argumentArray: [filterClassification.rawValue]))
+        }
+        
+        if let filterFavourite = favourite {
+            predicates.append(NSPredicate(format: #keyPath(Account.favourite) + " == %ld", argumentArray: [filterFavourite]))
+        }
+        
+        if let filterHidden = hidden {
+            predicates.append(NSPredicate(format: #keyPath(Account.hidden) + " == %ld", argumentArray: [filterHidden]))
+        }
+        
+        if let filterIncluded = included {
+            predicates.append(NSPredicate(format: #keyPath(Account.included) + " == %ld", argumentArray: [filterIncluded]))
+        }
+        
+        if let filterRefreshStatus = refreshStatus {
+            predicates.append(NSPredicate(format: #keyPath(Account.refreshStatusRawValue) + " == %@", argumentArray: [filterRefreshStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return fetchedResultsController(type: Account.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -640,12 +814,39 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - baseType: Filter by base type of the transaction (Optional)
+        - budgetCategory: Filter by budget category of the transaction (Optional)
+        - status: Filter by the status of the transaction (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `Transaction` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func transactions(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)], limit: Int? = nil) -> [Transaction]? {
-        return cachedObjects(type: Transaction.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func transactions(context: NSManagedObjectContext,
+                             baseType: Transaction.BaseType? = nil,
+                             budgetCategory: BudgetCategory? = nil,
+                             status: Transaction.Status? = nil,
+                             filteredBy predicate: NSPredicate? = nil,
+                             sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)],
+                             limit: Int? = nil) -> [Transaction]? {
+        var predicates = [NSPredicate]()
+        
+        if let filterBaseType = baseType {
+            predicates.append(NSPredicate(format: #keyPath(Transaction.baseTypeRawValue) + " == %@", argumentArray: [filterBaseType.rawValue]))
+        }
+        
+        if let filterBudgetCategory = budgetCategory {
+            predicates.append(NSPredicate(format: #keyPath(Transaction.budgetCategoryRawValue) + " == %@", argumentArray: [filterBudgetCategory.rawValue]))
+        }
+        
+        if let filterStatus = status {
+            predicates.append(NSPredicate(format: #keyPath(Transaction.statusRawValue) + " == %@", argumentArray: [filterStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: Transaction.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -653,12 +854,39 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - baseType: Filter by base type of the transaction (Optional)
+        - budgetCategory: Filter by budget category of the transaction (Optional)
+        - status: Filter by the status of the transaction (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `Transaction` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func transactionsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Transaction>? {
-        return fetchedResultsController(type: Transaction.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func transactionsFetchedResultsController(context: NSManagedObjectContext,
+                                                     baseType: Transaction.BaseType? = nil,
+                                                     budgetCategory: BudgetCategory? = nil,
+                                                     status: Transaction.Status? = nil,
+                                                     filteredBy predicate: NSPredicate? = nil,
+                                                     sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)],
+                                                     limit: Int? = nil) -> NSFetchedResultsController<Transaction>? {
+        var predicates = [NSPredicate]()
+        
+        if let filterBaseType = baseType {
+            predicates.append(NSPredicate(format: #keyPath(Transaction.baseTypeRawValue) + " == %@", argumentArray: [filterBaseType.rawValue]))
+        }
+        
+        if let filterBudgetCategory = budgetCategory {
+            predicates.append(NSPredicate(format: #keyPath(Transaction.budgetCategoryRawValue) + " == %@", argumentArray: [filterBudgetCategory.rawValue]))
+        }
+        
+        if let filterStatus = status {
+            predicates.append(NSPredicate(format: #keyPath(Transaction.statusRawValue) + " == %@", argumentArray: [filterStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return fetchedResultsController(type: Transaction.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -1189,12 +1417,33 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - defaultBudgetCategory: Filter by the default budget category associated with the transaction category (Optional)
+        - type: Filter by type of category (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `TransactionCategory` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionCategoryID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func transactionCategories(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(TransactionCategory.transactionCategoryID), ascending: true)], limit: Int? = nil) -> [TransactionCategory]? {
-        return cachedObjects(type: TransactionCategory.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func transactionCategories(context: NSManagedObjectContext,
+                                      defaultBudgetCategory: BudgetCategory? = nil,
+                                      type: TransactionCategory.CategoryType? = nil,
+                                      filteredBy predicate: NSPredicate? = nil,
+                                      sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(TransactionCategory.transactionCategoryID), ascending: true)],
+                                      limit: Int? = nil) -> [TransactionCategory]? {
+        var predicates = [NSPredicate]()
+        
+        if let filterBudgetCategory = defaultBudgetCategory {
+            predicates.append(NSPredicate(format: #keyPath(TransactionCategory.defaultBudgetCategoryRawValue) + " == %@", argumentArray: [filterBudgetCategory.rawValue]))
+        }
+        
+        if let filterType = type {
+            predicates.append(NSPredicate(format: #keyPath(TransactionCategory.categoryTypeRawValue) + " == %@", argumentArray: [filterType.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: TransactionCategory.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -1206,8 +1455,27 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionCategoryID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func transactionCategoriesFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(TransactionCategory.transactionCategoryID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<TransactionCategory>? {
-        return fetchedResultsController(type: TransactionCategory.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func transactionCategoriesFetchedResultsController(context: NSManagedObjectContext,
+                                                              defaultBudgetCategory: BudgetCategory? = nil,
+                                                              type: TransactionCategory.CategoryType? = nil,
+                                                              filteredBy predicate: NSPredicate? = nil,
+                                                              sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(TransactionCategory.transactionCategoryID), ascending: true)],
+                                                              limit: Int? = nil) -> NSFetchedResultsController<TransactionCategory>? {
+        var predicates = [NSPredicate]()
+        
+        if let filterBudgetCategory = defaultBudgetCategory {
+            predicates.append(NSPredicate(format: #keyPath(TransactionCategory.defaultBudgetCategoryRawValue) + " == %@", argumentArray: [filterBudgetCategory.rawValue]))
+        }
+        
+        if let filterType = type {
+            predicates.append(NSPredicate(format: #keyPath(TransactionCategory.categoryTypeRawValue) + " == %@", argumentArray: [filterType.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return fetchedResultsController(type: TransactionCategory.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -1269,12 +1537,27 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - type: Filter merchants by the type (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `Merchant` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to merchantID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func merchants(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)], limit: Int? = nil) -> [Merchant]? {
-        return cachedObjects(type: Merchant.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func merchants(context: NSManagedObjectContext,
+                          type: Merchant.MerchantType? = nil,
+                          filteredBy predicate: NSPredicate? = nil,
+                          sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)],
+                          limit: Int? = nil) -> [Merchant]? {
+        var predicates = [NSPredicate]()
+        
+        if let filterType = type {
+            predicates.append(NSPredicate(format: #keyPath(Merchant.merchantTypeRawValue) + " == %@", argumentArray: [filterType.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: Merchant.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -1282,11 +1565,26 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - type: Filter merchants by the type (Optional)
         - filteredBy: Predicate of properties to match for fetching. See `Merchant` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to merchantID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func merchantsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Merchant>? {
+    public func merchantsFetchedResultsController(context: NSManagedObjectContext,
+                                                  type: Merchant.MerchantType? = nil,
+                                                  filteredBy predicate: NSPredicate? = nil,
+                                                  sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)],
+                                                  limit: Int? = nil) -> NSFetchedResultsController<Merchant>? {
+        var predicates = [NSPredicate]()
+        
+        if let filterType = type {
+            predicates.append(NSPredicate(format: #keyPath(Merchant.merchantTypeRawValue) + " == %@", argumentArray: [filterType.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
         return fetchedResultsController(type: Merchant.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
     
