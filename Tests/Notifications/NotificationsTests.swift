@@ -133,6 +133,7 @@ class NotificationsTests: XCTestCase {
         let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        authentication.loggedIn = true
         let events = Events(service: service, authentication: authentication)
         let messages = Messages(database: database, service: service, authentication: authentication)
         
@@ -149,7 +150,7 @@ class NotificationsTests: XCTestCase {
             notifications.handlePushNotification(userInfo: json)
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1], timeout: 5.0)
     }
 
 }
