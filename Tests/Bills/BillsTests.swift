@@ -44,6 +44,8 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -60,8 +62,10 @@ class BillsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let aggregation = Aggregation(database: database, service: service)
-            let bills = Bills(database: database, service: service, aggregation: aggregation)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             let bill = bills.bill(context: database.viewContext, billID: id)
             
@@ -85,6 +89,8 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -94,24 +100,34 @@ class BillsTests: XCTestCase {
             managedObjectContext.performAndWait {
                 let testBill1 = Bill(context: managedObjectContext)
                 testBill1.populateTestData()
-                testBill1.status = .estimated
+                testBill1.frequency = .weekly
+                testBill1.paymentStatus = .due
+                testBill1.status = .confirmed
+                testBill1.billType = .bill
                 
                 let testBill2 = Bill(context: managedObjectContext)
                 testBill2.populateTestData()
+                testBill2.frequency = .weekly
+                testBill2.paymentStatus = .due
                 testBill2.status = .confirmed
+                testBill2.billType = .bill
                 
                 let testBill3 = Bill(context: managedObjectContext)
                 testBill3.populateTestData()
+                testBill3.frequency = .monthly
+                testBill3.paymentStatus = .due
                 testBill3.status = .estimated
+                testBill3.billType = .manual
                 
                 try! managedObjectContext.save()
             }
             
-            let aggregation = Aggregation(database: database, service: service)
-            let bills = Bills(database: database, service: service, aggregation: aggregation)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
-            let predicate = NSPredicate(format: "statusRawValue == %@", argumentArray: [Bill.Status.estimated.rawValue])
-            let fetchedBills = bills.bills(context: database.viewContext, filteredBy: predicate)
+            let fetchedBills = bills.bills(context: database.viewContext, frequency: .weekly, paymentStatus: .due, status: .confirmed, type: .bill)
             
             XCTAssertNotNil(fetchedBills)
             XCTAssertEqual(fetchedBills?.count, 2)
@@ -133,6 +149,8 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -142,24 +160,34 @@ class BillsTests: XCTestCase {
             managedObjectContext.performAndWait {
                 let testBill1 = Bill(context: managedObjectContext)
                 testBill1.populateTestData()
+                testBill1.frequency = .weekly
+                testBill1.paymentStatus = .due
                 testBill1.status = .estimated
+                testBill1.billType = .bill
                 
                 let testBill2 = Bill(context: managedObjectContext)
                 testBill2.populateTestData()
-                testBill2.status = .confirmed
+                testBill2.frequency = .weekly
+                testBill2.paymentStatus = .due
+                testBill2.status = .estimated
+                testBill2.billType = .bill
                 
                 let testBill3 = Bill(context: managedObjectContext)
                 testBill3.populateTestData()
-                testBill3.status = .estimated
+                testBill3.frequency = .monthly
+                testBill3.paymentStatus = .due
+                testBill3.status = .confirmed
+                testBill3.billType = .manual
                 
                 try! managedObjectContext.save()
             }
             
-            let aggregation = Aggregation(database: database, service: service)
-            let bills = Bills(database: database, service: service, aggregation: aggregation)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
-            let predicate = NSPredicate(format: "statusRawValue == %@", argumentArray: [Bill.Status.estimated.rawValue])
-            let fetchedResultsController = bills.billsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
+            let fetchedResultsController = bills.billsFetchedResultsController(context: managedObjectContext, frequency: .weekly, paymentStatus: .due, status: .estimated, type: .bill)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -193,12 +221,16 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
-            let bills = Bills(database: database, service: service, aggregation: aggregation)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             bills.createBill(transactionID: 987, frequency: .monthly, nextPaymentDate: Date(timeIntervalSinceNow: 20000), name: nil, notes: nil) { (result) in
                 switch result {
@@ -243,12 +275,16 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
-            let bills = Bills(database: database, service: service, aggregation: aggregation)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             let date = Bill.billDateFormatter.date(from: "2019-02-01")!
             
@@ -280,6 +316,57 @@ class BillsTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testCreateBillFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bills.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = false
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            
+            let date = Bill.billDateFormatter.date(from: "2019-02-01")!
+            
+            bills.createBill(accountID: 654, dueAmount: 50.0, frequency: .weekly, nextPaymentDate: date, name: "Stan", notes: "Cancel this") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let loggedOutError = error as? DataError {
+                            XCTAssertEqual(loggedOutError.type, .authentication)
+                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        } else {
+                            XCTFail("Wrong error type returned")
+                        }
+                    case .success:
+                        XCTFail("User logged out, request should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testDeleteBill() {
         let expectation1 = expectation(description: "Network Request")
         
@@ -295,9 +382,13 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
-        let aggregation = Aggregation(database: database, service: service)
-        let bills = Bills(database: database, service: service, aggregation: aggregation)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -327,6 +418,55 @@ class BillsTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testDeleteBillFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bill(billID: 12345).path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = false
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            
+            bills.deleteBill(billID: 12345) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let loggedOutError = error as? DataError {
+                            XCTAssertEqual(loggedOutError.type, .authentication)
+                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        } else {
+                            XCTFail("Wrong error type returned")
+                        }
+                    case .success:
+                        XCTFail("User logged out, request should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testRefreshBills() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -342,12 +482,16 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
-            let bills = Bills(database: database, service: service, aggregation: aggregation)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             bills.refreshBills() { (result) in
                 switch result {
@@ -375,6 +519,55 @@ class BillsTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testRefreshBillsFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bills.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bills_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = false
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            
+            bills.refreshBills() { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let loggedOutError = error as? DataError {
+                            XCTAssertEqual(loggedOutError.type, .authentication)
+                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        } else {
+                            XCTFail("Wrong error type returned")
+                        }
+                    case .success:
+                        XCTFail("User logged out, request should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testRefreshBillByID() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -390,12 +583,16 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
-            let bills = Bills(database: database, service: service, aggregation: aggregation)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             bills.refreshBill(billID: 12345) { (result) in
                 switch result {
@@ -424,6 +621,55 @@ class BillsTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testRefreshBillByIDFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bills.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = false
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            
+            bills.refreshBill(billID: 12345) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let loggedOutError = error as? DataError {
+                            XCTAssertEqual(loggedOutError.type, .authentication)
+                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        } else {
+                            XCTFail("Wrong error type returned")
+                        }
+                    case .success:
+                        XCTFail("User logged out, request should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testUpdateBill() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -439,6 +685,8 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -454,8 +702,10 @@ class BillsTests: XCTestCase {
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                let aggregation = Aggregation(database: database, service: service)
-                let bills = Bills(database: database, service: service, aggregation: aggregation)
+                let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+                let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
                 
                 bills.updateBill(billID: 12345) { (result) in
                     switch result {
@@ -488,6 +738,55 @@ class BillsTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testUpdateBillFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bills.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = false
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            
+            bills.updateBill(billID: 12345) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let loggedOutError = error as? DataError {
+                            XCTAssertEqual(loggedOutError.type, .authentication)
+                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        } else {
+                            XCTFail("Wrong error type returned")
+                        }
+                    case .success:
+                        XCTFail("User logged out, request should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testUpdateBillNotFound() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -503,6 +802,8 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -518,8 +819,10 @@ class BillsTests: XCTestCase {
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                let aggregation = Aggregation(database: database, service: service)
-                let bills = Bills(database: database, service: service, aggregation: aggregation)
+                let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+                let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
                 
                 bills.updateBill(billID: 12345) { (result) in
                     switch result {
@@ -563,6 +866,8 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -572,8 +877,10 @@ class BillsTests: XCTestCase {
 
         wait(for: [expectation1], timeout: 3.0)
             
-        let aggregation = Aggregation(database: database, service: service)
-        let bills = Bills(database: database, service: service, aggregation: aggregation)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
         
         aggregation.refreshAccounts() { (result) in
             switch result {
@@ -643,6 +950,8 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -652,8 +961,10 @@ class BillsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let aggregation = Aggregation(database: database, service: service)
-        let bills = Bills(database: database, service: service, aggregation: aggregation)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
         
         aggregation.refreshMerchants() { (result) in
             switch result {
@@ -723,6 +1034,8 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -732,8 +1045,10 @@ class BillsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let aggregation = Aggregation(database: database, service: service)
-        let bills = Bills(database: database, service: service, aggregation: aggregation)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
         
         aggregation.refreshTransactionCategories() { (result) in
             switch result {
@@ -796,6 +1111,8 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -812,8 +1129,10 @@ class BillsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let aggregation = Aggregation(database: database, service: service)
-            let bills = Bills(database: database, service: service, aggregation: aggregation)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             let billPayment = bills.billPayment(context: database.viewContext, billPaymentID: id)
             
@@ -837,6 +1156,8 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -847,23 +1168,27 @@ class BillsTests: XCTestCase {
                 let testBillPayment1 = BillPayment(context: managedObjectContext)
                 testBillPayment1.populateTestData()
                 testBillPayment1.frequency = .weekly
+                testBillPayment1.paymentStatus = .due
                 
                 let testBillPayment2 = BillPayment(context: managedObjectContext)
                 testBillPayment2.populateTestData()
                 testBillPayment2.frequency = .weekly
+                testBillPayment2.paymentStatus = .due
                 
                 let testBillPayment3 = BillPayment(context: managedObjectContext)
                 testBillPayment3.populateTestData()
                 testBillPayment3.frequency = .monthly
+                testBillPayment3.paymentStatus = .future
                 
                 try! managedObjectContext.save()
             }
             
-            let aggregation = Aggregation(database: database, service: service)
-            let bills = Bills(database: database, service: service, aggregation: aggregation)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
-            let predicate = NSPredicate(format: "frequencyRawValue == %@", argumentArray: [Bill.Frequency.weekly.rawValue])
-            let fetchedBillPayments = bills.billPayments(context: database.viewContext, filteredBy: predicate)
+            let fetchedBillPayments = bills.billPayments(context: database.viewContext, frequency: .weekly, status: .due)
             
             XCTAssertNotNil(fetchedBillPayments)
             XCTAssertEqual(fetchedBillPayments?.count, 2)
@@ -885,6 +1210,8 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -895,23 +1222,27 @@ class BillsTests: XCTestCase {
                 let testBillPayment1 = BillPayment(context: managedObjectContext)
                 testBillPayment1.populateTestData()
                 testBillPayment1.frequency = .weekly
+                testBillPayment1.paymentStatus = .overdue
                 
                 let testBillPayment2 = BillPayment(context: managedObjectContext)
                 testBillPayment2.populateTestData()
                 testBillPayment2.frequency = .monthly
+                testBillPayment2.paymentStatus = .due
                 
                 let testBillPayment3 = BillPayment(context: managedObjectContext)
                 testBillPayment3.populateTestData()
                 testBillPayment3.frequency = .weekly
+                testBillPayment3.paymentStatus = .overdue
                 
                 try! managedObjectContext.save()
             }
             
-            let aggregation = Aggregation(database: database, service: service)
-            let bills = Bills(database: database, service: service, aggregation: aggregation)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
-            let predicate = NSPredicate(format: "frequencyRawValue == %@", argumentArray: [Bill.Frequency.weekly.rawValue])
-            let fetchedResultsController = bills.billPaymentsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
+            let fetchedResultsController = bills.billPaymentsFetchedResultsController(context: managedObjectContext, frequency: .weekly, status: .overdue)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -945,9 +1276,13 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
-        let aggregation = Aggregation(database: database, service: service)
-        let bills = Bills(database: database, service: service, aggregation: aggregation)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -977,6 +1312,55 @@ class BillsTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testDeleteBillPaymentFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.billPayment(billPaymentID: 12345).path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = false
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            
+            bills.deleteBillPayment(billPaymentID: 12345) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let loggedOutError = error as? DataError {
+                            XCTAssertEqual(loggedOutError.type, .authentication)
+                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        } else {
+                            XCTFail("Wrong error type returned")
+                        }
+                    case .success:
+                        XCTFail("User logged out, request should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testRefreshBillPayments() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -992,6 +1376,8 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -999,8 +1385,10 @@ class BillsTests: XCTestCase {
             let fromDate = BillPayment.billDateFormatter.date(from: "2018-12-01")!
             let toDate = BillPayment.billDateFormatter.date(from: "2021-01-01")!
             
-            let aggregation = Aggregation(database: database, service: service)
-            let bills = Bills(database: database, service: service, aggregation: aggregation)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             bills.refreshBillPayments(from: fromDate, to: toDate) { (result) in
                 switch result {
@@ -1028,6 +1416,58 @@ class BillsTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testRefreshBillPaymentsFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.billPayments.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payments_2018-12-01_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let fromDate = BillPayment.billDateFormatter.date(from: "2018-12-01")!
+            let toDate = BillPayment.billDateFormatter.date(from: "2021-01-01")!
+            
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = false
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            
+            bills.refreshBillPayments(from: fromDate, to: toDate) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let loggedOutError = error as? DataError {
+                            XCTAssertEqual(loggedOutError.type, .authentication)
+                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        } else {
+                            XCTFail("Wrong error type returned")
+                        }
+                    case .success:
+                        XCTFail("User logged out, request should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testRefreshBillPaymentByID() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -1043,12 +1483,16 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let aggregation = Aggregation(database: database, service: service)
-            let bills = Bills(database: database, service: service, aggregation: aggregation)
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
             
             bills.refreshBillPayment(billPaymentID: 12345) { (result) in
                 switch result {
@@ -1077,6 +1521,55 @@ class BillsTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testRefreshBillPaymentByIDFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.billPayment(billPaymentID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payment_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = false
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            
+            bills.refreshBillPayment(billPaymentID: 12345) { (result) in
+                switch result {
+                case .failure(let error):
+                    XCTAssertNotNil(error)
+                    
+                    if let loggedOutError = error as? DataError {
+                        XCTAssertEqual(loggedOutError.type, .authentication)
+                        XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                    } else {
+                        XCTFail("Wrong error type returned")
+                    }
+                case .success:
+                    XCTFail("User logged out, request should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testUpdateBillPayment() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -1092,6 +1585,8 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1107,8 +1602,10 @@ class BillsTests: XCTestCase {
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                let aggregation = Aggregation(database: database, service: service)
-                let bills = Bills(database: database, service: service, aggregation: aggregation)
+                let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+                let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
                 
                 bills.updateBillPayment(billPaymentID: 12345) { (result) in
                     switch result {
@@ -1139,6 +1636,55 @@ class BillsTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testUpdateBillPaymentFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.billPayment(billPaymentID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payment_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = false
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            
+            bills.updateBillPayment(billPaymentID: 12345) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let loggedOutError = error as? DataError {
+                            XCTAssertEqual(loggedOutError.type, .authentication)
+                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        } else {
+                            XCTFail("Wrong error type returned")
+                        }
+                    case .success:
+                        XCTFail("User logged out, request should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
     func testUpdateBillPaymentNotFound() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -1154,6 +1700,8 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1169,8 +1717,10 @@ class BillsTests: XCTestCase {
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                let aggregation = Aggregation(database: database, service: service)
-                let bills = Bills(database: database, service: service, aggregation: aggregation)
+                let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+                let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
                 
                 bills.updateBillPayment(billPaymentID: 12345) { (result) in
                     switch result {
@@ -1214,6 +1764,8 @@ class BillsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1223,8 +1775,10 @@ class BillsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let aggregation = Aggregation(database: database, service: service)
-        let bills = Bills(database: database, service: service, aggregation: aggregation)
+        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            authentication.loggedIn = true
+            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
         
         bills.refreshBills() { (result) in
             switch result {

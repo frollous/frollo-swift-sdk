@@ -69,6 +69,7 @@ class MessagesRequestTests: XCTestCase {
                         XCTAssertEqual(firstMessage.action?.title, "Claim Points")
                         XCTAssertEqual(firstMessage.action?.link, "frollo://dashboard/")
                         XCTAssertEqual(firstMessage.action?.openExternal, false)
+                        XCTAssertEqual(firstMessage.autoDismiss, true)
                     }
             }
             
@@ -147,6 +148,7 @@ class MessagesRequestTests: XCTestCase {
                         XCTAssertEqual(firstMessage.action?.title, "Claim Points")
                         XCTAssertEqual(firstMessage.action?.link, "frollo://dashboard/")
                         XCTAssertEqual(firstMessage.action?.openExternal, false)
+                        XCTAssertEqual(firstMessage.autoDismiss, true)
                     }
                     
                     for message in response {
@@ -197,6 +199,7 @@ class MessagesRequestTests: XCTestCase {
                     XCTAssertNil(message.action?.title)
                     XCTAssertEqual(message.action?.link, "https://example.com")
                     XCTAssertEqual(message.action?.openExternal, false)
+                    XCTAssertEqual(message.autoDismiss, true)
             }
             
             expectation1.fulfill()

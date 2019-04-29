@@ -21,6 +21,7 @@ import Foundation
 public class Bills: CachedObjects, ResponseHandler {
     
     private let aggregation: Aggregation
+    private let authentication: Authentication
     private let database: Database
     private let service: APIService
     
@@ -33,10 +34,11 @@ public class Bills: CachedObjects, ResponseHandler {
     private var linkingTransactionCategoryIDs = Set<Int64>()
     private var refreshingMerchantIDs = Set<Int64>()
     
-    internal init(database: Database, service: APIService, aggregation: Aggregation) {
+    internal init(database: Database, service: APIService, aggregation: Aggregation, authentication: Authentication) {
         self.database = database
         self.service = service
         self.aggregation = aggregation
+        self.authentication = authentication
     }
     
     // MARK: - Bills
@@ -56,13 +58,43 @@ public class Bills: CachedObjects, ResponseHandler {
      Fetch bills from the cache
      
      - parameters:
-        - context: Managed object context to fetch these from; background or main thread
-        - filteredBy: Predicate of properties to match for fetching. See `Bill` for properties (Optional)
-        - sortedBy: Array of sort descriptors to sort the results by. Defaults to billID ascending (Optional)
-        - limit: Fetch limit to set maximum number of returned items (Optional)
+         - context: Managed object context to fetch these from; background or main thread
+         - frequency: Filter by frequency of the bill payments (optional)
+         - paymentStatus: Filter by the payment status (optional)
+         - status: Filter by the status of the bill (optional)
+         - type: Filter by the type of the bill (optional)
+         - filteredBy: Predicate of properties to match for fetching. See `Bill` for properties (Optional)
+         - sortedBy: Array of sort descriptors to sort the results by. Defaults to billID ascending (Optional)
+         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func bills(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Bill.billID), ascending: true)], limit: Int? = nil) -> [Bill]? {
-        return cachedObjects(type: Bill.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func bills(context: NSManagedObjectContext,
+                      frequency: Bill.Frequency? = nil,
+                      paymentStatus: Bill.PaymentStatus? = nil,
+                      status: Bill.Status? = nil,
+                      type: Bill.BillType? = nil,
+                      filteredBy predicate: NSPredicate? = nil,
+                      sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Bill.billID), ascending: true)],
+                      limit: Int? = nil) -> [Bill]? {
+        var predicates = [NSPredicate]()
+        
+        if let filterFrequency = frequency {
+            predicates.append(NSPredicate(format: #keyPath(Bill.frequencyRawValue) + " == %@", argumentArray: [filterFrequency.rawValue]))
+        }
+        if let filterPaymentStatus = paymentStatus {
+            predicates.append(NSPredicate(format: #keyPath(Bill.paymentStatusRawValue) + " == %@", argumentArray: [filterPaymentStatus.rawValue]))
+        }
+        if let filterStatus = status {
+            predicates.append(NSPredicate(format: #keyPath(Bill.statusRawValue) + " == %@", argumentArray: [filterStatus.rawValue]))
+        }
+        if let filterType = type {
+            predicates.append(NSPredicate(format: #keyPath(Bill.billTypeRawValue) + " == %@", argumentArray: [filterType.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: Bill.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -70,12 +102,42 @@ public class Bills: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - frequency: Filter by frequency of the bill payments (optional)
+        - paymentStatus: Filter by the payment status (optional)
+        - status: Filter by the status of the bill (optional)
+        - type: Filter by the type of the bill (optional)
         - filteredBy: Predicate of properties to match for fetching. See `Bill` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to billID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func billsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Bill.billID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Bill>? {
-        return fetchedResultsController(type: Bill.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func billsFetchedResultsController(context: NSManagedObjectContext,
+                                              frequency: Bill.Frequency? = nil,
+                                              paymentStatus: Bill.PaymentStatus? = nil,
+                                              status: Bill.Status? = nil,
+                                              type: Bill.BillType? = nil,
+                                              filteredBy predicate: NSPredicate? = nil,
+                                              sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Bill.billID), ascending: true)],
+                                              limit: Int? = nil) -> NSFetchedResultsController<Bill>? {
+        var predicates = [NSPredicate]()
+        
+        if let filterFrequency = frequency {
+            predicates.append(NSPredicate(format: #keyPath(Bill.frequencyRawValue) + " == %@", argumentArray: [filterFrequency.rawValue]))
+        }
+        if let filterPaymentStatus = paymentStatus {
+            predicates.append(NSPredicate(format: #keyPath(Bill.paymentStatusRawValue) + " == %@", argumentArray: [filterPaymentStatus.rawValue]))
+        }
+        if let filterStatus = status {
+            predicates.append(NSPredicate(format: #keyPath(Bill.statusRawValue) + " == %@", argumentArray: [filterStatus.rawValue]))
+        }
+        if let filterType = type {
+            predicates.append(NSPredicate(format: #keyPath(Bill.billTypeRawValue) + " == %@", argumentArray: [filterType.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return fetchedResultsController(type: Bill.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -132,6 +194,18 @@ public class Bills: CachedObjects, ResponseHandler {
     }
     
     private func createBill(request: APIBillCreateRequest, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.createBill(request: request) { result in
             switch result {
                 case .failure(let error):
@@ -164,6 +238,18 @@ public class Bills: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func deleteBill(billID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.deleteBill(billID: billID) { result in
             switch result {
                 case .failure(let error):
@@ -191,6 +277,18 @@ public class Bills: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBills(completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchBills { result in
             switch result {
                 case .failure(let error):
@@ -223,6 +321,18 @@ public class Bills: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBill(billID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchBill(billID: billID) { result in
             switch result {
                 case .failure(let error):
@@ -255,6 +365,18 @@ public class Bills: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func updateBill(billID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         let managedObjectContext = database.newBackgroundContext()
         
         guard let bill = bill(context: managedObjectContext, billID: billID)
@@ -315,12 +437,32 @@ public class Bills: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - frequency: Filter by frequency of the bill payments (optional)
+        - status: Filter by the payment status (optional)
         - filteredBy: Predicate of properties to match for fetching. See `BillPayment` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to billPaymentID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func billPayments(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(BillPayment.billPaymentID), ascending: true)], limit: Int? = nil) -> [BillPayment]? {
-        return cachedObjects(type: BillPayment.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func billPayments(context: NSManagedObjectContext,
+                             frequency: Bill.Frequency? = nil,
+                             status: Bill.PaymentStatus? = nil,
+                             filteredBy predicate: NSPredicate? = nil,
+                             sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(BillPayment.billPaymentID), ascending: true)],
+                             limit: Int? = nil) -> [BillPayment]? {
+        var predicates = [NSPredicate]()
+        
+        if let filterFrequency = frequency {
+            predicates.append(NSPredicate(format: #keyPath(Bill.frequencyRawValue) + " == %@", argumentArray: [filterFrequency.rawValue]))
+        }
+        if let filterPaymentStatus = status {
+            predicates.append(NSPredicate(format: #keyPath(Bill.paymentStatusRawValue) + " == %@", argumentArray: [filterPaymentStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: BillPayment.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -328,12 +470,32 @@ public class Bills: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - frequency: Filter by frequency of the bill payments (optional)
+        - status: Filter by the payment status (optional)
         - filteredBy: Predicate of properties to match for fetching. See `BillPayment` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to billPaymentID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func billPaymentsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(BillPayment.billPaymentID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<BillPayment>? {
-        return fetchedResultsController(type: BillPayment.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func billPaymentsFetchedResultsController(context: NSManagedObjectContext,
+                                                     frequency: Bill.Frequency? = nil,
+                                                     status: Bill.PaymentStatus? = nil,
+                                                     filteredBy predicate: NSPredicate? = nil,
+                                                     sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(BillPayment.billPaymentID), ascending: true)],
+                                                     limit: Int? = nil) -> NSFetchedResultsController<BillPayment>? {
+        var predicates = [NSPredicate]()
+        
+        if let filterFrequency = frequency {
+            predicates.append(NSPredicate(format: #keyPath(Bill.frequencyRawValue) + " == %@", argumentArray: [filterFrequency.rawValue]))
+        }
+        if let filterPaymentStatus = status {
+            predicates.append(NSPredicate(format: #keyPath(Bill.paymentStatusRawValue) + " == %@", argumentArray: [filterPaymentStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return fetchedResultsController(type: BillPayment.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -344,6 +506,18 @@ public class Bills: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func deleteBillPayment(billPaymentID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.deleteBillPayment(billPaymentID: billPaymentID) { result in
             switch result {
                 case .failure(let error):
@@ -371,6 +545,18 @@ public class Bills: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBillPayments(from fromDate: Date, to toDate: Date, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchBillPayments(from: fromDate, to: toDate) { result in
             switch result {
                 case .failure(let error):
@@ -401,6 +587,18 @@ public class Bills: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBillPayment(billPaymentID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchBillPayment(billPaymentID: billPaymentID) { result in
             switch result {
                 case .failure(let error):
@@ -431,6 +629,18 @@ public class Bills: CachedObjects, ResponseHandler {
      - completion: Optional completion handler with optional error if the request fails
      */
     public func updateBillPayment(billPaymentID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         let managedObjectContext = database.newBackgroundContext()
         
         guard let billPayment = billPayment(context: managedObjectContext, billPaymentID: billPaymentID)

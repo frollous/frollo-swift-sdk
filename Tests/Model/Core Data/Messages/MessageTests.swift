@@ -62,6 +62,7 @@ class MessageTests: XCTestCase {
             XCTAssertEqual(messageResponse.action?.title, message.actionTitle)
             XCTAssertEqual(messageResponse.action?.link, message.actionURLString)
             XCTAssertEqual(messageResponse.action?.openExternal, message.actionOpenExternal)
+            XCTAssertEqual(messageResponse.autoDismiss, message.autoDismiss)
             
             if let contents = messageResponse.content {
                 switch contents {

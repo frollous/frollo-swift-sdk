@@ -33,6 +33,7 @@ extension Message: TestableCoreData {
         actionTitle = String.randomString(range: 1...50)
         actionURLString = "frollo://dashboard"
         actionOpenExternal = Bool.random()
+        autoDismiss = Bool.random()
     }
     
 }

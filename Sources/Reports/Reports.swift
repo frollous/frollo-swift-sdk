@@ -21,6 +21,7 @@ import Foundation
 public class Reports: ResponseHandler, CachedObjects {
     
     private let aggregation: Aggregation
+    private let authentication: Authentication
     private let database: Database
     private let service: APIService
     
@@ -35,10 +36,11 @@ public class Reports: ResponseHandler, CachedObjects {
     private var linkingHistoryTransactionCategoryIDs = Set<Int64>()
     private var refreshingMerchantIDs = Set<Int64>()
     
-    internal init(database: Database, service: APIService, aggregation: Aggregation) {
+    internal init(database: Database, service: APIService, aggregation: Aggregation, authentication: Authentication) {
         self.database = database
         self.service = service
         self.aggregation = aggregation
+        self.authentication = authentication
     }
     
     // MARK: - Account Balance Reports
@@ -53,10 +55,19 @@ public class Reports: ResponseHandler, CachedObjects {
         - period: Period that reports should be broken down by
         - accountID: Fetch reports for a specific account ID (optional)
         - accountType: Fetch reports for a specific account type (optional)
+        - filteredBy: Predicate of properties to match for fetching. See `ReportAccountBalance` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to date ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func accountBalanceReports(context: NSManagedObjectContext, from fromDate: Date, to toDate: Date, period: ReportAccountBalance.Period, accountID: Int64? = nil, accountType: Account.AccountType? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ReportAccountBalance.dateString), ascending: true)], limit: Int? = nil) -> [ReportAccountBalance]? {
+    public func accountBalanceReports(context: NSManagedObjectContext,
+                                      from fromDate: Date,
+                                      to toDate: Date,
+                                      period: ReportAccountBalance.Period,
+                                      accountID: Int64? = nil,
+                                      accountType: Account.AccountType? = nil,
+                                      filteredBy predicate: NSPredicate? = nil,
+                                      sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ReportAccountBalance.dateString), ascending: true)],
+                                      limit: Int? = nil) -> [ReportAccountBalance]? {
         let dateFormatter: DateFormatter
         switch period {
             case .day:
@@ -81,6 +92,9 @@ public class Reports: ResponseHandler, CachedObjects {
         }
         if let container = accountType {
             predicates.append(NSPredicate(format: #keyPath(ReportAccountBalance.account.accountTypeRawValue) + " == %@", argumentArray: [container.rawValue]))
+        }
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
         }
         
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
@@ -112,6 +126,18 @@ public class Reports: ResponseHandler, CachedObjects {
          - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshAccountBalanceReports(period: ReportAccountBalance.Period, from fromDate: Date, to toDate: Date, accountID: Int64? = nil, accountType: Account.AccountType? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchAccountBalanceReports(period: period, from: fromDate, to: toDate, accountID: accountID, accountType: accountType) { result in
             switch result {
                 case .failure(let error):
@@ -141,18 +167,38 @@ public class Reports: ResponseHandler, CachedObjects {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - overall: Filter reports to show just overall reports or by breakdown categories, e.g. by budget category. Leaving this blank will return both overall and breakdown reports (Optional)
         - grouping: Grouping that reports should be broken down into
         - budgetCategory: Budget Category to filter reports by. Leave blank to return all reports of that grouping (Optional)
+        - filteredBy: Predicate of properties to match for fetching. See `ReportTransactionCurrent` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to day ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func currentTransactionReports(context: NSManagedObjectContext, grouping: ReportGrouping, budgetCategory: BudgetCategory? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)], limit: Int? = nil) -> [ReportTransactionCurrent]? {
+    public func currentTransactionReports(context: NSManagedObjectContext,
+                                          overall: Bool? = nil,
+                                          grouping: ReportGrouping,
+                                          budgetCategory: BudgetCategory? = nil,
+                                          filteredBy predicate: NSPredicate? = nil,
+                                          sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)],
+                                          limit: Int? = nil) -> [ReportTransactionCurrent]? {
         var predicates = [NSPredicate(format: #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [grouping.rawValue])]
+        
+        if let overallFilter = overall {
+            if overallFilter {
+                predicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.linkedID) + " == %ld", argumentArray: [-1]))
+            } else {
+                predicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.linkedID) + " == nil", argumentArray: nil))
+            }
+        }
         
         if let category = budgetCategory {
             predicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == %@", argumentArray: [category.rawValue]))
         } else {
             predicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == nil", argumentArray: nil))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
         }
         
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
@@ -181,6 +227,18 @@ public class Reports: ResponseHandler, CachedObjects {
          - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransactionCurrentReports(grouping: ReportGrouping, budgetCategory: BudgetCategory? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchTransactionCurrentReports(grouping: grouping, budgetCategory: budgetCategory) { result in
             switch result {
                 case .failure(let error):
@@ -213,12 +271,23 @@ public class Reports: ResponseHandler, CachedObjects {
         - context: Managed object context to fetch these from; background or main thread
         - fromDate: Start date to fetch reports from (inclusive)
         - toDate: End date to fetch reports up to (inclusive)
+        - overall: Filter reports to show just overall reports or by breakdown categories, e.g. by budget category. Leaving this blank will return both overall and breakdown reports (Optional)
         - grouping: Grouping that reports should be broken down into
         - period: Period that reports should be broken down by
+        - filteredBy: Predicate of properties to match for fetching. See `ReportTransactionCurrent` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to date ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func historyTransactionReports(context: NSManagedObjectContext, from fromDate: Date, to toDate: Date, grouping: ReportGrouping, period: ReportTransactionHistory.Period, budgetCategory: BudgetCategory? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true)], limit: Int? = nil) -> [ReportTransactionHistory]? {
+    public func historyTransactionReports(context: NSManagedObjectContext,
+                                          from fromDate: Date,
+                                          to toDate: Date,
+                                          overall: Bool? = nil,
+                                          grouping: ReportGrouping,
+                                          period: ReportTransactionHistory.Period,
+                                          budgetCategory: BudgetCategory? = nil,
+                                          filteredBy predicate: NSPredicate? = nil,
+                                          sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true)],
+                                          limit: Int? = nil) -> [ReportTransactionHistory]? {
         let dateFormatter: DateFormatter
         switch period {
             case .day:
@@ -238,6 +307,14 @@ public class Reports: ResponseHandler, CachedObjects {
         let periodPredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.periodRawValue) + " == %@", argumentArray: [period.rawValue])
         
         var predicates = [datePredicate, groupingPredicate, periodPredicate]
+        
+        if let overallFilter = overall {
+            if overallFilter {
+                predicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.linkedID) + " == %ld", argumentArray: [-1]))
+            } else {
+                predicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.linkedID) + " == nil", argumentArray: nil))
+            }
+        }
         
         if let category = budgetCategory {
             predicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == %@", argumentArray: [category.rawValue]))
@@ -274,6 +351,18 @@ public class Reports: ResponseHandler, CachedObjects {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransactionHistoryReports(grouping: ReportGrouping, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, budgetCategory: BudgetCategory? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchTransactionHistoryReports(grouping: grouping, period: period, fromDate: fromDate, toDate: toDate, budgetCategory: budgetCategory) { result in
             switch result {
                 case .failure(let error):
