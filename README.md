@@ -25,6 +25,6 @@
 
 - iOS 10.0+ / macOS 10.13+ / tvOS 10.0+ / watchOS 4.0+
 - Xcode 10.0+
-- Swift 4.2+
+- Swift 5.0+
 - Carthage or Swift Package Manager
 
