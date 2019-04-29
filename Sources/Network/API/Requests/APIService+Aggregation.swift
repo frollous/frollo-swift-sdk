@@ -294,7 +294,19 @@ extension APIService {
     
     // MARK: - Transaction Tags
     
-    internal func fetchTransactionSuggestedTags(searchTerm: String, sort: AggregationEndpoint.SortType = .name, order: AggregationEndpoint.OrderType = .asc, completion: @escaping RequestCompletion<[APITransactionTagResponse]>) {
+    private enum TagType {
+        case user
+        case suggested
+    }
+    
+    private func fetchTags(type: TagType, searchTerm: String? = nil, sort: Aggregation.SortType = .name, order: Aggregation.OrderType = .asc, completion: @escaping RequestCompletion<[APITransactionTagResponse]>) {
+        var url: URL
+        switch type {
+            case .user:
+                url = URL(string: AggregationEndpoint.transactionUserTags.path, relativeTo: serverURL)!
+            case .suggested:
+                url = URL(string: AggregationEndpoint.transactionSuggestedTags.path, relativeTo: serverURL)!
+        }
         
         var parameters: [String: String] = [:]
         parameters[AggregationEndpoint.QueryParameters.searchTerm.rawValue] = searchTerm
@@ -302,12 +314,18 @@ extension APIService {
         parameters[AggregationEndpoint.QueryParameters.order.rawValue] = order.rawValue
         
         requestQueue.async {
-            let url = URL(string: AggregationEndpoint.transactionSuggestedTags.path, relativeTo: self.serverURL)!
-            
             self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APITransactionTagResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
+    }
+    
+    internal func fetchTransactionSuggestedTags(searchTerm: String, sort: Aggregation.SortType = .name, order: Aggregation.OrderType = .asc, completion: @escaping RequestCompletion<[APITransactionTagResponse]>) {
+        fetchTags(type: .suggested, searchTerm: searchTerm, sort: sort, order: order, completion: completion)
+    }
+    
+    internal func fetchTransactionUserTags(searchTerm: String? = nil, sort: Aggregation.SortType = .name, order: Aggregation.OrderType = .asc, completion: @escaping RequestCompletion<[APITransactionTagResponse]>) {
+        fetchTags(type: .user, searchTerm: searchTerm, sort: sort, order: order, completion: completion)
     }
     
     // MARK: - Merchants

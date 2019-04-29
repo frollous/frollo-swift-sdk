@@ -24,4 +24,12 @@ extension DateFormatter {
         return dateFormatter
     }
     
+    /// Date formatter to convert from stored date string to user's current locale
+    public static let dateOnly: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.autoupdatingCurrent
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter
+    }()
+    
 }

@@ -23,24 +23,12 @@ import Foundation
  
  Core Data representation of a user tag for transactions
  */
-public class Tag: NSManagedObject, UniqueManagedObject {
+public class Tag: NSManagedObject {
     
     /// Core Data entity description name
     static var entityName = "Tag"
     
     internal static var primaryKey = #keyPath(Tag.name)
-    
-    /// Date formatter to convert from stored date string to user's current locale
-    public static let tagDateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale.autoupdatingCurrent
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        return dateFormatter
-    }()
-    
-    internal var primaryID: Int64 {
-        fatalError("Not Implemented")
-    }
     
     public var count: Int64? {
         get {
@@ -57,13 +45,13 @@ public class Tag: NSManagedObject, UniqueManagedObject {
     public var lastUsedAt: Date? {
         get {
             if let rawDateString = lastUsedAtString {
-                return Tag.tagDateFormatter.date(from: rawDateString)
+                return DateFormatter.dateOnly.date(from: rawDateString)
             }
             return nil
         }
         set {
             if let newRawDate = newValue {
-                lastUsedAtString = Tag.tagDateFormatter.string(from: newRawDate)
+                lastUsedAtString = DateFormatter.dateOnly.string(from: newRawDate)
             } else {
                 lastUsedAtString = nil
             }
@@ -74,13 +62,13 @@ public class Tag: NSManagedObject, UniqueManagedObject {
     public var createdAt: Date? {
         get {
             if let rawDateString = createdAtString {
-                return Tag.tagDateFormatter.date(from: rawDateString)
+                return DateFormatter.dateOnly.date(from: rawDateString)
             }
             return nil
         }
         set {
             if let newRawDate = newValue {
-                createdAtString = Tag.tagDateFormatter.string(from: newRawDate)
+                createdAtString = DateFormatter.dateOnly.string(from: newRawDate)
             } else {
                 createdAtString = nil
             }
@@ -106,4 +94,28 @@ public class Tag: NSManagedObject, UniqueManagedObject {
         createdAtString = response.createdAt
     }
     
+}
+
+extension Tag {
+    
+    private static func all(predicate: NSPredicate?, context: NSManagedObjectContext) throws -> [Tag] {
+        let fetchRequest = Tag.tagFetchRequest()
+        fetchRequest.predicate = predicate
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: primaryKey, ascending: true)]
+        return try context.fetch(fetchRequest)
+    }
+    
+    static func all(including names: [String], context: NSManagedObjectContext) throws -> [Tag] {
+        let predicate = NSPredicate(format: primaryKey + " IN %@", argumentArray: [names])
+        return try Tag.all(predicate: predicate, context: context)
+    }
+    
+    static func all(excluding names: [String], context: NSManagedObjectContext) throws -> [Tag] {
+        let predicate = NSPredicate(format: "NOT " + primaryKey + " IN %@", argumentArray: [names])
+        return try Tag.all(predicate: predicate, context: context)
+    }
+    
+    static func all(context: NSManagedObjectContext) throws -> [Tag] {
+        return try Tag.all(predicate: nil, context: context)
+    }
 }

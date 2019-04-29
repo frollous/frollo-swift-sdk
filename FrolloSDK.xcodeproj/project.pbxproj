@@ -937,14 +937,13 @@
 		01F220E320FEAC7600C70B00 /* APITokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F220E220FEAC7600C70B00 /* APITokenResponse.swift */; };
 		01F220EA20FECA9100C70B00 /* refresh_token_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01F220E820FECA8900C70B00 /* refresh_token_invalid.json */; };
 		033D46C92272856500E0C6D6 /* APITransactionTagsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46C82272856500E0C6D6 /* APITransactionTagsResponse.swift */; };
-		033D46CC22728E0100E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46CA22728BF600E0C6D6 /* transactions_suggested_tags.json */; };
-		033D46CD22728E0E00E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46CA22728BF600E0C6D6 /* transactions_suggested_tags.json */; };
-		033D46CE22728E0E00E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46CA22728BF600E0C6D6 /* transactions_suggested_tags.json */; };
 		033D46D02272C7D800E0C6D6 /* Tag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46CF2272C7D800E0C6D6 /* Tag+CoreDataClass.swift */; };
 		033D46D22272C83800E0C6D6 /* Tag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46D12272C83800E0C6D6 /* Tag+CoreDataProperties.swift */; };
 		033D46D42272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */; };
 		033D46D52272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */; };
 		033D46D62272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */; };
+		03D965B022768C92009BC283 /* SuggestedTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D965AF22768C92009BC283 /* SuggestedTag.swift */; };
+		03D965B122768C92009BC283 /* SuggestedTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D965AF22768C92009BC283 /* SuggestedTag.swift */; };
 		03EB8B18227671A80080F59B /* APITransactionTagsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46C82272856500E0C6D6 /* APITransactionTagsResponse.swift */; };
 		2F657DA3223B26B300471B85 /* Survey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA2223B26B300471B85 /* Survey.swift */; };
 		2F657DA5223B2FB300471B85 /* Surveys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA4223B2FB300471B85 /* Surveys.swift */; };
@@ -1415,10 +1414,10 @@
 		01F220E220FEAC7600C70B00 /* APITokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITokenResponse.swift; sourceTree = "<group>"; };
 		01F220E820FECA8900C70B00 /* refresh_token_invalid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = refresh_token_invalid.json; sourceTree = "<group>"; };
 		033D46C82272856500E0C6D6 /* APITransactionTagsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionTagsResponse.swift; sourceTree = "<group>"; };
-		033D46CA22728BF600E0C6D6 /* transactions_suggested_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = transactions_suggested_tags.json; path = "../../../../../../frollo-ios-sdk/Tests/Resources/API/Aggregation/transactions_suggested_tags.json"; sourceTree = "<group>"; };
 		033D46CF2272C7D800E0C6D6 /* Tag+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataClass.swift"; sourceTree = "<group>"; };
 		033D46D12272C83800E0C6D6 /* Tag+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transactions_suggested_tags.json; sourceTree = "<group>"; };
+		03D965AF22768C92009BC283 /* SuggestedTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedTag.swift; sourceTree = "<group>"; };
 		2F657DA2223B26B300471B85 /* Survey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Survey.swift; sourceTree = "<group>"; };
 		2F657DA4223B2FB300471B85 /* Surveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Surveys.swift; sourceTree = "<group>"; };
 		2F657DA6223B314100471B85 /* APIService+Surveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+Surveys.swift"; sourceTree = "<group>"; };
@@ -2208,6 +2207,7 @@
 				012C4509212A775D00799A0A /* ProviderLoginForm.swift */,
 				0104E03221E8588300D98EE7 /* ReportGrouping.swift */,
 				2F657DA2223B26B300471B85 /* Survey.swift */,
+				03D965AF22768C92009BC283 /* SuggestedTag.swift */,
 			);
 			path = Transient;
 			sourceTree = "<group>";
@@ -3574,6 +3574,7 @@
 				011F1A60216B289B00119474 /* APIUserResetPasswordRequest.swift in Sources */,
 				01EAAEE1214F351D003D1EAC /* APIProviderAccountUpdateRequest.swift in Sources */,
 				01EED86B20E5AA5B00F4516B /* FrolloSDKDataModel.xcdatamodeld in Sources */,
+				03D965B022768C92009BC283 /* SuggestedTag.swift in Sources */,
 				0126069121992909005D8377 /* MessagesEndpoint.swift in Sources */,
 				01483B6E2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift in Sources */,
 				0104E02F21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataProperties.swift in Sources */,
@@ -3979,6 +3980,7 @@
 				01E5BEEB2227A475003D85FD /* Transaction+CoreDataClass.swift in Sources */,
 				01E5BEEC2227A475003D85FD /* APIBillPaymentUpdateRequest.swift in Sources */,
 				01E5BEED2227A475003D85FD /* ProviderLoginForm.swift in Sources */,
+				03D965B122768C92009BC283 /* SuggestedTag.swift in Sources */,
 				01E5BEEE2227A475003D85FD /* Database.swift in Sources */,
 				01E5BEEF2227A475003D85FD /* NetworkAuthenticator.swift in Sources */,
 				01E5BEF02227A475003D85FD /* Transaction+CoreDataProperties.swift in Sources */,

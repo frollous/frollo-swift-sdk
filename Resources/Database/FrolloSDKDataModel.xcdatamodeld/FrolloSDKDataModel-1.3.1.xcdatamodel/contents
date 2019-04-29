@@ -322,7 +322,6 @@
         <attribute name="createdAtString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastUsedAtString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="userTags" inverseEntity="Transaction" syncable="YES"/>
     </entity>
     <entity name="Transaction" representedClassName=".Transaction" syncable="YES">
         <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
@@ -352,11 +351,11 @@
         <attribute name="transactionDateString" attributeType="String" syncable="YES"/>
         <attribute name="transactionID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="userDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userTags" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
         <attribute name="website" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="transactions" inverseEntity="Account" syncable="YES"/>
         <relationship name="merchant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Merchant" inverseName="transactions" inverseEntity="Merchant" syncable="YES"/>
         <relationship name="transactionCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TransactionCategory" inverseName="transactions" inverseEntity="TransactionCategory" syncable="YES"/>
-        <relationship name="userTags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="transactions" inverseEntity="Tag" syncable="YES"/>
         <fetchIndex name="byAccountIDIndex">
             <fetchIndexElement property="accountID" type="Binary" order="ascending"/>
         </fetchIndex>
@@ -447,9 +446,9 @@
         <element name="ReportAccountBalance" positionX="-360" positionY="180" width="128" height="135"/>
         <element name="ReportTransactionCurrent" positionX="-360" positionY="180" width="128" height="225"/>
         <element name="ReportTransactionHistory" positionX="-378" positionY="162" width="128" height="240"/>
+        <element name="Tag" positionX="283.4609375" positionY="696.9375" width="128" height="105"/>
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="525"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="210"/>
         <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>
-        <element name="Tag" positionX="283.4609375" positionY="696.9375" width="128" height="118"/>
     </elements>
 </model>

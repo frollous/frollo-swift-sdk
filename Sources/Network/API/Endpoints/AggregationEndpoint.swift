@@ -32,16 +32,6 @@ enum AggregationEndpoint: Endpoint {
         case order
     }
     
-    enum OrderType: String {
-        case asc
-        case desc
-    }
-    
-    enum SortType: String {
-        case name
-        case relevance
-    }
-    
     internal var path: String {
         return urlPath()
     }

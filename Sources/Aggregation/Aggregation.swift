@@ -20,6 +20,16 @@ import Foundation
 /// Manages all aggregation data including accounts, transactions, categories and merchants
 public class Aggregation: CachedObjects, ResponseHandler {
     
+    public enum OrderType: String {
+        case asc
+        case desc
+    }
+    
+    public enum SortType: String {
+        case name
+        case relevance
+    }
+    
     /// Notification fired when transactions cache has been updated
     public static let transactionsUpdatedNotification = Notification.Name(rawValue: "FrolloSDK.aggregation.transactionsUpdatedNotification")
     
@@ -32,6 +42,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
     internal let providerAccountLock = NSLock()
     internal let transactionLock = NSLock()
     internal let transactionCategoryLock = NSLock()
+    internal let userTagsLock = NSLock()
     
     private let database: Database
     private let service: APIService
@@ -1021,6 +1032,61 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
+    // MARK: - Transaction Tags
+    
+    /**
+     Gets all suggestion tags for transactions. Tags can be filtered, sorted and ordered based on the parameters provided.
+     - parameter searchTerm: The search term to filter the tags on
+     - parameter sort: The field to sort the tags on
+     - parameter order: Specifies the type of order for the tags
+     - parameter completion: The completion block that will be executed when there is a response from the server. The result will contain either the array of suggested tags, or an error if the request fails
+     */
+    
+    public func getTransactionSuggestedTags(searchTerm: String, sort: SortType = .name, order: OrderType = .asc, completion: @escaping (Result<[SuggestedTag], Error>) -> Void) {
+        service.fetchTransactionSuggestedTags(searchTerm: searchTerm, sort: sort, order: order) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    let tags = response.map(SuggestedTag.init)
+                    completion(.success(tags))
+            }
+        }
+    }
+    
+    /**
+     Refreshes the transactions in the database.
+     - parameter completion: The completion block that will be executed after the response from the server. The result will be empty with either success, or failure with an error.
+     */
+    public func refreshTransactionUserTags(completion: FrolloSDKCompletionHandler? = nil) {
+        service.fetchTransactionUserTags { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let unsortedApiData):
+                    do {
+                        let managedObjectContext = self.database.newBackgroundContext()
+                        try self.handleTransactionsUserTags(unsortedApiData, managedObjectContext: managedObjectContext)
+                        
+                        DispatchQueue.main.async {
+                            completion?(.success)
+                        }
+                    } catch {
+                        Log.error(error.localizedDescription)
+                    }
+                    
+            }
+        }
+    }
+    
     // MARK: - Merchants
     
     /**
@@ -1424,6 +1490,43 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
+    private func handleTransactionsUserTags(_ response: [APITransactionTagResponse], managedObjectContext: NSManagedObjectContext) throws {
+        userTagsLock.lock()
+        defer {
+            userTagsLock.unlock()
+        }
+        
+        let apiData = response
+            .sorted(by: { $0.name < $1.name })
+        
+        let databaseData = try Tag.all(context: managedObjectContext)
+            .sorted(by: { $0.name < $1.name })
+        
+        // Go through each item in the API response to check if it needs to be added or updated
+        apiData.enumerated().forEach { index, item in
+            var object: Tag
+            // If database item is in the api response, set the initial object to the API object
+            if index < databaseData.count, databaseData[index].name == item.name {
+                object = databaseData[index]
+                // Otherwise, create a new object
+            } else {
+                object = Tag(context: managedObjectContext)
+            }
+            // Update the object with the data from the API (API is the source of truth)
+            object.update(response: item, context: managedObjectContext)
+        }
+        
+        // Since API is the source of truth, all data not existing in the API but is still in the database should be deleted
+        
+        // Get all the items that are in the database but not in the API
+        let itemsToDelete = try Tag.all(excluding: apiData.map { $0.name }, context: managedObjectContext)
+        // Delete items
+        itemsToDelete.forEach { tag in
+            managedObjectContext.delete(tag)
+        }
+        
+    }
+    
     private func handleTransactionsResponse(_ transactionsResponse: [APITransactionResponse], from fromDate: Date, to toDate: Date, managedObjectContext: NSManagedObjectContext) -> [Int64] {
         // Sort by ID
         let sortedObjectResponses = transactionsResponse.sorted(by: { (responseA: APITransactionResponse, responseB: APITransactionResponse) -> Bool in
@@ -1631,5 +1734,12 @@ public class Aggregation: CachedObjects, ResponseHandler {
             }
         }
     }
+    
+    private func handleUserTagsResponse(_ tagResponse: [APITransactionTagResponse], managedObjectContext: NSManagedObjectContext) {
+        // update user tag objects
+        // link user tags
+    }
+    
+    private func updateUserTagObjects() {}
     
 }
