@@ -42,6 +42,17 @@ public class Tag: NSManagedObject, UniqueManagedObject {
         fatalError("Not Implemented")
     }
     
+    public var count: Int64? {
+        get {
+            return countNumber?.int64Value
+        }
+        set {
+            if let count = newValue {
+                countNumber = NSNumber(value: count)
+            }
+        }
+    }
+    
     /// Date the tag was last used
     public var lastUsedAt: Date? {
         get {
@@ -90,13 +101,9 @@ public class Tag: NSManagedObject, UniqueManagedObject {
     
     internal func update(response: APITransactionTagResponse, context: NSManagedObjectContext) {
         name = response.name
-        if let count = response.count {
-            countNumber = NSNumber(value: count)
-        }
-        
+        count = response.count
         lastUsedAtString = response.lastUsedAt
         createdAtString = response.createdAt
-        
     }
     
 }
