@@ -36,17 +36,7 @@ public class SuggestedTag {
     init(response: APITransactionTagResponse) {
         self.name = response.name
         self.count = response.count
-        
-        if let lastUsedAt = response.lastUsedAt {
-            self.lastUsedAt = DateFormatter.dateOnly.date(from: lastUsedAt)
-        } else {
-            self.lastUsedAt = nil
-        }
-        
-        if let createdAt = response.createdAt {
-            self.createdAt = DateFormatter.dateOnly.date(from: createdAt)
-        } else {
-            self.createdAt = nil
-        }
+        self.lastUsedAt = response.lastUsedAt
+        self.createdAt = response.createdAt
     }
 }

@@ -41,40 +41,6 @@ public class Tag: NSManagedObject {
         }
     }
     
-    /// Date the tag was last used
-    public var lastUsedAt: Date? {
-        get {
-            if let rawDateString = lastUsedAtString {
-                return DateFormatter.dateOnly.date(from: rawDateString)
-            }
-            return nil
-        }
-        set {
-            if let newRawDate = newValue {
-                lastUsedAtString = DateFormatter.dateOnly.string(from: newRawDate)
-            } else {
-                lastUsedAtString = nil
-            }
-        }
-    }
-    
-    /// Date the tag was created
-    public var createdAt: Date? {
-        get {
-            if let rawDateString = createdAtString {
-                return DateFormatter.dateOnly.date(from: rawDateString)
-            }
-            return nil
-        }
-        set {
-            if let newRawDate = newValue {
-                createdAtString = DateFormatter.dateOnly.string(from: newRawDate)
-            } else {
-                createdAtString = nil
-            }
-        }
-    }
-    
     // MARK: - Updating Object
     
     internal func linkObject(object: NSManagedObject) {
@@ -90,8 +56,8 @@ public class Tag: NSManagedObject {
     internal func update(response: APITransactionTagResponse, context: NSManagedObjectContext) {
         name = response.name
         count = response.count
-        lastUsedAtString = response.lastUsedAt
-        createdAtString = response.createdAt
+        lastUsedAt = response.lastUsedAt
+        createdAt = response.createdAt
     }
     
 }

@@ -138,6 +138,19 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    public var userTags: [String] {
+        get {
+            let tags = userTagsString?.components(separatedBy: "|") ?? []
+            return tags.filter { (tag) -> Bool in
+                !tag.isEmpty
+            }
+        }
+        set {
+            let tagsString = newValue.joined(separator: "|")
+            userTagsString = "|" + tagsString + "|"
+        }
+    }
+    
     // MARK: - Updating Object
     
     internal func linkObject(object: NSManagedObject) {

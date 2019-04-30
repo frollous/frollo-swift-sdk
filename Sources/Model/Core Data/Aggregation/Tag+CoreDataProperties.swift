@@ -33,8 +33,8 @@ extension Tag {
     
     @NSManaged public var countNumber: NSNumber?
     
-    @NSManaged public var lastUsedAtString: String?
+    @NSManaged public var lastUsedAt: Date?
     
-    @NSManaged public var createdAtString: String?
+    @NSManaged public var createdAt: Date?
     
 }
