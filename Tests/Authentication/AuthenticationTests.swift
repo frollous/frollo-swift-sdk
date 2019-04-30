@@ -294,12 +294,10 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
         
-        let viewController = UIViewController()
-        
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUserUsingWeb(presenting: viewController) { (result) in
+            authentication.loginUserUsingWeb(presenting: UIApplication.shared.keyWindow!.rootViewController!) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTAssertFalse(authentication.loggedIn)
@@ -332,8 +330,6 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         }
         
         wait(for: [expectation1, expectation2], timeout: 5.0)
-        
-        _ = viewController
         
         try? FileManager.default.removeItem(at: tempFolderPath())
     }

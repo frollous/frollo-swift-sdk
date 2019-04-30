@@ -27,15 +27,21 @@ class DateExtensionsTests: XCTestCase {
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-    
-    func testTimeZoneIsAEDT() {
-        // AEST is UTC +10
-        
-        XCTAssertTrue((TimeZone.current.abbreviation() == "AEST") || (TimeZone.current.abbreviation() == "GMT+10"), "Time zone doesn't match AEST - tests will fail. Dates are hard coded to AEDT")
-    }
 
     func testStartOfMonthAEDT() {
-        let startMonthDate = Date(timeIntervalSince1970: 1538316000) // 1st October 2018 - 00:00
+        let startMonthDate: Date
+        
+        switch TimeZone.current.abbreviation()! {
+            case "UTC", "GMT":
+                startMonthDate = Date(timeIntervalSince1970: 1538352000) // 1st October 2018 - 00:00 GMT
+            case "AEST", "GMT+10":
+                startMonthDate = Date(timeIntervalSince1970: 1538316000) // 1st October 2018 - 00:00 AEST
+            case "AEDT", "GMT+11":
+                startMonthDate = Date(timeIntervalSince1970: 1538319600) // 1st October 2018 - 00:00 AEDT
+            default:
+                startMonthDate = Date(timeIntervalSince1970: 1538318600) // 1st October 2018 - 00:00 GMT+1
+        }
+        
         let midMonthDate = Date(timeIntervalSince1970: 1540302825) // Weds 24th October 2018 - 11.54AM
         
         let startOfMonth = midMonthDate.startOfMonth()
@@ -44,7 +50,19 @@ class DateExtensionsTests: XCTestCase {
     }
     
     func testStartOfLastMonthAEDT() {
-        let startLastMonthDate = Date(timeIntervalSince1970: 1535724000) // 1st September 2018 - 00:00
+        let startLastMonthDate: Date
+        
+        switch TimeZone.current.abbreviation()! {
+            case "UTC", "GMT":
+                startLastMonthDate = Date(timeIntervalSince1970: 1535760000) // 1st September 2018 - 00:00 GMT
+            case "AEST", "GMT+10":
+                startLastMonthDate = Date(timeIntervalSince1970: 1535724000) // 1st September 2018 - 00:00 AEST
+            case "AEDT", "GMT+11":
+                startLastMonthDate = Date(timeIntervalSince1970: 1535727600) // 1st September 2018 - 00:00 AEDT
+            default:
+                startLastMonthDate = Date(timeIntervalSince1970: 1535763600) // 1st September 2018 - 00:00 GMT+1
+        }
+        
         let midMonthDate = Date(timeIntervalSince1970: 1540302825) // Weds 24th October 2018 - 11.54AM
         
         let startOfLastMonth = midMonthDate.startOfLastMonth()
@@ -53,7 +71,19 @@ class DateExtensionsTests: XCTestCase {
     }
     
     func testEndOfMonthAEDT() {
-        let endMonthDate = Date(timeIntervalSince1970: 1540990800) // 1st September 2018 - 00:00
+        let endMonthDate: Date
+        
+        switch TimeZone.current.abbreviation()! {
+            case "UTC", "GMT":
+                endMonthDate = Date(timeIntervalSince1970: 1541030400) // 1st November 2018 - 00:00 GMT
+            case "AEST", "GMT+10":
+                endMonthDate = Date(timeIntervalSince1970: 1540990800) // 1st November 2018 - 00:00 AEST
+            case "AEDT", "GMT+11":
+                endMonthDate = Date(timeIntervalSince1970: 1540994400) // 1st November 2018 - 00:00 AEDT
+            default:
+                endMonthDate = Date(timeIntervalSince1970: 1541034000) // 1st November 2018 - 00:00 GMT+1
+        }
+        
         let midMonthDate = Date(timeIntervalSince1970: 1540302825) // Weds 24th October 2018 - 11.54AM
         
         let endOfMonth = midMonthDate.endOfMonth()
