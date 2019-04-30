@@ -352,7 +352,7 @@
         <attribute name="transactionDateString" attributeType="String" syncable="YES"/>
         <attribute name="transactionID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="userDescription" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="userTags" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userTagsRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="website" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="transactions" inverseEntity="Account" syncable="YES"/>
         <relationship name="merchant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Merchant" inverseName="transactions" inverseEntity="Merchant" syncable="YES"/>

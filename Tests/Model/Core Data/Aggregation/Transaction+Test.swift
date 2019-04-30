@@ -36,6 +36,7 @@ extension Transaction: TestableCoreData {
         status = .pending
         postDate = Date(timeIntervalSinceNow: -1000)
         transactionDate = Date(timeIntervalSinceNow: -1000)
+        userTags = [String.randomString(range: 1...10), String.randomString(range: 1...10), String.randomString(range: 1...10)]
     }
     
     func populateTestData(withID id: Int64) {

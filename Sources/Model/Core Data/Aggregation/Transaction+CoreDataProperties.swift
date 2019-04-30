@@ -123,6 +123,6 @@ extension Transaction {
     @NSManaged public var website: String?
     
     /// Related transaction tags
-    @NSManaged public var userTagsString: String?
+    @NSManaged public var userTagsRawValue: String?
     
 }
