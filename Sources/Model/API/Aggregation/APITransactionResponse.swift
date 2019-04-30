@@ -34,6 +34,7 @@ struct APITransactionResponse: APIUniqueResponse, Codable {
         case postDate = "post_date"
         case status
         case transactionDate = "transaction_date"
+        case userTags = "user_tags"
     }
     
     struct Amount: Codable {
@@ -115,5 +116,6 @@ struct APITransactionResponse: APIUniqueResponse, Codable {
     let postDate: String?
     let status: Transaction.Status
     let transactionDate: String
+    let userTags: [String]
     
 }

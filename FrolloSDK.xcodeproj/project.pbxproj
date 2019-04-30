@@ -947,6 +947,9 @@
 		03D965B52276DFDB009BC283 /* transactions_user_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 03D965B22276DFD2009BC283 /* transactions_user_tags.json */; };
 		03D965B62276DFDC009BC283 /* transactions_user_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 03D965B22276DFD2009BC283 /* transactions_user_tags.json */; };
 		03D965B72276DFDC009BC283 /* transactions_user_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 03D965B22276DFD2009BC283 /* transactions_user_tags.json */; };
+		03D965B92277C519009BC283 /* Tag+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D965B82277C519009BC283 /* Tag+Test.swift */; };
+		03D965BA2277C519009BC283 /* Tag+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D965B82277C519009BC283 /* Tag+Test.swift */; };
+		03D965BB2277C519009BC283 /* Tag+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D965B82277C519009BC283 /* Tag+Test.swift */; };
 		03EB8B18227671A80080F59B /* APITransactionTagsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46C82272856500E0C6D6 /* APITransactionTagsResponse.swift */; };
 		2F657DA3223B26B300471B85 /* Survey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA2223B26B300471B85 /* Survey.swift */; };
 		2F657DA5223B2FB300471B85 /* Surveys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA4223B2FB300471B85 /* Surveys.swift */; };
@@ -1422,6 +1425,8 @@
 		033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transactions_suggested_tags.json; sourceTree = "<group>"; };
 		03D965AF22768C92009BC283 /* SuggestedTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedTag.swift; sourceTree = "<group>"; };
 		03D965B22276DFD2009BC283 /* transactions_user_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transactions_user_tags.json; sourceTree = "<group>"; };
+		03D965B82277C519009BC283 /* Tag+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+Test.swift"; sourceTree = "<group>"; };
+		03D965BC2277D46E009BC283 /* FrolloSDKDataModel-1.3.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.3.2.xcdatamodel"; sourceTree = "<group>"; };
 		2F657DA2223B26B300471B85 /* Survey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Survey.swift; sourceTree = "<group>"; };
 		2F657DA4223B2FB300471B85 /* Surveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Surveys.swift; sourceTree = "<group>"; };
 		2F657DA6223B314100471B85 /* APIService+Surveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+Surveys.swift"; sourceTree = "<group>"; };
@@ -2084,6 +2089,7 @@
 				01ED8FD3211A684E00ACE691 /* TransactionTests.swift */,
 				01483BA32119321A00D0DA87 /* TransactionCategory+Test.swift */,
 				01483BA721194AEC00D0DA87 /* TransactionCategoryTests.swift */,
+				03D965B82277C519009BC283 /* Tag+Test.swift */,
 			);
 			path = Aggregation;
 			sourceTree = "<group>";
@@ -3653,6 +3659,7 @@
 				01ED8FCC211A660900ACE691 /* APITransactionResponse+Test.swift in Sources */,
 				01BB5A51221CC727000C03F0 /* DatabaseResetTests.swift in Sources */,
 				01483B822117F65500D0DA87 /* AccountBalanceTierTests.swift in Sources */,
+				03D965B92277C519009BC283 /* Tag+Test.swift in Sources */,
 				0135D30021A255B000318142 /* NotificationsTests.swift in Sources */,
 				016DD0A420EF365100F41919 /* APIErrorTests.swift in Sources */,
 				011F811B219BE40100A1495F /* MessageImage+Test.swift in Sources */,
@@ -3761,6 +3768,7 @@
 				01ED8FCD211A660900ACE691 /* APITransactionResponse+Test.swift in Sources */,
 				01BB5A52221CC727000C03F0 /* DatabaseResetTests.swift in Sources */,
 				01483B832117F65500D0DA87 /* AccountBalanceTierTests.swift in Sources */,
+				03D965BA2277C519009BC283 /* Tag+Test.swift in Sources */,
 				0135D30121A255B000318142 /* NotificationsTests.swift in Sources */,
 				017B48322101B4FE00447E65 /* APIErrorTests.swift in Sources */,
 				011F811C219BE40100A1495F /* MessageImage+Test.swift in Sources */,
@@ -3878,6 +3886,7 @@
 				01ED8FCE211A660900ACE691 /* APITransactionResponse+Test.swift in Sources */,
 				01BB5A53221CC728000C03F0 /* DatabaseResetTests.swift in Sources */,
 				017B488D2105958100447E65 /* APIErrorTests.swift in Sources */,
+				03D965BB2277C519009BC283 /* Tag+Test.swift in Sources */,
 				0135D30221A255B000318142 /* NotificationsTests.swift in Sources */,
 				017B488E2105958100447E65 /* DatabaseTests.swift in Sources */,
 				011F811D219BE40100A1495F /* MessageImage+Test.swift in Sources */,
@@ -5392,13 +5401,14 @@
 		01EED86920E5AA5B00F4516B /* FrolloSDKDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				03D965BC2277D46E009BC283 /* FrolloSDKDataModel-1.3.2.xcdatamodel */,
 				013230B4225F1041008C1ADC /* FrolloSDKDataModel-1.3.1.xcdatamodel */,
 				0104E02821E7F81D00D98EE7 /* FrolloSDKDataModel-1.3.0.xcdatamodel */,
 				018240D921C8B3CB005705F9 /* FrolloSDKDataModel-1.2.0.xcdatamodel */,
 				0126068521990449005D8377 /* FrolloSDKDataModel-1.1.0.xcdatamodel */,
 				01EED86A20E5AA5B00F4516B /* FrolloSDKDataModel-1.0.0.xcdatamodel */,
 			);
-			currentVersion = 013230B4225F1041008C1ADC /* FrolloSDKDataModel-1.3.1.xcdatamodel */;
+			currentVersion = 03D965BC2277D46E009BC283 /* FrolloSDKDataModel-1.3.2.xcdatamodel */;
 			path = FrolloSDKDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
