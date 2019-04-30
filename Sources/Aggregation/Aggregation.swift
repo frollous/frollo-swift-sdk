@@ -1534,13 +1534,14 @@ public class Aggregation: CachedObjects, ResponseHandler {
     
     /**
      Gets all suggestion tags for transactions. Tags can be filtered, sorted and ordered based on the parameters provided.
-     - parameter searchTerm: The search term to filter the tags on
-     - parameter sort: The field to sort the tags on
-     - parameter order: Specifies the type of order for the tags
-     - parameter completion: The completion block that will be executed when there is a response from the server. The result will contain either the array of suggested tags, or an error if the request fails
+     - parameters:
+        - searchTerm: The search term to filter the tags on
+        - sort: The field to sort the tags on
+        - order: Specifies the type of order for the tags
+        - completion: The completion block that will be executed when there is a response from the server. The result will contain either the array of suggested tags, or an error if the request fails
      */
     
-    public func getTransactionSuggestedTags(searchTerm: String, sort: SortType = .name, order: OrderType = .asc, completion: @escaping (Result<[SuggestedTag], Error>) -> Void) {
+    public func transactionSuggestedTags(searchTerm: String, sort: SortType = .name, order: OrderType = .asc, completion: @escaping (Result<[SuggestedTag], Error>) -> Void) {
         service.fetchTransactionSuggestedTags(searchTerm: searchTerm, sort: sort, order: order) { result in
             switch result {
                 case .failure(let error):
