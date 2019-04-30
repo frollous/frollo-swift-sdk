@@ -36,7 +36,7 @@ class DatabaseMigrationTests: XCTestCase {
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(Progress.totalUnitCount), let progress = object as? Progress {
-            XCTAssertEqual(progress.totalUnitCount, 4)
+            XCTAssertEqual(progress.totalUnitCount, 5)
             
             progress.removeObserver(self, forKeyPath: #keyPath(Progress.totalUnitCount))
         }
