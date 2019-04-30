@@ -1542,6 +1542,19 @@ public class Aggregation: CachedObjects, ResponseHandler {
      */
     
     public func transactionSuggestedTags(searchTerm: String, sort: SortType = .name, order: OrderType = .asc, completion: @escaping (Result<[SuggestedTag], Error>) -> Void) {
+        
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        
         service.fetchTransactionSuggestedTags(searchTerm: searchTerm, sort: sort, order: order) { result in
             switch result {
                 case .failure(let error):
@@ -1563,6 +1576,19 @@ public class Aggregation: CachedObjects, ResponseHandler {
      - completion: The completion block that will be executed when there is a response from the server. The result will contain either the array of user tags, or an error if the request fails
      */
     public func transactionUserTags(completion: @escaping (Result<[Tag], Error>) -> Void) {
+        
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        
         let managedObjectContext = database.newBackgroundContext()
         do {
             completion(.success(try Tag.all(context: managedObjectContext)))
@@ -1576,6 +1602,18 @@ public class Aggregation: CachedObjects, ResponseHandler {
      - parameter completion: The completion block that will be executed after the response from the server. The result will be empty with either success, or failure with an error.
      */
     public func refreshTransactionUserTags(completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchTransactionUserTags { result in
             switch result {
                 case .failure(let error):
@@ -2125,7 +2163,6 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 Log.error(error.localizedDescription)
             }
         }
-        
         
     }
     
