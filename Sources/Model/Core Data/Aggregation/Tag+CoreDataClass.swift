@@ -30,17 +30,6 @@ public class Tag: NSManagedObject {
     
     internal static var primaryKey = #keyPath(Tag.name)
     
-    public var count: Int64? {
-        get {
-            return countNumber?.int64Value
-        }
-        set {
-            if let count = newValue {
-                countNumber = NSNumber(value: count)
-            }
-        }
-    }
-    
     // MARK: - Updating Object
     
     internal func linkObject(object: NSManagedObject) {
@@ -55,7 +44,7 @@ public class Tag: NSManagedObject {
     
     internal func update(response: APITransactionTagResponse, context: NSManagedObjectContext) {
         name = response.name
-        count = response.count
+        count = response.count ?? -1
         lastUsedAt = response.lastUsedAt
         createdAt = response.createdAt
     }

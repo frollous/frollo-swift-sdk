@@ -31,7 +31,7 @@ extension Tag {
     
     @NSManaged public var name: String
     
-    @NSManaged public var countNumber: NSNumber?
+    @NSManaged public var count: Int64
     
     @NSManaged public var lastUsedAt: Date?
     
