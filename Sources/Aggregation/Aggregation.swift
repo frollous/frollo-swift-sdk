@@ -1558,6 +1558,20 @@ public class Aggregation: CachedObjects, ResponseHandler {
     }
     
     /**
+     Gets all cached user tags for transactions.
+     - parameters:
+     - completion: The completion block that will be executed when there is a response from the server. The result will contain either the array of user tags, or an error if the request fails
+     */
+    public func transactionUserTags(completion: @escaping (Result<[Tag], Error>) -> Void) {
+        let managedObjectContext = database.newBackgroundContext()
+        do {
+            completion(.success(try Tag.all(context: managedObjectContext)))
+        } catch {
+            completion(.failure(error))
+        }
+    }
+    
+    /**
      Refreshes the transactions in the database.
      - parameter completion: The completion block that will be executed after the response from the server. The result will be empty with either success, or failure with an error.
      */
@@ -1571,19 +1585,35 @@ public class Aggregation: CachedObjects, ResponseHandler {
                         completion?(.failure(error))
                     }
                 case .success(let unsortedApiData):
-                    do {
-                        let managedObjectContext = self.database.newBackgroundContext()
-                        try self.handleTransactionsUserTags(unsortedApiData, managedObjectContext: managedObjectContext)
-                        
-                        DispatchQueue.main.async {
-                            completion?(.success)
-                        }
-                    } catch {
-                        Log.error(error.localizedDescription)
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    self.handleTransactionsUserTags(unsortedApiData, managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
                     }
                     
             }
         }
+    }
+    
+    /**
+     Fetched results controller of Tags from the cache
+     
+     - parameters:
+     - context: Managed object context to fetch these from; background or main thread
+     - filteredBy: Predicate of properties to match for fetching. See `Tag` for properties (Optional)
+     - sortedBy: Array of sort descriptors to sort the results by. Defaults to name ascending (Optional)
+     */
+    public func transactionUserTagsFetchedResultsController(context: NSManagedObjectContext,
+                                                            filteredBy predicate: NSPredicate? = nil,
+                                                            sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)]) -> NSFetchedResultsController<Tag>? {
+        var predicates = [NSPredicate]()
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return fetchedResultsController(type: Tag.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: nil)
     }
     
     // MARK: - Merchants
@@ -2055,38 +2085,47 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
-    private func handleTransactionsUserTags(_ response: [APITransactionTagResponse], managedObjectContext: NSManagedObjectContext) throws {
+    private func handleTransactionsUserTags(_ response: [APITransactionTagResponse], managedObjectContext: NSManagedObjectContext) {
         userTagsLock.lock()
         defer {
             userTagsLock.unlock()
         }
         
-        let tagNamesInResponse = response.map{ $0.name }
-        
-        let databaseData = try Tag.all(including: tagNamesInResponse, context: managedObjectContext).sorted(by: { $0.name < $1.name })
-        
-        // Go through each item in the API response to check if it needs to be added or updated
-        response.enumerated().forEach { index, item in
-            var object: Tag
-            // If database item is in the api response, set the initial object to the API object
-            if index < databaseData.count, databaseData[index].name == item.name {
-                object = databaseData[index]
-                // Otherwise, create a new object
-            } else {
-                object = Tag(context: managedObjectContext)
+        let tagNamesInResponse = response.map { $0.name }
+        managedObjectContext.performAndWait {
+            do {
+                let databaseData = try Tag.all(including: tagNamesInResponse, context: managedObjectContext).sorted(by: { $0.name < $1.name })
+                
+                // Go through each item in the API response to check if it needs to be added or updated
+                response.enumerated().forEach { index, item in
+                    var object: Tag
+                    // If database item is in the api response, set the initial object to the API object
+                    if index < databaseData.count, databaseData[index].name == item.name {
+                        object = databaseData[index]
+                        // Otherwise, create a new object
+                    } else {
+                        object = Tag(context: managedObjectContext)
+                    }
+                    // Update the object with the data from the API (API is the source of truth)
+                    object.update(response: item, context: managedObjectContext)
+                }
+                
+                // Since API is the source of truth, all data not existing in the API but is still in the database should be deleted
+                
+                // Get all the items that are in the database but not in the API
+                let itemsToDelete = try Tag.all(excluding: tagNamesInResponse, context: managedObjectContext)
+                // Delete items
+                itemsToDelete.forEach { tag in
+                    managedObjectContext.delete(tag)
+                }
+                
+                try managedObjectContext.save()
+                
+            } catch {
+                Log.error(error.localizedDescription)
             }
-            // Update the object with the data from the API (API is the source of truth)
-            object.update(response: item, context: managedObjectContext)
         }
         
-        // Since API is the source of truth, all data not existing in the API but is still in the database should be deleted
-        
-        // Get all the items that are in the database but not in the API
-        let itemsToDelete = try Tag.all(excluding: tagNamesInResponse, context: managedObjectContext)
-        // Delete items
-        itemsToDelete.forEach { tag in
-            managedObjectContext.delete(tag)
-        }
         
     }
     
