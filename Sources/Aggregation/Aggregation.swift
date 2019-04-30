@@ -2061,14 +2061,12 @@ public class Aggregation: CachedObjects, ResponseHandler {
             userTagsLock.unlock()
         }
         
-        let apiData = response
-            .sorted(by: { $0.name < $1.name })
+        let tagNamesInResponse = response.map{ $0.name }
         
-        let databaseData = try Tag.all(context: managedObjectContext)
-            .sorted(by: { $0.name < $1.name })
+        let databaseData = try Tag.all(including: tagNamesInResponse, context: managedObjectContext).sorted(by: { $0.name < $1.name })
         
         // Go through each item in the API response to check if it needs to be added or updated
-        apiData.enumerated().forEach { index, item in
+        response.enumerated().forEach { index, item in
             var object: Tag
             // If database item is in the api response, set the initial object to the API object
             if index < databaseData.count, databaseData[index].name == item.name {
@@ -2084,7 +2082,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         // Since API is the source of truth, all data not existing in the API but is still in the database should be deleted
         
         // Get all the items that are in the database but not in the API
-        let itemsToDelete = try Tag.all(excluding: apiData.map { $0.name }, context: managedObjectContext)
+        let itemsToDelete = try Tag.all(excluding: tagNamesInResponse, context: managedObjectContext)
         // Delete items
         itemsToDelete.forEach { tag in
             managedObjectContext.delete(tag)
