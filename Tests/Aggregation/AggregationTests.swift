@@ -973,7 +973,6 @@ class AggregationTests: XCTestCase {
     
     func testCreateProviderAccount() {
         let expectation1 = expectation(description: "Network Request 1")
-        let invalidStatusCode: Int32 = 201
         let providerID: Int64 = 12345
         
         let loginForm = ProviderLoginForm.loginFormFilledData()
@@ -981,7 +980,7 @@ class AggregationTests: XCTestCase {
         let config = FrolloSDKConfiguration.testConfig()
         
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, status: invalidStatusCode, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, status: 201, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
