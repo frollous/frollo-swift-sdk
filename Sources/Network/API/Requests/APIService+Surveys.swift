@@ -31,7 +31,7 @@ extension APIService {
             
             let urlEncoding = URLEncoding(destination: .queryString, arrayEncoding: .brackets, boolEncoding: .literal)
             
-            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: urlEncoding, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: urlEncoding, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: Survey.self, errorType: APIError.self, response: response, completion: completion)
                 
             }
@@ -50,7 +50,7 @@ extension APIService {
                 return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: Survey.self, errorType: APIError.self, response: response, completion: completion)
             }
         }

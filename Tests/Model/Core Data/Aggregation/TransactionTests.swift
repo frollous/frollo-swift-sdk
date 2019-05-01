@@ -55,6 +55,7 @@ class TransactionTests: XCTestCase {
             XCTAssertEqual(transaction.status, transactionResponse.status)
             XCTAssertEqual(transaction.transactionDate, Transaction.transactionDateFormatter.date(from: transactionResponse.transactionDate))
             XCTAssertEqual(transaction.userDescription, transactionResponse.description.user)
+            XCTAssertEqual(transaction.userTags, transactionResponse.userTags)
         }
     }
     
@@ -84,6 +85,7 @@ class TransactionTests: XCTestCase {
             XCTAssertNil(transaction.postDate)
             XCTAssertNil(transaction.simpleDescription)
             XCTAssertNil(transaction.userDescription)
+            XCTAssertEqual(transaction.userTags, transactionResponse.userTags)
         }
     }
     

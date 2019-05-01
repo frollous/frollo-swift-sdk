@@ -35,5 +35,6 @@
       		"latitude": -33.827499,
       		"longitude": 151.201699
     	}
-	}
+	},
+    "user_tags": ["tag1", "tag2"]
 }

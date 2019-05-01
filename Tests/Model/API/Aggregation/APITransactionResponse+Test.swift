@@ -57,7 +57,8 @@ extension APITransactionResponse {
                                       merchant: merchant,
                                       postDate: "2018-08-05",
                                       status: .posted,
-                                      transactionDate: "2018-08-03")
+                                      transactionDate: "2018-08-03",
+                                      userTags: ["tag1", "tag2"])
     }
     
     static func testIncompleteData() -> APITransactionResponse {
@@ -87,7 +88,8 @@ extension APITransactionResponse {
                                       merchant: merchant,
                                       postDate: nil,
                                       status: .posted,
-                                      transactionDate: "2018-08-03")
+                                      transactionDate: "2018-08-03",
+                                      userTags: ["tag1", "tag2"])
     }
     
 }

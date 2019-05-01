@@ -122,4 +122,7 @@ extension Transaction {
     /// Website of the merchant
     @NSManaged public var website: String?
     
+    /// Related transaction tags
+    @NSManaged public var userTagsRawValue: String?
+    
 }

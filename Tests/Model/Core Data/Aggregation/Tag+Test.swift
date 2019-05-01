@@ -15,21 +15,21 @@
 //
 
 import Foundation
+@testable import FrolloSDK
 
-extension DateFormatter {
+extension Tag: TestableCoreData {
     
-    static var iso8601Milliseconds: DateFormatter {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
-        return dateFormatter
+    func populateTestData() {
+        name = String.randomString(range: 1...10)
+        count = Int64.random(in: 1...Int64.max)
+        lastUsedAt = Date(timeIntervalSinceNow: Double.random(in: 1...100000))
+        createdAt = Date(timeIntervalSinceNow: Double.random(in: 1...100000))
     }
     
-    /// Date formatter to convert from stored date string to user's current locale
-    public static let dateOnly: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale.autoupdatingCurrent
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        return dateFormatter
-    }()
+    func populateTestData(withName name: String) {
+        populateTestData()
+        
+        self.name = name
+    }
     
 }

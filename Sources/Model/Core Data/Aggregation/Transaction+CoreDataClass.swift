@@ -138,6 +138,19 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    public var userTags: [String] {
+        get {
+            let tags = userTagsRawValue?.components(separatedBy: "|") ?? []
+            return tags.filter { (tag) -> Bool in
+                !tag.isEmpty
+            }
+        }
+        set {
+            let tagsString = newValue.joined(separator: "|")
+            userTagsRawValue = "|" + tagsString + "|"
+        }
+    }
+    
     // MARK: - Updating Object
     
     internal func linkObject(object: NSManagedObject) {
@@ -167,6 +180,7 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
         transactionCategoryID = response.categoryID
         transactionDateString = response.transactionDate
         userDescription = response.description.user
+        userTags = response.userTags
         
         // Only update info if present to avoid losing information when fetching on different APIs
         if let merchantPhone = response.merchant.phone {

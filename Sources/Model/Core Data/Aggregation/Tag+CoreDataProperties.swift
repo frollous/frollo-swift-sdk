@@ -13,23 +13,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+//
 
+import CoreData
 import Foundation
 
-extension DateFormatter {
+extension Tag {
     
-    static var iso8601Milliseconds: DateFormatter {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
-        return dateFormatter
+    /**
+     Fetch Request
+     
+     - returns: Fetch request for `Transaction` type
+     */
+    @nonobjc public class func tagFetchRequest() -> NSFetchRequest<Tag> {
+        return NSFetchRequest<Tag>(entityName: "Tag")
     }
     
-    /// Date formatter to convert from stored date string to user's current locale
-    public static let dateOnly: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale.autoupdatingCurrent
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        return dateFormatter
-    }()
+    @NSManaged public var name: String
+    
+    @NSManaged public var count: Int64
+    
+    @NSManaged public var lastUsedAt: Date?
+    
+    @NSManaged public var createdAt: Date?
     
 }

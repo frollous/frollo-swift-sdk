@@ -16,18 +16,27 @@
 
 import Foundation
 
-struct APITransactionTagResponse: Codable {
+/**
+ Represents a suggested tag from the API
+ */
+public class SuggestedTag {
     
-    enum CodingKeys: String, CodingKey {
-        case name
-        case count
-        case lastUsedAt = "last_used_at"
-        case createdAt = "created_at"
+    /// The name of the tag
+    public let name: String
+    
+    /// The number of time this tag was used
+    public let count: Int64?
+    
+    /// The date when this tag was last used
+    public let lastUsedAt: Date?
+    
+    /// The date this tag was create at
+    public let createdAt: Date?
+    
+    init(response: APITransactionTagResponse) {
+        self.name = response.name
+        self.count = response.count
+        self.lastUsedAt = response.lastUsedAt
+        self.createdAt = response.createdAt
     }
-    
-    let name: String
-    let count: Int64?
-    let lastUsedAt: Date?
-    let createdAt: Date?
-    
 }

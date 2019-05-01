@@ -39,7 +39,7 @@ extension APIService {
                 parameters[ReportsEndpoint.QueryParameters.container.rawValue] = container.rawValue
             }
             
-            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APIAccountBalanceReportResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -57,7 +57,7 @@ extension APIService {
                 parameters[ReportsEndpoint.QueryParameters.budgetCategory.rawValue] = category.rawValue
             }
             
-            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APITransactionCurrentReportResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -80,7 +80,7 @@ extension APIService {
                 parameters[ReportsEndpoint.QueryParameters.budgetCategory.rawValue] = category.rawValue
             }
             
-            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APITransactionHistoryReportsResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }

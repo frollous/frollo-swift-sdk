@@ -21,7 +21,8 @@
 		"name": "The Occidental Hotel",
 		"phone": "(02) 9299 2531",
 		"website": "https://www.theoccidental.com"
-	}
+	},
+    "user_tags": ["tag1", "tag2"]
 }, {
 	"id": 194620,
 	"account_id": 939,
@@ -45,7 +46,8 @@
 		"name": "The Occidental Hotel",
 		"phone": "(02) 9299 2531",
 		"website": "https://www.theoccidental.com"
-	}
+    },
+    "user_tags": ["tag1", "tag2"]
 }, {
 	"id": 194619,
 	"account_id": 939,
@@ -69,7 +71,8 @@
 		"name": "The Occidental Hotel",
 		"phone": "(02) 9299 2531",
 		"website": "https://www.theoccidental.com"
-	}
+    },
+    "user_tags": ["tag1", "tag2"]
 }, {
 	"id": 194621,
 	"account_id": 939,
@@ -93,5 +96,6 @@
 		"name": "The Occidental Hotel",
 		"phone": "(02) 9299 2531",
 		"website": "https://www.theoccidental.com"
-	}
+    },
+    "user_tags": ["tag1", "tag2"]
 }]
