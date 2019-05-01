@@ -17,6 +17,7 @@
 import XCTest
 @testable import FrolloSDK
 import CoreData
+import OHHTTPStubs
 
 protocol KeychainServiceIdentifying {
     var keychainService: String { get }
@@ -73,5 +74,24 @@ extension XCTestCase {
     
     var preferences: Preferences {
         return Preferences(path: tempFolderPath())
+    }
+}
+
+extension XCTestCase {
+    
+    @discardableResult
+    func connect(endpoint: Endpoint, toResourceWithName name: String, addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
+        var finalHeaders = headers ?? [:]
+        finalHeaders[HTTPHeader.contentType.rawValue] = "application/json"
+        let response: OHHTTPStubsResponseBlock = { _ in fixture(filePath: Bundle(for: type(of: self)).path(forResource: name, ofType: "json")!, status: Int32(statusCode), headers: finalHeaders) }
+        return stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + endpoint.path), response: response)
+    }
+    
+    @discardableResult
+    func connect(endpoint: Endpoint, addingData data: Data = Data(), addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
+        var finalHeaders = headers ?? [:]
+        finalHeaders[HTTPHeader.contentType.rawValue] = "application/json"
+        let response: OHHTTPStubsResponseBlock = { _ in OHHTTPStubsResponse(data: data, statusCode: Int32(statusCode), headers: finalHeaders) }
+        return stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + endpoint.path), response: response)
     }
 }

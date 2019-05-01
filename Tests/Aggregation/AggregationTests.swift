@@ -156,9 +156,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshProvidersIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "providers_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.providers, toResourceWithName: "providers_valid")
         
         database.setup { error in
             XCTAssertNil(error)
@@ -194,9 +192,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshProvidersFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "providers_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.providers, toResourceWithName: "providers_valid")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -233,9 +229,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation4 = expectation(description: "Network Request 2")
         let expectation5 = expectation(description: "Fetch Request 2")
         
-        let providerStub = stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "providers_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        let providerStub = connect(endpoint: AggregationEndpoint.providers, toResourceWithName: "providers_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -298,9 +292,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         
         OHHTTPStubs.removeStub(providerStub)
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "providers_updated", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.providers, toResourceWithName: "providers_updated")
         
         aggregation.refreshProviders { result in
             switch result {
@@ -350,9 +342,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshProviderByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.provider(providerID: 12345).path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_id_12345", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.provider(providerID: 12345), toResourceWithName: "provider_id_12345")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -385,9 +375,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshProvidersUpdate() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "providers_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.providers, toResourceWithName: "providers_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -540,9 +528,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Network Request 2")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_accounts_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -605,9 +591,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshProviderAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_accounts_valid")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -640,9 +624,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshProviderAccountByIDIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccount(providerAccountID: 123).path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.providerAccount(providerAccountID: 123), toResourceWithName: "provider_account_id_123")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -679,9 +661,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshProviderAccountByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccount(providerAccountID: 123).path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.providerAccount(providerAccountID: 123), toResourceWithName: "provider_account_id_123")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -715,12 +695,8 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation1 = expectation(description: "Network Provider Request")
         let expectation2 = expectation(description: "Network Provider Account Request")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.provider(providerID: 12345).path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_id_12345", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.provider(providerID: 12345), toResourceWithName: "provider_id_12345")
+        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_accounts_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -774,9 +750,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         
         let loginForm = ProviderLoginForm.loginFormFilledData()
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, status: 201, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_account_id_123", addingStatusCode: 201)
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -812,9 +786,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testCreateProviderAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, status: 201, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_account_id_123")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -849,9 +821,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testDeleteProviderAccount() {
         let expectation1 = expectation(description: "Network Request")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccount(providerAccountID: 12345).path)) { (_) -> OHHTTPStubsResponse in
-            OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
-        }
+        connect(endpoint: AggregationEndpoint.providerAccount(providerAccountID: 12345), addingStatusCode: 204)
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -886,9 +856,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testDeleteProviderAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, status: 201, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_account_id_123", addingStatusCode: 201)
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -925,9 +893,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         
         let loginForm = ProviderLoginForm.loginFormFilledData()
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccount(providerAccountID: providerAccountID).path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.providerAccount(providerAccountID: providerAccountID), toResourceWithName: "provider_account_id_123")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -963,9 +929,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testUpdateProviderAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, status: 201, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_account_id_123", addingStatusCode: 201)
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -1002,13 +966,8 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Fetch Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.provider(providerID: 12345).path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_id_12345", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_accounts_valid")
+        connect(endpoint: AggregationEndpoint.provider(providerID: 12345), toResourceWithName: "provider_id_12345")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1188,9 +1147,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshAccountsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.accounts, toResourceWithName: "accounts_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1226,9 +1183,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "accounts_valid")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -1261,9 +1216,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshAccountByIDIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.account(accountID: 542).path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_id_542", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.account(accountID: 542), toResourceWithName: "account_id_542")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1300,9 +1253,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshAccountByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.account(accountID: 542).path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_id_542", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.account(accountID: 542), toResourceWithName: "account_id_542")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -1337,12 +1288,8 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Network Request 2")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_accounts_valid")
+        connect(endpoint: AggregationEndpoint.accounts, toResourceWithName: "accounts_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1404,9 +1351,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testUpdatingAccount() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.account(accountID: 542).path) && isMethodPUT()) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_id_542", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.account(accountID: 542), toResourceWithName: "account_id_542")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1453,9 +1398,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testUpdateAccountByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.account(accountID: 542).path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_id_542", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.account(accountID: 542), toResourceWithName: "account_id_542")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -1603,9 +1546,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1644,9 +1585,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -1682,9 +1621,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionsSkipsInvalid() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_invalid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_invalid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1778,9 +1715,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionByIDIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630), toResourceWithName: "transaction_id_194630")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1817,9 +1752,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630), toResourceWithName: "transaction_id_194630")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -1854,9 +1787,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         
         let transactions: [Int64] = [1, 2, 3, 4, 5]
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && pathStartsWith("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1894,9 +1825,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         
         let transactions: [Int64] = [1, 2, 3, 4, 5]
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && pathStartsWith("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -1931,12 +1860,8 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation2 = expectation(description: "Network Account Request")
         let expectation3 = expectation(description: "Network Transaction Request")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.accounts, toResourceWithName: "accounts_valid")
+        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2003,12 +1928,8 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation1 = expectation(description: "Network Merchant Request")
         let expectation2 = expectation(description: "Network Transaction Request")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_by_id", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.merchants, toResourceWithName: "merchants_by_id")
+        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2064,12 +1985,8 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation2 = expectation(description: "Network Transaction Category Request")
         let expectation3 = expectation(description: "Network Transaction Request")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionCategories.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_categories_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactionCategories, toResourceWithName: "transaction_categories_valid")
+        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2135,9 +2052,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testExcludeTransaction() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path) && isMethodPUT()) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630_excluded", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630), toResourceWithName: "transaction_id_194630_excluded")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2186,9 +2101,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRecategoriseTransaction() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path) && isMethodPUT()) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630), toResourceWithName: "transaction_id_194630")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2248,9 +2161,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testUpdatingTransaction() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path) && isMethodPUT()) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630), toResourceWithName: "transaction_id_194630")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2297,9 +2208,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testUpdateTransactionFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630), toResourceWithName: "transaction_id_194630")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -2334,13 +2243,8 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Fetch Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_by_id", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.merchants, toResourceWithName: "merchants_by_id")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2408,9 +2312,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testTransactionSearch() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSearch.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_search", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactionSearch, toResourceWithName: "transactions_search")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2452,9 +2354,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testTransactionSearchFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSearch.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_search", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactionSearch, toResourceWithName: "transactions_search")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -2490,9 +2390,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testTransactionSummary() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSummary.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_summary", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactionSummary, toResourceWithName: "transaction_summary")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2522,9 +2420,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testTransactionSummaryFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSummary.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_summary", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactionSummary, toResourceWithName: "transactions_summary")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -2675,9 +2571,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionCategoriesIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionCategories.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_categories_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactionCategories, toResourceWithName: "transaction_categories_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2713,9 +2607,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionCategoriesFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionCategories.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_categories_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactionCategories, toResourceWithName: "transaction_categories_valid")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -2750,9 +2642,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionUserTagsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionUserTags.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_user_tags", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactionUserTags, toResourceWithName: "transactions_user_tags")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2789,11 +2679,9 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     
     func testRefreshTransactionUserTagsInvalidResponse() {
         let expectation1 = expectation(description: "Network Request 1")
-        let invalidStatusCode: Int32 = 500
+        let invalidStatusCode = 500
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionUserTags.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_user_tags", ofType: "json")!, status: invalidStatusCode, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactionUserTags, toResourceWithName: "transactions_user_tags", addingStatusCode: invalidStatusCode)
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2893,9 +2781,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionUserTagsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionUserTags.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_user_tags", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactionUserTags, toResourceWithName: "transactions_user_tags")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -2973,9 +2859,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testTransactionSuggestedTags() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSuggestedTags.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_suggested_tags", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactionSuggestedTags, toResourceWithName: "transactions_suggested_tags")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -3007,11 +2891,9 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     
     func testTransactionSuggestedTagsRequestFails() {
         let expectation1 = expectation(description: "Network Request 1")
-        let invalidStatusCode: Int32 = 500
+        let invalidStatusCode = 500
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSuggestedTags.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_suggested_tags", ofType: "json")!, status: invalidStatusCode, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactionSuggestedTags, toResourceWithName: "transactions_suggested_tags", addingStatusCode: invalidStatusCode)
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -3037,9 +2919,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testTransactionSuggestedTagsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSuggestedTags.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_suggested_tags", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactionSuggestedTags, toResourceWithName: "transactions_suggested_tags")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -3187,9 +3067,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshMerchantsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.merchants, toResourceWithName: "merchants_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -3225,9 +3103,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshMerchantsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.merchants, toResourceWithName: "merchants_valid")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -3260,9 +3136,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshMerchantByID() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchant(merchantID: 197).path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchant_id_197", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.merchant(merchantID: 197), toResourceWithName: "merchant_id_197")
         
        let aggregation = self.aggregation(loggedIn: true)
         
@@ -3304,9 +3178,8 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshMerchantByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchant(merchantID: 197).path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchant_id_197", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.merchant(merchantID: 197), toResourceWithName: "merchant_id_197")
+        
         let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
@@ -3338,9 +3211,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshMerchantsByID() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_by_id", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.merchants, toResourceWithName: "merchants_by_id")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -3383,9 +3254,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshMerchantsByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_by_id", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.merchants, toResourceWithName: "merchants_by_id")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -3422,9 +3291,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         
         let ids: [Int64] = [4, 87, 9077777]
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
+        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
         
         database.setup { error in
             XCTAssertNil(error)
