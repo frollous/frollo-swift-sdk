@@ -941,6 +941,7 @@
 		033D46D52272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */; };
 		033D46D62272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */; };
 		03ADF87B22795C19001B5E20 /* Tag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46CF2272C7D800E0C6D6 /* Tag+CoreDataClass.swift */; };
+		03ADF87C22795C78001B5E20 /* Tag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46D12272C83800E0C6D6 /* Tag+CoreDataProperties.swift */; };
 		03B17C332277E65C00182511 /* FrolloSDKDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 03B17C2D2277E65B00182511 /* FrolloSDKDataModel.xcdatamodeld */; };
 		03B17C342277E65C00182511 /* FrolloSDKDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 03B17C2D2277E65B00182511 /* FrolloSDKDataModel.xcdatamodeld */; };
 		03B17C5722780FE500182511 /* FrolloSDKDataModel-1.3.2.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 03B17C5422780FE500182511 /* FrolloSDKDataModel-1.3.2.sqlite-wal */; };
@@ -4025,6 +4026,7 @@
 				03D965B122768C92009BC283 /* SuggestedTag.swift in Sources */,
 				01E5BEEE2227A475003D85FD /* Database.swift in Sources */,
 				01E5BEEF2227A475003D85FD /* NetworkAuthenticator.swift in Sources */,
+				03ADF87C22795C78001B5E20 /* Tag+CoreDataProperties.swift in Sources */,
 				01E5BEF02227A475003D85FD /* Transaction+CoreDataProperties.swift in Sources */,
 				01E5BEF12227A475003D85FD /* TransactionCategory+CoreDataProperties.swift in Sources */,
 				01E5BEF22227A475003D85FD /* FrolloSDKError.swift in Sources */,
