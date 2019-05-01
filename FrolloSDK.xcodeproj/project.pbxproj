@@ -940,6 +940,9 @@
 		033D46D42272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */; };
 		033D46D52272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */; };
 		033D46D62272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */; };
+		03ADF878227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ADF877227937A9001B5E20 /* XCTestCaseExtensions.swift */; };
+		03ADF879227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ADF877227937A9001B5E20 /* XCTestCaseExtensions.swift */; };
+		03ADF87A227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ADF877227937A9001B5E20 /* XCTestCaseExtensions.swift */; };
 		03ADF87B22795C19001B5E20 /* Tag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46CF2272C7D800E0C6D6 /* Tag+CoreDataClass.swift */; };
 		03ADF87C22795C78001B5E20 /* Tag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46D12272C83800E0C6D6 /* Tag+CoreDataProperties.swift */; };
 		03B17C332277E65C00182511 /* FrolloSDKDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 03B17C2D2277E65B00182511 /* FrolloSDKDataModel.xcdatamodeld */; };
@@ -1429,6 +1432,7 @@
 		033D46CF2272C7D800E0C6D6 /* Tag+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataClass.swift"; sourceTree = "<group>"; };
 		033D46D12272C83800E0C6D6 /* Tag+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transactions_suggested_tags.json; sourceTree = "<group>"; };
+		03ADF877227937A9001B5E20 /* XCTestCaseExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestCaseExtensions.swift; sourceTree = "<group>"; };
 		03B17C2E2277E65C00182511 /* FrolloSDKDataModel-1.3.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.3.1.xcdatamodel"; sourceTree = "<group>"; };
 		03B17C2F2277E65C00182511 /* FrolloSDKDataModel-1.2.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.2.0.xcdatamodel"; sourceTree = "<group>"; };
 		03B17C302277E65C00182511 /* FrolloSDKDataModel-1.1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.1.0.xcdatamodel"; sourceTree = "<group>"; };
@@ -2527,6 +2531,7 @@
 				011E87D1213767F00026E047 /* SecKeyPEMTests.swift */,
 				012606CE219BBD75005D8377 /* String+Random.swift */,
 				016097E9210EA0D60034E857 /* XCTestCase+TempFolder.swift */,
+				03ADF877227937A9001B5E20 /* XCTestCaseExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3725,6 +3730,7 @@
 				01483BA02119318D00D0DA87 /* APITransactionCategoryResponse+Test.swift in Sources */,
 				01EEDB1D20EAEA2000F4516B /* DatabaseMigrationTests.swift in Sources */,
 				01ED8FD4211A684E00ACE691 /* TransactionTests.swift in Sources */,
+				03ADF878227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */,
 				01BC3D132166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift in Sources */,
 				011F8144219D2A3E00A1495F /* EventsRequestTests.swift in Sources */,
 				2F657DAC223B39EE00471B85 /* SurveysTests.swift in Sources */,
@@ -3834,6 +3840,7 @@
 				01483BA12119318D00D0DA87 /* APITransactionCategoryResponse+Test.swift in Sources */,
 				017B48382101B4FE00447E65 /* DatabaseMigrationTests.swift in Sources */,
 				01ED8FD5211A684E00ACE691 /* TransactionTests.swift in Sources */,
+				03ADF879227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */,
 				01BC3D142166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift in Sources */,
 				011F8145219D2A3E00A1495F /* EventsRequestTests.swift in Sources */,
 				2F657DB2223B4C3800471B85 /* SurveysTests.swift in Sources */,
@@ -3952,6 +3959,7 @@
 				016097F0210EA27E0034E857 /* Keychain+Test.swift in Sources */,
 				017B48942105958100447E65 /* NetworkTests.swift in Sources */,
 				01ED8FD6211A684E00ACE691 /* TransactionTests.swift in Sources */,
+				03ADF87A227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */,
 				01BC3D152166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift in Sources */,
 				011F8146219D2A3E00A1495F /* EventsRequestTests.swift in Sources */,
 				2F657DB3223B4C3800471B85 /* SurveysTests.swift in Sources */,
