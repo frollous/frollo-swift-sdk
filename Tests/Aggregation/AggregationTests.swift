@@ -20,12 +20,17 @@ import XCTest
 
 import OHHTTPStubs
 
-class AggregationTests: XCTestCase {
+class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentifying {
     let keychainService = "AggregationTests"
+    var testsDatabase: Database?
+    
+    var database: Database {
+        return testsDatabase!
+    }
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        testsDatabase = Database(path: tempFolderPath())
     }
     
     override func tearDown() {
@@ -38,22 +43,12 @@ class AggregationTests: XCTestCase {
     
     func testFetchProviderByID() {
         let expectation1 = expectation(description: "Completion")
-        
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             let id: Int64 = 12345
             
@@ -64,11 +59,7 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
-            let provider = aggregation.provider(context: database.viewContext, providerID: id)
+            let provider = aggregation.provider(context: self.context, providerID: id)
             
             XCTAssertNotNil(provider)
             XCTAssertEqual(provider?.providerID, id)
@@ -82,21 +73,12 @@ class AggregationTests: XCTestCase {
     func testFetchProviders() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let testProvider1 = Provider(context: managedObjectContext)
@@ -114,12 +96,8 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
             let predicate = NSPredicate(format: "containerLoan == true", argumentArray: nil)
-            let providers = aggregation.providers(context: database.viewContext, filteredBy: predicate)
+            let providers = aggregation.providers(context: self.context, filteredBy: predicate)
             
             XCTAssertNotNil(providers)
             XCTAssertEqual(providers?.count, 2)
@@ -133,21 +111,12 @@ class AggregationTests: XCTestCase {
     func testProvidersFetchedResultsController() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let testProvider1 = Provider(context: managedObjectContext)
@@ -165,12 +134,8 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
             let predicate = NSPredicate(format: "containerLoan == true", argumentArray: nil)
-            let fetchedResultsController = aggregation.providersFetchedResultsController(context: database.viewContext, filteredBy: predicate)
+            let fetchedResultsController = aggregation.providersFetchedResultsController(context: self.context, filteredBy: predicate)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -191,34 +156,21 @@ class AggregationTests: XCTestCase {
     func testRefreshProvidersIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "providers_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+            let aggregation = self.aggregation(loggedIn: true)
             
             aggregation.refreshProviders { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.context
                         
                         let fetchRequest: NSFetchRequest<Provider> = Provider.fetchRequest()
                         
@@ -242,27 +194,14 @@ class AggregationTests: XCTestCase {
     func testRefreshProvidersFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "providers_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshProviders { result in
                 switch result {
@@ -294,20 +233,11 @@ class AggregationTests: XCTestCase {
         let expectation4 = expectation(description: "Network Request 2")
         let expectation5 = expectation(description: "Fetch Request 2")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let providerStub = stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (_) -> OHHTTPStubsResponse in
+        let providerStub = stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "providers_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -317,9 +247,6 @@ class AggregationTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         
         aggregation.refreshProviders { result in
             switch result {
@@ -335,7 +262,7 @@ class AggregationTests: XCTestCase {
         wait(for: [expectation2], timeout: 3.0)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            let context = database.viewContext
+            let context = self.context
             
             let totalFetchRequest: NSFetchRequest<Provider> = Provider.fetchRequest()
             
@@ -371,7 +298,7 @@ class AggregationTests: XCTestCase {
         
         OHHTTPStubs.removeStub(providerStub)
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "providers_updated", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -389,7 +316,7 @@ class AggregationTests: XCTestCase {
         wait(for: [expectation4], timeout: 3.0)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            let context = database.viewContext
+            let context = self.context
             
             let totalFetchRequest: NSFetchRequest<Provider> = Provider.fetchRequest()
             
@@ -423,27 +350,14 @@ class AggregationTests: XCTestCase {
     func testRefreshProviderByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.provider(providerID: 12345).path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.provider(providerID: 12345).path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_id_12345", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshProvider(providerID: 12345) { result in
                 switch result {
@@ -471,34 +385,21 @@ class AggregationTests: XCTestCase {
     func testRefreshProvidersUpdate() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providers.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "providers_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshProviders { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.context
                         
                         let fetchRequest: NSFetchRequest<Provider> = Provider.fetchRequest()
                         
@@ -524,21 +425,12 @@ class AggregationTests: XCTestCase {
     func testFetchProviderAccountByID() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             let id: Int64 = 12345
             
@@ -549,11 +441,7 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
-            let providerAccount = aggregation.providerAccount(context: database.viewContext, providerAccountID: id)
+            let providerAccount = aggregation.providerAccount(context: self.context, providerAccountID: id)
             
             XCTAssertNotNil(providerAccount)
             XCTAssertEqual(providerAccount?.providerAccountID, id)
@@ -567,21 +455,12 @@ class AggregationTests: XCTestCase {
     func testFetchProviderAccounts() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let testProviderAccount1 = ProviderAccount(context: managedObjectContext)
@@ -599,12 +478,8 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
             let predicate = NSPredicate(format: "providerID == 69", argumentArray: nil)
-            let providerAccounts = aggregation.providerAccounts(context: database.viewContext, filteredBy: predicate, limit: 1)
+            let providerAccounts = aggregation.providerAccounts(context: self.context, filteredBy: predicate, limit: 1)
             
             XCTAssertNotNil(providerAccounts)
             XCTAssertEqual(providerAccounts?.count, 1)
@@ -618,21 +493,12 @@ class AggregationTests: XCTestCase {
     func testProviderAccountsFetchedResultsController() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let testProviderAccount1 = ProviderAccount(context: managedObjectContext)
@@ -650,12 +516,8 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
             let predicate = NSPredicate(format: "providerID == 69", argumentArray: nil)
-            let fetchedResultsController = aggregation.providerAccountsFetchedResultsController(context: database.viewContext, filteredBy: predicate)
+            let fetchedResultsController = aggregation.providerAccountsFetchedResultsController(context: self.context, filteredBy: predicate)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -678,20 +540,11 @@ class AggregationTests: XCTestCase {
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Network Request 2")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -701,16 +554,12 @@ class AggregationTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        
         aggregation.refreshProviderAccounts { result in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    let context = database.viewContext
+                    let context = self.context
                     
                     let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
                     
@@ -733,7 +582,7 @@ class AggregationTests: XCTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    let context = database.viewContext
+                    let context = self.context
                     
                     let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
                     
@@ -756,27 +605,14 @@ class AggregationTests: XCTestCase {
     func testRefreshProviderAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshProviderAccounts { result in
                 switch result {
@@ -804,34 +640,21 @@ class AggregationTests: XCTestCase {
     func testRefreshProviderAccountByIDIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccount(providerAccountID: 123).path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccount(providerAccountID: 123).path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshProviderAccount(providerAccountID: 123) { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.context
                         
                         let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
                         fetchRequest.predicate = NSPredicate(format: "providerAccountID == %ld", argumentArray: [123])
@@ -856,27 +679,14 @@ class AggregationTests: XCTestCase {
     func testRefreshProviderAccountByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccount(providerAccountID: 123).path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccount(providerAccountID: 123).path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshAccount(accountID: 123) { result in
                 switch result {
@@ -905,30 +715,17 @@ class AggregationTests: XCTestCase {
         let expectation1 = expectation(description: "Network Provider Request")
         let expectation2 = expectation(description: "Network Provider Account Request")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.provider(providerID: 12345).path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.provider(providerID: 12345).path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_id_12345", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshProviderAccounts { result in
                 switch result {
@@ -945,7 +742,7 @@ class AggregationTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            let context = database.viewContext
+            let context = self.context
             
             let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "providerAccountID == %ld", argumentArray: [867])
@@ -978,34 +775,21 @@ class AggregationTests: XCTestCase {
         
         let loginForm = ProviderLoginForm.loginFormFilledData()
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, status: invalidStatusCode, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.createProviderAccount(providerID: providerID, loginForm: loginForm, completion: { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.context
                         
                         let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
                         
@@ -1029,27 +813,14 @@ class AggregationTests: XCTestCase {
     func testCreateProviderAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, status: 201, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             let loginForm = ProviderLoginForm.loginFormFilledData()
             
@@ -1079,29 +850,16 @@ class AggregationTests: XCTestCase {
     func testDeleteProviderAccount() {
         let expectation1 = expectation(description: "Network Request")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccount(providerAccountID: 12345).path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccount(providerAccountID: 12345).path)) { (_) -> OHHTTPStubsResponse in
             OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
-        
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let providerAccount = ProviderAccount(context: managedObjectContext)
@@ -1116,7 +874,7 @@ class AggregationTests: XCTestCase {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        XCTAssertNil(aggregation.providerAccount(context: database.viewContext, providerAccountID: 12345))
+                        XCTAssertNil(aggregation.providerAccount(context: self.context, providerAccountID: 12345))
                 }
                 
                 expectation1.fulfill()
@@ -1129,27 +887,14 @@ class AggregationTests: XCTestCase {
     func testDeleteProviderAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, status: 201, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.deleteProviderAccount(providerAccountID: 12345) { result in
                 switch result {
@@ -1181,34 +926,21 @@ class AggregationTests: XCTestCase {
         
         let loginForm = ProviderLoginForm.loginFormFilledData()
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccount(providerAccountID: providerAccountID).path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccount(providerAccountID: providerAccountID).path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.updateProviderAccount(providerAccountID: providerAccountID, loginForm: loginForm) { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.context
                         
                         let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
                         
@@ -1232,27 +964,14 @@ class AggregationTests: XCTestCase {
     func testUpdateProviderAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, status: 201, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             let loginForm = ProviderLoginForm.loginFormFilledData()
             
@@ -1284,24 +1003,15 @@ class AggregationTests: XCTestCase {
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Fetch Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.provider(providerID: 12345).path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.provider(providerID: 12345).path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_id_12345", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1310,10 +1020,6 @@ class AggregationTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         
         aggregation.refreshProviderAccounts { result in
             switch result {
@@ -1329,7 +1035,7 @@ class AggregationTests: XCTestCase {
         wait(for: [expectation2], timeout: 5.0)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            let context = database.viewContext
+            let context = self.context
             
             let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
             
@@ -1370,21 +1076,12 @@ class AggregationTests: XCTestCase {
     func testFetchAccountByID() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             let id: Int64 = 12345
             
@@ -1395,11 +1092,7 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
-            let account = aggregation.account(context: database.viewContext, accountID: id)
+            let account = aggregation.account(context: self.context, accountID: id)
             
             XCTAssertNotNil(account)
             XCTAssertEqual(account?.accountID, id)
@@ -1413,21 +1106,12 @@ class AggregationTests: XCTestCase {
     func testFetchAccounts() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let testAccount1 = Account(context: managedObjectContext)
@@ -1445,12 +1129,8 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
             let predicate = NSPredicate(format: "providerAccountID == 69", argumentArray: nil)
-            let accounts = aggregation.accounts(context: database.viewContext, filteredBy: predicate)
+            let accounts = aggregation.accounts(context: self.context, filteredBy: predicate)
             
             XCTAssertNotNil(accounts)
             XCTAssertEqual(accounts?.count, 2)
@@ -1464,21 +1144,12 @@ class AggregationTests: XCTestCase {
     func testAccountsFetchedResultsController() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let testAccount1 = Account(context: managedObjectContext)
@@ -1496,12 +1167,8 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
             let predicate = NSPredicate(format: "providerAccountID == 69", argumentArray: nil)
-            let fetchedResultsController = aggregation.accountsFetchedResultsController(context: database.viewContext, filteredBy: predicate)
+            let fetchedResultsController = aggregation.accountsFetchedResultsController(context: self.context, filteredBy: predicate)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -1522,34 +1189,21 @@ class AggregationTests: XCTestCase {
     func testRefreshAccountsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshAccounts { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.context
                         
                         let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
                         
@@ -1573,27 +1227,14 @@ class AggregationTests: XCTestCase {
     func testRefreshAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshAccounts { result in
                 switch result {
@@ -1621,34 +1262,21 @@ class AggregationTests: XCTestCase {
     func testRefreshAccountByIDIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.account(accountID: 542).path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.account(accountID: 542).path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_id_542", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshAccount(accountID: 542) { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.context
                         
                         let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
                         fetchRequest.predicate = NSPredicate(format: "accountID == %ld", argumentArray: [542])
@@ -1673,27 +1301,14 @@ class AggregationTests: XCTestCase {
     func testRefreshAccountByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.account(accountID: 542).path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.account(accountID: 542).path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_id_542", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshAccount(accountID: 542) { result in
                 switch result {
@@ -1723,23 +1338,14 @@ class AggregationTests: XCTestCase {
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Network Request 2")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1748,10 +1354,6 @@ class AggregationTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         
         aggregation.refreshProviderAccounts { result in
             switch result {
@@ -1803,25 +1405,16 @@ class AggregationTests: XCTestCase {
     func testUpdatingAccount() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.account(accountID: 542).path) && isMethodPUT()) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.account(accountID: 542).path) && isMethodPUT()) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_id_542", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let account = Account(context: managedObjectContext)
@@ -1830,16 +1423,12 @@ class AggregationTests: XCTestCase {
                 
                 try? managedObjectContext.save()
                 
-                let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-                authentication.loggedIn = true
-                let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-                
                 aggregation.updateAccount(accountID: 542) { result in
                     switch result {
                         case .failure(let error):
                             XCTFail(error.localizedDescription)
                         case .success:
-                            let context = database.viewContext
+                            let context = self.context
                             
                             let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
                             fetchRequest.predicate = NSPredicate(format: "accountID == %ld", argumentArray: [542])
@@ -1865,27 +1454,14 @@ class AggregationTests: XCTestCase {
     func testUpdateAccountByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.account(accountID: 542).path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.account(accountID: 542).path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_id_542", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.updateAccount(accountID: 542) { result in
                 switch result {
@@ -1915,21 +1491,12 @@ class AggregationTests: XCTestCase {
     func testFetchTransactionByID() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             let id: Int64 = 12345
             
@@ -1940,11 +1507,7 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
-            let transaction = aggregation.transaction(context: database.viewContext, transactionID: id)
+            let transaction = aggregation.transaction(context: self.context, transactionID: id)
             
             XCTAssertNotNil(transaction)
             XCTAssertEqual(transaction?.transactionID, id)
@@ -1958,21 +1521,12 @@ class AggregationTests: XCTestCase {
     func testFetchTransactions() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let testTransaction1 = Transaction(context: managedObjectContext)
@@ -1990,12 +1544,8 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
             let predicate = NSPredicate(format: "baseTypeRawValue == %@", argumentArray: [Transaction.BaseType.credit.rawValue])
-            let transactions = aggregation.transactions(context: database.viewContext, filteredBy: predicate)
+            let transactions = aggregation.transactions(context: self.context, filteredBy: predicate)
             
             XCTAssertNotNil(transactions)
             XCTAssertEqual(transactions?.count, 1)
@@ -2009,21 +1559,12 @@ class AggregationTests: XCTestCase {
     func testTransactionsFetchedResultsController() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let testTransaction1 = Transaction(context: managedObjectContext)
@@ -2041,12 +1582,8 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
             let predicate = NSPredicate(format: "baseTypeRawValue == %@", argumentArray: [Transaction.BaseType.credit.rawValue])
-            let fetchedResultsController = aggregation.transactionsFetchedResultsController(context: database.viewContext, filteredBy: predicate)
+            let fetchedResultsController = aggregation.transactionsFetchedResultsController(context: self.context, filteredBy: predicate)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -2067,27 +1604,14 @@ class AggregationTests: XCTestCase {
     func testRefreshTransactionsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
             let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
@@ -2097,7 +1621,7 @@ class AggregationTests: XCTestCase {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.context
                         
                         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
                         
@@ -2121,27 +1645,14 @@ class AggregationTests: XCTestCase {
     func testRefreshTransactionsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
             let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
@@ -2172,27 +1683,14 @@ class AggregationTests: XCTestCase {
     func testRefreshTransactionsSkipsInvalid() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_invalid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
             let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
@@ -2202,7 +1700,7 @@ class AggregationTests: XCTestCase {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.context
                         
                         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
                         
@@ -2226,9 +1724,7 @@ class AggregationTests: XCTestCase {
     func testRefreshPaginatedTransactions() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (request) -> OHHTTPStubsResponse in
             if let requestURL = request.url, let queryItems = URLComponents(url: requestURL, resolvingAgainstBaseURL: true)?.queryItems {
                 var skip: Int = 0
                 
@@ -2246,21 +1742,10 @@ class AggregationTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-12-04_count_200_skip_0", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
             let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
@@ -2270,7 +1755,7 @@ class AggregationTests: XCTestCase {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.context
                         
                         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
                         
@@ -2294,34 +1779,21 @@ class AggregationTests: XCTestCase {
     func testRefreshTransactionByIDIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshTransaction(transactionID: 194630) { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.context
                         
                         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
                         fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
@@ -2346,27 +1818,14 @@ class AggregationTests: XCTestCase {
     func testRefreshTransactionByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshTransaction(transactionID: 194630) { result in
                 switch result {
@@ -2394,36 +1853,23 @@ class AggregationTests: XCTestCase {
     func testRefreshTransactionByIDsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
         let transactions: [Int64] = [1, 2, 3, 4, 5]
         
-        stub(condition: isHost(config.serverEndpoint.host!) && pathStartsWith("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && pathStartsWith("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshTransactions(transactionIDs: transactions) { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.context
                         
                         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
                         
@@ -2447,29 +1893,16 @@ class AggregationTests: XCTestCase {
     func testRefreshTransactionByIDsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
         let transactions: [Int64] = [1, 2, 3, 4, 5]
         
-        stub(condition: isHost(config.serverEndpoint.host!) && pathStartsWith("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && pathStartsWith("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshTransactions(transactionIDs: transactions) { result in
                 switch result {
@@ -2499,23 +1932,14 @@ class AggregationTests: XCTestCase {
         let expectation2 = expectation(description: "Network Account Request")
         let expectation3 = expectation(description: "Network Transaction Request")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2524,10 +1948,6 @@ class AggregationTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         
         aggregation.refreshAccounts { result in
             switch result {
@@ -2558,7 +1978,7 @@ class AggregationTests: XCTestCase {
         
         wait(for: [expectation3], timeout: 3.0)
         
-        let context = database.viewContext
+        let context = self.context
         
         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
@@ -2584,30 +2004,17 @@ class AggregationTests: XCTestCase {
         let expectation1 = expectation(description: "Network Merchant Request")
         let expectation2 = expectation(description: "Network Transaction Request")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_by_id", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
             let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
@@ -2627,7 +2034,7 @@ class AggregationTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            let context = database.viewContext
+            let context = self.context
             
             let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
@@ -2658,23 +2065,14 @@ class AggregationTests: XCTestCase {
         let expectation2 = expectation(description: "Network Transaction Category Request")
         let expectation3 = expectation(description: "Network Transaction Request")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionCategories.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionCategories.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_categories_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2683,10 +2081,6 @@ class AggregationTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         
         aggregation.refreshTransactionCategories { result in
             switch result {
@@ -2717,7 +2111,7 @@ class AggregationTests: XCTestCase {
         
         wait(for: [expectation3], timeout: 3.0)
         
-        let context = database.viewContext
+        let context = self.context
         
         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
@@ -2742,25 +2136,16 @@ class AggregationTests: XCTestCase {
     func testExcludeTransaction() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path) && isMethodPUT()) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path) && isMethodPUT()) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630_excluded", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let transaction = Transaction(context: managedObjectContext)
@@ -2770,16 +2155,12 @@ class AggregationTests: XCTestCase {
                 
                 try? managedObjectContext.save()
                 
-                let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-                authentication.loggedIn = true
-                let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-                
                 aggregation.excludeTransaction(transactionID: 194630, excluded: true, excludeAll: true) { result in
                     switch result {
                         case .failure(let error):
                             XCTFail(error.localizedDescription)
                         case .success:
-                            let context = database.viewContext
+                            let context = self.context
                             
                             let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
                             fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
@@ -2806,25 +2187,16 @@ class AggregationTests: XCTestCase {
     func testRecategoriseTransaction() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path) && isMethodPUT()) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path) && isMethodPUT()) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let transaction = Transaction(context: managedObjectContext)
@@ -2844,16 +2216,12 @@ class AggregationTests: XCTestCase {
                 
                 try? managedObjectContext.save()
                 
-                let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-                authentication.loggedIn = true
-                let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-                
                 aggregation.recategoriseTransaction(transactionID: 194630, transactionCategoryID: 77, recategoriseAll: true) { result in
                     switch result {
                         case .failure(let error):
                             XCTFail(error.localizedDescription)
                         case .success:
-                            let context = database.viewContext
+                            let context = self.context
                             
                             let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
                             fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
@@ -2881,25 +2249,16 @@ class AggregationTests: XCTestCase {
     func testUpdatingTransaction() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path) && isMethodPUT()) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path) && isMethodPUT()) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let transaction = Transaction(context: managedObjectContext)
@@ -2908,16 +2267,12 @@ class AggregationTests: XCTestCase {
                 
                 try? managedObjectContext.save()
                 
-                let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-                authentication.loggedIn = true
-                let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-                
                 aggregation.updateTransaction(transactionID: 194630) { result in
                     switch result {
                         case .failure(let error):
                             XCTFail(error.localizedDescription)
                         case .success:
-                            let context = database.viewContext
+                            let context = self.context
                             
                             let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
                             fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
@@ -2943,27 +2298,14 @@ class AggregationTests: XCTestCase {
     func testUpdateTransactionFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transaction(transactionID: 194630).path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_id_194630", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.updateTransaction(transactionID: 194630) { result in
                 switch result {
@@ -2993,24 +2335,15 @@ class AggregationTests: XCTestCase {
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Fetch Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_by_id", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3019,10 +2352,6 @@ class AggregationTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         
         let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
         let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
@@ -3041,7 +2370,7 @@ class AggregationTests: XCTestCase {
         wait(for: [expectation2], timeout: 5.0)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-            let context = database.viewContext
+            let context = self.context
             
             let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
             
@@ -3080,27 +2409,14 @@ class AggregationTests: XCTestCase {
     func testTransactionSearch() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSearch.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSearch.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_search", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             let fromDate = Transaction.transactionDateFormatter.date(from: "2019-03-01")!
             let toDate = Transaction.transactionDateFormatter.date(from: "2019-04-30")!
@@ -3112,7 +2428,7 @@ class AggregationTests: XCTestCase {
                     case .success(let transactionIDs):
                         XCTAssertEqual(transactionIDs, [194611, 194620, 194619, 194621])
                         
-                        let context = database.viewContext
+                        let context = self.context
                         
                         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
                         fetchRequest.predicate = NSPredicate(format: #keyPath(Transaction.transactionID) + " IN %@", argumentArray: [transactionIDs])
@@ -3137,27 +2453,14 @@ class AggregationTests: XCTestCase {
     func testTransactionSearchFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSearch.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSearch.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_search", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             let fromDate = Transaction.transactionDateFormatter.date(from: "2019-03-01")!
             let toDate = Transaction.transactionDateFormatter.date(from: "2019-04-30")!
@@ -3188,27 +2491,14 @@ class AggregationTests: XCTestCase {
     func testTransactionSummary() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSummary.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSummary.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_summary", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
             let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
@@ -3233,27 +2523,14 @@ class AggregationTests: XCTestCase {
     func testTransactionSummaryFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSummary.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSummary.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_summary", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             let fromDate = Transaction.transactionDateFormatter.date(from: "2019-03-01")!
             let toDate = Transaction.transactionDateFormatter.date(from: "2019-04-30")!
@@ -3286,21 +2563,12 @@ class AggregationTests: XCTestCase {
     func testFetchTransactionCategoryByID() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             let id: Int64 = 12345
             
@@ -3311,11 +2579,7 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
-            let transactionCategory = aggregation.transactionCategory(context: database.viewContext, transactionCategoryID: id)
+            let transactionCategory = aggregation.transactionCategory(context: self.context, transactionCategoryID: id)
             
             XCTAssertNotNil(transactionCategory)
             XCTAssertEqual(transactionCategory?.transactionCategoryID, id)
@@ -3329,21 +2593,12 @@ class AggregationTests: XCTestCase {
     func testFetchTransactionCategories() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let testTransactionCategory1 = TransactionCategory(context: managedObjectContext)
@@ -3361,12 +2616,8 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
             let predicate = NSPredicate(format: "categoryTypeRawValue == %@", argumentArray: [TransactionCategory.CategoryType.expense.rawValue])
-            let transactionCategories = aggregation.transactionCategories(context: database.viewContext, filteredBy: predicate)
+            let transactionCategories = aggregation.transactionCategories(context: self.context, filteredBy: predicate)
             
             XCTAssertNotNil(transactionCategories)
             XCTAssertEqual(transactionCategories?.count, 2)
@@ -3380,21 +2631,12 @@ class AggregationTests: XCTestCase {
     func testTransactionCategoriesFetchedResultsController() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let testTransactionCategory1 = TransactionCategory(context: managedObjectContext)
@@ -3412,12 +2654,8 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
             let predicate = NSPredicate(format: "categoryTypeRawValue == %@", argumentArray: [TransactionCategory.CategoryType.expense.rawValue])
-            let fetchedResultsController = aggregation.transactionCategoriesFetchedResultsController(context: database.viewContext, filteredBy: predicate)
+            let fetchedResultsController = aggregation.transactionCategoriesFetchedResultsController(context: self.context, filteredBy: predicate)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -3438,34 +2676,21 @@ class AggregationTests: XCTestCase {
     func testRefreshTransactionCategoriesIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionCategories.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionCategories.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_categories_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshTransactionCategories { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.context
                         
                         let fetchRequest: NSFetchRequest<TransactionCategory> = TransactionCategory.fetchRequest()
                         
@@ -3489,27 +2714,14 @@ class AggregationTests: XCTestCase {
     func testRefreshTransactionCategoriesFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionCategories.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionCategories.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_categories_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshTransactionCategories() { result in
                 switch result {
@@ -3539,34 +2751,21 @@ class AggregationTests: XCTestCase {
     func testRefreshTransactionUserTagsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionUserTags.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionUserTags.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_user_tags", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshTransactionUserTags() { result in
                 switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    let context = database.viewContext
+                    let context = self.context
                     
                     let fetchRequest: NSFetchRequest<Tag> = Tag.tagFetchRequest()
                     
@@ -3592,27 +2791,14 @@ class AggregationTests: XCTestCase {
     func testRefreshTransactionUserTagsInvalidResponse() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionUserTags.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionUserTags.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_user_tags", ofType: "json")!, status: 201, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshTransactionUserTags() { result in
                 switch result {
@@ -3633,25 +2819,12 @@ class AggregationTests: XCTestCase {
     func testTransactionUserTags() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
-        
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let testTag1 = Tag(context: managedObjectContext)
@@ -3690,20 +2863,7 @@ class AggregationTests: XCTestCase {
     func testTransactionUserTagsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
-        
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-        authentication.loggedIn = false
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3733,27 +2893,14 @@ class AggregationTests: XCTestCase {
     func testRefreshTransactionUserTagsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionUserTags.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionUserTags.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_user_tags", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshTransactionUserTags() { result in
                 switch result {
@@ -3781,21 +2928,12 @@ class AggregationTests: XCTestCase {
     func testTransactionUserTagsFetchedResultsController() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let testTag1 = Tag(context: managedObjectContext)
@@ -3813,12 +2951,8 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
             let predicate = NSPredicate(format: "count == 2", argumentArray: nil)
-            let fetchedResultsController = aggregation.transactionUserTagsFetchedResultsController(context: database.viewContext, filteredBy: predicate)
+            let fetchedResultsController = aggregation.transactionUserTagsFetchedResultsController(context: self.context, filteredBy: predicate)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -3839,27 +2973,14 @@ class AggregationTests: XCTestCase {
     func testTransactionSuggestedTags() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSuggestedTags.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSuggestedTags.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_suggested_tags", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.transactionSuggestedTags(searchTerm: "term") { result in
                 switch result {
@@ -3888,27 +3009,14 @@ class AggregationTests: XCTestCase {
         let expectation1 = expectation(description: "Network Request 1")
         let invalidStatusCode: Int32 = 201
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSuggestedTags.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSuggestedTags.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_suggested_tags", ofType: "json")!, status: invalidStatusCode, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.transactionSuggestedTags(searchTerm: "term") { result in
                 switch result {
@@ -3929,27 +3037,14 @@ class AggregationTests: XCTestCase {
     func testTransactionSuggestedTagsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSuggestedTags.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSuggestedTags.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_suggested_tags", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.transactionSuggestedTags(searchTerm: "term") { result in
                 switch result {
@@ -3979,21 +3074,12 @@ class AggregationTests: XCTestCase {
     func testFetchMerchantByID() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             let id: Int64 = 12345
             
@@ -4004,11 +3090,7 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
-            let merchant = aggregation.merchant(context: database.viewContext, merchantID: id)
+            let merchant = aggregation.merchant(context: self.context, merchantID: id)
             
             XCTAssertNotNil(merchant)
             XCTAssertEqual(merchant?.merchantID, id)
@@ -4022,21 +3104,12 @@ class AggregationTests: XCTestCase {
     func testFetchMerchants() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let testMerchant1 = Merchant(context: managedObjectContext)
@@ -4054,12 +3127,8 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
             let predicate = NSPredicate(format: "merchantTypeRawValue == %@", argumentArray: [Merchant.MerchantType.retailer.rawValue])
-            let merchants = aggregation.merchants(context: database.viewContext, filteredBy: predicate)
+            let merchants = aggregation.merchants(context: self.context, filteredBy: predicate)
             
             XCTAssertNotNil(merchants)
             XCTAssertEqual(merchants?.count, 2)
@@ -4073,21 +3142,12 @@ class AggregationTests: XCTestCase {
     func testMerchantsFetchedResultsController() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let testMerchant1 = Merchant(context: managedObjectContext)
@@ -4105,12 +3165,8 @@ class AggregationTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            
             let predicate = NSPredicate(format: "merchantTypeRawValue == %@", argumentArray: [Merchant.MerchantType.retailer.rawValue])
-            let fetchedResultsController = aggregation.merchantsFetchedResultsController(context: database.viewContext, filteredBy: predicate)
+            let fetchedResultsController = aggregation.merchantsFetchedResultsController(context: self.context, filteredBy: predicate)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -4131,34 +3187,21 @@ class AggregationTests: XCTestCase {
     func testRefreshMerchantsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshMerchants { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.context
                         
                         let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
                         
@@ -4182,27 +3225,14 @@ class AggregationTests: XCTestCase {
     func testRefreshMerchantsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshMerchants { result in
                 switch result {
@@ -4230,34 +3260,21 @@ class AggregationTests: XCTestCase {
     func testRefreshMerchantByID() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchant(merchantID: 197).path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchant(merchantID: 197).path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchant_id_197", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+       let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshMerchant(merchantID: 197) { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.context
                         
                         let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
                         
@@ -4287,27 +3304,13 @@ class AggregationTests: XCTestCase {
     func testRefreshMerchantByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchant(merchantID: 197).path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchant(merchantID: 197).path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchant_id_197", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshMerchant(merchantID: 197) { result in
                 switch result {
@@ -4335,34 +3338,21 @@ class AggregationTests: XCTestCase {
     func testRefreshMerchantsByID() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_by_id", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshMerchants(merchantIDs: [22, 30, 31, 106, 691]) { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.context
                         
                         let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
                         fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)]
@@ -4393,27 +3383,14 @@ class AggregationTests: XCTestCase {
     func testRefreshMerchantsByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.merchants.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_by_id", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             
             aggregation.refreshMerchants(merchantIDs: [22, 30, 31, 106, 691]) { result in
                 switch result {
@@ -4443,29 +3420,14 @@ class AggregationTests: XCTestCase {
             true
         }
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
         let ids: [Int64] = [4, 87, 9077777]
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
+        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
-        
         database.setup { error in
             XCTAssertNil(error)
-            
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
-            authentication.loggedIn = true
-            _ = Aggregation(database: database, service: service, authentication: authentication)
             
             NotificationCenter.default.post(name: Aggregation.refreshTransactionsNotification, object: self, userInfo: [Aggregation.refreshTransactionIDsKey: ids])
         }
