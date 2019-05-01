@@ -53,10 +53,10 @@ public class Tag: NSManagedObject {
 
 extension Tag {
     
-    private static func all(predicate: NSPredicate?, context: NSManagedObjectContext) throws -> [Tag] {
+    static func all(predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)], context: NSManagedObjectContext) throws -> [Tag] {
         let fetchRequest = Tag.tagFetchRequest()
         fetchRequest.predicate = predicate
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: primaryKey, ascending: true)]
+        fetchRequest.sortDescriptors = sortDescriptors
         return try context.fetch(fetchRequest)
     }
     
@@ -68,9 +68,5 @@ extension Tag {
     static func all(excluding names: [String], context: NSManagedObjectContext) throws -> [Tag] {
         let predicate = NSPredicate(format: "NOT " + primaryKey + " IN %@", argumentArray: [names])
         return try Tag.all(predicate: predicate, context: context)
-    }
-    
-    static func all(context: NSManagedObjectContext) throws -> [Tag] {
-        return try Tag.all(predicate: nil, context: context)
     }
 }

@@ -1575,7 +1575,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
      - parameters:
      - completion: The completion block that will be executed when there is a response from the server. The result will contain either the array of user tags, or an error if the request fails
      */
-    public func transactionUserTags(completion: @escaping (Result<[Tag], Error>) -> Void) {
+    public func transactionUserTags(filteredBy predicate: NSPredicate? = nil,
+                                    sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)], completion: @escaping (Result<[Tag], Error>) -> Void) {
         
         guard authentication.loggedIn
         else {
@@ -1591,7 +1592,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         
         let managedObjectContext = database.newBackgroundContext()
         do {
-            completion(.success(try Tag.all(context: managedObjectContext)))
+            completion(.success(try Tag.all(predicate: predicate, sortDescriptors: sortDescriptors, context: managedObjectContext)))
         } catch {
             completion(.failure(error))
         }
