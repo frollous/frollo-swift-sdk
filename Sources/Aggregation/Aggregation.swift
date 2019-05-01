@@ -1591,10 +1591,13 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
         
         let managedObjectContext = database.newBackgroundContext()
-        do {
-            completion(.success(try Tag.all(predicate: predicate, sortDescriptors: sortDescriptors, context: managedObjectContext)))
-        } catch {
-            completion(.failure(error))
+        
+        managedObjectContext.performAndWait {
+            do {
+                completion(.success(try Tag.all(predicate: predicate, sortDescriptors: sortDescriptors, context: managedObjectContext)))
+            } catch {
+                completion(.failure(error))
+            }
         }
     }
     

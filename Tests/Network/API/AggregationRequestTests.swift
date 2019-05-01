@@ -711,39 +711,6 @@ class AggregationRequestTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
-    func testFetchTransactionSuggestedTags() {
-        let expectation1 = expectation(description: "Network Request")
-        
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSuggestedTags.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_suggested_tags", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        
-        service.fetchTransactionSuggestedTags(searchTerm: "term", sort: .name, order: .asc) { (result) in
-            switch result {
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            case .success(let response):
-                XCTAssertEqual(response.count, 5)
-                
-                if let firstTag = response.first {
-                    XCTAssertEqual(firstTag.name, "pub_lunch")
-                }
-            }
-            
-            expectation1.fulfill()
-        }
-        
-        wait(for: [expectation1], timeout: 3.0)
-    }
-    
     func testFetchTransactionUserTags() {
         let expectation1 = expectation(description: "Network Request")
         
