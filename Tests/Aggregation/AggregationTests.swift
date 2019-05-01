@@ -770,13 +770,12 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     
     func testCreateProviderAccount() {
         let expectation1 = expectation(description: "Network Request 1")
-        let invalidStatusCode: Int32 = 201
         let providerID: Int64 = 12345
         
         let loginForm = ProviderLoginForm.loginFormFilledData()
         
         stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, status: invalidStatusCode, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_account_id_123", ofType: "json")!, status: 201, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let aggregation = self.aggregation(loggedIn: true)
@@ -2790,9 +2789,10 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     
     func testRefreshTransactionUserTagsInvalidResponse() {
         let expectation1 = expectation(description: "Network Request 1")
+        let invalidStatusCode: Int32 = 500
         
         stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionUserTags.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_user_tags", ofType: "json")!, status: 201, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_user_tags", ofType: "json")!, status: invalidStatusCode, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let aggregation = self.aggregation(loggedIn: true)
@@ -2802,8 +2802,8 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
             
             aggregation.refreshTransactionUserTags() { result in
                 switch result {
-                case .failure(let error):
-                    XCTAssertEqual(error.localizedDescription, "Unknown error occurred on the API.")
+                case .failure:
+                    break
                 case .success:
                     XCTFail("Result should not be success")
                 }
@@ -3007,7 +3007,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     
     func testTransactionSuggestedTagsRequestFails() {
         let expectation1 = expectation(description: "Network Request 1")
-        let invalidStatusCode: Int32 = 201
+        let invalidStatusCode: Int32 = 500
         
         stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionSuggestedTags.path)) { (_) -> OHHTTPStubsResponse in
             fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_suggested_tags", ofType: "json")!, status: invalidStatusCode, headers: [HTTPHeader.contentType.rawValue: "application/json"])
@@ -3020,8 +3020,8 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
             
             aggregation.transactionSuggestedTags(searchTerm: "term") { result in
                 switch result {
-                case .failure(let error):
-                    XCTAssertEqual(error.localizedDescription, "Unknown error occurred on the API.")
+                case .failure:
+                    break
                 case .success:
                     XCTFail("Request should fail")
                 }
