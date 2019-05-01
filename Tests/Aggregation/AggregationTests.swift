@@ -186,7 +186,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshProvidersFailsIfLoggedOut() {
@@ -219,7 +219,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshProviderByIDIsCached() {
@@ -336,7 +336,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation5], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshProviderByIDFailsIfLoggedOut() {
@@ -369,7 +369,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshProvidersUpdate() {
@@ -405,7 +405,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     // MARK: - Provider Account Tests
@@ -585,7 +585,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation3], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshProviderAccountsFailsIfLoggedOut() {
@@ -618,7 +618,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshProviderAccountByIDIsCached() {
@@ -655,7 +655,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshProviderAccountByIDFailsIfLoggedOut() {
@@ -688,7 +688,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testProviderAccountsLinkToProviders() {
@@ -741,7 +741,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation2], timeout: 5.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testCreateProviderAccount() {
@@ -780,7 +780,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testCreateProviderAccountsFailsIfLoggedOut() {
@@ -815,7 +815,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testDeleteProviderAccount() {
@@ -883,7 +883,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testUpdateProviderAccount() {
@@ -923,7 +923,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testUpdateProviderAccountsFailsIfLoggedOut() {
@@ -958,7 +958,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testProviderAccountsFetchMissingProviders() {
@@ -1026,7 +1026,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation3], timeout: 6.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     // MARK: - Account Tests
@@ -1177,7 +1177,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshAccountsFailsIfLoggedOut() {
@@ -1210,7 +1210,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshAccountByIDIsCached() {
@@ -1247,7 +1247,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshAccountByIDFailsIfLoggedOut() {
@@ -1280,7 +1280,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testAccountsLinkToProviderAccounts() {
@@ -1345,7 +1345,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         } catch {
             XCTFail(error.localizedDescription)
         }
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testUpdatingAccount() {
@@ -1392,7 +1392,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testUpdateAccountByIDFailsIfLoggedOut() {
@@ -1425,7 +1425,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     // MARK: - Transaction Tests
@@ -1579,7 +1579,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshTransactionsFailsIfLoggedOut() {
@@ -1615,7 +1615,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshTransactionsSkipsInvalid() {
@@ -1654,7 +1654,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshPaginatedTransactions() {
@@ -1709,7 +1709,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshTransactionByIDIsCached() {
@@ -1746,7 +1746,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshTransactionByIDFailsIfLoggedOut() {
@@ -1779,7 +1779,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshTransactionByIDsIsCached() {
@@ -1817,7 +1817,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshTransactionByIDsFailsIfLoggedOut() {
@@ -1852,7 +1852,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testTransactionsLinkToAccounts() {
@@ -1921,7 +1921,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
             XCTFail(error.localizedDescription)
         }
         
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testTransactionsLinkToMerchants() {
@@ -1977,7 +1977,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation2], timeout: 8.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testTransactionsLinkToTransactionCategories() {
@@ -2046,7 +2046,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
             XCTFail(error.localizedDescription)
         }
         
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testExcludeTransaction() {
@@ -2095,7 +2095,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 5.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRecategoriseTransaction() {
@@ -2155,7 +2155,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 5.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testUpdatingTransaction() {
@@ -2202,7 +2202,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 5.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testUpdateTransactionFailsIfLoggedOut() {
@@ -2235,7 +2235,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testTransactionsFetchMissingMerchants() {
@@ -2306,7 +2306,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation3], timeout: 8.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testTransactionSearch() {
@@ -2348,7 +2348,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testTransactionSearchFailsIfLoggedOut() {
@@ -2384,7 +2384,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testTransactionSummary() {
@@ -2414,7 +2414,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testTransactionSummaryFailsIfLoggedOut() {
@@ -2450,7 +2450,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     // MARK: - Transaction Category Tests
@@ -2601,7 +2601,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshTransactionCategoriesFailsIfLoggedOut() {
@@ -2634,7 +2634,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     // MARK: - Transaction Tags Tests
@@ -2674,7 +2674,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshTransactionUserTagsInvalidResponse() {
@@ -2701,7 +2701,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testTransactionUserTags() {
@@ -2808,7 +2808,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testTransactionUserTagsFetchedResultsController() {
@@ -2886,7 +2886,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testTransactionSuggestedTagsRequestFails() {
@@ -2913,7 +2913,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testTransactionSuggestedTagsFailsIfLoggedOut() {
@@ -2946,7 +2946,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     // MARK: - Merchant Tests
@@ -3097,7 +3097,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshMerchantsFailsIfLoggedOut() {
@@ -3130,7 +3130,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshMerchantByID() {
@@ -3172,7 +3172,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshMerchantByIDFailsIfLoggedOut() {
@@ -3205,7 +3205,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshMerchantsByID() {
@@ -3248,7 +3248,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testRefreshMerchantsByIDFailsIfLoggedOut() {
@@ -3281,7 +3281,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        
     }
     
     func testTransactionsRefreshedOnNotification() {
