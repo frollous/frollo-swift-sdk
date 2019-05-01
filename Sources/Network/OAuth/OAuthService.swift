@@ -54,7 +54,7 @@ class OAuthService {
                 return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: OAuthTokenResponse.self, errorType: OAuth2Error.self, response: response, dateDecodingStrategy: .secondsSince1970, completion: completion)
             }
         }

@@ -26,7 +26,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.providers.path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APIProviderResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -36,7 +36,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.provider(providerID: providerID).path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APIProviderResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -48,7 +48,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.providerAccounts.path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APIProviderAccountResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -58,7 +58,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.providerAccount(providerAccountID: providerAccountID).path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APIProviderAccountResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -104,7 +104,7 @@ extension APIService {
                 return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APIProviderAccountResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -116,7 +116,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.accounts.path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APIAccountResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -126,7 +126,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.account(accountID: accountID).path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APIAccountResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -152,7 +152,7 @@ extension APIService {
                 return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response: DataResponse<Data>) in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { (response: DataResponse<Data>) in
                 self.network.handleResponse(type: APIAccountResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -171,7 +171,7 @@ extension APIService {
                               AggregationEndpoint.QueryParameters.count.rawValue: String(count),
                               AggregationEndpoint.QueryParameters.skip.rawValue: String(skip)]
             
-            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APITransactionResponse.self, errorType: APIError.self, response: response, dateDecodingStrategy: .formatted(Transaction.transactionDateFormatter), completion: completion)
             }
         }
@@ -181,7 +181,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.transaction(transactionID: transactionID).path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APITransactionResponse.self, errorType: APIError.self, response: response, dateDecodingStrategy: .formatted(Transaction.transactionDateFormatter), completion: completion)
             }
         }
@@ -191,7 +191,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.transactionsByID(transactionIDs: transactionIDs).path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APITransactionResponse.self, errorType: APIError.self, response: response, dateDecodingStrategy: .formatted(Transaction.transactionDateFormatter), completion: completion)
             }
         }
@@ -209,7 +209,7 @@ extension APIService {
                 return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { (response: DataResponse<Data>) in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { (response: DataResponse<Data>) in
                 self.network.handleResponse(type: APITransactionResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -239,7 +239,7 @@ extension APIService {
                 parameters[AggregationEndpoint.QueryParameters.accountIncluded.rawValue] = included ? "true" : "false"
             }
             
-            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APITransactionResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -274,7 +274,7 @@ extension APIService {
                 parameters[AggregationEndpoint.QueryParameters.transactionIncluded.rawValue] = included ? "true" : "false"
             }
             
-            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APITransactionSummaryResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -286,7 +286,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.transactionCategories.path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APITransactionCategoryResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -314,7 +314,7 @@ extension APIService {
         parameters[AggregationEndpoint.QueryParameters.order.rawValue] = order.rawValue
         
         requestQueue.async {
-            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APITransactionTagResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -334,7 +334,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.merchants.path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APIMerchantResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -344,7 +344,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.merchant(merchantID: merchantID).path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APIMerchantResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -354,7 +354,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.merchantsByID(merchantIDs: merchantIDs).path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APIMerchantResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }

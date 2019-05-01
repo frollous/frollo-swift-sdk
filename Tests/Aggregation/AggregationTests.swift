@@ -3590,11 +3590,12 @@ class AggregationTests: XCTestCase {
     
     func testRefreshTransactionUserTagsInvalidResponse() {
         let expectation1 = expectation(description: "Network Request 1")
+        let invalidStatusCode: Int32 = 500
         
         let config = FrolloSDKConfiguration.testConfig()
         
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactionUserTags.path)) { (_) -> OHHTTPStubsResponse in
-            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_user_tags", ofType: "json")!, status: 201, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+            fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_user_tags", ofType: "json")!, status: invalidStatusCode, headers: [HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
@@ -3615,8 +3616,8 @@ class AggregationTests: XCTestCase {
             
             aggregation.refreshTransactionUserTags() { result in
                 switch result {
-                case .failure(let error):
-                    XCTAssertEqual(error.localizedDescription, "Unknown error occurred on the API.")
+                case .failure:
+                    break
                 case .success:
                     XCTFail("Result should not be success")
                 }
@@ -3885,7 +3886,7 @@ class AggregationTests: XCTestCase {
     
     func testTransactionSuggestedTagsRequestFails() {
         let expectation1 = expectation(description: "Network Request 1")
-        let invalidStatusCode: Int32 = 201
+        let invalidStatusCode: Int32 = 500
         
         let config = FrolloSDKConfiguration.testConfig()
         
@@ -3911,8 +3912,8 @@ class AggregationTests: XCTestCase {
             
             aggregation.transactionSuggestedTags(searchTerm: "term") { result in
                 switch result {
-                case .failure(let error):
-                    XCTAssertEqual(error.localizedDescription, "Unknown error occurred on the API.")
+                case .failure:
+                    break
                 case .success:
                     XCTFail("Request should fail")
                 }
