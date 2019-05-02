@@ -138,6 +138,7 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    /// The names of the tags related to this transaction
     public var userTags: [String] {
         get {
             let tags = userTagsRawValue?.components(separatedBy: "|") ?? []

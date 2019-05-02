@@ -29,12 +29,16 @@ extension Tag {
         return NSFetchRequest<Tag>(entityName: "Tag")
     }
     
+    /// The displayed name of the tag. This field is unique
     @NSManaged public var name: String
     
+    /// The number of times this tag was used
     @NSManaged public var count: Int64
     
+    /// The date this tag was last used
     @NSManaged public var lastUsedAt: Date?
     
+    /// The date this tag was created
     @NSManaged public var createdAt: Date?
     
 }

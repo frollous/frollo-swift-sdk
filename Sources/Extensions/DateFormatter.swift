@@ -18,14 +18,14 @@ import Foundation
 
 extension DateFormatter {
     
-    static var iso8601Milliseconds: DateFormatter {
+    internal static var iso8601Milliseconds: DateFormatter {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
         return dateFormatter
     }
     
     /// Date formatter to convert from stored date string to user's current locale
-    public static let dateOnly: DateFormatter = {
+    internal static let dateOnly: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale.autoupdatingCurrent
         dateFormatter.dateFormat = "yyyy-MM-dd"
