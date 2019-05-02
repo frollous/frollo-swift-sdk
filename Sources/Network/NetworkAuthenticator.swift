@@ -20,7 +20,7 @@ import Alamofire
 
 class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     
-    typealias TokenRequestCompletion = (_: Result<OAuthTokenResponse, Error>) -> Void
+    typealias TokenRequestCompletion = (_: Swift.Result<OAuthTokenResponse, Error>) -> Void
     
     internal struct KeychainKey {
         static let accessToken = "accessToken"
