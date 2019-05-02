@@ -24,8 +24,8 @@ protocol NetworkDelegate: AnyObject {
     
 }
 
-internal typealias NetworkCompletion = (_: Result<Data, FrolloSDKError>) -> Void
-internal typealias RequestCompletion<T> = (_: Result<T, Error>) -> Void
+internal typealias NetworkCompletion = (_: Swift.Result<Data, Error>) -> Void
+internal typealias RequestCompletion<T> = (_: Swift.Result<T, Error>) -> Void
 
 class Network: SessionDelegate {
     

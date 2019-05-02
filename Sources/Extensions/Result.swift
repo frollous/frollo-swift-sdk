@@ -26,14 +26,3 @@ public enum EmptyResult<Failure> {
     case failure(Failure)
     
 }
-
-/// A value that represents either a success or a failure, including an associated value in each case.
-public enum Result<Success, Failure> {
-    
-    /// A success, storing a `Success` value.
-    case success(Success)
-    
-    /// A failure, storing a `Failure` value.
-    case failure(Failure)
-    
-}

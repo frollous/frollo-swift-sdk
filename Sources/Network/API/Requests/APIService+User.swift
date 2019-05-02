@@ -20,7 +20,7 @@ import Alamofire
 
 extension APIService {
     
-    typealias UserRequestCompletion = (_: Result<APIUserResponse, Error>) -> Void
+    typealias UserRequestCompletion = (_: Swift.Result<APIUserResponse, Error>) -> Void
     
     internal func changePassword(request: APIUserChangePasswordRequest, completion: @escaping NetworkCompletion) {
         requestQueue.async {
