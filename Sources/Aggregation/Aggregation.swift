@@ -20,13 +20,23 @@ import Foundation
 /// Manages all aggregation data including accounts, transactions, categories and merchants
 public class Aggregation: CachedObjects, ResponseHandler {
     
+    /**
+     Contains the possible cases to order Aggregation entities
+     */
     public enum OrderType: String {
+        /// Ascending order
         case asc
+        /// Descending order
         case desc
     }
     
+    /**
+     Contains the possible cases to sort Aggregation entities
+     */
     public enum SortType: String {
+        /// Sort by name
         case name
+        /// Sort by relevance
         case relevance
     }
     
