@@ -447,8 +447,6 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
     func testRegisterUserFailsIfLoggedIn() {
         let expectation1 = expectation(description: "Network Request")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
         connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint.path, toResourceWithName: "token_valid")
         connect(endpoint: UserEndpoint.register.path.prefixedWithSlash, toResourceWithName: "user_details_complete", addingStatusCode: 201)
         
@@ -996,8 +994,6 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
     func testExchangeAuthorizationCode() {
         let expectation1 = expectation(description: "Network Request")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
         connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint.path, toResourceWithName: "token_valid")
         connect(endpoint: UserEndpoint.details.path.prefixedWithSlash, toResourceWithName: "user_details_complete")
         
@@ -1033,8 +1029,6 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
     
     func testExchangeAuthorizationCodeInvalid() {
         let expectation1 = expectation(description: "Network Request")
-        
-        let config = FrolloSDKConfiguration.testConfig()
         
         connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint.path, toResourceWithName: "error_oauth2_invalid_grant", addingStatusCode: 401)
         connect(endpoint: UserEndpoint.details.path.prefixedWithSlash, toResourceWithName: "user_details_complete")
@@ -1152,8 +1146,6 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
     
     func testExchangeMissingRefreshTokenFails() {
         let expectation1 = expectation(description: "Network Request")
-        
-        let config = FrolloSDKConfiguration.testConfig()
         
         connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint.path, toResourceWithName: "token_valid")
         
