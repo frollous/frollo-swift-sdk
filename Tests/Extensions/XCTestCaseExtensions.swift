@@ -50,11 +50,20 @@ extension KeychainServiceIdentifying where Self: XCTestCase {
     
     func defaultNetwork(keychain: Keychain) -> Network {
         let authenticator = defaultNetworkAuthenticator(keychain: keychain)
-        return Network(serverEndpoint: self.config.serverEndpoint, networkAuthenticator: authenticator)
+        return defaultNetwork(keychain: keychain, networkAuthenticator: authenticator)
+    }
+    
+    func defaultNetwork(keychain: Keychain, networkAuthenticator: NetworkAuthenticator) -> Network {
+        return Network(serverEndpoint: self.config.serverEndpoint, networkAuthenticator: networkAuthenticator)
     }
     
     func defaultService(keychain: Keychain) -> APIService {
         return APIService(serverEndpoint: self.config.serverEndpoint, network: defaultNetwork(keychain: keychain))
+    }
+    
+    func defaultService(keychain: Keychain, networkAuthenticator: NetworkAuthenticator) -> APIService {
+        let network = defaultNetwork(keychain: keychain, networkAuthenticator: networkAuthenticator)
+        return APIService(serverEndpoint: self.config.serverEndpoint, network: network)
     }
     
     func defaultAuthService(keychain: Keychain) -> OAuthService {
@@ -64,7 +73,7 @@ extension KeychainServiceIdentifying where Self: XCTestCase {
 
 extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTestCase {
     func defaultAuthentication(keychain: Keychain, networkAuthenticator: NetworkAuthenticator, loggedIn: Bool = false) -> Authentication {
-        let authentication = Authentication(database: database, clientID: self.config.clientID, domain: self.config.serverEndpoint.host!, networkAuthenticator: defaultNetworkAuthenticator(keychain: keychain), authService: defaultAuthService(keychain: keychain), service: defaultService(keychain: keychain), preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: self.config.clientID, domain: self.config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: defaultAuthService(keychain: keychain), service: defaultService(keychain: keychain, networkAuthenticator: networkAuthenticator), preferences: preferences, delegate: nil)
         authentication.loggedIn = loggedIn
         return authentication
     }
