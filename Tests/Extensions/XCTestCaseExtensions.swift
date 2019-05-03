@@ -78,20 +78,50 @@ extension XCTestCase {
 }
 
 extension XCTestCase {
+    var serverEndpointHost: String {
+        return config.serverEndpoint.host!
+    }
+    
+    var tokenEndpointHost: String {
+        return config.tokenEndpoint.host!
+    }
+}
+
+extension XCTestCase {
     
     @discardableResult
-    func connect(endpoint: Endpoint, toResourceWithName name: String, addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
-        var finalHeaders = headers ?? [:]
-        finalHeaders[HTTPHeader.contentType.rawValue] = "application/json"
-        let response: OHHTTPStubsResponseBlock = { _ in fixture(filePath: Bundle(for: type(of: self)).path(forResource: name, ofType: "json")!, status: Int32(statusCode), headers: finalHeaders) }
-        return stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + endpoint.path), response: response)
+    func connect(endpoint: String, toResourceWithName name: String, addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
+        return connect(host: serverEndpointHost, endpoint: endpoint, toResourceWithName: name, addingStatusCode: statusCode, addingHeaders: headers)
     }
     
     @discardableResult
-    func connect(endpoint: Endpoint, addingData data: Data = Data(), addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
+    func connect(endpoint: String, addingData data: Data = Data(), addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
+        return connect(host: serverEndpointHost, endpoint: endpoint, addingData: data, addingStatusCode: statusCode, addingHeaders: headers)
+    }
+    
+    @discardableResult
+    func connect(host: String, endpoint: String, toResourceWithName name: String, addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
+        var finalHeaders = headers ?? [:]
+        finalHeaders[HTTPHeader.contentType.rawValue] = "application/json"
+        let response: OHHTTPStubsResponseBlock = { _ in fixture(filePath: Bundle(for: type(of: self)).path(forResource: name, ofType: "json")!, status: Int32(statusCode), headers: finalHeaders) }
+        return stub(condition: isHost(host) && isPath(endpoint), response: response)
+    }
+    
+    @discardableResult
+    func connect(host: String, endpoint: String, addingData data: Data = Data(), addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
         var finalHeaders = headers ?? [:]
         finalHeaders[HTTPHeader.contentType.rawValue] = "application/json"
         let response: OHHTTPStubsResponseBlock = { _ in OHHTTPStubsResponse(data: data, statusCode: Int32(statusCode), headers: finalHeaders) }
-        return stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + endpoint.path), response: response)
+        return stub(condition: isHost(host) && isPath(endpoint), response: response)
+    }
+}
+
+extension String {
+    func prefixed(with string: String) -> String {
+        return "\(string)\(self)"
+    }
+    
+    var prefixedWithSlash: String {
+        return self.prefixed(with: "/")
     }
 }
