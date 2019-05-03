@@ -19,17 +19,22 @@ import XCTest
 
 import OHHTTPStubs
 
-class BillsRequestTests: XCTestCase {
+class BillsRequestTests: BaseTestCase {
     
-    private let keychainService = "BillsRequestTests"
+    var keychain: Keychain!
+    var service: APIService!
 
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        testsKeychainService = "BillsRequestTests"
+        super.setUp()
+        keychain = defaultKeychain(isNetwork: true)
+        service = defaultService(keychain: keychain)
     }
 
     override func tearDown() {
         Keychain(service: keychainService).removeAll()
         OHHTTPStubs.removeAllStubs()
+        super.tearDown()
     }
     
     // MARK: - Bills Tests
@@ -37,17 +42,7 @@ class BillsRequestTests: XCTestCase {
     func testCreateBillFromTransaction() {
         let expectation1 = expectation(description: "Network Request")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bills.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        connect(endpoint: BillsEndpoint.bills.path.prefixedWithSlash, toResourceWithName: "bill_id_12345", addingStatusCode: 201)
         
         let request = APIBillCreateRequest.testTransactionData()
         service.createBill(request: request) { (result) in
@@ -68,17 +63,7 @@ class BillsRequestTests: XCTestCase {
     func testCreateBillManual() {
         let expectation1 = expectation(description: "Network Request")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bills.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        connect(endpoint: BillsEndpoint.bills.path.prefixedWithSlash, toResourceWithName: "bill_id_12345", addingStatusCode: 201)
         
         let request = APIBillCreateRequest.testManualData()
         service.createBill(request: request) { (result) in
@@ -99,17 +84,7 @@ class BillsRequestTests: XCTestCase {
     func testDeleteBill() {
         let expectation1 = expectation(description: "Network Request")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bill(billID: 12345).path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        connect(endpoint: BillsEndpoint.bill(billID: 12345).path.prefixedWithSlash, addingData: Data(), addingStatusCode: 204)
         
         service.deleteBill(billID: 12345) { (result) in
             switch result {
@@ -130,17 +105,7 @@ class BillsRequestTests: XCTestCase {
     func testFetchBills() {
         let expectation1 = expectation(description: "Network Request")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bills.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bills_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        connect(endpoint: BillsEndpoint.bills.path.prefixedWithSlash, toResourceWithName: "bills_valid")
         
         service.fetchBills { (result) in
             switch result {
@@ -179,17 +144,7 @@ class BillsRequestTests: XCTestCase {
     func testFetchBillByID() {
         let expectation1 = expectation(description: "Network Request")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bill(billID: 12345).path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        connect(endpoint: BillsEndpoint.bill(billID: 12345).path.prefixedWithSlash, toResourceWithName: "bill_id_12345")
         
         service.fetchBill(billID: 12345) { (result) in
             switch result {
@@ -225,17 +180,7 @@ class BillsRequestTests: XCTestCase {
     func testUpdateBill() {
         let expectation1 = expectation(description: "Network Request")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.bill(billID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        connect(endpoint: BillsEndpoint.bill(billID: 12345).path.prefixedWithSlash, toResourceWithName: "bill_id_12345")
         
         let request = APIBillUpdateRequest.testCompleteData()
         service.updateBill(billID: 12345, request: request) { (result) in
@@ -258,17 +203,7 @@ class BillsRequestTests: XCTestCase {
     func testDeleteBillPayment() {
         let expectation1 = expectation(description: "Network Request")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.billPayment(billPaymentID: 12345).path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        connect(endpoint: BillsEndpoint.billPayment(billPaymentID: 12345).path.prefixedWithSlash, addingData: Data(), addingStatusCode: 204)
         
         service.deleteBillPayment(billPaymentID: 12345) { (result) in
             switch result {
@@ -289,17 +224,7 @@ class BillsRequestTests: XCTestCase {
     func testFetchBillPayments() {
         let expectation1 = expectation(description: "Network Request")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.billPayments.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payments_2018-12-01_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        connect(endpoint: BillsEndpoint.billPayments.path.prefixedWithSlash, toResourceWithName: "bill_payments_2018-12-01_valid")
         
         let fromDate = BillPayment.billDateFormatter.date(from: "2018-12-01")!
         let toDate = BillPayment.billDateFormatter.date(from: "2021-01-01")!
@@ -332,17 +257,7 @@ class BillsRequestTests: XCTestCase {
     func testFetchBillPaymentByID() {
         let expectation1 = expectation(description: "Network Request")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.billPayment(billPaymentID: 12345).path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payment_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        connect(endpoint: BillsEndpoint.billPayment(billPaymentID: 12345).path.prefixedWithSlash, toResourceWithName: "bill_payment_id_12345")
         
         service.fetchBillPayment(billPaymentID: 12345) { (result) in
             switch result {
@@ -368,17 +283,7 @@ class BillsRequestTests: XCTestCase {
     func testUpdateBillPayment() {
         let expectation1 = expectation(description: "Network Request")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.billPayment(billPaymentID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payment_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        connect(endpoint: BillsEndpoint.billPayment(billPaymentID: 12345).path.prefixedWithSlash, toResourceWithName: "bill_payment_id_12345")
         
         let request = APIBillPaymentUpdateRequest.testCompleteData()
         service.updateBillPayment(billPaymentID: 12345, request: request) { (result) in
