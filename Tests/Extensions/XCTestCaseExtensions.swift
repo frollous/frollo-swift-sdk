@@ -33,40 +33,44 @@ extension DatabaseIdentifying {
     }
 }
 
-protocol NetworkAuthenticatorIdentifying {
-    var networkAuthenticator: NetworkAuthenticator { get }
-}
-
 extension KeychainServiceIdentifying where Self: XCTestCase {
-    var keychain: Keychain {
-        return Keychain.validNetworkKeychain(service: keychainService)
+    
+    func defaultKeychain(isNetwork: Bool) -> Keychain {
+        switch isNetwork {
+        case false:
+            return Keychain(service: keychainService)
+        case true:
+            return Keychain.validNetworkKeychain(service: keychainService)
+        }
+    }
+    
+    func defaultNetworkAuthenticator(keychain: Keychain) -> NetworkAuthenticator {
+        return NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+    }
+    
+    func defaultNetwork(keychain: Keychain) -> Network {
+        let authenticator = defaultNetworkAuthenticator(keychain: keychain)
+        return Network(serverEndpoint: self.config.serverEndpoint, networkAuthenticator: authenticator)
+    }
+    
+    func defaultService(keychain: Keychain) -> APIService {
+        return APIService(serverEndpoint: self.config.serverEndpoint, network: defaultNetwork(keychain: keychain))
+    }
+    
+    func defaultAuthService(keychain: Keychain) -> OAuthService {
+        return OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: defaultNetwork(keychain: keychain))
     }
 }
 
-extension NetworkAuthenticatorIdentifying where Self: XCTestCase, Self: KeychainServiceIdentifying {
-    
-    var network: Network {
-        return Network(serverEndpoint: self.config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-    }
-    
-    var service: APIService {
-        return APIService(serverEndpoint: self.config.serverEndpoint, network: network)
-    }
-    
-    var authService: OAuthService {
-        return OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
-    }
-}
-
-extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: NetworkAuthenticatorIdentifying, Self: XCTestCase {
-    func authentication(loggedIn: Bool = false) -> Authentication {
-        let authentication = Authentication(database: database, clientID: self.config.clientID, domain: self.config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTestCase {
+    func defaultAuthentication(keychain: Keychain, loggedIn: Bool = false) -> Authentication {
+        let authentication = Authentication(database: database, clientID: self.config.clientID, domain: self.config.serverEndpoint.host!, networkAuthenticator: defaultNetworkAuthenticator(keychain: keychain), authService: defaultAuthService(keychain: keychain), service: defaultService(keychain: keychain), preferences: preferences, delegate: nil)
         authentication.loggedIn = loggedIn
         return authentication
     }
     
-    func aggregation(loggedIn: Bool) -> Aggregation {
-        return Aggregation(database: database, service: service, authentication: authentication(loggedIn: loggedIn))
+    func aggregation(keychain: Keychain, loggedIn: Bool) -> Aggregation {
+        return Aggregation(database: database, service: defaultService(keychain: keychain), authentication: defaultAuthentication(keychain: keychain, loggedIn: loggedIn))
     }
 }
 
