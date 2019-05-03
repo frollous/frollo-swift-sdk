@@ -17,7 +17,7 @@
 import XCTest
 @testable import FrolloSDK
 
-class BaseTestCase: XCTestCase, DatabaseIdentifying, NetworkAuthenticatorIdentifying, KeychainServiceIdentifying {
+class BaseTestCase: XCTestCase, DatabaseIdentifying, KeychainServiceIdentifying {
     
     var testsKeychainService: String?
     
@@ -31,16 +31,9 @@ class BaseTestCase: XCTestCase, DatabaseIdentifying, NetworkAuthenticatorIdentif
         return testsDatabase!
     }
     
-    var testsNetworhAuthenticator: NetworkAuthenticator?
-    
-    var networkAuthenticator: NetworkAuthenticator {
-        return testsNetworhAuthenticator!
-    }
-    
     override func setUp() {
         super.setUp()
         testsDatabase = Database(path: tempFolderPath())
-        testsNetworhAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: self.config.serverEndpoint, tokenEndpoint: self.config.tokenEndpoint, keychain: keychain)
     }
 
     override func tearDown() {

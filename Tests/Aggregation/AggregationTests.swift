@@ -35,6 +35,10 @@ class AggregationTests: BaseTestCase {
         Keychain(service: keychainService).removeAll()
     }
     
+    private func aggregation(loggedIn: Bool) -> Aggregation {
+        return self.aggregation(keychain: self.defaultKeychain(isNetwork: true), loggedIn: loggedIn)
+    }
+    
     func testFetchProviderByID() {
         let expectation1 = expectation(description: "Completion")
         let aggregation = self.aggregation(loggedIn: true)
