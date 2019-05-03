@@ -63,14 +63,14 @@ extension KeychainServiceIdentifying where Self: XCTestCase {
 }
 
 extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTestCase {
-    func defaultAuthentication(keychain: Keychain, loggedIn: Bool = false) -> Authentication {
+    func defaultAuthentication(keychain: Keychain, networkAuthenticator: NetworkAuthenticator, loggedIn: Bool = false) -> Authentication {
         let authentication = Authentication(database: database, clientID: self.config.clientID, domain: self.config.serverEndpoint.host!, networkAuthenticator: defaultNetworkAuthenticator(keychain: keychain), authService: defaultAuthService(keychain: keychain), service: defaultService(keychain: keychain), preferences: preferences, delegate: nil)
         authentication.loggedIn = loggedIn
         return authentication
     }
     
     func aggregation(keychain: Keychain, loggedIn: Bool) -> Aggregation {
-        return Aggregation(database: database, service: defaultService(keychain: keychain), authentication: defaultAuthentication(keychain: keychain, loggedIn: loggedIn))
+        return Aggregation(database: database, service: defaultService(keychain: keychain), authentication: defaultAuthentication(keychain: keychain, networkAuthenticator: defaultNetworkAuthenticator(keychain: keychain), loggedIn: loggedIn))
     }
 }
 
