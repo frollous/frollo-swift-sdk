@@ -488,12 +488,11 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
         
         connect(endpoint: UserEndpoint.details.path.prefixedWithSlash, toResourceWithName: "user_details_complete")
         
-        let authentication = defaultAuthentication()
+        let keychain = validKeychain()
+        let authentication = defaultAuthentication(keychain: keychain, loggedIn: true)
         
         database.setup { (error) in
             XCTAssertNil(error)
-            
-            authentication.loggedIn = true
             
             authentication.refreshUser { (result) in
                 switch result {
@@ -518,12 +517,10 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
         connect(endpoint: UserEndpoint.details.path.prefixedWithSlash, toResourceWithName: "user_details_complete")
         
         let keychain = validKeychain()
-        let authentication = defaultAuthentication(keychain: keychain)
+        let authentication = defaultAuthentication(keychain: keychain, loggedIn: true)
         
         database.setup { (error) in
             XCTAssertNil(error)
-            
-            authentication.loggedIn = true
             
             let moc = self.database.newBackgroundContext()
             
@@ -562,8 +559,6 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loggedIn = false
-            
             let moc = self.database.newBackgroundContext()
             
             moc.performAndWait {
@@ -601,12 +596,10 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
         connect(endpoint: UserEndpoint.details.path, toResourceWithName: "user_details_complete")
         
         let keychain = validKeychain()
-        let authentication = defaultAuthentication(keychain: keychain)
+        let authentication = defaultAuthentication(keychain: keychain, loggedIn: true)
         
         database.setup { (error) in
             XCTAssertNil(error)
-            
-            authentication.loggedIn = true
             
             authentication.updateUser { (result) in
                 switch result {
@@ -948,12 +941,10 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
         connect(endpoint: DeviceEndpoint.device.path.prefixedWithSlash, addingData: Data(), addingStatusCode: 204)
         
         let keychain = validKeychain()
-        let authentication = defaultAuthentication(keychain: keychain)
+        let authentication = defaultAuthentication(keychain: keychain, loggedIn: true)
         
         database.setup { (error) in
             XCTAssertNil(error)
-
-            authentication.loggedIn = true
             
             authentication.updateDevice(notificationToken: "SomeToken12345", completion: { (result) in
                 switch result {
@@ -978,12 +969,10 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
         connect(endpoint: DeviceEndpoint.device.path.prefixedWithSlash, addingData: Data(), addingStatusCode: 204)
 
         let keychain = validKeychain()
-        let authentication = defaultAuthentication(keychain: keychain)
+        let authentication = defaultAuthentication(keychain: keychain, loggedIn: true)
         
         database.setup { (error) in
             XCTAssertNil(error)
-            
-            authentication.loggedIn = true
             
             authentication.updateDeviceCompliance(true) { (result) in
                 switch result {
@@ -1018,8 +1007,6 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
         
         database.setup { (error) in
             XCTAssertNil(error)
-            
-            authentication.loggedIn = false
             
             authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32)) { (result) in
                 switch result {
@@ -1137,12 +1124,10 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
         
         let keychain = validKeychain()
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator)
+        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
         
         database.setup { (error) in
             XCTAssertNil(error)
-            
-            authentication.loggedIn = true
             
             authentication.exchangeLegacyToken { (result) in
                 switch result {
@@ -1174,12 +1159,10 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
         
         let keychain = Keychain(service: keychainService)
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator)
+        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
         
         database.setup { (error) in
             XCTAssertNil(error)
-            
-            authentication.loggedIn = true
             
             authentication.exchangeLegacyToken { (result) in
                 switch result {
