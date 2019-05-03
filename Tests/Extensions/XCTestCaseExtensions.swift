@@ -90,8 +90,23 @@ extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTe
         return defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: loggedIn)
     }
     
+    func aggregation(loggedIn: Bool = false) -> Aggregation {
+        let keychain = defaultKeychain(isNetwork: true)
+        return aggregation(keychain: keychain, loggedIn: loggedIn)
+    }
+    
     func aggregation(keychain: Keychain, loggedIn: Bool) -> Aggregation {
         return Aggregation(database: database, service: defaultService(keychain: keychain), authentication: defaultAuthentication(keychain: keychain, networkAuthenticator: defaultNetworkAuthenticator(keychain: keychain), loggedIn: loggedIn))
+    }
+    
+    // MARK: - Bills
+    func defaultBills() -> Bills {
+        let keychain = defaultKeychain(isNetwork: true)
+        return defaultBills(keychain: keychain)
+    }
+    
+    func defaultBills(keychain: Keychain) -> Bills {
+        return Bills(database: database, service: defaultService(keychain: keychain), aggregation: aggregation(keychain: keychain, loggedIn: true), authentication: defaultAuthentication(keychain: keychain))
     }
 }
 
