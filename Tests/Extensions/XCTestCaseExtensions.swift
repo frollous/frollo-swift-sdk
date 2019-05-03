@@ -33,14 +33,17 @@ extension DatabaseIdentifying {
     }
 }
 
+protocol NetworkAuthenticatorIdentifying {
+    var networkAuthenticator: NetworkAuthenticator { get }
+}
+
 extension KeychainServiceIdentifying where Self: XCTestCase {
     var keychain: Keychain {
         return Keychain.validNetworkKeychain(service: keychainService)
     }
-    
-    var networkAuthenticator: NetworkAuthenticator {
-        return NetworkAuthenticator(authorizationEndpoint: self.config.authorizationEndpoint, serverEndpoint: self.config.serverEndpoint, tokenEndpoint: self.config.tokenEndpoint, keychain: keychain)
-    }
+}
+
+extension NetworkAuthenticatorIdentifying where Self: XCTestCase, Self: KeychainServiceIdentifying {
     
     var network: Network {
         return Network(serverEndpoint: self.config.serverEndpoint, networkAuthenticator: networkAuthenticator)
@@ -55,8 +58,8 @@ extension KeychainServiceIdentifying where Self: XCTestCase {
     }
 }
 
-extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTestCase {
-    func authentication(loggedIn: Bool) -> Authentication {
+extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: NetworkAuthenticatorIdentifying, Self: XCTestCase {
+    func authentication(loggedIn: Bool = false) -> Authentication {
         let authentication = Authentication(database: database, clientID: self.config.clientID, domain: self.config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
         authentication.loggedIn = loggedIn
         return authentication

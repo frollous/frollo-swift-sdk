@@ -20,17 +20,11 @@ import XCTest
 
 import OHHTTPStubs
 
-class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentifying {
-    let keychainService = "AggregationTests"
-    var testsDatabase: Database?
-    
-    var database: Database {
-        return testsDatabase!
-    }
+class AggregationTests: BaseTestCase {
     
     override func setUp() {
+        testsKeychainService = "AggregationTests"
         super.setUp()
-        testsDatabase = Database(path: tempFolderPath())
     }
     
     override func tearDown() {
