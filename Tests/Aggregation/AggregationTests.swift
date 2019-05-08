@@ -20,17 +20,11 @@ import XCTest
 
 import OHHTTPStubs
 
-class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentifying {
-    let keychainService = "AggregationTests"
-    var testsDatabase: Database?
-    
-    var database: Database {
-        return testsDatabase!
-    }
+class AggregationTests: BaseTestCase {
     
     override func setUp() {
+        testsKeychainService = "AggregationTests"
         super.setUp()
-        testsDatabase = Database(path: tempFolderPath())
     }
     
     override func tearDown() {
@@ -39,6 +33,10 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         
         OHHTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
+    }
+    
+    private func aggregation(loggedIn: Bool) -> Aggregation {
+        return self.aggregation(keychain: self.defaultKeychain(isNetwork: true), loggedIn: loggedIn)
     }
     
     func testFetchProviderByID() {
@@ -156,7 +154,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshProvidersIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.providers, toResourceWithName: "providers_valid")
+        connect(endpoint: AggregationEndpoint.providers.path.prefixedWithSlash, toResourceWithName: "providers_valid")
         
         database.setup { error in
             XCTAssertNil(error)
@@ -192,7 +190,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshProvidersFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.providers, toResourceWithName: "providers_valid")
+        connect(endpoint: AggregationEndpoint.providers.path.prefixedWithSlash, toResourceWithName: "providers_valid")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -229,7 +227,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation4 = expectation(description: "Network Request 2")
         let expectation5 = expectation(description: "Fetch Request 2")
         
-        let providerStub = connect(endpoint: AggregationEndpoint.providers, toResourceWithName: "providers_valid")
+        let providerStub = connect(endpoint: AggregationEndpoint.providers.path.prefixedWithSlash, toResourceWithName: "providers_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -292,7 +290,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         
         OHHTTPStubs.removeStub(providerStub)
         
-        connect(endpoint: AggregationEndpoint.providers, toResourceWithName: "providers_updated")
+        connect(endpoint: AggregationEndpoint.providers.path.prefixedWithSlash, toResourceWithName: "providers_updated")
         
         aggregation.refreshProviders { result in
             switch result {
@@ -342,7 +340,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshProviderByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.provider(providerID: 12345), toResourceWithName: "provider_id_12345")
+        connect(endpoint: AggregationEndpoint.provider(providerID: 12345).path.prefixedWithSlash, toResourceWithName: "provider_id_12345")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -375,7 +373,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshProvidersUpdate() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.providers, toResourceWithName: "providers_valid")
+        connect(endpoint: AggregationEndpoint.providers.path.prefixedWithSlash, toResourceWithName: "providers_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -528,7 +526,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Network Request 2")
         
-        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_accounts_valid")
+        connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "provider_accounts_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -591,7 +589,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshProviderAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_accounts_valid")
+        connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "provider_accounts_valid")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -624,7 +622,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshProviderAccountByIDIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.providerAccount(providerAccountID: 123), toResourceWithName: "provider_account_id_123")
+        connect(endpoint: AggregationEndpoint.providerAccount(providerAccountID: 123).path.prefixedWithSlash, toResourceWithName: "provider_account_id_123")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -661,7 +659,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshProviderAccountByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.providerAccount(providerAccountID: 123), toResourceWithName: "provider_account_id_123")
+        connect(endpoint: AggregationEndpoint.providerAccount(providerAccountID: 123).path.prefixedWithSlash, toResourceWithName: "provider_account_id_123")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -695,8 +693,8 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation1 = expectation(description: "Network Provider Request")
         let expectation2 = expectation(description: "Network Provider Account Request")
         
-        connect(endpoint: AggregationEndpoint.provider(providerID: 12345), toResourceWithName: "provider_id_12345")
-        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_accounts_valid")
+        connect(endpoint: AggregationEndpoint.provider(providerID: 12345).path.prefixedWithSlash, toResourceWithName: "provider_id_12345")
+        connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "provider_accounts_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -750,7 +748,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         
         let loginForm = ProviderLoginForm.loginFormFilledData()
         
-        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_account_id_123", addingStatusCode: 201)
+        connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "provider_account_id_123", addingStatusCode: 201)
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -786,7 +784,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testCreateProviderAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_account_id_123")
+        connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "provider_account_id_123")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -821,7 +819,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testDeleteProviderAccount() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(endpoint: AggregationEndpoint.providerAccount(providerAccountID: 12345), addingStatusCode: 204)
+        connect(endpoint: AggregationEndpoint.providerAccount(providerAccountID: 12345).path.prefixedWithSlash, addingStatusCode: 204)
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -856,7 +854,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testDeleteProviderAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_account_id_123", addingStatusCode: 201)
+        connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "provider_account_id_123", addingStatusCode: 201)
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -893,7 +891,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         
         let loginForm = ProviderLoginForm.loginFormFilledData()
         
-        connect(endpoint: AggregationEndpoint.providerAccount(providerAccountID: providerAccountID), toResourceWithName: "provider_account_id_123")
+        connect(endpoint: AggregationEndpoint.providerAccount(providerAccountID: providerAccountID).path.prefixedWithSlash, toResourceWithName: "provider_account_id_123")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -929,7 +927,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testUpdateProviderAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_account_id_123", addingStatusCode: 201)
+        connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "provider_account_id_123", addingStatusCode: 201)
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -966,8 +964,8 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Fetch Request 1")
         
-        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_accounts_valid")
-        connect(endpoint: AggregationEndpoint.provider(providerID: 12345), toResourceWithName: "provider_id_12345")
+        connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "provider_accounts_valid")
+        connect(endpoint: AggregationEndpoint.provider(providerID: 12345).path.prefixedWithSlash, toResourceWithName: "provider_id_12345")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1147,7 +1145,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshAccountsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.accounts, toResourceWithName: "accounts_valid")
+        connect(endpoint: AggregationEndpoint.accounts.path.prefixedWithSlash, toResourceWithName: "accounts_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1183,7 +1181,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "accounts_valid")
+        connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "accounts_valid")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -1216,7 +1214,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshAccountByIDIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.account(accountID: 542), toResourceWithName: "account_id_542")
+        connect(endpoint: AggregationEndpoint.account(accountID: 542).path.prefixedWithSlash, toResourceWithName: "account_id_542")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1253,7 +1251,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshAccountByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.account(accountID: 542), toResourceWithName: "account_id_542")
+        connect(endpoint: AggregationEndpoint.account(accountID: 542).path.prefixedWithSlash, toResourceWithName: "account_id_542")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -1288,8 +1286,8 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Network Request 2")
         
-        connect(endpoint: AggregationEndpoint.providerAccounts, toResourceWithName: "provider_accounts_valid")
-        connect(endpoint: AggregationEndpoint.accounts, toResourceWithName: "accounts_valid")
+        connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "provider_accounts_valid")
+        connect(endpoint: AggregationEndpoint.accounts.path.prefixedWithSlash, toResourceWithName: "accounts_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1351,7 +1349,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testUpdatingAccount() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.account(accountID: 542), toResourceWithName: "account_id_542")
+        connect(endpoint: AggregationEndpoint.account(accountID: 542).path.prefixedWithSlash, toResourceWithName: "account_id_542")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1398,7 +1396,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testUpdateAccountByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.account(accountID: 542), toResourceWithName: "account_id_542")
+        connect(endpoint: AggregationEndpoint.account(accountID: 542).path.prefixedWithSlash, toResourceWithName: "account_id_542")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -1546,7 +1544,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1585,7 +1583,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -1621,7 +1619,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionsSkipsInvalid() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_invalid")
+        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_invalid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1715,7 +1713,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionByIDIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630), toResourceWithName: "transaction_id_194630")
+        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630).path.prefixedWithSlash, toResourceWithName: "transaction_id_194630")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1752,7 +1750,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630), toResourceWithName: "transaction_id_194630")
+        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630).path.prefixedWithSlash, toResourceWithName: "transaction_id_194630")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -1787,7 +1785,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         
         let transactions: [Int64] = [1, 2, 3, 4, 5]
         
-        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1825,7 +1823,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         
         let transactions: [Int64] = [1, 2, 3, 4, 5]
         
-        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -1860,8 +1858,8 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation2 = expectation(description: "Network Account Request")
         let expectation3 = expectation(description: "Network Transaction Request")
         
-        connect(endpoint: AggregationEndpoint.accounts, toResourceWithName: "accounts_valid")
-        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.accounts.path.prefixedWithSlash, toResourceWithName: "accounts_valid")
+        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1928,8 +1926,8 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation1 = expectation(description: "Network Merchant Request")
         let expectation2 = expectation(description: "Network Transaction Request")
         
-        connect(endpoint: AggregationEndpoint.merchants, toResourceWithName: "merchants_by_id")
-        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_by_id")
+        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1985,8 +1983,8 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation2 = expectation(description: "Network Transaction Category Request")
         let expectation3 = expectation(description: "Network Transaction Request")
         
-        connect(endpoint: AggregationEndpoint.transactionCategories, toResourceWithName: "transaction_categories_valid")
-        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactionCategories.path.prefixedWithSlash, toResourceWithName: "transaction_categories_valid")
+        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2052,7 +2050,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testExcludeTransaction() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630), toResourceWithName: "transaction_id_194630_excluded")
+        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630).path.prefixedWithSlash, toResourceWithName: "transaction_id_194630_excluded")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2101,7 +2099,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRecategoriseTransaction() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630), toResourceWithName: "transaction_id_194630")
+        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630).path.prefixedWithSlash, toResourceWithName: "transaction_id_194630")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2161,7 +2159,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testUpdatingTransaction() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630), toResourceWithName: "transaction_id_194630")
+        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630).path.prefixedWithSlash, toResourceWithName: "transaction_id_194630")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2208,7 +2206,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testUpdateTransactionFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630), toResourceWithName: "transaction_id_194630")
+        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630).path.prefixedWithSlash, toResourceWithName: "transaction_id_194630")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -2243,8 +2241,8 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Fetch Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
-        connect(endpoint: AggregationEndpoint.merchants, toResourceWithName: "merchants_by_id")
+        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_by_id")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2312,7 +2310,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testTransactionSearch() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactionSearch, toResourceWithName: "transactions_search")
+        connect(endpoint: AggregationEndpoint.transactionSearch.path.prefixedWithSlash, toResourceWithName: "transactions_search")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2354,7 +2352,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testTransactionSearchFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactionSearch, toResourceWithName: "transactions_search")
+        connect(endpoint: AggregationEndpoint.transactionSearch.path.prefixedWithSlash, toResourceWithName: "transactions_search")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -2390,7 +2388,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testTransactionSummary() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactionSummary, toResourceWithName: "transaction_summary")
+        connect(endpoint: AggregationEndpoint.transactionSummary.path.prefixedWithSlash, toResourceWithName: "transaction_summary")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2420,7 +2418,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testTransactionSummaryFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactionSummary, toResourceWithName: "transactions_summary")
+        connect(endpoint: AggregationEndpoint.transactionSummary.path.prefixedWithSlash, toResourceWithName: "transactions_summary")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -2571,7 +2569,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionCategoriesIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactionCategories, toResourceWithName: "transaction_categories_valid")
+        connect(endpoint: AggregationEndpoint.transactionCategories.path.prefixedWithSlash, toResourceWithName: "transaction_categories_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2607,7 +2605,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionCategoriesFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactionCategories, toResourceWithName: "transaction_categories_valid")
+        connect(endpoint: AggregationEndpoint.transactionCategories.path.prefixedWithSlash, toResourceWithName: "transaction_categories_valid")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -2642,7 +2640,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionUserTagsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactionUserTags, toResourceWithName: "transactions_user_tags")
+        connect(endpoint: AggregationEndpoint.transactionUserTags.path.prefixedWithSlash, toResourceWithName: "transactions_user_tags")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2681,7 +2679,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation1 = expectation(description: "Network Request 1")
         let invalidStatusCode = 500
         
-        connect(endpoint: AggregationEndpoint.transactionUserTags, toResourceWithName: "transactions_user_tags", addingStatusCode: invalidStatusCode)
+        connect(endpoint: AggregationEndpoint.transactionUserTags.path.prefixedWithSlash, toResourceWithName: "transactions_user_tags", addingStatusCode: invalidStatusCode)
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2781,7 +2779,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshTransactionUserTagsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactionUserTags, toResourceWithName: "transactions_user_tags")
+        connect(endpoint: AggregationEndpoint.transactionUserTags.path.prefixedWithSlash, toResourceWithName: "transactions_user_tags")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -2859,7 +2857,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testTransactionSuggestedTags() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactionSuggestedTags, toResourceWithName: "transactions_suggested_tags")
+        connect(endpoint: AggregationEndpoint.transactionSuggestedTags.path.prefixedWithSlash, toResourceWithName: "transactions_suggested_tags")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2893,7 +2891,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         let expectation1 = expectation(description: "Network Request 1")
         let invalidStatusCode = 500
         
-        connect(endpoint: AggregationEndpoint.transactionSuggestedTags, toResourceWithName: "transactions_suggested_tags", addingStatusCode: invalidStatusCode)
+        connect(endpoint: AggregationEndpoint.transactionSuggestedTags.path.prefixedWithSlash, toResourceWithName: "transactions_suggested_tags", addingStatusCode: invalidStatusCode)
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2919,7 +2917,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testTransactionSuggestedTagsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactionSuggestedTags, toResourceWithName: "transactions_suggested_tags")
+        connect(endpoint: AggregationEndpoint.transactionSuggestedTags.path.prefixedWithSlash, toResourceWithName: "transactions_suggested_tags")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -3067,7 +3065,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshMerchantsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.merchants, toResourceWithName: "merchants_valid")
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_valid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -3103,7 +3101,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshMerchantsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.merchants, toResourceWithName: "merchants_valid")
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_valid")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -3136,7 +3134,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshMerchantByID() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.merchant(merchantID: 197), toResourceWithName: "merchant_id_197")
+        connect(endpoint: AggregationEndpoint.merchant(merchantID: 197).path.prefixedWithSlash, toResourceWithName: "merchant_id_197")
         
        let aggregation = self.aggregation(loggedIn: true)
         
@@ -3178,7 +3176,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshMerchantByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.merchant(merchantID: 197), toResourceWithName: "merchant_id_197")
+        connect(endpoint: AggregationEndpoint.merchant(merchantID: 197).path.prefixedWithSlash, toResourceWithName: "merchant_id_197")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -3211,7 +3209,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshMerchantsByID() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.merchants, toResourceWithName: "merchants_by_id")
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_by_id")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -3254,7 +3252,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
     func testRefreshMerchantsByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.merchants, toResourceWithName: "merchants_by_id")
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_by_id")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -3291,7 +3289,7 @@ class AggregationTests: XCTestCase, KeychainServiceIdentifying, DatabaseIdentify
         
         let ids: [Int64] = [4, 87, 9077777]
         
-        connect(endpoint: AggregationEndpoint.transactions, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
         
         database.setup { error in
             XCTAssertNil(error)
