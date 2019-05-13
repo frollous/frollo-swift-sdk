@@ -67,7 +67,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -123,7 +123,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -177,7 +177,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -221,7 +221,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -284,7 +284,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         database.setup { error in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = false
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -334,7 +334,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -387,7 +387,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         database.setup { error in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = false
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -444,7 +444,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 
                 try? managedObjectContext.save()
                 
-                let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+                let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
                 authentication.loggedIn = true
                 let messages = Messages(database: database, service: service, authentication: authentication)
                 
@@ -496,7 +496,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         database.setup { error in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = false
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -553,7 +553,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 
                 try? managedObjectContext.save()
                 
-                let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+                let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
                 authentication.loggedIn = true
                 let messages = Messages(database: database, service: service, authentication: authentication)
                 
@@ -599,7 +599,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -664,7 +664,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         database.setup { error in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = false
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -713,7 +713,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         let preferences = Preferences(path: tempFolderPath())
         let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
         authentication.loggedIn = true
         let messages = Messages(database: database, service: service, authentication: authentication)
         messages.delegate = self

@@ -23,14 +23,14 @@ import Foundation
  */
 public class Notifications {
     
-    private let authentication: Authentication
     private let events: Events
     private let messages: Messages
+    private let user: UserManagement
     
-    internal init(authentication: Authentication, events: Events, messages: Messages) {
-        self.authentication = authentication
+    internal init(events: Events, messages: Messages, user: UserManagement) {
         self.events = events
         self.messages = messages
+        self.user = user
     }
     
     /**
@@ -44,7 +44,7 @@ public class Notifications {
     public func registerPushNotificationToken(_ token: Data) {
         let notificationToken = token.hexEncodedString()
         
-        authentication.updateDevice(notificationToken: notificationToken)
+        user.updateDevice(notificationToken: notificationToken)
     }
     
     /**

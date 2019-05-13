@@ -463,6 +463,11 @@
 		016097F0210EA27E0034E857 /* Keychain+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097ED210EA27E0034E857 /* Keychain+Test.swift */; };
 		016097F5210EE2BB0034E857 /* APIProviderResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097F4210EE2BA0034E857 /* APIProviderResponse.swift */; };
 		016097F8210EE3300034E857 /* Provider+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097F6210EE3300034E857 /* Provider+CoreDataClass.swift */; };
+		0161394D2283EF74001A62E8 /* UserManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0161394C2283EF74001A62E8 /* UserManagement.swift */; };
+		0161394E2283EF74001A62E8 /* UserManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0161394C2283EF74001A62E8 /* UserManagement.swift */; };
+		016139512288E03A001A62E8 /* UserManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016139502288E03A001A62E8 /* UserManagementTests.swift */; };
+		016139522288E03A001A62E8 /* UserManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016139502288E03A001A62E8 /* UserManagementTests.swift */; };
+		016139532288E03A001A62E8 /* UserManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016139502288E03A001A62E8 /* UserManagementTests.swift */; };
 		01616B0C2186BFD5003EF2D0 /* APIDeviceLogRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616B0B2186BFD5003EF2D0 /* APIDeviceLogRequest.swift */; };
 		01616B0E2186C4E8003EF2D0 /* NetworkLoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616B0D2186C4E8003EF2D0 /* NetworkLoggerTests.swift */; };
 		01616B0F2186C4E8003EF2D0 /* NetworkLoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616B0D2186C4E8003EF2D0 /* NetworkLoggerTests.swift */; };
@@ -1280,6 +1285,8 @@
 		016097ED210EA27E0034E857 /* Keychain+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Keychain+Test.swift"; sourceTree = "<group>"; };
 		016097F4210EE2BA0034E857 /* APIProviderResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProviderResponse.swift; sourceTree = "<group>"; };
 		016097F6210EE3300034E857 /* Provider+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Provider+CoreDataClass.swift"; sourceTree = "<group>"; };
+		0161394C2283EF74001A62E8 /* UserManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManagement.swift; sourceTree = "<group>"; };
+		016139502288E03A001A62E8 /* UserManagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManagementTests.swift; sourceTree = "<group>"; };
 		01616B0B2186BFD5003EF2D0 /* APIDeviceLogRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIDeviceLogRequest.swift; sourceTree = "<group>"; };
 		01616B0D2186C4E8003EF2D0 /* NetworkLoggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLoggerTests.swift; sourceTree = "<group>"; };
 		016DD0A320EF365100F41919 /* APIErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorTests.swift; sourceTree = "<group>"; };
@@ -1994,6 +2001,7 @@
 				01236D0821EBF4CD008DD61A /* Reports */,
 				01819147211178AC000E0F80 /* Shared */,
 				2F657DA1223B24E400471B85 /* Surveys */,
+				0161394B2283EF53001A62E8 /* User */,
 				0160953520F33E980060791B /* Version */,
 			);
 			path = Sources;
@@ -2024,6 +2032,7 @@
 				01236D6C21EED6FA008DD61A /* Reports */,
 				01EEDB1520EADEFA00F4516B /* Resources */,
 				2F657DAA223B398D00471B85 /* Surveys */,
+				0161394F2288E01F001A62E8 /* User */,
 				0160953820F41EB80060791B /* Version */,
 				013BC1E0218A81B4005A2714 /* View Model */,
 			);
@@ -2221,6 +2230,22 @@
 				033D46CF2272C7D800E0C6D6 /* Tag+CoreDataClass.swift */,
 			);
 			path = Aggregation;
+			sourceTree = "<group>";
+		};
+		0161394B2283EF53001A62E8 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				0161394C2283EF74001A62E8 /* UserManagement.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		0161394F2288E01F001A62E8 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				016139502288E03A001A62E8 /* UserManagementTests.swift */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 		016DD0A220EF356D00F41919 /* Error */ = {
@@ -3618,6 +3643,7 @@
 				0104E03121E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataProperties.swift in Sources */,
 				2F657DA3223B26B300471B85 /* Survey.swift in Sources */,
 				01BB5A5C221D1A26000C03F0 /* OAuthTokenRequest.swift in Sources */,
+				0161394D2283EF74001A62E8 /* UserManagement.swift in Sources */,
 				0126068321990377005D8377 /* Messages.swift in Sources */,
 				0126069621992AD4005D8377 /* APIMessageResponse.swift in Sources */,
 				015EEDDE210FD7710081AD76 /* FailableCodable.swift in Sources */,
@@ -3721,6 +3747,7 @@
 				01BB5A6D221F54A3000C03F0 /* OAuthServiceTests.swift in Sources */,
 				0160953A20F41ECF0060791B /* VersionTests.swift in Sources */,
 				015EEDFD211018420081AD76 /* ProviderTests.swift in Sources */,
+				016139512288E03A001A62E8 /* UserManagementTests.swift in Sources */,
 				017B48FC21084BA200447E65 /* AuthenticationTests.swift in Sources */,
 				01333D42216AB115005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */,
 				01B896D020F32D5E0068069A /* NetworkErrorTests.swift in Sources */,
@@ -3832,6 +3859,7 @@
 				01BB5A6E221F54A3000C03F0 /* OAuthServiceTests.swift in Sources */,
 				017B48352101B4FE00447E65 /* VersionTests.swift in Sources */,
 				015EEDFE211018420081AD76 /* ProviderTests.swift in Sources */,
+				016139522288E03A001A62E8 /* UserManagementTests.swift in Sources */,
 				017B48FD21084BA200447E65 /* AuthenticationTests.swift in Sources */,
 				01333D43216AB115005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */,
 				017B48362101B4FE00447E65 /* NetworkErrorTests.swift in Sources */,
@@ -3952,6 +3980,7 @@
 				01BB5A6F221F54A3000C03F0 /* OAuthServiceTests.swift in Sources */,
 				017B48912105958100447E65 /* NetworkErrorTests.swift in Sources */,
 				016097E8210AAAD90034E857 /* DeviceInfoTests.swift in Sources */,
+				016139532288E03A001A62E8 /* UserManagementTests.swift in Sources */,
 				013A32D52112C40500B0590B /* CoreData+Test.swift in Sources */,
 				01333D44216AB116005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */,
 				017B48922105958100447E65 /* ConsoleLoggerTests.swift in Sources */,
@@ -4114,6 +4143,7 @@
 				01E5BF2F2227A475003D85FD /* ReportTransactionCurrent+CoreDataClass.swift in Sources */,
 				01E5BF302227A475003D85FD /* Keychain.swift in Sources */,
 				01E5BF312227A475003D85FD /* ReportTransactionCurrent+CoreDataProperties.swift in Sources */,
+				0161394E2283EF74001A62E8 /* UserManagement.swift in Sources */,
 				01E5BF322227A475003D85FD /* OAuthTokenRequest.swift in Sources */,
 				01E5BF332227A475003D85FD /* Messages.swift in Sources */,
 				01E5BF342227A475003D85FD /* APIMessageResponse.swift in Sources */,

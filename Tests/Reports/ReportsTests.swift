@@ -78,7 +78,7 @@ class ReportsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -117,7 +117,7 @@ class ReportsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = false
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -169,7 +169,7 @@ class ReportsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -239,7 +239,7 @@ class ReportsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -309,7 +309,7 @@ class ReportsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -379,7 +379,7 @@ class ReportsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -460,7 +460,7 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         
@@ -571,7 +571,7 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -738,7 +738,7 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -913,7 +913,7 @@ class ReportsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -950,7 +950,7 @@ class ReportsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = false
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -999,7 +999,7 @@ class ReportsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -1093,7 +1093,7 @@ class ReportsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -1186,7 +1186,7 @@ class ReportsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -1279,7 +1279,7 @@ class ReportsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -1385,7 +1385,7 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -1562,7 +1562,7 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -1790,7 +1790,7 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -1877,7 +1877,7 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -2005,7 +2005,7 @@ class ReportsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -2045,7 +2045,7 @@ class ReportsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = false
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -2097,7 +2097,7 @@ class ReportsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -2200,7 +2200,7 @@ class ReportsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -2302,7 +2302,7 @@ class ReportsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -2404,7 +2404,7 @@ class ReportsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -2504,7 +2504,7 @@ class ReportsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -2606,7 +2606,7 @@ class ReportsTests: XCTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
             let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -2729,7 +2729,7 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -2970,7 +2970,7 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -3212,7 +3212,7 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -3402,7 +3402,7 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
@@ -3494,7 +3494,7 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
             
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
             authentication.loggedIn = true
             let aggregation = Aggregation(database: database, service: service, authentication: authentication)
         let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)

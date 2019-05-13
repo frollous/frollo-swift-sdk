@@ -54,7 +54,7 @@ class SurveysTests: XCTestCase {
         let preferences = Preferences(path: tempFolderPath())
         let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
         authentication.loggedIn = true
         let surveys = Surveys(service: service, authentication: authentication)
         surveys.fetchSurvey(surveyKey: surveyKey) { (result) in
@@ -95,7 +95,7 @@ class SurveysTests: XCTestCase {
         let preferences = Preferences(path: tempFolderPath())
         let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
         authentication.loggedIn = false
         let surveys = Surveys(service: service, authentication: authentication)
         
@@ -139,7 +139,7 @@ class SurveysTests: XCTestCase {
         let preferences = Preferences(path: tempFolderPath())
         let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
         authentication.loggedIn = true
         let surveys = Surveys(service: service, authentication: authentication)
         let testSurvey = Survey.createTestSurvey()
@@ -181,7 +181,7 @@ class SurveysTests: XCTestCase {
         let preferences = Preferences(path: tempFolderPath())
         let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
         
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
         authentication.loggedIn = false
         let surveys = Surveys(service: service, authentication: authentication)
         let testSurvey = Survey.createTestSurvey()

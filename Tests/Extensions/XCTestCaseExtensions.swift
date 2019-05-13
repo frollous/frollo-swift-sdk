@@ -80,7 +80,7 @@ extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTe
     }
     
     func defaultAuthentication(keychain: Keychain, networkAuthenticator: NetworkAuthenticator, loggedIn: Bool = false) -> Authentication {
-        let authentication = Authentication(database: database, clientID: self.config.clientID, domain: self.config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: defaultAuthService(keychain: keychain), service: defaultService(keychain: keychain, networkAuthenticator: networkAuthenticator), preferences: preferences, delegate: nil)
+        let authentication = Authentication(database: database, clientID: self.config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: defaultAuthService(keychain: keychain), preferences: preferences, delegate: nil)
         authentication.loggedIn = loggedIn
         return authentication
     }
@@ -108,6 +108,28 @@ extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTe
     func defaultBills(keychain: Keychain) -> Bills {
         return Bills(database: database, service: defaultService(keychain: keychain), aggregation: aggregation(keychain: keychain, loggedIn: true), authentication: defaultAuthentication(keychain: keychain))
     }
+    
+    // MARK: - User
+    
+    func defaultUser(loggedIn: Bool = true) -> UserManagement {
+        let keychain = defaultKeychain(isNetwork: true)
+        return defaultUser(keychain: keychain, loggedIn: loggedIn)
+    }
+    
+    func defaultUser(keychain: Keychain, loggedIn: Bool = true) -> UserManagement {
+        let networkAuthenticator  = defaultNetworkAuthenticator(keychain: keychain)
+        return defaultUser(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: loggedIn)
+    }
+    
+    func defaultUser(keychain: Keychain, authentication: Authentication, loggedIn: Bool = true) -> UserManagement {
+        let networkAuthenticator  = defaultNetworkAuthenticator(keychain: keychain)
+        return UserManagement(database: database, service: defaultService(keychain: keychain, networkAuthenticator: networkAuthenticator), authentication: authentication, preferences: preferences)
+    }
+    
+    func defaultUser(keychain: Keychain, networkAuthenticator: NetworkAuthenticator, loggedIn: Bool = true) -> UserManagement {
+        return UserManagement(database: database, service: defaultService(keychain: keychain, networkAuthenticator: networkAuthenticator), authentication: defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: loggedIn), preferences: preferences)
+    }
+    
 }
 
 extension XCTestCase {

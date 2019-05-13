@@ -138,7 +138,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         return _reports
     }
     
-    /// Surveys - Handling surveys
+    /// Surveys - Surveys management. See `Surveys` for details
     public var surveys: Surveys {
         guard _setup
         else {
@@ -146,6 +146,16 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         }
         
         return _surveys
+    }
+    
+    /// User - User Management. See `UserManagement` for details
+    public var user: UserManagement {
+        guard _setup
+        else {
+            fatalError("SDK not setup")
+        }
+        
+        return _user
     }
     
     /// Indicates if the SDK has completed setup or not
@@ -169,6 +179,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     internal var _reports: Reports!
     internal var _surveys: Surveys!
     internal var _setup = false
+    internal var _user: UserManagement!
     
     private let cacheExpiry: TimeInterval = 120
     private let frolloHost = "frollo.us"
@@ -270,14 +281,15 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         Log.manager.service = service
         Log.logLevel = configuration.logLevel
         
-        _authentication = Authentication(database: _database, clientID: configuration.clientID, domain: configuration.serverEndpoint.host ?? configuration.serverEndpoint.absoluteString, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: self)
+        _authentication = Authentication(database: _database, clientID: configuration.clientID, serverURL: configuration.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: self)
         _aggregation = Aggregation(database: _database, service: service, authentication: _authentication)
         _bills = Bills(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
         _events = Events(service: service, authentication: _authentication)
         _messages = Messages(database: _database, service: service, authentication: _authentication)
-        _notifications = Notifications(authentication: _authentication, events: _events, messages: _messages)
         _reports = Reports(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
         _surveys = Surveys(service: service, authentication: _authentication)
+        _user = UserManagement(database: _database, service: service, authentication: _authentication, preferences: preferences)
+        _notifications = Notifications(events: _events, messages: _messages, user: _user)
         
         _events.delegate = delegate
         _messages.delegate = delegate
@@ -329,6 +341,8 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         
         authentication.reset()
         
+        network.reset()
+        
         keychain.removeAll()
         
         database.reset { error in
@@ -375,7 +389,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         if updateDevice {
             deviceLastUpdated = now
             
-            authentication.updateDevice()
+            user.updateDevice()
         }
     }
     
@@ -433,7 +447,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         aggregation.refreshProviderAccounts()
         aggregation.refreshAccounts()
         aggregation.refreshTransactions(from: Date().startOfLastMonth(), to: Date().endOfMonth())
-        authentication.refreshUser()
+        user.refreshUser()
         messages.refreshUnreadMessages()
     }
     
@@ -454,7 +468,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         aggregation.refreshProviders()
         aggregation.refreshTransactionCategories()
         bills.refreshBills()
-        authentication.updateDevice()
+        user.updateDevice()
     }
     
     // MARK: - Scheduled Refresh
