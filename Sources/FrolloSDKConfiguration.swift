@@ -25,9 +25,6 @@ public struct FrolloSDKConfiguration {
         /// Custom - provide a custom authentication class managed externally from the SDK
         case custom
         
-        /// Frollo - use the OAuth2 based Frollo proprietary authentication
-        case frollo
-        
         /// OAuth2 - generic OAuth2 based authentication
         case oAuth2
         
@@ -55,13 +52,8 @@ public struct FrolloSDKConfiguration {
      
      - returns: Valid configuration
      */
-    public init(authenticationType: AuthenticationType = .oAuth2, clientID: String, redirectURL: URL, authorizationEndpoint: URL, tokenEndpoint: URL, serverEndpoint: URL) {
-        let validAuthenticationTypes: [AuthenticationType] = [.frollo, .oAuth2]
-        if !validAuthenticationTypes.contains(authenticationType) {
-            fatalError("Authentication type must be OAuth2 based - OAuth2 or Frollo")
-        }
-        
-        self.authenticationType = authenticationType
+    public init(clientID: String, redirectURL: URL, authorizationEndpoint: URL, tokenEndpoint: URL, serverEndpoint: URL) {
+        self.authenticationType = .oAuth2
         self.authorizationEndpoint = authorizationEndpoint
         self.clientID = clientID
         self.redirectURL = redirectURL

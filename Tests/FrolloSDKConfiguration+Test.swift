@@ -20,8 +20,7 @@ import Foundation
 extension FrolloSDKConfiguration {
     
     static func testConfig() -> FrolloSDKConfiguration {
-        return FrolloSDKConfiguration(authenticationType: .frollo,
-                                      clientID: "abc123",
+        return FrolloSDKConfiguration(clientID: "abc123",
                                       redirectURL: URL(string: "app://redirect")!,
                                       authorizationEndpoint: URL(string: "https://id.example.com/oauth/authorize")!,
                                       tokenEndpoint: URL(string: "https://id.example.com/oauth/token")!,

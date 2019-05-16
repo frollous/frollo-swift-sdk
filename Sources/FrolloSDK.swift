@@ -293,8 +293,6 @@ public class FrolloSDK: NetworkDelegate {
                     fatalError("Custom authentication chosen but no class provided")
                 }
                 
-            case .frollo:
-                fallthrough
             case .oAuth2:
                 guard let authorizationURL = configuration.authorizationEndpoint,
                     let tokenURL = configuration.tokenEndpoint,
