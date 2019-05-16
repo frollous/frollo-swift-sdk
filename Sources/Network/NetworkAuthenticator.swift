@@ -18,28 +18,23 @@ import Foundation
 
 import Alamofire
 
-class NetworkAuthenticator: RequestAdapter, RequestRetrier {
+public class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     
-    typealias TokenRequestCompletion = (_: Swift.Result<OAuthTokenResponse, Error>) -> Void
+    internal typealias TokenRequestCompletion = (_: Swift.Result<OAuthTokenResponse, Error>) -> Void
     
     internal struct KeychainKey {
         static let accessToken = "accessToken"
         static let accessTokenExpiry = "accessTokenExpiry"
-        static let refreshToken = "refreshToken"
     }
     
     /// Access Token used with the API
     internal var accessToken: String?
-    
-    /// Refresh Token used with the API to renew access tokens
-    internal var refreshToken: String?
     
     /// Expiry date of the access token, typically 30 minutes after issue
     internal var expiryDate: Date?
     
     internal weak var authentication: Authentication?
     
-    private let authorizationURL: URL
     private let bearerFormat = "Bearer %@"
     private let keychain: Keychain
     private let lock = NSLock()
@@ -48,30 +43,19 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     private let responseQueue = DispatchQueue(label: "FrolloSDK.APIAuthenticatorResponseQueue", qos: .userInitiated, attributes: .concurrent)
     private let serverURL: URL
     private let timeInterval5Minutes: Double = 300
-    private let tokenURL: URL
-    
-    #if !os(watchOS)
-    public let reachability: NetworkReachabilityManager
-    #endif
     
     private var rateLimitCount: Double = 0
     private var refreshing = false
     private var requestsToRetry: [RequestRetryCompletion] = []
     
-    init(authorizationEndpoint: URL, serverEndpoint: URL, tokenEndpoint: URL, keychain: Keychain) {
-        self.authorizationURL = authorizationEndpoint
+    init(serverEndpoint: URL, keychain: Keychain) {
         self.serverURL = serverEndpoint
-        self.tokenURL = tokenEndpoint
         self.keychain = keychain
-        
-        #if !os(watchOS)
-        self.reachability = NetworkReachabilityManager(host: tokenURL.host!)!
-        #endif
         
         loadTokens()
     }
     
-    internal func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
+    public func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
         guard let url = urlRequest.url, url.absoluteString.hasPrefix(serverURL.absoluteString)
         else {
             return urlRequest
@@ -93,7 +77,7 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     
     // MARK: - Retry Requests
     
-    internal func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
+    public func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
         guard let responseError = error as? AFError
         else {
             completion(false, 0)
@@ -140,13 +124,6 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     
     internal func validateAndAppendAccessToken(request: URLRequest) throws -> URLRequest {
         if !validToken() {
-            guard refreshToken != nil
-            else {
-                Log.error("No valid refresh token when trying to refresh access token.")
-                
-                throw DataError(type: .authentication, subType: .missingRefreshToken)
-            }
-            
             lock.lock()
             
             let semaphore = DispatchSemaphore(value: 0)
@@ -179,20 +156,17 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     // MARK: - Token Handling
     
     /**
-     Cache tokens and save tokens to the keychain
+     Cache access token and save token to the keychain
      
      - parameters:
-         - refresh: Refresh token
-         - access: Access token
+         - accessToken: Access token
          - expiry: Access token expiry date
      */
-    internal func saveTokens(refresh: String, access: String, expiry: Date) {
-        refreshToken = refresh
-        accessToken = access
+    internal func saveAccessToken(_ accessToken: String, expiry: Date) {
+        self.accessToken = accessToken
         expiryDate = expiry
         
-        keychain[KeychainKey.accessToken] = access
-        keychain[KeychainKey.refreshToken] = refresh
+        keychain[KeychainKey.accessToken] = accessToken
         
         let expirySeconds = String(expiry.timeIntervalSince1970)
         keychain[KeychainKey.accessTokenExpiry] = expirySeconds
@@ -204,7 +178,6 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     internal func clearTokens() {
         accessToken = nil
         expiryDate = nil
-        refreshToken = nil
         
         keychain.removeAll()
     }
@@ -264,7 +237,6 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     
     private func loadTokens() {
         accessToken = keychain[KeychainKey.accessToken]
-        refreshToken = keychain[KeychainKey.refreshToken]
         
         if let expiryTime = keychain[KeychainKey.accessTokenExpiry], let expirySeconds = TimeInterval(expiryTime) {
             expiryDate = Date(timeIntervalSince1970: expirySeconds)

@@ -45,7 +45,7 @@ extension KeychainServiceIdentifying where Self: XCTestCase {
     }
     
     func defaultNetworkAuthenticator(keychain: Keychain) -> NetworkAuthenticator {
-        return NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        return NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
     }
     
     func defaultNetwork(keychain: Keychain) -> Network {
@@ -67,25 +67,31 @@ extension KeychainServiceIdentifying where Self: XCTestCase {
     }
     
     func defaultAuthService(keychain: Keychain) -> OAuthService {
-        return OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: defaultNetwork(keychain: keychain))
+        return defaultAuthService(keychain: keychain, network: defaultNetwork(keychain: keychain))
+    }
+    
+    func defaultAuthService(keychain: Keychain, network: Network) -> OAuthService {
+        return OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
     }
 }
 
 extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTestCase {
     
-    func defaultAuthentication(loggedIn: Bool = false) -> Authentication {
+    func defaultAuthentication(loggedIn: Bool = false) -> OAuth2Authentication {
         let keychain = defaultKeychain(isNetwork: false)
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
         return defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: loggedIn)
     }
     
-    func defaultAuthentication(keychain: Keychain, networkAuthenticator: NetworkAuthenticator, loggedIn: Bool = false) -> Authentication {
-        let authentication = Authentication(database: database, clientID: self.config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: defaultAuthService(keychain: keychain), preferences: preferences, delegate: nil)
+    func defaultAuthentication(keychain: Keychain, networkAuthenticator: NetworkAuthenticator, loggedIn: Bool = false) -> OAuth2Authentication {
+        let network = Network(serverEndpoint: self.config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authService = defaultAuthService(keychain: keychain, network: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         authentication.loggedIn = loggedIn
         return authentication
     }
     
-    func defaultAuthentication(keychain: Keychain, loggedIn: Bool = false) -> Authentication {
+    func defaultAuthentication(keychain: Keychain, loggedIn: Bool = false) -> OAuth2Authentication {
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
         return defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: loggedIn)
     }
@@ -148,7 +154,7 @@ extension XCTestCase {
     }
     
     var tokenEndpointHost: String {
-        return config.tokenEndpoint.host!
+        return config.tokenEndpoint!.host!
     }
 }
 

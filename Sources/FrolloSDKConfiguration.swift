@@ -19,6 +19,20 @@ import Foundation
 /// Configuration of the SDK and additional optional preferences
 public struct FrolloSDKConfiguration {
     
+    /// Authentication method to be used by the SDK
+    public enum AuthenticationType {
+        
+        /// Custom - provide a custom authentication class managed externally from the SDK
+        case custom
+        
+        /// Frollo - use the OAuth2 based Frollo proprietary authentication
+        case frollo
+        
+        /// OAuth2 - generic OAuth2 based authentication
+        case oAuth2
+        
+    }
+    
     /// Level of logging for debug and error messages. Default is `error`
     public var logLevel: LogLevel = .error
     
@@ -32,6 +46,7 @@ public struct FrolloSDKConfiguration {
      Optional preferences can be set before running `FrolloSDK.setup()`
      
      - parameters:
+         - authenticationType: Type of OAuth2 authentication to be used. Valid options are `frollo` and `oAuth2`
          - clientID: OAuth2 Client identifier. The unique identifier of the application implementing the SDK
          - redirectURL: OAuth2 Redirection URL. URL to redirect to after the authorization flow is complete. This should be a deep or universal link to the host app
          - authorizationEndpoint: URL of the OAuth2 authorization endpoint for web based login
@@ -40,18 +55,53 @@ public struct FrolloSDKConfiguration {
      
      - returns: Valid configuration
      */
-    public init(clientID: String, redirectURL: URL, authorizationEndpoint: URL, tokenEndpoint: URL, serverEndpoint: URL) {
+    public init(authenticationType: AuthenticationType = .oAuth2, clientID: String, redirectURL: URL, authorizationEndpoint: URL, tokenEndpoint: URL, serverEndpoint: URL) {
+        let validAuthenticationTypes: [AuthenticationType] = [.frollo, .oAuth2]
+        if !validAuthenticationTypes.contains(authenticationType) {
+            fatalError("Authentication type must be OAuth2 based - OAuth2 or Frollo")
+        }
+        
+        self.authenticationType = authenticationType
         self.authorizationEndpoint = authorizationEndpoint
         self.clientID = clientID
         self.redirectURL = redirectURL
         self.serverEndpoint = serverEndpoint
         self.tokenEndpoint = tokenEndpoint
+        
+        self.authentication = nil
     }
     
-    internal let authorizationEndpoint: URL
-    internal let clientID: String
-    internal let redirectURL: URL
+    /**
+     Generate custom authentication SDK configuration
+     
+     Generates a valid SDK configuration for setting up the SDK. This configuration uses a custom authentication class conforming to the `Authentication` protocol. See `OAuth2Authentication` for an example.
+     Optional preferences can be set before running `FrolloSDK.setup()`
+     
+     - parameters:
+        - authentication: Custom authentication method. See `OAuth2Authentication` for a default implementation.
+        - serverEndpoint: Base URL of the Frollo API this SDK should point to
+     
+     - returns: Valid configuration
+     */
+    public init(authentication: Authentication, serverEndpoint: URL) {
+        self.authentication = authentication
+        self.authenticationType = .custom
+        self.serverEndpoint = serverEndpoint
+        
+        self.authorizationEndpoint = nil
+        self.clientID = nil
+        self.redirectURL = nil
+        self.tokenEndpoint = nil
+    }
+    
+    internal let authenticationType: AuthenticationType
     internal let serverEndpoint: URL
-    internal let tokenEndpoint: URL
+    
+    internal let authentication: Authentication?
+    
+    internal let authorizationEndpoint: URL?
+    internal let clientID: String?
+    internal let redirectURL: URL?
+    internal let tokenEndpoint: URL?
     
 }

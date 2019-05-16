@@ -78,10 +78,9 @@ class NetworkTests: XCTestCase {
         let config = FrolloSDKConfiguration(clientID: "zyx987", redirectURL: URL(string: "app://authed")!, authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!, tokenEndpoint: URL(string: "https://id.frollo.us/oauth/token")!, serverEndpoint: URL(string: "https://api.frollo.us/api/")!)
         let testURL = config.serverEndpoint.appendingPathComponent("pages/terms")
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: [config.serverEndpoint: [realPublicKey], config.tokenEndpoint: [realPublicKey]])
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: [config.serverEndpoint: [realPublicKey], config.tokenEndpoint!: [realPublicKey]])
         
-        network.authenticator.refreshToken = "AnExistingRefreshToken"
         network.authenticator.accessToken = "AnExistingAccessToken"
         network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
         
@@ -103,8 +102,8 @@ class NetworkTests: XCTestCase {
         let config = FrolloSDKConfiguration(clientID: "zyx987", redirectURL: URL(string: "app://authed")!, authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!, tokenEndpoint: URL(string: "https://id.frollo.us/oauth/token")!, serverEndpoint: URL(string: "https://api.frollo.us/api/")!)
         let testURL = config.serverEndpoint.appendingPathComponent("pages/terms")
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys:  [config.serverEndpoint: [fakePublicKey], config.tokenEndpoint: [fakePublicKey]])
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys:  [config.serverEndpoint: [fakePublicKey], config.tokenEndpoint!: [fakePublicKey]])
         network.sessionManager.request(testURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).response { (response) in
             XCTAssertNotNil(response.error)
             if let responseData = response.data {
@@ -126,10 +125,9 @@ class NetworkTests: XCTestCase {
         
         let config = FrolloSDKConfiguration(clientID: "zyx987", redirectURL: URL(string: "app://authed")!, authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!, tokenEndpoint: URL(string: "https://id.frollo.us/oauth/token")!, serverEndpoint: URL(string: "https://google.com.au")!)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
-        network.authenticator.refreshToken = "AnExistingRefreshToken"
         network.authenticator.accessToken = "AnExistingAccessToken"
         network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
         
@@ -163,11 +161,10 @@ class NetworkTests: XCTestCase {
         
         let keychain = Keychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        network.authenticator.refreshToken = "AnExistingRefreshToken"
         network.authenticator.accessToken = "AnExistingAccessToken"
         network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
         
@@ -198,11 +195,10 @@ class NetworkTests: XCTestCase {
         
         let keychain = Keychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        network.authenticator.refreshToken = "AnExistingRefreshToken"
         network.authenticator.accessToken = "AnExistingAccessToken"
         network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
         

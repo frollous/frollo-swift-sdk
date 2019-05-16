@@ -45,12 +45,12 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -67,7 +67,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
             authentication.loggedIn = true
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -89,12 +89,12 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -123,7 +123,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
             authentication.loggedIn = true
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -145,12 +145,12 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -177,7 +177,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 try! managedObjectContext.save()
             }
             
-            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
             authentication.loggedIn = true
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -211,17 +211,17 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
             authentication.loggedIn = true
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -274,17 +274,17 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
             authentication.loggedIn = false
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -324,17 +324,17 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
             authentication.loggedIn = true
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -377,17 +377,17 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
             authentication.loggedIn = false
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -425,12 +425,12 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -444,7 +444,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 
                 try? managedObjectContext.save()
                 
-                let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+                let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
                 authentication.loggedIn = true
                 let messages = Messages(database: database, service: service, authentication: authentication)
                 
@@ -486,17 +486,17 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
             authentication.loggedIn = false
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -534,12 +534,12 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -553,7 +553,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 
                 try? managedObjectContext.save()
                 
-                let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+                let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
                 authentication.loggedIn = true
                 let messages = Messages(database: database, service: service, authentication: authentication)
                 
@@ -589,17 +589,17 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
             authentication.loggedIn = true
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -654,17 +654,17 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
             authentication.loggedIn = false
             let messages = Messages(database: database, service: service, authentication: authentication)
             
@@ -707,13 +707,13 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         let path = tempFolderPath()
         let database = Database(path: path)
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
-        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         authentication.loggedIn = true
         let messages = Messages(database: database, service: service, authentication: authentication)
         messages.delegate = self

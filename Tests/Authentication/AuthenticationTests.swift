@@ -25,7 +25,7 @@ import AppAuth
 
 import OHHTTPStubs
 
-class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate {
+class AuthenticationTests: BaseTestCase, NetworkDelegate {
     
     override func setUp() {
         testsKeychainService = "AuthenticationTestsKeychain"
@@ -58,7 +58,7 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
     func testLoginUser() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
         
         let keychain = Keychain(service: keychainService)
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
@@ -75,8 +75,9 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
                         XCTAssertTrue(authentication.loggedIn)
                         
                         XCTAssertEqual(networkAuthenticator.accessToken, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
-                        XCTAssertEqual(networkAuthenticator.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
                         XCTAssertEqual(networkAuthenticator.expiryDate, Date(timeIntervalSince1970: 2550794799))
+                    
+                        XCTAssertEqual(authentication.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
                 }
                 
                 expectation1.fulfill()
@@ -91,7 +92,7 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
     func testInvalidLoginUser() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint.path, toResourceWithName: "error_oauth2_invalid_grant", addingStatusCode: 401)
+        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "error_oauth2_invalid_grant", addingStatusCode: 401)
 
         let keychain = defaultKeychain(isNetwork: false)
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
@@ -106,8 +107,9 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
                         XCTAssertFalse(authentication.loggedIn)
                         
                         XCTAssertNil(networkAuthenticator.accessToken)
-                        XCTAssertNil(networkAuthenticator.refreshToken)
                         XCTAssertNil(networkAuthenticator.expiryDate)
+                        
+                        XCTAssertNil(authentication.refreshToken)
                     
                         if let apiError = error as? OAuth2Error {
                             XCTAssertEqual(apiError.type, .invalidGrant)
@@ -130,7 +132,7 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
     func testLoginUserFailsIfLoggedIn() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
         connect(endpoint: UserEndpoint.register.path.prefixedWithSlash, toResourceWithName: "user_details_complete")
         
         let authentication = defaultAuthentication(loggedIn: true)
@@ -167,7 +169,7 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
         let expectation1 = expectation(description: "Network Request")
         let expectation2 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
         connect(endpoint: UserEndpoint.details.path.prefixedWithSlash, toResourceWithName: "user_details_complete")
         
         let keychain = defaultKeychain(isNetwork: false)
@@ -183,8 +185,9 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
                         XCTAssertFalse(authentication.loggedIn)
                         
                         XCTAssertNil(networkAuthenticator.accessToken)
-                        XCTAssertNil(networkAuthenticator.refreshToken)
                         XCTAssertNil(networkAuthenticator.expiryDate)
+                        
+                        XCTAssertNil(authentication.refreshToken)
                     
                         if let authError = error as? OAuth2Error {
                             XCTAssertEqual(authError.type, .clientError)
@@ -220,7 +223,7 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.tokenEndpoint!.host!) && isPath(config.tokenEndpoint!.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -232,11 +235,11 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let keychain = Keychain(service: keychainService)
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: self)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.serverEndpoint, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         let user = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences)
         
         database.setup { (error) in
@@ -250,8 +253,9 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
                         XCTAssertNil(user.fetchUser(context: database.newBackgroundContext()))
                         
                         XCTAssertNil(networkAuthenticator.accessToken)
-                        XCTAssertNil(networkAuthenticator.refreshToken)
                         XCTAssertNil(networkAuthenticator.expiryDate)
+                        
+                        XCTAssertNil(authentication.refreshToken)
                         
                         if let authError = error as? OAuth2Error {
                             XCTAssertEqual(authError.type, .clientError)
@@ -298,7 +302,7 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
                 try! moc.save()
             }
             
-            authentication.logoutUser()
+            authentication.reset()
             
             XCTAssertNil(error)
             
@@ -319,7 +323,14 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
         
         let keychain = validKeychain()
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let user = defaultUser(keychain: keychain, networkAuthenticator: networkAuthenticator)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
+        let user = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences)
+        
+        let resetter = NetworkResetterStub(authentication: authentication)
+        network.delegate = resetter
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -336,52 +347,12 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
             user.updateUser { (result) in
                 switch result {
                     case .failure:
-                        XCTAssertNil(networkAuthenticator.refreshToken)
+                        XCTAssertFalse(authentication.loggedIn)
+                        
+                        XCTAssertNil(authentication.refreshToken)
                         XCTAssertNil(networkAuthenticator.accessToken)
                     case .success:
                         XCTFail("Update user should fail due to 401")
-                }
-                
-                expectation1.fulfill()
-            }
-        }
-        
-        wait(for: [expectation1], timeout: 3.0)
-        
-        try? FileManager.default.removeItem(at: tempFolderPath())
-    }
-    
-    func testForcedLogoutIfMissingRefreshToken() {
-        let expectation1 = expectation(description: "Network Request")
-        
-        connect(endpoint: UserEndpoint.details.path.prefixedWithSlash, toResourceWithName: "user_details_complete")
-        
-        let keychain = validKeychain()
-        keychain["refreshToken"] = nil
-        keychain["accessToken"] = nil
-        
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let user = defaultUser(keychain: keychain)
-        
-        database.setup { (error) in
-            XCTAssertNil(error)
-            
-            let moc = self.database.newBackgroundContext()
-            
-            moc.performAndWait {
-                let user = User(context: moc)
-                user.populateTestData()
-                
-                try! moc.save()
-            }
-            
-            user.refreshUser { (result) in
-                switch result {
-                    case .failure:
-                        XCTAssertNil(networkAuthenticator.refreshToken)
-                        XCTAssertNil(networkAuthenticator.accessToken)
-                    case .success:
-                        XCTFail("Auth should fail")
                 }
                 
                 expectation1.fulfill()
@@ -398,7 +369,7 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
     func testExchangeAuthorizationCode() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
         
         let keychain = defaultKeychain(isNetwork: false)
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
@@ -415,8 +386,9 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
                         XCTAssertTrue(authentication.loggedIn)
                         
                         XCTAssertEqual(networkAuthenticator.accessToken, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
-                        XCTAssertEqual(networkAuthenticator.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
                         XCTAssertEqual(networkAuthenticator.expiryDate, Date(timeIntervalSince1970: 2550794799))
+                    
+                        XCTAssertEqual(authentication.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
                 }
                 
                 expectation1.fulfill()
@@ -431,7 +403,7 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
     func testExchangeAuthorizationCodeInvalid() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint.path, toResourceWithName: "error_oauth2_invalid_grant", addingStatusCode: 401)
+        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "error_oauth2_invalid_grant", addingStatusCode: 401)
         connect(endpoint: UserEndpoint.details.path.prefixedWithSlash, toResourceWithName: "user_details_complete")
 
         let keychain = Keychain(service: keychainService)
@@ -450,8 +422,9 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
                         XCTAssertNil(user.fetchUser(context: self.database.newBackgroundContext()))
                         
                         XCTAssertNil(networkAuthenticator.accessToken)
-                        XCTAssertNil(networkAuthenticator.refreshToken)
                         XCTAssertNil(networkAuthenticator.expiryDate)
+                        
+                        XCTAssertNil(authentication.refreshToken)
                         
                         if let oAuthError = error as? OAuth2Error {
                             XCTAssertEqual(oAuthError.type, .invalidGrant)
@@ -474,11 +447,13 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
     func testExchangeLegacyAccessToken() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
         
         let keychain = validKeychain()
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
         let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
+        
+        authentication.updateToken("IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -491,8 +466,9 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
                         XCTAssertTrue(authentication.loggedIn)
                         
                         XCTAssertEqual(networkAuthenticator.accessToken, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
-                        XCTAssertEqual(networkAuthenticator.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
                         XCTAssertEqual(networkAuthenticator.expiryDate, Date(timeIntervalSince1970: 2550794799))
+                    
+                        XCTAssertEqual(authentication.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
                 }
                 
                 expectation1.fulfill()
@@ -507,7 +483,7 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
     func testExchangeMissingRefreshTokenFails() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
         
         let keychain = Keychain(service: keychainService)
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
@@ -520,8 +496,9 @@ class AuthenticationTests: BaseTestCase, AuthenticationDelegate, NetworkDelegate
                 switch result {
                     case .failure(let error):
                         XCTAssertNil(networkAuthenticator.accessToken)
-                        XCTAssertNil(networkAuthenticator.refreshToken)
                         XCTAssertNil(networkAuthenticator.expiryDate)
+                        
+                        XCTAssertNil(authentication.refreshToken)
                     
                         if let authError = error as? DataError {
                             XCTAssertEqual(authError.type, .authentication)

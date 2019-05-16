@@ -11,7 +11,7 @@ import Foundation
 public typealias FrolloSDKCompletionHandler = (EmptyResult<Error>) -> Void
 
 /// Frollo SDK manager and main instantiation. Responsible for managing the lifecycle and coordination of the SDK
-public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
+public class FrolloSDK: NetworkDelegate {
     
     /// Notification triggered when ever the authentication status of the SDK changes. Observe this notification to detect if the SDK user has authenticated or been logged out.
     public static let authenticationChangedNotification = Notification.Name(rawValue: "FrolloSDK.authenticationChangedNotification")
@@ -76,6 +76,11 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         }
         
         return _authentication
+    }
+    
+    /// Default OAuth2 Authentication - Returns the default OAuth2 based authentication if no custom one has been applied
+    public var defaultAuthentication: OAuth2Authentication? {
+        return _authentication as? OAuth2Authentication
     }
     
     /// Bills - All bills and bill payments see `Bills` for details
@@ -185,7 +190,6 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     private let frolloHost = "frollo.us"
     
     private var deviceLastUpdated: Date?
-    private var redirectURL: URL!
     
     // MARK: - Setup
     
@@ -240,7 +244,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         if let host = configuration.serverEndpoint.host, host.contains(frolloHost) {
             pinServer = true
         }
-        if let host = configuration.tokenEndpoint.host, host.contains(frolloHost) {
+        if let host = configuration.tokenEndpoint?.host, host.contains(frolloHost) {
             pinToken = true
         }
         
@@ -263,25 +267,49 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
                 if pinServer {
                     pinnedKeys?[configuration.serverEndpoint] = [activeKey, backupKey]
                 }
-                if pinToken {
-                    pinnedKeys?[configuration.tokenEndpoint] = [activeKey, backupKey]
+                if pinToken, let tokenURL = configuration.tokenEndpoint {
+                    pinnedKeys?[tokenURL] = [activeKey, backupKey]
                 }
             }
         }
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: configuration.authorizationEndpoint, serverEndpoint: configuration.serverEndpoint, tokenEndpoint: configuration.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: configuration.serverEndpoint, keychain: keychain)
         network = Network(serverEndpoint: configuration.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: pinnedKeys)
         network.delegate = self
         
-        redirectURL = configuration.redirectURL
-        
-        let authService = OAuthService(authorizationEndpoint: configuration.authorizationEndpoint, tokenEndpoint: configuration.tokenEndpoint, redirectURL: configuration.redirectURL, network: network)
         let service = APIService(serverEndpoint: configuration.serverEndpoint, network: network)
         
         Log.manager.service = service
         Log.logLevel = configuration.logLevel
         
-        _authentication = Authentication(database: _database, clientID: configuration.clientID, serverURL: configuration.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: self)
+        // Setup authentication stack
+        switch configuration.authenticationType {
+            case .custom:
+                if let customAuthentication = configuration.authentication {
+                    customAuthentication.delegate = network
+                    
+                    _authentication = customAuthentication
+                } else {
+                    fatalError("Custom authentication chosen but no class provided")
+                }
+                
+            case .frollo:
+                fallthrough
+            case .oAuth2:
+                guard let authorizationURL = configuration.authorizationEndpoint,
+                    let tokenURL = configuration.tokenEndpoint,
+                    let redirectURL = configuration.redirectURL,
+                    let clientID = configuration.clientID
+                else {
+                    fatalError("Invalid OAuth2 configuration supplied")
+                }
+                
+                let authService = OAuthService(authorizationEndpoint: authorizationURL, tokenEndpoint: tokenURL, redirectURL: redirectURL, network: network)
+                _authentication = OAuth2Authentication(keychain: keychain, clientID: clientID, redirectURL: redirectURL, serverURL: configuration.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
+        }
+        
+        networkAuthenticator.authentication = _authentication
+        
         _aggregation = Aggregation(database: _database, service: service, authentication: _authentication)
         _bills = Bills(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
         _events = Events(service: service, authentication: _authentication)
@@ -328,7 +356,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         return nil
     }
     
-    // MARK: - Reset
+    // MARK: - Reset and Logout
     
     /**
      Reset the SDK. Clears all caches, datbases and keychain entries. Called automatically from logout.
@@ -396,24 +424,18 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     /**
      Application received URL Open request
      
-     Notify the SDK of an application open URL event. Used to handle OAuth2 login flow and deep links
+     Notify the SDK of an application open URL event. Used to handle OAuth2 and other login flows and deep links
      
      - returns: Indication if the URL was handled successfully or not
      
      */
     public func applicationOpen(url: URL) -> Bool {
-        if url.scheme == redirectURL.scheme,
-            url.user == redirectURL.user,
-            url.password == redirectURL.password,
-            url.host == redirectURL.host,
-            url.port == redirectURL.port,
-            url.path == redirectURL.path {
-            authentication.authorizationFlow?.resumeExternalUserAgentFlow(with: url)
-            
-            return true
+        guard setup
+        else {
+            return false
         }
         
-        return false
+        return authentication.resumeAuthentication(url: url)
     }
     
     // MARK: - Refresh
@@ -488,12 +510,6 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
     private func cancelRefreshTimer() {
         refreshTimer?.invalidate()
         refreshTimer = nil
-    }
-    
-    // MARK: - Authentication Delegate
-    
-    func authenticationReset() {
-        reset()
     }
     
     // MARK: - Network Delegate

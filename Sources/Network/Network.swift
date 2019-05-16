@@ -27,7 +27,7 @@ protocol NetworkDelegate: AnyObject {
 internal typealias NetworkCompletion = (_: Swift.Result<Data, Error>) -> Void
 internal typealias RequestCompletion<T> = (_: Swift.Result<T, Error>) -> Void
 
-class Network: SessionDelegate {
+class Network: SessionDelegate, AuthenticationDelegate {
     
     #if !os(watchOS)
     public let reachability: NetworkReachabilityManager
@@ -242,6 +242,16 @@ class Network: SessionDelegate {
                     completion(.failure(processedError))
                 }
         }
+    }
+    
+    // MARK: - Authentication Delegate
+    
+    func authenticationReset() {
+        reset()
+    }
+    
+    func saveAccessTokens(accessToken: String, expiry: Date) {
+        authenticator.saveAccessToken(accessToken, expiry: expiry)
     }
     
 }

@@ -43,14 +43,13 @@ class EventsTests: XCTestCase {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let database = Database(path: tempFolderPath())
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
-        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         authentication.loggedIn = true
         let events = Events(service: service, authentication: authentication)
         
@@ -79,14 +78,13 @@ class EventsTests: XCTestCase {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let database = Database(path: tempFolderPath())
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
-        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         authentication.loggedIn = false
         let events = Events(service: service, authentication: authentication)
         
@@ -118,14 +116,13 @@ class EventsTests: XCTestCase {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let database = Database(path: tempFolderPath())
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
-        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         authentication.loggedIn = true
         let events = Events(service: service, authentication: authentication)
         
@@ -148,14 +145,13 @@ class EventsTests: XCTestCase {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let database = Database(path: tempFolderPath())
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
-        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         authentication.loggedIn = true
         let events = Events(service: service, authentication: authentication)
         
@@ -191,14 +187,13 @@ class EventsTests: XCTestCase {
         
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let database = Database(path: tempFolderPath())
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
         
-        let authentication = Authentication(database: database, clientID: config.clientID, serverURL: config.serverEndpoint, networkAuthenticator: networkAuthenticator, authService: authService, preferences: preferences, delegate: nil)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         authentication.loggedIn = true
         let events = Events(service: service, authentication: authentication)
         

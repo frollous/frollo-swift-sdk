@@ -49,7 +49,7 @@ class UserManagementTests: BaseTestCase {
     func testRegisterUser() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
         connect(endpoint: UserEndpoint.register.path.prefixedWithSlash, toResourceWithName: "user_details_complete", addingStatusCode: 201)
         
         let user = defaultUser(loggedIn: false)
@@ -77,7 +77,7 @@ class UserManagementTests: BaseTestCase {
     func testRegisterUserInvalid() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
         connect(endpoint: UserEndpoint.register.path.prefixedWithSlash, toResourceWithName: "error_duplicate", addingStatusCode: 409)
         
         let keychain = defaultKeychain(isNetwork: false)
@@ -96,8 +96,9 @@ class UserManagementTests: BaseTestCase {
                         XCTAssertNil(user.fetchUser(context: self.database.newBackgroundContext()))
                         
                         XCTAssertNil(networkAuthenticator.accessToken)
-                        XCTAssertNil(networkAuthenticator.refreshToken)
                         XCTAssertNil(networkAuthenticator.expiryDate)
+                        
+                        XCTAssertNil(authentication.refreshToken)
                         
                         if let apiError = error as? APIError {
                             XCTAssertEqual(apiError.type, .alreadyExists)
@@ -120,7 +121,7 @@ class UserManagementTests: BaseTestCase {
     func testRegisterUserFailsIfLoggedIn() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
         connect(endpoint: UserEndpoint.register.path.prefixedWithSlash, toResourceWithName: "user_details_complete", addingStatusCode: 201)
         
         let authentication = defaultAuthentication(loggedIn: true)
