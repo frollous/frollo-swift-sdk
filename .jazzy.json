@@ -10,21 +10,22 @@
   	{
   		"name": "Documentation",
   		"children": [
+        "Overview",
   			"Changelog",
-			"Getting Started",
-        		"Push Notifications"
+		    "Getting Started",
+        "Push Notifications"
   		]
   	},
   	{
   		"name": "SDK",
   		"children": [
   			"FrolloSDK",
-		        "FrolloSDKDelegate",
-			"FrolloSDKConfiguration",
+		    "FrolloSDKDelegate",
+			  "FrolloSDKConfiguration",
   			"FrolloSDKCompletionHandler",
-        		"LogLevel",
-            "EmptyResult",
-            "Result"
+        "LogLevel",
+        "EmptyResult",
+        "Result"
   		]
   	},
   	{
