@@ -42,11 +42,85 @@ class AuthenticationTests: BaseTestCase {
     func testCustomAuthentication() {
         class CustomAuthentication: Authentication {
             
+            private var tokenIndex = 0
+            private let validTokens = ["AccessToken001", "AccessToken002", "AccessToken003"]
+            
+            var loggedIn = false
+            
+            var delegate: AuthenticationDelegate?
+            
+            func login() {
+                loggedIn = true
+                
+                delegate?.saveAccessTokens(accessToken: validTokens[tokenIndex], expiry: Date().addingTimeInterval(3600))
+            }
+            
+            func refreshTokens(completion: FrolloSDKCompletionHandler?) {
+                if tokenIndex < 2 {
+                    tokenIndex += 1
+                } else {
+                    tokenIndex = 0
+                }
+                
+                delegate?.saveAccessTokens(accessToken: validTokens[tokenIndex], expiry: Date().addingTimeInterval(3600))
+                
+                completion?(.success)
+            }
+            
+            func resumeAuthentication(url: URL) -> Bool {
+                return false
+            }
+            
+            func reset() {
+                loggedIn = false
+                
+                tokenIndex = 0
+            }
+            
         }
+        
+        let expectation1 = expectation(description: "SDK Setup")
+        let expectation2 = expectation(description: "Refresh Tokens")
         
         let authentication = CustomAuthentication()
         
-        let config = FrolloSDKConfiguration(authentication: authentication, serverEndpoint: <#T##URL#>)
+        let serverURL = URL(string: "https://api.example.com")!
+        let config = FrolloSDKConfiguration(authentication: authentication, serverEndpoint: serverURL)
+        
+        let sdk = FrolloSDK()
+        sdk.setup(configuration: config) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        XCTAssert(authentication === sdk.authentication)
+        XCTAssertEqual(sdk.authentication.loggedIn, false)
+        
+        authentication.login()
+        
+        XCTAssertEqual(sdk.authentication.loggedIn, true)
+        XCTAssertEqual(sdk.network.authenticator.accessToken, "AccessToken001")
+        
+        sdk.authentication.refreshTokens { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    XCTAssertEqual(sdk.network.authenticator.accessToken, "AccessToken002")
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
     }
     
 }

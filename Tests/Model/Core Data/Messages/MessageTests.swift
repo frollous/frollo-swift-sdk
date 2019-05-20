@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+import CoreData
 import XCTest
 @testable import FrolloSDK
 
@@ -141,6 +142,30 @@ class MessageTests: XCTestCase {
             XCTAssertEqual(message.interacted, updateRequest.interacted)
             XCTAssertEqual(message.read, updateRequest.read)
         }
+    }
+    
+    func testMessageHTMLFetchRequest() {
+        let fetchRequest: NSFetchRequest<MessageHTML> = MessageHTML.fetchRequest()
+        
+        XCTAssertEqual(fetchRequest.entityName, "MessageHTML")
+    }
+    
+    func testMessageImageFetchRequest() {
+        let fetchRequest: NSFetchRequest<MessageImage> = MessageImage.fetchRequest()
+        
+        XCTAssertEqual(fetchRequest.entityName, "MessageImage")
+    }
+    
+    func testMessageTextFetchRequest() {
+        let fetchRequest: NSFetchRequest<MessageText> = MessageText.fetchRequest()
+        
+        XCTAssertEqual(fetchRequest.entityName, "MessageText")
+    }
+    
+    func testMessageVideoFetchRequest() {
+        let fetchRequest: NSFetchRequest<MessageVideo> = MessageVideo.fetchRequest()
+        
+        XCTAssertEqual(fetchRequest.entityName, "MessageVideo")
     }
 
 }
