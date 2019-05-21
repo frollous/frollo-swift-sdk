@@ -41,6 +41,10 @@ class OAuth2AuthenticationTests: BaseTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
         
+        if let bundleID = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundleID)
+        }
+        
         OHHTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
@@ -181,21 +185,21 @@ class OAuth2AuthenticationTests: BaseTestCase {
             
             authentication.loginUserUsingWeb(presenting: UIApplication.shared.keyWindow!.rootViewController!) { (result) in
                 switch result {
-                case .failure(let error):
-                    XCTAssertFalse(authentication.loggedIn)
-                    
-                    XCTAssertNil(networkAuthenticator.accessToken)
-                    XCTAssertNil(networkAuthenticator.expiryDate)
-                    
-                    XCTAssertNil(authentication.refreshToken)
-                    
-                    if let authError = error as? OAuth2Error {
-                        XCTAssertEqual(authError.type, .clientError)
-                    } else {
-                        XCTFail("Wrong error returned")
-                    }
-                case .success:
-                    XCTFail("Wrong password should fail")
+                    case .failure(let error):
+                        XCTAssertFalse(authentication.loggedIn)
+                        
+                        XCTAssertNil(networkAuthenticator.accessToken)
+                        XCTAssertNil(networkAuthenticator.expiryDate)
+                        
+                        XCTAssertNil(authentication.refreshToken)
+                        
+                        if let authError = error as? OAuth2Error {
+                            XCTAssertEqual(authError.type, .clientError)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Wrong password should fail")
                 }
                 
                 expectation1.fulfill()
@@ -241,7 +245,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: config.serverEndpoint, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         let user = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences)
         
         database.setup { (error) in
@@ -249,23 +253,23 @@ class OAuth2AuthenticationTests: BaseTestCase {
             
             authentication.loginUserUsingWeb { (result) in
                 switch result {
-                case .failure(let error):
-                    XCTAssertFalse(authentication.loggedIn)
-                    
-                    XCTAssertNil(user.fetchUser(context: database.newBackgroundContext()))
-                    
-                    XCTAssertNil(networkAuthenticator.accessToken)
-                    XCTAssertNil(networkAuthenticator.expiryDate)
-                    
-                    XCTAssertNil(authentication.refreshToken)
-                    
-                    if let authError = error as? OAuth2Error {
-                        XCTAssertEqual(authError.type, .clientError)
-                    } else {
-                        XCTFail("Wrong error returned")
-                    }
-                case .success:
-                    XCTFail("Wrong password should fail")
+                    case .failure(let error):
+                        XCTAssertFalse(authentication.loggedIn)
+                        
+                        XCTAssertNil(user.fetchUser(context: database.newBackgroundContext()))
+                        
+                        XCTAssertNil(networkAuthenticator.accessToken)
+                        XCTAssertNil(networkAuthenticator.expiryDate)
+                        
+                        XCTAssertNil(authentication.refreshToken)
+                        
+                        if let authError = error as? OAuth2Error {
+                            XCTAssertEqual(authError.type, .clientError)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Wrong password should fail")
                 }
                 
                 expectation1.fulfill()
@@ -446,11 +450,14 @@ class OAuth2AuthenticationTests: BaseTestCase {
         
         let keychain = Keychain(service: keychainService)
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator)
+        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: false)
         let user = defaultUser(keychain: keychain)
         
         database.setup { (error) in
             XCTAssertNil(error)
+            
+            // Override due to NSUserDefaults on tvOS
+            authentication.loggedIn = false
             
             authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32)) { (result) in
                 switch result {

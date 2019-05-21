@@ -82,7 +82,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: config.serverEndpoint, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         
         authentication.refreshTokens { (result) in
             switch result {
@@ -122,7 +122,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: config.serverEndpoint, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         
         networkAuthenticator.authentication = authentication
         
@@ -179,7 +179,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: config.serverEndpoint, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         authentication.loggedIn = true
         
         networkAuthenticator.authentication = authentication
@@ -275,7 +275,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: config.serverEndpoint, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         
         let resetter = NetworkResetterStub(authentication: authentication)
         network.delegate = resetter
@@ -342,7 +342,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: config.serverEndpoint, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         authentication.loggedIn = true
         
         networkAuthenticator.authentication = authentication
@@ -410,7 +410,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: config.serverEndpoint, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         authentication.loggedIn = true
         
         let resetter = NetworkResetterStub(authentication: authentication)
