@@ -71,7 +71,7 @@ extension KeychainServiceIdentifying where Self: XCTestCase {
     }
     
     func defaultAuthService(keychain: Keychain, network: Network) -> OAuthService {
-        return OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
+        return OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, network: network)
     }
 }
 
@@ -86,7 +86,7 @@ extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTe
     func defaultAuthentication(keychain: Keychain, networkAuthenticator: NetworkAuthenticator, loggedIn: Bool = false) -> OAuth2Authentication {
         let network = Network(serverEndpoint: self.config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = defaultAuthService(keychain: keychain, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         authentication.loggedIn = loggedIn
         return authentication
     }
@@ -154,7 +154,7 @@ extension XCTestCase {
     }
     
     var tokenEndpointHost: String {
-        return config.tokenEndpoint!.host!
+        return FrolloSDKConfiguration.tokenEndpoint.host!
     }
 }
 

@@ -75,11 +75,17 @@ class NetworkTests: XCTestCase {
         
         let keychain = Keychain(service: keychainService)
         
-        let config = FrolloSDKConfiguration(clientID: "zyx987", redirectURL: URL(string: "app://authed")!, authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!, tokenEndpoint: URL(string: "https://id.frollo.us/oauth/token")!, serverEndpoint: URL(string: "https://api.frollo.us/api/")!)
+        let tokenEndpoint = URL(string: "https://id.frollo.us/oauth/token")!
+        
+        let config = FrolloSDKConfiguration(authenticationType: .oAuth2(clientID: "zyx987",
+                                                                        redirectURL: URL(string: "app://authed")!,
+                                                                        authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!,
+                                                                        tokenEndpoint: tokenEndpoint),
+                                            serverEndpoint: URL(string: "https://api.frollo.us/api/")!)
         let testURL = config.serverEndpoint.appendingPathComponent("pages/terms")
         
         let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: [config.serverEndpoint: [realPublicKey], config.tokenEndpoint!: [realPublicKey]])
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: [config.serverEndpoint: [realPublicKey], tokenEndpoint: [realPublicKey]])
         
         network.authenticator.accessToken = "AnExistingAccessToken"
         network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
@@ -99,11 +105,17 @@ class NetworkTests: XCTestCase {
         
         let keychain = Keychain(service: keychainService)
         
-        let config = FrolloSDKConfiguration(clientID: "zyx987", redirectURL: URL(string: "app://authed")!, authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!, tokenEndpoint: URL(string: "https://id.frollo.us/oauth/token")!, serverEndpoint: URL(string: "https://api.frollo.us/api/")!)
+        let tokenEndpoint = URL(string: "https://id.frollo.us/oauth/token")!
+        
+        let config = FrolloSDKConfiguration(authenticationType: .oAuth2(clientID: "zyx987",
+                                                                        redirectURL: URL(string: "app://authed")!,
+                                                                        authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!,
+                                                                        tokenEndpoint: tokenEndpoint),
+                                            serverEndpoint: URL(string: "https://api.frollo.us/api/")!)
         let testURL = config.serverEndpoint.appendingPathComponent("pages/terms")
         
         let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys:  [config.serverEndpoint: [fakePublicKey], config.tokenEndpoint!: [fakePublicKey]])
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys:  [config.serverEndpoint: [fakePublicKey], tokenEndpoint: [fakePublicKey]])
         network.sessionManager.request(testURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).response { (response) in
             XCTAssertNotNil(response.error)
             if let responseData = response.data {
@@ -123,7 +135,11 @@ class NetworkTests: XCTestCase {
         
         let keychain = Keychain(service: keychainService)
         
-        let config = FrolloSDKConfiguration(clientID: "zyx987", redirectURL: URL(string: "app://authed")!, authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!, tokenEndpoint: URL(string: "https://id.frollo.us/oauth/token")!, serverEndpoint: URL(string: "https://google.com.au")!)
+        let config = FrolloSDKConfiguration(authenticationType: .oAuth2(clientID: "zyx987",
+                                                                        redirectURL: URL(string: "app://authed")!,
+                                                                        authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!,
+                                                                        tokenEndpoint: URL(string: "https://id.frollo.us/oauth/token")!),
+                                            serverEndpoint: URL(string: "https://google.com.au")!)
         
         let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)

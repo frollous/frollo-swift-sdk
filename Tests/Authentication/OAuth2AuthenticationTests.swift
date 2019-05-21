@@ -58,7 +58,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
     func testLoginUser() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         
         let keychain = Keychain(service: keychainService)
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
@@ -92,7 +92,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
     func testInvalidLoginUser() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "error_oauth2_invalid_grant", addingStatusCode: 401)
+        connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "error_oauth2_invalid_grant", addingStatusCode: 401)
         
         let keychain = defaultKeychain(isNetwork: false)
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
@@ -132,7 +132,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
     func testLoginUserFailsIfLoggedIn() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         connect(endpoint: UserEndpoint.register.path.prefixedWithSlash, toResourceWithName: "user_details_complete")
         
         let authentication = defaultAuthentication(loggedIn: true)
@@ -169,7 +169,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         let expectation1 = expectation(description: "Network Request")
         let expectation2 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         connect(endpoint: UserEndpoint.details.path.prefixedWithSlash, toResourceWithName: "user_details_complete")
         
         let keychain = defaultKeychain(isNetwork: false)
@@ -225,7 +225,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.tokenEndpoint!.host!) && isPath(config.tokenEndpoint!.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -239,9 +239,9 @@ class OAuth2AuthenticationTests: BaseTestCase {
         let keychain = Keychain(service: keychainService)
         let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
+        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.serverEndpoint, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: config.serverEndpoint, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         let user = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences)
         
         database.setup { (error) in
@@ -373,7 +373,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
     func testRefreshTokensFailsIfNoRefreshToken() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         
         let keychain = defaultKeychain(isNetwork: false)
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
@@ -407,7 +407,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
     func testExchangeAuthorizationCode() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         
         let keychain = defaultKeychain(isNetwork: false)
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
@@ -441,7 +441,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
     func testExchangeAuthorizationCodeInvalid() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "error_oauth2_invalid_grant", addingStatusCode: 401)
+        connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "error_oauth2_invalid_grant", addingStatusCode: 401)
         connect(endpoint: UserEndpoint.details.path.prefixedWithSlash, toResourceWithName: "user_details_complete")
         
         let keychain = Keychain(service: keychainService)
@@ -485,7 +485,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
     func testExchangeAuthorizationCodeFailsIfLoggedIn() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         
         let keychain = defaultKeychain(isNetwork: false)
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
@@ -521,7 +521,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
     func testExchangeLegacyAccessToken() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         
         let keychain = validKeychain()
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
@@ -557,7 +557,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
     func testExchangeLegacyTokenFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         
         let keychain = validKeychain()
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
@@ -595,7 +595,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
     func testExchangeLegacyTokenFailure() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "error_oauth2_invalid_grant", addingStatusCode: 401)
+        connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "error_oauth2_invalid_grant", addingStatusCode: 401)
         
         let keychain = validKeychain()
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
@@ -637,7 +637,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
     func testExchangeMissingRefreshTokenFails() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(host: tokenEndpointHost, endpoint: config.tokenEndpoint!.path, toResourceWithName: "token_valid")
+        connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         
         let keychain = Keychain(service: keychainService)
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
@@ -683,14 +683,14 @@ class OAuth2AuthenticationTests: BaseTestCase {
         let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network =  Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint!, tokenEndpoint: config.tokenEndpoint!, redirectURL: config.redirectURL!, network: network)
-        var authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
+        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, network: network)
+        var authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         
         authentication.updateToken(refreshToken)
         
         XCTAssertEqual(keychain["refreshToken"], refreshToken)
         
-        authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
+        authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         
         XCTAssertEqual(authentication.refreshToken, refreshToken)
     }

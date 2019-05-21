@@ -244,7 +244,7 @@ public class FrolloSDK: NetworkDelegate {
         if let host = configuration.serverEndpoint.host, host.contains(frolloHost) {
             pinServer = true
         }
-        if let host = configuration.tokenEndpoint?.host, host.contains(frolloHost) {
+        if case FrolloSDKConfiguration.AuthenticationType.oAuth2(_, _, _, let tokenEndpoint) = configuration.authenticationType, let host = tokenEndpoint.host, host.contains(frolloHost) {
             pinToken = true
         }
         
@@ -267,8 +267,8 @@ public class FrolloSDK: NetworkDelegate {
                 if pinServer {
                     pinnedKeys?[configuration.serverEndpoint] = [activeKey, backupKey]
                 }
-                if pinToken, let tokenURL = configuration.tokenEndpoint {
-                    pinnedKeys?[tokenURL] = [activeKey, backupKey]
+                if pinToken, case FrolloSDKConfiguration.AuthenticationType.oAuth2(_, _, _, let tokenEndpoint) = configuration.authenticationType {
+                    pinnedKeys?[tokenEndpoint] = [activeKey, backupKey]
                 }
             }
         }
@@ -284,25 +284,13 @@ public class FrolloSDK: NetworkDelegate {
         
         // Setup authentication stack
         switch configuration.authenticationType {
-            case .custom:
-                if let customAuthentication = configuration.authentication {
-                    customAuthentication.delegate = network
-                    
-                    _authentication = customAuthentication
-                } else {
-                    fatalError("Custom authentication chosen but no class provided")
-                }
+            case .custom(let customAuthentication):
+                customAuthentication.delegate = network
                 
-            case .oAuth2:
-                guard let authorizationURL = configuration.authorizationEndpoint,
-                    let tokenURL = configuration.tokenEndpoint,
-                    let redirectURL = configuration.redirectURL,
-                    let clientID = configuration.clientID
-                else {
-                    fatalError("Invalid OAuth2 configuration supplied")
-                }
+                _authentication = customAuthentication
                 
-                let authService = OAuthService(authorizationEndpoint: authorizationURL, tokenEndpoint: tokenURL, redirectURL: redirectURL, network: network)
+            case .oAuth2(let clientID, let redirectURL, let authorizationEndpoint, let tokenEndpoint):
+                let authService = OAuthService(authorizationEndpoint: authorizationEndpoint, tokenEndpoint: tokenEndpoint, redirectURL: redirectURL, network: network)
                 _authentication = OAuth2Authentication(keychain: keychain, clientID: clientID, redirectURL: redirectURL, serverURL: configuration.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         }
         
