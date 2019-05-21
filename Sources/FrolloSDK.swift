@@ -154,13 +154,13 @@ public class FrolloSDK: NetworkDelegate {
     }
     
     /// User - User Management. See `UserManagement` for details
-    public var user: UserManagement {
+    public var userManagement: UserManagement {
         guard _setup
         else {
             fatalError("SDK not setup")
         }
         
-        return _user
+        return _userManagement
     }
     
     /// Indicates if the SDK has completed setup or not
@@ -184,7 +184,7 @@ public class FrolloSDK: NetworkDelegate {
     internal var _reports: Reports!
     internal var _surveys: Surveys!
     internal var _setup = false
-    internal var _user: UserManagement!
+    internal var _userManagement: UserManagement!
     
     private let cacheExpiry: TimeInterval = 120
     private let frolloHost = "frollo.us"
@@ -314,8 +314,8 @@ public class FrolloSDK: NetworkDelegate {
         _messages = Messages(database: _database, service: service, authentication: _authentication)
         _reports = Reports(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
         _surveys = Surveys(service: service, authentication: _authentication)
-        _user = UserManagement(database: _database, service: service, authentication: _authentication, preferences: preferences)
-        _notifications = Notifications(events: _events, messages: _messages, user: _user)
+        _userManagement = UserManagement(database: _database, service: service, authentication: _authentication, preferences: preferences)
+        _notifications = Notifications(events: _events, messages: _messages, userManagement: _userManagement)
         
         _events.delegate = delegate
         _messages.delegate = delegate
@@ -415,7 +415,7 @@ public class FrolloSDK: NetworkDelegate {
         if updateDevice {
             deviceLastUpdated = now
             
-            user.updateDevice()
+            userManagement.updateDevice()
         }
     }
     
@@ -467,7 +467,7 @@ public class FrolloSDK: NetworkDelegate {
         aggregation.refreshProviderAccounts()
         aggregation.refreshAccounts()
         aggregation.refreshTransactions(from: Date().startOfLastMonth(), to: Date().endOfMonth())
-        user.refreshUser()
+        userManagement.refreshUser()
         messages.refreshUnreadMessages()
     }
     
@@ -488,7 +488,7 @@ public class FrolloSDK: NetworkDelegate {
         aggregation.refreshProviders()
         aggregation.refreshTransactionCategories()
         bills.refreshBills()
-        user.updateDevice()
+        userManagement.updateDevice()
     }
     
     // MARK: - Scheduled Refresh

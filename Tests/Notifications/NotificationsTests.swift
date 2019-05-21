@@ -69,9 +69,9 @@ class NotificationsTests: XCTestCase {
         let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         let events = Events(service: service, authentication: authentication)
         let messages = Messages(database: database, service: service, authentication: authentication)
-        let user = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences)
+        let userManagement = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences)
         
-        let notifications = Notifications(events: events, messages: messages, user: user)
+        let notifications = Notifications(events: events, messages: messages, userManagement: userManagement)
         
         authentication.loggedIn = true
         
@@ -99,9 +99,9 @@ class NotificationsTests: XCTestCase {
         let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID!, redirectURL: config.redirectURL!, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         let events = Events(service: service, authentication: authentication)
         let messages = Messages(database: database, service: service, authentication: authentication)
-        let user = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences)
+        let userManagement = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences)
         
-        let notifications = Notifications(events: events, messages: messages, user: user)
+        let notifications = Notifications(events: events, messages: messages, userManagement: userManagement)
         
         let jsonURL = Bundle(for: NotificationsTests.self).url(forResource: "notification_event", withExtension: "json")!
         let payloadData = try! Data(contentsOf: jsonURL)
@@ -139,9 +139,9 @@ class NotificationsTests: XCTestCase {
         authentication.loggedIn = true
         let events = Events(service: service, authentication: authentication)
         let messages = Messages(database: database, service: service, authentication: authentication)
-        let user = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences)
+        let userManagement = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences)
         
-        let notifications = Notifications(events: events, messages: messages, user: user)
+        let notifications = Notifications(events: events, messages: messages, userManagement: userManagement)
         
         let jsonURL = Bundle(for: NotificationsTests.self).url(forResource: "notification_message", withExtension: "json")!
         let payloadData = try! Data(contentsOf: jsonURL)

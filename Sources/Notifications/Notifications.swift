@@ -25,12 +25,12 @@ public class Notifications {
     
     private let events: Events
     private let messages: Messages
-    private let user: UserManagement
+    private let userManagement: UserManagement
     
-    internal init(events: Events, messages: Messages, user: UserManagement) {
+    internal init(events: Events, messages: Messages, userManagement: UserManagement) {
         self.events = events
         self.messages = messages
-        self.user = user
+        self.userManagement = userManagement
     }
     
     /**
@@ -44,7 +44,7 @@ public class Notifications {
     public func registerPushNotificationToken(_ token: Data) {
         let notificationToken = token.hexEncodedString()
         
-        user.updateDevice(notificationToken: notificationToken)
+        userManagement.updateDevice(notificationToken: notificationToken)
     }
     
     /**
