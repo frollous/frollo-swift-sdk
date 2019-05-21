@@ -193,7 +193,7 @@ class FrolloSDKTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.tokenEndpoint.host!) && isPath(config.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -228,7 +228,7 @@ class FrolloSDKTests: XCTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    sdk.authentication.loginUser(email: "user@example.com", password: "password", completion: { (error) in
+                    sdk.defaultAuthentication?.loginUser(email: "user@example.com", password: "password", completion: { (error) in
                         sdk.refreshData()
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
@@ -526,7 +526,7 @@ class FrolloSDKTests: XCTestCase {
         wait(for: [expectation1], timeout: 15.0)
     }
     
-    func testLogout() {
+    func testReset() {
         let expectation1 = expectation(description: "Setup")
         
         var config = FrolloSDKConfiguration.testConfig()
@@ -541,9 +541,13 @@ class FrolloSDKTests: XCTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    sdk.authentication.loggedIn = true
+                    if let auth = sdk.authentication as? OAuth2Authentication {
+                        auth.loggedIn = true
+                    } else {
+                        XCTFail("Wrong auth type for test")
+                    }
                     
-                    sdk.authentication.logoutUser()
+                    sdk.reset()
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.checkDatabaseEmpty(database: sdk.database)

@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+import CoreData
 import XCTest
 @testable import FrolloSDK
 
@@ -46,6 +47,12 @@ class AccountBalanceTierTests: XCTestCase {
             XCTAssertEqual(accountBalanceTier.maximum, Decimal(accountBalanceTierResponse.max) as NSDecimalNumber?)
             XCTAssertEqual(accountBalanceTier.minimum, Decimal(accountBalanceTierResponse.min) as NSDecimalNumber?)
         }
+    }
+    
+    func testAccountBalanceTierFetchRequest() {
+        let fetchRequest: NSFetchRequest<AccountBalanceTier> = AccountBalanceTier.fetchRequest()
+        
+        XCTAssertEqual(fetchRequest.entityName, "AccountBalanceTier")
     }
     
 }

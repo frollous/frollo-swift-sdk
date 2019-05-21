@@ -62,15 +62,16 @@ class NotificationsTests: XCTestCase {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         let events = Events(service: service, authentication: authentication)
         let messages = Messages(database: database, service: service, authentication: authentication)
+        let userManagement = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences)
         
-        let notifications = Notifications(authentication: authentication, events: events, messages: messages)
+        let notifications = Notifications(events: events, messages: messages, userManagement: userManagement)
         
         authentication.loggedIn = true
         
@@ -91,15 +92,16 @@ class NotificationsTests: XCTestCase {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         let events = Events(service: service, authentication: authentication)
         let messages = Messages(database: database, service: service, authentication: authentication)
+        let userManagement = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences)
         
-        let notifications = Notifications(authentication: authentication, events: events, messages: messages)
+        let notifications = Notifications(events: events, messages: messages, userManagement: userManagement)
         
         let jsonURL = Bundle(for: NotificationsTests.self).url(forResource: "notification_event", withExtension: "json")!
         let payloadData = try! Data(contentsOf: jsonURL)
@@ -129,16 +131,17 @@ class NotificationsTests: XCTestCase {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        let networkAuthenticator = NetworkAuthenticator(authorizationEndpoint: config.authorizationEndpoint, serverEndpoint: config.serverEndpoint, tokenEndpoint: config.tokenEndpoint, keychain: keychain)
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         authentication.loggedIn = true
         let events = Events(service: service, authentication: authentication)
         let messages = Messages(database: database, service: service, authentication: authentication)
+        let userManagement = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences)
         
-        let notifications = Notifications(authentication: authentication, events: events, messages: messages)
+        let notifications = Notifications(events: events, messages: messages, userManagement: userManagement)
         
         let jsonURL = Bundle(for: NotificationsTests.self).url(forResource: "notification_message", withExtension: "json")!
         let payloadData = try! Data(contentsOf: jsonURL)
