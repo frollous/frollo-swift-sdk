@@ -1,4 +1,18 @@
 # Changelog
+
+## 3.0.0
+
+- Custom Authentication
+
+### Features
+
+- Custom Authentication - Custom handling of authentication can be provided to the SDK
+
+### Changes
+
+- App Group support - a cache path can now be provided to the SDK to allow data to be shared between an App Group
+- Core Data persistent history tracking - the cache will now track Core Data persistent history tracking to allow multiple targets to share one instance of the cache
+
 ## 2.1.0
 
 - Surveys

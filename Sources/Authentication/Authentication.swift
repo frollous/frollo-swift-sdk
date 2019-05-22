@@ -16,10 +16,34 @@
 
 import Foundation
 
+/**
+ Authentication Delegate
+ 
+ Called by the authentication class to notify other parts of the SDK of token or authentication changes.
+ This must be implemented by all custom authentication implementations.
+ */
 public protocol AuthenticationDelegate: AnyObject {
     
+    /**
+     Notifies the SDK that authentication of the user is no longer valid and to reset itself
+     
+     This should be called when the user's authentication is no longer valid and no possible automated
+     reauthentication can be performed. For example when a refresh token has been revoked so no more
+     access tokens can be obtained.
+     */
     func authenticationReset()
     
+    /**
+     Update the SDK with the latest access token
+     
+     Allows the SDK to cache and use the latest access token available for API requests. This should
+     be called whenever the access token is refreshed or the user has authenticated and obtained a new
+     access token.
+     
+     - parameters:
+        - accessToken: Current valid access token
+        - expiry: Indicates the date when the access token expires so SDK can pre-emptively request a new one
+     */
     func saveAccessTokens(accessToken: String, expiry: Date)
     
 }
@@ -36,6 +60,9 @@ public protocol Authentication: AnyObject {
      */
     var loggedIn: Bool { get }
     
+    /**
+     SDK delegate to be called to update SDK about authentication events. SDK sets this as part of setup
+     */
     var delegate: AuthenticationDelegate? { get set }
     
     /**

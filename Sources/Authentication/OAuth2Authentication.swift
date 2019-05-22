@@ -50,6 +50,9 @@ public class OAuth2Authentication: Authentication {
         }
     }
     
+    /**
+     SDK delegate to be called to update SDK about authentication events. SDK sets this as part of setup
+     */
     public weak var delegate: AuthenticationDelegate?
     
     internal var authorizationFlow: OIDExternalUserAgentSession?

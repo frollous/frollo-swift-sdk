@@ -18,7 +18,7 @@ import Foundation
 
 import Alamofire
 
-public class NetworkAuthenticator: RequestAdapter, RequestRetrier {
+internal class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     
     internal typealias TokenRequestCompletion = (_: Swift.Result<OAuthTokenResponse, Error>) -> Void
     
@@ -55,7 +55,7 @@ public class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         loadTokens()
     }
     
-    public func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
+    internal func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
         guard let url = urlRequest.url, url.absoluteString.hasPrefix(serverURL.absoluteString)
         else {
             return urlRequest
@@ -77,7 +77,7 @@ public class NetworkAuthenticator: RequestAdapter, RequestRetrier {
     
     // MARK: - Retry Requests
     
-    public func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
+    internal func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
         guard let responseError = error as? AFError
         else {
             completion(false, 0)

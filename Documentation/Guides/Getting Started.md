@@ -16,7 +16,7 @@ $ brew install carthage
 To integrate FrolloSDK into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-git "git@bitbucket.org:frollo1/frollo-ios-sdk.git" ~> 2.1
+git "git@bitbucket.org:frollo1/frollo-ios-sdk.git" ~> 3.0
 ```
 
 Run `carthage update` to build the framework and drag the built `FrolloSDK.framework` and `Alamofire.framework` into your Xcode project.
@@ -29,33 +29,35 @@ Run `carthage update` to build the framework and drag the built `FrolloSDK.frame
 
 ### Setup
 
-Import the FrolloSDK and ensure you run setup with your tenant URL provided by us. Do not attempt to use any APIs before the setup completion handler returns.
+Import the FrolloSDK and ensure you run setup with your tenant URL provided by us. Do not attempt to use any APIs before the setup completion handler returns. You will also need to pass in your custom authentication handler or use the default OAuth2 implementation.
 
 ```swift
 import FrolloSDK
 
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-    let clientID = "<APPLICATION_CLIENT_ID>"
-    let redirectURL = URL(string: "<REDIRECT_URI>")!
-    let authorizationURL = URL(string: "https://id.frollo.us/oauth/authorize")!
-    let tokenURL = URL(string: "https://id.frollo.us/oauth/token")!
-    let serverURL = URL(string: "https://<API_TENANT>.frollo.us/api/v2/")!
-        
-    let config = FrolloSDKConfiguration(clientID: clientID, redirectURL: redirectURL, authorizationEndpoint: authorizationURL, tokenEndpoint: tokenURL, serverEndpoint: serverURL)
-        
-    FrolloSDK.shared.setup(configuration: config) { (result) in
-        switch result {
-            case .failure(let error):
-                fatalError(error.localizedDescription)
-            case .success:
-                DispatchQueue.main.async {
-                    self.completeStartup()
-                }
-        }
-    }
 
-}
+    /// OAuth2 Config
+
+    let config = FrolloSDKConfiguration(authenticationType: .oAuth2(clientID: "<APPLICATION_CLIENT_ID>",
+                                                                    redirectURL: URL(string: "<REDIRECT_URI>")!,
+                                                                    authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!,
+                                                                    tokenEndpoint: URL(string: "https://id.frollo.us/oauth/token")!),
+                                        serverEndpoint: URL(string: "https://<API_TENANT>.frollo.us/api/v2/")!)
+
+    /// Custom Authentication Config
+
+    let customAuthentication = CustomAuthentication()
+    let config = FrolloSDKConfiguration(authenticationType: .custom(authentication: customAuthentication),
+                                            serverEndpoint: URL(string: "https://<API_TENANT>.frollo.us/api/v2/")!)
+
+    FrolloSDK.shared.setup(configuration: config) { (result) in
+            switch result {
+                case .failure(let error):
+                    fatalError(error.localizedDescription)
+                case .success:
+                    self.completeSetup(completion: completion)
+            }
+        }
 ```
 
 ### Authentication
@@ -70,17 +72,59 @@ if FrolloSDK.shared.authentication.loggedIn {
 }
 ```
 
-If the user is not authenticated the [loginUser](Classes/Authentication.html#/s:9FrolloSDK14AuthenticationC9loginUser6method5email8password6userID0I5Token10completionyAC8AuthTypeO_SSSgA3Mys5Error_pSgctF) API should be called with the user's credentials.
+If the user is not authenticated then the user must login or an access token must be provided by the Authentication class. Authentication can be done using OAuth2 or a custom implementation can be provided if you wish to manage the user's access token manually or share it with other APIs.
+
+#### OAuth2 Authentication
+
+Using OAuth2 based authentication Resource Owner Password Credential flow and Authorization Code with PKCE flow are supported. Identity Providers must be OpenID Connect compliant to use the in-built [OAuth2Authentication](Classes/OAuth2Authentication.html) authentication class. If using OAuth2 authentication you can use [defaultAuthentication](Classes/FrolloSDK.html#/s:9FrolloSDKAAC21defaultAuthenticationAA06OAuth2D0CSgvp)
+
+##### ROPC Flow
+
+Using the ROPC flow is the simplest and can be used if you are implementing the SDK in your own highly trusted first party application. All it requires is email and password and can be used in conjunction with a native UI.
+
+See [loginUser(email:password:completion:)](Classes/OAuth2Authentication.html#/s:9FrolloSDK20OAuth2AuthenticationC9loginUser5email8password10completionySS_SSyAA11EmptyResultOys5Error_pGctF)
 
 ```swift
-FrolloSDK.shared.authentication.loginUser(method: .email, email: "jacob@example.com", password: "$uPer5ecr@t") { (error) in
-    if let loginError = error {
-        presentError(loginError.localizedDescription)
-    } else {
-        showMainViewController()
+FrolloSDK.shared.defaultAuthentication?.loginUser(email: "jacob@example.com", password: "$uPer5ecr@t") { (result) in
+    switch result {
+        case .failure(let error):
+            presentError(loginError.localizedDescription)
+        case .success:
+            self.completeLogin()
     }
 }
 ```
+
+##### Authorization Code with PKCE Flow
+
+Authenticating the user using Authorization Code flow involves a couple of extra steps to configure. The first is to present the Safari View Controller to the user to take them through the web based authorization flow. The view controller this should be presented from must be passed to the SDK.
+
+iOS see [loginUserUsingWeb(presenting:completion:)](Classes/OAuth2Authentication.html#/s:9FrolloSDK20OAuth2AuthenticationC17loginUserUsingWeb10completionyyAA11EmptyResultOys5Error_pGc_tF)
+
+macOS see [loginUserUsingWeb(completion:)](Classes/OAuth2Authentication.html#/s:9FrolloSDK20OAuth2AuthenticationC17loginUserUsingWeb10completionyyAA11EmptyResultOys5Error_pGc_tF)
+
+```swift
+FrolloSDK.shared.defaultAuthentication?.loginUserUsingWeb(presenting: viewController) { (result) in
+    switch result {
+        case .failure(let error):
+            presentError(loginError.localizedDescription)
+        case .success:
+            self.completeLogin()
+    }
+}
+```
+
+The second step is to pass the redirect URI deep link called by the authorization flow to the SDK to complete the login process and exchange the authorization code for a token. This should be done by implementing the following in your AppDelegate.swift for iOS. See [AppAuth](https://github.com/openid/AppAuth-iOS) for details on handling deep links on macOS.
+
+```swift
+func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    return FrolloSDK.shared.applicationOpen(url: url)
+}
+```
+
+#### Custom Authentication
+
+Custom authentication can be provided by conforming to the [Authentication](Protocols/Authentication.html) protocol and ensuring [refreshTokens(completion:)](Protocols/Authentication.html#/s:9FrolloSDK14AuthenticationP13refreshTokens10completionyyAA11EmptyResultOys5Error_pGcSg_tF) and calls to the delegate are implemented appropriately.
 
 ### Refreshing Data
 
@@ -94,7 +138,7 @@ FrolloSDK.shared.aggregation.refreshProviders { (error) in
 }
 ```
 
-Alternatively refresh data on startup in an optimized way using [refreshData()]() on the main SDK. This will refresh important user data first, delaying less important ones until later.
+Alternatively refresh data on startup in an optimized way using [refreshData()](Classes/FrolloSDK.html#/s:9FrolloSDKAAC11refreshDatayyF) on the main SDK. This will refresh important user data first, delaying less important ones until later.
 
 ```swift
 FrolloSDK.shared.refreshData()

@@ -13,7 +13,8 @@
         "Overview",
   			"Changelog",
 		    "Getting Started",
-        "Push Notifications"
+        "Push Notifications",
+        "License"
   		]
   	},
   	{
@@ -32,9 +33,17 @@
   		"name": "Authentication",
   		"children": [
   			"Authentication",
-  			"User"
+        "AuthenticationDelegate",
+        "OAuth2Authentication"
   		]
   	},
+    {
+      "name": "User",
+      "children": [
+        "UserManagement",
+        "User"
+      ]
+    },
 	{
 		"name": "Aggregation",
 		"children": [
