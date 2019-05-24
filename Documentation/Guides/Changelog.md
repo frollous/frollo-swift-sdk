@@ -14,6 +14,12 @@
 - App Group support - a cache path can now be provided to the SDK to allow data to be shared between an App Group
 - Core Data persistent history tracking - the cache will now track Core Data persistent history tracking to allow multiple targets to share one instance of the cache
 
+## 2.1.1
+
+### Changes
+
+- Allow custom parameters in authorization code flow
+
 ## 2.1.0
 
 - Surveys

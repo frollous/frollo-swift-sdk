@@ -88,11 +88,15 @@ public class OAuth2Authentication: Authentication {
      Initiate the authorization code login flow using a web view
      
      - parameters:
-     - presentingViewController: View controller the Safari Web ViewController should be presented from
-     - completion: Completion handler with any error that occurred
+        - presentingViewController: View controller the Safari Web ViewController should be presented from
+        - additionalParameters: Pass additional query parameters to the authorization endpoint (Optional)
+        - completion: Completion handler with any error that occurred
      */
-    public func loginUserUsingWeb(presenting presentingViewController: UIViewController, completion: @escaping FrolloSDKCompletionHandler) {
+    public func loginUserUsingWeb(presenting presentingViewController: UIViewController, additionalParameters: [String: String]? = nil, completion: @escaping FrolloSDKCompletionHandler) {
         let config = OIDServiceConfiguration(authorizationEndpoint: authService.authorizationURL, tokenEndpoint: authService.tokenURL)
+        
+        var parameters = ["audience": serverURL.absoluteString, "domain": domain]
+        additionalParameters?.forEach { k, v in parameters[k] = v }
         
         let request = OIDAuthorizationRequest(configuration: config,
                                               clientId: clientID,
@@ -100,7 +104,7 @@ public class OAuth2Authentication: Authentication {
                                               scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail],
                                               redirectURL: authService.redirectURL,
                                               responseType: OIDResponseTypeCode,
-                                              additionalParameters: ["audience": serverURL.absoluteString, "domain": domain])
+                                              additionalParameters: parameters)
         
         authorizationFlow = OIDAuthorizationService.present(request, presenting: presentingViewController) { response, error in
             if let authError = error as NSError? {
@@ -127,10 +131,14 @@ public class OAuth2Authentication: Authentication {
      Initiate the authorization code login flow using a web view
      
      - parameters:
-     - completion: Completion handler with any error that occurred
+        - additionalParameters: Pass additional query parameters to the authorization endpoint (Optional)
+        - completion: Completion handler with any error that occurred
      */
-    public func loginUserUsingWeb(completion: @escaping FrolloSDKCompletionHandler) {
+    public func loginUserUsingWeb(additionalParameters: [String: String]? = nil,completion: @escaping FrolloSDKCompletionHandler) {
         let config = OIDServiceConfiguration(authorizationEndpoint: authService.authorizationURL, tokenEndpoint: authService.tokenURL)
+        
+        var parameters = ["audience": serverURL.absoluteString, "domain": domain]
+        additionalParameters?.forEach { k, v in parameters[k] = v }
         
         let request = OIDAuthorizationRequest(configuration: config,
                                               clientId: clientID,
@@ -138,7 +146,7 @@ public class OAuth2Authentication: Authentication {
                                               scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail],
                                               redirectURL: authService.redirectURL,
                                               responseType: OIDResponseTypeCode,
-                                              additionalParameters: ["audience": serverURL.absoluteString, "domain": domain])
+                                              additionalParameters: parameters)
         
         authorizationFlow = OIDAuthorizationService.present(request) { response, error in
             if let authError = error as NSError? {
@@ -162,9 +170,9 @@ public class OAuth2Authentication: Authentication {
      Login a user using various authentication methods
      
      - parameters:
-     - email: Email address of the user (optional)
-     - password: Password for the user (optional)
-     - completion: Completion handler with any error that occurred
+        - email: Email address of the user (optional)
+        - password: Password for the user (optional)
+        - completion: Completion handler with any error that occurred
      */
     public func loginUser(email: String, password: String, completion: @escaping FrolloSDKCompletionHandler) {
         guard !loggedIn
@@ -242,9 +250,9 @@ public class OAuth2Authentication: Authentication {
      Exchange an authorization code and code verifier for a token
      
      - parameters:
-     - code: Authorization code
-     - codeVerifier: Authorization code verifier for PKCE (Optional)
-     - completion: Completion handler with any error that occurred
+        - code: Authorization code
+        - codeVerifier: Authorization code verifier for PKCE (Optional)
+        - completion: Completion handler with any error that occurred
      */
     internal func exchangeAuthorizationCode(code: String, codeVerifier: String?, completion: @escaping FrolloSDKCompletionHandler) {
         guard !loggedIn
@@ -303,7 +311,7 @@ public class OAuth2Authentication: Authentication {
      Exchange a legacy access token if it exists for a new valid refresh access token pair.
      
      - parameters:
-     - completion: Completion handler with any error that occurred
+        - completion: Completion handler with any error that occurred
      */
     public func exchangeLegacyToken(completion: @escaping FrolloSDKCompletionHandler) {
         guard loggedIn
