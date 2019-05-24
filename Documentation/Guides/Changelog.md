@@ -7,6 +7,7 @@
 ### Features
 
 - Custom Authentication - Custom handling of authentication can be provided to the SDK
+- Transaction Tagging
 
 ### Changes
 
