@@ -134,7 +134,7 @@ public class OAuth2Authentication: Authentication {
         - additionalParameters: Pass additional query parameters to the authorization endpoint (Optional)
         - completion: Completion handler with any error that occurred
      */
-    public func loginUserUsingWeb(additionalParameters: [String: String]? = nil,completion: @escaping FrolloSDKCompletionHandler) {
+    public func loginUserUsingWeb(additionalParameters: [String: String]? = nil, completion: @escaping FrolloSDKCompletionHandler) {
         let config = OIDServiceConfiguration(authorizationEndpoint: authService.authorizationURL, tokenEndpoint: authService.tokenURL)
         
         var parameters = ["audience": serverURL.absoluteString, "domain": domain]
