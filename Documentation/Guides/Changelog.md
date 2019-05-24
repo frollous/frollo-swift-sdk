@@ -1,4 +1,11 @@
 # Changelog
+
+## 2.1.1
+
+### Changes
+
+- Allow custom parameters in authorization code flow
+
 ## 2.1.0
 
 - Surveys

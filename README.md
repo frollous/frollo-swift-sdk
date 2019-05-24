@@ -2,7 +2,7 @@
 
 # Frollo Swift SDK
 
-**V2.1.0**
+**V2.1.1**
 
 - [Features](#features)
 - [Requirements](#requirements)

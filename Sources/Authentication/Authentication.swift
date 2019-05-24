@@ -119,10 +119,14 @@ public class Authentication {
      
      - parameters:
         - presentingViewController: View controller the Safari Web ViewController should be presented from
+        - additionalParameters: Pass additional query parameters to the authorization endpoint (Optional)
         - completion: Completion handler with any error that occurred
     */
-    public func loginUserUsingWeb(presenting presentingViewController: UIViewController, completion: @escaping FrolloSDKCompletionHandler) {
+    public func loginUserUsingWeb(presenting presentingViewController: UIViewController, additionalParameters: [String: String]? = nil, completion: @escaping FrolloSDKCompletionHandler) {
         let config = OIDServiceConfiguration(authorizationEndpoint: authService.authorizationURL, tokenEndpoint: authService.tokenURL)
+        
+        var parameters = ["audience": service.serverURL.absoluteString, "domain": domain]
+        additionalParameters?.forEach { k, v in parameters[k] = v }
         
         let request = OIDAuthorizationRequest(configuration: config,
                                               clientId: clientID,
@@ -130,7 +134,7 @@ public class Authentication {
                                               scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail],
                                               redirectURL: authService.redirectURL,
                                               responseType: OIDResponseTypeCode,
-                                              additionalParameters: ["audience": service.serverURL.absoluteString, "domain": domain])
+                                              additionalParameters: parameters)
         
         authorizationFlow = OIDAuthorizationService.present(request, presenting: presentingViewController) { response, error in
             if let authError = error as NSError? {
@@ -155,10 +159,14 @@ public class Authentication {
      Initiate the authorization code login flow using a web view
      
      - parameters:
+        - additionalParameters: Pass additional query parameters to the authorization endpoint (Optional)
         - completion: Completion handler with any error that occurred
      */
-    public func loginUserUsingWeb(completion: @escaping FrolloSDKCompletionHandler) {
+    public func loginUserUsingWeb(additionalParameters: [String: String]? = nil, completion: @escaping FrolloSDKCompletionHandler) {
         let config = OIDServiceConfiguration(authorizationEndpoint: authService.authorizationURL, tokenEndpoint: authService.tokenURL)
+        
+        var parameters = ["audience": service.serverURL.absoluteString, "domain": domain]
+        additionalParameters?.forEach { k, v in parameters[k] = v }
         
         let request = OIDAuthorizationRequest(configuration: config,
                                               clientId: clientID,
@@ -166,7 +174,7 @@ public class Authentication {
                                               scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail],
                                               redirectURL: authService.redirectURL,
                                               responseType: OIDResponseTypeCode,
-                                              additionalParameters: ["audience": service.serverURL.absoluteString, "domain": domain])
+                                              additionalParameters: parameters)
         
         authorizationFlow = OIDAuthorizationService.present(request) { response, error in
             if let authError = error as NSError? {
