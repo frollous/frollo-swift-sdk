@@ -186,13 +186,16 @@ class NetworkAuthenticator: RequestAdapter, RequestRetrier {
          - access: Access token
          - expiry: Access token expiry date
     */
-    internal func saveTokens(refresh: String, access: String, expiry: Date) {
-        refreshToken = refresh
+    internal func saveTokens(refresh: String?, access: String, expiry: Date) {
+        if let token = refresh {
+            refreshToken = token
+            keychain[KeychainKey.refreshToken] = refresh
+        }
+        
         accessToken = access
         expiryDate = expiry
         
         keychain[KeychainKey.accessToken] = access
-        keychain[KeychainKey.refreshToken] = refresh
         
         let expirySeconds = String(expiry.timeIntervalSince1970)
         keychain[KeychainKey.accessTokenExpiry] = expirySeconds
