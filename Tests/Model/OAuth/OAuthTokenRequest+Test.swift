@@ -29,6 +29,7 @@ extension OAuthTokenRequest {
                                  password: String.randomString(range: 8...32),
                                  redirectURI: nil,
                                  refreshToken: nil,
+                                 scope: OAuthTokenRequest.Scope.offlineAccess.rawValue,
                                  username: "user@example.com")
     }
     
@@ -42,6 +43,7 @@ extension OAuthTokenRequest {
                                  password: nil,
                                  redirectURI: nil,
                                  refreshToken: nil,
+                                 scope: nil,
                                  username: "user@example.com")
     }
     
