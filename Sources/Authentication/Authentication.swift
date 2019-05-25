@@ -215,7 +215,8 @@ public class Authentication {
         
         let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
         
-        let request = OAuthTokenRequest(clientID: clientID,
+        let request = OAuthTokenRequest(audience: service.serverURL.absoluteString,
+                                        clientID: clientID,
                                         code: nil,
                                         codeVerifier: nil,
                                         domain: domain,
@@ -323,7 +324,8 @@ public class Authentication {
                     // Authenticate the user at the token endpoint after creation
                     let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
                     
-                    let tokenRequest = OAuthTokenRequest(clientID: self.clientID,
+                    let tokenRequest = OAuthTokenRequest(audience: self.service.serverURL.absoluteString,
+                                                         clientID: self.clientID,
                                                          code: nil,
                                                          codeVerifier: nil,
                                                          domain: self.domain,
@@ -610,7 +612,8 @@ public class Authentication {
         
         let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
         
-        let request = OAuthTokenRequest(clientID: clientID,
+        let request = OAuthTokenRequest(audience: service.serverURL.absoluteString,
+                                        clientID: clientID,
                                         code: code,
                                         codeVerifier: codeVerifier,
                                         domain: domain,
@@ -698,7 +701,8 @@ public class Authentication {
         
         let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
         
-        let request = OAuthTokenRequest(clientID: clientID,
+        let request = OAuthTokenRequest(audience: service.serverURL.absoluteString,
+                                        clientID: clientID,
                                         code: nil,
                                         codeVerifier: nil,
                                         domain: domain,
@@ -740,7 +744,10 @@ public class Authentication {
     public func refreshTokens(completion: FrolloSDKCompletionHandler? = nil) {
         service.network.authenticator.refreshTokens()
         
-        let request = OAuthTokenRequest(clientID: clientID,
+        let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
+        
+        let request = OAuthTokenRequest(audience: service.serverURL.absoluteString,
+                                        clientID: clientID,
                                         code: nil,
                                         codeVerifier: nil,
                                         domain: domain,
@@ -749,7 +756,7 @@ public class Authentication {
                                         password: nil,
                                         redirectURI: nil,
                                         refreshToken: networkAuthenticator.refreshToken,
-                                        scope: nil,
+                                        scope: scopes,
                                         username: nil)
         
         authService.refreshTokens(request: request) { result in
