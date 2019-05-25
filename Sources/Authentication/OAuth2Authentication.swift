@@ -189,7 +189,8 @@ public class OAuth2Authentication: Authentication {
         
         let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
         
-        let request = OAuthTokenRequest(clientID: clientID,
+        let request = OAuthTokenRequest(audience: serverURL.absoluteString,
+                                        clientID: clientID,
                                         code: nil,
                                         codeVerifier: nil,
                                         domain: domain,
@@ -273,7 +274,8 @@ public class OAuth2Authentication: Authentication {
         }
         let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
         
-        let request = OAuthTokenRequest(clientID: clientID,
+        let request = OAuthTokenRequest(audience: serverURL.absoluteString,
+                                        clientID: clientID,
                                         code: code,
                                         codeVerifier: codeVerifier,
                                         domain: domain,
@@ -349,7 +351,8 @@ public class OAuth2Authentication: Authentication {
         
         let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
         
-        let request = OAuthTokenRequest(clientID: clientID,
+        let request = OAuthTokenRequest(audience: serverURL.absoluteString,
+                                        clientID: clientID,
                                         code: nil,
                                         codeVerifier: nil,
                                         domain: domain,
@@ -413,7 +416,8 @@ public class OAuth2Authentication: Authentication {
         
         let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
         
-        let request = OAuthTokenRequest(clientID: clientID,
+        let request = OAuthTokenRequest(audience: serverURL.absoluteString,
+                                        clientID: clientID,
                                         code: nil,
                                         codeVerifier: nil,
                                         domain: domain,
