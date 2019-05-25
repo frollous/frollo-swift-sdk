@@ -131,7 +131,7 @@ public class Authentication {
         let request = OIDAuthorizationRequest(configuration: config,
                                               clientId: clientID,
                                               clientSecret: nil,
-                                              scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail, OIDScopeProfile],
+                                              scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail],
                                               redirectURL: authService.redirectURL,
                                               responseType: OIDResponseTypeCode,
                                               additionalParameters: parameters)
@@ -171,7 +171,7 @@ public class Authentication {
         let request = OIDAuthorizationRequest(configuration: config,
                                               clientId: clientID,
                                               clientSecret: nil,
-                                              scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail, OIDScopeProfile],
+                                              scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail],
                                               redirectURL: authService.redirectURL,
                                               responseType: OIDResponseTypeCode,
                                               additionalParameters: parameters)
@@ -213,7 +213,7 @@ public class Authentication {
             return
         }
         
-        let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail, OIDScopeProfile].joined(separator: " ")
+        let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
         
         let request = OAuthTokenRequest(audience: service.serverURL.absoluteString,
                                         clientID: clientID,
@@ -322,7 +322,7 @@ public class Authentication {
                     }
                 case .success(let userResponse):
                     // Authenticate the user at the token endpoint after creation
-                    let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail, OIDScopeProfile].joined(separator: " ")
+                    let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
                     
                     let tokenRequest = OAuthTokenRequest(audience: self.service.serverURL.absoluteString,
                                                          clientID: self.clientID,
@@ -699,7 +699,7 @@ public class Authentication {
             return
         }
         
-        let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail, OIDScopeProfile].joined(separator: " ")
+        let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
         
         let request = OAuthTokenRequest(audience: service.serverURL.absoluteString,
                                         clientID: clientID,
@@ -744,7 +744,7 @@ public class Authentication {
     public func refreshTokens(completion: FrolloSDKCompletionHandler? = nil) {
         service.network.authenticator.refreshTokens()
         
-        let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail, OIDScopeProfile].joined(separator: " ")
+        let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
         
         let request = OAuthTokenRequest(audience: service.serverURL.absoluteString,
                                         clientID: clientID,
