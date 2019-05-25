@@ -213,6 +213,8 @@ public class Authentication {
             return
         }
         
+        let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
+        
         let request = OAuthTokenRequest(clientID: clientID,
                                         code: nil,
                                         codeVerifier: nil,
@@ -222,6 +224,7 @@ public class Authentication {
                                         password: password,
                                         redirectURI: nil,
                                         refreshToken: nil,
+                                        scope: scopes,
                                         username: email)
         
         // Authorize the user
@@ -318,6 +321,8 @@ public class Authentication {
                     }
                 case .success(let userResponse):
                     // Authenticate the user at the token endpoint after creation
+                    let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
+                    
                     let tokenRequest = OAuthTokenRequest(clientID: self.clientID,
                                                          code: nil,
                                                          codeVerifier: nil,
@@ -327,6 +332,7 @@ public class Authentication {
                                                          password: password,
                                                          redirectURI: nil,
                                                          refreshToken: nil,
+                                                         scope: scopes,
                                                          username: email)
                     
                     self.authService.refreshTokens(request: tokenRequest) { result in
@@ -602,6 +608,8 @@ public class Authentication {
             return
         }
         
+        let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
+        
         let request = OAuthTokenRequest(clientID: clientID,
                                         code: code,
                                         codeVerifier: codeVerifier,
@@ -611,6 +619,7 @@ public class Authentication {
                                         password: nil,
                                         redirectURI: authService.redirectURL.absoluteString,
                                         refreshToken: nil,
+                                        scope: scopes,
                                         username: nil)
         
         authService.refreshTokens(request: request) { result in
@@ -687,6 +696,8 @@ public class Authentication {
             return
         }
         
+        let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
+        
         let request = OAuthTokenRequest(clientID: clientID,
                                         code: nil,
                                         codeVerifier: nil,
@@ -696,6 +707,7 @@ public class Authentication {
                                         password: nil,
                                         redirectURI: nil,
                                         refreshToken: nil,
+                                        scope: scopes,
                                         username: nil)
         
         authService.refreshTokens(request: request) { result in
@@ -737,6 +749,7 @@ public class Authentication {
                                         password: nil,
                                         redirectURI: nil,
                                         refreshToken: networkAuthenticator.refreshToken,
+                                        scope: nil,
                                         username: nil)
         
         authService.refreshTokens(request: request) { result in

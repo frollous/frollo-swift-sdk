@@ -38,6 +38,7 @@ struct OAuthTokenRequest: Codable {
         case password
         case redirectURI = "redirect_uri"
         case refreshToken = "refresh_token"
+        case scope
         case username
     }
     
@@ -50,6 +51,7 @@ struct OAuthTokenRequest: Codable {
     let password: String?
     let redirectURI: String?
     let refreshToken: String?
+    let scope: String?
     let username: String?
     
     var valid: Bool {
