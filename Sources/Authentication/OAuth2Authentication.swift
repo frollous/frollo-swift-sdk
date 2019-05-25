@@ -216,7 +216,9 @@ public class OAuth2Authentication: Authentication {
                     let createdDate = response.createdAt ?? Date()
                     let expiryDate = createdDate.addingTimeInterval(response.expiresIn)
                     
-                    self.updateToken(response.refreshToken)
+                    if let refreshToken = response.refreshToken {
+                        self.updateToken(refreshToken)
+                    }
                     
                     self.delegate?.saveAccessTokens(accessToken: response.accessToken, expiry: expiryDate)
                     
@@ -297,7 +299,9 @@ public class OAuth2Authentication: Authentication {
                     let createdDate = response.createdAt ?? Date()
                     let expiryDate = createdDate.addingTimeInterval(response.expiresIn)
                     
-                    self.updateToken(response.refreshToken)
+                    if let refreshToken = response.refreshToken {
+                        self.updateToken(refreshToken)
+                    }
                     
                     self.delegate?.saveAccessTokens(accessToken: response.accessToken, expiry: expiryDate)
                     
@@ -373,7 +377,9 @@ public class OAuth2Authentication: Authentication {
                     let createdDate = response.createdAt ?? Date()
                     let expiryDate = createdDate.addingTimeInterval(response.expiresIn)
                     
-                    self.updateToken(response.refreshToken)
+                    if let refreshToken = response.refreshToken {
+                        self.updateToken(refreshToken)
+                    }
                     
                     self.delegate?.saveAccessTokens(accessToken: response.accessToken, expiry: expiryDate)
                     
@@ -435,7 +441,9 @@ public class OAuth2Authentication: Authentication {
                     let createdDate = response.createdAt ?? Date()
                     let expiryDate = createdDate.addingTimeInterval(response.expiresIn)
                     
-                    self.updateToken(response.refreshToken)
+                    if let refreshToken = response.refreshToken {
+                        self.updateToken(refreshToken)
+                    }
                     
                     self.delegate?.saveAccessTokens(accessToken: response.accessToken, expiry: expiryDate)
                     

@@ -29,7 +29,7 @@ struct OAuthTokenResponse: Codable {
     let accessToken: String
     let createdAt: Date?
     let expiresIn: Double
-    let refreshToken: String
+    let refreshToken: String?
     let tokenType: String
     
 }
