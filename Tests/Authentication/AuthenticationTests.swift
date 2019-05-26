@@ -367,7 +367,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUserUsingWeb { (result) in
+            authentication.loginUserUsingWeb(scopes: ["offline_access", "openid", "email"]) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTAssertFalse(authentication.loggedIn)

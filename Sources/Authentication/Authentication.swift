@@ -188,7 +188,7 @@ public class Authentication {
             } else if let authResponse = response,
                 let authCode = authResponse.authorizationCode,
                 let codeVerifier = request.codeVerifier {
-                self.exchangeAuthorizationCode(code: authCode, codeVerifier: codeVerifier, completion: completion)
+                self.exchangeAuthorizationCode(code: authCode, codeVerifier: codeVerifier, scopes: scopes, completion: completion)
             }
         }
     }
