@@ -71,7 +71,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUser(email: "user@frollo.us", password: "password") { (result) in
+            authentication.loginUser(email: "user@frollo.us", password: "password", scopes: ["offline_access", "email", "openid"]) { (result) in
                 switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -105,7 +105,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUser(email: "user@frollo.us", password: "wrong_password") { (result) in
+            authentication.loginUser(email: "user@frollo.us", password: "wrong_password", scopes: ["offline_access", "email", "openid"]) { (result) in
                 switch result {
                 case .failure(let error):
                     XCTAssertFalse(authentication.loggedIn)
@@ -144,7 +144,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUser(email: "user@frollo.us", password: "password") { (result) in
+            authentication.loginUser(email: "user@frollo.us", password: "password", scopes: ["offline_access", "email", "openid"]) { (result) in
                 switch result {
                 case .failure(let error):
                     XCTAssertTrue(authentication.loggedIn)
@@ -183,7 +183,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUserUsingWeb(presenting: UIApplication.shared.keyWindow!.rootViewController!) { (result) in
+            authentication.loginUserUsingWeb(presenting: UIApplication.shared.keyWindow!.rootViewController!, scopes: ["offline_access", "email", "openid"]) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTAssertFalse(authentication.loggedIn)
@@ -251,7 +251,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUserUsingWeb { (result) in
+            authentication.loginUserUsingWeb(scopes: ["offline_access", "email", "openid"]) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTAssertFalse(authentication.loggedIn)
@@ -420,7 +420,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32)) { (result) in
+            authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32), scopes: ["offline_access", "email", "openid"]) { (result) in
                 switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -459,7 +459,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
             // Override due to NSUserDefaults on tvOS
             authentication.loggedIn = false
             
-            authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32)) { (result) in
+            authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32), scopes: ["offline_access", "email", "openid"]) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTAssertFalse(authentication.loggedIn)
@@ -501,7 +501,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32)) { (result) in
+            authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32), scopes: ["offline_access", "email", "openid"]) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTAssertTrue(authentication.loggedIn)

@@ -92,7 +92,7 @@ public class OAuth2Authentication: Authentication {
         - additionalParameters: Pass additional query parameters to the authorization endpoint (Optional)
         - completion: Completion handler with any error that occurred
      */
-    public func loginUserUsingWeb(presenting presentingViewController: UIViewController, additionalParameters: [String: String]? = nil, completion: @escaping FrolloSDKCompletionHandler) {
+    public func loginUserUsingWeb(presenting presentingViewController: UIViewController, scopes: [String], additionalParameters: [String: String]? = nil, completion: @escaping FrolloSDKCompletionHandler) {
         let config = OIDServiceConfiguration(authorizationEndpoint: authService.authorizationURL, tokenEndpoint: authService.tokenURL)
         
         var parameters = ["audience": serverURL.absoluteString, "domain": domain]
@@ -101,7 +101,7 @@ public class OAuth2Authentication: Authentication {
         let request = OIDAuthorizationRequest(configuration: config,
                                               clientId: clientID,
                                               clientSecret: nil,
-                                              scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail],
+                                              scopes: scopes,
                                               redirectURL: authService.redirectURL,
                                               responseType: OIDResponseTypeCode,
                                               additionalParameters: parameters)
@@ -118,7 +118,7 @@ public class OAuth2Authentication: Authentication {
             } else if let authResponse = response,
                 let authCode = authResponse.authorizationCode,
                 let codeVerifier = request.codeVerifier {
-                self.exchangeAuthorizationCode(code: authCode, codeVerifier: codeVerifier, completion: completion)
+                self.exchangeAuthorizationCode(code: authCode, codeVerifier: codeVerifier, scopes: scopes, completion: completion)
             }
         }
     }
@@ -134,7 +134,7 @@ public class OAuth2Authentication: Authentication {
         - additionalParameters: Pass additional query parameters to the authorization endpoint (Optional)
         - completion: Completion handler with any error that occurred
      */
-    public func loginUserUsingWeb(additionalParameters: [String: String]? = nil, completion: @escaping FrolloSDKCompletionHandler) {
+    public func loginUserUsingWeb(scopes: [String], additionalParameters: [String: String]? = nil, completion: @escaping FrolloSDKCompletionHandler) {
         let config = OIDServiceConfiguration(authorizationEndpoint: authService.authorizationURL, tokenEndpoint: authService.tokenURL)
         
         var parameters = ["audience": serverURL.absoluteString, "domain": domain]
@@ -143,7 +143,7 @@ public class OAuth2Authentication: Authentication {
         let request = OIDAuthorizationRequest(configuration: config,
                                               clientId: clientID,
                                               clientSecret: nil,
-                                              scopes: [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail],
+                                              scopes: scopes,
                                               redirectURL: authService.redirectURL,
                                               responseType: OIDResponseTypeCode,
                                               additionalParameters: parameters)
@@ -160,7 +160,7 @@ public class OAuth2Authentication: Authentication {
             } else if let authResponse = response,
                 let authCode = authResponse.authorizationCode,
                 let codeVerifier = request.codeVerifier {
-                self.exchangeAuthorizationCode(code: authCode, codeVerifier: codeVerifier, completion: completion)
+                self.exchangeAuthorizationCode(code: authCode, codeVerifier: codeVerifier, scopes: ["offline_access", "email", "openid"], completion: completion)
             }
         }
     }
@@ -174,7 +174,7 @@ public class OAuth2Authentication: Authentication {
         - password: Password for the user (optional)
         - completion: Completion handler with any error that occurred
      */
-    public func loginUser(email: String, password: String, completion: @escaping FrolloSDKCompletionHandler) {
+    public func loginUser(email: String, password: String, scopes: [String], completion: @escaping FrolloSDKCompletionHandler) {
         guard !loggedIn
         else {
             let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
@@ -187,8 +187,6 @@ public class OAuth2Authentication: Authentication {
             return
         }
         
-        let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
-        
         let request = OAuthTokenRequest(audience: serverURL.absoluteString,
                                         clientID: clientID,
                                         code: nil,
@@ -199,7 +197,7 @@ public class OAuth2Authentication: Authentication {
                                         password: password,
                                         redirectURI: nil,
                                         refreshToken: nil,
-                                        scope: scopes,
+                                        scope: scopes.joined(separator: " "),
                                         username: email)
         
         // Authorize the user
@@ -258,9 +256,10 @@ public class OAuth2Authentication: Authentication {
      - parameters:
         - code: Authorization code
         - codeVerifier: Authorization code verifier for PKCE (Optional)
+        - scopes: OpenID Connect OAuth2 scopes
         - completion: Completion handler with any error that occurred
      */
-    internal func exchangeAuthorizationCode(code: String, codeVerifier: String?, completion: @escaping FrolloSDKCompletionHandler) {
+    internal func exchangeAuthorizationCode(code: String, codeVerifier: String?, scopes: [String], completion: @escaping FrolloSDKCompletionHandler) {
         guard !loggedIn
         else {
             let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
@@ -272,7 +271,6 @@ public class OAuth2Authentication: Authentication {
             }
             return
         }
-        let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
         
         let request = OAuthTokenRequest(audience: serverURL.absoluteString,
                                         clientID: clientID,
@@ -284,7 +282,7 @@ public class OAuth2Authentication: Authentication {
                                         password: nil,
                                         redirectURI: authService.redirectURL.absoluteString,
                                         refreshToken: nil,
-                                        scope: scopes,
+                                        scope: scopes.joined(separator: " "),
                                         username: nil)
         
         authService.refreshTokens(request: request) { result in
@@ -414,8 +412,6 @@ public class OAuth2Authentication: Authentication {
             return
         }
         
-        let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
-        
         let request = OAuthTokenRequest(audience: serverURL.absoluteString,
                                         clientID: clientID,
                                         code: nil,
@@ -426,7 +422,7 @@ public class OAuth2Authentication: Authentication {
                                         password: nil,
                                         redirectURI: nil,
                                         refreshToken: token,
-                                        scope: scopes,
+                                        scope: nil,
                                         username: nil)
         
         authService.refreshTokens(request: request) { result in
