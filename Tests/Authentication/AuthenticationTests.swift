@@ -84,7 +84,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUser(email: "user@frollo.us", password: "password") { (result) in
+            authentication.loginUser(email: "user@frollo.us", password: "password", scopes: ["offline_access", "openid", "email"]) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -133,7 +133,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUser(email: "user@frollo.us", password: "wrong_password") { (result) in
+            authentication.loginUser(email: "user@frollo.us", password: "wrong_password", scopes: ["offline_access", "openid", "email"]) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTAssertFalse(authentication.loggedIn)
@@ -189,7 +189,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUser(email: "user@frollo.us", password: "wrong_password") { (result) in
+            authentication.loginUser(email: "user@frollo.us", password: "wrong_password", scopes: ["offline_access", "openid", "email"]) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTAssertFalse(authentication.loggedIn)
@@ -245,7 +245,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUser(email: "user@frollo.us", password: "password") { (result) in
+            authentication.loginUser(email: "user@frollo.us", password: "password", scopes: ["offline_access", "openid", "email"]) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTAssertTrue(authentication.loggedIn)
@@ -299,7 +299,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUserUsingWeb(presenting: viewController) { (result) in
+            authentication.loginUserUsingWeb(presenting: viewController, scopes: ["offline_access", "openid", "email"]) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTAssertFalse(authentication.loggedIn)
@@ -433,7 +433,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password") { (result) in
+            authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password", scopes: ["offline_access", "openid", "email"]) { (result) in
                 switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -476,7 +476,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password") { (result) in
+            authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password", scopes: ["offline_access", "openid", "email"]) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTAssertFalse(authentication.loggedIn)
@@ -531,7 +531,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password") { (result) in
+            authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password", scopes: ["offline_access", "openid", "email"]) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTAssertFalse(authentication.loggedIn)
@@ -587,7 +587,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password") { (result) in
+            authentication.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password", scopes: ["offline_access", "openid", "email"]) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTAssertTrue(authentication.loggedIn)
@@ -1325,7 +1325,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
             
             authentication.loggedIn = false
             
-            authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32)) { (result) in
+            authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32), scopes: ["offline_access", "openid", "email"]) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -1377,7 +1377,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
             
             authentication.loggedIn = false
             
-            authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32)) { (result) in
+            authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32), scopes: ["offline_access", "openid", "email"]) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTAssertFalse(authentication.loggedIn)
@@ -1434,7 +1434,7 @@ class AuthenticationTests: XCTestCase, AuthenticationDelegate, NetworkDelegate {
             
             authentication.loggedIn = false
             
-            authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32)) { (result) in
+            authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32), scopes: ["offline_access", "openid", "email"]) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTAssertFalse(authentication.loggedIn)
