@@ -37,6 +37,7 @@ struct APIUserResponse: Codable {
         case occupation
         case primaryCurrency = "primary_currency"
         case previousAddress = "previous_address"
+        case registerComplete = "register_complete"
         case status
         case userID = "id"
         case validPassword = "valid_password"
@@ -81,7 +82,6 @@ struct APIUserResponse: Codable {
     
     let email: String
     let emailVerified: Bool
-    let firstName: String
     let primaryCurrency: String
     let status: User.Status
     let userID: Int64
@@ -92,6 +92,7 @@ struct APIUserResponse: Codable {
     let dateOfBirth: Date?
     let facebookID: String?
     let features: [User.FeatureFlag]?
+    let firstName: String?
     let gender: User.Gender?
     let householdSize: Int64?
     let householdType: User.HouseholdType?
@@ -100,5 +101,6 @@ struct APIUserResponse: Codable {
     let mobileNumber: String?
     let occupation: User.Occupation?
     let previousAddress: Address?
+    let registerComplete: Bool
     
 }

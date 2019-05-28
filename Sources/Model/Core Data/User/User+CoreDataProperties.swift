@@ -63,7 +63,7 @@ extension User {
     @NSManaged public var featuresRawValue: Data?
     
     /// First name of the user
-    @NSManaged public var firstName: String
+    @NSManaged public var firstName: String?
     
     /// Raw value of the user gender. Only use in predicates (optional)
     @NSManaged public var genderRawValue: String?
@@ -91,6 +91,9 @@ extension User {
     
     /// Primary currency ISO code associated with the user
     @NSManaged public var primaryCurrency: String
+    
+    /// Indicates if the user has completed the onboarding flow - tenant specific implementation
+    @NSManaged public var registerComplete: Bool
     
     /// Raw value of the user status. Use only in predicates
     @NSManaged public var statusRawValue: String

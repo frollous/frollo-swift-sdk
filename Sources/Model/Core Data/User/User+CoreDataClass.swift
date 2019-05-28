@@ -288,13 +288,14 @@ public class User: NSManagedObject {
     // MARK: - Updating from response
     
     internal func update(response: APIUserResponse) {
+        // Required properties
         userID = response.userID
         email = response.email
-        firstName = response.firstName
         primaryCurrency = response.primaryCurrency
         status = response.status
         validPassword = response.validPassword
         
+        // Optional properties
         addressLine1 = response.address?.line1
         addressLine2 = response.address?.line2
         attributionAdGroup = response.attribution?.adGroup
@@ -304,6 +305,7 @@ public class User: NSManagedObject {
         dateOfBirth = response.dateOfBirth
         facebookID = response.facebookID
         features = response.features
+        firstName = response.firstName
         gender = response.gender
         householdSize = response.householdSize ?? -1
         householdType = response.householdType
@@ -312,6 +314,7 @@ public class User: NSManagedObject {
         mobileNumber = response.mobileNumber
         occupation = response.occupation
         postcode = response.address?.postcode
+        registerComplete = response.registerComplete
         suburb = response.address?.suburb
     }
     
@@ -332,11 +335,11 @@ public class User: NSManagedObject {
         }
         
         return APIUserUpdateRequest(email: email,
-                                    firstName: firstName,
                                     primaryCurrency: primaryCurrency,
                                     address: address,
                                     attribution: attribution,
                                     dateOfBirth: dateOfBirth,
+                                    firstName: firstName,
                                     gender: gender,
                                     householdSize: householdSize,
                                     householdType: householdType,

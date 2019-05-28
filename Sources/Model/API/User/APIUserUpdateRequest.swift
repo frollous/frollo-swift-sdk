@@ -71,18 +71,18 @@ struct APIUserUpdateRequest: Codable {
     }
     
     let email: String
-    let firstName: String
     let primaryCurrency: String
     
-    var address: Address?
-    var attribution: Attribution?
-    var dateOfBirth: Date?
-    var gender: User.Gender?
-    var householdSize: Int64?
-    var householdType: User.HouseholdType?
-    var industry: User.Industry?
-    var lastName: String?
-    var mobileNumber: String?
-    var occupation: User.Occupation?
+    let address: Address?
+    let attribution: Attribution?
+    let dateOfBirth: Date?
+    let firstName: String?
+    let gender: User.Gender?
+    let householdSize: Int64?
+    let householdType: User.HouseholdType?
+    let industry: User.Industry?
+    let lastName: String?
+    let mobileNumber: String?
+    let occupation: User.Occupation?
     
 }
