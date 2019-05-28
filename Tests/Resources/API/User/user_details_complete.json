@@ -36,7 +36,7 @@
 		"enabled": true
 	}],
 	"facebook_id": "1234567890",
-	"register_complete": true,
+	"register_complete": false,
 	"valid_password": true,
 	"refresh_token": "sdjfnlasdjknfldskjngdflskjgnldsjkfnoa;nfeiansvijnasdvijda;nfgi;ej",
 	"access_token": "sdjfnlasdjknfldskjngdflskjgnldsjkfnoa;nfeiansvijnasdvijda;nfgi;ej",

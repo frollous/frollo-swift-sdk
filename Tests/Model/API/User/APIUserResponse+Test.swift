@@ -29,7 +29,6 @@ extension APIUserResponse {
         
         return APIUserResponse(email: name + "@frollo.us",
                                emailVerified: true,
-                               firstName: name,
                                primaryCurrency: "AUD",
                                status: .active,
                                userID: Int64(arc4random()),
@@ -39,6 +38,7 @@ extension APIUserResponse {
                                dateOfBirth: date,
                                facebookID: String(arc4random()),
                                features: [User.FeatureFlag(enabled: true, feature: "aggregation")],
+                               firstName: name,
                                gender: .male,
                                householdSize: 1,
                                householdType: .single,
@@ -46,7 +46,8 @@ extension APIUserResponse {
                                lastName: UUID().uuidString,
                                mobileNumber: "0412345678",
                                occupation: .communityAndPersonalServiceWorkers,
-                               previousAddress: Address(line1: "Bay 9 Middlemiss St", line2: "Frollo Unit 13", postcode: "2060", suburb: "Lavender Bay"))
+                               previousAddress: Address(line1: "Bay 9 Middlemiss St", line2: "Frollo Unit 13", postcode: "2060", suburb: "Lavender Bay"),
+                               registerComplete: Bool.random())
     }
     
 }
