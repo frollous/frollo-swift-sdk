@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.2
+
+### Changes
+
+- User profile - Register complete flag added, first name now optional
+
 ## 2.1.1
 
 ### Changes
