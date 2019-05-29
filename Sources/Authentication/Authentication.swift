@@ -743,7 +743,7 @@ public class Authentication {
     public func refreshTokens(completion: FrolloSDKCompletionHandler? = nil) {
         service.network.authenticator.refreshTokens()
         
-        let request = OAuthTokenRequest(audience: service.serverURL.absoluteString,
+        let request = OAuthTokenRequest(audience: nil,
                                         clientID: clientID,
                                         code: nil,
                                         codeVerifier: nil,
