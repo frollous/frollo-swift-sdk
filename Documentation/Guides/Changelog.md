@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.3
+
+### Fixes
+
+- Fix issue where audience was sent with refresh token
+
 ## 2.1.2
 
 ### Changes
