@@ -43,7 +43,7 @@ struct OAuthTokenRequest: Codable {
         case username
     }
     
-    let audience: String
+    let audience: String?
     let clientID: String
     let code: String?
     let codeVerifier: String?

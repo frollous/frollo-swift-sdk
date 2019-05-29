@@ -412,7 +412,7 @@ public class OAuth2Authentication: Authentication {
             return
         }
         
-        let request = OAuthTokenRequest(audience: serverURL.absoluteString,
+        let request = OAuthTokenRequest(audience: nil,
                                         clientID: clientID,
                                         code: nil,
                                         codeVerifier: nil,
