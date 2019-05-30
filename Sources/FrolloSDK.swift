@@ -38,7 +38,8 @@ public class FrolloSDK: NetworkDelegate {
         static let keychainService = "FrolloSDKKeychain"
     }
     
-    internal static let dataFolderURL: URL = {
+    /// Default directory used to store data if not overriden
+    public static let defaultDataFolderURL: URL = {
         #if os(tvOS)
         let folder = FileManager.SearchPathDirectory.cachesDirectory
         #else
@@ -168,23 +169,23 @@ public class FrolloSDK: NetworkDelegate {
         return _setup
     }
     
-    internal let _database: Database
     internal let keychain: Keychain
-    internal let preferences: Preferences
-    internal let version: Version
     
     internal var _aggregation: Aggregation!
     internal var _authentication: Authentication!
     internal var _bills: Bills!
+    internal var _database: Database!
     internal var _events: Events!
     internal var _messages: Messages!
     internal var _notifications: Notifications!
     internal var network: Network!
+    internal var preferences: Preferences!
     internal var refreshTimer: Timer?
     internal var _reports: Reports!
     internal var _surveys: Surveys!
     internal var _setup = false
     internal var _userManagement: UserManagement!
+    internal var version: Version!
     
     private let cacheExpiry: TimeInterval = 120
     private let frolloHost = "frollo.us"
@@ -199,19 +200,7 @@ public class FrolloSDK: NetworkDelegate {
      Initialises an SDK instance. Only one instance should be instantiated. Setup must be run before use
      */
     internal init() {
-        // Create data folder if it doesn't exist
-        if !FileManager.default.fileExists(atPath: FrolloSDK.dataFolderURL.path) {
-            do {
-                try FileManager.default.createDirectory(at: FrolloSDK.dataFolderURL, withIntermediateDirectories: true, attributes: nil)
-            } catch {
-                fatalError("FrolloSDK could not create app data folder. SDK cannot function without this.")
-            }
-        }
-        
-        self._database = Database(path: FrolloSDK.dataFolderURL)
         self.keychain = Keychain(service: FrolloSDKConstants.keychainService)
-        self.preferences = Preferences(path: FrolloSDK.dataFolderURL)
-        self.version = Version(path: FrolloSDK.dataFolderURL, keychain: keychain)
     }
     
     /**
@@ -230,6 +219,19 @@ public class FrolloSDK: NetworkDelegate {
         else {
             fatalError("SDK already setup")
         }
+        
+        // Create data folder if it doesn't exist
+        if !FileManager.default.fileExists(atPath: configuration.dataDirectory.path) {
+            do {
+                try FileManager.default.createDirectory(at: configuration.dataDirectory, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                fatalError("FrolloSDK could not create app data folder. SDK cannot function without this.")
+            }
+        }
+        
+        _database = Database(path: configuration.dataDirectory)
+        preferences = Preferences(path: configuration.dataDirectory)
+        version = Version(path: configuration.dataDirectory, keychain: keychain)
         
         if version.migrationNeeded() {
             version.migrateVersion()
