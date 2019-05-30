@@ -56,12 +56,12 @@ class FrolloSDKTests: XCTestCase {
     
     func removeDataFolder() {
         // Remove app data folder from disk
-        try? FileManager.default.removeItem(atPath: FrolloSDK.dataFolderURL.path)
+        try? FileManager.default.removeItem(atPath: FrolloSDK.defaultDataFolderURL.path)
     }
     
     // MARK: - Tests
     
-    func testSDKCreatesDataFolder() {
+    func testSDKCreatesDefaultDataFolder() {
         let expectation1 = expectation(description: "Setup")
         
         let config = FrolloSDKConfiguration.testConfig()
@@ -71,7 +71,38 @@ class FrolloSDKTests: XCTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    XCTAssertTrue(FileManager.default.fileExists(atPath: FrolloSDK.dataFolderURL.path))
+                    XCTAssertTrue(FileManager.default.fileExists(atPath: FrolloSDK.defaultDataFolderURL.path))
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testSDKCreatesCustomDataFolder() {
+        let expectation1 = expectation(description: "Setup")
+        
+        #if os(tvOS)
+        let dataDirectory = FileManager.default.urls(for: FileManager.SearchPathDirectory.cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("TestFolder")
+        #else
+        let dataDirectory = FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: .userDomainMask).first!
+        #endif
+        
+        let config = FrolloSDKConfiguration(authenticationType: .oAuth2(clientID: FrolloSDKConfiguration.clientID,
+                                                                        redirectURL: FrolloSDKConfiguration.redirectURL,
+                                                                        authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint,
+                                                                        tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint),
+                                            dataDirectory: dataDirectory,
+                                            serverEndpoint: URL(string: "https://api.example.com")!)
+        
+        let sdk = FrolloSDK()
+        sdk.setup(configuration: config) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    XCTAssertTrue(FileManager.default.fileExists(atPath: dataDirectory.path))
             }
             
             expectation1.fulfill()
@@ -505,12 +536,14 @@ class FrolloSDKTests: XCTestCase {
     func testSetupInvokesDatabaseMigration() {
         let expectation1 = expectation(description: "Setup")
         
+        try? FileManager.default.createDirectory(at: FrolloSDK.defaultDataFolderURL, withIntermediateDirectories: true, attributes: nil)
+        
         var config = FrolloSDKConfiguration.testConfig()
         config.publicKeyPinningEnabled = false
         
         let sdk = FrolloSDK()
         
-        populateTestDataNamed(name: "FrolloSDKDataModel-1.0.0", atPath: FrolloSDK.dataFolderURL)
+        populateTestDataNamed(name: "FrolloSDKDataModel-1.0.0", atPath: FrolloSDK.defaultDataFolderURL)
         
         sdk.setup(configuration: config) { (result) in
             switch result {
@@ -529,12 +562,14 @@ class FrolloSDKTests: XCTestCase {
     func testReset() {
         let expectation1 = expectation(description: "Setup")
         
+        try? FileManager.default.createDirectory(at: FrolloSDK.defaultDataFolderURL, withIntermediateDirectories: true, attributes: nil)
+        
         var config = FrolloSDKConfiguration.testConfig()
         config.publicKeyPinningEnabled = false
         
         let sdk = FrolloSDK()
         
-        populateTestDataNamed(name: "FrolloSDKDataModel-1.2.0", atPath: FrolloSDK.dataFolderURL)
+        populateTestDataNamed(name: "FrolloSDKDataModel-1.2.0", atPath: FrolloSDK.defaultDataFolderURL)
         
         sdk.setup(configuration: config) { (result) in
             switch result {
@@ -558,6 +593,10 @@ class FrolloSDKTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 10.0)
+    }
+    
+    func testSDKCustomDataFolder() {
+        
     }
     
 }

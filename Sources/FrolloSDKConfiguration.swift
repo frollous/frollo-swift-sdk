@@ -51,16 +51,19 @@ public struct FrolloSDKConfiguration {
      
      - parameters:
          - authenticationType: Type of authentication to be used. Valid options are `custom` and `oAuth2`
+         - dataDirectory: Data directory to store data. Default is Application Support but can be overriden to support application groups
          - serverEndpoint: Base URL of the Frollo API this SDK should point to
      
      - returns: Valid configuration
      */
-    public init(authenticationType: AuthenticationType, serverEndpoint: URL) {
+    public init(authenticationType: AuthenticationType, dataDirectory: URL = FrolloSDK.defaultDataFolderURL, serverEndpoint: URL) {
         self.authenticationType = authenticationType
+        self.dataDirectory = dataDirectory
         self.serverEndpoint = serverEndpoint
     }
     
     internal let authenticationType: AuthenticationType
+    internal let dataDirectory: URL
     internal let serverEndpoint: URL
     
 }

@@ -186,10 +186,10 @@ class DatabaseMigrationTests: XCTestCase {
     func testDatabaseResetsIfMigrationFails() {
         let expectation1 = XCTestExpectation(description: "Migration Completion")
         
-        try? FileManager.default.removeItem(at: FrolloSDK.dataFolderURL)
+        try? FileManager.default.removeItem(at: FrolloSDK.defaultDataFolderURL)
         
-        try? FileManager.default.createDirectory(at: FrolloSDK.dataFolderURL, withIntermediateDirectories: true, attributes: nil)
-        _ = populateTestDataNamed(name: fakeTestDataModelName, path: FrolloSDK.dataFolderURL)
+        try? FileManager.default.createDirectory(at: FrolloSDK.defaultDataFolderURL, withIntermediateDirectories: true, attributes: nil)
+        _ = populateTestDataNamed(name: fakeTestDataModelName, path: FrolloSDK.defaultDataFolderURL)
         
         sleep(1)
         
