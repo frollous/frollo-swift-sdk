@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.4
+
+### Changes
+
+- Migrate user to new identity provider
+
 ## 2.1.3
 
 ### Fixes

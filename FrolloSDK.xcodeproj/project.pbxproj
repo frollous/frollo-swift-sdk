@@ -110,6 +110,8 @@
 		01226E18229CB34100A443EF /* FrolloSDKDataModel-1.3.2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 01226E11229CB34100A443EF /* FrolloSDKDataModel-1.3.2.sqlite */; };
 		01226E19229CB34100A443EF /* FrolloSDKDataModel-1.3.2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 01226E11229CB34100A443EF /* FrolloSDKDataModel-1.3.2.sqlite */; };
 		01226E1A229CB34100A443EF /* FrolloSDKDataModel-1.3.2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 01226E11229CB34100A443EF /* FrolloSDKDataModel-1.3.2.sqlite */; };
+		01226E1C229F92CD00A443EF /* APIUserMigrationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01226E1B229F92CD00A443EF /* APIUserMigrationRequest.swift */; };
+		01226E1D229F92CD00A443EF /* APIUserMigrationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01226E1B229F92CD00A443EF /* APIUserMigrationRequest.swift */; };
 		01236D0721EBEC09008DD61A /* APITransactionHistoryReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0621EBEC09008DD61A /* APITransactionHistoryReportResponse.swift */; };
 		01236D0A21EBF4E5008DD61A /* Reports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0921EBF4E5008DD61A /* Reports.swift */; };
 		01236D0C21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0B21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift */; };
@@ -1082,6 +1084,7 @@
 		01226E0F229CB34100A443EF /* FrolloSDKDataModel-1.3.2.sqlite-wal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FrolloSDKDataModel-1.3.2.sqlite-wal"; sourceTree = "<group>"; };
 		01226E10229CB34100A443EF /* FrolloSDKDataModel-1.3.2.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.3.2.sqlite-shm"; sourceTree = "<group>"; };
 		01226E11229CB34100A443EF /* FrolloSDKDataModel-1.3.2.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.3.2.sqlite"; sourceTree = "<group>"; };
+		01226E1B229F92CD00A443EF /* APIUserMigrationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserMigrationRequest.swift; sourceTree = "<group>"; };
 		01236D0621EBEC09008DD61A /* APITransactionHistoryReportResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionHistoryReportResponse.swift; sourceTree = "<group>"; };
 		01236D0921EBF4E5008DD61A /* Reports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reports.swift; sourceTree = "<group>"; };
 		01236D0B21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionCurrentReportResponse.swift; sourceTree = "<group>"; };
@@ -1842,6 +1845,7 @@
 			isa = PBXGroup;
 			children = (
 				01333D3E216AAF36005764A4 /* APIUserChangePasswordRequest.swift */,
+				01226E1B229F92CD00A443EF /* APIUserMigrationRequest.swift */,
 				01BC3D102166D90C0065A4B8 /* APIUserRegisterRequest.swift */,
 				011F1A5F216B289B00119474 /* APIUserResetPasswordRequest.swift */,
 				017B48DF2107FE6A00447E65 /* APIUserResponse.swift */,
@@ -3524,6 +3528,7 @@
 				01405E5021DDA9CE009356CC /* APIBillCreateRequest.swift in Sources */,
 				01405E5A21DDCF38009356CC /* APIBillPaymentResponse.swift in Sources */,
 				017B487021054F0B00447E65 /* PreferencesPersistence.swift in Sources */,
+				01226E1C229F92CD00A443EF /* APIUserMigrationRequest.swift in Sources */,
 				01405E5821DDCD65009356CC /* BillPayment+CoreDataProperties.swift in Sources */,
 				013A32AA211273A300B0590B /* ProviderAccount+CoreDataClass.swift in Sources */,
 				0159E48A2193CBAD002CC3BB /* AccountBalanceTier+CoreDataProperties.swift in Sources */,
@@ -4007,6 +4012,7 @@
 				01E5BF052227A475003D85FD /* BudgetCategory.swift in Sources */,
 				01E5BF062227A475003D85FD /* APIBillCreateRequest.swift in Sources */,
 				01E5BF072227A475003D85FD /* APIBillPaymentResponse.swift in Sources */,
+				01226E1D229F92CD00A443EF /* APIUserMigrationRequest.swift in Sources */,
 				01E5BF082227A475003D85FD /* PreferencesPersistence.swift in Sources */,
 				01E5BF092227A475003D85FD /* BillPayment+CoreDataProperties.swift in Sources */,
 				01E5BF0A2227A475003D85FD /* ProviderAccount+CoreDataClass.swift in Sources */,
@@ -4360,7 +4366,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = YES;
-				SDK_VERSION = 2.1.3;
+				SDK_VERSION = 2.1.4;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
@@ -4401,7 +4407,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				SDK_VERSION = 2.1.3;
+				SDK_VERSION = 2.1.4;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
