@@ -320,6 +320,29 @@ extension APIService {
         }
     }
     
+    internal func updateTags(transactionID: Int64, method: HTTPMethod, tagApplyAllPairs: [(String, Bool)], completion: @escaping RequestCompletion<[APITagUpdateResponse]>) {
+        
+        var requestArray = [APITagUpdateRequest]()
+        for tagApplyAllPair in tagApplyAllPairs {
+            requestArray.append(APITagUpdateRequest(applyToAll: tagApplyAllPair.1, name: tagApplyAllPair.0))
+        }
+        
+        let url = URL(string: AggregationEndpoint.transactionTags(transactionID: transactionID).path)!
+        
+        guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: requestArray)
+        else {
+            let dataError = DataError(type: .api, subType: .invalidData)
+            
+            completion(.failure(dataError))
+            return
+        }
+        
+        network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: responseQueue) { (response: DataResponse<Data>) in
+            self.network.handleArrayResponse(type: APITagUpdateResponse.self, errorType: APIError.self, response: response, completion: completion)
+        }
+        
+    }
+    
     internal func fetchTransactionSuggestedTags(searchTerm: String, sort: Aggregation.SortType = .name, order: Aggregation.OrderType = .asc, completion: @escaping RequestCompletion<[APITransactionTagResponse]>) {
         fetchTags(type: .suggested, searchTerm: searchTerm, sort: sort, order: order, completion: completion)
     }
@@ -327,6 +350,8 @@ extension APIService {
     internal func fetchTransactionUserTags(searchTerm: String? = nil, sort: Aggregation.SortType = .name, order: Aggregation.OrderType = .asc, completion: @escaping RequestCompletion<[APITransactionTagResponse]>) {
         fetchTags(type: .user, searchTerm: searchTerm, sort: sort, order: order, completion: completion)
     }
+    
+    internal func listAllTagsForTransaction() {}
     
     // MARK: - Merchants
     

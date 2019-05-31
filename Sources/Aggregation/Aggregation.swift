@@ -1668,6 +1668,60 @@ public class Aggregation: CachedObjects, ResponseHandler {
         return fetchedResultsController(type: Tag.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: nil)
     }
     
+    /**
+     Add a tag or list of tags from a transaction
+     
+     - parameters:
+     - transactionID: Transaction ID of the Transaction whose tag is added
+     - tagApplyAllPairs: Tuple of 'Tag name'(String) and 'Apply to all'(Bool) flag
+     */
+    
+    public func addTagToTransaction(transactionID: Int64, tagApplyAllPairs: [(String, Bool)], completion: @escaping (Result<[APITagUpdateResponse], Error>) -> Void) {
+        
+        service.updateTags(transactionID: transactionID, method: .post, tagApplyAllPairs: tagApplyAllPairs, completion: { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+            }
+        })
+    }
+    
+    /**
+     Remove a tag or list of tags from a transaction
+     
+     - parameters:
+     - transactionID: Transaction ID of the Transaction whose tag is removed
+     - tagApplyAllPairs: Array of Tuple of 'Tag name'(String) and 'Apply to all'(Bool) flag
+     */
+    
+    public func removeTagFromTransaction(transactionID: Int64, tagApplyAllPairs: [(String, Bool)], completion: @escaping (Result<[APITagUpdateResponse], Error>) -> Void) {
+        
+        service.updateTags(transactionID: transactionID, method: .delete, tagApplyAllPairs: tagApplyAllPairs, completion: { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+            }
+        })
+    }
+    
     // MARK: - Merchants
     
     /**
