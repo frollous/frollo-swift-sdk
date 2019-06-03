@@ -1,0 +1,6 @@
+{
+    "error": {
+        "error_code": "F0012",
+        "error_message": "There was an error while migrating the user to Auth0. Please check the logs."
+    }
+}

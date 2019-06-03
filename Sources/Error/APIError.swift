@@ -81,6 +81,9 @@ public class APIError: FrolloSDKError, ResponseError {
         /// An unknown issue with authorisation has occurred
         case otherAuthorisation
         
+        /// An issue occurred while trying to migrate the user to a new identity provider
+        case migrationFailed
+        
         /// Unknown error
         case unknown
         
@@ -131,6 +134,8 @@ public class APIError: FrolloSDKError, ResponseError {
                     switch errorCode {
                         case .invalidMustBeDifferent:
                             self.type = .passwordMustBeDifferent
+                        case .migrationFailed:
+                            self.type = .migrationFailed
                         default:
                             self.type = .badRequest
                     }
@@ -209,6 +214,8 @@ public class APIError: FrolloSDKError, ResponseError {
                 return Localization.string("Error.API.InvalidUsernamePassword")
             case .maintenance:
                 return Localization.string("Error.API.Maintenance")
+            case .migrationFailed:
+                return Localization.string("Error.API.MigrationFailed")
             case .notFound:
                 return Localization.string("Error.API.NotFound")
             case .notImplemented:

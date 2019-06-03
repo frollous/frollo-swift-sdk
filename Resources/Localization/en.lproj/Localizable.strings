@@ -13,6 +13,7 @@
 "Error.API.InvalidRefreshToken" = "Login has expired. Re-authorise to get a new refresh token.";
 "Error.API.InvalidUsernamePassword" = "The username or password supplied is incorrect.";
 "Error.API.Maintenance" = "The server is currently under maintenance and will be available again shortly.";
+"Error.API.MigrationFailed" = "User account could not be migrated. Please contact support.";
 "Error.API.NotFound" = "Object not found on the API";
 "Error.API.NotImplemented" = "API has not been implemented.";
 "Error.API.PasscodeError" = "You entered an incorrect passcode too many times and have been logged out.";

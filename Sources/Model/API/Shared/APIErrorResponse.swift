@@ -44,6 +44,9 @@ public enum APIErrorCode: String, Codable {
     /// F0007 - Invalid Count
     case invalidCount = "F0007"
     
+    /// F0012 - Migration Failed
+    case migrationFailed = "F0012"
+    
     /// F0101 - Invalid Access Token
     case invalidAccessToken = "F0101"
     

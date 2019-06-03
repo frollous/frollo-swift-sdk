@@ -298,6 +298,17 @@ class APIErrorTests: XCTestCase {
         XCTAssertNil(error.message)
     }
     
+    func testAPIErrorMigrationFailed() {
+        let errorJSON = errorJSONNamed("error_migration_failed")
+        
+        let error = APIError(statusCode: 400, response: errorJSON)
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.MigrationFailed"))
+        XCTAssertEqual(error.statusCode, 400)
+        XCTAssertEqual(error.type, .migrationFailed)
+        XCTAssertEqual(error.errorCode, .migrationFailed)
+        XCTAssertNotNil(error.message)
+    }
+    
     // MARK: - Test Edge Cases
     
     func testAPIErrorBadFormat() {

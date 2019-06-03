@@ -112,6 +112,9 @@
 		01226E1A229CB34100A443EF /* FrolloSDKDataModel-1.3.2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 01226E11229CB34100A443EF /* FrolloSDKDataModel-1.3.2.sqlite */; };
 		01226E1C229F92CD00A443EF /* APIUserMigrationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01226E1B229F92CD00A443EF /* APIUserMigrationRequest.swift */; };
 		01226E1D229F92CD00A443EF /* APIUserMigrationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01226E1B229F92CD00A443EF /* APIUserMigrationRequest.swift */; };
+		01226E2A22A4F0C100A443EF /* error_migration_failed.json in Resources */ = {isa = PBXBuildFile; fileRef = 01226E2922A4F0BE00A443EF /* error_migration_failed.json */; };
+		01226E2B22A4F0C100A443EF /* error_migration_failed.json in Resources */ = {isa = PBXBuildFile; fileRef = 01226E2922A4F0BE00A443EF /* error_migration_failed.json */; };
+		01226E2C22A4F0C100A443EF /* error_migration_failed.json in Resources */ = {isa = PBXBuildFile; fileRef = 01226E2922A4F0BE00A443EF /* error_migration_failed.json */; };
 		01236D0721EBEC09008DD61A /* APITransactionHistoryReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0621EBEC09008DD61A /* APITransactionHistoryReportResponse.swift */; };
 		01236D0A21EBF4E5008DD61A /* Reports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0921EBF4E5008DD61A /* Reports.swift */; };
 		01236D0C21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0B21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift */; };
@@ -1085,6 +1088,7 @@
 		01226E10229CB34100A443EF /* FrolloSDKDataModel-1.3.2.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.3.2.sqlite-shm"; sourceTree = "<group>"; };
 		01226E11229CB34100A443EF /* FrolloSDKDataModel-1.3.2.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.3.2.sqlite"; sourceTree = "<group>"; };
 		01226E1B229F92CD00A443EF /* APIUserMigrationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserMigrationRequest.swift; sourceTree = "<group>"; };
+		01226E2922A4F0BE00A443EF /* error_migration_failed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_migration_failed.json; sourceTree = "<group>"; };
 		01236D0621EBEC09008DD61A /* APITransactionHistoryReportResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionHistoryReportResponse.swift; sourceTree = "<group>"; };
 		01236D0921EBF4E5008DD61A /* Reports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reports.swift; sourceTree = "<group>"; };
 		01236D0B21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionCurrentReportResponse.swift; sourceTree = "<group>"; };
@@ -2406,6 +2410,7 @@
 		01B896A220F2EDA30068069A /* Error */ = {
 			isa = PBXGroup;
 			children = (
+				01226E2922A4F0BE00A443EF /* error_migration_failed.json */,
 				011C198E21E42AF200490EDD /* error_account_locked.json */,
 				01B896B220F2EDA30068069A /* error_aggregator.json */,
 				01B896C820F3106A0068069A /* error_bad_format.json */,
@@ -3077,6 +3082,7 @@
 				0128DB5A21F819A800DB3E62 /* FrolloSDKDataModel-1.3.0.sqlite in Resources */,
 				2FE1802B22498A2200B87AAB /* error_oauth2_invalid_grant.json in Resources */,
 				01236D5A21EED5F7008DD61A /* transaction_reports_current_txn_category_living.json in Resources */,
+				01226E2A22A4F0C100A443EF /* error_migration_failed.json in Resources */,
 				013A32B32112994C00B0590B /* provider_accounts_valid.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3207,6 +3213,7 @@
 				0128DB5B21F819A800DB3E62 /* FrolloSDKDataModel-1.3.0.sqlite in Resources */,
 				2FE1802C22498A2200B87AAB /* error_oauth2_invalid_grant.json in Resources */,
 				01236D5B21EED5F7008DD61A /* transaction_reports_current_txn_category_living.json in Resources */,
+				01226E2B22A4F0C100A443EF /* error_migration_failed.json in Resources */,
 				013A32B42112994C00B0590B /* provider_accounts_valid.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3346,6 +3353,7 @@
 				0128DB5C21F819A800DB3E62 /* FrolloSDKDataModel-1.3.0.sqlite in Resources */,
 				2FE1802D22498A2200B87AAB /* error_oauth2_invalid_grant.json in Resources */,
 				01236D5C21EED5F7008DD61A /* transaction_reports_current_txn_category_living.json in Resources */,
+				01226E2C22A4F0C100A443EF /* error_migration_failed.json in Resources */,
 				013A32B52112994C00B0590B /* provider_accounts_valid.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
