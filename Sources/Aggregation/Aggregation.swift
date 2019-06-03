@@ -1676,20 +1676,24 @@ public class Aggregation: CachedObjects, ResponseHandler {
      - tagApplyAllPairs: Tuple of 'Tag name'(String) and 'Apply to all'(Bool) flag
      */
     
-    public func addTagToTransaction(transactionID: Int64, tagApplyAllPairs: [(String, Bool)], completion: @escaping (Result<[APITagUpdateResponse], Error>) -> Void) {
+    public func addTagToTransaction(transactionID: Int64, tagApplyAllPairs: [(String, Bool)], completion: FrolloSDKCompletionHandler? = nil) {
         
         service.updateTags(transactionID: transactionID, method: .post, tagApplyAllPairs: tagApplyAllPairs, completion: { result in
+            
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
                     
                     DispatchQueue.main.async {
-                        completion(.failure(error))
+                        completion?(.failure(error))
                     }
-                case .success(let response):
+                    
+                case .success(let apiResponse):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    self.handleUpdateTagsResponse(apiResponse, isAdd: false, transactionID: transactionID, managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
-                        completion(.success(response))
+                        completion?(.success)
                     }
             }
         })
@@ -1703,24 +1707,38 @@ public class Aggregation: CachedObjects, ResponseHandler {
      - tagApplyAllPairs: Array of Tuple of 'Tag name'(String) and 'Apply to all'(Bool) flag
      */
     
-    public func removeTagFromTransaction(transactionID: Int64, tagApplyAllPairs: [(String, Bool)], completion: @escaping (Result<[APITagUpdateResponse], Error>) -> Void) {
+    public func removeTagFromTransaction(transactionID: Int64, tagApplyAllPairs: [(String, Bool)], completion: FrolloSDKCompletionHandler? = nil) {
         
         service.updateTags(transactionID: transactionID, method: .delete, tagApplyAllPairs: tagApplyAllPairs, completion: { result in
+            
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
                     
                     DispatchQueue.main.async {
-                        completion(.failure(error))
+                        completion?(.failure(error))
                     }
-                case .success(let response):
+                    
+                case .success(let apiResponse):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleUpdateTagsResponse(apiResponse, transactionID: transactionID, managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
-                        completion(.success(response))
+                        completion?(.success)
                     }
             }
         })
     }
+    
+    /**
+     List of tags for a transaction
+     
+     - parameters:
+     - transactionID: Transaction ID of the Transaction whose tags are to be listed
+     */
+    
+    public func listAllTagsForTransaction(transactionID: Int64, completion: @escaping (Result<[APITagUpdateResponse], Error>) -> Void) {}
     
     // MARK: - Merchants
     
@@ -2227,6 +2245,65 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 
                 try managedObjectContext.save()
                 
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+        
+    }
+    
+    private func handleUpdateTagsResponse(_ response: [APITagUpdateResponse], isAdd: Bool = true, transactionID: Int64, managedObjectContext: NSManagedObjectContext) {
+        transactionLock.lock()
+        defer {
+            transactionLock.unlock()
+        }
+        
+        managedObjectContext.performAndWait {
+            // Fetch existing objects for updating
+            let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+            
+            let predicate = NSPredicate(format: #keyPath(Transaction.transactionID) + " IN %@", argumentArray: [transactionID])
+            fetchRequest.predicate = predicate
+            
+            do {
+                let existingObjects = try managedObjectContext.fetch(fetchRequest)
+                
+                if existingObjects.count > 0 {
+                    
+                    let currentTransaction = existingObjects[0]
+                    let existingTags = currentTransaction.userTags
+                    var updatedTags = existingTags
+                    
+                    if isAdd {
+                        
+                        for element in response {
+                            
+                            if !existingTags.contains(element.name) {
+                                updatedTags.append(element.name)
+                            }
+                            
+                        }
+                        
+                    } else {
+                        let currentTransaction = existingObjects[0]
+                        let existingTags = currentTransaction.userTags
+                        
+                        let removedTags = response.map { $0.name }
+                        updatedTags = existingTags.filter { !removedTags.contains($0) }
+                        
+                    }
+                    
+                    currentTransaction.userTags = updatedTags
+                }
+                
+            } catch let fetchError {
+                Log.error(fetchError.localizedDescription)
+            }
+        }
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
             } catch {
                 Log.error(error.localizedDescription)
             }

@@ -329,7 +329,7 @@ extension APIService {
         
         let url = URL(string: AggregationEndpoint.transactionTags(transactionID: transactionID).path)!
         
-        guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: requestArray)
+        guard let urlRequest = self.network.contentRequest(url: url, method: method, content: requestArray)
         else {
             let dataError = DataError(type: .api, subType: .invalidData)
             
@@ -339,6 +339,18 @@ extension APIService {
         
         network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: responseQueue) { (response: DataResponse<Data>) in
             self.network.handleArrayResponse(type: APITagUpdateResponse.self, errorType: APIError.self, response: response, completion: completion)
+        }
+        
+    }
+    
+    internal func listTagsForTransactrion(transactionID: Int64, completion: @escaping RequestCompletion<[APITagUpdateResponse]>) {
+        
+        let url = URL(string: AggregationEndpoint.transactionTags(transactionID: transactionID).path)!
+        
+        requestQueue.async {
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleArrayResponse(type: APITagUpdateResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
         }
         
     }
