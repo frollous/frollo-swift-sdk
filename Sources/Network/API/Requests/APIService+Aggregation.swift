@@ -320,6 +320,17 @@ extension APIService {
         }
     }
     
+    private func listAllTransactionTags(transactionID: Int64, completion: @escaping RequestCompletion<[APITransactionTagResponse]>) {
+        
+        let url = URL(string: AggregationEndpoint.transactionTags(transactionID: transactionID).path, relativeTo: serverURL)!
+        
+        requestQueue.async {
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleArrayResponse(type: APITransactionTagResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     internal func updateTags(transactionID: Int64, method: HTTPMethod, tagApplyAllPairs: [(String, Bool)], completion: @escaping RequestCompletion<[APITagUpdateResponse]>) {
         
         var requestArray = [APITagUpdateRequest]()
@@ -327,7 +338,7 @@ extension APIService {
             requestArray.append(APITagUpdateRequest(applyToAll: tagApplyAllPair.1, name: tagApplyAllPair.0))
         }
         
-        let url = URL(string: AggregationEndpoint.transactionTags(transactionID: transactionID).path)!
+        let url = URL(string: AggregationEndpoint.transactionTags(transactionID: transactionID).path, relativeTo: serverURL)!
         
         guard let urlRequest = self.network.contentRequest(url: url, method: method, content: requestArray)
         else {
@@ -345,7 +356,7 @@ extension APIService {
     
     internal func listTagsForTransactrion(transactionID: Int64, completion: @escaping RequestCompletion<[APITagUpdateResponse]>) {
         
-        let url = URL(string: AggregationEndpoint.transactionTags(transactionID: transactionID).path)!
+        let url = URL(string: AggregationEndpoint.transactionTags(transactionID: transactionID).path, relativeTo: serverURL)!
         
         requestQueue.async {
             self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
@@ -362,8 +373,6 @@ extension APIService {
     internal func fetchTransactionUserTags(searchTerm: String? = nil, sort: Aggregation.SortType = .name, order: Aggregation.OrderType = .asc, completion: @escaping RequestCompletion<[APITransactionTagResponse]>) {
         fetchTags(type: .user, searchTerm: searchTerm, sort: sort, order: order, completion: completion)
     }
-    
-    internal func listAllTagsForTransaction() {}
     
     // MARK: - Merchants
     

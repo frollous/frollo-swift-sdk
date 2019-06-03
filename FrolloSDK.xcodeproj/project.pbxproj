@@ -996,6 +996,9 @@
 		2F657DB5223B56E000471B85 /* submit_survey_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F657DB4223B56DF00471B85 /* submit_survey_response.json */; };
 		2F657DB6223B56E000471B85 /* submit_survey_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F657DB4223B56DF00471B85 /* submit_survey_response.json */; };
 		2F657DB7223B56E000471B85 /* submit_survey_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F657DB4223B56DF00471B85 /* submit_survey_response.json */; };
+		2F9F199F22A4ABD200A416EA /* transaction_update_tag.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F9F199D22A4ABC000A416EA /* transaction_update_tag.json */; };
+		2F9F19A022A4ABD300A416EA /* transaction_update_tag.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F9F199D22A4ABC000A416EA /* transaction_update_tag.json */; };
+		2F9F19A122A4ABD300A416EA /* transaction_update_tag.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F9F199D22A4ABC000A416EA /* transaction_update_tag.json */; };
 		2FE180082248892800B87AAB /* OAuth2ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE180072248892800B87AAB /* OAuth2ErrorResponse.swift */; };
 		2FE180152248AA9200B87AAB /* OAuth2ErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE180142248AA9200B87AAB /* OAuth2ErrorTests.swift */; };
 		2FE180162248AA9800B87AAB /* OAuth2ErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE180142248AA9200B87AAB /* OAuth2ErrorTests.swift */; };
@@ -1478,6 +1481,7 @@
 		2F657DAB223B39EE00471B85 /* SurveysTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveysTests.swift; sourceTree = "<group>"; };
 		2F657DAE223B467000471B85 /* survey_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = survey_response.json; sourceTree = "<group>"; };
 		2F657DB4223B56DF00471B85 /* submit_survey_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = submit_survey_response.json; sourceTree = "<group>"; };
+		2F9F199D22A4ABC000A416EA /* transaction_update_tag.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_update_tag.json; sourceTree = "<group>"; };
 		2FE180072248892800B87AAB /* OAuth2ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2ErrorResponse.swift; sourceTree = "<group>"; };
 		2FE1800F2248A9D000B87AAB /* error_oauth2_server.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_oauth2_server.json; sourceTree = "<group>"; };
 		2FE180142248AA9200B87AAB /* OAuth2ErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2ErrorTests.swift; sourceTree = "<group>"; };
@@ -2091,6 +2095,7 @@
 				01E5BF85222CC8E5003D85FD /* transactions_2018-12-04_count_200_skip_0.json */,
 				01E5BF86222CC8E6003D85FD /* transactions_2018-12-04_count_200_skip_200.json */,
 				033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */,
+				2F9F199D22A4ABC000A416EA /* transaction_update_tag.json */,
 				03D965B22276DFD2009BC283 /* transactions_user_tags.json */,
 			);
 			path = Aggregation;
@@ -3119,6 +3124,7 @@
 				012C4517212A967800799A0A /* provider_login_form_multiple_choice.json in Resources */,
 				017B48EA21082DCF00447E65 /* user_details_incomplete.json in Resources */,
 				017B48EB21082DCF00447E65 /* user_details_invalid.json in Resources */,
+				2F9F199F22A4ABD200A416EA /* transaction_update_tag.json in Resources */,
 				0101949B20F5815800334482 /* FrolloSDKDataModel-1.0.0.sqlite-wal in Resources */,
 				0135D30D21A2628F00318142 /* notification_message.json in Resources */,
 				01A1F5962148D646002B9A93 /* provider-public-key.pem in Resources */,
@@ -3251,6 +3257,7 @@
 				012C4518212A967800799A0A /* provider_login_form_multiple_choice.json in Resources */,
 				017B48EC21082DD000447E65 /* user_details_incomplete.json in Resources */,
 				017B48ED21082DD000447E65 /* user_details_invalid.json in Resources */,
+				2F9F19A022A4ABD300A416EA /* transaction_update_tag.json in Resources */,
 				017B485C2101B4FE00447E65 /* FrolloSDKDataModel-1.0.0.sqlite-wal in Resources */,
 				0135D30E21A2628F00318142 /* notification_message.json in Resources */,
 				01A1F5972148D646002B9A93 /* provider-public-key.pem in Resources */,
@@ -3392,6 +3399,7 @@
 				012C4519212A967800799A0A /* provider_login_form_multiple_choice.json in Resources */,
 				017B48EE21082DD000447E65 /* user_details_incomplete.json in Resources */,
 				017B48EF21082DD000447E65 /* user_details_invalid.json in Resources */,
+				2F9F19A122A4ABD300A416EA /* transaction_update_tag.json in Resources */,
 				017B48B92105958100447E65 /* FrolloSDKDataModel-1.0.0.sqlite-wal in Resources */,
 				0135D30F21A2628F00318142 /* notification_message.json in Resources */,
 				01A1F5982148D646002B9A93 /* provider-public-key.pem in Resources */,

@@ -2746,6 +2746,120 @@ class AggregationTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testAddTagToTransaction() {
+        
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: AggregationEndpoint.transactionTags(transactionID: 2233).path.prefixedWithSlash, toResourceWithName: "transaction_update_tag")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let transaction = Transaction(context: managedObjectContext)
+                transaction.populateTestData()
+                transaction.transactionID = 2233
+                transaction.userTags = ["Pub","Dinner"]
+                
+                try? managedObjectContext.save()
+                
+                aggregation.addTagToTransaction(transactionID: 2233, tagApplyAllPairs: [("tagone",true),("tagtwo",true)]) { result in
+                    
+                    switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        
+                        let context = self.context
+                        
+                        let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [2233])
+                        
+                        do {
+                            let fetchedTransactions = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedTransactions[0].userTags.count, 4)
+                           
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                    }
+                    
+                    expectation1.fulfill()
+                }
+                
+            }
+            
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+    }
+    
+    func testRemoveTagFromTransaction() {
+        
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: AggregationEndpoint.transactionTags(transactionID: 2233).path.prefixedWithSlash, toResourceWithName: "transaction_update_tag")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let transaction = Transaction(context: managedObjectContext)
+                transaction.populateTestData()
+                transaction.transactionID = 2233
+                transaction.userTags = ["Pub","Dinner","tagone","tagtwo"]
+                
+                try? managedObjectContext.save()
+                
+                aggregation.removeTagFromTransaction(transactionID: 2233, tagApplyAllPairs: [("tagone",true),("tagtwo",true)]) { result in
+                    
+                    switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        
+                        let context = self.context
+                        
+                        let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [2233])
+                        
+                        do {
+                            let fetchedTransactions = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedTransactions[0].userTags.count, 2)
+                            
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                    }
+                    
+                    expectation1.fulfill()
+                }
+                
+            }
+            
+            
+            
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        
+        
+    }
+    
     func testTransactionUserTagsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Completion")
         

@@ -1690,7 +1690,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     
                 case .success(let apiResponse):
                     let managedObjectContext = self.database.newBackgroundContext()
-                    self.handleUpdateTagsResponse(apiResponse, isAdd: false, transactionID: transactionID, managedObjectContext: managedObjectContext)
+                    self.handleUpdateTagsResponse(apiResponse, transactionID: transactionID, managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -1722,7 +1722,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 case .success(let apiResponse):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleUpdateTagsResponse(apiResponse, transactionID: transactionID, managedObjectContext: managedObjectContext)
+                    self.handleUpdateTagsResponse(apiResponse, isAdd: false, transactionID: transactionID, managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -1738,7 +1738,26 @@ public class Aggregation: CachedObjects, ResponseHandler {
      - transactionID: Transaction ID of the Transaction whose tags are to be listed
      */
     
-    public func listAllTagsForTransaction(transactionID: Int64, completion: @escaping (Result<[APITagUpdateResponse], Error>) -> Void) {}
+    public func listAllTagsForTransaction(transactionID: Int64, completion: @escaping (Result<[APITagUpdateResponse], Error>) -> Void) {
+        
+        service.listTagsForTransactrion(transactionID: transactionID, completion: { result in
+            
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                    
+                case .success(let apiResponse):
+                    
+                    DispatchQueue.main.async {
+                        completion(.success(apiResponse))
+                    }
+            }
+        })
+    }
     
     // MARK: - Merchants
     
@@ -2259,11 +2278,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
         
         managedObjectContext.performAndWait {
-            // Fetch existing objects for updating
-            let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
             
-            let predicate = NSPredicate(format: #keyPath(Transaction.transactionID) + " IN %@", argumentArray: [transactionID])
-            fetchRequest.predicate = predicate
+            let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [transactionID])
             
             do {
                 let existingObjects = try managedObjectContext.fetch(fetchRequest)
