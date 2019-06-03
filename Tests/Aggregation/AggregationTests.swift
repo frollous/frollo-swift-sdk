@@ -2801,6 +2801,7 @@ class AggregationTests: BaseTestCase {
         
     }
     
+    
     func testRemoveTagFromTransaction() {
         
         let expectation1 = expectation(description: "Network Request 1")
@@ -2849,14 +2850,41 @@ class AggregationTests: BaseTestCase {
                 }
                 
             }
-            
-            
-            
+         
         }
         
         wait(for: [expectation1], timeout: 3.0)
+       
+    }
+    
+    func testListTagsForTransaction() {
         
+        let expectation1 = expectation(description: "Network Request 1")
         
+        connect(endpoint: AggregationEndpoint.transactionTags(transactionID: 2233).path.prefixedWithSlash, toResourceWithName: "transaction_update_tag")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            aggregation.listAllTagsForTransaction(transactionID: 2233, completion: { (result) in
+                
+                switch result {
+                case .failure(let error):
+                    XCTAssertNotNil(error)
+                    
+                case .success(let response):
+                    XCTAssertEqual(response.count, 2)
+                }
+                
+                expectation1.fulfill()
+                
+            })
+
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
         
     }
     

@@ -1673,7 +1673,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
      - transactionID: Transaction ID of the Transaction whose tag is added
-     - tagApplyAllPairs: Tuple of 'Tag name'(String) and 'Apply to all'(Bool) flag
+     - tagApplyAllPairs: Array of Tuple of 'Tag name'(String) and 'Apply to all'(Bool) flag
      */
     
     public func addTagToTransaction(transactionID: Int64, tagApplyAllPairs: [(String, Bool)], completion: FrolloSDKCompletionHandler? = nil) {
@@ -1738,7 +1738,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
      - transactionID: Transaction ID of the Transaction whose tags are to be listed
      */
     
-    public func listAllTagsForTransaction(transactionID: Int64, completion: @escaping (Result<[APITagUpdateResponse], Error>) -> Void) {
+    public func listAllTagsForTransaction(transactionID: Int64, completion: @escaping (Result<[String], Error>) -> Void) {
         
         service.listTagsForTransactrion(transactionID: transactionID, completion: { result in
             
@@ -1753,7 +1753,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 case .success(let apiResponse):
                     
                     DispatchQueue.main.async {
-                        completion(.success(apiResponse))
+                        let tagsArray = apiResponse.map { $0.name }
+                        completion(.success(tagsArray))
                     }
             }
         })

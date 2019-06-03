@@ -320,17 +320,6 @@ extension APIService {
         }
     }
     
-    private func listAllTransactionTags(transactionID: Int64, completion: @escaping RequestCompletion<[APITransactionTagResponse]>) {
-        
-        let url = URL(string: AggregationEndpoint.transactionTags(transactionID: transactionID).path, relativeTo: serverURL)!
-        
-        requestQueue.async {
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleArrayResponse(type: APITransactionTagResponse.self, errorType: APIError.self, response: response, completion: completion)
-            }
-        }
-    }
-    
     internal func updateTags(transactionID: Int64, method: HTTPMethod, tagApplyAllPairs: [(String, Bool)], completion: @escaping RequestCompletion<[APITagUpdateResponse]>) {
         
         var requestArray = [APITagUpdateRequest]()
