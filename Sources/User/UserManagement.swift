@@ -264,6 +264,76 @@ public class UserManagement {
         }
     }
     
+    /**
+     Migrate user
+     
+     Migrates a user from one identity provider to another if available. The user will then be logged out
+     and need to be authenticated again.
+     
+     - parameters:
+     - password: The new password for the migrated user
+     - completion: Completion handler with any error that occurred
+     */
+    public func migrateUser(password: String, completion: @escaping FrolloSDKCompletionHandler) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        
+        guard let oAuthAuthentication = authentication as? OAuth2Authentication,
+            let refreshToken = oAuthAuthentication.refreshToken
+        else {
+            let error = DataError(type: .authentication, subType: .missingRefreshToken)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        
+        let migrationRequest = APIUserMigrationRequest(password: password)
+        
+        guard migrationRequest.valid()
+        else {
+            let error = DataError(type: .api, subType: .passwordTooShort)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        
+        service.migrateUser(request: migrationRequest, token: refreshToken) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success:
+                    // Force logout the user as this refresh token is no longer valid
+                    #warning("Switch to logout")
+                    oAuthAuthentication.reset()
+                    
+                    self.reset()
+                    
+                    DispatchQueue.main.async {
+                        completion(.success)
+                    }
+            }
+        }
+    }
+    
     // MARK: - Password
     
     /**

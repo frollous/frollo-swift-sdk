@@ -23,6 +23,7 @@ enum UserEndpoint: Endpoint {
     }
     
     case details
+    case migrate
     case register
     case resetPassword
     case user
@@ -31,6 +32,8 @@ enum UserEndpoint: Endpoint {
         switch self {
             case .details:
                 return "user/details"
+            case .migrate:
+                return "user/migrate"
             case .register:
                 return "user/register"
             case .resetPassword:

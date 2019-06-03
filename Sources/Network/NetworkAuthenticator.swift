@@ -63,7 +63,7 @@ internal class NetworkAuthenticator: RequestAdapter, RequestRetrier {
         
         var request = urlRequest
         
-        if let relativePath = request.url?.relativePath, !(relativePath.contains(UserEndpoint.register.path) || relativePath.contains(UserEndpoint.resetPassword.path)) {
+        if let relativePath = request.url?.relativePath, !(relativePath.contains(UserEndpoint.register.path) || relativePath.contains(UserEndpoint.resetPassword.path) || relativePath.contains(UserEndpoint.migrate.path)) {
             do {
                 let adaptedRequest = try validateAndAppendAccessToken(request: request)
                 return adaptedRequest

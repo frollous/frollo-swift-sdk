@@ -548,6 +548,36 @@ class NetworkAuthenticatorTests: XCTestCase {
         keychain.removeAll()
     }
     
+    func testHeaderRemainsIntactMigrateUserRequest() {
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let userURL = URL(string: UserEndpoint.migrate.path, relativeTo: config.serverEndpoint)!
+        
+        let body = APIUserMigrationRequest(password: "12345678")
+        var urlRequest = network.contentRequest(url: userURL, method: .post, content: body)
+        
+        let bearer = "Bearer MyRefreshToken"
+        urlRequest?.setValue(bearer, forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+        
+        let request = network.sessionManager.request(urlRequest!)
+        
+        do {
+            let adaptedRequest = try service.network.authenticator.adapt(request.request!)
+            
+            XCTAssertEqual(adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue), bearer)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
+        keychain.removeAll()
+    }
+    
     func testAccessTokenHeaderAppendedToHostRequests() {
         let config = FrolloSDKConfiguration.testConfig()
         

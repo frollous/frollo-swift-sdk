@@ -121,6 +121,27 @@ extension APIService {
         }
     }
     
+    internal func migrateUser(request: APIUserMigrationRequest, token: String, completion: @escaping NetworkCompletion) {
+        requestQueue.async {
+            let url = URL(string: UserEndpoint.migrate.path, relativeTo: self.serverURL)!
+            
+            guard var urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                
+                return
+            }
+            
+            urlRequest.setValue("Bearer " + token, forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { response in
+                self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     // MARK: - Response Handling
     
     private func handleUserResponse(response: DataResponse<Data>, completion: UserRequestCompletion) {

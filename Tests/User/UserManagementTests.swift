@@ -457,6 +457,176 @@ class UserManagementTests: BaseTestCase {
         try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
+    func testMigrateUser() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.migrate.path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+        
+        let keychain = validKeychain()
+        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
+        let user = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences)
+        
+        let resetter = NetworkResetterStub(authentication: authentication)
+        network.delegate = resetter
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            user.migrateUser(password: "12345678") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        XCTAssertFalse(authentication.loggedIn)
+                        
+                        XCTAssertNil(authentication.refreshToken)
+                        XCTAssertNil(networkAuthenticator.accessToken)
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testMigrateUserFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.migrate.path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+
+        let keychain = validKeychain()
+        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: false)
+        let user = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences)
+        
+        let resetter = NetworkResetterStub(authentication: authentication)
+        network.delegate = resetter
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            user.migrateUser(password: "1234") { (result) in
+                switch result {
+                    case .failure(let error):
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .authentication)
+                            XCTAssertEqual(dataError.subType, .loggedOut)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Change password should fail")
+                }
+
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
+    func testMigrateUserFailsIfMissingRefreshToken() {
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.migrate.path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+
+        let keychain = Keychain(service: "EmptyMe")
+        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
+        let user = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences)
+        
+        let resetter = NetworkResetterStub(authentication: authentication)
+        network.delegate = resetter
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            user.migrateUser(password: "12345678") { (result) in
+                switch result {
+                    case .failure(let error):
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .authentication)
+                            XCTAssertEqual(dataError.subType, .missingRefreshToken)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Change password should fail")
+                }
+
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
+    func testMigrateUserFailsIfPasswordTooShort() {
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.migrate.path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+
+        let keychain = validKeychain()
+        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
+        let user = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences)
+        
+        let resetter = NetworkResetterStub(authentication: authentication)
+        network.delegate = resetter
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            user.migrateUser(password: "1234") { (result) in
+                switch result {
+                    case .failure(let error):
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .api)
+                            XCTAssertEqual(dataError.subType, .passwordTooShort)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Change password should fail")
+                }
+
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testResetPassword() {
         let expectation1 = expectation(description: "Network Request")
         
