@@ -94,6 +94,54 @@ public class Messages: CachedObjects, ResponseHandler {
     }
     
     /**
+     Returns the count of messages from the cache
+     
+     - parameters:
+     - context: Managed object context to fetch these from; background or main thread
+     - unread: Only return messages that are read or unread (optional)
+     - messageTypes: Array of message types to find matching Messages for (optional)
+     - filteredBy: Predicate of properties to match for fetching. See `Message` for properties (Optional)
+     
+     */
+    public func messagesCount(context: NSManagedObjectContext,
+                              unread: Bool? = nil,
+                              messageTypes: [String]? = nil,
+                              filteredBy predicate: NSPredicate? = nil) -> Int {
+        
+        var predicates = [NSPredicate]()
+        
+        if let types = messageTypes {
+            var messageTypePredicates = [NSPredicate]()
+            
+            for type in types {
+                messageTypePredicates.append(NSPredicate(format: #keyPath(Message.typesRawValue) + " CONTAINS %@", argumentArray: ["|" + type + "|"]))
+            }
+            
+            let compoundPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: messageTypePredicates)
+            predicates.append(compoundPredicate)
+        }
+        
+        if let unreadFilter = unread {
+            predicates.append(NSPredicate(format: #keyPath(Message.read) + " == %ld", argumentArray: [!unreadFilter]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        
+        do {
+            return try context.count(for: fetchRequest)
+        } catch {
+            Log.error(error.localizedDescription)
+            return -1
+        }
+        
+    }
+    
+    /**
      Fetched results controller of Messages from the cache
      
      - parameters:
