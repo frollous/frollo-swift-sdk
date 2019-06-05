@@ -48,7 +48,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -91,7 +91,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -142,7 +142,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -204,7 +204,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -255,7 +255,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -307,7 +307,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -436,7 +436,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -484,7 +484,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -533,7 +533,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -576,7 +576,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -627,7 +627,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -691,7 +691,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -769,7 +769,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -817,7 +817,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -869,7 +869,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -921,7 +921,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -991,7 +991,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1042,7 +1042,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1092,7 +1092,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         let authentication = Authentication(database: database, clientID: config.clientID, domain: config.serverEndpoint.host!, networkAuthenticator: networkAuthenticator, authService: authService, service: service, preferences: preferences, delegate: nil)
         authentication.loggedIn = true
@@ -1142,7 +1142,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1194,7 +1194,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1245,7 +1245,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1301,7 +1301,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1379,7 +1379,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1422,7 +1422,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1473,7 +1473,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1535,7 +1535,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1586,7 +1586,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1634,7 +1634,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1686,7 +1686,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1739,7 +1739,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1816,7 +1816,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1878,7 +1878,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1924,7 +1924,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -1967,7 +1967,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2018,7 +2018,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2080,7 +2080,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2134,7 +2134,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2185,7 +2185,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2253,7 +2253,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2307,7 +2307,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2359,7 +2359,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2409,7 +2409,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2462,7 +2462,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2515,7 +2515,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2600,7 +2600,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2674,7 +2674,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2755,7 +2755,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2819,7 +2819,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2894,7 +2894,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -2956,7 +2956,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3010,7 +3010,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3093,7 +3093,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3150,7 +3150,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3201,7 +3201,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3246,7 +3246,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3295,7 +3295,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3338,7 +3338,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3389,7 +3389,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3451,7 +3451,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3502,7 +3502,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3548,7 +3548,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3591,7 +3591,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3642,7 +3642,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3704,7 +3704,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3755,7 +3755,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3803,7 +3803,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3860,7 +3860,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3908,7 +3908,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3966,7 +3966,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
@@ -4018,7 +4018,7 @@ class AggregationTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: config.authorizationEndpoint, tokenEndpoint: config.tokenEndpoint, redirectURL: config.redirectURL, revokeURL: config.revokeTokenURL, network: network)
         
         database.setup { error in
             XCTAssertNil(error)

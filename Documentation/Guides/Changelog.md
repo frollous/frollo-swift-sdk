@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.5
+
+### Changes
+
+- Logout calls OAuth2 revoke token API
+
 ## 2.1.4
 
 ### Changes

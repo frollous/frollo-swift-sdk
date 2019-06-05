@@ -933,6 +933,20 @@ public class Authentication {
             return
         }
         
+        // Revoke the refresh token if possible
+        if let refreshToken = networkAuthenticator.refreshToken {
+            let request = OAuthTokenRevokeRequest(clientID: clientID, token: refreshToken)
+            
+            authService.revokeToken(request: request) { result in
+                switch result {
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    case .success:
+                        break
+                }
+            }
+        }
+        
         reset()
         
         delegate?.authenticationReset()

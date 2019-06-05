@@ -264,7 +264,7 @@ public class FrolloSDK: AuthenticationDelegate, NetworkDelegate {
         
         redirectURL = configuration.redirectURL
         
-        let authService = OAuthService(authorizationEndpoint: configuration.authorizationEndpoint, tokenEndpoint: configuration.tokenEndpoint, redirectURL: configuration.redirectURL, network: network)
+        let authService = OAuthService(authorizationEndpoint: configuration.authorizationEndpoint, tokenEndpoint: configuration.tokenEndpoint, redirectURL: configuration.redirectURL, revokeURL: configuration.revokeTokenURL, network: network)
         let service = APIService(serverEndpoint: configuration.serverEndpoint, network: network)
         
         Log.manager.service = service

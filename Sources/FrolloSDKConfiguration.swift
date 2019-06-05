@@ -25,6 +25,9 @@ public struct FrolloSDKConfiguration {
     /// Enable or disable public key pinning for *.frollo.us domains- useful for disabling in debug mode
     public var publicKeyPinningEnabled: Bool = true
     
+    /// OAuth2 token endpoint to revoke refresh token on logout (if supported)
+    public var revokeTokenURL: URL?
+    
     /**
      Generate Manual OAuth2 SDK configuration
      
