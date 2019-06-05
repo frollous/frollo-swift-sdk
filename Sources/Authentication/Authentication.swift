@@ -90,7 +90,12 @@ public protocol Authentication: AnyObject {
     // MARK: - Logout and Reset
     
     /**
-     Resets any token cache etc and logout the user
+     Logout the user if possible and then reset and clear local caches
+     */
+    func logout()
+    
+    /**
+     Resets any token cache etc and logout the user locally
      */
     func reset()
     

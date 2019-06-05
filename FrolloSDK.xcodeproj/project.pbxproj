@@ -106,6 +106,8 @@
 		01226E3122A5071400A443EF /* error_migration_failed.json in Resources */ = {isa = PBXBuildFile; fileRef = 01226E3022A5071400A443EF /* error_migration_failed.json */; };
 		01226E3222A5071400A443EF /* error_migration_failed.json in Resources */ = {isa = PBXBuildFile; fileRef = 01226E3022A5071400A443EF /* error_migration_failed.json */; };
 		01226E3322A5071400A443EF /* error_migration_failed.json in Resources */ = {isa = PBXBuildFile; fileRef = 01226E3022A5071400A443EF /* error_migration_failed.json */; };
+		01226E3A22A774DE00A443EF /* OAuthTokenRevokeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01226E3922A774DD00A443EF /* OAuthTokenRevokeRequest.swift */; };
+		01226E3B22A774DE00A443EF /* OAuthTokenRevokeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01226E3922A774DD00A443EF /* OAuthTokenRevokeRequest.swift */; };
 		01236D0721EBEC09008DD61A /* APITransactionHistoryReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0621EBEC09008DD61A /* APITransactionHistoryReportResponse.swift */; };
 		01236D0A21EBF4E5008DD61A /* Reports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0921EBF4E5008DD61A /* Reports.swift */; };
 		01236D0C21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0B21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift */; };
@@ -1120,6 +1122,7 @@
 		011F8152219E637E00A1495F /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		01226E2D22A506FD00A443EF /* APIUserMigrationRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIUserMigrationRequest.swift; sourceTree = "<group>"; };
 		01226E3022A5071400A443EF /* error_migration_failed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_migration_failed.json; sourceTree = "<group>"; };
+		01226E3922A774DD00A443EF /* OAuthTokenRevokeRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthTokenRevokeRequest.swift; sourceTree = "<group>"; };
 		01236D0621EBEC09008DD61A /* APITransactionHistoryReportResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionHistoryReportResponse.swift; sourceTree = "<group>"; };
 		01236D0921EBF4E5008DD61A /* Reports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reports.swift; sourceTree = "<group>"; };
 		01236D0B21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionCurrentReportResponse.swift; sourceTree = "<group>"; };
@@ -2526,9 +2529,10 @@
 		01BB5A5A221D19F4000C03F0 /* OAuth */ = {
 			isa = PBXGroup;
 			children = (
+				2FE180072248892800B87AAB /* OAuth2ErrorResponse.swift */,
 				01BB5A5B221D1A26000C03F0 /* OAuthTokenRequest.swift */,
 				01BB5A5D221E00AA000C03F0 /* OAuthTokenResponse.swift */,
-				2FE180072248892800B87AAB /* OAuth2ErrorResponse.swift */,
+				01226E3922A774DD00A443EF /* OAuthTokenRevokeRequest.swift */,
 			);
 			path = OAuth;
 			sourceTree = "<group>";
@@ -3606,6 +3610,7 @@
 				01EED86E20E5AAAB00F4516B /* Database.swift in Sources */,
 				01874B8120FDA1DD005A7D0C /* NetworkAuthenticator.swift in Sources */,
 				0159E4832193CBAD002CC3BB /* Transaction+CoreDataProperties.swift in Sources */,
+				01226E3A22A774DE00A443EF /* OAuthTokenRevokeRequest.swift in Sources */,
 				01226E2E22A5070000A443EF /* APIUserMigrationRequest.swift in Sources */,
 				0159E4842193CBAD002CC3BB /* TransactionCategory+CoreDataProperties.swift in Sources */,
 				01C824FD20EDD6630093400E /* FrolloSDKError.swift in Sources */,
@@ -4114,6 +4119,7 @@
 				01E5BEEE2227A475003D85FD /* Database.swift in Sources */,
 				01E5BEEF2227A475003D85FD /* NetworkAuthenticator.swift in Sources */,
 				03ADF87C22795C78001B5E20 /* Tag+CoreDataProperties.swift in Sources */,
+				01226E3B22A774DE00A443EF /* OAuthTokenRevokeRequest.swift in Sources */,
 				01226E2F22A5070000A443EF /* APIUserMigrationRequest.swift in Sources */,
 				01E5BEF02227A475003D85FD /* Transaction+CoreDataProperties.swift in Sources */,
 				01E5BEF12227A475003D85FD /* TransactionCategory+CoreDataProperties.swift in Sources */,

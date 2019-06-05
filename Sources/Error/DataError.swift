@@ -57,6 +57,9 @@ public class DataError: FrolloSDKError {
         /// API - Password too short
         case passwordTooShort
         
+        /// API - Revoke token URL not provided
+        case revokeTokenURLMissing
+        
         /// Authentication - Already logged in
         case alreadyLoggedIn
         
@@ -119,6 +122,8 @@ public class DataError: FrolloSDKError {
                         return Localization.string("Error.Data.API.InvalidData")
                     case .passwordTooShort:
                         return Localization.string("Error.Data.API.PasswordTooShort")
+                    case .revokeTokenURLMissing:
+                        return Localization.string("Error.Data.API.RevokeTokenURLMissing")
                     default:
                         return Localization.string("Error.Data.API.Unknown")
                 }

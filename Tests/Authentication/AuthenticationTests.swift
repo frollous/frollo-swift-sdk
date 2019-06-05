@@ -71,6 +71,10 @@ class AuthenticationTests: BaseTestCase {
                 return false
             }
             
+            func logout() {
+                reset()
+            }
+            
             func reset() {
                 loggedIn = false
                 

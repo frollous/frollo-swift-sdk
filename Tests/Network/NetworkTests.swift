@@ -80,7 +80,8 @@ class NetworkTests: XCTestCase {
         let config = FrolloSDKConfiguration(authenticationType: .oAuth2(clientID: "zyx987",
                                                                         redirectURL: URL(string: "app://authed")!,
                                                                         authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!,
-                                                                        tokenEndpoint: tokenEndpoint),
+                                                                        tokenEndpoint: tokenEndpoint,
+                                                                        revokeTokenEndpoint: FrolloSDKConfiguration.revokeTokenEndpoint),
                                             serverEndpoint: URL(string: "https://api.frollo.us/api/")!)
         let testURL = config.serverEndpoint.appendingPathComponent("pages/terms")
         
@@ -110,7 +111,8 @@ class NetworkTests: XCTestCase {
         let config = FrolloSDKConfiguration(authenticationType: .oAuth2(clientID: "zyx987",
                                                                         redirectURL: URL(string: "app://authed")!,
                                                                         authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!,
-                                                                        tokenEndpoint: tokenEndpoint),
+                                                                        tokenEndpoint: tokenEndpoint,
+                                                                        revokeTokenEndpoint: URL(string: "https://id.frollo.us/oauth/revoke")!),
                                             serverEndpoint: URL(string: "https://api.frollo.us/api/")!)
         let testURL = config.serverEndpoint.appendingPathComponent("pages/terms")
         
@@ -138,7 +140,8 @@ class NetworkTests: XCTestCase {
         let config = FrolloSDKConfiguration(authenticationType: .oAuth2(clientID: "zyx987",
                                                                         redirectURL: URL(string: "app://authed")!,
                                                                         authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!,
-                                                                        tokenEndpoint: URL(string: "https://id.frollo.us/oauth/token")!),
+                                                                        tokenEndpoint: URL(string: "https://id.frollo.us/oauth/token")!,
+                                                                        revokeTokenEndpoint: URL(string: "https://id.frollo.us/oauth/revoke")!),
                                             serverEndpoint: URL(string: "https://google.com.au")!)
         
         let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)

@@ -21,6 +21,7 @@ class OAuthService {
     internal let authorizationURL: URL
     internal let network: Network
     internal let redirectURL: URL
+    internal let revokeURL: URL?
     internal let tokenURL: URL
     
     /// Asynchronous queue all network requests are executed from
@@ -29,10 +30,11 @@ class OAuthService {
     /// Asynchornous queue all network responses are executed on
     internal let responseQueue = DispatchQueue(label: "FrolloSDK.APIResponseQueue", qos: .userInitiated, attributes: .concurrent)
     
-    init(authorizationEndpoint: URL, tokenEndpoint: URL, redirectURL: URL, network: Network) {
+    init(authorizationEndpoint: URL, tokenEndpoint: URL, redirectURL: URL, revokeURL: URL?, network: Network) {
         self.authorizationURL = authorizationEndpoint
         self.network = network
         self.redirectURL = redirectURL
+        self.revokeURL = revokeURL
         self.tokenURL = tokenEndpoint
     }
     
@@ -56,6 +58,31 @@ class OAuthService {
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: OAuthTokenResponse.self, errorType: OAuth2Error.self, response: response, dateDecodingStrategy: .secondsSince1970, completion: completion)
+            }
+        }
+    }
+    
+    internal func revokeToken(request: OAuthTokenRevokeRequest, completion: @escaping NetworkCompletion) {
+        requestQueue.async {
+            guard let revokeTokenURL = self.revokeURL
+            else {
+                let error = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(error))
+                
+                return
+            }
+            
+            guard let urlRequest = self.network.contentRequest(url: revokeTokenURL, method: .post, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleEmptyResponse(errorType: OAuth2Error.self, response: response, completion: completion)
             }
         }
     }

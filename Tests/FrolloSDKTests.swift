@@ -92,7 +92,8 @@ class FrolloSDKTests: XCTestCase {
         let config = FrolloSDKConfiguration(authenticationType: .oAuth2(clientID: FrolloSDKConfiguration.clientID,
                                                                         redirectURL: FrolloSDKConfiguration.redirectURL,
                                                                         authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint,
-                                                                        tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint),
+                                                                        tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint,
+                                                                        revokeTokenEndpoint: FrolloSDKConfiguration.revokeTokenEndpoint),
                                             dataDirectory: dataDirectory,
                                             serverEndpoint: URL(string: "https://api.example.com")!)
         

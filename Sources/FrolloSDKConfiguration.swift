@@ -33,7 +33,8 @@ public struct FrolloSDKConfiguration {
         /// - redirectURL: OAuth2 Redirection URL. URL to redirect to after the authorization flow is complete. This should be a deep or universal link to the host app
         /// - authorizationEndpoint: URL of the OAuth2 authorization endpoint for web based login
         /// - tokenEndpoint: URL of the OAuth2 token endpoint for getting tokens and native login
-        case oAuth2(clientID: String, redirectURL: URL, authorizationEndpoint: URL, tokenEndpoint: URL)
+        /// - revokeTokenEndpoint: URL of the OAuth2 revoke endpoint if supported
+        case oAuth2(clientID: String, redirectURL: URL, authorizationEndpoint: URL, tokenEndpoint: URL, revokeTokenEndpoint: URL?)
         
     }
     

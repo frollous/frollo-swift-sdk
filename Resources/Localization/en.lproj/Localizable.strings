@@ -30,6 +30,7 @@
 
 "Error.Data.API.InvalidData" = "API request or response data was invalid.";
 "Error.Data.API.PasswordTooShort" = "Your password must be at least 8 characters long.";
+"Error.Data.API.RevokeTokenURLMissing" = "Revoke token URL not provided.";
 "Error.Data.API.Unknown" = "Unknown error occurred in the API request or response.";
 
 "Error.Data.Authentication.AlreadyLoggedIn" = "User is already logged in.";

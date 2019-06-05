@@ -246,7 +246,7 @@ public class FrolloSDK: NetworkDelegate {
         if let host = configuration.serverEndpoint.host, host.contains(frolloHost) {
             pinServer = true
         }
-        if case FrolloSDKConfiguration.AuthenticationType.oAuth2(_, _, _, let tokenEndpoint) = configuration.authenticationType, let host = tokenEndpoint.host, host.contains(frolloHost) {
+        if case FrolloSDKConfiguration.AuthenticationType.oAuth2(_, _, _, let tokenEndpoint, _) = configuration.authenticationType, let host = tokenEndpoint.host, host.contains(frolloHost) {
             pinToken = true
         }
         
@@ -269,7 +269,7 @@ public class FrolloSDK: NetworkDelegate {
                 if pinServer {
                     pinnedKeys?[configuration.serverEndpoint] = [activeKey, backupKey]
                 }
-                if pinToken, case FrolloSDKConfiguration.AuthenticationType.oAuth2(_, _, _, let tokenEndpoint) = configuration.authenticationType {
+                if pinToken, case FrolloSDKConfiguration.AuthenticationType.oAuth2(_, _, _, let tokenEndpoint, _) = configuration.authenticationType {
                     pinnedKeys?[tokenEndpoint] = [activeKey, backupKey]
                 }
             }
@@ -291,8 +291,8 @@ public class FrolloSDK: NetworkDelegate {
                 
                 _authentication = customAuthentication
                 
-            case .oAuth2(let clientID, let redirectURL, let authorizationEndpoint, let tokenEndpoint):
-                let authService = OAuthService(authorizationEndpoint: authorizationEndpoint, tokenEndpoint: tokenEndpoint, redirectURL: redirectURL, network: network)
+            case .oAuth2(let clientID, let redirectURL, let authorizationEndpoint, let tokenEndpoint, let revokeTokenEndpoint):
+                let authService = OAuthService(authorizationEndpoint: authorizationEndpoint, tokenEndpoint: tokenEndpoint, redirectURL: redirectURL, revokeURL: revokeTokenEndpoint, network: network)
                 _authentication = OAuth2Authentication(keychain: keychain, clientID: clientID, redirectURL: redirectURL, serverURL: configuration.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
         }
         

@@ -457,6 +457,29 @@ public class OAuth2Authentication: Authentication {
     // MARK: - Logout
     
     /**
+     Logout user
+     
+     Logout the user by revoking the refresh token if possible followed by local cleanup by calling reset
+     */
+    public func logout() {
+        // Revoke the refresh token if possible
+        if let token = refreshToken {
+            let request = OAuthTokenRevokeRequest(clientID: clientID, token: token)
+            
+            authService.revokeToken(request: request) { result in
+                switch result {
+                    case .failure(let error):
+                        Log.error(error.localizedDescription)
+                    case .success:
+                        break
+                }
+            }
+        }
+        
+        reset()
+    }
+    
+    /**
      Reset the authentication state. Resets the user to a logged out state and clears any tokens cached
      */
     public func reset() {

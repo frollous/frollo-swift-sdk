@@ -322,7 +322,6 @@ public class UserManagement {
                     }
                 case .success:
                     // Force logout the user as this refresh token is no longer valid
-                    #warning("Switch to logout")
                     oAuthAuthentication.reset()
                     
                     self.reset()
