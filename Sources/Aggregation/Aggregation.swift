@@ -40,6 +40,11 @@ public class Aggregation: CachedObjects, ResponseHandler {
         case relevance
     }
     
+    /**
+     Tuple of tagname (String) and apply to all similar transactions (Bool)
+     */
+    public typealias tagApplyAllPairs = (String, Bool)
+    
     /// Notification fired when transactions cache has been updated
     public static let transactionsUpdatedNotification = Notification.Name(rawValue: "FrolloSDK.aggregation.transactionsUpdatedNotification")
     
@@ -1673,12 +1678,17 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
      - transactionID: Transaction ID of the Transaction whose tag is added
-     - tagApplyAllPairs: Array of Tuple of 'Tag name'(String) and 'Apply to all'(Bool) flag
+     - tagApplyAllPairs: Array of tuple tagApplyAllPairs
      */
     
-    public func addTagToTransaction(transactionID: Int64, tagApplyAllPairs: [(String, Bool)], completion: FrolloSDKCompletionHandler? = nil) {
+    public func addTagToTransaction(transactionID: Int64, tagApplyAllPairs: [tagApplyAllPairs], completion: FrolloSDKCompletionHandler? = nil) {
         
-        service.updateTags(transactionID: transactionID, method: .post, tagApplyAllPairs: tagApplyAllPairs, completion: { result in
+        var requestArray = [APITagUpdateRequest]()
+        for tagApplyAllPair in tagApplyAllPairs {
+            requestArray.append(APITagUpdateRequest(applyToAll: tagApplyAllPair.1, name: tagApplyAllPair.0))
+        }
+        
+        service.updateTags(transactionID: transactionID, method: .post, requestArray: requestArray, completion: { result in
             
             switch result {
                 case .failure(let error):
@@ -1709,7 +1719,12 @@ public class Aggregation: CachedObjects, ResponseHandler {
     
     public func removeTagFromTransaction(transactionID: Int64, tagApplyAllPairs: [(String, Bool)], completion: FrolloSDKCompletionHandler? = nil) {
         
-        service.updateTags(transactionID: transactionID, method: .delete, tagApplyAllPairs: tagApplyAllPairs, completion: { result in
+        var requestArray = [APITagUpdateRequest]()
+        for tagApplyAllPair in tagApplyAllPairs {
+            requestArray.append(APITagUpdateRequest(applyToAll: tagApplyAllPair.1, name: tagApplyAllPair.0))
+        }
+        
+        service.updateTags(transactionID: transactionID, method: .delete, requestArray: requestArray, completion: { result in
             
             switch result {
                 case .failure(let error):

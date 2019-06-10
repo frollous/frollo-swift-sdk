@@ -106,7 +106,7 @@ public class Messages: CachedObjects, ResponseHandler {
     public func messagesCount(context: NSManagedObjectContext,
                               unread: Bool? = nil,
                               messageTypes: [String]? = nil,
-                              filteredBy predicate: NSPredicate? = nil) -> Int {
+                              filteredBy predicate: NSPredicate? = nil) -> Int? {
         
         var predicates = [NSPredicate]()
         
@@ -136,7 +136,7 @@ public class Messages: CachedObjects, ResponseHandler {
             return try context.count(for: fetchRequest)
         } catch {
             Log.error(error.localizedDescription)
-            return -1
+            return nil
         }
         
     }

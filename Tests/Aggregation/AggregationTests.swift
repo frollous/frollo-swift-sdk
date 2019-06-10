@@ -2768,7 +2768,11 @@ class AggregationTests: BaseTestCase {
                 
                 try? managedObjectContext.save()
                 
-                aggregation.addTagToTransaction(transactionID: 2233, tagApplyAllPairs: [("tagone",true),("tagtwo",true)]) { result in
+                var tuplearray = [Aggregation.tagApplyAllPairs]()
+                tuplearray.append(("tagone",true))
+                tuplearray.append(("tagtwo",true))
+                
+                aggregation.addTagToTransaction(transactionID: 2233, tagApplyAllPairs: tuplearray) { result in
                     
                     switch result {
                     case .failure(let error):
@@ -2784,6 +2788,8 @@ class AggregationTests: BaseTestCase {
                             let fetchedTransactions = try context.fetch(fetchRequest)
                             
                             XCTAssertEqual(fetchedTransactions[0].userTags.count, 4)
+                            XCTAssertEqual(fetchedTransactions[0].userTags[2], "tagone")
+                            XCTAssertEqual(fetchedTransactions[0].userTags[3], "tagtwo")
                            
                         } catch {
                             XCTFail(error.localizedDescription)
@@ -2824,7 +2830,11 @@ class AggregationTests: BaseTestCase {
                 
                 try? managedObjectContext.save()
                 
-                aggregation.removeTagFromTransaction(transactionID: 2233, tagApplyAllPairs: [("tagone",true),("tagtwo",true)]) { result in
+                var tuplearray = [Aggregation.tagApplyAllPairs]()
+                tuplearray.append(("tagone",true))
+                tuplearray.append(("tagtwo",true))
+                
+                aggregation.removeTagFromTransaction(transactionID: 2233, tagApplyAllPairs: tuplearray) { result in
                     
                     switch result {
                     case .failure(let error):
@@ -2840,6 +2850,12 @@ class AggregationTests: BaseTestCase {
                             let fetchedTransactions = try context.fetch(fetchRequest)
                             
                             XCTAssertEqual(fetchedTransactions[0].userTags.count, 2)
+                            
+                            XCTAssertNotEqual(fetchedTransactions[0].userTags[0], "tagone")
+                            XCTAssertNotEqual(fetchedTransactions[0].userTags[1], "tagone")
+                            
+                            XCTAssertNotEqual(fetchedTransactions[0].userTags[0], "tagtwo")
+                            XCTAssertNotEqual(fetchedTransactions[0].userTags[1], "tagtwo")
                             
                         } catch {
                             XCTFail(error.localizedDescription)

@@ -320,12 +320,7 @@ extension APIService {
         }
     }
     
-    internal func updateTags(transactionID: Int64, method: HTTPMethod, tagApplyAllPairs: [(String, Bool)], completion: @escaping RequestCompletion<[APITagUpdateResponse]>) {
-        
-        var requestArray = [APITagUpdateRequest]()
-        for tagApplyAllPair in tagApplyAllPairs {
-            requestArray.append(APITagUpdateRequest(applyToAll: tagApplyAllPair.1, name: tagApplyAllPair.0))
-        }
+    internal func updateTags(transactionID: Int64, method: HTTPMethod, requestArray: [APITagUpdateRequest], completion: @escaping RequestCompletion<[APITagUpdateResponse]>) {
         
         let url = URL(string: AggregationEndpoint.transactionTags(transactionID: transactionID).path, relativeTo: serverURL)!
         
