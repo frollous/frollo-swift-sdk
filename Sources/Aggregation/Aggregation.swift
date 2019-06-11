@@ -1683,9 +1683,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
     
     public func addTagToTransaction(transactionID: Int64, tagApplyAllPairs: [tagApplyAllPairs], completion: FrolloSDKCompletionHandler? = nil) {
         
-        var requestArray = [APITagUpdateRequest]()
-        for tagApplyAllPair in tagApplyAllPairs {
-            requestArray.append(APITagUpdateRequest(applyToAll: tagApplyAllPair.1, name: tagApplyAllPair.0))
+        let requestArray = tagApplyAllPairs.map { (tagName, applyAll) -> APITagUpdateRequest in
+            APITagUpdateRequest(applyToAll: applyAll, name: tagName)
         }
         
         service.updateTags(transactionID: transactionID, method: .post, requestArray: requestArray, completion: { result in

@@ -111,10 +111,9 @@ public class Messages: CachedObjects, ResponseHandler {
         var predicates = [NSPredicate]()
         
         if let types = messageTypes {
-            var messageTypePredicates = [NSPredicate]()
             
-            for type in types {
-                messageTypePredicates.append(NSPredicate(format: #keyPath(Message.typesRawValue) + " CONTAINS %@", argumentArray: ["|" + type + "|"]))
+            let messageTypePredicates = types.map { (value) -> NSPredicate in
+                NSPredicate(format: #keyPath(Message.typesRawValue) + " CONTAINS %@", argumentArray: ["|" + value + "|"])
             }
             
             let compoundPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: messageTypePredicates)
