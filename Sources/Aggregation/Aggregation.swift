@@ -1697,9 +1697,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
                         completion?(.failure(error))
                     }
                     
-                case .success(let apiResponse):
+                case .success:
                     let managedObjectContext = self.database.newBackgroundContext()
-                    self.handleUpdateTagsResponse(apiResponse, transactionID: transactionID, managedObjectContext: managedObjectContext)
+                    self.handleUpdateTagsResponse(requestArray, transactionID: transactionID, managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -1733,10 +1733,10 @@ public class Aggregation: CachedObjects, ResponseHandler {
                         completion?(.failure(error))
                     }
                     
-                case .success(let apiResponse):
+                case .success:
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleUpdateTagsResponse(apiResponse, isAdd: false, transactionID: transactionID, managedObjectContext: managedObjectContext)
+                    self.handleUpdateTagsResponse(requestArray, isAdd: false, transactionID: transactionID, managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -2286,7 +2286,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         
     }
     
-    private func handleUpdateTagsResponse(_ response: [APITagUpdateResponse], isAdd: Bool = true, transactionID: Int64, managedObjectContext: NSManagedObjectContext) {
+    private func handleUpdateTagsResponse(_ requestArray: [APITagUpdateRequest], isAdd: Bool = true, transactionID: Int64, managedObjectContext: NSManagedObjectContext) {
         transactionLock.lock()
         defer {
             transactionLock.unlock()
@@ -2308,7 +2308,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     
                     if isAdd {
                         
-                        for element in response {
+                        for element in requestArray {
                             
                             if !existingTags.contains(element.name) {
                                 updatedTags.append(element.name)
@@ -2320,7 +2320,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                         let currentTransaction = existingObjects[0]
                         let existingTags = currentTransaction.userTags
                         
-                        let removedTags = response.map { $0.name }
+                        let removedTags = requestArray.map { $0.name }
                         updatedTags = existingTags.filter { !removedTags.contains($0) }
                         
                     }

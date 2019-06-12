@@ -320,7 +320,7 @@ extension APIService {
         }
     }
     
-    internal func updateTags(transactionID: Int64, method: HTTPMethod, requestArray: [APITagUpdateRequest], completion: @escaping RequestCompletion<[APITagUpdateResponse]>) {
+    internal func updateTags(transactionID: Int64, method: HTTPMethod, requestArray: [APITagUpdateRequest], completion: @escaping NetworkCompletion) {
         
         let url = URL(string: AggregationEndpoint.transactionTags(transactionID: transactionID).path, relativeTo: serverURL)!
         
@@ -332,19 +332,20 @@ extension APIService {
             return
         }
         
-        network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: responseQueue) { (response: DataResponse<Data>) in
-            self.network.handleArrayResponse(type: APITagUpdateResponse.self, errorType: APIError.self, response: response, completion: completion)
+        network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: responseQueue) { response in
+            
+            self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
         }
         
     }
     
-    internal func listTagsForTransactrion(transactionID: Int64, completion: @escaping RequestCompletion<[APITagUpdateResponse]>) {
+    internal func listTagsForTransactrion(transactionID: Int64, completion: @escaping RequestCompletion<[APITagResponse]>) {
         
         let url = URL(string: AggregationEndpoint.transactionTags(transactionID: transactionID).path, relativeTo: serverURL)!
         
         requestQueue.async {
             self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleArrayResponse(type: APITagUpdateResponse.self, errorType: APIError.self, response: response, completion: completion)
+                self.network.handleArrayResponse(type: APITagResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
         

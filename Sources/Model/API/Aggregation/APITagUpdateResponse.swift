@@ -16,7 +16,7 @@
 
 import Foundation
 
-struct APITagUpdateResponse: Codable {
+struct APITagResponse: Codable {
     
     enum CodingKeys: String, CodingKey {
         case id
