@@ -320,6 +320,37 @@ extension APIService {
         }
     }
     
+    internal func updateTags(transactionID: Int64, method: HTTPMethod, requestArray: [APITagUpdateRequest], completion: @escaping NetworkCompletion) {
+        
+        let url = URL(string: AggregationEndpoint.transactionTags(transactionID: transactionID).path, relativeTo: serverURL)!
+        
+        guard let urlRequest = self.network.contentRequest(url: url, method: method, content: requestArray)
+        else {
+            let dataError = DataError(type: .api, subType: .invalidData)
+            
+            completion(.failure(dataError))
+            return
+        }
+        
+        network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: responseQueue) { response in
+            
+            self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
+        }
+        
+    }
+    
+    internal func listTagsForTransactrion(transactionID: Int64, completion: @escaping RequestCompletion<[APITagResponse]>) {
+        
+        let url = URL(string: AggregationEndpoint.transactionTags(transactionID: transactionID).path, relativeTo: serverURL)!
+        
+        requestQueue.async {
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleArrayResponse(type: APITagResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+        
+    }
+    
     internal func fetchTransactionSuggestedTags(searchTerm: String, sort: Aggregation.SortType = .name, order: Aggregation.OrderType = .asc, completion: @escaping RequestCompletion<[APITransactionTagResponse]>) {
         fetchTags(type: .suggested, searchTerm: searchTerm, sort: sort, order: order, completion: completion)
     }

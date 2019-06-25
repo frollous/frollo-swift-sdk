@@ -138,6 +138,71 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testMessagesCount() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, network: network)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testMessage1 = Message(context: managedObjectContext)
+                testMessage1.populateTestData()
+                testMessage1.contentType = .text
+                testMessage1.messageTypes = ["information"]
+                testMessage1.read = false
+                
+                let testMessage2 = Message(context: managedObjectContext)
+                testMessage2.populateTestData()
+                testMessage2.contentType = .text
+                testMessage2.messageTypes = ["warning"]
+                testMessage2.read = false
+                
+                let testMessage3 = Message(context: managedObjectContext)
+                testMessage3.populateTestData()
+                testMessage3.contentType = .text
+                testMessage3.messageTypes = ["derp", "test"]
+                testMessage3.read = false
+                
+                try! managedObjectContext.save()
+            }
+            
+            let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
+            authentication.loggedIn = true
+            let messages = Messages(database: database, service: service, authentication: authentication)
+            
+            var fetchedMessagesCount = messages.messagesCount(context: database.viewContext)
+            
+            XCTAssertEqual(fetchedMessagesCount, 3)
+            
+            fetchedMessagesCount = messages.messagesCount(context: database.viewContext, unread: true, messageTypes: ["information", "warning"])
+            
+            XCTAssertEqual(fetchedMessagesCount, 2)
+            
+            let predicate = NSPredicate(format: #keyPath(Message.read) + " == %ld", argumentArray: [true])
+
+            fetchedMessagesCount = messages.messagesCount(context: database.viewContext, filteredBy: predicate)
+            
+            XCTAssertEqual(fetchedMessagesCount, 0)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testMessagesFetchedResultsController() {
         let expectation1 = expectation(description: "Completion")
         

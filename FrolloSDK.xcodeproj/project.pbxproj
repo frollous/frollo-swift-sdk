@@ -988,6 +988,8 @@
 		03E157BB227BBFE50083F0D8 /* BaseTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E157B9227BBFD90083F0D8 /* BaseTestCase.swift */; };
 		03E157BC227BBFE50083F0D8 /* BaseTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E157B9227BBFD90083F0D8 /* BaseTestCase.swift */; };
 		03EB8B18227671A80080F59B /* APITransactionTagsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46C82272856500E0C6D6 /* APITransactionTagsResponse.swift */; };
+		2F2F0C9D22A0D0E700F05961 /* APITagUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F0C9C22A0D0E700F05961 /* APITagUpdateRequest.swift */; };
+		2F2F0C9F22A0D29800F05961 /* APITagUpdateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F0C9E22A0D29800F05961 /* APITagUpdateResponse.swift */; };
 		2F657DA3223B26B300471B85 /* Survey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA2223B26B300471B85 /* Survey.swift */; };
 		2F657DA5223B2FB300471B85 /* Surveys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA4223B2FB300471B85 /* Surveys.swift */; };
 		2F657DA7223B314100471B85 /* APIService+Surveys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA6223B314100471B85 /* APIService+Surveys.swift */; };
@@ -1001,6 +1003,9 @@
 		2F657DB5223B56E000471B85 /* submit_survey_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F657DB4223B56DF00471B85 /* submit_survey_response.json */; };
 		2F657DB6223B56E000471B85 /* submit_survey_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F657DB4223B56DF00471B85 /* submit_survey_response.json */; };
 		2F657DB7223B56E000471B85 /* submit_survey_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F657DB4223B56DF00471B85 /* submit_survey_response.json */; };
+		2F9F199F22A4ABD200A416EA /* transaction_update_tag.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F9F199D22A4ABC000A416EA /* transaction_update_tag.json */; };
+		2F9F19A022A4ABD300A416EA /* transaction_update_tag.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F9F199D22A4ABC000A416EA /* transaction_update_tag.json */; };
+		2F9F19A122A4ABD300A416EA /* transaction_update_tag.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F9F199D22A4ABC000A416EA /* transaction_update_tag.json */; };
 		2FE180082248892800B87AAB /* OAuth2ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE180072248892800B87AAB /* OAuth2ErrorResponse.swift */; };
 		2FE180152248AA9200B87AAB /* OAuth2ErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE180142248AA9200B87AAB /* OAuth2ErrorTests.swift */; };
 		2FE180162248AA9800B87AAB /* OAuth2ErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE180142248AA9200B87AAB /* OAuth2ErrorTests.swift */; };
@@ -1477,6 +1482,8 @@
 		03D965B22276DFD2009BC283 /* transactions_user_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transactions_user_tags.json; sourceTree = "<group>"; };
 		03D965B82277C519009BC283 /* Tag+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+Test.swift"; sourceTree = "<group>"; };
 		03E157B9227BBFD90083F0D8 /* BaseTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTestCase.swift; sourceTree = "<group>"; };
+		2F2F0C9C22A0D0E700F05961 /* APITagUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITagUpdateRequest.swift; sourceTree = "<group>"; };
+		2F2F0C9E22A0D29800F05961 /* APITagUpdateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITagUpdateResponse.swift; sourceTree = "<group>"; };
 		2F657DA2223B26B300471B85 /* Survey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Survey.swift; sourceTree = "<group>"; };
 		2F657DA4223B2FB300471B85 /* Surveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Surveys.swift; sourceTree = "<group>"; };
 		2F657DA6223B314100471B85 /* APIService+Surveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+Surveys.swift"; sourceTree = "<group>"; };
@@ -1484,6 +1491,7 @@
 		2F657DAB223B39EE00471B85 /* SurveysTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveysTests.swift; sourceTree = "<group>"; };
 		2F657DAE223B467000471B85 /* survey_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = survey_response.json; sourceTree = "<group>"; };
 		2F657DB4223B56DF00471B85 /* submit_survey_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = submit_survey_response.json; sourceTree = "<group>"; };
+		2F9F199D22A4ABC000A416EA /* transaction_update_tag.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_update_tag.json; sourceTree = "<group>"; };
 		2FE180072248892800B87AAB /* OAuth2ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2ErrorResponse.swift; sourceTree = "<group>"; };
 		2FE1800F2248A9D000B87AAB /* error_oauth2_server.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_oauth2_server.json; sourceTree = "<group>"; };
 		2FE180142248AA9200B87AAB /* OAuth2ErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2ErrorTests.swift; sourceTree = "<group>"; };
@@ -2098,6 +2106,7 @@
 				01E5BF85222CC8E5003D85FD /* transactions_2018-12-04_count_200_skip_0.json */,
 				01E5BF86222CC8E6003D85FD /* transactions_2018-12-04_count_200_skip_200.json */,
 				033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */,
+				2F9F199D22A4ABC000A416EA /* transaction_update_tag.json */,
 				03D965B22276DFD2009BC283 /* transactions_user_tags.json */,
 			);
 			path = Aggregation;
@@ -2218,6 +2227,8 @@
 				01E5BF7A222895CA003D85FD /* APITransactionSummaryResponse.swift */,
 				010EB42A211BF92A005A926A /* APITransactionUpdateRequest.swift */,
 				033D46C82272856500E0C6D6 /* APITransactionTagsResponse.swift */,
+				2F2F0C9C22A0D0E700F05961 /* APITagUpdateRequest.swift */,
+				2F2F0C9E22A0D29800F05961 /* APITagUpdateResponse.swift */,
 			);
 			path = Aggregation;
 			sourceTree = "<group>";
@@ -3127,6 +3138,7 @@
 				012C4517212A967800799A0A /* provider_login_form_multiple_choice.json in Resources */,
 				017B48EA21082DCF00447E65 /* user_details_incomplete.json in Resources */,
 				017B48EB21082DCF00447E65 /* user_details_invalid.json in Resources */,
+				2F9F199F22A4ABD200A416EA /* transaction_update_tag.json in Resources */,
 				0101949B20F5815800334482 /* FrolloSDKDataModel-1.0.0.sqlite-wal in Resources */,
 				0135D30D21A2628F00318142 /* notification_message.json in Resources */,
 				01A1F5962148D646002B9A93 /* provider-public-key.pem in Resources */,
@@ -3260,6 +3272,7 @@
 				012C4518212A967800799A0A /* provider_login_form_multiple_choice.json in Resources */,
 				017B48EC21082DD000447E65 /* user_details_incomplete.json in Resources */,
 				017B48ED21082DD000447E65 /* user_details_invalid.json in Resources */,
+				2F9F19A022A4ABD300A416EA /* transaction_update_tag.json in Resources */,
 				017B485C2101B4FE00447E65 /* FrolloSDKDataModel-1.0.0.sqlite-wal in Resources */,
 				0135D30E21A2628F00318142 /* notification_message.json in Resources */,
 				01A1F5972148D646002B9A93 /* provider-public-key.pem in Resources */,
@@ -3402,6 +3415,7 @@
 				012C4519212A967800799A0A /* provider_login_form_multiple_choice.json in Resources */,
 				017B48EE21082DD000447E65 /* user_details_incomplete.json in Resources */,
 				017B48EF21082DD000447E65 /* user_details_invalid.json in Resources */,
+				2F9F19A122A4ABD300A416EA /* transaction_update_tag.json in Resources */,
 				017B48B92105958100447E65 /* FrolloSDKDataModel-1.0.0.sqlite-wal in Resources */,
 				0135D30F21A2628F00318142 /* notification_message.json in Resources */,
 				01A1F5982148D646002B9A93 /* provider-public-key.pem in Resources */,
@@ -3668,6 +3682,7 @@
 				01BC3D112166D90C0065A4B8 /* APIUserRegisterRequest.swift in Sources */,
 				0101A8DE21C9BD0F00DCFCEB /* BillsEndpoint.swift in Sources */,
 				01BB5A6A221E1E2F000C03F0 /* APIService.swift in Sources */,
+				2F2F0C9D22A0D0E700F05961 /* APITagUpdateRequest.swift in Sources */,
 				0159E4882193CBAD002CC3BB /* ProviderAccount+CoreDataProperties.swift in Sources */,
 				01EED86220E5A7EB00F4516B /* Authentication.swift in Sources */,
 				013A32AD2112799500B0590B /* APIProviderAccountResponse.swift in Sources */,
@@ -3716,6 +3731,7 @@
 				0104E03321E8588300D98EE7 /* ReportGrouping.swift in Sources */,
 				01C824F020EC410B0093400E /* NetworkLogger.swift in Sources */,
 				015EEDDC210FC9C60081AD76 /* AggregationEndpoint.swift in Sources */,
+				2F2F0C9F22A0D29800F05961 /* APITagUpdateResponse.swift in Sources */,
 				012DDD5E222615A300497E22 /* OAuth2Error.swift in Sources */,
 				018501C521FFB31000069D87 /* APIAccountBalanceReportResponse.swift in Sources */,
 				010EB42B211BF92A005A926A /* APITransactionUpdateRequest.swift in Sources */,
