@@ -33,11 +33,14 @@ public class UserManagement {
     private let preferences: Preferences
     private let service: APIService
     
-    init(database: Database, service: APIService, authentication: Authentication, preferences: Preferences) {
+    private weak var delegate: AuthenticationDelegate?
+    
+    init(database: Database, service: APIService, authentication: Authentication, preferences: Preferences, delegate: AuthenticationDelegate?) {
         self.authentication = authentication
         self.database = database
         self.service = service
         self.preferences = preferences
+        self.delegate = delegate
         
         _ = fetchUser(context: database.viewContext)
     }
@@ -528,13 +531,7 @@ public class UserManagement {
     // MARK: - Reset Handling
     
     internal func reset() {
-        guard authentication.loggedIn else {
-            Log.debug("Reset did nothing as user not logged in")
-            
-            return
-        }
-        
-        service.network.reset()
+        delegate?.authenticationReset()
     }
     
 }

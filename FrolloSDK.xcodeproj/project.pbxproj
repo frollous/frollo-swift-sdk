@@ -766,6 +766,9 @@
 		01C8250720EDDB4F0093400E /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C8250620EDDB4F0093400E /* DataError.swift */; };
 		01C8250D20EDEF250093400E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 01C8250F20EDEF250093400E /* Localizable.strings */; };
 		01C8251420EDF6200093400E /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C8251320EDF6200093400E /* Localization.swift */; };
+		01D4927022D4645D0074C7EC /* AuthenticationDelegateStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4926F22D4645D0074C7EC /* AuthenticationDelegateStub.swift */; };
+		01D4927122D4645D0074C7EC /* AuthenticationDelegateStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4926F22D4645D0074C7EC /* AuthenticationDelegateStub.swift */; };
+		01D4927222D4645D0074C7EC /* AuthenticationDelegateStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4926F22D4645D0074C7EC /* AuthenticationDelegateStub.swift */; };
 		01E0819420FDB7150036133F /* NetworkAuthenticatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E0819220FDB6F30036133F /* NetworkAuthenticatorTests.swift */; };
 		01E0819820FDC0E90036133F /* refresh_token_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01E0819720FDC0E90036133F /* refresh_token_valid.json */; };
 		01E5BEE0222786DF003D85FD /* OAuthErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E5BEDF222786DF003D85FD /* OAuthErrorTests.swift */; };
@@ -1433,6 +1436,7 @@
 		01C8250620EDDB4F0093400E /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
 		01C8250E20EDEF250093400E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		01C8251320EDF6200093400E /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		01D4926F22D4645D0074C7EC /* AuthenticationDelegateStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationDelegateStub.swift; sourceTree = "<group>"; };
 		01E0819220FDB6F30036133F /* NetworkAuthenticatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAuthenticatorTests.swift; sourceTree = "<group>"; };
 		01E0819520FDBA850036133F /* Cartfile.private */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.private; sourceTree = "<group>"; };
 		01E0819720FDC0E90036133F /* refresh_token_valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = refresh_token_valid.json; sourceTree = "<group>"; };
@@ -2285,6 +2289,7 @@
 		0161395B228BEC28001A62E8 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				01D4926F22D4645D0074C7EC /* AuthenticationDelegateStub.swift */,
 				0161395C228BEC4A001A62E8 /* NetworkResetterStub.swift */,
 			);
 			path = Helpers;
@@ -3848,6 +3853,7 @@
 				01405E6A21DEE067009356CC /* APIBillPaymentResponse+Test.swift in Sources */,
 				01236D1221EC0D96008DD61A /* ReportsRequestTests.swift in Sources */,
 				0101A8EE21CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
+				01D4927022D4645D0074C7EC /* AuthenticationDelegateStub.swift in Sources */,
 				011C198B21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */,
 				01C824F320EC4D600093400E /* LogTests.swift in Sources */,
 				03E157BA227BBFD90083F0D8 /* BaseTestCase.swift in Sources */,
@@ -3962,6 +3968,7 @@
 				01405E6B21DEE067009356CC /* APIBillPaymentResponse+Test.swift in Sources */,
 				01236D1321EC0D96008DD61A /* ReportsRequestTests.swift in Sources */,
 				0101A8EF21CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
+				01D4927122D4645D0074C7EC /* AuthenticationDelegateStub.swift in Sources */,
 				011C198C21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */,
 				017B483E2101B4FE00447E65 /* LogTests.swift in Sources */,
 				03E157BB227BBFE50083F0D8 /* BaseTestCase.swift in Sources */,
@@ -4085,6 +4092,7 @@
 				01405E6C21DEE067009356CC /* APIBillPaymentResponse+Test.swift in Sources */,
 				01236D1421EC0D96008DD61A /* ReportsRequestTests.swift in Sources */,
 				0101A8F021CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
+				01D4927222D4645D0074C7EC /* AuthenticationDelegateStub.swift in Sources */,
 				011C198D21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */,
 				016097EC210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
 				03E157BC227BBFE50083F0D8 /* BaseTestCase.swift in Sources */,

@@ -86,7 +86,7 @@ extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTe
     func defaultAuthentication(keychain: Keychain, networkAuthenticator: NetworkAuthenticator, loggedIn: Bool = false) -> OAuth2Authentication {
         let network = Network(serverEndpoint: self.config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let authService = defaultAuthService(keychain: keychain, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
         authentication.loggedIn = loggedIn
         return authentication
     }
@@ -129,11 +129,11 @@ extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTe
     
     func defaultUser(keychain: Keychain, authentication: Authentication, loggedIn: Bool = true) -> UserManagement {
         let networkAuthenticator  = defaultNetworkAuthenticator(keychain: keychain)
-        return UserManagement(database: database, service: defaultService(keychain: keychain, networkAuthenticator: networkAuthenticator), authentication: authentication, preferences: preferences)
+        return UserManagement(database: database, service: defaultService(keychain: keychain, networkAuthenticator: networkAuthenticator), authentication: authentication, preferences: preferences, delegate: nil)
     }
     
     func defaultUser(keychain: Keychain, networkAuthenticator: NetworkAuthenticator, loggedIn: Bool = true) -> UserManagement {
-        return UserManagement(database: database, service: defaultService(keychain: keychain, networkAuthenticator: networkAuthenticator), authentication: defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: loggedIn), preferences: preferences)
+        return UserManagement(database: database, service: defaultService(keychain: keychain, networkAuthenticator: networkAuthenticator), authentication: defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: loggedIn), preferences: preferences, delegate: nil)
     }
     
 }

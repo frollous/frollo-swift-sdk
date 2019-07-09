@@ -11,7 +11,7 @@ import Foundation
 public typealias FrolloSDKCompletionHandler = (EmptyResult<Error>) -> Void
 
 /// Frollo SDK manager and main instantiation. Responsible for managing the lifecycle and coordination of the SDK
-public class FrolloSDK: NetworkDelegate {
+public class FrolloSDK: AuthenticationDelegate {
     
     /// Notification triggered when ever the authentication status of the SDK changes. Observe this notification to detect if the SDK user has authenticated or been logged out.
     public static let authenticationChangedNotification = Notification.Name(rawValue: "FrolloSDK.authenticationChangedNotification")
@@ -287,13 +287,14 @@ public class FrolloSDK: NetworkDelegate {
         // Setup authentication stack
         switch configuration.authenticationType {
             case .custom(let customAuthentication):
-                customAuthentication.delegate = network
+                customAuthentication.delegate = self
+                customAuthentication.tokenDelegate = network
                 
                 _authentication = customAuthentication
                 
             case .oAuth2(let clientID, let redirectURL, let authorizationEndpoint, let tokenEndpoint, let revokeTokenEndpoint):
                 let authService = OAuthService(authorizationEndpoint: authorizationEndpoint, tokenEndpoint: tokenEndpoint, redirectURL: redirectURL, revokeURL: revokeTokenEndpoint, network: network)
-                _authentication = OAuth2Authentication(keychain: keychain, clientID: clientID, redirectURL: redirectURL, serverURL: configuration.serverEndpoint, authService: authService, preferences: preferences, delegate: network)
+                _authentication = OAuth2Authentication(keychain: keychain, clientID: clientID, redirectURL: redirectURL, serverURL: configuration.serverEndpoint, authService: authService, preferences: preferences, delegate: self, tokenDelegate: network)
         }
         
         networkAuthenticator.authentication = _authentication
@@ -304,7 +305,7 @@ public class FrolloSDK: NetworkDelegate {
         _messages = Messages(database: _database, service: service, authentication: _authentication)
         _reports = Reports(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
         _surveys = Surveys(service: service, authentication: _authentication)
-        _userManagement = UserManagement(database: _database, service: service, authentication: _authentication, preferences: preferences)
+        _userManagement = UserManagement(database: _database, service: service, authentication: _authentication, preferences: preferences, delegate: self)
         _notifications = Notifications(events: _events, messages: _messages, userManagement: _userManagement)
         
         _events.delegate = delegate
@@ -347,19 +348,46 @@ public class FrolloSDK: NetworkDelegate {
     // MARK: - Reset and Logout
     
     /**
+     Logout and reset the SDK.
+     
+     Calls `Authentication.logout()` to logout the user remotely if possible then resets the SDK
+     
+     - parameters:
+        - completion: Completion handler with option error if something goes wrong (optional)
+     
+     - seealso: `FrolloSDK.reset(completionHandler:)`
+     */
+    public func logout(completionHandler: FrolloSDKCompletionHandler? = nil) {
+        authentication.logout()
+        
+        internalReset(completionHandler: completionHandler)
+    }
+    
+    /**
      Reset the SDK. Clears all caches, datbases and keychain entries. Called automatically from logout.
      
      - parameters:
         - completion: Completion handler with option error if something goes wrong (optional)
      */
     public func reset(completionHandler: FrolloSDKCompletionHandler? = nil) {
-        pauseScheduledRefreshing()
-        
         authentication.reset()
+        
+        internalReset(completionHandler: completionHandler)
+    }
+    
+    /**
+     Internal SDK reset
+     
+     Triggers the internal cleanup of the SDK. Called from public logout/reset methods and also forced logout
+     */
+    internal func internalReset(completionHandler: FrolloSDKCompletionHandler? = nil) {
+        pauseScheduledRefreshing()
         
         network.reset()
         
         keychain.removeAll()
+        
+        preferences.reset()
         
         database.reset { error in
             if let resetError = error {
@@ -500,15 +528,26 @@ public class FrolloSDK: NetworkDelegate {
         refreshTimer = nil
     }
     
-    // MARK: - Network Delegate
+    // MARK: - Authentication Delegate
     
-    internal func forcedLogout() {
+    /**
+     Notifies the SDK that authentication of the user is no longer valid and to reset itself
+     
+     * This should not be called directly. Instead use `FrolloSDK.reset()` *
+     
+     This should be called when the user's authentication is no longer valid and no possible automated
+     reauthentication can be performed. For example when a refresh token has been revoked so no more
+     access tokens can be obtained.
+     */
+    public func authenticationReset() {
         guard authentication.loggedIn
         else {
             return
         }
         
-        reset()
+        authentication.reset()
+        
+        internalReset()
     }
     
 }

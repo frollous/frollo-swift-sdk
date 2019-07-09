@@ -48,11 +48,12 @@ class AuthenticationTests: BaseTestCase {
             var loggedIn = false
             
             var delegate: AuthenticationDelegate?
+            var tokenDelegate: AuthenticationTokenDelegate?
             
             func login() {
                 loggedIn = true
                 
-                delegate?.saveAccessTokens(accessToken: validTokens[tokenIndex], expiry: Date().addingTimeInterval(3600))
+                tokenDelegate?.saveAccessTokens(accessToken: validTokens[tokenIndex], expiry: Date().addingTimeInterval(3600))
             }
             
             func refreshTokens(completion: FrolloSDKCompletionHandler?) {
@@ -62,7 +63,7 @@ class AuthenticationTests: BaseTestCase {
                     tokenIndex = 0
                 }
                 
-                delegate?.saveAccessTokens(accessToken: validTokens[tokenIndex], expiry: Date().addingTimeInterval(3600))
+                tokenDelegate?.saveAccessTokens(accessToken: validTokens[tokenIndex], expiry: Date().addingTimeInterval(3600))
                 
                 completion?(.success)
             }
