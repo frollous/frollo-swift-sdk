@@ -13,7 +13,7 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
-fastlane_version "2.106.0"
+fastlane_version "2.126.0"
 
 default_platform(:ios)
 
@@ -30,19 +30,16 @@ default_platform(:ios)
 end
 
 platform :ios do
-  desc "Frollo SDK testing and deployment"
 
-  lane :test do
-    begin
-      cisetup
-
-      if carthage_cache_exist(bucket: 'frollo-carthage-cache')
+  desc "Bootstraps just dependencies for carthage"
+  lane :bootstrap do
+    if carthage_cache_exist(bucket: 'frollo-carthage-cache')
         carthage_cache_install(
           bucket: 'frollo-carthage-cache'
         )
       else
         carthage(
-        	command: "bootstrap",
+          command: "bootstrap",
           platform: "all",
           use_binaries: false
         )
@@ -51,6 +48,26 @@ platform :ios do
           bucket: 'frollo-carthage-cache'
         )
       end
+  end
+
+  lane :update_dependencies do
+    carthage(
+      command: "update",
+      platform: "all",
+      use_binaries: false
+    )
+
+    carthage_cache_publish(
+      bucket: 'frollo-carthage-cache'
+    )
+  end
+
+  desc "Frollo SDK testing and deployment"
+  lane :test do
+    begin
+      cisetup
+
+      bootstrap
 
       xcodebuild(scheme: "FrolloSDK",
           clean: true,
