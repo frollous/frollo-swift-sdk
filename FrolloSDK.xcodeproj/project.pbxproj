@@ -644,6 +644,8 @@
 		017E58D2217FF86F00DC56FF /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E58D1217FF86F00DC56FF /* DateExtensionsTests.swift */; };
 		017E58D3217FF86F00DC56FF /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E58D1217FF86F00DC56FF /* DateExtensionsTests.swift */; };
 		017E58D4217FF86F00DC56FF /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E58D1217FF86F00DC56FF /* DateExtensionsTests.swift */; };
+		017F0F8422D5678600ACE7BB /* APITagUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F0C9C22A0D0E700F05961 /* APITagUpdateRequest.swift */; };
+		017F0F8522D5678900ACE7BB /* APITagUpdateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F0C9E22A0D29800F05961 /* APITagUpdateResponse.swift */; };
 		01819144211162DD000E0F80 /* UniqueManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01819143211162DD000E0F80 /* UniqueManagedObject.swift */; };
 		01819146211168C8000E0F80 /* APIUniqueResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01819145211168C8000E0F80 /* APIUniqueResponse.swift */; };
 		01819149211178D2000E0F80 /* ResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01819148211178D2000E0F80 /* ResponseHandler.swift */; };
@@ -4233,6 +4235,7 @@
 				01E5BF402227A475003D85FD /* APIUserChangePasswordRequest.swift in Sources */,
 				01E5BF412227A475003D85FD /* APIErrorResponse.swift in Sources */,
 				01456B7722433D830077FC56 /* SurveysEndpoint.swift in Sources */,
+				017F0F8422D5678600ACE7BB /* APITagUpdateRequest.swift in Sources */,
 				01E5BF422227A475003D85FD /* APITokenResponse.swift in Sources */,
 				01E5BF432227A475003D85FD /* MessageImage+CoreDataProperties.swift in Sources */,
 				01E5BF442227A475003D85FD /* ResponseHandler.swift in Sources */,
@@ -4246,6 +4249,7 @@
 				01E5BF4A2227A475003D85FD /* Bills.swift in Sources */,
 				01E5BF4B2227A475003D85FD /* APIProviderAccountCreateRequest.swift in Sources */,
 				01E5BF4C2227A475003D85FD /* APIBillResponse.swift in Sources */,
+				017F0F8522D5678900ACE7BB /* APITagUpdateResponse.swift in Sources */,
 				01E5BF4D2227A475003D85FD /* User+CoreDataProperties.swift in Sources */,
 				01E5BF4E2227A475003D85FD /* ReportGrouping.swift in Sources */,
 				01E5BF4F2227A475003D85FD /* NetworkLogger.swift in Sources */,
