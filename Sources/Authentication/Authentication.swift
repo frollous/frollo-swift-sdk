@@ -19,7 +19,7 @@ import Foundation
 /**
  Authentication Delegate
  
- Called by the authentication class to notify other parts of the SDK of token or authentication changes.
+ Called by the authentication class to notify other parts of the SDK of authentication changes.
  This must be implemented by all custom authentication implementations.
  */
 public protocol AuthenticationDelegate: AnyObject {
@@ -33,6 +33,16 @@ public protocol AuthenticationDelegate: AnyObject {
      */
     func authenticationReset()
     
+}
+
+/**
+ Authentication Token Delegate
+ 
+ Called by the authentication class to notify other parts of the SDK of token changes.
+ This must be implemented by all custom authentication implementations.
+ */
+public protocol AuthenticationTokenDelegate: AnyObject {
+    
     /**
      Update the SDK with the latest access token
      
@@ -41,8 +51,8 @@ public protocol AuthenticationDelegate: AnyObject {
      access token.
      
      - parameters:
-        - accessToken: Current valid access token
-        - expiry: Indicates the date when the access token expires so SDK can pre-emptively request a new one
+     - accessToken: Current valid access token
+     - expiry: Indicates the date when the access token expires so SDK can pre-emptively request a new one
      */
     func saveAccessTokens(accessToken: String, expiry: Date)
     
@@ -64,6 +74,11 @@ public protocol Authentication: AnyObject {
      SDK delegate to be called to update SDK about authentication events. SDK sets this as part of setup
      */
     var delegate: AuthenticationDelegate? { get set }
+    
+    /**
+     SDK delegate to be called to update SDK about token change events. SDK sets this as part of setup
+     */
+    var tokenDelegate: AuthenticationTokenDelegate? { get set }
     
     /**
      Refresh Access Token

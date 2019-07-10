@@ -242,4 +242,85 @@ class NetworkTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    // MARK: - Forced Logout Tests
+    
+    func testAccountLockedTriggersForcedLogout() {
+        let expectation1 = expectation(description: "API Response")
+        let expectation2 = expectation(description: "Delegate Callback")
+        
+        connect(endpoint: UserEndpoint.details.path.prefixedWithSlash, toResourceWithName: "error_account_locked", addingStatusCode: 401)
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let keychain = Keychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        network.authenticator.accessToken = "AnExistingAccessToken"
+        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        
+        let delegateStub = AuthenticationDelegateStub {
+            expectation2.fulfill()
+        }
+        
+        network.delegate = delegateStub
+        
+        service.fetchUser { (result) in
+            switch result {
+                case .failure:
+                    break
+                case .success:
+                    XCTFail("Invalid refresh token should fail")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1, expectation2], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testUnauthorizedClientTriggersForcedLogout() {
+        let expectation1 = expectation(description: "API Response")
+        let expectation2 = expectation(description: "Delegate Callback")
+        
+        connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "error_oauth2_unauthorized_client", addingStatusCode: 401)
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let keychain = Keychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let oAuthService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: nil, network: network)
+        
+        network.authenticator.accessToken = "AnExistingAccessToken"
+        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        
+        let delegateStub = AuthenticationDelegateStub {
+            expectation2.fulfill()
+        }
+        
+        network.delegate = delegateStub
+        
+        let request = OAuthTokenRequest.testLoginValidData()
+        oAuthService.refreshTokens(request: request) { (result) in
+            switch result {
+                case .failure:
+                    break
+                case .success:
+                    XCTFail("Unauthorized client response should fail")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1, expectation2], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+    }
+    
 }

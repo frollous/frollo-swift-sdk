@@ -18,16 +18,10 @@ import Foundation
 
 import Alamofire
 
-protocol NetworkDelegate: AnyObject {
-    
-    func forcedLogout()
-    
-}
-
 internal typealias NetworkCompletion = (_: Swift.Result<Data, Error>) -> Void
 internal typealias RequestCompletion<T> = (_: Swift.Result<T, Error>) -> Void
 
-class Network: SessionDelegate, AuthenticationDelegate {
+class Network: SessionDelegate, AuthenticationTokenDelegate {
     
     #if !os(watchOS)
     public let reachability: NetworkReachabilityManager
@@ -36,7 +30,7 @@ class Network: SessionDelegate, AuthenticationDelegate {
     /// Base URL of the API
     internal let serverURL: URL
     
-    internal weak var delegate: NetworkDelegate?
+    internal weak var delegate: AuthenticationDelegate?
     
     internal var authenticator: NetworkAuthenticator
     internal var sessionManager: SessionManager!
@@ -151,7 +145,7 @@ class Network: SessionDelegate, AuthenticationDelegate {
         if let parsedError = error as? DataError, parsedError.type == .authentication, parsedError.subType == .missingRefreshToken {
             reset()
             
-            delegate?.forcedLogout()
+            delegate?.authenticationReset()
             
             completion(parsedError)
         } else if let parsedError = error as? FrolloSDKError {
@@ -160,12 +154,12 @@ class Network: SessionDelegate, AuthenticationDelegate {
             let responseError = T(statusCode: statusCode, response: response.data)
             
             if let apiError = responseError as? APIError {
-                let clearTokenStatuses: [APIError.APIErrorType] = [.invalidRefreshToken, .suspendedDevice, .suspendedUser, .otherAuthorisation]
+                let clearTokenStatuses: [APIError.APIErrorType] = [.invalidRefreshToken, .suspendedDevice, .suspendedUser, .otherAuthorisation, .accountLocked]
                 
                 if clearTokenStatuses.contains(apiError.type) {
                     reset()
                     
-                    delegate?.forcedLogout()
+                    delegate?.authenticationReset()
                 }
             } else if let oAuth2Error = responseError as? OAuth2Error {
                 let clearTokenStatuses: [OAuth2Error.OAuth2ErrorType] = [.invalidClient, .invalidRequest, .invalidGrant, .invalidScope, .unauthorizedClient, .unsupportedGrantType, .serverError]
@@ -173,7 +167,7 @@ class Network: SessionDelegate, AuthenticationDelegate {
                 if clearTokenStatuses.contains(oAuth2Error.type) {
                     reset()
                     
-                    delegate?.forcedLogout()
+                    delegate?.authenticationReset()
                 }
             }
             
@@ -244,11 +238,7 @@ class Network: SessionDelegate, AuthenticationDelegate {
         }
     }
     
-    // MARK: - Authentication Delegate
-    
-    func authenticationReset() {
-        reset()
-    }
+    // MARK: - Authentication Token Delegate
     
     func saveAccessTokens(accessToken: String, expiry: Date) {
         authenticator.saveAccessToken(accessToken, expiry: expiry)

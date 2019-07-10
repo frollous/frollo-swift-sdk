@@ -55,6 +55,11 @@ public class OAuth2Authentication: Authentication {
      */
     public weak var delegate: AuthenticationDelegate?
     
+    /**
+     SDK delegate to be called to update SDK about token update events. SDK sets this as part of setup
+     */
+    public weak var tokenDelegate: AuthenticationTokenDelegate?
+    
     internal var authorizationFlow: OIDExternalUserAgentSession?
     internal var refreshToken: String?
     
@@ -66,7 +71,7 @@ public class OAuth2Authentication: Authentication {
     private let redirectURL: URL
     private let serverURL: URL
     
-    init(keychain: Keychain, clientID: String, redirectURL: URL, serverURL: URL, authService: OAuthService, preferences: Preferences, delegate: AuthenticationDelegate?) {
+    init(keychain: Keychain, clientID: String, redirectURL: URL, serverURL: URL, authService: OAuthService, preferences: Preferences, delegate: AuthenticationDelegate?, tokenDelegate: AuthenticationTokenDelegate?) {
         self.keychain = keychain
         self.clientID = clientID
         self.domain = serverURL.host ?? serverURL.absoluteString
@@ -75,6 +80,7 @@ public class OAuth2Authentication: Authentication {
         self.redirectURL = redirectURL
         self.serverURL = serverURL
         self.delegate = delegate
+        self.tokenDelegate = tokenDelegate
         
         loadTokens()
     }
@@ -219,7 +225,7 @@ public class OAuth2Authentication: Authentication {
                         self.updateToken(refreshToken)
                     }
                     
-                    self.delegate?.saveAccessTokens(accessToken: response.accessToken, expiry: expiryDate)
+                    self.tokenDelegate?.saveAccessTokens(accessToken: response.accessToken, expiry: expiryDate)
                     
                     self.loggedIn = true
                     
@@ -303,7 +309,7 @@ public class OAuth2Authentication: Authentication {
                         self.updateToken(refreshToken)
                     }
                     
-                    self.delegate?.saveAccessTokens(accessToken: response.accessToken, expiry: expiryDate)
+                    self.tokenDelegate?.saveAccessTokens(accessToken: response.accessToken, expiry: expiryDate)
                     
                     self.loggedIn = true
                     
@@ -382,7 +388,7 @@ public class OAuth2Authentication: Authentication {
                         self.updateToken(refreshToken)
                     }
                     
-                    self.delegate?.saveAccessTokens(accessToken: response.accessToken, expiry: expiryDate)
+                    self.tokenDelegate?.saveAccessTokens(accessToken: response.accessToken, expiry: expiryDate)
                     
                     DispatchQueue.main.async {
                         completion(.success)
@@ -445,7 +451,7 @@ public class OAuth2Authentication: Authentication {
                         self.updateToken(refreshToken)
                     }
                     
-                    self.delegate?.saveAccessTokens(accessToken: response.accessToken, expiry: expiryDate)
+                    self.tokenDelegate?.saveAccessTokens(accessToken: response.accessToken, expiry: expiryDate)
                     
                     DispatchQueue.main.async {
                         completion?(.success)

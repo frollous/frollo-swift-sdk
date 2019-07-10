@@ -17,16 +17,16 @@
 import Foundation
 @testable import FrolloSDK
 
-class NetworkResetterStub: AuthenticationDelegate {
+class AuthenticationDelegateStub: AuthenticationDelegate {
     
-    private let authentication: Authentication
+    let completion: () -> Void
     
-    init(authentication: Authentication) {
-        self.authentication = authentication
+    init(completion: @escaping () -> Void) {
+        self.completion = completion
     }
     
     func authenticationReset() {
-        authentication.reset()
+        completion()
     }
     
 }
