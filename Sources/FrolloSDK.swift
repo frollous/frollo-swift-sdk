@@ -229,7 +229,7 @@ public class FrolloSDK: AuthenticationDelegate {
             }
         }
         
-        _database = Database(path: configuration.dataDirectory)
+        _database = Database(path: configuration.dataDirectory, targetName: configuration.targetName)
         preferences = Preferences(path: configuration.dataDirectory)
         version = Version(path: configuration.dataDirectory, keychain: keychain)
         

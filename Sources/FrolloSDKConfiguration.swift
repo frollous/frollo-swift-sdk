@@ -44,6 +44,9 @@ public struct FrolloSDKConfiguration {
     /// Enable or disable public key pinning for *.frollo.us domains- useful for disabling in debug mode
     public var publicKeyPinningEnabled: Bool = true
     
+    /// (Optional) Set the name of the target using the SDK to enable Core Data persistent history tracking across multiple targets using the same database. For example if you have a watch app and iOS app using the same shared FrolloSDK database and login you can setup targetNames of "app" and "watch" respectively to trigger Core Data updates in contexts across targets. Default is nil and the feature will be disabled. See https://developer.apple.com/documentation/coredata/nspersistenthistorychangerequest
+    public var targetName: String?
+    
     /**
      Generate SDK configuration
      

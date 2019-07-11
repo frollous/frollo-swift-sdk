@@ -58,7 +58,7 @@ class DatabaseTests: XCTestCase {
         }
     }
     
-    func checkDatabaseEmpty(database: Database) {
+    func checkDatabaseEmpty(database: Database) -> Bool {
         let context = database.viewContext
         
         for entity in database.persistentContainer.managedObjectModel.entities {
@@ -71,8 +71,11 @@ class DatabaseTests: XCTestCase {
             fetchRequest.resultType = .dictionaryResultType
             
             let results = try! context.fetch(fetchRequest)
-            XCTAssertEqual(results.count, 0)
+            
+            return results.count == 0
         }
+        
+        return true
     }
     
     // MARK: - Setup Tests
@@ -116,6 +119,142 @@ class DatabaseTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: path)
+    }
+    
+    // MARK: - Persistent History Tracking
+    
+    func testPersistentHistoryTrackingOnInit() {
+        let expectation1 = expectation(description: "Setup Database A Callback")
+        let expectation2 = expectation(description: "Setup Database B Callback")
+        
+        let path = tempFolderPath()
+        
+        let databaseA = Database(path: path, targetName: "targetA")
+        let databaseB = Database(path: path, targetName: "targetB")
+        
+        XCTAssertFalse(databaseA.needsMigration())
+        
+        databaseA.setup { (error) in
+            XCTAssertNil(error)
+            
+            XCTAssertTrue(FileManager.default.fileExists(atPath: databaseA.storeURL.path))
+            
+            expectation1.fulfill()
+        }
+        
+        XCTAssertFalse(databaseB.needsMigration())
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        // Insert data before setting up database 2
+        insertTestData(database: databaseA)
+        
+        databaseB.setup { (error) in
+            XCTAssertNil(error)
+            
+            XCTAssertTrue(FileManager.default.fileExists(atPath: databaseB.storeURL.path))
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+        
+        XCTAssertFalse(checkDatabaseEmpty(database: databaseB))
+        
+        try? FileManager.default.removeItem(at: path)
+    }
+    
+    func testPersistentHistoryTrackingWhileActive() {
+        let expectation1 = expectation(description: "Setup Database A Callback")
+        let expectation2 = expectation(description: "Setup Database B Callback")
+        
+        let path = tempFolderPath()
+        
+        let databaseA = Database(path: path, targetName: "targetA")
+        let databaseB = Database(path: path, targetName: "targetB")
+        
+        XCTAssertFalse(databaseA.needsMigration())
+        
+        databaseA.setup { (error) in
+            XCTAssertNil(error)
+            
+            XCTAssertTrue(FileManager.default.fileExists(atPath: databaseA.storeURL.path))
+            
+            expectation1.fulfill()
+        }
+        
+        XCTAssertFalse(databaseB.needsMigration())
+        
+        databaseB.setup { (error) in
+            XCTAssertNil(error)
+            
+            XCTAssertTrue(FileManager.default.fileExists(atPath: databaseB.storeURL.path))
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation1, expectation2], timeout: 3.0)
+        
+        // Insert data after setting up both databases
+        insertTestData(database: databaseA)
+        
+        databaseB.mergeHistory()
+        
+        XCTAssertFalse(checkDatabaseEmpty(database: databaseB))
+        
+        try? FileManager.default.removeItem(at: path)
+    }
+    
+    func testPersistentHistoryTrackingDatesUpdate() {
+        let expectation1 = expectation(description: "Setup Database A Callback")
+        let expectation2 = expectation(description: "Setup Database B Callback")
+        
+        let path = tempFolderPath()
+        
+        let databaseA = Database(path: path, targetName: "targetA")
+        let databaseB = Database(path: path, targetName: "targetB")
+        
+        XCTAssertFalse(databaseA.needsMigration())
+        
+        databaseA.setup { (error) in
+            XCTAssertNil(error)
+            
+            XCTAssertTrue(FileManager.default.fileExists(atPath: databaseA.storeURL.path))
+            
+            expectation1.fulfill()
+        }
+        
+        XCTAssertFalse(databaseB.needsMigration())
+        
+        databaseB.setup { (error) in
+            XCTAssertNil(error)
+            
+            XCTAssertTrue(FileManager.default.fileExists(atPath: databaseB.storeURL.path))
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation1, expectation2], timeout: 3.0)
+        
+        // Insert data after setting up both databases
+        insertTestData(database: databaseA)
+        
+        databaseB.mergeHistory()
+        
+        XCTAssertFalse(checkDatabaseEmpty(database: databaseB))
+        
+        #if os(tvOS)
+        let dates = UserDefaults.standard.value(forKey: "FrolloSDK.PersistentHistoryKey") as? [String: Date]
+        #else
+        let preferencesPath = path.appendingPathComponent("FrolloSDKPersistentHistory").appendingPathExtension("plist")
+        let preferences = NSDictionary(contentsOf: preferencesPath)!
+        let dates = preferences.value(forKey: "PersistentHistoryKey") as? [String: Date]
+        #endif
+        
+        XCTAssertNotNil(dates)
+        XCTAssertNotNil(dates?["targetB"])
         
         try? FileManager.default.removeItem(at: path)
     }

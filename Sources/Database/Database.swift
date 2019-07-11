@@ -35,6 +35,7 @@ public class Database {
     }
     
     internal let storeURL: URL
+    internal let targetName: String?
     
     internal var persistentContainer: NSPersistentContainer
     
@@ -42,6 +43,11 @@ public class Database {
         let modelURL = Bundle(for: Database.self).url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
+    
+    private let persistentHistoryExtension = "plist"
+    private let persistentHistoryFileName = "FrolloSDKPersistentHistory"
+    private let persistentHistoryKey = "PersistentHistoryKey"
+    private let persistentHistoryPersistence: PreferencesPersistence
     
     private var migrationLock = NSLock()
     
@@ -52,12 +58,32 @@ public class Database {
      
      - parameters:
         - path: Path to folder where the database should be stored
+        - targetName: Name of the target consuming the SDK (Optional)
      */
-    internal init(path: URL) {
+    internal init(path: URL, targetName: String? = nil) {
         self.storeURL = path.appendingPathComponent(DatabaseConstants.storeName).appendingPathExtension(DatabaseConstants.storeExtension)
+        self.targetName = targetName
         
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
-        persistentContainer = NSPersistentContainer(name: DatabaseConstants.storeName, managedObjectModel: Database.model)
+        
+        let persistentHistoryPath = path.appendingPathComponent(persistentHistoryFileName).appendingPathExtension(persistentHistoryExtension)
+        
+        #if os(tvOS)
+        persistentHistoryPersistence = UserDefaultsPersistence()
+        #else
+        self.persistentHistoryPersistence = PropertyListPersistence(path: persistentHistoryPath)
+        #endif
+        
+        // If a user specified a target name setup persistent history tracking
+        if targetName != nil {
+            if #available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, macOS 10.13, *) {
+                storeDescription.setOption(NSNumber(booleanLiteral: true), forKey: NSPersistentHistoryTrackingKey)
+            } else {
+                Log.debug("Persistent History Tracking is only supported on iOS 11 or later.")
+            }
+        }
+        
+        self.persistentContainer = NSPersistentContainer(name: DatabaseConstants.storeName, managedObjectModel: Database.model)
         persistentContainer.persistentStoreDescriptions = [storeDescription]
     }
     
@@ -94,6 +120,10 @@ public class Database {
                 })
             } else {
                 self.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
+                
+                DispatchQueue.main.async {
+                    self.mergeHistory()
+                }
                 
                 completionHandler(nil)
             }
@@ -297,6 +327,8 @@ public class Database {
      Resets the persistent store and rebuilds the persistent container
      */
     internal func reset(completionHandler: @escaping (Error?) -> Void) {
+        persistentHistoryPersistence.reset()
+        
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
         persistentContainer = NSPersistentContainer(name: DatabaseConstants.storeName, managedObjectModel: Database.model)
         persistentContainer.persistentStoreDescriptions = [storeDescription]
@@ -327,6 +359,104 @@ public class Database {
         for file in databaseFiles {
             try? FileManager.default.removeItem(at: file)
         }
+    }
+    
+    // MARK: - Merging Persistent History Changes
+    
+    /**
+     Merge persistent history changes
+     
+     Merges persistent history changes from any other targets then clears the history of all up to date targets.
+     Call this whenever initialising or resuming an app, extension or companion (e.g. watch) app
+     */
+    internal func mergeHistory() {
+        guard #available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, macOS 10.13, *)
+        else {
+            return
+        }
+        
+        let timestamp: Date
+        
+        if let lastTimestamp = lastCommonPersistentHistoryTimestamp() {
+            timestamp = lastTimestamp
+        } else {
+            timestamp = Date.distantPast
+        }
+        
+        do {
+            try mergeHistory(since: timestamp)
+            try deleteHistory(since: timestamp)
+        } catch {
+            Log.error("Failed to merge persistent history changes: " + error.localizedDescription)
+        }
+    }
+    
+    /**
+     Merge all persistent history changes since a particular date to the main context
+     
+     - parameters:
+        - timestamp: The timestamp to merge changes since
+     
+     Since: iOS 11
+     */
+    @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, macOS 10.13, *)
+    private func mergeHistory(since timestamp: Date) throws {
+        let historyChangeRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: timestamp)
+        
+        guard let historyResult = try viewContext.execute(historyChangeRequest) as? NSPersistentHistoryResult,
+            let history = historyResult.result as? [NSPersistentHistoryTransaction]
+        else {
+            Log.error("Failure to convert persistent history result to history transactions")
+            return
+        }
+        
+        for transaction in history {
+            viewContext.mergeChanges(fromContextDidSave: transaction.objectIDNotification())
+        }
+        
+        if let lastTimestamp = history.last?.timestamp {
+            updatePersistentHistoryTimestamp(lastTimestamp)
+        }
+    }
+    
+    /**
+     Delete all persistent history changes that have been merged into all targets
+     */
+    @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, macOS 10.13, *)
+    private func deleteHistory(since timestamp: Date) throws {
+        let deleteHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: timestamp)
+        try viewContext.execute(deleteHistoryRequest)
+    }
+    
+    /**
+     Returns the latest persistent history transaction timestamp that is common to all targets given.
+     */
+    private func lastCommonPersistentHistoryTimestamp() -> Date? {
+        guard let targets = persistentHistoryPersistence[persistentHistoryKey] as? [String: Date]
+        else {
+            return nil
+        }
+        
+        return targets.values.min()
+    }
+    
+    private func updatePersistentHistoryTimestamp(_ timestamp: Date) {
+        guard let target = targetName
+        else {
+            return
+        }
+        
+        var targets: [String: Date]
+        if let existingTargets = persistentHistoryPersistence[persistentHistoryKey] as? [String: Date] {
+            targets = existingTargets
+        } else {
+            targets = [String: Date]()
+        }
+        
+        targets[target] = timestamp
+        
+        persistentHistoryPersistence.setValue(targets, for: persistentHistoryKey)
+        persistentHistoryPersistence.synchronise()
     }
     
     // MARK: - Managed Object Contexts
