@@ -22,10 +22,13 @@ enum GoalsEndpoint: Endpoint {
         return urlPath()
     }
     
+    case goal(goalID: Int64)
     case goals
     
     private func urlPath() -> String {
         switch self {
+            case .goal(let goalID):
+                return "goals/" + String(goalID)
             case .goals:
                 return "goals"
         }

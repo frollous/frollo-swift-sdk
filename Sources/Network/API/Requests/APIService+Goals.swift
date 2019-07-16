@@ -20,6 +20,16 @@ import Alamofire
 
 extension APIService {
     
+    internal func fetchGoal(goalID: Int64, completion: @escaping RequestCompletion<APIGoalResponse>) {
+        requestQueue.async {
+            let url = URL(string: GoalsEndpoint.goal(goalID: goalID).path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APIGoalResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     internal func fetchGoals(completion: @escaping RequestCompletion<[APIGoalResponse]>) {
         requestQueue.async {
             let url = URL(string: GoalsEndpoint.goals.path, relativeTo: self.serverURL)!
