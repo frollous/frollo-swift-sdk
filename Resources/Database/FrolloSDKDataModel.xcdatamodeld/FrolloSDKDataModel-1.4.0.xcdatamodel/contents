@@ -124,8 +124,8 @@
         <attribute name="currency" attributeType="String" syncable="YES"/>
         <attribute name="currentAmount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="details" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="endDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="estimatedEndDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="endDateString" attributeType="String" syncable="YES"/>
+        <attribute name="estimatedEndDateString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="estimatedTargetAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="frequencyRawValue" attributeType="String" syncable="YES"/>
         <attribute name="goalID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
@@ -134,7 +134,7 @@
         <attribute name="periodAmount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="periodCount" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="startAmount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="startDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="startDateString" attributeType="String" syncable="YES"/>
         <attribute name="statusRawValue" attributeType="String" syncable="YES"/>
         <attribute name="subType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="targetAmount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>

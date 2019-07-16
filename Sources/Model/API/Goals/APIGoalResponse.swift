@@ -40,7 +40,7 @@ struct APIGoalResponse: APIUniqueResponse, Codable {
         case target
         case targetAmount = "target_amount"
         case trackingStatus = "tracking_status"
-        case trackingType
+        case trackingType = "tracking_type"
         case type
     }
     
@@ -49,9 +49,9 @@ struct APIGoalResponse: APIUniqueResponse, Codable {
     let currentAmount: String
     // let currentPeriod: GoalPeriod
     let currency: String
-    let description: String
-    let endDate: Date
-    let estimatedEndDate: Date?
+    let description: String?
+    let endDate: String
+    let estimatedEndDate: String?
     let estimatedTargetAmount: String?
     let frequency: Goal.Frequency
     let imageURL: String
@@ -59,7 +59,7 @@ struct APIGoalResponse: APIUniqueResponse, Codable {
     let periodAmount: String
     let periodsCount: Int64
     let startAmount: String
-    let startDate: Date
+    let startDate: String
     let status: Goal.Status
     let subType: String?
     let target: Goal.Target

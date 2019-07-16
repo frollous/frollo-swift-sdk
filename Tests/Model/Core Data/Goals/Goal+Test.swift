@@ -25,8 +25,8 @@ extension Goal: TestableCoreData {
         currentAmount = 7514.92
         currency = "AUD"
         details = String.randomString(range: 5...100)
-        endDate = Date().addingTimeInterval(10000)
-        estimatedEndDate = Date().addingTimeInterval(9000)
+        endDateString = "2019-11-02"
+        estimatedEndDateString = "2019-12-02"
         estimatedTargetAmount = 20000
         frequency = Frequency.allCases.randomElement()!
         imageURLString = "https://example.com/image.png"
@@ -34,7 +34,7 @@ extension Goal: TestableCoreData {
         periodAmount = 300
         periodCount = 52
         startAmount = 0
-        startDate = Date().addingTimeInterval(-1000)
+        startDateString = "2019-01-02"
         status = Status.allCases.randomElement()!
         subType = String.randomString(range: 5...20)
         target = Target.allCases.randomElement()!

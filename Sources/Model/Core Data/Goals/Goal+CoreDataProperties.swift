@@ -41,11 +41,11 @@ extension Goal {
     /// Description of the goal (Optional)
     @NSManaged public var details: String?
     
-    /// End date of the goal
-    @NSManaged public var endDate: Date
+    /// Raw value of the end date. Use only in predicates
+    @NSManaged public var endDateString: String
     
-    /// Estimated date the goal will be completed at the current rate of progress (Optional)
-    @NSManaged public var estimatedEndDate: Date?
+    /// Raw value of the estimated end date. Use only in predicates (Optional)
+    @NSManaged public var estimatedEndDateString: String?
     
     /// Estimated amount saved at the end of the goal at the current rate of progress (Optional)
     @NSManaged public var estimatedTargetAmount: NSDecimalNumber?
@@ -71,8 +71,8 @@ extension Goal {
     /// Starting amount of the goal
     @NSManaged public var startAmount: NSDecimalNumber
     
-    /// Date the goal starts
-    @NSManaged public var startDate: Date
+    /// Raw value of the start date. Use only in predicates
+    @NSManaged public var startDateString: String
     
     /// Raw value of the status. Use only in predicates
     @NSManaged public var statusRawValue: String

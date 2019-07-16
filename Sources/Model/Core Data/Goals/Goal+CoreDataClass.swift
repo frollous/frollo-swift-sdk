@@ -147,8 +147,43 @@ public class Goal: NSManagedObject, UniqueManagedObject {
     
     internal static var primaryKey = #keyPath(Goal.goalID)
     
+    /// Date formatter to convert from stored date string to user's current locale
+    public static let goalDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.autoupdatingCurrent
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter
+    }()
+    
     internal var primaryID: Int64 {
         return goalID
+    }
+    
+    /// End date of the goal
+    public var endDate: Date {
+        get {
+            return Goal.goalDateFormatter.date(from: endDateString)!
+        }
+        set {
+            endDateString = Goal.goalDateFormatter.string(from: newValue)
+        }
+    }
+    
+    /// Estimated date the goal will be completed at the current rate of progress (Optional)
+    public var estimatedEndDate: Date? {
+        get {
+            if let rawDateString = estimatedEndDateString {
+                return Goal.goalDateFormatter.date(from: rawDateString)
+            }
+            return nil
+        }
+        set {
+            if let newRawDate = newValue {
+                estimatedEndDateString = Goal.goalDateFormatter.string(from: newRawDate)
+            } else {
+                estimatedEndDateString = nil
+            }
+        }
     }
     
     /// Frequency
@@ -171,6 +206,16 @@ public class Goal: NSManagedObject, UniqueManagedObject {
         }
         set {
             imageURLString = newValue?.absoluteString
+        }
+    }
+    
+    /// Date the goal starts
+    public var startDate: Date {
+        get {
+            return Goal.goalDateFormatter.date(from: startDateString)!
+        }
+        set {
+            startDateString = Goal.goalDateFormatter.string(from: newValue)
         }
     }
     
@@ -232,15 +277,15 @@ public class Goal: NSManagedObject, UniqueManagedObject {
         currentAmount = NSDecimalNumber(string: response.currentAmount)
         currency = response.currency
         details = response.description
-        endDate = response.endDate
-        estimatedEndDate = response.estimatedEndDate
+        endDateString = response.endDate
+        estimatedEndDateString = response.estimatedEndDate
         frequency = response.frequency
         imageURLString = response.imageURL
         name = response.name
         periodAmount = NSDecimalNumber(string: response.periodAmount)
         periodCount = response.periodsCount
         startAmount = NSDecimalNumber(string: response.startAmount)
-        startDate = response.startDate
+        startDateString = response.startDate
         status = response.status
         subType = response.subType
         target = response.target
