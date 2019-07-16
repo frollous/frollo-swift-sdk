@@ -33,6 +33,43 @@ public class Goals: CachedObjects, ResponseHandler {
     // MARK: - Goals
     
     /**
+     Fetch goal by ID from the cache
+     
+     - parameters:
+     - context: Managed object context to fetch these from; background or main thread
+     - goalID: Unique goal ID to fetch
+     */
+    public func goal(context: NSManagedObjectContext, goalID: Int64) -> Goal? {
+        return cachedObject(type: Goal.self, context: context, objectID: goalID, objectKey: #keyPath(Goal.goalID))
+    }
+    
+    /**
+     Fetch goals from the cache
+     
+     - parameters:
+     - context: Managed object context to fetch these from; background or main thread
+     - filteredBy: Predicate of properties to match for fetching. See `Goal` for properties (Optional)
+     - sortedBy: Array of sort descriptors to sort the results by. Defaults to goalID ascending (Optional)
+     - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func goals(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Goal.goalID), ascending: true)], limit: Int? = nil) -> [Goal]? {
+        return cachedObjects(type: Goal.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Fetched results controller of Goals from the cache
+     
+     - parameters:
+     - context: Managed object context to fetch these from; background or main thread
+     - filteredBy: Predicate of properties to match for fetching. See `Goal` for properties (Optional)
+     - sortedBy: Array of sort descriptors to sort the results by. Defaults to goalID ascending (Optional)
+     - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func goalsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Goal.goalID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Goal>? {
+        return fetchedResultsController(type: Goal.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
      Refresh all available goals from the host.
      
      Includes both estimated and confirmed goals.

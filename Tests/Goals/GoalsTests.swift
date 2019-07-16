@@ -35,6 +35,149 @@ class GoalsTests: XCTestCase {
     
     // MARK: - Goals
     
+    func testFetchGoalByID() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            let id: Int64 = 12345
+            
+            managedObjectContext.performAndWait {
+                let testGoal = Goal(context: managedObjectContext)
+                testGoal.populateTestData()
+                testGoal.goalID = id
+                
+                try! managedObjectContext.save()
+            }
+            
+            let goals = Goals(database: database, service: service)
+            
+            let goal = goals.goal(context: database.viewContext, goalID: id)
+            
+            XCTAssertNotNil(goal)
+            XCTAssertEqual(goal?.goalID, id)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchGoals() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testGoal1 = Goal(context: managedObjectContext)
+                testGoal1.populateTestData()
+                testGoal1.target = .openEnded
+                
+                let testGoal2 = Goal(context: managedObjectContext)
+                testGoal2.populateTestData()
+                testGoal2.target = .amount
+                
+                let testGoal3 = Goal(context: managedObjectContext)
+                testGoal3.populateTestData()
+                testGoal3.target = .openEnded
+                
+                try! managedObjectContext.save()
+            }
+            
+            let goals = Goals(database: database, service: service)
+            
+            let predicate = NSPredicate(format: #keyPath(Goal.targetRawValue) + " == %@", argumentArray: [Goal.Target.openEnded.rawValue])
+            let fetchedGoals = goals.goals(context: database.viewContext, filteredBy: predicate)
+            
+            XCTAssertNotNil(fetchedGoals)
+            XCTAssertEqual(fetchedGoals?.count, 2)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testGoalsFetchedResultsController() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testGoal1 = Goal(context: managedObjectContext)
+                testGoal1.populateTestData()
+                testGoal1.target = .date
+                
+                let testGoal2 = Goal(context: managedObjectContext)
+                testGoal2.populateTestData()
+                testGoal2.target = .amount
+                
+                let testGoal3 = Goal(context: managedObjectContext)
+                testGoal3.populateTestData()
+                testGoal3.target = .amount
+                
+                try! managedObjectContext.save()
+            }
+            
+            let goals = Goals(database: database, service: service)
+            
+            let predicate = NSPredicate(format: #keyPath(Goal.targetRawValue) + " == %@", argumentArray: [Goal.Target.amount.rawValue])
+            let fetchedResultsController = goals.goalsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
+            
+            do {
+                try fetchedResultsController?.performFetch()
+                
+                XCTAssertNotNil(fetchedResultsController?.fetchedObjects)
+                XCTAssertEqual(fetchedResultsController?.fetchedObjects?.count, 2)
+                
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
+    
     func testRefreshGoals() {
         let expectation1 = expectation(description: "Network Request 1")
         
