@@ -884,26 +884,19 @@ public class Bills: CachedObjects, ResponseHandler {
     }
     
     private func removeCachedBill(billID: Int64) {
+        billsLock.lock()
+        
+        defer {
+            billsLock.unlock()
+        }
+        
         let managedObjectContext = database.newBackgroundContext()
         
+        removeObject(type: Bill.self, id: billID, primaryKey: #keyPath(Bill.billID), managedObjectContext: managedObjectContext)
+        
         managedObjectContext.performAndWait {
-            let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "billID == %ld", billID)
-            
             do {
-                let fetchedBills = try managedObjectContext.fetch(fetchRequest)
-                
-                if let bill = fetchedBills.first {
-                    managedObjectContext.performAndWait {
-                        managedObjectContext.delete(bill)
-                        
-                        do {
-                            try managedObjectContext.save()
-                        } catch {
-                            Log.error(error.localizedDescription)
-                        }
-                    }
-                }
+                try managedObjectContext.save()
             } catch {
                 Log.error(error.localizedDescription)
             }
@@ -911,26 +904,19 @@ public class Bills: CachedObjects, ResponseHandler {
     }
     
     private func removeCachedBillPayment(billPaymentID: Int64) {
+        billPaymentsLock.lock()
+        
+        defer {
+            billPaymentsLock.unlock()
+        }
+        
         let managedObjectContext = database.newBackgroundContext()
         
+        removeObject(type: BillPayment.self, id: billPaymentID, primaryKey: #keyPath(BillPayment.billPaymentID), managedObjectContext: managedObjectContext)
+        
         managedObjectContext.performAndWait {
-            let fetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "billPaymentID == %ld", billPaymentID)
-            
             do {
-                let fetchedBillPayments = try managedObjectContext.fetch(fetchRequest)
-                
-                if let billPayment = fetchedBillPayments.first {
-                    managedObjectContext.performAndWait {
-                        managedObjectContext.delete(billPayment)
-                        
-                        do {
-                            try managedObjectContext.save()
-                        } catch {
-                            Log.error(error.localizedDescription)
-                        }
-                    }
-                }
+                try managedObjectContext.save()
             } catch {
                 Log.error(error.localizedDescription)
             }

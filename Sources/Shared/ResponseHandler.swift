@@ -41,6 +41,20 @@ protocol ResponseHandler {
                                                                                                                       linkedKey: KeyPath<T, Int64>,
                                                                                                                       linkedKeyName: String) -> Set<Int64>
     
+    /**
+     Remove a unique object from the cache database
+     
+     - parameters:
+        - type: Managed object with a unique identifier type to apply this operation to
+        - id: Unique identifier of the object
+        - primaryKey: The primary key of the managed object
+        - managedObjectContext: Managed object context to execute this operation on
+     */
+    func removeObject<T: UniqueManagedObject & NSManagedObject>(type: T.Type,
+                                                                id: Int64,
+                                                                primaryKey: String,
+                                                                managedObjectContext: NSManagedObjectContext)
+    
     func updateObjectWithResponse<T: UniqueManagedObject & NSManagedObject>(type: T.Type,
                                                                             objectResponse: APIUniqueResponse,
                                                                             primaryKey: String,
@@ -69,6 +83,26 @@ protocol ResponseHandler {
 }
 
 extension ResponseHandler {
+    
+    internal func removeObject<T: UniqueManagedObject & NSManagedObject>(type: T.Type,
+                                                                         id: Int64,
+                                                                         primaryKey: String,
+                                                                         managedObjectContext: NSManagedObjectContext) {
+        managedObjectContext.performAndWait {
+            let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
+            fetchRequest.predicate = NSPredicate(format: primaryKey + " == %ld", argumentArray: [id])
+            
+            do {
+                let fetchedObjects = try managedObjectContext.fetch(fetchRequest)
+                
+                if let object = fetchedObjects.first {
+                    managedObjectContext.delete(object)
+                }
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
     
     internal func updateObjectWithResponse<T: UniqueManagedObject & NSManagedObject>(type: T.Type,
                                                                                      objectResponse: APIUniqueResponse,

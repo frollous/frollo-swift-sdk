@@ -47,6 +47,10 @@ class GoalsTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         
+        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
+        authentication.loggedIn = true
+        
         database.setup { (error) in
             XCTAssertNil(error)
             
@@ -62,7 +66,7 @@ class GoalsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let goals = Goals(database: database, service: service)
+            let goals = Goals(database: database, service: service, authentication: authentication)
             
             let goal = goals.goal(context: database.viewContext, goalID: id)
             
@@ -87,6 +91,10 @@ class GoalsTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         
+        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
+        authentication.loggedIn = true
+        
         database.setup { (error) in
             XCTAssertNil(error)
             
@@ -108,7 +116,7 @@ class GoalsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let goals = Goals(database: database, service: service)
+            let goals = Goals(database: database, service: service, authentication: authentication)
             
             let predicate = NSPredicate(format: #keyPath(Goal.targetRawValue) + " == %@", argumentArray: [Goal.Target.openEnded.rawValue])
             let fetchedGoals = goals.goals(context: database.viewContext, filteredBy: predicate)
@@ -134,6 +142,10 @@ class GoalsTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         
+        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
+        authentication.loggedIn = true
+        
         database.setup { (error) in
             XCTAssertNil(error)
             
@@ -155,7 +167,7 @@ class GoalsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let goals = Goals(database: database, service: service)
+            let goals = Goals(database: database, service: service, authentication: authentication)
             
             let predicate = NSPredicate(format: #keyPath(Goal.targetRawValue) + " == %@", argumentArray: [Goal.Target.amount.rawValue])
             let fetchedResultsController = goals.goalsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
@@ -193,10 +205,14 @@ class GoalsTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         
+        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
+        authentication.loggedIn = true
+        
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let goals = Goals(database: database, service: service)
+            let goals = Goals(database: database, service: service, authentication: authentication)
             
             goals.refreshGoal(goalID: 12345) { (result) in
                 switch result {
@@ -241,10 +257,14 @@ class GoalsTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
         
+        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
+        authentication.loggedIn = true
+        
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let goals = Goals(database: database, service: service)
+            let goals = Goals(database: database, service: service, authentication: authentication)
             
             goals.refreshGoals() { (result) in
                 switch result {
@@ -298,6 +318,54 @@ class GoalsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testDeleteGoal() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + GoalsEndpoint.goal(goalID: 12345).path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        let preferences = Preferences(path: tempFolderPath())
+        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+        
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
+        authentication.loggedIn = true
+        let goals = Goals(database: database, service: service, authentication: authentication)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let goal = Goal(context: managedObjectContext)
+                goal.populateTestData()
+                goal.goalID = 12345
+                
+                try? managedObjectContext.save()
+            }
+            
+            goals.deleteGoal(goalID: 12345) { (result) in
+                switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    XCTAssertNil(goals.goal(context: database.viewContext, goalID: 12345))
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
     }
     
 }

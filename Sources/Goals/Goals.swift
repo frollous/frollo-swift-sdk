@@ -20,14 +20,16 @@ import Foundation
 /// Manages user goals and tracking
 public class Goals: CachedObjects, ResponseHandler {
     
+    private let authentication: Authentication
     private let database: Database
     private let service: APIService
     
     private let goalsLock = NSLock()
     
-    internal init(database: Database, service: APIService) {
+    internal init(database: Database, service: APIService, authentication: Authentication) {
         self.database = database
         self.service = service
+        self.authentication = authentication
     }
     
     // MARK: - Goals
@@ -77,6 +79,18 @@ public class Goals: CachedObjects, ResponseHandler {
          - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshGoal(goalID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchGoal(goalID: goalID) { result in
             switch result {
                 case .failure(let error):
@@ -106,6 +120,18 @@ public class Goals: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshGoals(completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
         service.fetchGoals { result in
             switch result {
                 case .failure(let error):
@@ -120,6 +146,44 @@ public class Goals: CachedObjects, ResponseHandler {
                     self.handleGoalsResponse(response, managedObjectContext: managedObjectContext)
                     
                     // self.linkUserGoalsToGoals()
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
+     Delete a specific goal by ID from the host
+     
+     - parameters:
+        - goalID: ID of the goal to be deleted
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func deleteGoal(goalID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
+        service.deleteGoal(goalID: goalID) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success:
+                    self.removeCachedGoal(goalID: goalID)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -156,6 +220,26 @@ public class Goals: CachedObjects, ResponseHandler {
         }
         
         updateObjectsWithResponse(type: Goal.self, objectsResponse: goalsResponse, primaryKey: #keyPath(Goal.goalID), linkedKeys: [], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func removeCachedGoal(goalID: Int64) {
+        goalsLock.lock()
+        
+        defer {
+            goalsLock.unlock()
+        }
+        
+        let managedObjectContext = database.newBackgroundContext()
+        
+        removeObject(type: Goal.self, id: goalID, primaryKey: #keyPath(Goal.goalID), managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
             do {

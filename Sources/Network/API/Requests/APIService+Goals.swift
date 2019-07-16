@@ -24,7 +24,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: GoalsEndpoint.goal(goalID: goalID).path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...200).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APIGoalResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -36,6 +36,16 @@ extension APIService {
             
             self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APIGoalResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func deleteGoal(goalID: Int64, completion: @escaping NetworkCompletion) {
+        requestQueue.async {
+            let url = URL(string: GoalsEndpoint.goal(goalID: goalID).path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { response in
+                self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
