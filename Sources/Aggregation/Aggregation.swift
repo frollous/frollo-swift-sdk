@@ -404,9 +404,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
      - parameters:
         - providerID: ID of the provider which an account should be created for
         - loginForm: Provider login form with validated and encrypted values with the user's details
-        - completion: Optional completion handler with optional error if the request fails
+        - completion: Optional completion handler which returns the provider account id that was created if it was successful, or and error if it was a failure
      */
-    public func createProviderAccount(providerID: Int64, loginForm: ProviderLoginForm, completion: FrolloSDKCompletionHandler? = nil) {
+    public func createProviderAccount(providerID: Int64, loginForm: ProviderLoginForm, completion: ((Result<Int64, Error>) -> Void)? = nil) {
         guard authentication.loggedIn
         else {
             let error = DataError(type: .authentication, subType: .loggedOut)
@@ -437,7 +437,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
-                        completion?(.success)
+                        completion?(.success(response.id))
                     }
             }
         }

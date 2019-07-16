@@ -759,7 +759,8 @@ class AggregationTests: BaseTestCase {
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
-                    case .success:
+                    case .success(let id):
+                        XCTAssertEqual(id, 123)
                         let context = self.context
                         
                         let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
