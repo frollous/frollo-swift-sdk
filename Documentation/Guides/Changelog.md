@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.6
+
+### Changes
+
+- Return provider account ID upon creation
+
 ## 2.1.5
 
 ### Changes
