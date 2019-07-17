@@ -259,7 +259,9 @@ public class Goal: NSManagedObject, UniqueManagedObject {
     // MARK: - Updating object
     
     internal func linkObject(object: NSManagedObject) {
-        #warning("Link Goal Period here")
+        if let goalPeriod = object as? GoalPeriod {
+            addToPeriods(goalPeriod)
+        }
     }
     
     internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {

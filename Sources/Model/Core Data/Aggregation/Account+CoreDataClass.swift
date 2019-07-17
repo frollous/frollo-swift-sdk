@@ -375,6 +375,9 @@ public class Account: NSManagedObject, UniqueManagedObject {
         if let bill = object as? Bill {
             addToBills(bill)
         }
+        if let goal = object as? Goal {
+            addToGoals(goal)
+        }
         if let report = object as? ReportAccountBalance {
             addToReports(report)
         }

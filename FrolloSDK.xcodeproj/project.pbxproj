@@ -704,6 +704,21 @@
 		017F0FE122DEB70500ACE7BB /* APIGoalUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FE022DEB70500ACE7BB /* APIGoalUpdateRequest+Test.swift */; };
 		017F0FE222DEB70500ACE7BB /* APIGoalUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FE022DEB70500ACE7BB /* APIGoalUpdateRequest+Test.swift */; };
 		017F0FE322DEB70500ACE7BB /* APIGoalUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FE022DEB70500ACE7BB /* APIGoalUpdateRequest+Test.swift */; };
+		017F0FE622DED79800ACE7BB /* GoalPeriod+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FE422DED79800ACE7BB /* GoalPeriod+CoreDataClass.swift */; };
+		017F0FE722DED79800ACE7BB /* GoalPeriod+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FE422DED79800ACE7BB /* GoalPeriod+CoreDataClass.swift */; };
+		017F0FE822DED79800ACE7BB /* GoalPeriod+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FE522DED79800ACE7BB /* GoalPeriod+CoreDataProperties.swift */; };
+		017F0FE922DED79800ACE7BB /* GoalPeriod+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FE522DED79800ACE7BB /* GoalPeriod+CoreDataProperties.swift */; };
+		017F0FEB22DEE71B00ACE7BB /* GoalPeriod+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FEA22DEE71B00ACE7BB /* GoalPeriod+Test.swift */; };
+		017F0FEC22DEE71B00ACE7BB /* GoalPeriod+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FEA22DEE71B00ACE7BB /* GoalPeriod+Test.swift */; };
+		017F0FED22DEE71B00ACE7BB /* GoalPeriod+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FEA22DEE71B00ACE7BB /* GoalPeriod+Test.swift */; };
+		017F0FEF22DEE82900ACE7BB /* APIGoalPeriodResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FEE22DEE82900ACE7BB /* APIGoalPeriodResponse.swift */; };
+		017F0FF022DEE82900ACE7BB /* APIGoalPeriodResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FEE22DEE82900ACE7BB /* APIGoalPeriodResponse.swift */; };
+		017F0FF222DEFF6500ACE7BB /* GoalPeriodTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FF122DEFF6500ACE7BB /* GoalPeriodTests.swift */; };
+		017F0FF322DEFF6500ACE7BB /* GoalPeriodTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FF122DEFF6500ACE7BB /* GoalPeriodTests.swift */; };
+		017F0FF422DEFF6500ACE7BB /* GoalPeriodTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FF122DEFF6500ACE7BB /* GoalPeriodTests.swift */; };
+		017F0FF622DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FF522DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift */; };
+		017F0FF722DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FF522DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift */; };
+		017F0FF822DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FF522DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift */; };
 		01819144211162DD000E0F80 /* UniqueManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01819143211162DD000E0F80 /* UniqueManagedObject.swift */; };
 		01819146211168C8000E0F80 /* APIUniqueResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01819145211168C8000E0F80 /* APIUniqueResponse.swift */; };
 		01819149211178D2000E0F80 /* ResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01819148211178D2000E0F80 /* ResponseHandler.swift */; };
@@ -1436,6 +1451,12 @@
 		017F0FD622DEA87500ACE7BB /* goal_id_3212.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = goal_id_3212.json; sourceTree = "<group>"; };
 		017F0FDD22DEB68500ACE7BB /* APIGoalUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIGoalUpdateRequest.swift; sourceTree = "<group>"; };
 		017F0FE022DEB70500ACE7BB /* APIGoalUpdateRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIGoalUpdateRequest+Test.swift"; sourceTree = "<group>"; };
+		017F0FE422DED79800ACE7BB /* GoalPeriod+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GoalPeriod+CoreDataClass.swift"; sourceTree = "<group>"; };
+		017F0FE522DED79800ACE7BB /* GoalPeriod+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GoalPeriod+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		017F0FEA22DEE71B00ACE7BB /* GoalPeriod+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GoalPeriod+Test.swift"; sourceTree = "<group>"; };
+		017F0FEE22DEE82900ACE7BB /* APIGoalPeriodResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = APIGoalPeriodResponse.swift; path = ../../../../Tests/Model/API/Goals/APIGoalPeriodResponse.swift; sourceTree = "<group>"; };
+		017F0FF122DEFF6500ACE7BB /* GoalPeriodTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalPeriodTests.swift; sourceTree = "<group>"; };
+		017F0FF522DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIGoalPeriodResponse+Test.swift"; sourceTree = "<group>"; };
 		01819143211162DD000E0F80 /* UniqueManagedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniqueManagedObject.swift; sourceTree = "<group>"; };
 		01819145211168C8000E0F80 /* APIUniqueResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUniqueResponse.swift; sourceTree = "<group>"; };
 		01819148211178D2000E0F80 /* ResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseHandler.swift; sourceTree = "<group>"; };
@@ -2482,6 +2503,8 @@
 			children = (
 				017F0F8E22DBF8D900ACE7BB /* Goal+CoreDataClass.swift */,
 				017F0F8F22DBF8D900ACE7BB /* Goal+CoreDataProperties.swift */,
+				017F0FE422DED79800ACE7BB /* GoalPeriod+CoreDataClass.swift */,
+				017F0FE522DED79800ACE7BB /* GoalPeriod+CoreDataProperties.swift */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -2489,8 +2512,9 @@
 		017F0F9422DBF97500ACE7BB /* Goals */ = {
 			isa = PBXGroup;
 			children = (
-				017F0F9522DC129B00ACE7BB /* APIGoalResponse.swift */,
 				017F0FCA22DE865C00ACE7BB /* APIGoalCreateRequest.swift */,
+				017F0FEE22DEE82900ACE7BB /* APIGoalPeriodResponse.swift */,
+				017F0F9522DC129B00ACE7BB /* APIGoalResponse.swift */,
 				017F0FDD22DEB68500ACE7BB /* APIGoalUpdateRequest.swift */,
 			);
 			path = Goals;
@@ -2501,6 +2525,8 @@
 			children = (
 				017F0F9922DC316900ACE7BB /* Goal+Test.swift */,
 				017F0F9D22DC317A00ACE7BB /* GoalTests.swift */,
+				017F0FEA22DEE71B00ACE7BB /* GoalPeriod+Test.swift */,
+				017F0FF122DEFF6500ACE7BB /* GoalPeriodTests.swift */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -2508,8 +2534,9 @@
 		017F0FA122DC349A00ACE7BB /* Goals */ = {
 			isa = PBXGroup;
 			children = (
-				017F0FA222DC34BA00ACE7BB /* APIGoalResponse+Test.swift */,
 				017F0FCD22DE9C1000ACE7BB /* APIGoalCreateRequest+Test.swift */,
+				017F0FF522DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift */,
+				017F0FA222DC34BA00ACE7BB /* APIGoalResponse+Test.swift */,
 				017F0FE022DEB70500ACE7BB /* APIGoalUpdateRequest+Test.swift */,
 			);
 			path = Goals;
@@ -3826,6 +3853,7 @@
 				01405E5A21DDCF38009356CC /* APIBillPaymentResponse.swift in Sources */,
 				017B487021054F0B00447E65 /* PreferencesPersistence.swift in Sources */,
 				01405E5821DDCD65009356CC /* BillPayment+CoreDataProperties.swift in Sources */,
+				017F0FE622DED79800ACE7BB /* GoalPeriod+CoreDataClass.swift in Sources */,
 				013A32AA211273A300B0590B /* ProviderAccount+CoreDataClass.swift in Sources */,
 				0159E48A2193CBAD002CC3BB /* AccountBalanceTier+CoreDataProperties.swift in Sources */,
 				018240DE21C8B80B005705F9 /* Bill+CoreDataProperties.swift in Sources */,
@@ -3863,6 +3891,7 @@
 				01C824F520EC75560093400E /* FileLogger.swift in Sources */,
 				01483B6C2117C70600D0DA87 /* Account+CoreDataClass.swift in Sources */,
 				013D2D94210AA38800EEDEC5 /* DeviceInfo.swift in Sources */,
+				017F0FEF22DEE82900ACE7BB /* APIGoalPeriodResponse.swift in Sources */,
 				0159E4822193CBAD002CC3BB /* Merchant+CoreDataProperties.swift in Sources */,
 				0160953720F33EB10060791B /* Version.swift in Sources */,
 				2F657DA5223B2FB300471B85 /* Surveys.swift in Sources */,
@@ -3931,6 +3960,7 @@
 				01BB5A55221CD2AE000C03F0 /* FrolloSDKConfiguration.swift in Sources */,
 				015EEDDA210FC8760081AD76 /* APIService+Aggregation.swift in Sources */,
 				012606B5219A784D005D8377 /* MessageImage+CoreDataClass.swift in Sources */,
+				017F0FE822DED79800ACE7BB /* GoalPeriod+CoreDataProperties.swift in Sources */,
 				018240E321C8BB6A005705F9 /* APIBillsResponse.swift in Sources */,
 				01ED8FCA211A5E7A00ACE691 /* APITransactionResponse.swift in Sources */,
 				01EED86320E5A7EB00F4516B /* Network.swift in Sources */,
@@ -3987,6 +4017,7 @@
 				016139512288E03A001A62E8 /* UserManagementTests.swift in Sources */,
 				017B48FC21084BA200447E65 /* AuthenticationTests.swift in Sources */,
 				01333D42216AB115005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */,
+				017F0FF622DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift in Sources */,
 				017F0FD222DEA0F700ACE7BB /* GoalsRequestTests.swift in Sources */,
 				01B896D020F32D5E0068069A /* NetworkErrorTests.swift in Sources */,
 				016097E6210AAAD90034E857 /* DeviceInfoTests.swift in Sources */,
@@ -4001,6 +4032,7 @@
 				01EEDB1D20EAEA2000F4516B /* DatabaseMigrationTests.swift in Sources */,
 				01ED8FD4211A684E00ACE691 /* TransactionTests.swift in Sources */,
 				03ADF878227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */,
+				017F0FF222DEFF6500ACE7BB /* GoalPeriodTests.swift in Sources */,
 				01BC3D132166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift in Sources */,
 				011F8144219D2A3E00A1495F /* EventsRequestTests.swift in Sources */,
 				0161395D228BEC4B001A62E8 /* NetworkResetterStub.swift in Sources */,
@@ -4056,6 +4088,7 @@
 				017B48F12108356C00447E65 /* User+Test.swift in Sources */,
 				011F814C219D35ED00A1495F /* EventsTests.swift in Sources */,
 				017F0FCE22DE9C1000ACE7BB /* APIGoalCreateRequest+Test.swift in Sources */,
+				017F0FEB22DEE71B00ACE7BB /* GoalPeriod+Test.swift in Sources */,
 				01613958228928F2001A62E8 /* OAuth2AuthenticationTests.swift in Sources */,
 				01483BA821194AEC00D0DA87 /* TransactionCategoryTests.swift in Sources */,
 				01236D1C21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift in Sources */,
@@ -4109,6 +4142,7 @@
 				016139522288E03A001A62E8 /* UserManagementTests.swift in Sources */,
 				017B48FD21084BA200447E65 /* AuthenticationTests.swift in Sources */,
 				01333D43216AB115005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */,
+				017F0FF722DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift in Sources */,
 				017F0FD322DEA0F700ACE7BB /* GoalsRequestTests.swift in Sources */,
 				017B48362101B4FE00447E65 /* NetworkErrorTests.swift in Sources */,
 				016097E7210AAAD90034E857 /* DeviceInfoTests.swift in Sources */,
@@ -4123,6 +4157,7 @@
 				017B48382101B4FE00447E65 /* DatabaseMigrationTests.swift in Sources */,
 				01ED8FD5211A684E00ACE691 /* TransactionTests.swift in Sources */,
 				03ADF879227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */,
+				017F0FF322DEFF6500ACE7BB /* GoalPeriodTests.swift in Sources */,
 				01BC3D142166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift in Sources */,
 				011F8145219D2A3E00A1495F /* EventsRequestTests.swift in Sources */,
 				0161395E228BEC4B001A62E8 /* NetworkResetterStub.swift in Sources */,
@@ -4178,6 +4213,7 @@
 				017B48F22108356C00447E65 /* User+Test.swift in Sources */,
 				011F814D219D35ED00A1495F /* EventsTests.swift in Sources */,
 				017F0FCF22DE9C1000ACE7BB /* APIGoalCreateRequest+Test.swift in Sources */,
+				017F0FEC22DEE71B00ACE7BB /* GoalPeriod+Test.swift in Sources */,
 				01613959228928F2001A62E8 /* OAuth2AuthenticationTests.swift in Sources */,
 				01483BA921194AEC00D0DA87 /* TransactionCategoryTests.swift in Sources */,
 				01236D1D21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift in Sources */,
@@ -4240,6 +4276,7 @@
 				016139532288E03A001A62E8 /* UserManagementTests.swift in Sources */,
 				013A32D52112C40500B0590B /* CoreData+Test.swift in Sources */,
 				01333D44216AB116005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */,
+				017F0FF822DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift in Sources */,
 				017F0FD422DEA0F700ACE7BB /* GoalsRequestTests.swift in Sources */,
 				017B48922105958100447E65 /* ConsoleLoggerTests.swift in Sources */,
 				013A32CD2112BE6600B0590B /* ProviderAccountTests.swift in Sources */,
@@ -4254,6 +4291,7 @@
 				017B48942105958100447E65 /* NetworkTests.swift in Sources */,
 				01ED8FD6211A684E00ACE691 /* TransactionTests.swift in Sources */,
 				03ADF87A227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */,
+				017F0FF422DEFF6500ACE7BB /* GoalPeriodTests.swift in Sources */,
 				01BC3D152166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift in Sources */,
 				011F8146219D2A3E00A1495F /* EventsRequestTests.swift in Sources */,
 				0161395F228BEC4B001A62E8 /* NetworkResetterStub.swift in Sources */,
@@ -4309,6 +4347,7 @@
 				01483BA62119321A00D0DA87 /* TransactionCategory+Test.swift in Sources */,
 				011F814E219D35ED00A1495F /* EventsTests.swift in Sources */,
 				017F0FD022DE9C1000ACE7BB /* APIGoalCreateRequest+Test.swift in Sources */,
+				017F0FED22DEE71B00ACE7BB /* GoalPeriod+Test.swift in Sources */,
 				0161395A228928F2001A62E8 /* OAuth2AuthenticationTests.swift in Sources */,
 				017B48F32108356C00447E65 /* User+Test.swift in Sources */,
 				01236D1E21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift in Sources */,
@@ -4369,6 +4408,7 @@
 				01E5BF052227A475003D85FD /* BudgetCategory.swift in Sources */,
 				01E5BF062227A475003D85FD /* APIBillCreateRequest.swift in Sources */,
 				01E5BF072227A475003D85FD /* APIBillPaymentResponse.swift in Sources */,
+				017F0FE722DED79800ACE7BB /* GoalPeriod+CoreDataClass.swift in Sources */,
 				01E5BF082227A475003D85FD /* PreferencesPersistence.swift in Sources */,
 				01E5BF092227A475003D85FD /* BillPayment+CoreDataProperties.swift in Sources */,
 				01E5BF0A2227A475003D85FD /* ProviderAccount+CoreDataClass.swift in Sources */,
@@ -4406,6 +4446,7 @@
 				01E5BF282227A475003D85FD /* Authentication.swift in Sources */,
 				01E5BF292227A475003D85FD /* APIProviderAccountResponse.swift in Sources */,
 				01E5BF2A2227A475003D85FD /* FileLogger.swift in Sources */,
+				017F0FF022DEE82900ACE7BB /* APIGoalPeriodResponse.swift in Sources */,
 				01E5BF2B2227A475003D85FD /* Account+CoreDataClass.swift in Sources */,
 				01E5BF2C2227A475003D85FD /* DeviceInfo.swift in Sources */,
 				01E5BF2D2227A475003D85FD /* Merchant+CoreDataProperties.swift in Sources */,
@@ -4474,6 +4515,7 @@
 				01E5BF612227A475003D85FD /* MessageVideo+CoreDataProperties.swift in Sources */,
 				01E5BF622227A475003D85FD /* FrolloSDKConfiguration.swift in Sources */,
 				01E5BF632227A475003D85FD /* APIService+Aggregation.swift in Sources */,
+				017F0FE922DED79800ACE7BB /* GoalPeriod+CoreDataProperties.swift in Sources */,
 				01E5BF642227A475003D85FD /* MessageImage+CoreDataClass.swift in Sources */,
 				01E5BF652227A475003D85FD /* APIBillsResponse.swift in Sources */,
 				01E5BF662227A475003D85FD /* APITransactionResponse.swift in Sources */,
