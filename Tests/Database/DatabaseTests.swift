@@ -204,16 +204,18 @@ class DatabaseTests: XCTestCase {
         
         XCTAssertFalse(checkDatabaseEmpty(database: databaseB))
         
-        #if os(tvOS)
-        let dates = UserDefaults.standard.value(forKey: "FrolloSDK.PersistentHistoryKey") as? [String: Date]
-        #else
-        let preferencesPath = path.appendingPathComponent("FrolloSDKPersistentHistory").appendingPathExtension("plist")
-        let preferences = NSDictionary(contentsOf: preferencesPath)!
-        let dates = preferences.value(forKey: "PersistentHistoryKey") as? [String: Date]
-        #endif
+        if #available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, macOS 10.13, *) {
+            #if os(tvOS)
+            let dates = UserDefaults.standard.value(forKey: "FrolloSDK.PersistentHistoryKey") as? [String: Date]
+            #else
+            let preferencesPath = path.appendingPathComponent("FrolloSDKPersistentHistory").appendingPathExtension("plist")
+            let preferences = NSDictionary(contentsOf: preferencesPath)!
+            let dates = preferences.value(forKey: "PersistentHistoryKey") as? [String: Date]
+            #endif
         
-        XCTAssertNotNil(dates)
-        XCTAssertNotNil(dates?["targetB"])
+            XCTAssertNotNil(dates)
+            XCTAssertNotNil(dates?["targetB"])
+        }
         
         try? FileManager.default.removeItem(at: path)
     }
