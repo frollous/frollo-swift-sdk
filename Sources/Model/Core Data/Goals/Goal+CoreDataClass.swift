@@ -44,20 +44,17 @@ public class Goal: NSManagedObject, UniqueManagedObject {
         /// Every four weeks
         case fourWeekly = "four_weekly"
         
-        /// Irregularly
-        case irregular
-        
         /// Monthly
         case monthly
         
         /// Quarterly
         case quarterly
         
+        /// Singular
+        case singular
+        
         /// Weekly
         case weekly
-        
-        /// Unknown
-        case unknown
         
     }
     

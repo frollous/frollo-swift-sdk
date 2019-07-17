@@ -40,6 +40,24 @@ extension APIService {
         }
     }
     
+    internal func createGoal(request: APIGoalCreateRequest, completion: @escaping RequestCompletion<APIGoalResponse>) {
+        requestQueue.async {
+            let url = URL(string: GoalsEndpoint.goals.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APIGoalResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     internal func deleteGoal(goalID: Int64, completion: @escaping NetworkCompletion) {
         requestQueue.async {
             let url = URL(string: GoalsEndpoint.goal(goalID: goalID).path, relativeTo: self.serverURL)!

@@ -145,7 +145,105 @@ public class Goals: CachedObjects, ResponseHandler {
                     
                     self.handleGoalsResponse(response, managedObjectContext: managedObjectContext)
                     
-                    // self.linkUserGoalsToGoals()
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
+     Create a new goal on the host
+     
+     - parameters:
+         - name: Name of the goal
+         - description: Additional description of the goal for the user (Optional)
+         - imageURL: Image URL of an icon/picture associated with the goal (Optional)
+         - type: Type of the goal (Optional)
+         - subType: Sub type of the goal (Optional)
+         - target: Target of the goal
+         - trackingType: Tracking method the goal uses
+         - frequency: Frequency of contributions to the goal
+         - startDate: Start date of the goal. Defaults to today (Optional)
+         - endDate: End date of the goal. Required for open ended and date based goals
+         - periodAmount: Amount to be saved each period. Required for open ended and amount based goals
+         - startAmount: Amount already contributed to a goal. Defaults to zero (Optional)
+         - targetAmount: Target amount to reach for the goal. Required for amount and date based goals
+         - completion: Optional completion handler with optional error if the request fails
+     */
+    public func createGoal(name: String,
+                           description: String? = nil,
+                           imageURL: URL? = nil,
+                           type: String? = nil,
+                           subType: String? = nil,
+                           target: Goal.Target,
+                           trackingType: Goal.TrackingType,
+                           frequency: Goal.Frequency,
+                           startDate: Date? = nil,
+                           endDate: Date?,
+                           periodAmount: Decimal?,
+                           startAmount: Decimal = 0,
+                           targetAmount: Decimal?,
+                           accountID: Int64,
+                           completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
+        var endDateString: String?
+        if let date = endDate {
+            endDateString = Goal.goalDateFormatter.string(from: date)
+        }
+        var startDateString: String?
+        if let date = startDate {
+            startDateString = Goal.goalDateFormatter.string(from: date)
+        }
+        
+        let request = APIGoalCreateRequest(accountID: accountID,
+                                           description: description,
+                                           endDate: endDateString,
+                                           frequency: frequency,
+                                           imageURL: imageURL?.absoluteString,
+                                           name: name,
+                                           periodAmount: (periodAmount as NSDecimalNumber?)?.stringValue,
+                                           startAmount: (startAmount as NSDecimalNumber?)?.stringValue,
+                                           startDate: startDateString,
+                                           subType: subType,
+                                           target: target,
+                                           targetAmount: (targetAmount as NSDecimalNumber?)?.stringValue,
+                                           trackingType: trackingType,
+                                           type: type)
+        
+        guard request.valid()
+        else {
+            let error = DataError(type: .api, subType: .invalidData)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
+        service.createGoal(request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleGoalResponse(response, managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
                         completion?(.success)

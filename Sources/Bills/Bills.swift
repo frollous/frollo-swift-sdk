@@ -169,13 +169,13 @@ public class Bills: CachedObjects, ResponseHandler {
      Create a new bill on the host manually
      
      - parameters:
-     - accountID: ID of the account the bill is paid from
-     - dueAmount: Amount the bill charges, recurring
-     - frequency: How often the bill recurrs
-     - nextPaymentDate: Date of the next payment is due
-     - name: Custom name for the bill (Optional: defaults to the transaction name)
-     - notes: Notes attached to the bill (Optional)
-     - completion: Optional completion handler with optional error if the request fails
+         - accountID: ID of the account the bill is paid from
+         - dueAmount: Amount the bill charges, recurring
+         - frequency: How often the bill recurrs
+         - nextPaymentDate: Date of the next payment is due
+         - name: Custom name for the bill (Optional: defaults to the transaction name)
+         - notes: Notes attached to the bill (Optional)
+         - completion: Optional completion handler with optional error if the request fails
      */
     public func createBill(accountID: Int64, dueAmount: Decimal, frequency: Bill.Frequency, nextPaymentDate: Date, name: String, notes: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         let date = Bill.billDateFormatter.string(from: nextPaymentDate)
