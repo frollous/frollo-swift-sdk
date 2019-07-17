@@ -238,7 +238,6 @@ class GoalsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testRefreshGoals() {
@@ -317,7 +316,6 @@ class GoalsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testCreateGoal() {
@@ -382,7 +380,6 @@ class GoalsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testCreateGoalInvalidDataFails() {
@@ -443,7 +440,6 @@ class GoalsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
     }
     
     func testDeleteGoal() {
@@ -492,6 +488,68 @@ class GoalsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testUpdateGoal() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + GoalsEndpoint.goal(goalID: 3211).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "goal_id_3211", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
+        authentication.loggedIn = true
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let context = database.newBackgroundContext()
+            
+            context.performAndWait {
+                let goal = Goal(context: context)
+                goal.populateTestData()
+                goal.goalID = 3211
+                
+                try? context.save()
+            }
+            
+            let goals = Goals(database: database, service: service, authentication: authentication)
+            
+            goals.updateGoal(goalID: 3211) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "goalID == %ld", argumentArray: [3211])
+                        
+                        do {
+                            let fetchedGoals = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedGoals.first?.goalID, 3211)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
     }
     
 }

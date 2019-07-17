@@ -105,5 +105,26 @@ class GoalsRequestTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testUpdateGoal() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: GoalsEndpoint.goal(goalID: 3212).path.prefixedWithSlash, toResourceWithName: "goal_id_3212", addingStatusCode: 201)
+        
+        let request = APIGoalUpdateRequest.testData()
+        
+        service.updateGoal(goalID: 3212, request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.id, 3212)
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
 
 }

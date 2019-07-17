@@ -298,4 +298,10 @@ public class Goal: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    internal func updateRequest() -> APIGoalUpdateRequest {
+        return APIGoalUpdateRequest(description: details,
+                                    imageURL: imageURLString,
+                                    name: name)
+    }
+    
 }
