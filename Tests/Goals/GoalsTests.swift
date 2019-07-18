@@ -257,6 +257,65 @@ class GoalsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testRefreshGoalsFiltered() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goals_filtered_cancelled_ontrack")
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let context = self.database.newBackgroundContext()
+            
+            context.performAndWait {
+                let goal = Goal(context: context)
+                goal.populateTestData()
+                goal.goalID = 3211
+                goal.status = .active
+                goal.trackingStatus = .behind
+                
+                try? context.save()
+            }
+            
+            self.goals.refreshGoals(status: .cancelled, trackingStatus: .onTrack) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = self.database.viewContext
+                        
+                        // Check goal still exists that doesn't match filter
+                        let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "goalID == %ld", argumentArray: [3211])
+                        
+                        do {
+                            let fetchedGoals = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedGoals.first?.goalID, 3211)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                    
+                        // Check new goals added
+                        let fetchFilteredRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
+                        fetchFilteredRequest.predicate = NSPredicate(format: #keyPath(Goal.statusRawValue) + " == %@ &&" + #keyPath(Goal.trackingStatusRawValue) + " == %@", argumentArray: [Goal.Status.cancelled.rawValue, Goal.TrackingStatus.onTrack.rawValue])
+                        
+                        do {
+                            let fetchedFilteredGoals = try context.fetch(fetchFilteredRequest)
+                            
+                            XCTAssertEqual(fetchedFilteredGoals.count, 2)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                    }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testCreateGoal() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -425,7 +484,6 @@ class GoalsTests: BaseTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
     }
     
 }

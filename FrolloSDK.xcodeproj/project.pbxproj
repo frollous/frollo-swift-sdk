@@ -719,6 +719,9 @@
 		017F0FF622DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FF522DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift */; };
 		017F0FF722DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FF522DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift */; };
 		017F0FF822DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FF522DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift */; };
+		017F0FFA22E045C600ACE7BB /* goals_filtered_cancelled_ontrack.json in Resources */ = {isa = PBXBuildFile; fileRef = 017F0FF922E045C400ACE7BB /* goals_filtered_cancelled_ontrack.json */; };
+		017F0FFB22E045C600ACE7BB /* goals_filtered_cancelled_ontrack.json in Resources */ = {isa = PBXBuildFile; fileRef = 017F0FF922E045C400ACE7BB /* goals_filtered_cancelled_ontrack.json */; };
+		017F0FFC22E045C600ACE7BB /* goals_filtered_cancelled_ontrack.json in Resources */ = {isa = PBXBuildFile; fileRef = 017F0FF922E045C400ACE7BB /* goals_filtered_cancelled_ontrack.json */; };
 		01819144211162DD000E0F80 /* UniqueManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01819143211162DD000E0F80 /* UniqueManagedObject.swift */; };
 		01819146211168C8000E0F80 /* APIUniqueResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01819145211168C8000E0F80 /* APIUniqueResponse.swift */; };
 		01819149211178D2000E0F80 /* ResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01819148211178D2000E0F80 /* ResponseHandler.swift */; };
@@ -1457,6 +1460,7 @@
 		017F0FEE22DEE82900ACE7BB /* APIGoalPeriodResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = APIGoalPeriodResponse.swift; path = ../../../../Tests/Model/API/Goals/APIGoalPeriodResponse.swift; sourceTree = "<group>"; };
 		017F0FF122DEFF6500ACE7BB /* GoalPeriodTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalPeriodTests.swift; sourceTree = "<group>"; };
 		017F0FF522DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIGoalPeriodResponse+Test.swift"; sourceTree = "<group>"; };
+		017F0FF922E045C400ACE7BB /* goals_filtered_cancelled_ontrack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = goals_filtered_cancelled_ontrack.json; sourceTree = "<group>"; };
 		01819143211162DD000E0F80 /* UniqueManagedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniqueManagedObject.swift; sourceTree = "<group>"; };
 		01819145211168C8000E0F80 /* APIUniqueResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUniqueResponse.swift; sourceTree = "<group>"; };
 		01819148211178D2000E0F80 /* ResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseHandler.swift; sourceTree = "<group>"; };
@@ -2564,6 +2568,7 @@
 				017F0FC622DD780900ACE7BB /* goal_id_3211.json */,
 				017F0FD622DEA87500ACE7BB /* goal_id_3212.json */,
 				017F0FD522DEA87500ACE7BB /* goal_id_3213.json */,
+				017F0FF922E045C400ACE7BB /* goals_filtered_cancelled_ontrack.json */,
 				017F0FC222DD411000ACE7BB /* goals_valid.json */,
 			);
 			path = Goals;
@@ -3314,6 +3319,7 @@
 				01483BC82119781C00D0DA87 /* merchants_invalid.json in Resources */,
 				01B896C420F2EDA30068069A /* error_aggregator.json in Resources */,
 				012606A2219A5409005D8377 /* messages_valid.json in Resources */,
+				017F0FFA22E045C600ACE7BB /* goals_filtered_cancelled_ontrack.json in Resources */,
 				01BB5A77221F5973000C03F0 /* token_valid.json in Resources */,
 				01B896CA20F3106B0068069A /* error_unknown_code.json in Resources */,
 				01B896B620F2EDA30068069A /* error_invalid_auth_head.json in Resources */,
@@ -3455,6 +3461,7 @@
 				01483BC92119781C00D0DA87 /* merchants_invalid.json in Resources */,
 				017B48582101B4FE00447E65 /* error_aggregator.json in Resources */,
 				012606A3219A5409005D8377 /* messages_valid.json in Resources */,
+				017F0FFB22E045C600ACE7BB /* goals_filtered_cancelled_ontrack.json in Resources */,
 				01BB5A78221F5973000C03F0 /* token_valid.json in Resources */,
 				017B48592101B4FE00447E65 /* error_unknown_code.json in Resources */,
 				017B485A2101B4FE00447E65 /* error_invalid_auth_head.json in Resources */,
@@ -3605,6 +3612,7 @@
 				01483BCA2119781C00D0DA87 /* merchants_invalid.json in Resources */,
 				017B48B52105958100447E65 /* error_aggregator.json in Resources */,
 				012606A4219A5409005D8377 /* messages_valid.json in Resources */,
+				017F0FFC22E045C600ACE7BB /* goals_filtered_cancelled_ontrack.json in Resources */,
 				01BB5A79221F5973000C03F0 /* token_valid.json in Resources */,
 				017B48B62105958100447E65 /* error_unknown_code.json in Resources */,
 				017B48B72105958100447E65 /* error_invalid_auth_head.json in Resources */,

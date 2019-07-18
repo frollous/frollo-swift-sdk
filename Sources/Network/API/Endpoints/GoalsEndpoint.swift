@@ -18,6 +18,11 @@ import Foundation
 
 enum GoalsEndpoint: Endpoint {
     
+    enum QueryParameters: String, Codable {
+        case status
+        case trackingStatus = "tracking_status"
+    }
+    
     internal var path: String {
         return urlPath()
     }

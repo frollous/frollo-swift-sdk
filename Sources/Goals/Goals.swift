@@ -119,7 +119,7 @@ public class Goals: CachedObjects, ResponseHandler {
      - parameters:
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func refreshGoals(completion: FrolloSDKCompletionHandler? = nil) {
+    public func refreshGoals(status: Goal.Status? = nil, trackingStatus: Goal.TrackingStatus? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         guard authentication.loggedIn
         else {
             let error = DataError(type: .authentication, subType: .loggedOut)
@@ -132,7 +132,7 @@ public class Goals: CachedObjects, ResponseHandler {
             return
         }
         
-        service.fetchGoals { result in
+        service.fetchGoals(status: status, trackingStatus: trackingStatus) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -143,7 +143,7 @@ public class Goals: CachedObjects, ResponseHandler {
                 case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleGoalsResponse(response, managedObjectContext: managedObjectContext)
+                    self.handleGoalsResponse(response, status: status, trackingStatus: trackingStatus, managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -361,14 +361,27 @@ public class Goals: CachedObjects, ResponseHandler {
         }
     }
     
-    private func handleGoalsResponse(_ goalsResponse: [APIGoalResponse], managedObjectContext: NSManagedObjectContext) {
+    private func handleGoalsResponse(_ goalsResponse: [APIGoalResponse], status: Goal.Status?, trackingStatus: Goal.TrackingStatus?, managedObjectContext: NSManagedObjectContext) {
         goalsLock.lock()
         
         defer {
             goalsLock.unlock()
         }
         
-        updateObjectsWithResponse(type: Goal.self, objectsResponse: goalsResponse, primaryKey: #keyPath(Goal.goalID), linkedKeys: [], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        var predicates = [NSPredicate]()
+        if let statusFilter = status {
+            predicates.append(NSPredicate(format: #keyPath(Goal.statusRawValue) + " == %@", argumentArray: [statusFilter.rawValue]))
+        }
+        if let trackingStatusFilter = trackingStatus {
+            predicates.append(NSPredicate(format: #keyPath(Goal.trackingStatusRawValue) + " == %@", argumentArray: [trackingStatusFilter.rawValue]))
+        }
+        
+        var filterPredicate: NSPredicate?
+        if !predicates.isEmpty {
+            filterPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        }
+        
+        updateObjectsWithResponse(type: Goal.self, objectsResponse: goalsResponse, primaryKey: #keyPath(Goal.goalID), linkedKeys: [], filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
             do {

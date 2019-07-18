@@ -30,11 +30,20 @@ extension APIService {
         }
     }
     
-    internal func fetchGoals(completion: @escaping RequestCompletion<[APIGoalResponse]>) {
+    internal func fetchGoals(status: Goal.Status? = nil, trackingStatus: Goal.TrackingStatus? = nil, completion: @escaping RequestCompletion<[APIGoalResponse]>) {
         requestQueue.async {
             let url = URL(string: GoalsEndpoint.goals.path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+            var parameters = [String: String]()
+            
+            if let statusParameter = status {
+                parameters[GoalsEndpoint.QueryParameters.status.rawValue] = statusParameter.rawValue
+            }
+            if let trackingStatusParameter = trackingStatus {
+                parameters[GoalsEndpoint.QueryParameters.trackingStatus.rawValue] = trackingStatusParameter.rawValue
+            }
+            
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APIGoalResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
