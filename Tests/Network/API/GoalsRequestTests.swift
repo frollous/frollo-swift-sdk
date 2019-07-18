@@ -126,5 +126,35 @@ class GoalsRequestTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testFetchGoalPeriods() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: GoalsEndpoint.periods(goalID: 123).path.prefixedWithSlash, toResourceWithName: "goal_periods_valid")
+        
+        service.fetchGoalPeriods(goalID: 123) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 3)
+                    
+                    if let period = response.first {
+                        XCTAssertEqual(period.id, 7822)
+                        XCTAssertEqual(period.goalID, 123)
+                        XCTAssertEqual(period.currentAmount, "111.42")
+                        XCTAssertEqual(period.requiredAmount, "173.5")
+                        XCTAssertEqual(period.targetAmount, "150")
+                        XCTAssertEqual(period.startDate, "2019-07-18")
+                        XCTAssertEqual(period.endDate, "2019-07-25")
+                        XCTAssertEqual(period.trackingStatus, .behind)
+                    }
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
 
 }

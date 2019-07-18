@@ -20,6 +20,8 @@ import Alamofire
 
 extension APIService {
     
+    // MARK: - Goals
+    
     internal func fetchGoal(goalID: Int64, completion: @escaping RequestCompletion<APIGoalResponse>) {
         requestQueue.async {
             let url = URL(string: GoalsEndpoint.goal(goalID: goalID).path, relativeTo: self.serverURL)!
@@ -91,6 +93,18 @@ extension APIService {
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APIGoalResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    // MARK: - Goal Periods
+    
+    internal func fetchGoalPeriods(goalID: Int64, completion: @escaping RequestCompletion<[APIGoalPeriodResponse]>) {
+        requestQueue.async {
+            let url = URL(string: GoalsEndpoint.periods(goalID: goalID).path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleArrayResponse(type: APIGoalPeriodResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }

@@ -486,5 +486,54 @@ class GoalsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    // MARK: - Goal Periods
+    
+    func testRefreshGoalPeriods() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.periods(goalID: 123).path.prefixedWithSlash, toResourceWithName: "goal_periods_valid")
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.goals.refreshGoalPeriods(goalID: 123) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = self.database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<GoalPeriod> = GoalPeriod.fetchRequest()
+                        fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(GoalPeriod.goalPeriodID), ascending: true)]
+                        
+                        do {
+                            let fetchedGoalPeriods = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedGoalPeriods.count, 3)
+                            
+                            if let goalPeriod = fetchedGoalPeriods.first {
+                                XCTAssertEqual(goalPeriod.goalPeriodID, 7822)
+                                XCTAssertEqual(goalPeriod.goalID, 123)
+                                XCTAssertEqual(goalPeriod.currentAmount, 111.42)
+                                XCTAssertEqual(goalPeriod.endDateString, "2019-07-25")
+                                XCTAssertEqual(goalPeriod.requiredAmount, 173.5)
+                                XCTAssertEqual(goalPeriod.startDateString, "2019-07-18")
+                                XCTAssertEqual(goalPeriod.targetAmount, 150)
+                                XCTAssertEqual(goalPeriod.trackingStatus, .behind)
+                            } else {
+                                XCTFail("Goal Period missing")
+                            }
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
 }
 

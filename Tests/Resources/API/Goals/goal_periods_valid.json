@@ -1,0 +1,32 @@
+[
+  {
+    "goal_id": 123,
+    "id": 7822,
+    "start_date": "2019-07-18",
+    "end_date": "2019-07-25",
+    "target_amount": "150",
+    "current_amount": "111.42",
+    "required_amount": "173.5",
+    "tracking_status": "behind"
+  },
+  {
+    "goal_id": 123,
+    "id": 7823,
+    "start_date": "2019-07-26",
+    "end_date": "2019-08-01",
+    "target_amount": "150",
+    "current_amount": "0",
+    "required_amount": "173.5",
+    "tracking_status": "on_track"
+  },
+  {
+    "goal_id": 123,
+    "id": 7824,
+    "start_date": "2019-08-02",
+    "end_date": "2019-08-09",
+    "target_amount": "150",
+    "current_amount": "0",
+    "required_amount": "173.5",
+    "tracking_status": "on_track"
+  }
+]
