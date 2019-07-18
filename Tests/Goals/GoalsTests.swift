@@ -20,11 +20,11 @@ import XCTest
 
 import OHHTTPStubs
 
-class GoalsTests: XCTestCase {
-    
-    let keychainService = "GoalsTests"
+class GoalsTests: BaseTestCase {
     
     override func setUp() {
+        testsKeychainService = "GoalsTests"
+        super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
@@ -33,28 +33,28 @@ class GoalsTests: XCTestCase {
         Keychain(service: keychainService).removeAll()
     }
     
+    var goals: Goals {
+        let keychain = defaultKeychain(isNetwork: true)
+        
+        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
+        let network = defaultNetwork(keychain: keychain, networkAuthenticator: networkAuthenticator)
+        let service = defaultService(keychain: keychain, networkAuthenticator: networkAuthenticator)
+        let authService = defaultAuthService(keychain: keychain, network: network)
+        
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
+        authentication.loggedIn = true
+        return Goals(database: database, service: service, authentication: authentication)
+    }
+    
     // MARK: - Goals
     
     func testFetchGoalByID() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             let id: Int64 = 12345
             
@@ -66,9 +66,8 @@ class GoalsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let goals = Goals(database: database, service: service, authentication: authentication)
             
-            let goal = goals.goal(context: database.viewContext, goalID: id)
+            let goal = self.goals.goal(context: self.database.viewContext, goalID: id)
             
             XCTAssertNotNil(goal)
             XCTAssertEqual(goal?.goalID, id)
@@ -82,23 +81,10 @@ class GoalsTests: XCTestCase {
     func testFetchGoals() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let testGoal1 = Goal(context: managedObjectContext)
@@ -116,10 +102,9 @@ class GoalsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let goals = Goals(database: database, service: service, authentication: authentication)
             
             let predicate = NSPredicate(format: #keyPath(Goal.targetRawValue) + " == %@", argumentArray: [Goal.Target.openEnded.rawValue])
-            let fetchedGoals = goals.goals(context: database.viewContext, filteredBy: predicate)
+            let fetchedGoals = self.goals.goals(context: self.database.viewContext, filteredBy: predicate)
             
             XCTAssertNotNil(fetchedGoals)
             XCTAssertEqual(fetchedGoals?.count, 2)
@@ -133,23 +118,10 @@ class GoalsTests: XCTestCase {
     func testGoalsFetchedResultsController() {
         let expectation1 = expectation(description: "Completion")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let testGoal1 = Goal(context: managedObjectContext)
@@ -167,10 +139,9 @@ class GoalsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let goals = Goals(database: database, service: service, authentication: authentication)
             
             let predicate = NSPredicate(format: #keyPath(Goal.targetRawValue) + " == %@", argumentArray: [Goal.Target.amount.rawValue])
-            let fetchedResultsController = goals.goalsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
+            let fetchedResultsController = self.goals.goalsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -192,34 +163,18 @@ class GoalsTests: XCTestCase {
     func testRefreshGoalByID() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + GoalsEndpoint.goal(goalID: 12345).path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "goal_id_3211", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
+        connect(endpoint: GoalsEndpoint.goal(goalID: 12345).path.prefixedWithSlash, toResourceWithName: "goal_id_3211")
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let goals = Goals(database: database, service: service, authentication: authentication)
             
-            goals.refreshGoal(goalID: 12345) { (result) in
+            self.goals.refreshGoal(goalID: 12345) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.database.viewContext
                         
                         let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
                         fetchRequest.predicate = NSPredicate(format: "goalID == %ld", argumentArray: [3211])
@@ -243,34 +198,18 @@ class GoalsTests: XCTestCase {
     func testRefreshGoals() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + GoalsEndpoint.goals.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "goals_valid", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goals_valid")
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let goals = Goals(database: database, service: service, authentication: authentication)
             
-            goals.refreshGoals() { (result) in
+            self.goals.refreshGoals() { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.database.viewContext
                         
                         let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
                         fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Goal.goalID), ascending: true)]
@@ -321,29 +260,13 @@ class GoalsTests: XCTestCase {
     func testCreateGoal() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + GoalsEndpoint.goals.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "goal_id_3211", ofType: "json")!, status: 201, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goal_id_3211", addingStatusCode: 201)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let goals = Goals(database: database, service: service, authentication: authentication)
             
-            goals.createGoal(name: "My test goal",
+            self.goals.createGoal(name: "My test goal",
                              description: "The bestest test goal",
                              imageURL: URL(string: "https://example.com/image.png"),
                              type: "Holiday",
@@ -361,7 +284,7 @@ class GoalsTests: XCTestCase {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.database.viewContext
                         
                         let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
                         fetchRequest.predicate = NSPredicate(format: "goalID == %ld", argumentArray: [3211])
@@ -385,29 +308,13 @@ class GoalsTests: XCTestCase {
     func testCreateGoalInvalidDataFails() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + GoalsEndpoint.goals.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "goal_id_3211", ofType: "json")!, status: 201, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goal_id_3211", addingStatusCode: 201)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let goals = Goals(database: database, service: service, authentication: authentication)
             
-            goals.createGoal(name: "My test goal",
+            self.goals.createGoal(name: "My test goal",
                              description: "The bestest test goal",
                              imageURL: URL(string: "https://example.com/image.png"),
                              type: "Holiday",
@@ -445,27 +352,12 @@ class GoalsTests: XCTestCase {
     func testDeleteGoal() {
         let expectation1 = expectation(description: "Network Request")
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + GoalsEndpoint.goal(goalID: 12345).path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let goals = Goals(database: database, service: service, authentication: authentication)
+        connect(endpoint: GoalsEndpoint.goal(goalID: 12345).path.prefixedWithSlash, addingData: Data(), addingStatusCode: 204)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let managedObjectContext = database.newBackgroundContext()
+            let managedObjectContext = self.database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let goal = Goal(context: managedObjectContext)
@@ -475,12 +367,12 @@ class GoalsTests: XCTestCase {
                 try? managedObjectContext.save()
             }
             
-            goals.deleteGoal(goalID: 12345) { (result) in
+            self.goals.deleteGoal(goalID: 12345) { (result) in
                 switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    XCTAssertNil(goals.goal(context: database.viewContext, goalID: 12345))
+                    XCTAssertNil(self.goals.goal(context: self.database.viewContext, goalID: 12345))
                 }
                 
                 expectation1.fulfill()
@@ -493,27 +385,12 @@ class GoalsTests: XCTestCase {
     func testUpdateGoal() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + GoalsEndpoint.goal(goalID: 3211).path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "goal_id_3211", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
+        connect(endpoint: GoalsEndpoint.goal(goalID: 3211).path.prefixedWithSlash, toResourceWithName: "goal_id_3211")
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let context = database.newBackgroundContext()
+            let context = self.database.newBackgroundContext()
             
             context.performAndWait {
                 let goal = Goal(context: context)
@@ -523,14 +400,13 @@ class GoalsTests: XCTestCase {
                 try? context.save()
             }
             
-            let goals = Goals(database: database, service: service, authentication: authentication)
             
-            goals.updateGoal(goalID: 3211) { (result) in
+            self.goals.updateGoal(goalID: 3211) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        let context = database.viewContext
+                        let context = self.database.viewContext
                         
                         let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
                         fetchRequest.predicate = NSPredicate(format: "goalID == %ld", argumentArray: [3211])
