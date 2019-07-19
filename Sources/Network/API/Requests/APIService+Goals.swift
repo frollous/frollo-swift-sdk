@@ -99,6 +99,16 @@ extension APIService {
     
     // MARK: - Goal Periods
     
+    internal func fetchGoalPeriod(goalID: Int64, goalPeriodID: Int64, completion: @escaping RequestCompletion<APIGoalPeriodResponse>) {
+        requestQueue.async {
+            let url = URL(string: GoalsEndpoint.period(goalID: goalID, goalPeriodID: goalPeriodID).path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APIGoalPeriodResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     internal func fetchGoalPeriods(goalID: Int64, completion: @escaping RequestCompletion<[APIGoalPeriodResponse]>) {
         requestQueue.async {
             let url = URL(string: GoalsEndpoint.periods(goalID: goalID).path, relativeTo: self.serverURL)!

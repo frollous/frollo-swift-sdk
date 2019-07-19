@@ -344,6 +344,39 @@ public class Goals: CachedObjects, ResponseHandler {
     
     // MARK: - Goal Periods
     
+    public func refreshGoalPeriod(goalID: Int64, goalPeriodID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        guard authentication.loggedIn
+        else {
+            let error = DataError(type: .authentication, subType: .loggedOut)
+            
+            Log.error(error.localizedDescription)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
+        service.fetchGoalPeriod(goalID: goalID, goalPeriodID: goalPeriodID) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleGoalPeriodResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
     public func refreshGoalPeriods(goalID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
         guard authentication.loggedIn
         else {
@@ -418,6 +451,24 @@ public class Goals: CachedObjects, ResponseHandler {
         }
         
         updateObjectsWithResponse(type: Goal.self, objectsResponse: goalsResponse, primaryKey: #keyPath(Goal.goalID), linkedKeys: [], filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleGoalPeriodResponse(_ goalPeriodResponse: APIGoalPeriodResponse, managedObjectContext: NSManagedObjectContext) {
+        goalPeriodsLock.lock()
+        
+        defer {
+            goalPeriodsLock.unlock()
+        }
+        
+        updateObjectWithResponse(type: GoalPeriod.self, objectResponse: goalPeriodResponse, primaryKey: #keyPath(GoalPeriod.goalPeriodID), managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
             do {

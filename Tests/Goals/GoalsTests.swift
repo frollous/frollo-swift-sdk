@@ -535,5 +535,39 @@ class GoalsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testRefreshGoalPeriod() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.period(goalID: 123, goalPeriodID: 897).path.prefixedWithSlash, toResourceWithName: "goal_period_id_897")
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.goals.refreshGoalPeriod(goalID: 123, goalPeriodID: 897) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = self.database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<GoalPeriod> = GoalPeriod.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "goalPeriodID == %ld", argumentArray: [897])
+                        
+                        do {
+                            let fetchedGoalPeriods = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedGoalPeriods.first?.goalPeriodID, 897)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
 }
 

@@ -45,8 +45,8 @@
         <attribute name="totalCreditLine" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="totalCreditLineCurrency" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="balanceTiers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AccountBalanceTier" inverseName="account" inverseEntity="AccountBalanceTier" syncable="YES"/>
-        <relationship name="bills" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Bill" inverseName="account" inverseEntity="Bill" syncable="YES"/>
-        <relationship name="goals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Goal" inverseName="account" inverseEntity="Goal" syncable="YES"/>
+        <relationship name="bills" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Bill" inverseName="account" inverseEntity="Bill" syncable="YES"/>
+        <relationship name="goals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Goal" inverseName="account" inverseEntity="Goal" syncable="YES"/>
         <relationship name="providerAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProviderAccount" inverseName="accounts" inverseEntity="ProviderAccount" syncable="YES"/>
         <relationship name="reports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReportAccountBalance" inverseName="account" inverseEntity="ReportAccountBalance" syncable="YES"/>
         <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Transaction" inverseName="account" inverseEntity="Transaction" syncable="YES"/>
@@ -145,7 +145,7 @@
         <attribute name="trackingTypeRawValue" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="goals" inverseEntity="Account" syncable="YES"/>
-        <relationship name="periods" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GoalPeriod" inverseName="goal" inverseEntity="GoalPeriod" syncable="YES"/>
+        <relationship name="periods" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GoalPeriod" inverseName="goal" inverseEntity="GoalPeriod" syncable="YES"/>
         <fetchIndex name="byGoalIDIndex">
             <fetchIndexElement property="goalID" type="Binary" order="ascending"/>
         </fetchIndex>
@@ -499,6 +499,7 @@
         <element name="Bill" positionX="-378" positionY="162" width="128" height="360"/>
         <element name="BillPayment" positionX="-378" positionY="162" width="128" height="180"/>
         <element name="Goal" positionX="-378" positionY="162" width="128" height="405"/>
+        <element name="GoalPeriod" positionX="-360" positionY="180" width="128" height="180"/>
         <element name="Merchant" positionX="498.47265625" positionY="19.75" width="128" height="165"/>
         <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="240"/>
         <element name="MessageHTML" positionX="-317.359375" positionY="757.66015625" width="128" height="90"/>
@@ -514,6 +515,5 @@
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="525"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="210"/>
         <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>
-        <element name="GoalPeriod" positionX="-360" positionY="180" width="128" height="180"/>
     </elements>
 </model>
