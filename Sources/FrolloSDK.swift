@@ -257,7 +257,7 @@ public class FrolloSDK: AuthenticationDelegate {
         if let host = configuration.serverEndpoint.host, host.contains(frolloHost) {
             pinServer = true
         }
-        if case FrolloSDKConfiguration.AuthenticationType.oAuth2(_, _, _, let tokenEndpoint, _) = configuration.authenticationType, let host = tokenEndpoint.host, host.contains(frolloHost) {
+        if case FrolloSDKConfiguration.AuthenticationType.oAuth2(_, _, let tokenEndpoint, _) = configuration.authenticationType, let host = tokenEndpoint.host, host.contains(frolloHost) {
             pinToken = true
         }
         
@@ -280,7 +280,7 @@ public class FrolloSDK: AuthenticationDelegate {
                 if pinServer {
                     pinnedKeys?[configuration.serverEndpoint] = [activeKey, backupKey]
                 }
-                if pinToken, case FrolloSDKConfiguration.AuthenticationType.oAuth2(_, _, _, let tokenEndpoint, _) = configuration.authenticationType {
+                if pinToken, case FrolloSDKConfiguration.AuthenticationType.oAuth2(_, _, let tokenEndpoint, _) = configuration.authenticationType {
                     pinnedKeys?[tokenEndpoint] = [activeKey, backupKey]
                 }
             }
@@ -303,9 +303,9 @@ public class FrolloSDK: AuthenticationDelegate {
                 
                 _authentication = customAuthentication
                 
-            case .oAuth2(let clientID, let redirectURL, let authorizationEndpoint, let tokenEndpoint, let revokeTokenEndpoint):
+            case .oAuth2(let redirectURL, let authorizationEndpoint, let tokenEndpoint, let revokeTokenEndpoint):
                 let authService = OAuthService(authorizationEndpoint: authorizationEndpoint, tokenEndpoint: tokenEndpoint, redirectURL: redirectURL, revokeURL: revokeTokenEndpoint, network: network)
-                _authentication = OAuth2Authentication(keychain: keychain, clientID: clientID, redirectURL: redirectURL, serverURL: configuration.serverEndpoint, authService: authService, preferences: preferences, delegate: self, tokenDelegate: network)
+                _authentication = OAuth2Authentication(keychain: keychain, clientID: configuration.clientID, redirectURL: redirectURL, serverURL: configuration.serverEndpoint, authService: authService, preferences: preferences, delegate: self, tokenDelegate: network)
         }
         
         networkAuthenticator.authentication = _authentication
@@ -317,7 +317,7 @@ public class FrolloSDK: AuthenticationDelegate {
         _messages = Messages(database: _database, service: service, authentication: _authentication)
         _reports = Reports(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
         _surveys = Surveys(service: service, authentication: _authentication)
-        _userManagement = UserManagement(database: _database, service: service, authentication: _authentication, preferences: preferences, delegate: self)
+        _userManagement = UserManagement(database: _database, service: service, clientID: configuration.clientID, authentication: _authentication, preferences: preferences, delegate: self)
         _notifications = Notifications(events: _events, messages: _messages, userManagement: _userManagement)
         
         _events.delegate = delegate

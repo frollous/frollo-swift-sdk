@@ -33,7 +33,7 @@ class GoalsTests: BaseTestCase {
         let service = defaultService(keychain: keychain, networkAuthenticator: networkAuthenticator)
         let authService = defaultAuthService(keychain: keychain, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
+        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
         authentication.loggedIn = true
         aggregation = Aggregation(database: database, service: service, authentication: authentication)
         

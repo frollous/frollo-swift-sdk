@@ -89,11 +89,11 @@ class FrolloSDKTests: XCTestCase {
         let dataDirectory = FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: .userDomainMask).first!
         #endif
         
-        let config = FrolloSDKConfiguration(authenticationType: .oAuth2(clientID: FrolloSDKConfiguration.clientID,
-                                                                        redirectURL: FrolloSDKConfiguration.redirectURL,
+        let config = FrolloSDKConfiguration(authenticationType: .oAuth2(redirectURL: FrolloSDKConfiguration.redirectURL,
                                                                         authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint,
                                                                         tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint,
                                                                         revokeTokenEndpoint: FrolloSDKConfiguration.revokeTokenEndpoint),
+                                            clientID: "abc123",
                                             dataDirectory: dataDirectory,
                                             serverEndpoint: URL(string: "https://api.example.com")!)
         

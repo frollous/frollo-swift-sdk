@@ -476,7 +476,7 @@ class UserManagementTests: BaseTestCase {
         }
         
         let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
-        let user = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences, delegate: delegateStub)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: delegateStub)
         
         let resetter = NetworkResetterStub(authentication: authentication)
         network.delegate = resetter
@@ -517,7 +517,7 @@ class UserManagementTests: BaseTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: false)
-        let user = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences, delegate: nil)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
         
         let resetter = NetworkResetterStub(authentication: authentication)
         network.delegate = resetter
@@ -560,7 +560,7 @@ class UserManagementTests: BaseTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
-        let user = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences, delegate: nil)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
         
         let resetter = NetworkResetterStub(authentication: authentication)
         network.delegate = resetter
@@ -603,7 +603,7 @@ class UserManagementTests: BaseTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
-        let user = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences, delegate: nil)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
         
         let resetter = NetworkResetterStub(authentication: authentication)
         network.delegate = resetter

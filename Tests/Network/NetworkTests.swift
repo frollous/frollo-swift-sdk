@@ -77,11 +77,11 @@ class NetworkTests: XCTestCase {
         
         let tokenEndpoint = URL(string: "https://id.frollo.us/oauth/token")!
         
-        let config = FrolloSDKConfiguration(authenticationType: .oAuth2(clientID: "zyx987",
-                                                                        redirectURL: URL(string: "app://authed")!,
+        let config = FrolloSDKConfiguration(authenticationType: .oAuth2(redirectURL: URL(string: "app://authed")!,
                                                                         authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!,
                                                                         tokenEndpoint: tokenEndpoint,
                                                                         revokeTokenEndpoint: FrolloSDKConfiguration.revokeTokenEndpoint),
+                                            clientID: "zyx987",
                                             serverEndpoint: URL(string: "https://api.frollo.us/api/")!)
         let testURL = config.serverEndpoint.appendingPathComponent("pages/terms")
         
@@ -108,11 +108,11 @@ class NetworkTests: XCTestCase {
         
         let tokenEndpoint = URL(string: "https://id.frollo.us/oauth/token")!
         
-        let config = FrolloSDKConfiguration(authenticationType: .oAuth2(clientID: "zyx987",
-                                                                        redirectURL: URL(string: "app://authed")!,
+        let config = FrolloSDKConfiguration(authenticationType: .oAuth2(redirectURL: URL(string: "app://authed")!,
                                                                         authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!,
                                                                         tokenEndpoint: tokenEndpoint,
                                                                         revokeTokenEndpoint: URL(string: "https://id.frollo.us/oauth/revoke")!),
+                                            clientID: "zyx987",
                                             serverEndpoint: URL(string: "https://api.frollo.us/api/")!)
         let testURL = config.serverEndpoint.appendingPathComponent("pages/terms")
         
@@ -137,11 +137,11 @@ class NetworkTests: XCTestCase {
         
         let keychain = Keychain(service: keychainService)
         
-        let config = FrolloSDKConfiguration(authenticationType: .oAuth2(clientID: "zyx987",
-                                                                        redirectURL: URL(string: "app://authed")!,
+        let config = FrolloSDKConfiguration(authenticationType: .oAuth2(redirectURL: URL(string: "app://authed")!,
                                                                         authorizationEndpoint: URL(string: "https://id.frollo.us/oauth/authorize")!,
                                                                         tokenEndpoint: URL(string: "https://id.frollo.us/oauth/token")!,
                                                                         revokeTokenEndpoint: URL(string: "https://id.frollo.us/oauth/revoke")!),
+                                            clientID: "zyx987",
                                             serverEndpoint: URL(string: "https://google.com.au")!)
         
         let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)

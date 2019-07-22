@@ -29,12 +29,11 @@ public struct FrolloSDKConfiguration {
         
         /// OAuth2 - generic OAuth2 based authentication
         ///
-        /// - clientID: OAuth2 Client identifier. The unique identifier of the application implementing the SDK
         /// - redirectURL: OAuth2 Redirection URL. URL to redirect to after the authorization flow is complete. This should be a deep or universal link to the host app
         /// - authorizationEndpoint: URL of the OAuth2 authorization endpoint for web based login
         /// - tokenEndpoint: URL of the OAuth2 token endpoint for getting tokens and native login
         /// - revokeTokenEndpoint: URL of the OAuth2 revoke endpoint if supported
-        case oAuth2(clientID: String, redirectURL: URL, authorizationEndpoint: URL, tokenEndpoint: URL, revokeTokenEndpoint: URL?)
+        case oAuth2(redirectURL: URL, authorizationEndpoint: URL, tokenEndpoint: URL, revokeTokenEndpoint: URL?)
         
     }
     
@@ -55,18 +54,21 @@ public struct FrolloSDKConfiguration {
      
      - parameters:
          - authenticationType: Type of authentication to be used. Valid options are `custom` and `oAuth2`
+         - clientID: OAuth2 Client identifier. The unique identifier of the application implementing the SDK
          - dataDirectory: Data directory to store data. Default is Application Support but can be overriden to support application groups
          - serverEndpoint: Base URL of the Frollo API this SDK should point to
      
      - returns: Valid configuration
      */
-    public init(authenticationType: AuthenticationType, dataDirectory: URL = FrolloSDK.defaultDataFolderURL, serverEndpoint: URL) {
+    public init(authenticationType: AuthenticationType, clientID: String, dataDirectory: URL = FrolloSDK.defaultDataFolderURL, serverEndpoint: URL) {
         self.authenticationType = authenticationType
+        self.clientID = clientID
         self.dataDirectory = dataDirectory
         self.serverEndpoint = serverEndpoint
     }
     
     internal let authenticationType: AuthenticationType
+    internal let clientID: String
     internal let dataDirectory: URL
     internal let serverEndpoint: URL
     
