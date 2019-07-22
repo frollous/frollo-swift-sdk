@@ -313,7 +313,7 @@ public class FrolloSDK: AuthenticationDelegate {
         _aggregation = Aggregation(database: _database, service: service, authentication: _authentication)
         _bills = Bills(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
         _events = Events(service: service, authentication: _authentication)
-        _goals = Goals(database: _database, service: service, authentication: _authentication)
+        _goals = Goals(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
         _messages = Messages(database: _database, service: service, authentication: _authentication)
         _reports = Reports(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
         _surveys = Surveys(service: service, authentication: _authentication)

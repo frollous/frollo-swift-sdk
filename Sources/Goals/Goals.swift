@@ -20,6 +20,7 @@ import Foundation
 /// Manages user goals and tracking
 public class Goals: CachedObjects, ResponseHandler {
     
+    private let aggregation: Aggregation
     private let authentication: Authentication
     private let database: Database
     private let service: APIService
@@ -27,9 +28,13 @@ public class Goals: CachedObjects, ResponseHandler {
     private let goalsLock = NSLock()
     private let goalPeriodsLock = NSLock()
     
-    internal init(database: Database, service: APIService, authentication: Authentication) {
+    private var linkingAccountIDs = Set<Int64>()
+    private var linkingGoalIDs = Set<Int64>()
+    
+    internal init(database: Database, service: APIService, aggregation: Aggregation, authentication: Authentication) {
         self.database = database
         self.service = service
+        self.aggregation = aggregation
         self.authentication = authentication
     }
     
@@ -105,6 +110,9 @@ public class Goals: CachedObjects, ResponseHandler {
                     
                     self.handleGoalResponse(response, managedObjectContext: managedObjectContext)
                     
+                    self.linkGoalsToAccounts(managedObjectContext: managedObjectContext)
+                    self.linkGoalPeriodsToGoals(managedObjectContext: managedObjectContext)
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -147,6 +155,9 @@ public class Goals: CachedObjects, ResponseHandler {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleGoalsResponse(response, status: status, trackingStatus: trackingStatus, managedObjectContext: managedObjectContext)
+                    
+                    self.linkGoalsToAccounts(managedObjectContext: managedObjectContext)
+                    self.linkGoalPeriodsToGoals(managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -248,6 +259,9 @@ public class Goals: CachedObjects, ResponseHandler {
                     
                     self.handleGoalResponse(response, managedObjectContext: managedObjectContext)
                     
+                    self.linkGoalsToAccounts(managedObjectContext: managedObjectContext)
+                    self.linkGoalPeriodsToGoals(managedObjectContext: managedObjectContext)
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -344,6 +358,9 @@ public class Goals: CachedObjects, ResponseHandler {
                     
                     self.handleGoalResponse(response, managedObjectContext: managedObjectContext)
                     
+                    self.linkGoalsToAccounts(managedObjectContext: managedObjectContext)
+                    self.linkGoalPeriodsToGoals(managedObjectContext: managedObjectContext)
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -424,6 +441,8 @@ public class Goals: CachedObjects, ResponseHandler {
                     
                     self.handleGoalPeriodResponse(response, managedObjectContext: managedObjectContext)
                     
+                    self.linkGoalPeriodsToGoals(managedObjectContext: managedObjectContext)
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -464,9 +483,57 @@ public class Goals: CachedObjects, ResponseHandler {
                     
                     self.handleGoalPeriodsResponse(response, goalID: goalID, managedObjectContext: managedObjectContext)
                     
+                    self.linkGoalPeriodsToGoals(managedObjectContext: managedObjectContext)
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
+            }
+        }
+    }
+    
+    // MARK: - Linking Objects
+    
+    private func linkGoalsToAccounts(managedObjectContext: NSManagedObjectContext) {
+        goalsLock.lock()
+        aggregation.accountLock.lock()
+        
+        defer {
+            goalsLock.unlock()
+            aggregation.accountLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: Goal.self, parentType: Account.self, managedObjectContext: managedObjectContext, linkedIDs: linkingAccountIDs, linkedKey: \Goal.accountID, linkedKeyName: #keyPath(Goal.accountID))
+        
+        linkingAccountIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func linkGoalPeriodsToGoals(managedObjectContext: NSManagedObjectContext) {
+        goalsLock.lock()
+        goalPeriodsLock.lock()
+        
+        defer {
+            goalsLock.unlock()
+            goalPeriodsLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: GoalPeriod.self, parentType: Goal.self, managedObjectContext: managedObjectContext, linkedIDs: linkingGoalIDs, linkedKey: \GoalPeriod.goalID, linkedKeyName: #keyPath(GoalPeriod.goalID))
+        
+        linkingGoalIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
             }
         }
     }
@@ -481,6 +548,10 @@ public class Goals: CachedObjects, ResponseHandler {
         }
         
         updateObjectWithResponse(type: Goal.self, objectResponse: goalResponse, primaryKey: #keyPath(Goal.goalID), managedObjectContext: managedObjectContext)
+        
+        if let accountID = goalResponse.accountID {
+            linkingAccountIDs.insert(accountID)
+        }
         
         managedObjectContext.performAndWait {
             do {
@@ -511,7 +582,11 @@ public class Goals: CachedObjects, ResponseHandler {
             filterPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         }
         
-        updateObjectsWithResponse(type: Goal.self, objectsResponse: goalsResponse, primaryKey: #keyPath(Goal.goalID), linkedKeys: [], filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
+        let updatedLinkedIDs = updateObjectsWithResponse(type: Goal.self, objectsResponse: goalsResponse, primaryKey: #keyPath(Goal.goalID), linkedKeys: [\Goal.accountID], filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
+        
+        if let accountIDs = updatedLinkedIDs[\Goal.accountID] {
+            linkingAccountIDs = linkingAccountIDs.union(accountIDs)
+        }
         
         managedObjectContext.performAndWait {
             do {
@@ -531,6 +606,8 @@ public class Goals: CachedObjects, ResponseHandler {
         
         updateObjectWithResponse(type: GoalPeriod.self, objectResponse: goalPeriodResponse, primaryKey: #keyPath(GoalPeriod.goalPeriodID), managedObjectContext: managedObjectContext)
         
+        linkingGoalIDs.insert(goalPeriodResponse.goalID)
+        
         managedObjectContext.performAndWait {
             do {
                 try managedObjectContext.save()
@@ -549,7 +626,11 @@ public class Goals: CachedObjects, ResponseHandler {
         
         let filterPredicate = NSPredicate(format: #keyPath(GoalPeriod.goalID) + " == %ld", argumentArray: [goalID])
         
-        updateObjectsWithResponse(type: GoalPeriod.self, objectsResponse: goalPeriodsResponse, primaryKey: #keyPath(GoalPeriod.goalPeriodID), linkedKeys: [], filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
+        let updatedLinkedIDs = updateObjectsWithResponse(type: GoalPeriod.self, objectsResponse: goalPeriodsResponse, primaryKey: #keyPath(GoalPeriod.goalPeriodID), linkedKeys: [\GoalPeriod.goalID], filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
+        
+        if let goalIDs = updatedLinkedIDs[\GoalPeriod.goalID] {
+            linkingGoalIDs = linkingGoalIDs.union(goalIDs)
+        }
         
         managedObjectContext.performAndWait {
             do {

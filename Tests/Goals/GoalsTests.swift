@@ -25,15 +25,7 @@ class GoalsTests: BaseTestCase {
     override func setUp() {
         testsKeychainService = "GoalsTests"
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
-        Keychain(service: keychainService).removeAll()
-    }
-    
-    var goals: Goals {
+        
         let keychain = defaultKeychain(isNetwork: true)
         
         let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
@@ -43,8 +35,18 @@ class GoalsTests: BaseTestCase {
         
         let authentication = OAuth2Authentication(keychain: keychain, clientID: FrolloSDKConfiguration.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
         authentication.loggedIn = true
-        return Goals(database: database, service: service, authentication: authentication)
+        aggregation = Aggregation(database: database, service: service, authentication: authentication)
+        
+        goals = Goals(database: database, service: service, aggregation: aggregation, authentication: authentication)
     }
+    
+    override func tearDown() {
+        OHHTTPStubs.removeAllStubs()
+        Keychain(service: keychainService).removeAll()
+    }
+    
+    var aggregation: Aggregation!
+    var goals: Goals!
     
     // MARK: - Goals
     
@@ -219,32 +221,30 @@ class GoalsTests: BaseTestCase {
                             
                             XCTAssertEqual(fetchedGoals.count, 3)
                             
-                            if let goal = fetchedGoals.first {
-                                XCTAssertEqual(goal.accountID, 45)
-                                XCTAssertEqual(goal.currency, "AUD")
-                                XCTAssertEqual(goal.currentAmount, 1352.19)
-                                XCTAssertEqual(goal.details, "New York")
-                                XCTAssertEqual(goal.endDateString, "2019-07-15")
-                                XCTAssertEqual(goal.estimatedEndDateString, "2019-07-15")
-                                XCTAssertEqual(goal.estimatedTargetAmount, 5555.55)
-                                XCTAssertEqual(goal.frequency, .weekly)
-                                XCTAssertEqual(goal.goalID, 3211)
-                                XCTAssertEqual(goal.imageURL, URL(string: "https://example.com/image.png"))
-                                XCTAssertEqual(goal.name, "Holiday Fund")
-                                XCTAssertEqual(goal.periodAmount, 400)
-                                XCTAssertEqual(goal.periodCount, 10)
-                                XCTAssertEqual(goal.startAmount, 0)
-                                XCTAssertEqual(goal.startDateString, "2019-07-15")
-                                XCTAssertEqual(goal.status, .active)
-                                XCTAssertEqual(goal.subType, "USA")
-                                XCTAssertEqual(goal.target, .amount)
-                                XCTAssertEqual(goal.targetAmount, 5000)
-                                XCTAssertEqual(goal.trackingStatus, .ahead)
-                                XCTAssertEqual(goal.trackingType, .debit)
-                                XCTAssertEqual(goal.type, "Saving for a holiday")
-                            } else {
-                                XCTFail("Goal missing")
-                            }
+                            let goal = fetchedGoals[1]
+                            
+                            XCTAssertEqual(goal.accountID, 45)
+                            XCTAssertEqual(goal.currency, "AUD")
+                            XCTAssertEqual(goal.currentAmount, 1352.19)
+                            XCTAssertEqual(goal.details, "New York")
+                            XCTAssertEqual(goal.endDateString, "2019-07-15")
+                            XCTAssertEqual(goal.estimatedEndDateString, "2019-07-15")
+                            XCTAssertEqual(goal.estimatedTargetAmount, 5555.55)
+                            XCTAssertEqual(goal.frequency, .weekly)
+                            XCTAssertEqual(goal.goalID, 3211)
+                            XCTAssertEqual(goal.imageURL, URL(string: "https://example.com/image.png"))
+                            XCTAssertEqual(goal.name, "Holiday Fund")
+                            XCTAssertEqual(goal.periodAmount, 400)
+                            XCTAssertEqual(goal.periodCount, 10)
+                            XCTAssertEqual(goal.startAmount, 0)
+                            XCTAssertEqual(goal.startDateString, "2019-07-15")
+                            XCTAssertEqual(goal.status, .active)
+                            XCTAssertEqual(goal.subType, "USA")
+                            XCTAssertEqual(goal.target, .amount)
+                            XCTAssertEqual(goal.targetAmount, 5000)
+                            XCTAssertEqual(goal.trackingStatus, .ahead)
+                            XCTAssertEqual(goal.trackingType, .debit)
+                            XCTAssertEqual(goal.type, "Saving for a holiday")
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -486,6 +486,71 @@ class GoalsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testGoalsLinkToAccounts() {
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Accounts Request")
+        let expectation3 = expectation(description: "Network Goals Request")
+        
+        connect(endpoint: AggregationEndpoint.accounts.path.prefixedWithSlash, toResourceWithName: "accounts_valid")
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goals_valid")
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        aggregation.refreshAccounts { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+        
+        goals.refreshGoals { result in
+            switch result {
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            case .success:
+                break
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+        
+        let context = database.viewContext
+        
+        let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "goalID == %ld", argumentArray: [123])
+        
+        do {
+            let fetchedGoals = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedGoals.count, 1)
+            
+            if let goal = fetchedGoals.first {
+                XCTAssertNotNil(goal.accountID)
+                
+                XCTAssertEqual(goal.accountID, goal.account?.accountID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
+        OHHTTPStubs.removeAllStubs()
+        
+    }
+    
     // MARK: - Goal Periods
     
     func testFetchGoalPeriodByID() {
@@ -679,6 +744,70 @@ class GoalsTests: BaseTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testGoalPeriodsLinkToGoals() {
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Goals Request")
+        let expectation3 = expectation(description: "Network Goal Periods Request")
+        
+        connect(endpoint: GoalsEndpoint.periods(goalID: 123).path.prefixedWithSlash, toResourceWithName: "goal_periods_valid")
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goals_valid")
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        goals.refreshGoals { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+        
+        goals.refreshGoalPeriods(goalID: 123) { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+        
+        let context = database.viewContext
+        
+        let fetchRequest: NSFetchRequest<GoalPeriod> = GoalPeriod.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "goalPeriodID == %ld", argumentArray: [7823])
+        
+        do {
+            let fetchedGoalPeriods = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedGoalPeriods.count, 1)
+            
+            if let goalPeriod = fetchedGoalPeriods.first {
+                XCTAssertNotNil(goalPeriod.goalID)
+                
+                XCTAssertEqual(goalPeriod.goalID, goalPeriod.goal?.goalID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
+        OHHTTPStubs.removeAllStubs()
     }
     
 }

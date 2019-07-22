@@ -33,10 +33,10 @@
       "tracking_status": "ahead"
     }
   }, {
-    "id": 4512,
+    "id": 123,
     "name": "Renovations",
     "image_url": "https://example.com/image.png",
-    "account_id": 46,
+    "account_id": 542,
     "type": "Home Improvement",
     "tracking_status": "behind",
     "tracking_type": "debit_credit",
