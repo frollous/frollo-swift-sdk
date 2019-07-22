@@ -145,7 +145,7 @@ public class Bill: NSManagedObject, UniqueManagedObject {
         }
     }
     
-    /// Frequence
+    /// Frequency
     public var frequency: Frequency {
         get {
             return Frequency(rawValue: frequencyRawValue)!

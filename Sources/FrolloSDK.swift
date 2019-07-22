@@ -114,6 +114,16 @@ public class FrolloSDK: AuthenticationDelegate {
         return _events
     }
     
+    /// Goals - Tracking and managing goals. See `Goals` for details
+    public var goals: Goals {
+        guard _setup
+        else {
+            fatalError("SDK not setup.")
+        }
+        
+        return _goals
+    }
+    
     /// Messages - All messages management. See `Messages` for details
     public var messages: Messages {
         guard _setup
@@ -176,6 +186,7 @@ public class FrolloSDK: AuthenticationDelegate {
     internal var _bills: Bills!
     internal var _database: Database!
     internal var _events: Events!
+    internal var _goals: Goals!
     internal var _messages: Messages!
     internal var _notifications: Notifications!
     internal var network: Network!
@@ -302,6 +313,7 @@ public class FrolloSDK: AuthenticationDelegate {
         _aggregation = Aggregation(database: _database, service: service, authentication: _authentication)
         _bills = Bills(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
         _events = Events(service: service, authentication: _authentication)
+        _goals = Goals(database: _database, service: service, authentication: _authentication)
         _messages = Messages(database: _database, service: service, authentication: _authentication)
         _reports = Reports(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
         _surveys = Surveys(service: service, authentication: _authentication)

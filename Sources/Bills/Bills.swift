@@ -169,13 +169,13 @@ public class Bills: CachedObjects, ResponseHandler {
      Create a new bill on the host manually
      
      - parameters:
-     - accountID: ID of the account the bill is paid from
-     - dueAmount: Amount the bill charges, recurring
-     - frequency: How often the bill recurrs
-     - nextPaymentDate: Date of the next payment is due
-     - name: Custom name for the bill (Optional: defaults to the transaction name)
-     - notes: Notes attached to the bill (Optional)
-     - completion: Optional completion handler with optional error if the request fails
+         - accountID: ID of the account the bill is paid from
+         - dueAmount: Amount the bill charges, recurring
+         - frequency: How often the bill recurrs
+         - nextPaymentDate: Date of the next payment is due
+         - name: Custom name for the bill (Optional: defaults to the transaction name)
+         - notes: Notes attached to the bill (Optional)
+         - completion: Optional completion handler with optional error if the request fails
      */
     public func createBill(accountID: Int64, dueAmount: Decimal, frequency: Bill.Frequency, nextPaymentDate: Date, name: String, notes: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         let date = Bill.billDateFormatter.string(from: nextPaymentDate)
@@ -884,26 +884,19 @@ public class Bills: CachedObjects, ResponseHandler {
     }
     
     private func removeCachedBill(billID: Int64) {
+        billsLock.lock()
+        
+        defer {
+            billsLock.unlock()
+        }
+        
         let managedObjectContext = database.newBackgroundContext()
         
+        removeObject(type: Bill.self, id: billID, primaryKey: #keyPath(Bill.billID), managedObjectContext: managedObjectContext)
+        
         managedObjectContext.performAndWait {
-            let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "billID == %ld", billID)
-            
             do {
-                let fetchedBills = try managedObjectContext.fetch(fetchRequest)
-                
-                if let bill = fetchedBills.first {
-                    managedObjectContext.performAndWait {
-                        managedObjectContext.delete(bill)
-                        
-                        do {
-                            try managedObjectContext.save()
-                        } catch {
-                            Log.error(error.localizedDescription)
-                        }
-                    }
-                }
+                try managedObjectContext.save()
             } catch {
                 Log.error(error.localizedDescription)
             }
@@ -911,26 +904,19 @@ public class Bills: CachedObjects, ResponseHandler {
     }
     
     private func removeCachedBillPayment(billPaymentID: Int64) {
+        billPaymentsLock.lock()
+        
+        defer {
+            billPaymentsLock.unlock()
+        }
+        
         let managedObjectContext = database.newBackgroundContext()
         
+        removeObject(type: BillPayment.self, id: billPaymentID, primaryKey: #keyPath(BillPayment.billPaymentID), managedObjectContext: managedObjectContext)
+        
         managedObjectContext.performAndWait {
-            let fetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "billPaymentID == %ld", billPaymentID)
-            
             do {
-                let fetchedBillPayments = try managedObjectContext.fetch(fetchRequest)
-                
-                if let billPayment = fetchedBillPayments.first {
-                    managedObjectContext.performAndWait {
-                        managedObjectContext.delete(billPayment)
-                        
-                        do {
-                            try managedObjectContext.save()
-                        } catch {
-                            Log.error(error.localizedDescription)
-                        }
-                    }
-                }
+                try managedObjectContext.save()
             } catch {
                 Log.error(error.localizedDescription)
             }

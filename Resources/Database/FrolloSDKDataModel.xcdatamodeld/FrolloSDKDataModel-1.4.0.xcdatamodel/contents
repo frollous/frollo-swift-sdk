@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.99" systemVersion="18F203" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.4.0">
+    <entity name="Account" representedClassName=".Account" syncable="YES">
+        <attribute name="accountHolderName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="accountName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="accountStatusRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="accountSubTypeRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="accountTypeRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="amountDue" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="amountDueCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="apr" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="availableBalance" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="availableBalanceCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="availableCash" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="availableCashCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="availableCredit" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="availableCreditCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="balanceDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="classificationRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="currentBalance" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="currentBalanceCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="favourite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="groupRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hidden" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="included" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="interestRate" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="lastPaymentAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="lastPaymentAmountCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastPaymentDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="lastRefreshed" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="minimumAmountDue" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="minimumAmountDueCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nextRefresh" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="nickName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="providerAccountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="providerName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="refreshAdditionalStatusRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="refreshStatusRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="refreshSubStatusRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="totalCashLimit" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="totalCashLimitCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="totalCreditLine" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="totalCreditLineCurrency" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="balanceTiers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AccountBalanceTier" inverseName="account" inverseEntity="AccountBalanceTier" syncable="YES"/>
+        <relationship name="bills" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Bill" inverseName="account" inverseEntity="Bill" syncable="YES"/>
+        <relationship name="providerAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProviderAccount" inverseName="accounts" inverseEntity="ProviderAccount" syncable="YES"/>
+        <relationship name="reports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReportAccountBalance" inverseName="account" inverseEntity="ReportAccountBalance" syncable="YES"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Transaction" inverseName="account" inverseEntity="Transaction" syncable="YES"/>
+        <fetchIndex name="byAccountIDIndex">
+            <fetchIndexElement property="accountID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byProviderAccountIDIndex">
+            <fetchIndexElement property="providerAccountID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byAccountTypeIndex">
+            <fetchIndexElement property="accountTypeRawValue" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="accountID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="AccountBalanceTier" representedClassName=".AccountBalanceTier" syncable="YES">
+        <attribute name="maximum" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="minimum" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="balanceTiers" inverseEntity="Account" syncable="YES"/>
+    </entity>
+    <entity name="Bill" representedClassName=".Bill" syncable="YES">
+        <attribute name="accountID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="averageAmount" attributeType="Decimal" defaultValueString="0" syncable="YES"/>
+        <attribute name="billID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="billTypeRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="details" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dueAmount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="endDateString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="frequencyRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="lastAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="lastPaymentDateString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="merchantID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="nextPaymentDateString" attributeType="String" syncable="YES"/>
+        <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="paymentStatusRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="statusRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="transactionCategoryID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="bills" inverseEntity="Account" syncable="YES"/>
+        <relationship name="merchant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Merchant" inverseName="bills" inverseEntity="Merchant" syncable="YES"/>
+        <relationship name="payments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BillPayment" inverseName="bill" inverseEntity="BillPayment" syncable="YES"/>
+        <relationship name="transactionCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TransactionCategory" inverseName="bills" inverseEntity="TransactionCategory" syncable="YES"/>
+        <fetchIndex name="byBillIDIndex">
+            <fetchIndexElement property="billID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byStatusIndex">
+            <fetchIndexElement property="statusRawValue" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="billID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="BillPayment" representedClassName=".BillPayment" syncable="YES">
+        <attribute name="amount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="billID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="billPaymentID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="dateString" attributeType="String" syncable="YES"/>
+        <attribute name="frequencyRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="merchantID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="paymentStatusRawValue" attributeType="String" syncable="YES"/>
+        <relationship name="bill" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Bill" inverseName="payments" inverseEntity="Bill" syncable="YES"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="billPaymentID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="Goal" representedClassName=".Goal" syncable="YES">
+        <attribute name="accountID" optional="YES" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="currency" attributeType="String" syncable="YES"/>
+        <attribute name="currentAmount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="details" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="endDateString" attributeType="String" syncable="YES"/>
+        <attribute name="estimatedEndDateString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="estimatedTargetAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="frequencyRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="goalID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="imageURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="periodAmount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="periodCount" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="startAmount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="startDateString" attributeType="String" syncable="YES"/>
+        <attribute name="statusRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="subType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="targetAmount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="targetRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="trackingStatusRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="trackingTypeRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <fetchIndex name="byGoalIDIndex">
+            <fetchIndexElement property="goalID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byAccountIDIndex">
+            <fetchIndexElement property="accountID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="goalID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="Merchant" representedClassName=".Merchant" syncable="YES">
+        <attribute name="merchantID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="merchantTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="smallLogoURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="bills" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Bill" inverseName="merchant" inverseEntity="Bill" syncable="YES"/>
+        <relationship name="currentReports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReportTransactionCurrent" inverseName="merchant" inverseEntity="ReportTransactionCurrent" syncable="YES"/>
+        <relationship name="historyReports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReportTransactionHistory" inverseName="merchant" inverseEntity="ReportTransactionHistory" syncable="YES"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="merchant" inverseEntity="Transaction" syncable="YES"/>
+        <fetchIndex name="byMerchantIDIndex">
+            <fetchIndexElement property="merchantID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="merchantID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="Message" representedClassName=".Message" syncable="YES">
+        <attribute name="actionOpenExternal" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="actionTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="actionURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="autoDismiss" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="contentTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="event" attributeType="String" syncable="YES"/>
+        <attribute name="interacted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="messageID" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="persists" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="placement" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="read" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="typesRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userEventID" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <fetchIndex name="byMessageIDIndex">
+            <fetchIndexElement property="messageID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byReadIndex">
+            <fetchIndexElement property="read" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="messageID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="MessageHTML" representedClassName=".MessageHTML" parentEntity="Message" syncable="YES">
+        <attribute name="footer" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="header" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="main" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MessageImage" representedClassName=".MessageImage" parentEntity="Message" syncable="YES">
+        <attribute name="height" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="urlString" attributeType="String" syncable="YES"/>
+        <attribute name="width" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="MessageText" representedClassName=".MessageText" parentEntity="Message" syncable="YES">
+        <attribute name="designType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="footer" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="header" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imageURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MessageVideo" representedClassName=".MessageVideo" parentEntity="Message" syncable="YES">
+        <attribute name="autoplay" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="autoplayCellular" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="height" optional="YES" attributeType="Double" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="iconURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="muted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="urlString" attributeType="String" syncable="YES"/>
+        <attribute name="width" optional="YES" attributeType="Double" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="Provider" representedClassName=".Provider" syncable="YES">
+        <attribute name="authTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="baseURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="containerBank" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerBill" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerCreditCard" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerCreditScore" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerInsurance" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerInvestment" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerLoan" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerRealEstate" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerReward" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="containerUnknown" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="encryptionAlias" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="encryptionPublicKey" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="encryptionTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="forgotPasswordURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="helpMessage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="largeLogoURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="loginFormRawValue" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="loginHelpMessage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="loginURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mfaTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="oAuthSite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="popular" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="providerID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="smallLogoURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="statusRawValue" attributeType="String" defaultValueString="supported" syncable="YES"/>
+        <relationship name="providerAccounts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ProviderAccount" inverseName="provider" inverseEntity="ProviderAccount" syncable="YES"/>
+        <fetchIndex name="byProviderIDAndStatusIndex">
+            <fetchIndexElement property="statusRawValue" type="Binary" order="ascending"/>
+            <fetchIndexElement property="providerID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byPopularIndex">
+            <fetchIndexElement property="popular" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byProviderIDIndex">
+            <fetchIndexElement property="providerID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byContainerCreditScoreIndex">
+            <fetchIndexElement property="containerCreditScore" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="providerID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="ProviderAccount" representedClassName=".ProviderAccount" syncable="YES">
+        <attribute name="editable" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="lastRefreshed" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="loginFormRawValue" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="nextRefresh" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="providerAccountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="providerID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="refreshAdditionalStatusRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="refreshStatusRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="refreshSubStatusRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="accounts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Account" inverseName="providerAccount" inverseEntity="Account" syncable="YES"/>
+        <relationship name="provider" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Provider" inverseName="providerAccounts" inverseEntity="Provider" syncable="YES"/>
+        <fetchIndex name="byProviderAccountID">
+            <fetchIndexElement property="providerAccountID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byProviderID">
+            <fetchIndexElement property="providerID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="providerAccountID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="ReportAccountBalance" representedClassName=".ReportAccountBalance" syncable="YES">
+        <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="currency" attributeType="String" syncable="YES"/>
+        <attribute name="dateString" attributeType="String" syncable="YES"/>
+        <attribute name="periodRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="value" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="reports" inverseEntity="Account" syncable="YES"/>
+    </entity>
+    <entity name="ReportTransactionCurrent" representedClassName=".ReportTransactionCurrent" syncable="YES">
+        <attribute name="amount" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="average" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="budget" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="budgetCategoryRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="day" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="filterBudgetCategoryRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="groupingRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="linkedID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="previous" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="merchant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Merchant" inverseName="currentReports" inverseEntity="Merchant" syncable="YES"/>
+        <relationship name="transactionCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TransactionCategory" inverseName="currentReports" inverseEntity="TransactionCategory" syncable="YES"/>
+        <fetchIndex name="byGroupingIndex">
+            <fetchIndexElement property="groupingRawValue" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byBudgetCategoryIndex">
+            <fetchIndexElement property="filterBudgetCategoryRawValue" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="ReportTransactionHistory" representedClassName=".ReportTransactionHistory" syncable="YES">
+        <attribute name="budget" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="budgetCategoryRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateString" attributeType="String" syncable="YES"/>
+        <attribute name="filterBudgetCategoryRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="groupingRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="linkedID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="periodRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="merchant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Merchant" inverseName="historyReports" inverseEntity="Merchant" syncable="YES"/>
+        <relationship name="overall" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ReportTransactionHistory" inverseName="reports" inverseEntity="ReportTransactionHistory" syncable="YES"/>
+        <relationship name="reports" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ReportTransactionHistory" inverseName="overall" inverseEntity="ReportTransactionHistory" syncable="YES"/>
+        <relationship name="transactionCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TransactionCategory" inverseName="historyReports" inverseEntity="TransactionCategory" syncable="YES"/>
+        <fetchIndex name="byGroupingIndex">
+            <fetchIndexElement property="groupingRawValue" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byPeriodIndex">
+            <fetchIndexElement property="periodRawValue" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byDateIndex">
+            <fetchIndexElement property="dateString" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byBudgetCategoryIndex">
+            <fetchIndexElement property="filterBudgetCategoryRawValue" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="Tag" representedClassName=".Tag" syncable="YES">
+        <attribute name="count" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="lastUsedAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Transaction" representedClassName=".Transaction" syncable="YES">
+        <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="addressLine1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="addressLine2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="addressLine3" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="amount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="baseTypeRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="budgetCategoryRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="currency" attributeType="String" syncable="YES"/>
+        <attribute name="formattedAddress" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="included" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="memo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="merchantID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="originalDescription" attributeType="String" syncable="YES"/>
+        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="postcode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="postDateString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="simpleDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="statusRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="suburb" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="transactionCategoryID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="transactionDateString" attributeType="String" syncable="YES"/>
+        <attribute name="transactionID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="userDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userTagsRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="website" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="transactions" inverseEntity="Account" syncable="YES"/>
+        <relationship name="merchant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Merchant" inverseName="transactions" inverseEntity="Merchant" syncable="YES"/>
+        <relationship name="transactionCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TransactionCategory" inverseName="transactions" inverseEntity="TransactionCategory" syncable="YES"/>
+        <fetchIndex name="byAccountIDIndex">
+            <fetchIndexElement property="accountID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byTransactionCategoryIDIndex">
+            <fetchIndexElement property="transactionCategoryID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byMerchantIDIndex">
+            <fetchIndexElement property="merchantID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byBudgetCategoryIndex">
+            <fetchIndexElement property="budgetCategoryRawValue" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byTransactionIDIndex">
+            <fetchIndexElement property="transactionID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="transactionID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="TransactionCategory" representedClassName=".TransactionCategory" syncable="YES">
+        <attribute name="categoryTypeRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="defaultBudgetCategoryRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="iconURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="placement" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="transactionCategoryID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="userDefined" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="bills" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Bill" inverseName="transactionCategory" inverseEntity="Bill" syncable="YES"/>
+        <relationship name="currentReports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReportTransactionCurrent" inverseName="transactionCategory" inverseEntity="ReportTransactionCurrent" syncable="YES"/>
+        <relationship name="historyReports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReportTransactionHistory" inverseName="transactionCategory" inverseEntity="ReportTransactionHistory" syncable="YES"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="transactionCategory" inverseEntity="Transaction" syncable="YES"/>
+        <fetchIndex name="byTransactionCategoryIndex">
+            <fetchIndexElement property="transactionCategoryID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="transactionCategoryID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="User" representedClassName=".User" syncable="YES">
+        <attribute name="addressLine1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="addressLine2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attributionAdGroup" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attributionCampaign" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attributionCreative" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attributionNetwork" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateOfBirth" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="email" attributeType="String" syncable="YES"/>
+        <attribute name="emailVerified" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="facebookID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="featuresRawValue" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="genderRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="householdSize" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="householdTypeRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="industryRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mobileNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="occupationRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="postcode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="primaryCurrency" attributeType="String" syncable="YES"/>
+        <attribute name="registerComplete" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="statusRawValue" attributeType="String" defaultValueString="registered" syncable="YES"/>
+        <attribute name="suburb" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="validPassword" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="userID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <elements>
+        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="750"/>
+        <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
+        <element name="Bill" positionX="-378" positionY="162" width="128" height="360"/>
+        <element name="BillPayment" positionX="-378" positionY="162" width="128" height="180"/>
+        <element name="Goal" positionX="-378" positionY="162" width="128" height="375"/>
+        <element name="Merchant" positionX="498.47265625" positionY="19.75" width="128" height="165"/>
+        <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="240"/>
+        <element name="MessageHTML" positionX="-317.359375" positionY="757.66015625" width="128" height="90"/>
+        <element name="MessageImage" positionX="-319.14453125" positionY="879.53515625" width="128" height="28"/>
+        <element name="MessageText" positionX="-319.734375" positionY="990.58203125" width="128" height="120"/>
+        <element name="MessageVideo" positionX="-317.34375" positionY="1145.10546875" width="128" height="30"/>
+        <element name="Provider" positionX="-385.3984375" positionY="11.875" width="128" height="480"/>
+        <element name="ProviderAccount" positionX="-164.078125" positionY="13.7109375" width="128" height="210"/>
+        <element name="ReportAccountBalance" positionX="-360" positionY="180" width="128" height="135"/>
+        <element name="ReportTransactionCurrent" positionX="-360" positionY="180" width="128" height="225"/>
+        <element name="ReportTransactionHistory" positionX="-378" positionY="162" width="128" height="240"/>
+        <element name="Tag" positionX="283.4609375" positionY="696.9375" width="128" height="105"/>
+        <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="525"/>
+        <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="210"/>
+        <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>
+    </elements>
+</model>

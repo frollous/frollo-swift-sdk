@@ -2525,26 +2525,19 @@ public class Aggregation: CachedObjects, ResponseHandler {
     }
     
     private func removeCachedProviderAccount(providerAccountID: Int64) {
+        providerAccountLock.lock()
+        
+        defer {
+            providerAccountLock.unlock()
+        }
+        
         let managedObjectContext = database.newBackgroundContext()
         
+        removeObject(type: ProviderAccount.self, id: providerAccountID, primaryKey: #keyPath(ProviderAccount.providerAccountID), managedObjectContext: managedObjectContext)
+        
         managedObjectContext.performAndWait {
-            let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "providerAccountID == %ld", providerAccountID)
-            
             do {
-                let fetchedProviderAccounts = try managedObjectContext.fetch(fetchRequest)
-                
-                if let providerAccount = fetchedProviderAccounts.first {
-                    managedObjectContext.performAndWait {
-                        managedObjectContext.delete(providerAccount)
-                        
-                        do {
-                            try managedObjectContext.save()
-                        } catch {
-                            Log.error(error.localizedDescription)
-                        }
-                    }
-                }
+                try managedObjectContext.save()
             } catch {
                 Log.error(error.localizedDescription)
             }
