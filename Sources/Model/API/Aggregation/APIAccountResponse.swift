@@ -31,6 +31,7 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
         case currentBalance = "current_balance"
         case dueDate = "due_date"
         case favourite
+        case goalIDs = "goal_ids"
         case hidden
         case holderProfile = "holder_profile"
         case id
@@ -146,6 +147,7 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
     var balanceDetails: BalanceDetails?
     var currentBalance: Balance?
     var dueDate: Date?
+    var goalIDs: [Int64]?
     var holderProfile: HolderProfile?
     var interestRate: String?
     var lastPaymentAmount: Balance?

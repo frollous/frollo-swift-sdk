@@ -59,6 +59,7 @@
 	},
 	"apr": "18.99",
 	"interest_rate": "3.01",
+	"goal_ids": [98, 785, 22222091],
 	"balance_details": {
       "current_description": "Below average",
       "tiers": [

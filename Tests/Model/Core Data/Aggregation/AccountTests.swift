@@ -82,6 +82,7 @@ class AccountTests: XCTestCase {
             XCTAssertEqual(account.totalCashLimitCurrency, accountResponse.totalCashLimit?.currency)
             XCTAssertEqual(account.totalCreditLine, NSDecimalNumber(string: accountResponse.totalCreditLine?.amount))
             XCTAssertEqual(account.totalCreditLineCurrency, accountResponse.totalCreditLine?.currency)
+            XCTAssertEqual(account.goalIDs, accountResponse.goalIDs)
             XCTAssertNotNil(account.balanceTiers)
             
             if let accountBalanceTiers = account.balanceTiers {

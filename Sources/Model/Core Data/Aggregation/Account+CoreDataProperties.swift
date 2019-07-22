@@ -92,6 +92,9 @@ extension Account {
     /// Favourited
     @NSManaged public var favourite: Bool
     
+    /// Raw value for the associated goal IDs
+    @NSManaged public var goalIDsRawValue: Data?
+    
     /// Raw value for the account group. Use only in predicates
     @NSManaged public var groupRawValue: String
     

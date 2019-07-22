@@ -53,6 +53,7 @@ extension APIAccountResponse {
                                   balanceDetails: balanceDetails,
                                   currentBalance: Balance(amount: String(arc4random()), currency: "AUD"),
                                   dueDate: Date(timeIntervalSinceNow: 10000),
+                                  goalIDs: [Int64.random(in: 1...Int64.max), Int64.random(in: 1...Int64.max)],
                                   holderProfile: holderProfile,
                                   interestRate: "3.05",
                                   lastPaymentAmount: Balance(amount: String(arc4random()), currency: "AUD"),
