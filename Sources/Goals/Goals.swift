@@ -118,6 +118,8 @@ public class Goals: CachedObjects, ResponseHandler {
      Includes both estimated and confirmed goals.
      
      - parameters:
+        - status: Filter goals by their current status (Optional)
+        - trackingStatus: Filter goals by their current tracking status (Optional)
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshGoals(status: Goal.Status? = nil, trackingStatus: Goal.TrackingStatus? = nil, completion: FrolloSDKCompletionHandler? = nil) {
@@ -254,10 +256,10 @@ public class Goals: CachedObjects, ResponseHandler {
     }
     
     /**
-     Delete a specific goal by ID from the host
+     Cancel a specific goal by ID from the host
      
      - parameters:
-        - goalID: ID of the goal to be deleted
+        - goalID: ID of the goal to be abandoned
         - completion: Optional completion handler with optional error if the request fails
      */
     public func deleteGoal(goalID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
@@ -291,6 +293,13 @@ public class Goals: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Update a goal on the host
+     
+     - parameters:
+        - goalID: ID of the goal to be updated
+        - completion: Optional completion handler with optional error if the request fails
+     */
     public func updateGoal(goalID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
         guard authentication.loggedIn
         else {
@@ -344,6 +353,51 @@ public class Goals: CachedObjects, ResponseHandler {
     
     // MARK: - Goal Periods
     
+    /**
+     Fetch goal period by ID from the cache
+     
+     - parameters:
+     - context: Managed object context to fetch these from; background or main thread
+     - goalPeriodID: Unique goal period ID to fetch
+     */
+    public func goalPeriod(context: NSManagedObjectContext, goalPeriodID: Int64) -> GoalPeriod? {
+        return cachedObject(type: GoalPeriod.self, context: context, objectID: goalPeriodID, objectKey: #keyPath(GoalPeriod.goalPeriodID))
+    }
+    
+    /**
+     Fetch goal periods from the cache
+     
+     - parameters:
+         - context: Managed object context to fetch these from; background or main thread
+         - filteredBy: Predicate of properties to match for fetching. See `Goal` for properties (Optional)
+         - sortedBy: Array of sort descriptors to sort the results by. Defaults to goalID ascending (Optional)
+         - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func goalPeriods(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(GoalPeriod.goalPeriodID), ascending: true)], limit: Int? = nil) -> [GoalPeriod]? {
+        return cachedObjects(type: GoalPeriod.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Fetched results controller of goal periods from the cache
+     
+     - parameters:
+         - context: Managed object context to fetch these from; background or main thread
+         - filteredBy: Predicate of properties to match for fetching. See `Goal` for properties (Optional)
+         - sortedBy: Array of sort descriptors to sort the results by. Defaults to goalID ascending (Optional)
+         - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func goalPeriodsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(GoalPeriod.goalPeriodID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<GoalPeriod>? {
+        return fetchedResultsController(type: GoalPeriod.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Refresh a specific goal period by ID from the host
+     
+     - parameters:
+         - goalID: ID of the goal the period is associated with
+         - goalPeriodID: ID of the goal period to fetch
+         - completion: Optional completion handler with optional error if the request fails
+     */
     public func refreshGoalPeriod(goalID: Int64, goalPeriodID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
         guard authentication.loggedIn
         else {
@@ -377,6 +431,13 @@ public class Goals: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Refresh goal periods for a goal from the host.
+     
+     - parameters:
+        - goalID: ID of the goal to fetch periods for
+        - completion: Optional completion handler with optional error if the request fails
+     */
     public func refreshGoalPeriods(goalID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
         guard authentication.loggedIn
         else {

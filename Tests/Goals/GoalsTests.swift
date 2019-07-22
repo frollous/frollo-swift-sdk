@@ -488,6 +488,118 @@ class GoalsTests: BaseTestCase {
     
     // MARK: - Goal Periods
     
+    func testFetchGoalPeriodByID() {
+        let expectation1 = expectation(description: "Completion")
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            let id: Int64 = 12345
+            
+            managedObjectContext.performAndWait {
+                let testGoalPeriod = GoalPeriod(context: managedObjectContext)
+                testGoalPeriod.populateTestData()
+                testGoalPeriod.goalPeriodID = id
+                
+                try! managedObjectContext.save()
+            }
+            
+            
+            let goalPeriod = self.goals.goalPeriod(context: self.database.viewContext, goalPeriodID: id)
+            
+            XCTAssertNotNil(goalPeriod)
+            XCTAssertEqual(goalPeriod?.goalPeriodID, id)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchGoalPeriods() {
+        let expectation1 = expectation(description: "Completion")
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testGoalPeriod1 = GoalPeriod(context: managedObjectContext)
+                testGoalPeriod1.populateTestData()
+                testGoalPeriod1.trackingStatus = .behind
+                
+                let testGoalPeriod2 = GoalPeriod(context: managedObjectContext)
+                testGoalPeriod2.populateTestData()
+                testGoalPeriod2.trackingStatus = .ahead
+                
+                let testGoalPeriod3 = GoalPeriod(context: managedObjectContext)
+                testGoalPeriod3.populateTestData()
+                testGoalPeriod3.trackingStatus = .behind
+                
+                try! managedObjectContext.save()
+            }
+            
+            
+            let predicate = NSPredicate(format: #keyPath(GoalPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Goal.TrackingStatus.behind.rawValue])
+            let fetchedGoalPeriods = self.goals.goalPeriods(context: self.database.viewContext, filteredBy: predicate)
+            
+            XCTAssertNotNil(fetchedGoalPeriods)
+            XCTAssertEqual(fetchedGoalPeriods?.count, 2)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testGoalPeriodsFetchedResultsController() {
+        let expectation1 = expectation(description: "Completion")
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testGoalPeriod1 = GoalPeriod(context: managedObjectContext)
+                testGoalPeriod1.populateTestData()
+                testGoalPeriod1.trackingStatus = .ahead
+                
+                let testGoalPeriod2 = GoalPeriod(context: managedObjectContext)
+                testGoalPeriod2.populateTestData()
+                testGoalPeriod2.trackingStatus = .onTrack
+                
+                let testGoalPeriod3 = GoalPeriod(context: managedObjectContext)
+                testGoalPeriod3.populateTestData()
+                testGoalPeriod3.trackingStatus = .onTrack
+                
+                try! managedObjectContext.save()
+            }
+            
+            
+            let predicate = NSPredicate(format: #keyPath(GoalPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Goal.TrackingStatus.onTrack.rawValue])
+            let fetchedResultsController = self.goals.goalPeriodsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
+            
+            do {
+                try fetchedResultsController?.performFetch()
+                
+                XCTAssertNotNil(fetchedResultsController?.fetchedObjects)
+                XCTAssertEqual(fetchedResultsController?.fetchedObjects?.count, 2)
+                
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testRefreshGoalPeriods() {
         let expectation1 = expectation(description: "Network Request 1")
         
