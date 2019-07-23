@@ -316,11 +316,15 @@ public class FrolloSDK: AuthenticationDelegate {
             return _database.migrate { error in
                 if let migrationError = error {
                     self._database.destroyPersistentStore()
+                    self.preferences.reset()
                     
                     completion(.failure(migrationError))
                 } else {
                     self._database.setup { error in
                         if let setupError = error {
+                            self._database.destroyPersistentStore()
+                            self.preferences.reset()
+                            
                             completion(.failure(setupError))
                         } else {
                             self._setup = true
@@ -333,6 +337,9 @@ public class FrolloSDK: AuthenticationDelegate {
         } else {
             _database.setup { error in
                 if let setupError = error {
+                    self._database.destroyPersistentStore()
+                    self.preferences.reset()
+                    
                     completion(.failure(setupError))
                 } else {
                     self._setup = true
