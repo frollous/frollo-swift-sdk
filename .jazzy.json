@@ -34,6 +34,7 @@
   		"children": [
   			"Authentication",
         "AuthenticationDelegate",
+        "AuthenticationTokenDelegate",
         "OAuth2Authentication"
   		]
   	},
@@ -77,6 +78,14 @@
     "name": "Events",
     "children": [
       "Events"
+    ]
+  },
+  {
+    "name": "Goals",
+    "children": [
+      "Goals",
+      "Goal",
+      "GoalPeriod"
     ]
   },
   {

@@ -12,7 +12,7 @@ The Swift SDK is broken down into multiple components that reflect the features 
 * [Bills](#bills) - Tracking and detection of bills from the user's aggregated accounts
 * [Budget and Pay Day](#budget-and-pay-day) - Tracking of budgets against merchants, categories and buckets against a user's pay cycle
 * [Reports](#reports) - Reporting of spend (against budget if available) broken down into merchants, categories and buckets in various periods
-* [Goals and Challenges](#goals-and-challenges) - Savings and debt repayment goals with challenges to reduce spend and reach these goals quicker
+* [Goals](#goals) - Savings and debt repayment goals with automatic tracking of payments
 * [Events](#events) - Triggering of events and sequences from user actions
 * [Messages](#messages) - Nudges and other customisable messaging to inform the user and keep them on track
 * [Surveys](#surveys) - Questions and feedback from the user
@@ -134,22 +134,19 @@ The following features are part of reports:
 
 See [Reports](reports.html) for more details.
 
-## Goals and Challenges
+## Goals
 
-Goals and challenges help the user set savings or debt repayment goals and meet them. Goals allow the user to set a target amount and how much they can afford each month and their target date is calculated from this. Users can then meet this goal quicker by taking challenges which compare the user's spend for a certain category or merchant and encourage them to reduce it to allow extra money to be saved. 
-
-Goals and challenges can be defined by the host tenant to suggest to users or custom ones can be created. These define things like the name, images and target category/merchant. User goals and user challenges reflect the active goal or challenge itself and how the user is tracking against it.
+Goals help the user set savings or debt repayment goals and meet them. Goals allow the user to set a target amount and/or date and/or how much they can afford each month and their target date/repayment/total is calculated from this. Savings towards this goal are automatically tracked from deposits to an associated bank or savings account.
 
 The following features are part of goals and challenges:
 
 * Track a goal against a savings, loan or debt repayment target
-* Manually adding savings to track a goal progress
-* Suggest challenges to the user where the most savings can be made
-* Automatically track challenge progress
-* Create custom goals and challenges
-* Project goal completion date and track if on course
+* Track credits, debits or credits and debits towards a goal's progress automatically
+* Project goal progress and track if on course
+* Save towards a date, amount or open-ended target
+* See a breakdown of each period's progress towards a goal and calculate how to get back on track
 
-*Coming Soon to SDK*
+See [Goals](goals.html) for more details.
 
 ## Events
 

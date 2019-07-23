@@ -509,6 +509,7 @@ public class FrolloSDK: AuthenticationDelegate {
         let toDate = Date().addingTimeInterval(31622400).endOfMonth()
         
         bills.refreshBillPayments(from: fromDate, to: toDate)
+        goals.refreshGoals()
     }
     
     /**

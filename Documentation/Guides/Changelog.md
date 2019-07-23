@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.1.0
+
+- Goals
+
+### Features
+
+- Goals
+
+### Changes
+
+- API version 2.4 with support for client ID on register/reset password
+
 ## 3.0.0
 
 - Custom Authentication

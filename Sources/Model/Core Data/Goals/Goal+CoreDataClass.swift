@@ -156,6 +156,7 @@ public class Goal: NSManagedObject, UniqueManagedObject {
         return goalID
     }
     
+    /// Current active goal period
     public var currentPeriod: GoalPeriod? {
         let dateString = GoalPeriod.goalPeriodDateFormatter.string(from: Date())
         return periods?.first { $0.endDateString > dateString && dateString > $0.startDateString }
