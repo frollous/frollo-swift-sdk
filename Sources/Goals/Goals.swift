@@ -55,26 +55,106 @@ public class Goals: CachedObjects, ResponseHandler {
      Fetch goals from the cache
      
      - parameters:
-         - context: Managed object context to fetch these from; background or main thread
-         - filteredBy: Predicate of properties to match for fetching. See `Goal` for properties (Optional)
-         - sortedBy: Array of sort descriptors to sort the results by. Defaults to goalID ascending (Optional)
-         - limit: Fetch limit to set maximum number of returned items (Optional)
+        - context: Managed object context to fetch these from; background or main thread
+        - frequency: Filter by frequency of the goal contributions (optional)
+        - status: Filter by status of the goal (optional)
+        - target: Filter by target type of the goal (optional)
+        - trackingStatus: Filter by tracking status of the goal (optional)
+        - trackingType: Filter by tracking type of the goal (optional)
+        - filteredBy: Predicate of properties to match for fetching. See `Goal` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to goalID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func goals(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Goal.goalID), ascending: true)], limit: Int? = nil) -> [Goal]? {
-        return cachedObjects(type: Goal.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func goals(context: NSManagedObjectContext,
+                      frequency: Goal.Frequency? = nil,
+                      status: Goal.Status? = nil,
+                      target: Goal.Target? = nil,
+                      trackingStatus: Goal.TrackingStatus? = nil,
+                      trackingType: Goal.TrackingType? = nil,
+                      filteredBy predicate: NSPredicate? = nil,
+                      sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Goal.goalID), ascending: true)],
+                      limit: Int? = nil) -> [Goal]? {
+        
+        var predicates = [NSPredicate]()
+        
+        if let filterFrequency = frequency {
+            predicates.append(NSPredicate(format: #keyPath(Goal.frequencyRawValue) + " == %@", argumentArray: [filterFrequency.rawValue]))
+        }
+        
+        if let filterStatus = status {
+            predicates.append(NSPredicate(format: #keyPath(Goal.statusRawValue) + " == %@", argumentArray: [filterStatus.rawValue]))
+        }
+        
+        if let filterTarget = target {
+            predicates.append(NSPredicate(format: #keyPath(Goal.targetRawValue) + " == %@", argumentArray: [filterTarget.rawValue]))
+        }
+        
+        if let filterTrackingStatus = trackingStatus {
+            predicates.append(NSPredicate(format: #keyPath(Goal.trackingStatusRawValue) + " == %@", argumentArray: [filterTrackingStatus.rawValue]))
+        }
+        
+        if let filterTrackingType = trackingType {
+            predicates.append(NSPredicate(format: #keyPath(Goal.trackingTypeRawValue) + " == %@", argumentArray: [filterTrackingType.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: Goal.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
      Fetched results controller of Goals from the cache
      
      - parameters:
-         - context: Managed object context to fetch these from; background or main thread
-         - filteredBy: Predicate of properties to match for fetching. See `Goal` for properties (Optional)
-         - sortedBy: Array of sort descriptors to sort the results by. Defaults to goalID ascending (Optional)
-         - limit: Fetch limit to set maximum number of returned items (Optional)
+        - context: Managed object context to fetch these from; background or main thread
+        - frequency: Filter by frequency of the goal contributions (optional)
+        - status: Filter by status of the goal (optional)
+        - target: Filter by target type of the goal (optional)
+        - trackingStatus: Filter by tracking status of the goal (optional)
+        - trackingType: Filter by tracking type of the goal (optional)
+        - filteredBy: Predicate of properties to match for fetching. See `Goal` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to goalID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func goalsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Goal.goalID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<Goal>? {
-        return fetchedResultsController(type: Goal.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func goalsFetchedResultsController(context: NSManagedObjectContext,
+                                              frequency: Goal.Frequency? = nil,
+                                              status: Goal.Status? = nil,
+                                              target: Goal.Target? = nil,
+                                              trackingStatus: Goal.TrackingStatus? = nil,
+                                              trackingType: Goal.TrackingType? = nil,
+                                              filteredBy predicate: NSPredicate? = nil,
+                                              sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Goal.goalID), ascending: true)],
+                                              limit: Int? = nil) -> NSFetchedResultsController<Goal>? {
+        
+        var predicates = [NSPredicate]()
+        
+        if let filterFrequency = frequency {
+            predicates.append(NSPredicate(format: #keyPath(Goal.frequencyRawValue) + " == %@", argumentArray: [filterFrequency.rawValue]))
+        }
+        
+        if let filterStatus = status {
+            predicates.append(NSPredicate(format: #keyPath(Goal.statusRawValue) + " == %@", argumentArray: [filterStatus.rawValue]))
+        }
+        
+        if let filterTarget = target {
+            predicates.append(NSPredicate(format: #keyPath(Goal.targetRawValue) + " == %@", argumentArray: [filterTarget.rawValue]))
+        }
+        
+        if let filterTrackingStatus = trackingStatus {
+            predicates.append(NSPredicate(format: #keyPath(Goal.trackingStatusRawValue) + " == %@", argumentArray: [filterTrackingStatus.rawValue]))
+        }
+        
+        if let filterTrackingType = trackingType {
+            predicates.append(NSPredicate(format: #keyPath(Goal.trackingTypeRawValue) + " == %@", argumentArray: [filterTrackingType.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return fetchedResultsController(type: Goal.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -386,12 +466,27 @@ public class Goals: CachedObjects, ResponseHandler {
      
      - parameters:
          - context: Managed object context to fetch these from; background or main thread
+         - trackingStatus: Filter by tracking status of the period
          - filteredBy: Predicate of properties to match for fetching. See `Goal` for properties (Optional)
          - sortedBy: Array of sort descriptors to sort the results by. Defaults to goalID ascending (Optional)
          - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func goalPeriods(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(GoalPeriod.goalPeriodID), ascending: true)], limit: Int? = nil) -> [GoalPeriod]? {
-        return cachedObjects(type: GoalPeriod.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func goalPeriods(context: NSManagedObjectContext,
+                            trackingStatus: Goal.TrackingStatus? = nil,
+                            filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(GoalPeriod.goalPeriodID), ascending: true)],
+                            limit: Int? = nil) -> [GoalPeriod]? {
+        
+        var predicates = [NSPredicate]()
+        
+        if let filterTrackingStatus = trackingStatus {
+            predicates.append(NSPredicate(format: #keyPath(Goal.trackingStatusRawValue) + " == %@", argumentArray: [filterTrackingStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: GoalPeriod.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -399,12 +494,28 @@ public class Goals: CachedObjects, ResponseHandler {
      
      - parameters:
          - context: Managed object context to fetch these from; background or main thread
+         - trackingStatus: Filter by tracking status of the period
          - filteredBy: Predicate of properties to match for fetching. See `Goal` for properties (Optional)
          - sortedBy: Array of sort descriptors to sort the results by. Defaults to goalID ascending (Optional)
          - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func goalPeriodsFetchedResultsController(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(GoalPeriod.goalPeriodID), ascending: true)], limit: Int? = nil) -> NSFetchedResultsController<GoalPeriod>? {
-        return fetchedResultsController(type: GoalPeriod.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    public func goalPeriodsFetchedResultsController(context: NSManagedObjectContext,
+                                                    trackingStatus: Goal.TrackingStatus? = nil,
+                                                    filteredBy predicate: NSPredicate? = nil,
+                                                    sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(GoalPeriod.goalPeriodID), ascending: true)],
+                                                    limit: Int? = nil) -> NSFetchedResultsController<GoalPeriod>? {
+        
+        var predicates = [NSPredicate]()
+        
+        if let filterTrackingStatus = trackingStatus {
+            predicates.append(NSPredicate(format: #keyPath(Goal.trackingStatusRawValue) + " == %@", argumentArray: [filterTrackingStatus.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return fetchedResultsController(type: GoalPeriod.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**

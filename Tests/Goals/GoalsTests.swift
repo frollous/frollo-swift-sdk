@@ -117,6 +117,53 @@ class GoalsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testFetchFilteredGoals() {
+        let expectation1 = expectation(description: "Completion")
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testGoal1 = Goal(context: managedObjectContext)
+                testGoal1.populateTestData()
+                testGoal1.target = .openEnded
+                testGoal1.frequency = .weekly
+                testGoal1.status = .failed
+                testGoal1.trackingType = .credit
+                testGoal1.trackingStatus = .ahead
+                
+                let testGoal2 = Goal(context: managedObjectContext)
+                testGoal2.populateTestData()
+                testGoal2.target = .amount
+                testGoal2.frequency = .monthly
+                testGoal2.status = .active
+                testGoal2.trackingType = .debitCredit
+                testGoal2.trackingStatus = .behind
+                
+                let testGoal3 = Goal(context: managedObjectContext)
+                testGoal3.populateTestData()
+                testGoal3.target = .openEnded
+                testGoal3.frequency = .weekly
+                testGoal3.status = .failed
+                testGoal3.trackingType = .credit
+                testGoal3.trackingStatus = .ahead
+                
+                try! managedObjectContext.save()
+            }
+            
+            let fetchedGoals = self.goals.goals(context: self.database.viewContext, frequency: .monthly, status: .active, target: .amount, trackingStatus: .behind, trackingType: .debitCredit)
+            
+            XCTAssertNotNil(fetchedGoals)
+            XCTAssertEqual(fetchedGoals?.count, 1)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testGoalsFetchedResultsController() {
         let expectation1 = expectation(description: "Completion")
         
@@ -150,6 +197,61 @@ class GoalsTests: BaseTestCase {
                 
                 XCTAssertNotNil(fetchedResultsController?.fetchedObjects)
                 XCTAssertEqual(fetchedResultsController?.fetchedObjects?.count, 2)
+                
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFilteredGoalsFetchedResultsController() {
+        let expectation1 = expectation(description: "Completion")
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testGoal1 = Goal(context: managedObjectContext)
+                testGoal1.populateTestData()
+                testGoal1.target = .date
+                testGoal1.frequency = .monthly
+                testGoal1.status = .active
+                testGoal1.trackingStatus = .onTrack
+                testGoal1.trackingType = .credit
+                
+                let testGoal2 = Goal(context: managedObjectContext)
+                testGoal2.populateTestData()
+                testGoal2.target = .amount
+                testGoal2.frequency = .monthly
+                testGoal2.status = .active
+                testGoal2.trackingStatus = .onTrack
+                testGoal2.trackingType = .credit
+                
+                let testGoal3 = Goal(context: managedObjectContext)
+                testGoal3.populateTestData()
+                testGoal3.target = .date
+                testGoal3.frequency = .annually
+                testGoal3.status = .completed
+                testGoal3.trackingStatus = .ahead
+                testGoal3.trackingType = .debit
+                
+                try! managedObjectContext.save()
+            }
+            
+            let fetchedResultsController = self.goals.goalsFetchedResultsController(context: self.database.viewContext, frequency: .annually, status: .completed, target: .date, trackingStatus: .ahead, trackingType: .debit)
+            
+            do {
+                try fetchedResultsController?.performFetch()
+                
+                XCTAssertNotNil(fetchedResultsController?.fetchedObjects)
+                XCTAssertEqual(fetchedResultsController?.fetchedObjects?.count, 1)
                 
                 
             } catch {
