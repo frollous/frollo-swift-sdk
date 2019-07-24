@@ -92,6 +92,9 @@ extension Account {
     /// Favourited
     @NSManaged public var favourite: Bool
     
+    /// Raw value for the associated goal IDs
+    @NSManaged public var goalIDsRawValue: Data?
+    
     /// Raw value for the account group. Use only in predicates
     @NSManaged public var groupRawValue: String
     
@@ -161,6 +164,9 @@ extension Account {
     /// Associated bills (optional)
     @NSManaged public var bills: Set<Bill>?
     
+    /// Associated goals (optional)
+    @NSManaged public var goals: Set<Goal>?
+    
     /// Parent provider account
     @NSManaged public var providerAccount: ProviderAccount?
     
@@ -213,6 +219,28 @@ extension Account {
     /// Remove bill relationships
     @objc(removeBills:)
     @NSManaged public func removeFromBills(_ values: Set<Bill>)
+    
+}
+
+// MARK: Generated accessors for goals
+
+extension Account {
+    
+    /// Add a goal relationship
+    @objc(addGoalsObject:)
+    @NSManaged public func addToGoals(_ value: Goal)
+    
+    /// Remove a goal relationship
+    @objc(removeGoalsObject:)
+    @NSManaged public func removeFromGoals(_ value: Goal)
+    
+    /// Add goal relationships
+    @objc(addGoals:)
+    @NSManaged public func addToGoals(_ values: Set<Goal>)
+    
+    /// Remove goal relationships
+    @objc(removeGoals:)
+    @NSManaged public func removeFromGoals(_ values: Set<Goal>)
     
 }
 

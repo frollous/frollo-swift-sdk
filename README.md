@@ -2,7 +2,7 @@
 
 # Frollo Swift SDK
 
-**V3.0.0**
+**V3.1.0**
 
 - [Features](#features)
 - [Requirements](#requirements)
@@ -17,6 +17,7 @@
 - Aggregation
 - Bills
 - Events
+- Goals
 - Messages
 - Notifications
 - Reports

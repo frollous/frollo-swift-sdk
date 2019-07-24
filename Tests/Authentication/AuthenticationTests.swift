@@ -91,6 +91,7 @@ class AuthenticationTests: BaseTestCase {
         
         let serverURL = URL(string: "https://api.example.com")!
         let config = FrolloSDKConfiguration(authenticationType: .custom(authentication: authentication),
+                                            clientID: "abc123",
                                             serverEndpoint: serverURL)
         
         let sdk = FrolloSDK()

@@ -95,4 +95,32 @@ extension Goal {
     /// Type of the goal (Optional)
     @NSManaged public var type: String?
     
+    /// Account associated with the goal (Optional)
+    @NSManaged public var account: Account?
+    
+    /// Goal periods
+    @NSManaged public var periods: Set<GoalPeriod>?
+    
+}
+
+// MARK: Generated accessors for goal periods
+
+extension Goal {
+    
+    /// Add a goal period relationship
+    @objc(addPeriodsObject:)
+    @NSManaged public func addToPeriods(_ value: GoalPeriod)
+    
+    /// Remove a goal period relationship
+    @objc(removePeriodsObject:)
+    @NSManaged public func removeFromPeriods(_ value: GoalPeriod)
+    
+    /// Add goal period relationships
+    @objc(addPeriods:)
+    @NSManaged public func addToPeriods(_ values: Set<GoalPeriod>)
+    
+    /// Remove goal period relationships
+    @objc(removePeriods:)
+    @NSManaged public func removeFromPeriods(_ values: Set<GoalPeriod>)
+    
 }

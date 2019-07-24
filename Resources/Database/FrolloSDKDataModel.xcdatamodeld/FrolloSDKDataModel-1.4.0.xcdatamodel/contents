@@ -22,6 +22,7 @@
         <attribute name="currentBalanceCurrency" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="favourite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="goalIDsRawValue" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="groupRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="hidden" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="included" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
@@ -44,7 +45,8 @@
         <attribute name="totalCreditLine" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="totalCreditLineCurrency" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="balanceTiers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AccountBalanceTier" inverseName="account" inverseEntity="AccountBalanceTier" syncable="YES"/>
-        <relationship name="bills" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Bill" inverseName="account" inverseEntity="Bill" syncable="YES"/>
+        <relationship name="bills" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Bill" inverseName="account" inverseEntity="Bill" syncable="YES"/>
+        <relationship name="goals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Goal" inverseName="account" inverseEntity="Goal" syncable="YES"/>
         <relationship name="providerAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProviderAccount" inverseName="accounts" inverseEntity="ProviderAccount" syncable="YES"/>
         <relationship name="reports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReportAccountBalance" inverseName="account" inverseEntity="ReportAccountBalance" syncable="YES"/>
         <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Transaction" inverseName="account" inverseEntity="Transaction" syncable="YES"/>
@@ -142,6 +144,8 @@
         <attribute name="trackingStatusRawValue" attributeType="String" syncable="YES"/>
         <attribute name="trackingTypeRawValue" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="goals" inverseEntity="Account" syncable="YES"/>
+        <relationship name="periods" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GoalPeriod" inverseName="goal" inverseEntity="GoalPeriod" syncable="YES"/>
         <fetchIndex name="byGoalIDIndex">
             <fetchIndexElement property="goalID" type="Binary" order="ascending"/>
         </fetchIndex>
@@ -151,6 +155,28 @@
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="goalID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="GoalPeriod" representedClassName=".GoalPeriod" syncable="YES">
+        <attribute name="currentAmount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="endDateString" attributeType="String" syncable="YES"/>
+        <attribute name="goalID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="goalPeriodID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="requiredAmount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="startDateString" attributeType="String" syncable="YES"/>
+        <attribute name="targetAmount" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="trackingStatusRawValue" attributeType="String" syncable="YES"/>
+        <relationship name="goal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Goal" inverseName="periods" inverseEntity="Goal" syncable="YES"/>
+        <fetchIndex name="byGoalPeriodID">
+            <fetchIndexElement property="goalPeriodID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byGoalID">
+            <fetchIndexElement property="goalID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="goalPeriodID"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
@@ -468,11 +494,12 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="750"/>
+        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="780"/>
         <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
         <element name="Bill" positionX="-378" positionY="162" width="128" height="360"/>
         <element name="BillPayment" positionX="-378" positionY="162" width="128" height="180"/>
-        <element name="Goal" positionX="-378" positionY="162" width="128" height="375"/>
+        <element name="Goal" positionX="-378" positionY="162" width="128" height="405"/>
+        <element name="GoalPeriod" positionX="-360" positionY="180" width="128" height="180"/>
         <element name="Merchant" positionX="498.47265625" positionY="19.75" width="128" height="165"/>
         <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="240"/>
         <element name="MessageHTML" positionX="-317.359375" positionY="757.66015625" width="128" height="90"/>

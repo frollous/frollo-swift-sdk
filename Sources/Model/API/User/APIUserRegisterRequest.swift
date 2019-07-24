@@ -21,6 +21,7 @@ struct APIUserRegisterRequest: Codable {
     enum CodingKeys: String, CodingKey {
         
         case address
+        case clientID = "client_id"
         case dateOfBirth = "date_of_birth"
         case email
         case firstName = "first_name"
@@ -36,6 +37,7 @@ struct APIUserRegisterRequest: Codable {
         
     }
     
+    let clientID: String
     let email: String
     let firstName: String
     let password: String

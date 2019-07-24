@@ -1,15 +1,15 @@
 [
   {
-    "id": 3211,
+    "id": 89662,
     "name": "Holiday Fund",
     "description": "New York",
     "image_url": "https://example.com/image.png",
     "account_id": 45,
     "type": "Saving for a holiday",
     "sub_type": "USA",
-    "tracking_status": "ahead",
+    "tracking_status": "on_track",
     "tracking_type": "debit",
-    "status": "active",
+    "status": "cancelled",
     "frequency": "weekly",
     "target": "amount",
     "currency": "AUD",
@@ -33,14 +33,14 @@
       "tracking_status": "ahead"
     }
   }, {
-    "id": 123,
+    "id": 90662,
     "name": "Renovations",
     "image_url": "https://example.com/image.png",
-    "account_id": 542,
+    "account_id": 46,
     "type": "Home Improvement",
-    "tracking_status": "behind",
+    "tracking_status": "on_track",
     "tracking_type": "debit_credit",
-    "status": "active",
+    "status": "cancelled",
     "frequency": "weekly",
     "target": "open_ended",
     "currency": "AUD",
@@ -62,37 +62,6 @@
       "current_amount": "0",
       "required_amount": "147.33",
       "tracking_status": "behind"
-    }
-  }, {
-    "id": 98777772,
-    "name": "Wedding",
-    "description": "Getting married!",
-    "image_url": "https://example.com/image.png",
-    "account_id": 47,
-    "tracking_status": "on_track",
-    "tracking_type": "debit",
-    "status": "unstarted",
-    "frequency": "monthly",
-    "target": "date",
-    "currency": "AUD",
-    "current_amount": "1552",
-    "period_amount": "250",
-    "start_amount": "0",
-    "target_amount": "6000",
-    "start_date": "2019-02-01",
-    "end_date": "2020-02-01",
-    "estimated_end_date": "2020-02-01",
-    "estimated_target_amount": "6452.11",
-    "periods_count": 12,
-    "current_period": {
-      "goal_id": 98777772,
-      "id": 111000,
-      "start_date": "2019-07-01",
-      "end_date": "2019-07-31",
-      "target_amount": "250",
-      "current_amount": "250",
-      "required_amount": "250",
-      "tracking_status": "on_track"
     }
   }
 ]

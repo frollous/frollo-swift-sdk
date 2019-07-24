@@ -20,6 +20,8 @@ import Alamofire
 
 extension APIService {
     
+    // MARK: - Goals
+    
     internal func fetchGoal(goalID: Int64, completion: @escaping RequestCompletion<APIGoalResponse>) {
         requestQueue.async {
             let url = URL(string: GoalsEndpoint.goal(goalID: goalID).path, relativeTo: self.serverURL)!
@@ -30,11 +32,20 @@ extension APIService {
         }
     }
     
-    internal func fetchGoals(completion: @escaping RequestCompletion<[APIGoalResponse]>) {
+    internal func fetchGoals(status: Goal.Status? = nil, trackingStatus: Goal.TrackingStatus? = nil, completion: @escaping RequestCompletion<[APIGoalResponse]>) {
         requestQueue.async {
             let url = URL(string: GoalsEndpoint.goals.path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+            var parameters = [String: String]()
+            
+            if let statusParameter = status {
+                parameters[GoalsEndpoint.QueryParameters.status.rawValue] = statusParameter.rawValue
+            }
+            if let trackingStatusParameter = trackingStatus {
+                parameters[GoalsEndpoint.QueryParameters.trackingStatus.rawValue] = trackingStatusParameter.rawValue
+            }
+            
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APIGoalResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -82,6 +93,28 @@ extension APIService {
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APIGoalResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    // MARK: - Goal Periods
+    
+    internal func fetchGoalPeriod(goalID: Int64, goalPeriodID: Int64, completion: @escaping RequestCompletion<APIGoalPeriodResponse>) {
+        requestQueue.async {
+            let url = URL(string: GoalsEndpoint.period(goalID: goalID, goalPeriodID: goalPeriodID).path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APIGoalPeriodResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func fetchGoalPeriods(goalID: Int64, completion: @escaping RequestCompletion<[APIGoalPeriodResponse]>) {
+        requestQueue.async {
+            let url = URL(string: GoalsEndpoint.periods(goalID: goalID).path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleArrayResponse(type: APIGoalPeriodResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }

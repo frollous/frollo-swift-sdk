@@ -323,6 +323,27 @@ public class Account: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    /// An array of Goal IDs decoded from a json array stored in the database. (Optional)
+    public var goalIDs: [Int64]? {
+        get {
+            if let goalIDsData = goalIDsRawValue {
+                let decoder = JSONDecoder()
+                
+                do {
+                    let goalIDs = try decoder.decode([Int64].self, from: goalIDsData)
+                    return goalIDs
+                } catch {
+                    Log.error(error.localizedDescription)
+                }
+            }
+            return nil
+        }
+        set {
+            let encoder = JSONEncoder()
+            goalIDsRawValue = try? encoder.encode(newValue)
+        }
+    }
+    
     /// Account Grouping
     public var group: Group {
         get {
@@ -374,6 +395,9 @@ public class Account: NSManagedObject, UniqueManagedObject {
     internal func linkObject(object: NSManagedObject) {
         if let bill = object as? Bill {
             addToBills(bill)
+        }
+        if let goal = object as? Goal {
+            addToGoals(goal)
         }
         if let report = object as? ReportAccountBalance {
             addToReports(report)
@@ -474,6 +498,7 @@ public class Account: NSManagedObject, UniqueManagedObject {
         classification = response.accountAttributes.classification
         group = response.accountAttributes.group
         dueDate = response.dueDate
+        goalIDs = response.goalIDs
         lastPaymentDate = response.lastPaymentDate
         lastRefreshed = response.refreshStatus.lastRefreshed
         nextRefresh = response.refreshStatus.nextRefresh

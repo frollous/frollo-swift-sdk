@@ -310,6 +310,7 @@ class AggregationRequestTests: BaseTestCase {
                         XCTAssertEqual(firstAccount.balanceDetails?.tiers.first?.description, "Below average")
                         XCTAssertEqual(firstAccount.balanceDetails?.tiers.first?.max, 549)
                         XCTAssertEqual(firstAccount.balanceDetails?.tiers.first?.min, 0)
+                        XCTAssertEqual(firstAccount.goalIDs, [98, 785, 22222091])
                     }
             }
             

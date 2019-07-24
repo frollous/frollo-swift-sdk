@@ -20,7 +20,8 @@ import Foundation
 extension APIUserRegisterRequest {
     
     static func testData() -> APIUserRegisterRequest {
-        return APIUserRegisterRequest(email: String.randomString(range: 1...10) + "@frollo.us",
+        return APIUserRegisterRequest(clientID: String.randomString(length: 32),
+                                      email: String.randomString(range: 1...10) + "@frollo.us",
                                       firstName: String.randomString(range: 1...20),
                                       password: String.randomString(range: 1...20),
                                       address: Address(postcode: "2060"),

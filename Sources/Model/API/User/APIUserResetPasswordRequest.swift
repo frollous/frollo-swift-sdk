@@ -18,6 +18,12 @@ import Foundation
 
 struct APIUserResetPasswordRequest: Codable {
     
+    enum CodingKeys: String, CodingKey {
+        case clientID = "client_id"
+        case email
+    }
+    
+    let clientID: String
     let email: String
     
 }

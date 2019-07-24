@@ -189,6 +189,18 @@ func handleGetURLEvent(event: NSAppleEventDescriptor, withReplyEvent replyEvent:
 }
 ```
 
+### Refreshing Data (Optional)
+
+Refreshing data should be done in a fashion that fits your app. However a refresh all data option is available that will refresh all the cache in an efficient manner. Combined with lifecycle handlers this can take care of most of whats needed for stopping the cache from going stale. It is still recommended to do your own refreshing at appropriate moments, e.g. refresh transactions as the user scrolls a list of transactions.
+
+```swift
+func viewDidLoad() {
+    super.viewDidLoad()
+
+    FrolloSDK.shared.refreshData()
+}
+```
+
 ### Lifecyle Handlers (Optional)
 
 Optionally implement the lifecycle handlers in your app delegate to ensure FrolloSDK can keep cached data fresh when suspending and resuming the app.

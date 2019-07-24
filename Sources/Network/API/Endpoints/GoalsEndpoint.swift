@@ -18,12 +18,19 @@ import Foundation
 
 enum GoalsEndpoint: Endpoint {
     
+    enum QueryParameters: String, Codable {
+        case status
+        case trackingStatus = "tracking_status"
+    }
+    
     internal var path: String {
         return urlPath()
     }
     
     case goal(goalID: Int64)
     case goals
+    case period(goalID: Int64, goalPeriodID: Int64)
+    case periods(goalID: Int64)
     
     private func urlPath() -> String {
         switch self {
@@ -31,6 +38,10 @@ enum GoalsEndpoint: Endpoint {
                 return "goals/" + String(goalID)
             case .goals:
                 return "goals"
+            case .period(let goalID, let goalPeriodID):
+                return "goals/" + String(goalID) + "/periods/" + String(goalPeriodID)
+            case .periods(let goalID):
+                return "goals/" + String(goalID) + "/periods"
         }
     }
     

@@ -29,16 +29,18 @@ public class UserManagement {
     }
     
     private let authentication: Authentication
+    private let clientID: String
     private let database: Database
     private let preferences: Preferences
     private let service: APIService
     
     private weak var delegate: AuthenticationDelegate?
     
-    init(database: Database, service: APIService, authentication: Authentication, preferences: Preferences, delegate: AuthenticationDelegate?) {
+    init(database: Database, service: APIService, clientID: String, authentication: Authentication, preferences: Preferences, delegate: AuthenticationDelegate?) {
         self.authentication = authentication
         self.database = database
         self.service = service
+        self.clientID = clientID
         self.preferences = preferences
         self.delegate = delegate
         
@@ -140,7 +142,8 @@ public class UserManagement {
             address = APIUserRegisterRequest.Address(postcode: registerPostcode)
         }
         
-        let userRegisterRequest = APIUserRegisterRequest(email: email,
+        let userRegisterRequest = APIUserRegisterRequest(clientID: clientID,
+                                                         email: email,
                                                          firstName: firstName,
                                                          password: password,
                                                          address: address,
@@ -396,7 +399,8 @@ public class UserManagement {
      - completion: A completion handler once the API has returned and the cache has been updated. Returns any error that occurred during the process.
      */
     public func resetPassword(email: String, completion: @escaping FrolloSDKCompletionHandler) {
-        let request = APIUserResetPasswordRequest(email: email)
+        let request = APIUserResetPasswordRequest(clientID: clientID,
+                                                  email: email)
         
         service.resetPassword(request: request) { result in
             switch result {
