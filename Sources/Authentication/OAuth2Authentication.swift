@@ -210,9 +210,7 @@ public class OAuth2Authentication: Authentication {
         authService.refreshTokens(request: request) { result in
             switch result {
                 case .failure(let error):
-                    if let authError = error as? OAuth2Error {
-                        self.handleTokenError(error: authError)
-                    }
+                    self.handleTokenError(error: error)
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -294,9 +292,7 @@ public class OAuth2Authentication: Authentication {
         authService.refreshTokens(request: request) { result in
             switch result {
                 case .failure(let error):
-                    if let authError = error as? OAuth2Error {
-                        self.handleTokenError(error: authError)
-                    }
+                    self.handleTokenError(error: error)
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -371,9 +367,7 @@ public class OAuth2Authentication: Authentication {
         authService.refreshTokens(request: request) { result in
             switch result {
                 case .failure(let error):
-                    if let authError = error as? OAuth2Error {
-                        self.handleTokenError(error: authError)
-                    }
+                    self.handleTokenError(error: error)
                     
                     Log.error(error.localizedDescription)
                     
@@ -434,9 +428,7 @@ public class OAuth2Authentication: Authentication {
         authService.refreshTokens(request: request) { result in
             switch result {
                 case .failure(let error):
-                    if let authError = error as? OAuth2Error {
-                        self.handleTokenError(error: authError)
-                    }
+                    self.handleTokenError(error: error)
                     
                     Log.error(error.localizedDescription)
                     
@@ -498,11 +490,19 @@ public class OAuth2Authentication: Authentication {
     
     // MARK: - Token Handling
     
-    internal func handleTokenError(error: OAuth2Error) {
-        let clearTokenStatuses: [OAuth2Error.OAuth2ErrorType] = [.invalidClient, .invalidRequest, .invalidGrant, .invalidScope, .unauthorizedClient, .unsupportedGrantType, .serverError]
-        
-        if clearTokenStatuses.contains(error.type) {
-            reset()
+    internal func handleTokenError(error: Error) {
+        if let authError = error as? OAuth2Error {
+            let clearTokenStatuses: [OAuth2Error.OAuth2ErrorType] = [.invalidClient, .invalidRequest, .invalidGrant, .invalidScope, .unauthorizedClient, .unsupportedGrantType, .serverError]
+            
+            if clearTokenStatuses.contains(authError.type) {
+                reset()
+            }
+        } else if let dataError = error as? DataError {
+            let clearTokenStatuses: [DataError.DataErrorType] = [.authentication]
+            
+            if clearTokenStatuses.contains(dataError.type) {
+                reset()
+            }
         }
     }
     
