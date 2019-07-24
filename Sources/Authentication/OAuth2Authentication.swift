@@ -343,6 +343,8 @@ public class OAuth2Authentication: Authentication {
             
             Log.error(error.localizedDescription)
             
+            reset()
+            
             DispatchQueue.main.async {
                 completion(.failure(error))
             }
@@ -405,6 +407,8 @@ public class OAuth2Authentication: Authentication {
             let error = DataError(type: .authentication, subType: .missingRefreshToken)
             
             Log.error(error.localizedDescription)
+            
+            reset()
             
             DispatchQueue.main.async {
                 completion?(.failure(error))
