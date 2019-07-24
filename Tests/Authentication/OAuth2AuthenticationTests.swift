@@ -246,7 +246,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        let user = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences, delegate: nil)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
         
         database.setup { (error) in
             XCTAssertNil(error)
