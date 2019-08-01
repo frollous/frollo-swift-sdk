@@ -259,8 +259,6 @@ public class UserManagement {
                         completion(.failure(error))
                     }
                 case .success:
-                    self.authentication.reset()
-                    
                     self.reset()
                     
                     DispatchQueue.main.async {
@@ -327,9 +325,6 @@ public class UserManagement {
                         completion(.failure(error))
                     }
                 case .success:
-                    // Force logout the user as this refresh token is no longer valid
-                    oAuthAuthentication.reset()
-                    
                     self.reset()
                     
                     DispatchQueue.main.async {

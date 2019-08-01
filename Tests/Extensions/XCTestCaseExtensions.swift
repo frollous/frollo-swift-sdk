@@ -127,13 +127,13 @@ extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTe
         return defaultUser(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: loggedIn)
     }
     
-    func defaultUser(keychain: Keychain, authentication: Authentication, loggedIn: Bool = true) -> UserManagement {
+    func defaultUser(keychain: Keychain, authentication: Authentication, delegate: AuthenticationDelegate? = nil, loggedIn: Bool = true) -> UserManagement {
         let networkAuthenticator  = defaultNetworkAuthenticator(keychain: keychain)
-        return UserManagement(database: database, service: defaultService(keychain: keychain, networkAuthenticator: networkAuthenticator), clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+        return UserManagement(database: database, service: defaultService(keychain: keychain, networkAuthenticator: networkAuthenticator), clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: delegate)
     }
     
-    func defaultUser(keychain: Keychain, networkAuthenticator: NetworkAuthenticator, loggedIn: Bool = true) -> UserManagement {
-        return UserManagement(database: database, service: defaultService(keychain: keychain, networkAuthenticator: networkAuthenticator), clientID: config.clientID, authentication: defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: loggedIn), preferences: preferences, delegate: nil)
+    func defaultUser(keychain: Keychain, networkAuthenticator: NetworkAuthenticator, delegate: AuthenticationDelegate? = nil, loggedIn: Bool = true) -> UserManagement {
+        return UserManagement(database: database, service: defaultService(keychain: keychain, networkAuthenticator: networkAuthenticator), clientID: config.clientID, authentication: defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: loggedIn), preferences: preferences, delegate: delegate)
     }
     
 }
