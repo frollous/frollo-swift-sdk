@@ -384,7 +384,11 @@ class UserManagementTests: BaseTestCase {
         
         let keychain = validKeychain()
         let authentication = defaultAuthentication(keychain: keychain, loggedIn: true)
-        let user = defaultUser(keychain: keychain, authentication: authentication)
+        
+        let authenticationStub = AuthenticationDelegateStub {
+            authentication.reset()
+        }
+        let user = defaultUser(keychain: keychain, authentication: authentication, delegate: authenticationStub)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -411,6 +415,8 @@ class UserManagementTests: BaseTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+        
+        _ = authenticationStub
         
         try? FileManager.default.removeItem(at: tempFolderPath())
     }
@@ -471,11 +477,12 @@ class UserManagementTests: BaseTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
+        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
         let delegateStub = AuthenticationDelegateStub {
             network.reset()
+            authentication.reset()
         }
         
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
         let user = UserManagement(database: database, service: service, authentication: authentication, preferences: preferences, delegate: delegateStub)
         
         let resetter = NetworkResetterStub(authentication: authentication)

@@ -57,6 +57,7 @@ class FrolloSDKTests: XCTestCase {
     func removeDataFolder() {
         // Remove app data folder from disk
         try? FileManager.default.removeItem(atPath: FrolloSDK.defaultDataFolderURL.path)
+        try? FileManager.default.removeItem(at: FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: .userDomainMask).first!)
     }
     
     // MARK: - Tests
