@@ -1,5 +1,5 @@
 # Alamofire - Networking
 github "Alamofire/Alamofire" ~> 4.8.2
 
-# AppAuth - OAuth2. Update from master to tags when 1.0 is stable
-github "openid/AppAuth-iOS" "1.0.0"
+# AppAuth - OAuth2
+github "openid/AppAuth-iOS" ~> 1.1.0
