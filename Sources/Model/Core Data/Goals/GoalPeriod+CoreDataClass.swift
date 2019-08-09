@@ -62,13 +62,16 @@ public class GoalPeriod: NSManagedObject, UniqueManagedObject {
         }
     }
     
-    /// Tracking Status
-    public var trackingStatus: Goal.TrackingStatus {
+    /// Tracking Status (Optional)
+    public var trackingStatus: Goal.TrackingStatus? {
         get {
-            return Goal.TrackingStatus(rawValue: trackingStatusRawValue)!
+            if let rawValue = trackingStatusRawValue {
+                return Goal.TrackingStatus(rawValue: rawValue)
+            }
+            return nil
         }
         set {
-            trackingStatusRawValue = newValue.rawValue
+            trackingStatusRawValue = newValue?.rawValue
         }
     }
     

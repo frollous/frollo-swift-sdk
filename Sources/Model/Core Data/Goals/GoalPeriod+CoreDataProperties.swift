@@ -51,7 +51,7 @@ extension GoalPeriod {
     @NSManaged public var requiredAmount: NSDecimalNumber
     
     /// Raw value of the tracking status. Use only in predicates
-    @NSManaged public var trackingStatusRawValue: String
+    @NSManaged public var trackingStatusRawValue: String?
     
     /// Goal periods are associated with
     @NSManaged public var goal: Goal?
