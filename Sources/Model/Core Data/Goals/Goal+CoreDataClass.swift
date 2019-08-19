@@ -38,6 +38,9 @@ public class Goal: NSManagedObject, UniqueManagedObject {
         /// Biannually - twice in a year
         case biannually
         
+        /// Daily
+        case daily
+        
         /// Fortnightly
         case fortnightly
         
