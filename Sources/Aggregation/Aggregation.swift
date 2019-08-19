@@ -45,11 +45,26 @@ public class Aggregation: CachedObjects, ResponseHandler {
      */
     public typealias tagApplyAllPairs = (String, Bool)
     
+    /// Notification fired when accounts cache has been updated
+    public static let accountsUpdatedNotification = Notification.Name("FrolloSDK.aggregation.accountsUpdatedNotification")
+    
+    /// Notification fired when providers cache has been updated
+    public static let providersUpdatedNotification = Notification.Name("FrolloSDK.aggregation.providersUpdatedNotification")
+    
+    /// Notification fired when provider accounts cache has been updated
+    public static let providerAccountsUpdatedNotification = Notification.Name("FrolloSDK.aggregation.providerAccountsUpdatedNotification")
+    
+    /// Notification fired when merchants cache has been updated
+    public static let merchantsUpdatedNotification = Notification.Name("FrolloSDK.aggregation.merchantsUpdatedNotification")
+    
     /// Notification fired when transactions cache has been updated
-    public static let transactionsUpdatedNotification = Notification.Name(rawValue: "FrolloSDK.aggregation.transactionsUpdatedNotification")
+    public static let transactionsUpdatedNotification = Notification.Name("FrolloSDK.aggregation.transactionsUpdatedNotification")
+    
+    /// Notification fired when transaction categories cache has been updated
+    public static let transactionCategoriesUpdatedNotification = Notification.Name("FrolloSDK.aggregation.transactionCategoriesUpdatedNotification")
     
     internal static let refreshTransactionIDsKey = "FrolloSDKKey.Aggregation.transactionIDs"
-    internal static let refreshTransactionsNotification = Notification.Name(rawValue: "FrolloSDK.aggregation.refreshTransactionsNotification")
+    internal static let refreshTransactionsNotification = Notification.Name("FrolloSDK.aggregation.refreshTransactionsNotification")
     
     internal let accountLock = NSLock()
     internal let merchantLock = NSLock()
@@ -192,6 +207,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
                     
+                    NotificationCenter.default.post(name: Aggregation.providersUpdatedNotification, object: self)
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -237,6 +254,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.refreshingProviderIDs.remove(providerID)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.providersUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -348,6 +367,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
                     
+                    NotificationCenter.default.post(name: Aggregation.providerAccountsUpdatedNotification, object: self)
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -390,6 +411,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.handleProviderAccountResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.providerAccountsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -436,6 +459,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
                     
+                    NotificationCenter.default.post(name: Aggregation.providerAccountsUpdatedNotification, object: self)
+                    
                     DispatchQueue.main.async {
                         completion?(.success(response.id))
                     }
@@ -473,6 +498,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     }
                 case .success:
                     self.removeCachedProviderAccount(providerAccountID: providerAccountID)
+                    
+                    NotificationCenter.default.post(name: Aggregation.providerAccountsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -517,6 +544,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.handleProviderAccountResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.providerAccountsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -712,6 +741,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     
                     self.linkAccountsToProviderAccounts(managedObjectContext: managedObjectContext)
                     
+                    NotificationCenter.default.post(name: Aggregation.accountsUpdatedNotification, object: self)
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -754,6 +785,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.handleAccountResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkAccountsToProviderAccounts(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.accountsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -814,6 +847,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.handleAccountResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkAccountsToProviderAccounts(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.accountsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -1538,6 +1573,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
                     
+                    NotificationCenter.default.post(name: Aggregation.transactionCategoriesUpdatedNotification, object: self)
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -1877,6 +1914,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     
+                    NotificationCenter.default.post(name: Aggregation.merchantsUpdatedNotification, object: self)
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -1919,6 +1958,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     
+                    NotificationCenter.default.post(name: Aggregation.merchantsUpdatedNotification, object: self)
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -1960,6 +2001,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.handleMerchantsResponse(response, merchantIDs: merchantIDs, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.merchantsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
                         completion?(.success)

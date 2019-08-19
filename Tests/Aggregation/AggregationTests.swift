@@ -39,6 +39,8 @@ class AggregationTests: BaseTestCase {
         return self.aggregation(keychain: self.defaultKeychain(isNetwork: true), loggedIn: loggedIn)
     }
     
+    // MARK: - Provider Tests
+    
     func testFetchProviderByID() {
         let expectation1 = expectation(description: "Completion")
         let aggregation = self.aggregation(loggedIn: true)
@@ -153,6 +155,7 @@ class AggregationTests: BaseTestCase {
     
     func testRefreshProvidersIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.providersUpdatedNotification, object: nil, handler: nil)
         
         connect(endpoint: AggregationEndpoint.providers.path.prefixedWithSlash, toResourceWithName: "providers_valid")
         
@@ -183,7 +186,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
         
     }
     
@@ -226,6 +229,7 @@ class AggregationTests: BaseTestCase {
         let expectation3 = expectation(description: "Fetch Request 1")
         let expectation4 = expectation(description: "Network Request 2")
         let expectation5 = expectation(description: "Fetch Request 2")
+        let notificationExpectation = expectation(forNotification: Aggregation.providersUpdatedNotification, object: nil, handler: nil)
         
         let providerStub = connect(endpoint: AggregationEndpoint.providers.path.prefixedWithSlash, toResourceWithName: "providers_valid")
         
@@ -303,7 +307,7 @@ class AggregationTests: BaseTestCase {
             expectation4.fulfill()
         }
         
-        wait(for: [expectation4], timeout: 3.0)
+        wait(for: [expectation4, notificationExpectation], timeout: 3.0)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             let context = self.context
@@ -525,6 +529,7 @@ class AggregationTests: BaseTestCase {
         let expectation1 = expectation(description: "Database Setup")
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Network Request 2")
+        let notificationExpectation = expectation(forNotification: Aggregation.providerAccountsUpdatedNotification, object: nil, handler: nil)
         
         connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "provider_accounts_valid")
         
@@ -582,7 +587,7 @@ class AggregationTests: BaseTestCase {
             expectation3.fulfill()
         }
         
-        wait(for: [expectation3], timeout: 3.0)
+        wait(for: [expectation3, notificationExpectation], timeout: 3.0)
         
     }
     
@@ -621,6 +626,7 @@ class AggregationTests: BaseTestCase {
     
     func testRefreshProviderAccountByIDIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.providerAccountsUpdatedNotification, object: nil, handler: nil)
         
         connect(endpoint: AggregationEndpoint.providerAccount(providerAccountID: 123).path.prefixedWithSlash, toResourceWithName: "provider_account_id_123")
         
@@ -652,7 +658,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
         
     }
     
@@ -744,6 +750,7 @@ class AggregationTests: BaseTestCase {
     
     func testCreateProviderAccount() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.providerAccountsUpdatedNotification, object: nil, handler: nil)
         let providerID: Int64 = 12345
         
         let loginForm = ProviderLoginForm.loginFormFilledData()
@@ -778,7 +785,7 @@ class AggregationTests: BaseTestCase {
             })
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
         
     }
     
@@ -819,6 +826,7 @@ class AggregationTests: BaseTestCase {
     
     func testDeleteProviderAccount() {
         let expectation1 = expectation(description: "Network Request")
+        let notificationExpectation = expectation(forNotification: Aggregation.providerAccountsUpdatedNotification, object: nil, handler: nil)
         
         connect(endpoint: AggregationEndpoint.providerAccount(providerAccountID: 12345).path.prefixedWithSlash, addingStatusCode: 204)
         
@@ -849,7 +857,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
     }
     
     func testDeleteProviderAccountsFailsIfLoggedOut() {
@@ -887,6 +895,7 @@ class AggregationTests: BaseTestCase {
     
     func testUpdateProviderAccount() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.providerAccountsUpdatedNotification, object: nil, handler: nil)
         
         let providerAccountID: Int64 = 123
         
@@ -921,7 +930,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
         
     }
     
@@ -1145,6 +1154,7 @@ class AggregationTests: BaseTestCase {
     
     func testRefreshAccountsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.accountsUpdatedNotification, object: nil, handler: nil)
         
         connect(endpoint: AggregationEndpoint.accounts.path.prefixedWithSlash, toResourceWithName: "accounts_valid")
         
@@ -1175,7 +1185,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
         
     }
     
@@ -1214,6 +1224,7 @@ class AggregationTests: BaseTestCase {
     
     func testRefreshAccountByIDIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.accountsUpdatedNotification, object: nil, handler: nil)
         
         connect(endpoint: AggregationEndpoint.account(accountID: 542).path.prefixedWithSlash, toResourceWithName: "account_id_542")
         
@@ -1245,8 +1256,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
-        
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
     }
     
     func testRefreshAccountByIDFailsIfLoggedOut() {
@@ -1349,6 +1359,7 @@ class AggregationTests: BaseTestCase {
     
     func testUpdatingAccount() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.accountsUpdatedNotification, object: nil, handler: nil)
         
         connect(endpoint: AggregationEndpoint.account(accountID: 542).path.prefixedWithSlash, toResourceWithName: "account_id_542")
         
@@ -1390,7 +1401,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
         
     }
     
@@ -1544,6 +1555,7 @@ class AggregationTests: BaseTestCase {
     
     func testRefreshTransactionsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil, handler: nil)
         
         connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
         
@@ -1577,7 +1589,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
         
     }
     
@@ -1658,6 +1670,7 @@ class AggregationTests: BaseTestCase {
     
     func testRefreshPaginatedTransactions() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil, handler: nil)
         
         stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (request) -> OHHTTPStubsResponse in
             if let requestURL = request.url, let queryItems = URLComponents(url: requestURL, resolvingAgainstBaseURL: true)?.queryItems {
@@ -1707,12 +1720,13 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
         
     }
     
     func testRefreshTransactionByIDIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil, handler: nil)
         
         connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630).path.prefixedWithSlash, toResourceWithName: "transaction_id_194630")
         
@@ -1744,7 +1758,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
         
     }
     
@@ -1783,6 +1797,7 @@ class AggregationTests: BaseTestCase {
     
     func testRefreshTransactionByIDsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil, handler: nil)
         
         let transactions: [Int64] = [1, 2, 3, 4, 5]
         
@@ -1815,7 +1830,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
         
     }
     
@@ -2050,6 +2065,7 @@ class AggregationTests: BaseTestCase {
     
     func testExcludeTransaction() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil, handler: nil)
         
         connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630).path.prefixedWithSlash, toResourceWithName: "transaction_id_194630_excluded")
         
@@ -2093,12 +2109,13 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 5.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 5.0)
         
     }
     
     func testRecategoriseTransaction() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil, handler: nil)
         
         connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630).path.prefixedWithSlash, toResourceWithName: "transaction_id_194630")
         
@@ -2153,12 +2170,13 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 5.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 5.0)
         
     }
     
     func testUpdatingTransaction() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil, handler: nil)
         
         connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630).path.prefixedWithSlash, toResourceWithName: "transaction_id_194630")
         
@@ -2200,7 +2218,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 5.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 5.0)
         
     }
     
@@ -2310,6 +2328,7 @@ class AggregationTests: BaseTestCase {
     
     func testTransactionSearch() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil, handler: nil)
         
         connect(endpoint: AggregationEndpoint.transactionSearch.path.prefixedWithSlash, toResourceWithName: "transactions_search")
         
@@ -2346,7 +2365,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
         
     }
     
@@ -2569,6 +2588,7 @@ class AggregationTests: BaseTestCase {
     
     func testRefreshTransactionCategoriesIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.transactionCategoriesUpdatedNotification, object: nil, handler: nil)
         
         connect(endpoint: AggregationEndpoint.transactionCategories.path.prefixedWithSlash, toResourceWithName: "transaction_categories_valid")
         
@@ -2599,7 +2619,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
         
     }
     
@@ -3223,6 +3243,7 @@ class AggregationTests: BaseTestCase {
     
     func testRefreshMerchantsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.merchantsUpdatedNotification, object: nil, handler: nil)
         
         connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_valid")
         
@@ -3253,7 +3274,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
         
     }
     
@@ -3292,6 +3313,7 @@ class AggregationTests: BaseTestCase {
     
     func testRefreshMerchantByID() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.merchantsUpdatedNotification, object: nil, handler: nil)
         
         connect(endpoint: AggregationEndpoint.merchant(merchantID: 197).path.prefixedWithSlash, toResourceWithName: "merchant_id_197")
         
@@ -3328,7 +3350,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
         
     }
     
@@ -3367,6 +3389,7 @@ class AggregationTests: BaseTestCase {
     
     func testRefreshMerchantsByID() {
         let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.merchantsUpdatedNotification, object: nil, handler: nil)
         
         connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_by_id")
         
@@ -3404,7 +3427,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
         
     }
     
