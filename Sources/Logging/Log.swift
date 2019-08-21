@@ -57,13 +57,13 @@ class Log {
     private let queue = DispatchQueue(label: "Logging", qos: .utility)
     
     private let logFilePath: URL = {
-        var logFileURL = FrolloSDK.defaultDataFolderURL.appendingPathComponent(LogConstants.fileName)
+        var logFileURL = Frollo.defaultDataFolderURL.appendingPathComponent(LogConstants.fileName)
         logFileURL.appendPathExtension(LogConstants.logExtension)
         return logFileURL
     }()
     
     private let previousLogFilePath: URL = {
-        var logFileURL = FrolloSDK.defaultDataFolderURL
+        var logFileURL = Frollo.defaultDataFolderURL
         let fileName = LogConstants.fileName.appending(LogConstants.previousFileSuffix)
         logFileURL.appendPathComponent(fileName)
         logFileURL.appendPathExtension(LogConstants.logExtension)

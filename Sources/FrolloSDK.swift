@@ -11,7 +11,7 @@ import Foundation
 public typealias FrolloSDKCompletionHandler = (EmptyResult<Error>) -> Void
 
 /// Frollo SDK manager and main instantiation. Responsible for managing the lifecycle and coordination of the SDK
-public class FrolloSDK: AuthenticationDelegate {
+public class Frollo: AuthenticationDelegate {
     
     /// Notification triggered when ever the authentication status of the SDK changes. Observe this notification to detect if the SDK user has authenticated or been logged out.
     public static let authenticationChangedNotification = Notification.Name(rawValue: "FrolloSDK.authenticationChangedNotification")
@@ -20,7 +20,7 @@ public class FrolloSDK: AuthenticationDelegate {
     public static let authenticationStatusKey = "FrolloSDKKey.authenticationStatus"
     
     /// Global singleton for SDK
-    public static let shared = FrolloSDK()
+    public static let shared = Frollo()
     
     /// Status of the FrolloSDK authentication with Frollo servers
     public enum FrolloSDKAuthenticationStatus {
@@ -416,7 +416,7 @@ public class FrolloSDK: AuthenticationDelegate {
             }
         }
         
-        NotificationCenter.default.post(name: FrolloSDK.authenticationChangedNotification, object: self, userInfo: [FrolloSDK.authenticationStatusKey: FrolloSDKAuthenticationStatus.loggedOut])
+        NotificationCenter.default.post(name: Frollo.authenticationChangedNotification, object: self, userInfo: [Frollo.authenticationStatusKey: FrolloSDKAuthenticationStatus.loggedOut])
     }
     
     // MARK: - Lifecycle

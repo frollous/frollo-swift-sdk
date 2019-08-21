@@ -60,7 +60,7 @@ public struct FrolloSDKConfiguration {
      
      - returns: Valid configuration
      */
-    public init(authenticationType: AuthenticationType, clientID: String, dataDirectory: URL = FrolloSDK.defaultDataFolderURL, serverEndpoint: URL) {
+    public init(authenticationType: AuthenticationType, clientID: String, dataDirectory: URL = Frollo.defaultDataFolderURL, serverEndpoint: URL) {
         self.authenticationType = authenticationType
         self.clientID = clientID
         self.dataDirectory = dataDirectory

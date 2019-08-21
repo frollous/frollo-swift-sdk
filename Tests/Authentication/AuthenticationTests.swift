@@ -94,7 +94,7 @@ class AuthenticationTests: BaseTestCase {
                                             clientID: "abc123",
                                             serverEndpoint: serverURL)
         
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):

@@ -56,7 +56,7 @@ class FrolloSDKTests: XCTestCase {
     
     func removeDataFolder() {
         // Remove app data folder from disk
-        try? FileManager.default.removeItem(atPath: FrolloSDK.defaultDataFolderURL.path)
+        try? FileManager.default.removeItem(atPath: Frollo.defaultDataFolderURL.path)
         try? FileManager.default.removeItem(at: FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: .userDomainMask).first!)
     }
     
@@ -66,13 +66,13 @@ class FrolloSDKTests: XCTestCase {
         let expectation1 = expectation(description: "Setup")
         
         let config = FrolloSDKConfiguration.testConfig()
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    XCTAssertTrue(FileManager.default.fileExists(atPath: FrolloSDK.defaultDataFolderURL.path))
+                    XCTAssertTrue(FileManager.default.fileExists(atPath: Frollo.defaultDataFolderURL.path))
             }
             
             expectation1.fulfill()
@@ -98,7 +98,7 @@ class FrolloSDKTests: XCTestCase {
                                             dataDirectory: dataDirectory,
                                             serverEndpoint: URL(string: "https://api.example.com")!)
         
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -117,7 +117,7 @@ class FrolloSDKTests: XCTestCase {
         let expectation1 = expectation(description: "Setup")
         
         let config = FrolloSDKConfiguration.testConfig()
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -136,7 +136,7 @@ class FrolloSDKTests: XCTestCase {
         let expectation1 = expectation(description: "Setup")
         
         let config = FrolloSDKConfiguration.testConfig()
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -157,7 +157,7 @@ class FrolloSDKTests: XCTestCase {
         var config = FrolloSDKConfiguration.testConfig()
         config.publicKeyPinningEnabled = false
         
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config){ (result) in
             switch result {
                 case .failure(let error):
@@ -183,7 +183,7 @@ class FrolloSDKTests: XCTestCase {
         let expectation1 = expectation(description: "Setup")
         
         let config = FrolloSDKConfiguration.testConfig()
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -204,7 +204,7 @@ class FrolloSDKTests: XCTestCase {
         let expectation1 = expectation(description: "Setup")
         
         let config = FrolloSDKConfiguration.testConfig()
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -254,7 +254,7 @@ class FrolloSDKTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payments_2018-12-01_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         
         sdk.setup(configuration: config) { (result) in
             switch result {
@@ -343,7 +343,7 @@ class FrolloSDKTests: XCTestCase {
     }
     
     func testSingletonInstantiatedOnce() {
-        XCTAssertTrue(FrolloSDK.shared === FrolloSDK.shared)
+        XCTAssertTrue(Frollo.shared === Frollo.shared)
     }
     
     func testEnablePublicKeyPinning() {
@@ -352,7 +352,7 @@ class FrolloSDKTests: XCTestCase {
         var config = FrolloSDKConfiguration.testConfig()
         config.publicKeyPinningEnabled = true
         
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -373,7 +373,7 @@ class FrolloSDKTests: XCTestCase {
         var config = FrolloSDKConfiguration.testConfig()
         config.publicKeyPinningEnabled = false
         
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -394,7 +394,7 @@ class FrolloSDKTests: XCTestCase {
         var config = FrolloSDKConfiguration.testConfig()
         config.publicKeyPinningEnabled = false
         
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -415,7 +415,7 @@ class FrolloSDKTests: XCTestCase {
         var config = FrolloSDKConfiguration.testConfig()
         config.publicKeyPinningEnabled = false
         
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -436,7 +436,7 @@ class FrolloSDKTests: XCTestCase {
         var config = FrolloSDKConfiguration.testConfig()
         config.publicKeyPinningEnabled = false
         
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -457,7 +457,7 @@ class FrolloSDKTests: XCTestCase {
         var config = FrolloSDKConfiguration.testConfig()
         config.publicKeyPinningEnabled = false
         
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -478,7 +478,7 @@ class FrolloSDKTests: XCTestCase {
         var config = FrolloSDKConfiguration.testConfig()
         config.publicKeyPinningEnabled = false
         
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -499,7 +499,7 @@ class FrolloSDKTests: XCTestCase {
         var config = FrolloSDKConfiguration.testConfig()
         config.publicKeyPinningEnabled = false
         
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -520,7 +520,7 @@ class FrolloSDKTests: XCTestCase {
         var config = FrolloSDKConfiguration.testConfig()
         config.publicKeyPinningEnabled = false
         
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -541,7 +541,7 @@ class FrolloSDKTests: XCTestCase {
         var config = FrolloSDKConfiguration.testConfig()
         config.publicKeyPinningEnabled = false
         
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -559,14 +559,14 @@ class FrolloSDKTests: XCTestCase {
     func testSetupInvokesDatabaseMigration() {
         let expectation1 = expectation(description: "Setup")
         
-        try? FileManager.default.createDirectory(at: FrolloSDK.defaultDataFolderURL, withIntermediateDirectories: true, attributes: nil)
+        try? FileManager.default.createDirectory(at: Frollo.defaultDataFolderURL, withIntermediateDirectories: true, attributes: nil)
         
         var config = FrolloSDKConfiguration.testConfig()
         config.publicKeyPinningEnabled = false
         
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         
-        populateTestDataNamed(name: "FrolloSDKDataModel-1.0.0", atPath: FrolloSDK.defaultDataFolderURL)
+        populateTestDataNamed(name: "FrolloSDKDataModel-1.0.0", atPath: Frollo.defaultDataFolderURL)
         
         sdk.setup(configuration: config) { (result) in
             switch result {
@@ -585,14 +585,14 @@ class FrolloSDKTests: XCTestCase {
     func testReset() {
         let expectation1 = expectation(description: "Setup")
         
-        try? FileManager.default.createDirectory(at: FrolloSDK.defaultDataFolderURL, withIntermediateDirectories: true, attributes: nil)
+        try? FileManager.default.createDirectory(at: Frollo.defaultDataFolderURL, withIntermediateDirectories: true, attributes: nil)
         
         var config = FrolloSDKConfiguration.testConfig()
         config.publicKeyPinningEnabled = false
         
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         
-        populateTestDataNamed(name: "FrolloSDKDataModel-1.2.0", atPath: FrolloSDK.defaultDataFolderURL)
+        populateTestDataNamed(name: "FrolloSDKDataModel-1.2.0", atPath: Frollo.defaultDataFolderURL)
         
         sdk.setup(configuration: config) { (result) in
             switch result {

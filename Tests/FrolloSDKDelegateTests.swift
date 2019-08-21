@@ -29,7 +29,7 @@ class FrolloSDKDelegateTests: XCTestCase, FrolloSDKDelegate {
 
     func testSettingDelegateUpdatesModules() {
         let config = FrolloSDKConfiguration.testConfig()
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -45,7 +45,7 @@ class FrolloSDKDelegateTests: XCTestCase, FrolloSDKDelegate {
     
     func testSettingDelegateBeforeSetup() {
         let config = FrolloSDKConfiguration.testConfig()
-        let sdk = FrolloSDK()
+        let sdk = Frollo()
         
         sdk.delegate = self
         
