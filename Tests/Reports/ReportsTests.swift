@@ -2133,6 +2133,8 @@ class ReportsTests: XCTestCase {
                                     XCTAssertEqual(firstReport.reports?.count, 4)
                                     XCTAssertEqual(firstReport.linkedID, -1)
                                     XCTAssertNil(firstReport.name)
+                                    XCTAssertEqual(firstReport.transactionCount, 0)
+                                    XCTAssertNil(firstReport.transactionIDs)
                                 } else {
                                     XCTFail("Reports not found")
                                 }
@@ -2162,6 +2164,8 @@ class ReportsTests: XCTestCase {
                                     XCTAssertEqual(firstReport.linkedID, 0)
                                     XCTAssertEqual(firstReport.name, "income")
                                     XCTAssertEqual(firstReport.budgetCategory, .income)
+                                    XCTAssertEqual(firstReport.transactionIDs, [194125])
+                                    XCTAssertEqual(firstReport.transactionCount, 1)
                                 } else {
                                     XCTFail("Reports not found")
                                 }
@@ -2235,6 +2239,9 @@ class ReportsTests: XCTestCase {
                                     XCTAssertNotNil(firstReport.reports)
                                     XCTAssertEqual(firstReport.reports?.count, 15)
                                     XCTAssertEqual(firstReport.linkedID, -1)
+                                    
+                                    XCTAssertEqual(firstReport.transactionCount, 0)
+                                    XCTAssertNil(firstReport.transactionIDs)
                                     XCTAssertNil(firstReport.name)
                                 } else {
                                     XCTFail("Reports not found")
@@ -2264,6 +2271,8 @@ class ReportsTests: XCTestCase {
                                     XCTAssertEqual(firstReport.reports?.count, 0)
                                     XCTAssertEqual(firstReport.linkedID, 292)
                                     XCTAssertEqual(firstReport.name, "SUSHI PTY. LTD.")
+                                    XCTAssertEqual(firstReport.transactionCount, 2)
+                                    XCTAssertEqual(firstReport.transactionIDs, [194715, 194708])
                                 } else {
                                     XCTFail("Reports not found")
                                 }
@@ -2338,6 +2347,8 @@ class ReportsTests: XCTestCase {
                                     XCTAssertEqual(firstReport.reports?.count, 3)
                                     XCTAssertEqual(firstReport.linkedID, -1)
                                     XCTAssertNil(firstReport.name)
+                                    XCTAssertEqual(firstReport.transactionCount, 0)
+                                    XCTAssertNil(firstReport.transactionIDs)
                                 } else {
                                     XCTFail("Reports not found")
                                 }
@@ -2366,6 +2377,8 @@ class ReportsTests: XCTestCase {
                                     XCTAssertEqual(firstReport.reports?.count, 0)
                                     XCTAssertEqual(firstReport.linkedID, 66)
                                     XCTAssertEqual(firstReport.name, "Groceries")
+                                    XCTAssertEqual(firstReport.transactionCount, 1)
+                                    XCTAssertEqual(firstReport.transactionIDs, [194528])
                                 } else {
                                     XCTFail("Reports not found")
                                 }
@@ -2441,6 +2454,8 @@ class ReportsTests: XCTestCase {
                                 XCTAssertEqual(thirdReport.reports?.count, 15)
                                 XCTAssertEqual(thirdReport.linkedID, -1)
                                 XCTAssertNil(thirdReport.name)
+                                XCTAssertEqual(thirdReport.transactionCount, 0)
+                                XCTAssertNil(thirdReport.transactionIDs)
                             } catch {
                                 XCTFail(error.localizedDescription)
                             }
@@ -2466,6 +2481,8 @@ class ReportsTests: XCTestCase {
                                     XCTAssertEqual(firstReport.reports?.count, 0)
                                     XCTAssertEqual(firstReport.linkedID, 64)
                                     XCTAssertEqual(firstReport.name, "Entertainment/Recreation")
+                                    XCTAssertEqual(firstReport.transactionCount, 2)
+                                    XCTAssertEqual(firstReport.transactionIDs, [194403, 194414])
                                 } else {
                                     XCTFail("Reports not found")
                                 }
@@ -2540,6 +2557,8 @@ class ReportsTests: XCTestCase {
                                     XCTAssertEqual(firstReport.reports?.count, 6)
                                     XCTAssertEqual(firstReport.linkedID, -1)
                                     XCTAssertNil(firstReport.name)
+                                    XCTAssertEqual(firstReport.transactionCount, 0)
+                                    XCTAssertNil(firstReport.transactionIDs)
                                 } else {
                                     XCTFail("Reports not found")
                                 }
@@ -2568,6 +2587,8 @@ class ReportsTests: XCTestCase {
                                     XCTAssertEqual(firstReport.reports?.count, 0)
                                     XCTAssertEqual(firstReport.linkedID, 66)
                                     XCTAssertEqual(firstReport.name, "Groceries")
+                                    XCTAssertEqual(firstReport.transactionCount, 1)
+                                    XCTAssertEqual(firstReport.transactionIDs, [194493])
                                 } else {
                                     XCTFail("Reports not found")
                                 }

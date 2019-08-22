@@ -179,6 +179,7 @@ class ReportsRequestTests: XCTestCase {
                             XCTAssertEqual(firstGroupReport.id, 64)
                             XCTAssertEqual(firstGroupReport.name, "Entertainment/Recreation")
                             XCTAssertEqual(firstGroupReport.value, "-17.99")
+                            XCTAssertEqual(firstGroupReport.transactionIDs, [194418])
                             XCTAssertNil(firstGroupReport.budget)
                         } else {
                             XCTFail("No category report")

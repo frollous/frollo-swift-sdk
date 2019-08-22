@@ -53,6 +53,12 @@ extension ReportTransactionHistory {
     /// Raw value of the report period. Use only in predicates
     @NSManaged public var periodRawValue: String
     
+    /// Number of transactions included in the report
+    @NSManaged public var transactionCount: Int64
+    
+    /// Raw value of the transactionIDs included in this report (Optional)
+    @NSManaged public var transactionIDRawValues: Data?
+    
     /// Value of the report
     @NSManaged public var value: NSDecimalNumber?
     

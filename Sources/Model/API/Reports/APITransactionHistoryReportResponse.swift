@@ -22,9 +22,18 @@ struct APITransactionHistoryReportsResponse: Codable {
         
         struct GroupReport: Codable {
             
+            enum CodingKeys: String, CodingKey {
+                case budget
+                case id
+                case name
+                case transactionIDs = "transaction_ids"
+                case value
+            }
+            
             let budget: String?
             let id: Int64
             let name: String
+            let transactionIDs: [Int64]
             let value: String
             
         }

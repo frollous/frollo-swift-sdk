@@ -26,6 +26,7 @@ extension APITransactionHistoryReportsResponse {
             let report = APITransactionHistoryReportsResponse.Report.GroupReport(budget: "20.56",
                                                                                 id: Int64.random(in: 1...10000000),
                                                                                 name: String.randomString(range: 1...20),
+                                                                                transactionIDs: [Int64.random(in: 1...Int64.max), Int64.random(in: 1...Int64.max), Int64.random(in: 1...Int64.max)],
                                                                                 value: "8.97")
             
             reports.append(report)

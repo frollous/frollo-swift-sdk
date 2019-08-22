@@ -135,4 +135,21 @@ public class ReportTransactionHistory: NSManagedObject {
         }
     }
     
+    /// Transaction IDs included in the report (Optional)
+    public var transactionIDs: [Int64]? {
+        get {
+            if let rawValues = transactionIDRawValues {
+                return try? JSONSerialization.jsonObject(with: rawValues, options: []) as? [Int64]
+            }
+            return nil
+        }
+        set {
+            if let newTransactionIDs = newValue {
+                transactionIDRawValues = try? JSONSerialization.data(withJSONObject: newTransactionIDs, options: [])
+            } else {
+                transactionIDRawValues = nil
+            }
+        }
+    }
+    
 }
