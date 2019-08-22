@@ -20,9 +20,12 @@ import Foundation
 extension APIGoalResponse {
     
     static func testCompleteData() -> APIGoalResponse {
+        let period = APIGoalPeriodResponse.testCompleteData()
+        
         return APIGoalResponse(id: Int64.random(in: 1...Int64.max),
                                accountID: Int64.random(in: 1...Int64.max),
                                currentAmount: "4514.73",
+                               currentPeriod: period,
                                currency: "AUD",
                                description: String.randomString(range: 5...100),
                                endDate: "2019-11-02",

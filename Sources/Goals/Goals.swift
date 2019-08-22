@@ -660,6 +660,8 @@ public class Goals: CachedObjects, ResponseHandler {
         
         updateObjectWithResponse(type: Goal.self, objectResponse: goalResponse, primaryKey: #keyPath(Goal.goalID), managedObjectContext: managedObjectContext)
         
+        handleGoalPeriodResponse(goalResponse.currentPeriod, managedObjectContext: managedObjectContext)
+        
         if let accountID = goalResponse.accountID {
             linkingAccountIDs.insert(accountID)
         }

@@ -21,7 +21,7 @@ struct APIGoalResponse: APIUniqueResponse, Codable {
     enum CodingKeys: String, CodingKey {
         case accountID = "account_id"
         case currentAmount = "current_amount"
-        // case currentPeriod = "current_period"
+        case currentPeriod = "current_period"
         case currency
         case description
         case endDate = "end_date"
@@ -47,14 +47,14 @@ struct APIGoalResponse: APIUniqueResponse, Codable {
     var id: Int64
     let accountID: Int64?
     let currentAmount: String
-    // let currentPeriod: GoalPeriod
+    let currentPeriod: APIGoalPeriodResponse
     let currency: String
     let description: String?
     let endDate: String
     let estimatedEndDate: String?
     let estimatedTargetAmount: String?
     let frequency: Goal.Frequency
-    let imageURL: String
+    let imageURL: String?
     let name: String
     let periodAmount: String
     let periodsCount: Int64
