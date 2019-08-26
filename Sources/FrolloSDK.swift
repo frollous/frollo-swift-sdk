@@ -11,7 +11,7 @@ import Foundation
 public typealias FrolloSDKCompletionHandler = (EmptyResult<Error>) -> Void
 
 /// Frollo SDK manager and main instantiation. Responsible for managing the lifecycle and coordination of the SDK
-public class Frollo: AuthenticationDelegate {
+public class Frollo {
     
     /// Notification triggered when ever the authentication status of the SDK changes. Observe this notification to detect if the SDK user has authenticated or been logged out.
     public static let authenticationChangedNotification = Notification.Name(rawValue: "FrolloSDK.authenticationChangedNotification")
@@ -80,9 +80,7 @@ public class Frollo: AuthenticationDelegate {
     }
     
     /// Default OAuth2 Authentication - Returns the default OAuth2 based authentication if no custom one has been applied
-    public var defaultAuthentication: OAuth2Authentication? {
-        return _authentication as? OAuth2Authentication
-    }
+    public var defaultAuthentication: OAuth2Authentication?
     
     /// Bills - All bills and bill payments see `Bills` for details
     public var bills: Bills {
@@ -286,29 +284,24 @@ public class Frollo: AuthenticationDelegate {
             }
         }
         
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: configuration.serverEndpoint, keychain: keychain)
-        network = Network(serverEndpoint: configuration.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: pinnedKeys)
-        network.delegate = self
-        
-        let service = APIService(serverEndpoint: configuration.serverEndpoint, network: network)
-        
-        Log.manager.service = service
         Log.logLevel = configuration.logLevel
         
         // Setup authentication stack
         switch configuration.authenticationType {
-            case .custom(let customAuthentication):
-                customAuthentication.delegate = self
-                customAuthentication.tokenDelegate = network
-                
-                _authentication = customAuthentication
+            case .custom(let authenticationDataSource, let authenticationDelegate):
+                _authentication = Authentication(serverEndpoint: configuration.serverEndpoint, preemptiveRefreshTime: configuration.preemptiveRefreshTime, dataSource: authenticationDataSource, delegate: authenticationDelegate)
                 
             case .oAuth2(let redirectURL, let authorizationEndpoint, let tokenEndpoint, let revokeTokenEndpoint):
                 let authService = OAuthService(authorizationEndpoint: authorizationEndpoint, tokenEndpoint: tokenEndpoint, redirectURL: redirectURL, revokeURL: revokeTokenEndpoint, network: network)
-                _authentication = OAuth2Authentication(keychain: keychain, clientID: configuration.clientID, redirectURL: redirectURL, serverURL: configuration.serverEndpoint, authService: authService, preferences: preferences, delegate: self, tokenDelegate: network)
+                let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: configuration.clientID, redirectURL: redirectURL, serverURL: configuration.serverEndpoint, authService: authService, preferences: preferences, delegate: self)
+                _authentication = Authentication(serverEndpoint: configuration.serverEndpoint, preemptiveRefreshTime: configuration.preemptiveRefreshTime, dataSource: oAuth2Authentication, delegate: oAuth2Authentication)
         }
         
-        networkAuthenticator.authentication = _authentication
+        network = Network(serverEndpoint: configuration.serverEndpoint, authentication: _authentication, pinnedPublicKeys: pinnedKeys)
+        
+        let service = APIService(serverEndpoint: configuration.serverEndpoint, network: network)
+        
+        Log.manager.service = service
         
         _aggregation = Aggregation(database: _database, service: service, authentication: _authentication)
         _bills = Bills(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
@@ -317,7 +310,7 @@ public class Frollo: AuthenticationDelegate {
         _messages = Messages(database: _database, service: service, authentication: _authentication)
         _reports = Reports(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
         _surveys = Surveys(service: service, authentication: _authentication)
-        _userManagement = UserManagement(database: _database, service: service, clientID: configuration.clientID, authentication: _authentication, preferences: preferences, delegate: self)
+        _userManagement = UserManagement(database: _database, service: service, clientID: configuration.clientID, authentication: defaultAuthentication, preferences: preferences, delegate: self)
         _notifications = Notifications(events: _events, messages: _messages, userManagement: _userManagement)
         
         _events.delegate = delegate
@@ -364,23 +357,7 @@ public class Frollo: AuthenticationDelegate {
         return nil
     }
     
-    // MARK: - Reset and Logout
-    
-    /**
-     Logout and reset the SDK.
-     
-     Calls `Authentication.logout()` to logout the user remotely if possible then resets the SDK
-     
-     - parameters:
-        - completion: Completion handler with option error if something goes wrong (optional)
-     
-     - seealso: `FrolloSDK.reset(completionHandler:)`
-     */
-    public func logout(completionHandler: FrolloSDKCompletionHandler? = nil) {
-        authentication.logout()
-        
-        internalReset(completionHandler: completionHandler)
-    }
+    // MARK: - Reset
     
     /**
      Reset the SDK. Clears all caches, datbases and keychain entries. Called automatically from logout.
@@ -454,23 +431,6 @@ public class Frollo: AuthenticationDelegate {
             
             userManagement.updateDevice()
         }
-    }
-    
-    /**
-     Application received URL Open request
-     
-     Notify the SDK of an application open URL event. Used to handle OAuth2 and other login flows and deep links
-     
-     - returns: Indication if the URL was handled successfully or not
-     
-     */
-    public func applicationOpen(url: URL) -> Bool {
-        guard setup
-        else {
-            return false
-        }
-        
-        return authentication.resumeAuthentication(url: url)
     }
     
     // MARK: - Refresh
@@ -548,23 +508,11 @@ public class Frollo: AuthenticationDelegate {
         refreshTimer = nil
     }
     
-    // MARK: - Authentication Delegate
+}
+
+extension Frollo: UserManagementDelegate {
     
-    /**
-     Notifies the SDK that authentication of the user is no longer valid and to reset itself
-     
-     * This should not be called directly. Instead use `FrolloSDK.reset()` *
-     
-     This should be called when the user's authentication is no longer valid and no possible automated
-     reauthentication can be performed. For example when a refresh token has been revoked so no more
-     access tokens can be obtained.
-     */
-    public func authenticationReset() {
-        guard authentication.loggedIn
-        else {
-            return
-        }
-        
+    internal func userDeleted() {
         authentication.reset()
         
         internalReset()

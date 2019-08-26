@@ -32,6 +32,9 @@ extension ProviderAccount {
     /// Editable by the user
     @NSManaged public var editable: Bool
     
+    /// External ID of the object - i.e. the internal ID used by a provider
+    @NSManaged public var externalID: String
+    
     /// Date the aggregator last refreshed the provider account
     @NSManaged public var lastRefreshed: Date?
     

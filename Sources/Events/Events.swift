@@ -47,18 +47,6 @@ public class Events {
         - completion: Completion handler with option error if something occurs (optional)
      */
     public func triggerEvent(_ eventName: String, after delay: Int64? = nil, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         let request = APIEventCreateRequest(delayMinutes: delay ?? 0,
                                             event: eventName)
         

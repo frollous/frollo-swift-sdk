@@ -25,12 +25,6 @@ class NetworkLogger: Logger {
     }
     
     func writeMessage(_ message: String, level: LogLevel) {
-        guard let network = service,
-            network.network.authenticator.accessToken != nil
-        else {
-            return
-        }
-        
         let deviceInfo = DeviceInfo.current()
         
         let request = APIDeviceLogRequest(details: nil,
@@ -40,7 +34,7 @@ class NetworkLogger: Logger {
                                           message: message,
                                           score: level)
         
-        network.createLog(request: request) { _ in }
+        service?.createLog(request: request) { _ in }
     }
     
 }

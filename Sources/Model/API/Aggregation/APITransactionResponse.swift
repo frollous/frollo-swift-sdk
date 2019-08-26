@@ -27,6 +27,7 @@ struct APITransactionResponse: APIUniqueResponse, Codable {
         case budgetCategory = "budget_category"
         case categoryID = "category_id"
         case description
+        case externalID = "external_id"
         case id
         case included
         case memo
@@ -110,6 +111,7 @@ struct APITransactionResponse: APIUniqueResponse, Codable {
     let budgetCategory: BudgetCategory
     let categoryID: Int64
     let description: Description
+    let externalID: String
     let included: Bool
     let memo: String?
     let merchant: Merchant

@@ -171,6 +171,7 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
         baseType = response.baseType
         budgetCategory = response.budgetCategory
         currency = response.amount.currency
+        externalID = response.externalID
         included = response.included
         merchantID = response.merchant.id
         memo = response.memo

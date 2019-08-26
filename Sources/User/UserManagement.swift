@@ -17,6 +17,12 @@
 import CoreData
 import Foundation
 
+internal protocol UserManagementDelegate: AnyObject {
+    
+    func userDeleted()
+    
+}
+
 /**
  User Management
  
@@ -28,15 +34,15 @@ public class UserManagement {
         static let userUpdated = Notification.Name("UserNotification.userUpdated")
     }
     
-    private let authentication: Authentication
+    private let authentication: OAuth2Authentication?
     private let clientID: String
     private let database: Database
     private let preferences: Preferences
     private let service: APIService
     
-    private weak var delegate: AuthenticationDelegate?
+    private weak var delegate: UserManagementDelegate?
     
-    init(database: Database, service: APIService, clientID: String, authentication: Authentication, preferences: Preferences, delegate: AuthenticationDelegate?) {
+    init(database: Database, service: APIService, clientID: String, authentication: OAuth2Authentication?, preferences: Preferences, delegate: UserManagementDelegate?) {
         self.authentication = authentication
         self.database = database
         self.service = service
@@ -81,18 +87,6 @@ public class UserManagement {
         - completion: A completion handler once the API has returned and the cache has been updated. Returns any error that occurred during the process. (Optional)
      */
     public func refreshUser(completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         service.fetchUser { result in
             switch result {
                 case .failure(let error):
@@ -125,18 +119,6 @@ public class UserManagement {
          - completion: Completion handler with any error that occurred
      */
     public func registerUser(firstName: String, lastName: String?, mobileNumber: String?, postcode: String?, dateOfBirth: Date?, email: String, password: String, completion: @escaping FrolloSDKCompletionHandler) {
-        guard !authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion(.failure(error))
-            }
-            return
-        }
-        
         var address: APIUserRegisterRequest.Address?
         if let registerPostcode = postcode {
             address = APIUserRegisterRequest.Address(postcode: registerPostcode)
@@ -183,18 +165,6 @@ public class UserManagement {
         - completion: A completion handler once the API has returned and the cache has been updated. Returns any error that occurred during the process.
      */
     public func updateUser(completion: @escaping FrolloSDKCompletionHandler) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion(.failure(error))
-            }
-            return
-        }
-        
         let managedObjectContext = database.newBackgroundContext()
         
         guard let user = fetchUser(context: managedObjectContext)
@@ -238,18 +208,6 @@ public class UserManagement {
      - completion: Completion handler with any error that occurred
      */
     public func deleteUser(completion: @escaping FrolloSDKCompletionHandler) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion(.failure(error))
-            }
-            return
-        }
-        
         service.deleteUser { result in
             switch result {
                 case .failure(let error):
@@ -259,7 +217,7 @@ public class UserManagement {
                         completion(.failure(error))
                     }
                 case .success:
-                    self.reset()
+                    self.delegate?.userDeleted()
                     
                     DispatchQueue.main.async {
                         completion(.success)
@@ -279,20 +237,7 @@ public class UserManagement {
      - completion: Completion handler with any error that occurred
      */
     public func migrateUser(password: String, completion: @escaping FrolloSDKCompletionHandler) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion(.failure(error))
-            }
-            return
-        }
-        
-        guard let oAuthAuthentication = authentication as? OAuth2Authentication,
-            let refreshToken = oAuthAuthentication.refreshToken
+        guard let refreshToken = authentication?.refreshToken
         else {
             let error = DataError(type: .authentication, subType: .missingRefreshToken)
             
@@ -325,7 +270,7 @@ public class UserManagement {
                         completion(.failure(error))
                     }
                 case .success:
-                    self.reset()
+                    self.delegate?.userDeleted()
                     
                     DispatchQueue.main.async {
                         completion(.success)
@@ -345,18 +290,6 @@ public class UserManagement {
      - completion: Completion handler with any error that occurred
      */
     public func changePassword(currentPassword: String?, newPassword: String, completion: @escaping FrolloSDKCompletionHandler) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion(.failure(error))
-            }
-            return
-        }
-        
         let changePasswordRequest = APIUserChangePasswordRequest(currentPassword: currentPassword,
                                                                  newPassword: newPassword)
         
@@ -435,18 +368,6 @@ public class UserManagement {
      - completion: Completion handler with any error that occurred (optional)
      */
     internal func updateDevice(compliant: Bool? = nil, notificationToken: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         let deviceInfo = DeviceInfo.current()
         
         let request = APIDeviceUpdateRequest(compliant: compliant,
@@ -470,20 +391,6 @@ public class UserManagement {
                     }
             }
         }
-    }
-    
-    // MARK: - Web Request Authentication
-    
-    /**
-     Authenticate a web request
-     
-     Allows authenticating a `URLRequest` manually with the user's current access token. For advanced usage such as authenticating calls to web content.
-     
-     - parameters:
-     - request: URL Request to be authenticated and provided the access token
-     */
-    public func authenticateRequest(_ request: URLRequest) throws -> URLRequest {
-        return try service.network.authenticator.validateAndAppendAccessToken(request: request)
     }
     
     // MARK: - Response Handling
@@ -525,12 +432,6 @@ public class UserManagement {
                 }
             }
         }
-    }
-    
-    // MARK: - Reset Handling
-    
-    internal func reset() {
-        delegate?.authenticationReset()
     }
     
 }

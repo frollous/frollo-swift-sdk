@@ -24,8 +24,9 @@ public struct FrolloSDKConfiguration {
         
         /// Custom - provide a custom authentication class managed externally from the SDK
         ///
-        /// - authentication: Custom authentication method. See `OAuth2Authentication` for a default implementation.
-        case custom(authentication: Authentication)
+        /// - authenticationDataSource: Custom authentication data source to provide access token. See `OAuth2Authentication` for a default implementation.
+        /// - authenticationDelegate: Custom authentication delegate to handle refreshing of access token. See `OAuth2Authentication` for a default implementation.
+        case custom(authenticationDataSource: AuthenticationDataSource, authenticationDelegate: AuthenticationDelegate)
         
         /// OAuth2 - generic OAuth2 based authentication
         ///
@@ -39,6 +40,9 @@ public struct FrolloSDKConfiguration {
     
     /// Level of logging for debug and error messages. Default is `error`
     public var logLevel: LogLevel = .error
+    
+    /// Time before expiry to refresh an access token. Defaults to 3 minutes. Set to 0 to disable
+    public var preemptiveRefreshTime: TimeInterval = 180
     
     /// Enable or disable public key pinning for *.frollo.us domains- useful for disabling in debug mode
     public var publicKeyPinningEnabled: Bool = true

@@ -421,6 +421,7 @@ public class Account: NSManagedObject, UniqueManagedObject {
         accountStatus = response.accountStatus
         accountSubType = response.accountAttributes.accountType
         accountType = response.accountAttributes.container
+        externalID = response.externalID
         favourite = response.favourite
         hidden = response.hidden
         included = response.included

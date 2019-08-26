@@ -117,6 +117,7 @@ public class ProviderAccount: NSManagedObject, UniqueManagedObject {
         providerAccountID = response.id
         providerID = response.providerID
         editable = response.editable
+        externalID = response.externalID
         lastRefreshed = response.refreshStatus.lastRefreshed
         nextRefresh = response.refreshStatus.nextRefresh
         refreshStatus = response.refreshStatus.status

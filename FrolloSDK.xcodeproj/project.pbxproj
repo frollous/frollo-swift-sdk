@@ -776,7 +776,7 @@
 		01874B7B20F834D1005A7D0C /* UserRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B7A20F834D1005A7D0C /* UserRequestTests.swift */; };
 		01874B7D20FD6FB9005A7D0C /* APIService+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B7C20FD6FB9005A7D0C /* APIService+User.swift */; };
 		01874B7F20FD9F21005A7D0C /* APIService+Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B7E20FD9F21005A7D0C /* APIService+Device.swift */; };
-		01874B8120FDA1DD005A7D0C /* NetworkAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B8020FDA1DB005A7D0C /* NetworkAuthenticator.swift */; };
+		01874B8120FDA1DD005A7D0C /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B8020FDA1DB005A7D0C /* Authentication.swift */; };
 		018B0426216EC785008C34D7 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B0425216EC785008C34D7 /* Date.swift */; };
 		01A1F5932148D646002B9A93 /* provider-public-key.der in Resources */ = {isa = PBXBuildFile; fileRef = 01A1F5912148D645002B9A93 /* provider-public-key.der */; };
 		01A1F5942148D646002B9A93 /* provider-public-key.der in Resources */ = {isa = PBXBuildFile; fileRef = 01A1F5912148D645002B9A93 /* provider-public-key.der */; };
@@ -878,7 +878,7 @@
 		01E5BEEC2227A475003D85FD /* APIBillPaymentUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011C198821E3063600490EDD /* APIBillPaymentUpdateRequest.swift */; };
 		01E5BEED2227A475003D85FD /* ProviderLoginForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012C4509212A775D00799A0A /* ProviderLoginForm.swift */; };
 		01E5BEEE2227A475003D85FD /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED86D20E5AAAB00F4516B /* Database.swift */; };
-		01E5BEEF2227A475003D85FD /* NetworkAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B8020FDA1DB005A7D0C /* NetworkAuthenticator.swift */; };
+		01E5BEEF2227A475003D85FD /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01874B8020FDA1DB005A7D0C /* Authentication.swift */; };
 		01E5BEF02227A475003D85FD /* Transaction+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47A2193CBAD002CC3BB /* Transaction+CoreDataProperties.swift */; };
 		01E5BEF12227A475003D85FD /* TransactionCategory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47B2193CBAD002CC3BB /* TransactionCategory+CoreDataProperties.swift */; };
 		01E5BEF22227A475003D85FD /* FrolloSDKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824FC20EDD6630093400E /* FrolloSDKError.swift */; };
@@ -934,7 +934,6 @@
 		01E5BF242227A475003D85FD /* BillsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101A8DD21C9BD0F00DCFCEB /* BillsEndpoint.swift */; };
 		01E5BF262227A475003D85FD /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A69221E1E2F000C03F0 /* APIService.swift */; };
 		01E5BF272227A475003D85FD /* ProviderAccount+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E47F2193CBAD002CC3BB /* ProviderAccount+CoreDataProperties.swift */; };
-		01E5BF282227A475003D85FD /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED85C20E5A7EA00F4516B /* Authentication.swift */; };
 		01E5BF292227A475003D85FD /* APIProviderAccountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013A32AC2112799500B0590B /* APIProviderAccountResponse.swift */; };
 		01E5BF2A2227A475003D85FD /* FileLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C824F420EC75560093400E /* FileLogger.swift */; };
 		01E5BF2B2227A475003D85FD /* Account+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B682117C70600D0DA87 /* Account+CoreDataClass.swift */; };
@@ -1044,7 +1043,6 @@
 		01ED8FE0211A868F00ACE691 /* transaction_id_194630.json in Resources */ = {isa = PBXBuildFile; fileRef = 01ED8FDF211A868F00ACE691 /* transaction_id_194630.json */; };
 		01ED8FE1211A868F00ACE691 /* transaction_id_194630.json in Resources */ = {isa = PBXBuildFile; fileRef = 01ED8FDF211A868F00ACE691 /* transaction_id_194630.json */; };
 		01ED8FE2211A868F00ACE691 /* transaction_id_194630.json in Resources */ = {isa = PBXBuildFile; fileRef = 01ED8FDF211A868F00ACE691 /* transaction_id_194630.json */; };
-		01EED86220E5A7EB00F4516B /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED85C20E5A7EA00F4516B /* Authentication.swift */; };
 		01EED86320E5A7EB00F4516B /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED85F20E5A7EA00F4516B /* Network.swift */; };
 		01EED86420E5A7EB00F4516B /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED86120E5A7EA00F4516B /* Preferences.swift */; };
 		01EED86E20E5AAAB00F4516B /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED86D20E5AAAB00F4516B /* Database.swift */; };
@@ -1503,7 +1501,7 @@
 		01874B7A20F834D1005A7D0C /* UserRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRequestTests.swift; sourceTree = "<group>"; };
 		01874B7C20FD6FB9005A7D0C /* APIService+User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+User.swift"; sourceTree = "<group>"; };
 		01874B7E20FD9F21005A7D0C /* APIService+Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+Device.swift"; sourceTree = "<group>"; };
-		01874B8020FDA1DB005A7D0C /* NetworkAuthenticator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkAuthenticator.swift; sourceTree = "<group>"; };
+		01874B8020FDA1DB005A7D0C /* Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
 		018B0425216EC785008C34D7 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		018B042B216EFD95008C34D7 /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; };
 		01A1F5912148D645002B9A93 /* provider-public-key.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = "provider-public-key.der"; sourceTree = "<group>"; };
@@ -1595,7 +1593,6 @@
 		01ED8FD7211A846300ACE691 /* transactions_2018-08-01_invalid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "transactions_2018-08-01_invalid.json"; sourceTree = "<group>"; };
 		01ED8FD8211A846500ACE691 /* transactions_2018-08-01_valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "transactions_2018-08-01_valid.json"; sourceTree = "<group>"; };
 		01ED8FDF211A868F00ACE691 /* transaction_id_194630.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_id_194630.json; sourceTree = "<group>"; };
-		01EED85C20E5A7EA00F4516B /* Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
 		01EED85F20E5A7EA00F4516B /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		01EED86120E5A7EA00F4516B /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		01EED86D20E5AAAB00F4516B /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
@@ -2918,7 +2915,7 @@
 		01EED85B20E5A7EA00F4516B /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				01EED85C20E5A7EA00F4516B /* Authentication.swift */,
+				01874B8020FDA1DB005A7D0C /* Authentication.swift */,
 				0161395422891765001A62E8 /* OAuth2Authentication.swift */,
 			);
 			path = Authentication;
@@ -2940,7 +2937,6 @@
 				01BB5A63221E07D0000C03F0 /* HTTPHeader.swift */,
 				0159E46D2190F3BD002CC3BB /* PublicKeys.swift */,
 				01EED85F20E5A7EA00F4516B /* Network.swift */,
-				01874B8020FDA1DB005A7D0C /* NetworkAuthenticator.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -3868,7 +3864,7 @@
 				011C198921E3063600490EDD /* APIBillPaymentUpdateRequest.swift in Sources */,
 				012C450A212A775D00799A0A /* ProviderLoginForm.swift in Sources */,
 				01EED86E20E5AAAB00F4516B /* Database.swift in Sources */,
-				01874B8120FDA1DD005A7D0C /* NetworkAuthenticator.swift in Sources */,
+				01874B8120FDA1DD005A7D0C /* Authentication.swift in Sources */,
 				0159E4832193CBAD002CC3BB /* Transaction+CoreDataProperties.swift in Sources */,
 				01226E3A22A774DE00A443EF /* OAuthTokenRevokeRequest.swift in Sources */,
 				01226E2E22A5070000A443EF /* APIUserMigrationRequest.swift in Sources */,
@@ -3935,7 +3931,6 @@
 				01BB5A6A221E1E2F000C03F0 /* APIService.swift in Sources */,
 				2F2F0C9D22A0D0E700F05961 /* APITagUpdateRequest.swift in Sources */,
 				0159E4882193CBAD002CC3BB /* ProviderAccount+CoreDataProperties.swift in Sources */,
-				01EED86220E5A7EB00F4516B /* Authentication.swift in Sources */,
 				013A32AD2112799500B0590B /* APIProviderAccountResponse.swift in Sources */,
 				01C824F520EC75560093400E /* FileLogger.swift in Sources */,
 				01483B6C2117C70600D0DA87 /* Account+CoreDataClass.swift in Sources */,
@@ -4424,7 +4419,7 @@
 				01E5BEED2227A475003D85FD /* ProviderLoginForm.swift in Sources */,
 				03D965B122768C92009BC283 /* SuggestedTag.swift in Sources */,
 				01E5BEEE2227A475003D85FD /* Database.swift in Sources */,
-				01E5BEEF2227A475003D85FD /* NetworkAuthenticator.swift in Sources */,
+				01E5BEEF2227A475003D85FD /* Authentication.swift in Sources */,
 				03ADF87C22795C78001B5E20 /* Tag+CoreDataProperties.swift in Sources */,
 				01226E3B22A774DE00A443EF /* OAuthTokenRevokeRequest.swift in Sources */,
 				01226E2F22A5070000A443EF /* APIUserMigrationRequest.swift in Sources */,
@@ -4493,7 +4488,6 @@
 				01E5BF242227A475003D85FD /* BillsEndpoint.swift in Sources */,
 				01E5BF262227A475003D85FD /* APIService.swift in Sources */,
 				01E5BF272227A475003D85FD /* ProviderAccount+CoreDataProperties.swift in Sources */,
-				01E5BF282227A475003D85FD /* Authentication.swift in Sources */,
 				01E5BF292227A475003D85FD /* APIProviderAccountResponse.swift in Sources */,
 				01E5BF2A2227A475003D85FD /* FileLogger.swift in Sources */,
 				017F0FF022DEE82900ACE7BB /* APIGoalPeriodResponse.swift in Sources */,

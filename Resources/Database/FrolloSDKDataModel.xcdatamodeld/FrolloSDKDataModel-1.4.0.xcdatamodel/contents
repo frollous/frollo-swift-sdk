@@ -21,6 +21,7 @@
         <attribute name="currentBalance" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="currentBalanceCurrency" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="externalID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="favourite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="goalIDsRawValue" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="groupRawValue" optional="YES" attributeType="String" syncable="YES"/>
@@ -302,6 +303,7 @@
     </entity>
     <entity name="ProviderAccount" representedClassName=".ProviderAccount" syncable="YES">
         <attribute name="editable" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="externalID" attributeType="String" syncable="YES"/>
         <attribute name="lastRefreshed" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="loginFormRawValue" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="nextRefresh" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -395,6 +397,7 @@
         <attribute name="budgetCategoryRawValue" attributeType="String" syncable="YES"/>
         <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="currency" attributeType="String" syncable="YES"/>
+        <attribute name="externalID" attributeType="String" syncable="YES"/>
         <attribute name="formattedAddress" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="included" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
@@ -494,7 +497,7 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="780"/>
+        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="795"/>
         <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
         <element name="Bill" positionX="-378" positionY="162" width="128" height="360"/>
         <element name="BillPayment" positionX="-378" positionY="162" width="128" height="180"/>
@@ -507,12 +510,12 @@
         <element name="MessageText" positionX="-319.734375" positionY="990.58203125" width="128" height="120"/>
         <element name="MessageVideo" positionX="-317.34375" positionY="1145.10546875" width="128" height="30"/>
         <element name="Provider" positionX="-385.3984375" positionY="11.875" width="128" height="480"/>
-        <element name="ProviderAccount" positionX="-164.078125" positionY="13.7109375" width="128" height="210"/>
+        <element name="ProviderAccount" positionX="-164.078125" positionY="13.7109375" width="128" height="225"/>
         <element name="ReportAccountBalance" positionX="-360" positionY="180" width="128" height="135"/>
         <element name="ReportTransactionCurrent" positionX="-360" positionY="180" width="128" height="225"/>
         <element name="ReportTransactionHistory" positionX="-378" positionY="162" width="128" height="240"/>
         <element name="Tag" positionX="283.4609375" positionY="696.9375" width="128" height="105"/>
-        <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="525"/>
+        <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="540"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="210"/>
         <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>
     </elements>

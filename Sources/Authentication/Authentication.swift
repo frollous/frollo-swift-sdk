@@ -16,102 +16,263 @@
 
 import Foundation
 
+import Alamofire
+
 /**
- Authentication Delegate
+ Access token
  
- Called by the authentication class to notify other parts of the SDK of authentication changes.
- This must be implemented by all custom authentication implementations.
+ Represents an access token and the corresponding expiry date if possible
  */
-public protocol AuthenticationDelegate: AnyObject {
+public protocol AccessToken {
     
-    /**
-     Notifies the SDK that authentication of the user is no longer valid and to reset itself
-     
-     This should be called when the user's authentication is no longer valid and no possible automated
-     reauthentication can be performed. For example when a refresh token has been revoked so no more
-     access tokens can be obtained.
-     */
-    func authenticationReset()
+    /// Expiry date of the token (Optional)
+    var expiryDate: Date? { get }
+    
+    /// Raw token value
+    var token: String { get }
     
 }
 
 /**
- Authentication Token Delegate
+ Authentication Data Source
  
- Called by the authentication class to notify other parts of the SDK of token changes.
- This must be implemented by all custom authentication implementations.
+ Data source for the authentication class to retrieve access tokens from.
+ This must be implemented by custom authentication implementations.
  */
-public protocol AuthenticationTokenDelegate: AnyObject {
+public protocol AuthenticationDataSource: AnyObject {
+    
+    var accessToken: AccessToken? { get }
+    
+}
+
+/**
+ Authentication Delegate
+ 
+ Called by the authentication class to notify the implementing app of issues with authentication.
+ This must be implemented by custom authentication implementations.
+ */
+public protocol AuthenticationDelegate: AnyObject {
     
     /**
-     Update the SDK with the latest access token
+     Access Token Expired
      
-     Allows the SDK to cache and use the latest access token available for API requests. This should
-     be called whenever the access token is refreshed or the user has authenticated and obtained a new
-     access token.
-     
-     - parameters:
-     - accessToken: Current valid access token
-     - expiry: Indicates the date when the access token expires so SDK can pre-emptively request a new one
+     Alerts the authentication handler to an expired access token that needs refreshing
      */
-    func saveAccessTokens(accessToken: String, expiry: Date)
+    func accessTokenExpired(completion: @escaping (Bool) -> Void)
     
 }
 
 /**
  Authentication
  
- Manages authentication, login, registration, logout and the user profile.
+ Manages authentication within the SDK
  */
-public protocol Authentication: AnyObject {
+public class Authentication: RequestAdapter, RequestRetrier {
+    
+    internal weak var dataSource: AuthenticationDataSource?
+    internal weak var delegate: AuthenticationDelegate?
+    
+    private let bearerFormat = "Bearer %@"
+    private let lock = NSLock()
+    private let maxRateLimitCount: Double = 10
+    private let preemptiveRefreshTime: TimeInterval
+    private let requestQueue = DispatchQueue(label: "FrolloSDK.APIAuthenticatorRequestQueue", qos: .userInitiated, attributes: .concurrent)
+    private let responseQueue = DispatchQueue(label: "FrolloSDK.APIAuthenticatorResponseQueue", qos: .userInitiated, attributes: .concurrent)
+    private let serverURL: URL
+    
+    private var rateLimitCount: Double = 0
+    private var refreshing = false
+    private var requestsToRetry: [RequestRetryCompletion] = []
+    
+    init(serverEndpoint: URL, preemptiveRefreshTime: TimeInterval, dataSource: AuthenticationDataSource, delegate: AuthenticationDelegate) {
+        self.serverURL = serverEndpoint
+        self.preemptiveRefreshTime = preemptiveRefreshTime
+        self.dataSource = dataSource
+        self.delegate = delegate
+    }
+    
+    // MARK: - Authentication Status
+    
+    internal func reset() {
+        cancelRetryRequests()
+    }
+    
+    // MARK: - Authorize Network Requests
     
     /**
-     Indicates if the user is currently authorised with Frollo
-     */
-    var loggedIn: Bool { get }
-    
-    /**
-     SDK delegate to be called to update SDK about authentication events. SDK sets this as part of setup
-     */
-    var delegate: AuthenticationDelegate? { get set }
-    
-    /**
-     SDK delegate to be called to update SDK about token change events. SDK sets this as part of setup
-     */
-    var tokenDelegate: AuthenticationTokenDelegate? { get set }
-    
-    /**
-     Refresh Access Token
-     
-     Forces a refresh of the access tokens if a 401 was encountered. For advanced usage only in combination with web request authentication.
+     Adapts the request with the authorisation header. Only works if `serverURL` matches.
      
      - parameters:
-        - completion: Completion handler with any error that occurred (Optional)
+        - urlRequest: The request to be authorized
      */
-    func refreshTokens(completion: FrolloSDKCompletionHandler?)
+    public func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
+        guard let url = urlRequest.url, url.absoluteString.hasPrefix(serverURL.absoluteString)
+        else {
+            return urlRequest
+        }
+        
+        var request = urlRequest
+        
+        if let relativePath = request.url?.relativePath, !(relativePath.contains(UserEndpoint.register.path) || relativePath.contains(UserEndpoint.resetPassword.path) || relativePath.contains(UserEndpoint.migrate.path)) {
+            do {
+                let adaptedRequest = try validateAndAppendAccessToken(request: request)
+                return adaptedRequest
+            } catch {
+                throw error
+            }
+        }
+        
+        return urlRequest
+    }
+    
+    // MARK: - Retry Requests
     
     /**
-     Resume authentication flow (optional)
+     Determines whether the `Request` should be retried by calling the `completion` closure.
      
-     Resumes the authentication flow, for example in the OAuth2 process
+     This operation is fully asynchronous. Any amount of time can be taken to determine whether the request needs
+     to be retried. The one requirement is that the completion closure is called to ensure the request is properly
+     cleaned up after.
      
-     - parameters:
-        - url: Deep link passed to the app
-     
-     - returns: Boolean indicating if the URL was successfully handled or not
+     - Parameters:
+       - request:    `Request` that failed due to the provided `Error`.
+       - session:    `Session` that produced the `Request`.
+       - error:      `Error` encountered while executing the `Request`.
+       - completion: Completion closure to be executed when a retry decision has been determined.
      */
-    func resumeAuthentication(url: URL) -> Bool
+    public func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
+        guard let responseError = error as? AFError
+        else {
+            completion(false, 0)
+            return
+        }
+        
+        lock.lock(); defer { lock.unlock() }
+        
+        switch responseError {
+            case .responseValidationFailed(reason: .unacceptableStatusCode(let code)):
+                switch code {
+                    case 401:
+                        if let data = request.delegate.data {
+                            let apiError = APIError(statusCode: code, response: data)
+                            switch apiError.type {
+                                case .invalidAccessToken:
+                                    // Refresh the token
+                                    if request.retryCount < 3 {
+                                        requestsToRetry.append(completion)
+                                        
+                                        refreshTokens()
+                                    } else {
+                                        completion(false, 0)
+                                    }
+                                default:
+                                    completion(false, 0)
+                            }
+                        } else {
+                            completion(false, 0)
+                        }
+                    case 429:
+                        rateLimitCount = min(rateLimitCount + 1, maxRateLimitCount)
+                        
+                        completion(true, rateLimitCount * 3)
+                    default:
+                        completion(false, 0)
+                }
+            default:
+                completion(false, 0)
+        }
+    }
     
-    // MARK: - Logout and Reset
+    private func cancelRetryRequests() {
+        requestsToRetry.forEach { $0(false, 0.0) }
+        requestsToRetry.removeAll()
+    }
     
-    /**
-     Logout the user if possible and then reset and clear local caches
-     */
-    func logout()
+    // MARK: - Auth Headers
     
-    /**
-     Resets any token cache etc and logout the user locally
-     */
-    func reset()
+    internal func validateAndAppendAccessToken(request: URLRequest) throws -> URLRequest {
+        if !validToken() {
+            lock.lock()
+            
+            let semaphore = DispatchSemaphore(value: 0)
+            
+            requestsToRetry.append { (_: Bool, _: TimeInterval) in
+                // Unblock once token has updated
+                semaphore.signal()
+            }
+            
+            refreshTokens()
+            
+            lock.unlock()
+            
+            semaphore.wait()
+        }
+        
+        guard let token = dataSource?.accessToken?.token
+        else {
+            throw DataError(type: .authentication, subType: .missingAccessToken)
+        }
+        
+        var urlRequest = request
+        
+        let bearer = String(format: bearerFormat, token)
+        urlRequest.setValue(bearer, forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+        
+        return urlRequest
+    }
+    
+    // MARK: - Token Handling
+    
+    internal func refreshTokens() {
+        guard !refreshing
+        else {
+            return
+        }
+        
+        refreshing = true
+        
+        guard let delegate = self.delegate
+        else {
+            cancelRetryRequests()
+            
+            return
+        }
+        
+        delegate.accessTokenExpired { success in
+            if success {
+                self.requestsToRetry.forEach { $0(true, 0.0) }
+                self.requestsToRetry.removeAll()
+            } else {
+                self.requestsToRetry.forEach { $0(false, 0.0) }
+                self.requestsToRetry.removeAll()
+            }
+            
+            self.refreshing = false
+        }
+    }
+    
+    private func validToken() -> Bool {
+        // Check we have an access token
+        guard let accessToken = dataSource?.accessToken
+        else {
+            return false
+        }
+        
+        // Check if we have an expiry date otherwise assume it's still good
+        guard let expiryDate = accessToken.expiryDate
+        else {
+            return true
+        }
+        
+        let adjustedExpiryDate = expiryDate.addingTimeInterval(-preemptiveRefreshTime)
+        let nowDate = Date()
+        
+        guard nowDate.compare(adjustedExpiryDate) == .orderedAscending
+        else {
+            return false
+        }
+        
+        return true
+    }
     
 }

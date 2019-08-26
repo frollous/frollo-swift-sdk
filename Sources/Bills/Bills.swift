@@ -194,18 +194,6 @@ public class Bills: CachedObjects, ResponseHandler {
     }
     
     private func createBill(request: APIBillCreateRequest, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         service.createBill(request: request) { result in
             switch result {
                 case .failure(let error):
@@ -238,18 +226,6 @@ public class Bills: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func deleteBill(billID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         service.deleteBill(billID: billID) { result in
             switch result {
                 case .failure(let error):
@@ -277,18 +253,6 @@ public class Bills: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBills(completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         service.fetchBills { result in
             switch result {
                 case .failure(let error):
@@ -321,18 +285,6 @@ public class Bills: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBill(billID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         service.fetchBill(billID: billID) { result in
             switch result {
                 case .failure(let error):
@@ -365,18 +317,6 @@ public class Bills: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func updateBill(billID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         let managedObjectContext = database.newBackgroundContext()
         
         guard let bill = bill(context: managedObjectContext, billID: billID)
@@ -506,18 +446,6 @@ public class Bills: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func deleteBillPayment(billPaymentID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         service.deleteBillPayment(billPaymentID: billPaymentID) { result in
             switch result {
                 case .failure(let error):
@@ -545,18 +473,6 @@ public class Bills: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBillPayments(from fromDate: Date, to toDate: Date, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         service.fetchBillPayments(from: fromDate, to: toDate) { result in
             switch result {
                 case .failure(let error):
@@ -587,18 +503,6 @@ public class Bills: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBillPayment(billPaymentID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         service.fetchBillPayment(billPaymentID: billPaymentID) { result in
             switch result {
                 case .failure(let error):
@@ -629,18 +533,6 @@ public class Bills: CachedObjects, ResponseHandler {
      - completion: Optional completion handler with optional error if the request fails
      */
     public func updateBillPayment(billPaymentID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         let managedObjectContext = database.newBackgroundContext()
         
         guard let billPayment = billPayment(context: managedObjectContext, billPaymentID: billPaymentID)
