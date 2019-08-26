@@ -30,12 +30,10 @@ public class Events {
     
     internal weak var delegate: FrolloSDKDelegate?
     
-    private let authentication: Authentication
     private let service: APIService
     
-    internal init(service: APIService, authentication: Authentication) {
+    internal init(service: APIService) {
         self.service = service
-        self.authentication = authentication
     }
     
     /**

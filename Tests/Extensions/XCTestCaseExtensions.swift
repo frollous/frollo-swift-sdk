@@ -44,25 +44,54 @@ extension KeychainServiceIdentifying where Self: XCTestCase {
         }
     }
     
-    func defaultNetworkAuthenticator(keychain: Keychain) -> NetworkAuthenticator {
-        return NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
+    func defaultAuthentication(keychain: Keychain, loggedIn: Bool = true) -> Authentication {
+        let mockAuthentication = MockAuthentication(valid: loggedIn)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        return authentication
     }
     
-    func defaultNetwork(keychain: Keychain) -> Network {
-        let authenticator = defaultNetworkAuthenticator(keychain: keychain)
-        return defaultNetwork(keychain: keychain, networkAuthenticator: authenticator)
+    func defaultAuthentication(keychain: Keychain, handler: AuthenticationDataSource & AuthenticationDelegate) -> Authentication {
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = handler
+        authentication.delegate = handler
+        return authentication
     }
     
-    func defaultNetwork(keychain: Keychain, networkAuthenticator: NetworkAuthenticator) -> Network {
-        return Network(serverEndpoint: self.config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+    func defaultOAuth2Authentication(loggedIn: Bool = false) -> OAuth2Authentication {
+        let keychain = defaultKeychain(isNetwork: false)
+        return defaultOAuth2Authentication(keychain: keychain, loggedIn: loggedIn)
     }
     
-    func defaultService(keychain: Keychain) -> APIService {
-        return APIService(serverEndpoint: self.config.serverEndpoint, network: defaultNetwork(keychain: keychain))
+    func defaultOAuth2Authentication(keychain: Keychain, loggedIn: Bool = false) -> OAuth2Authentication {
+        let authentication = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: self.config.serverEndpoint, authentication: authentication)
+        let authService = defaultAuthService(keychain: keychain, network: network)
+        let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
+        oAuth2Authentication.loggedIn = loggedIn
+        
+        authentication.dataSource = oAuth2Authentication
+        authentication.delegate = oAuth2Authentication
+        
+        return oAuth2Authentication
     }
     
-    func defaultService(keychain: Keychain, networkAuthenticator: NetworkAuthenticator) -> APIService {
-        let network = defaultNetwork(keychain: keychain, networkAuthenticator: networkAuthenticator)
+    func defaultNetwork(keychain: Keychain, loggedIn: Bool = true) -> Network {
+        let authentication = defaultAuthentication(keychain: keychain, loggedIn: loggedIn)
+        return defaultNetwork(keychain: keychain, authentication: authentication)
+    }
+    
+    func defaultNetwork(keychain: Keychain, authentication: Authentication) -> Network {
+        return Network(serverEndpoint: self.config.serverEndpoint, authentication: authentication)
+    }
+    
+    func defaultService(keychain: Keychain, loggedIn: Bool = true) -> APIService {
+        return APIService(serverEndpoint: self.config.serverEndpoint, network: defaultNetwork(keychain: keychain, loggedIn: loggedIn))
+    }
+    
+    func defaultService(keychain: Keychain, authentication: Authentication) -> APIService {
+        let network = defaultNetwork(keychain: keychain, authentication: authentication)
         return APIService(serverEndpoint: self.config.serverEndpoint, network: network)
     }
     
@@ -77,32 +106,13 @@ extension KeychainServiceIdentifying where Self: XCTestCase {
 
 extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTestCase {
     
-    func defaultAuthentication(loggedIn: Bool = false) -> OAuth2Authentication {
-        let keychain = defaultKeychain(isNetwork: false)
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        return defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: loggedIn)
-    }
-    
-    func defaultAuthentication(keychain: Keychain, networkAuthenticator: NetworkAuthenticator, loggedIn: Bool = false) -> OAuth2Authentication {
-        let network = Network(serverEndpoint: self.config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authService = defaultAuthService(keychain: keychain, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = loggedIn
-        return authentication
-    }
-    
-    func defaultAuthentication(keychain: Keychain, loggedIn: Bool = false) -> OAuth2Authentication {
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        return defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: loggedIn)
-    }
-    
     func aggregation(loggedIn: Bool = false) -> Aggregation {
         let keychain = defaultKeychain(isNetwork: true)
         return aggregation(keychain: keychain, loggedIn: loggedIn)
     }
     
     func aggregation(keychain: Keychain, loggedIn: Bool) -> Aggregation {
-        return Aggregation(database: database, service: defaultService(keychain: keychain), authentication: defaultAuthentication(keychain: keychain, networkAuthenticator: defaultNetworkAuthenticator(keychain: keychain), loggedIn: loggedIn))
+        return Aggregation(database: database, service: defaultService(keychain: keychain, loggedIn: loggedIn))
     }
     
     // MARK: - Bills
@@ -112,7 +122,7 @@ extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTe
     }
     
     func defaultBills(keychain: Keychain) -> Bills {
-        return Bills(database: database, service: defaultService(keychain: keychain), aggregation: aggregation(keychain: keychain, loggedIn: true), authentication: defaultAuthentication(keychain: keychain))
+        return Bills(database: database, service: defaultService(keychain: keychain), aggregation: aggregation(keychain: keychain, loggedIn: true))
     }
     
     // MARK: - User
@@ -123,17 +133,17 @@ extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTe
     }
     
     func defaultUser(keychain: Keychain, loggedIn: Bool = true) -> UserManagement {
-        let networkAuthenticator  = defaultNetworkAuthenticator(keychain: keychain)
-        return defaultUser(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: loggedIn)
+        let authentication = defaultAuthentication(keychain: keychain, loggedIn: loggedIn)
+        return defaultUser(keychain: keychain, authentication: authentication, loggedIn: loggedIn)
     }
     
-    func defaultUser(keychain: Keychain, authentication: Authentication, delegate: AuthenticationDelegate? = nil, loggedIn: Bool = true) -> UserManagement {
-        let networkAuthenticator  = defaultNetworkAuthenticator(keychain: keychain)
-        return UserManagement(database: database, service: defaultService(keychain: keychain, networkAuthenticator: networkAuthenticator), clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: delegate)
+    func defaultUser(keychain: Keychain, delegate: Frollo? = nil, loggedIn: Bool = true) -> UserManagement {
+        let authentication  = defaultAuthentication(keychain: keychain, loggedIn: loggedIn)
+        return UserManagement(database: database, service: defaultService(keychain: keychain, authentication: authentication), clientID: config.clientID, authentication: nil, preferences: preferences, delegate: delegate)
     }
     
-    func defaultUser(keychain: Keychain, networkAuthenticator: NetworkAuthenticator, delegate: AuthenticationDelegate? = nil, loggedIn: Bool = true) -> UserManagement {
-        return UserManagement(database: database, service: defaultService(keychain: keychain, networkAuthenticator: networkAuthenticator), clientID: config.clientID, authentication: defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: loggedIn), preferences: preferences, delegate: delegate)
+    func defaultUser(keychain: Keychain, authentication: Authentication, delegate: Frollo? = nil, loggedIn: Bool = true) -> UserManagement {
+        return UserManagement(database: database, service: defaultService(keychain: keychain, authentication: authentication), clientID: config.clientID, authentication: nil, preferences: preferences, delegate: delegate)
     }
     
 }

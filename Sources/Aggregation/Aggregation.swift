@@ -74,7 +74,6 @@ public class Aggregation: CachedObjects, ResponseHandler {
     internal let transactionCategoryLock = NSLock()
     internal let userTagsLock = NSLock()
     
-    private let authentication: Authentication
     private let database: Database
     private let service: APIService
     private let transactionBatchSize = 200
@@ -87,10 +86,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
     private var refreshingMerchantIDs = Set<Int64>()
     private var refreshingProviderIDs = Set<Int64>()
     
-    internal init(database: Database, service: APIService, authentication: Authentication) {
+    internal init(database: Database, service: APIService) {
         self.database = database
         self.service = service
-        self.authentication = authentication
         
         NotificationCenter.default.addObserver(forName: Aggregation.refreshTransactionsNotification, object: nil, queue: .main) { notification in
             guard let transactionIDs = notification.userInfo?[Aggregation.refreshTransactionIDsKey] as? [Int64]

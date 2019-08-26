@@ -65,23 +65,22 @@ class OAuth2AuthenticationTests: BaseTestCase {
         connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         
         let keychain = Keychain(service: keychainService)
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator)
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUser(email: "user@frollo.us", password: "password", scopes: ["offline_access", "email", "openid"]) { (result) in
+            oAuth2Authentication.loginUser(email: "user@frollo.us", password: "password", scopes: ["offline_access", "email", "openid"]) { (result) in
                 switch result {
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
-                case .success:
-                    XCTAssertTrue(authentication.loggedIn)
-                    
-                    XCTAssertEqual(networkAuthenticator.accessToken, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
-                    XCTAssertEqual(networkAuthenticator.expiryDate, Date(timeIntervalSince1970: 2550794799))
-                    
-                    XCTAssertEqual(authentication.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        XCTAssertTrue(oAuth2Authentication.loggedIn)
+                        
+                        XCTAssertEqual(oAuth2Authentication.accessToken?.token, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
+                        XCTAssertEqual(oAuth2Authentication.accessToken?.expiryDate, Date(timeIntervalSince1970: 2550794799))
+                        
+                        XCTAssertEqual(oAuth2Authentication.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
                 }
                 
                 expectation1.fulfill()
@@ -99,29 +98,28 @@ class OAuth2AuthenticationTests: BaseTestCase {
         connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "error_oauth2_invalid_grant", addingStatusCode: 401)
         
         let keychain = defaultKeychain(isNetwork: false)
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator)
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUser(email: "user@frollo.us", password: "wrong_password", scopes: ["offline_access", "email", "openid"]) { (result) in
+            oAuth2Authentication.loginUser(email: "user@frollo.us", password: "wrong_password", scopes: ["offline_access", "email", "openid"]) { (result) in
                 switch result {
-                case .failure(let error):
-                    XCTAssertFalse(authentication.loggedIn)
-                    
-                    XCTAssertNil(networkAuthenticator.accessToken)
-                    XCTAssertNil(networkAuthenticator.expiryDate)
-                    
-                    XCTAssertNil(authentication.refreshToken)
-                    
-                    if let apiError = error as? OAuth2Error {
-                        XCTAssertEqual(apiError.type, .invalidGrant)
-                    } else {
-                        XCTFail("Wrong error returned")
-                    }
-                case .success:
-                    XCTFail("Wrong password should fail")
+                    case .failure(let error):
+                        XCTAssertFalse(oAuth2Authentication.loggedIn)
+                        
+                        XCTAssertNil(oAuth2Authentication.accessToken?.token)
+                        XCTAssertNil(oAuth2Authentication.accessToken?.expiryDate)
+                        
+                        XCTAssertNil(oAuth2Authentication.refreshToken)
+                        
+                        if let apiError = error as? OAuth2Error {
+                            XCTAssertEqual(apiError.type, .invalidGrant)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Wrong password should fail")
                 }
                 
                 expectation1.fulfill()
@@ -139,24 +137,24 @@ class OAuth2AuthenticationTests: BaseTestCase {
         connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         connect(endpoint: UserEndpoint.register.path.prefixedWithSlash, toResourceWithName: "user_details_complete")
         
-        let authentication = defaultAuthentication(loggedIn: true)
+        let oAuth2Authentication = defaultOAuth2Authentication(loggedIn: true)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUser(email: "user@frollo.us", password: "password", scopes: ["offline_access", "email", "openid"]) { (result) in
+            oAuth2Authentication.loginUser(email: "user@frollo.us", password: "password", scopes: ["offline_access", "email", "openid"]) { (result) in
                 switch result {
-                case .failure(let error):
-                    XCTAssertTrue(authentication.loggedIn)
-                    
-                    if let dataError = error as? DataError {
-                        XCTAssertEqual(dataError.type, .authentication)
-                        XCTAssertEqual(dataError.subType, .alreadyLoggedIn)
-                    } else {
-                        XCTFail("Wrong error returned")
-                    }
-                case .success:
-                    XCTFail("User was already logged in. Should fail.")
+                    case .failure(let error):
+                        XCTAssertTrue(oAuth2Authentication.loggedIn)
+                        
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .authentication)
+                            XCTAssertEqual(dataError.subType, .alreadyLoggedIn)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("User was already logged in. Should fail.")
                 }
                 
                 expectation1.fulfill()
@@ -177,21 +175,19 @@ class OAuth2AuthenticationTests: BaseTestCase {
         connect(endpoint: UserEndpoint.details.path.prefixedWithSlash, toResourceWithName: "user_details_complete")
         
         let keychain = defaultKeychain(isNetwork: false)
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: false)
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUserUsingWeb(presenting: UIApplication.shared.keyWindow!.rootViewController!, scopes: ["offline_access", "email", "openid"]) { (result) in
+            oAuth2Authentication.loginUserUsingWeb(presenting: UIApplication.shared.keyWindow!.rootViewController!, scopes: ["offline_access", "email", "openid"]) { (result) in
                 switch result {
                     case .failure(let error):
-                        XCTAssertFalse(authentication.loggedIn)
+                        XCTAssertFalse(oAuth2Authentication.loggedIn)
                         
-                        XCTAssertNil(networkAuthenticator.accessToken)
-                        XCTAssertNil(networkAuthenticator.expiryDate)
+                        XCTAssertNil(oAuth2Authentication.accessToken)
                         
-                        XCTAssertNil(authentication.refreshToken)
+                        XCTAssertNil(oAuth2Authentication.refreshToken)
                         
                         if let authError = error as? OAuth2Error {
                             XCTAssertEqual(authError.type, .clientError)
@@ -209,7 +205,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             let authURL = URL(string: "app://redirect?code=4VbXuJz8dfFiCaJh&state=smpNp40xhOR5hDUQRevUtPDjkEV5e9Xh0k7dtjaTelA")!
             
-            let result = authentication.resumeAuthentication(url: authURL)
+            let result = oAuth2Authentication.resumeAuthentication(url: authURL)
             
             XCTAssertTrue(result)
             
@@ -296,7 +292,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         let expectation1 = expectation(description: "Network Request")
         
         let keychain = validKeychain()
-        let authentication = defaultAuthentication(keychain: keychain, loggedIn: true)
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -310,11 +306,11 @@ class OAuth2AuthenticationTests: BaseTestCase {
                 try! moc.save()
             }
             
-            authentication.logout()
+            oAuth2Authentication.logout()
             
             XCTAssertNil(error)
             
-            XCTAssertFalse(authentication.loggedIn)
+            XCTAssertFalse(oAuth2Authentication.loggedIn)
             
             expectation1.fulfill()
         }
@@ -330,15 +326,16 @@ class OAuth2AuthenticationTests: BaseTestCase {
         connect(endpoint: UserEndpoint.details.path.prefixedWithSlash, toResourceWithName: "error_suspended_device", addingStatusCode: 401)
         
         let keychain = validKeychain()
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        let network = defaultNetwork(keychain: keychain, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
-        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+        let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: defaultAuthService(keychain: keychain, network: network), preferences: preferences, delegate: nil)
+        oAuth2Authentication.loggedIn = true
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: oAuth2Authentication, preferences: preferences, delegate: nil)
         
-        let resetter = NetworkResetterStub(authentication: authentication)
-        network.delegate = resetter
+        authentication.dataSource = oAuth2Authentication
+        authentication.delegate = oAuth2Authentication
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -354,13 +351,13 @@ class OAuth2AuthenticationTests: BaseTestCase {
             
             user.updateUser { (result) in
                 switch result {
-                case .failure:
-                    XCTAssertFalse(authentication.loggedIn)
-                    
-                    XCTAssertNil(authentication.refreshToken)
-                    XCTAssertNil(networkAuthenticator.accessToken)
-                case .success:
-                    XCTFail("Update user should fail due to 401")
+                    case .failure:
+                        XCTAssertFalse(oAuth2Authentication.loggedIn)
+                        
+                        XCTAssertNil(oAuth2Authentication.refreshToken)
+                        XCTAssertNil(oAuth2Authentication.accessToken)
+                    case .success:
+                        XCTFail("Update user should fail due to 401")
                 }
                 
                 expectation1.fulfill()
@@ -380,23 +377,22 @@ class OAuth2AuthenticationTests: BaseTestCase {
         connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         
         let keychain = defaultKeychain(isNetwork: false)
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator)
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.refreshTokens { (result) in
+            oAuth2Authentication.refreshTokens { (result) in
                 switch result {
-                case .failure(let error):
-                    if let tokenError = error as? DataError {
-                        XCTAssertEqual(tokenError.type, .authentication)
-                        XCTAssertEqual(tokenError.subType, .missingRefreshToken)
-                    } else {
-                        XCTFail("Wrong error returned")
-                    }
-                case .success:
-                    XCTFail("Refresh token was missing, this should fail")
+                    case .failure(let error):
+                        if let tokenError = error as? DataError {
+                            XCTAssertEqual(tokenError.type, .authentication)
+                            XCTAssertEqual(tokenError.subType, .missingRefreshToken)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Refresh token was missing, this should fail")
                 }
                 
                 expectation1.fulfill()
@@ -414,23 +410,22 @@ class OAuth2AuthenticationTests: BaseTestCase {
         connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         
         let keychain = defaultKeychain(isNetwork: false)
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator)
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32), scopes: ["offline_access", "email", "openid"]) { (result) in
+            oAuth2Authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32), scopes: ["offline_access", "email", "openid"]) { (result) in
                 switch result {
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
-                case .success:
-                    XCTAssertTrue(authentication.loggedIn)
-                    
-                    XCTAssertEqual(networkAuthenticator.accessToken, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
-                    XCTAssertEqual(networkAuthenticator.expiryDate, Date(timeIntervalSince1970: 2550794799))
-                    
-                    XCTAssertEqual(authentication.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        XCTAssertTrue(oAuth2Authentication.loggedIn)
+                        
+                        XCTAssertEqual(oAuth2Authentication.accessToken?.token, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
+                        XCTAssertEqual(oAuth2Authentication.accessToken?.expiryDate, Date(timeIntervalSince1970: 2550794799))
+                        
+                        XCTAssertEqual(oAuth2Authentication.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
                 }
                 
                 expectation1.fulfill()
@@ -449,27 +444,24 @@ class OAuth2AuthenticationTests: BaseTestCase {
         connect(endpoint: UserEndpoint.details.path.prefixedWithSlash, toResourceWithName: "user_details_complete")
         
         let keychain = Keychain(service: keychainService)
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: false)
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain)
         let user = defaultUser(keychain: keychain)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
             // Override due to NSUserDefaults on tvOS
-            authentication.loggedIn = false
+            oAuth2Authentication.loggedIn = false
             
-            authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32), scopes: ["offline_access", "email", "openid"]) { (result) in
+            oAuth2Authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32), scopes: ["offline_access", "email", "openid"]) { (result) in
                 switch result {
                     case .failure(let error):
-                        XCTAssertFalse(authentication.loggedIn)
+                        XCTAssertFalse(oAuth2Authentication.loggedIn)
                         
                         XCTAssertNil(user.fetchUser(context: self.database.newBackgroundContext()))
                         
-                        XCTAssertNil(networkAuthenticator.accessToken)
-                        XCTAssertNil(networkAuthenticator.expiryDate)
-                        
-                        XCTAssertNil(authentication.refreshToken)
+                        XCTAssertNil(oAuth2Authentication.accessToken)
+                        XCTAssertNil(oAuth2Authentication.refreshToken)
                         
                         if let oAuthError = error as? OAuth2Error {
                             XCTAssertEqual(oAuthError.type, .invalidGrant)
@@ -495,16 +487,15 @@ class OAuth2AuthenticationTests: BaseTestCase {
         connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         
         let keychain = defaultKeychain(isNetwork: false)
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32), scopes: ["offline_access", "email", "openid"]) { (result) in
+            oAuth2Authentication.exchangeAuthorizationCode(code: String.randomString(length: 32), codeVerifier: String.randomString(length: 32), scopes: ["offline_access", "email", "openid"]) { (result) in
                 switch result {
                     case .failure(let error):
-                        XCTAssertTrue(authentication.loggedIn)
+                        XCTAssertTrue(oAuth2Authentication.loggedIn)
                         
                         if let dataError = error as? DataError {
                             XCTAssertEqual(dataError.type, .authentication)
@@ -531,25 +522,24 @@ class OAuth2AuthenticationTests: BaseTestCase {
         connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         
         let keychain = validKeychain()
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
         
-        authentication.updateToken("IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
+        oAuth2Authentication.updateRefreshToken("IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.exchangeLegacyToken { (result) in
+            oAuth2Authentication.exchangeLegacyToken { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        XCTAssertTrue(authentication.loggedIn)
+                        XCTAssertTrue(oAuth2Authentication.loggedIn)
                         
-                        XCTAssertEqual(networkAuthenticator.accessToken, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
-                        XCTAssertEqual(networkAuthenticator.expiryDate, Date(timeIntervalSince1970: 2550794799))
+                        XCTAssertEqual(oAuth2Authentication.accessToken?.token, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
+                        XCTAssertEqual(oAuth2Authentication.accessToken?.expiryDate, Date(timeIntervalSince1970: 2550794799))
                         
-                        XCTAssertEqual(authentication.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
+                        XCTAssertEqual(oAuth2Authentication.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
                 }
                 
                 expectation1.fulfill()
@@ -567,15 +557,14 @@ class OAuth2AuthenticationTests: BaseTestCase {
         connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         
         let keychain = validKeychain()
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: false)
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain)
         
-        authentication.updateToken("IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
+        oAuth2Authentication.updateRefreshToken("IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.exchangeLegacyToken { (result) in
+            oAuth2Authentication.exchangeLegacyToken { (result) in
                 switch result {
                     case .failure(let error):
                         XCTAssertNotNil(error)
@@ -605,23 +594,20 @@ class OAuth2AuthenticationTests: BaseTestCase {
         connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "error_oauth2_invalid_grant", addingStatusCode: 401)
         
         let keychain = validKeychain()
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain)
         
-        authentication.updateToken("IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
+        oAuth2Authentication.updateRefreshToken("IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.exchangeLegacyToken { (result) in
+            oAuth2Authentication.exchangeLegacyToken { (result) in
                 switch result {
                     case .failure(let error):
-                        XCTAssertFalse(authentication.loggedIn)
+                        XCTAssertFalse(oAuth2Authentication.loggedIn)
                         
-                        XCTAssertNil(networkAuthenticator.accessToken)
-                        XCTAssertNil(networkAuthenticator.expiryDate)
-                        
-                        XCTAssertNil(authentication.refreshToken)
+                        XCTAssertNil(oAuth2Authentication.accessToken)
+                        XCTAssertNil(oAuth2Authentication.refreshToken)
                         
                         if let oAuthError = error as? OAuth2Error {
                             XCTAssertEqual(oAuthError.type, .invalidGrant)
@@ -647,28 +633,25 @@ class OAuth2AuthenticationTests: BaseTestCase {
         connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         
         let keychain = Keychain(service: keychainService)
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.exchangeLegacyToken { (result) in
+            oAuth2Authentication.exchangeLegacyToken { (result) in
                 switch result {
-                case .failure(let error):
-                    XCTAssertNil(networkAuthenticator.accessToken)
-                    XCTAssertNil(networkAuthenticator.expiryDate)
-                    
-                    XCTAssertNil(authentication.refreshToken)
-                    
-                    if let authError = error as? DataError {
-                        XCTAssertEqual(authError.type, .authentication)
-                        XCTAssertEqual(authError.subType, .missingRefreshToken)
-                    } else {
-                        XCTFail("Wrong error returned")
-                    }
-                case .success:
-                    XCTFail("Missing refresh token should fail")
+                    case .failure(let error):
+                        XCTAssertNil(oAuth2Authentication.accessToken)
+                        XCTAssertNil(oAuth2Authentication.refreshToken)
+                        
+                        if let authError = error as? DataError {
+                            XCTAssertEqual(authError.type, .authentication)
+                            XCTAssertEqual(authError.subType, .missingRefreshToken)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Missing refresh token should fail")
                 }
                 
                 expectation1.fulfill()
@@ -683,22 +666,76 @@ class OAuth2AuthenticationTests: BaseTestCase {
     func testTokensPersist() {
         let keychain = Keychain(service: keychainService)
         
-        let config = FrolloSDKConfiguration.testConfig()
-        
+        let accessToken = "AnExistingAccessToken"
+        let expiryDateString = "1721259268.0"
+        let expiryDate = Date(timeIntervalSince1970: 1721259268)
         let refreshToken = "AnExistingRefreshToken"
         
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network =  Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        let network =  Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        var authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
+        var oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
+        authentication.dataSource = oAuth2Authentication
+        authentication.delegate = oAuth2Authentication
         
-        authentication.updateToken(refreshToken)
+        oAuth2Authentication.updateAccessToken(accessToken, expiryDate: expiryDate)
+        oAuth2Authentication.updateRefreshToken(refreshToken)
         
         XCTAssertEqual(keychain["refreshToken"], refreshToken)
+        XCTAssertEqual(keychain["accessToken"], accessToken)
+        XCTAssertEqual(keychain["accessTokenExpiry"], expiryDateString)
         
-        authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
+        oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
         
-        XCTAssertEqual(authentication.refreshToken, refreshToken)
+        XCTAssertEqual(oAuth2Authentication.refreshToken, refreshToken)
+        XCTAssertEqual(oAuth2Authentication.accessToken?.token, accessToken)
+        XCTAssertEqual(oAuth2Authentication.accessToken?.expiryDate, expiryDate)
     }
+    
+    func testInvalidRefreshTokenFails() {
+        let expectation1 = expectation(description: "API Response")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_refresh_token", ofType: "json")!, status: 401, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let keychain = Keychain.validNetworkKeychain(service: keychainService)
+        
+        let path = tempFolderPath()
+        let preferences = Preferences(path: path)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
+        authentication.dataSource = oAuth2Authentication
+        authentication.delegate = oAuth2Authentication
+        
+        service.fetchUser { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertNil(oAuth2Authentication.accessToken)
+                    XCTAssertNil(oAuth2Authentication.refreshToken)
+                    
+                    if let apiError = error as? APIError {
+                        XCTAssertEqual(apiError.type, .invalidRefreshToken)
+                    } else {
+                        XCTFail("Error is of wrong type")
+                    }
+                case .success:
+                    XCTFail("Invalid token should fail")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        OHHTTPStubs.removeAllStubs()
+        keychain.removeAll()
+    }
+    
 }

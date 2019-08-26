@@ -43,14 +43,13 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -67,9 +66,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 try! managedObjectContext.save()
             }
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let messages = Messages(database: database, service: service, authentication: authentication)
+            let messages = Messages(database: database, service: service)
             
             let message = messages.message(context: database.viewContext, messageID: id)
             
@@ -87,14 +84,13 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -123,9 +119,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 try! managedObjectContext.save()
             }
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let messages = Messages(database: database, service: service, authentication: authentication)
+            let messages = Messages(database: database, service: service)
             
             let fetchedMessages = messages.messages(context: database.viewContext, contentType: .text, messageTypes: ["information", "warning"], unread: true)
             
@@ -143,14 +137,13 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: nil, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -179,9 +172,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 try! managedObjectContext.save()
             }
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let messages = Messages(database: database, service: service, authentication: authentication)
+            let messages = Messages(database: database, service: service)
             
             var fetchedMessagesCount = messages.messagesCount(context: database.viewContext)
             
@@ -208,14 +199,13 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -242,9 +232,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 try! managedObjectContext.save()
             }
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let messages = Messages(database: database, service: service, authentication: authentication)
+            let messages = Messages(database: database, service: service)
             
             let fetchedResultsController = messages.messagesFetchedResultsController(context: database.viewContext, contentType: .text, messageTypes: ["information", "warning"], unread: true)
             
@@ -274,21 +262,18 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let messages = Messages(database: database, service: service, authentication: authentication)
+            let messages = Messages(database: database, service: service)
             
             messages.refreshMessages(completion: { (result) in
                 switch result {
@@ -337,21 +322,18 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = false
-            let messages = Messages(database: database, service: service, authentication: authentication)
+            let messages = Messages(database: database, service: service)
             
             messages.refreshMessages { (result) in
                 switch result {
@@ -360,7 +342,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -387,21 +369,18 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let messages = Messages(database: database, service: service, authentication: authentication)
+            let messages = Messages(database: database, service: service)
             
             messages.refreshMessage(messageID: id) { (result) in
                 switch result {
@@ -440,21 +419,18 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = false
-            let messages = Messages(database: database, service: service, authentication: authentication)
+            let messages = Messages(database: database, service: service)
             
             messages.refreshMessage(messageID: id) { (result) in
                 switch result {
@@ -463,7 +439,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -488,14 +464,13 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -509,9 +484,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 
                 try? managedObjectContext.save()
                 
-                let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-                authentication.loggedIn = true
-                let messages = Messages(database: database, service: service, authentication: authentication)
+                let messages = Messages(database: database, service: service)
                 
                 messages.updateMessage(messageID: 12345, completion: { (result) in
                     switch result {
@@ -549,38 +522,45 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = false
-            let messages = Messages(database: database, service: service, authentication: authentication)
+            let managedObjectContext = database.newBackgroundContext()
             
-            messages.updateMessage(messageID: 12345) { (result) in
-                switch result {
-                    case .failure(let error):
-                        XCTAssertNotNil(error)
-                        
-                        if let loggedOutError = error as? DataError {
-                            XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
-                        } else {
-                            XCTFail("Wrong error type returned")
-                        }
-                    case .success:
-                        XCTFail("User logged out, request should fail")
-                }
+            managedObjectContext.performAndWait {
+                let message = Message(context: managedObjectContext)
+                message.populateTestData()
+                message.messageID = 12345
                 
-                expectation1.fulfill()
+                try? managedObjectContext.save()
+            
+                let messages = Messages(database: database, service: service)
+                
+                messages.updateMessage(messageID: 12345) { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTAssertNotNil(error)
+                            
+                            if let loggedOutError = error as? DataError {
+                                XCTAssertEqual(loggedOutError.type, .authentication)
+                                XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
+                            } else {
+                                XCTFail("Wrong error type returned")
+                            }
+                        case .success:
+                            XCTFail("User logged out, request should fail")
+                    }
+                    
+                    expectation1.fulfill()
+                }
             }
         }
         
@@ -597,14 +577,13 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -618,9 +597,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 
                 try? managedObjectContext.save()
                 
-                let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-                authentication.loggedIn = true
-                let messages = Messages(database: database, service: service, authentication: authentication)
+                let messages = Messages(database: database, service: service)
                 
                 messages.updateMessage(messageID: 12345, completion: { (result) in
                     switch result {
@@ -652,21 +629,18 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_unread", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let messages = Messages(database: database, service: service, authentication: authentication)
+            let messages = Messages(database: database, service: service)
             
             messages.refreshUnreadMessages { (result) in
                 switch result {
@@ -717,21 +691,18 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_unread", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = false
-            let messages = Messages(database: database, service: service, authentication: authentication)
+            let messages = Messages(database: database, service: service)
             
             messages.refreshUnreadMessages { (result) in
                 switch result {
@@ -740,7 +711,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                     
                     if let loggedOutError = error as? DataError {
                         XCTAssertEqual(loggedOutError.type, .authentication)
-                        XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                     } else {
                         XCTFail("Wrong error type returned")
                     }
@@ -771,16 +742,14 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let path = tempFolderPath()
         let database = Database(path: path)
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let messages = Messages(database: database, service: service, authentication: authentication)
+        let messages = Messages(database: database, service: service)
         messages.delegate = self
         
         database.setup { (error) in

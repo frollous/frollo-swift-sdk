@@ -19,12 +19,10 @@ import Foundation
 /// Manages surveys
 public class Surveys: ResponseHandler {
     
-    private let authentication: Authentication
     private let service: APIService
     
-    internal init(service: APIService, authentication: Authentication) {
+    internal init(service: APIService) {
         self.service = service
-        self.authentication = authentication
     }
     
     /**

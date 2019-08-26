@@ -45,17 +45,14 @@ class SurveysTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "survey_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let surveys = Surveys(service: service, authentication: authentication)
+        let surveys = Surveys(service: service)
         surveys.fetchSurvey(surveyKey: surveyKey) { (result) in
             switch result {
                 case .failure(let error):
@@ -85,17 +82,14 @@ class SurveysTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "survey_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = false
-        let surveys = Surveys(service: service, authentication: authentication)
+        let surveys = Surveys(service: service)
         
         surveys.fetchSurvey(surveyKey: surveyKey, latest: true) { (result) in
             switch result {
@@ -104,7 +98,7 @@ class SurveysTests: XCTestCase {
                     
                     if let loggedOutError = error as? DataError {
                         XCTAssertEqual(loggedOutError.type, .authentication)
-                        XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                     } else {
                         XCTFail("Wrong error type returned")
                     }
@@ -128,17 +122,14 @@ class SurveysTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "submit_survey_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let surveys = Surveys(service: service, authentication: authentication)
+        let surveys = Surveys(service: service)
         let testSurvey = Survey.createTestSurvey()
         surveys.submitSurvey(survey: testSurvey!) { (result) in
             switch result {
@@ -169,17 +160,14 @@ class SurveysTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "submit_survey_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = false
-        let surveys = Surveys(service: service, authentication: authentication)
+        let surveys = Surveys(service: service)
         let testSurvey = Survey.createTestSurvey()
         surveys.submitSurvey(survey: testSurvey!) { (result) in
             switch result {
@@ -188,7 +176,7 @@ class SurveysTests: XCTestCase {
                     
                     if let loggedOutError = error as? DataError {
                         XCTAssertEqual(loggedOutError.type, .authentication)
-                        XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                     } else {
                         XCTFail("Wrong error type returned")
                     }

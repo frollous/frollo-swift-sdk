@@ -303,7 +303,7 @@
     </entity>
     <entity name="ProviderAccount" representedClassName=".ProviderAccount" syncable="YES">
         <attribute name="editable" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="externalID" attributeType="String" syncable="YES"/>
+        <attribute name="externalID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastRefreshed" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="loginFormRawValue" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="nextRefresh" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -397,7 +397,7 @@
         <attribute name="budgetCategoryRawValue" attributeType="String" syncable="YES"/>
         <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="currency" attributeType="String" syncable="YES"/>
-        <attribute name="externalID" attributeType="String" syncable="YES"/>
+        <attribute name="externalID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="formattedAddress" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="included" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>

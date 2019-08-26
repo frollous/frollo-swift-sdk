@@ -22,6 +22,7 @@ extension Account: TestableCoreData {
     func populateTestData() {
         accountID = Int64.random(in: 1...Int64.max)
         providerAccountID = Int64.random(in: 1...Int64.max)
+        externalID = UUID().uuidString
         accountName = UUID().uuidString
         nickName = UUID().uuidString
         providerName = UUID().uuidString

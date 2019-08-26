@@ -1,6 +1,7 @@
 [{
 	"id": 542,
 	"provider_account_id": 867,
+	"external_id": "AF79E472-4127-44DD-9E96-166E1862A6D2",
 	"provider_name": "ME Bank (demo)",
 	"account_name": "Personal Account",
 	"account_status": "active",
@@ -52,6 +53,7 @@
 }, {
 	"id": 544,
 	"provider_account_id": 624,
+	"external_id": "AF79E472-4137-44DD-0E96-166E1862A6D2",
 	"provider_name": "ANZ (demo)",
 	"account_name": "Credit Card",
 	"account_status": "active",
@@ -77,6 +79,7 @@
 }, {
 	"id": 545,
 	"provider_account_id": 625,
+	"external_id": "AF79E472-4137-44DD-9E96-166E2862A6D2",
 	"provider_name": "AustralianSuper (demo)",
 	"account_name": "Super investment",
 	"account_status": "active",

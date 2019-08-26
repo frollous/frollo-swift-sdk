@@ -69,8 +69,8 @@ public protocol AuthenticationDelegate: AnyObject {
  */
 public class Authentication: RequestAdapter, RequestRetrier {
     
-    internal weak var dataSource: AuthenticationDataSource?
-    internal weak var delegate: AuthenticationDelegate?
+    internal var dataSource: AuthenticationDataSource?
+    internal var delegate: AuthenticationDelegate?
     
     private let bearerFormat = "Bearer %@"
     private let lock = NSLock()
@@ -84,11 +84,9 @@ public class Authentication: RequestAdapter, RequestRetrier {
     private var refreshing = false
     private var requestsToRetry: [RequestRetryCompletion] = []
     
-    init(serverEndpoint: URL, preemptiveRefreshTime: TimeInterval, dataSource: AuthenticationDataSource, delegate: AuthenticationDelegate) {
+    init(serverEndpoint: URL, preemptiveRefreshTime: TimeInterval) {
         self.serverURL = serverEndpoint
         self.preemptiveRefreshTime = preemptiveRefreshTime
-        self.dataSource = dataSource
-        self.delegate = delegate
     }
     
     // MARK: - Authentication Status

@@ -5,6 +5,7 @@
 }, {
 	"id": 624,
 	"provider_id": 11583,
+	"external_id": "1E1A787B-9B88-4EA0-A101-BB149FA1A51F",
 	"editable": true,
 	"refresh_status": {
 		"status": "success",
@@ -22,6 +23,7 @@
 }, {
 	"id": 867,
 	"provider_id": 4078,
+	"external_id": "1707342A-2656-4C0A-9F59-776F038BFF02",
 	"editable": true,
 	"refresh_status": {
 		"status": "needs_action",

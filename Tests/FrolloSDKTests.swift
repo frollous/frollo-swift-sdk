@@ -599,11 +599,6 @@ class FrolloSDKTests: XCTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    if let auth = sdk.authentication as? OAuth2Authentication {
-                        auth.loggedIn = true
-                    } else {
-                        XCTFail("Wrong auth type for test")
-                    }
                     
                     sdk.reset()
                     

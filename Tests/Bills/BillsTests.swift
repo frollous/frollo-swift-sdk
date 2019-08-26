@@ -36,18 +36,16 @@ class BillsTests: BaseTestCase {
     func testFetchBillByID() {
         let expectation1 = expectation(description: "Completion")
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -79,18 +77,16 @@ class BillsTests: BaseTestCase {
     func testFetchBills() {
         let expectation1 = expectation(description: "Completion")
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -137,18 +133,16 @@ class BillsTests: BaseTestCase {
     func testBillsFetchedResultsController() {
         let expectation1 = expectation(description: "Completion")
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         let managedObjectContext = database.newBackgroundContext()
         let fetchedResultsController = bills.billsFetchedResultsController(context: managedObjectContext, frequency: .weekly, paymentStatus: .due, status: .estimated, type: .bill)
@@ -206,18 +200,15 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -258,18 +249,16 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -312,18 +301,15 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = false
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         let date = Bill.billDateFormatter.date(from: "2019-02-01")!
         
@@ -338,7 +324,7 @@ class BillsTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -361,19 +347,16 @@ class BillsTests: BaseTestCase {
             return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -410,18 +393,16 @@ class BillsTests: BaseTestCase {
             return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = false
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -434,7 +415,7 @@ class BillsTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -457,18 +438,16 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bills_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -507,18 +486,16 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bills_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = false
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -531,7 +508,7 @@ class BillsTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -554,18 +531,16 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -605,18 +580,16 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = false
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -629,7 +602,7 @@ class BillsTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -652,23 +625,21 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let managedObjectContext = database.newBackgroundContext()
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
+            let managedObjectContext = database.newBackgroundContext()
             
             managedObjectContext.performAndWait {
                 let bill = Bill(context: managedObjectContext)
@@ -718,39 +689,49 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = false
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
+            let managedObjectContext = database.newBackgroundContext()
             
-            bills.updateBill(billID: 12345) { (result) in
-                switch result {
-                    case .failure(let error):
-                        XCTAssertNotNil(error)
-                        
-                        if let loggedOutError = error as? DataError {
-                            XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
-                        } else {
-                            XCTFail("Wrong error type returned")
-                        }
-                    case .success:
-                        XCTFail("User logged out, request should fail")
+            managedObjectContext.performAndWait {
+                let bill = Bill(context: managedObjectContext)
+                bill.populateTestData()
+                bill.billID = 12345
+                
+                try? managedObjectContext.save()
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                bills.updateBill(billID: 12345) { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTAssertNotNil(error)
+                            
+                            if let loggedOutError = error as? DataError {
+                                XCTAssertEqual(loggedOutError.type, .authentication)
+                                XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
+                            } else {
+                                XCTFail("Wrong error type returned")
+                            }
+                        case .success:
+                            XCTFail("User logged out, request should fail")
+                    }
+                    
+                    expectation1.fulfill()
                 }
                 
-                expectation1.fulfill()
             }
         }
         
@@ -765,20 +746,18 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         let managedObjectContext = database.newBackgroundContext()
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         database.setup { (error) in
             XCTAssertNil(error)
             
@@ -827,14 +806,13 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -843,11 +821,9 @@ class BillsTests: BaseTestCase {
         }
 
         wait(for: [expectation1], timeout: 3.0)
-            
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         aggregation.refreshAccounts() { (result) in
             switch result {
@@ -909,14 +885,13 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -925,11 +900,9 @@ class BillsTests: BaseTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-            
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         aggregation.refreshMerchants() { (result) in
             switch result {
@@ -991,14 +964,13 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_categories_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1007,11 +979,9 @@ class BillsTests: BaseTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-            
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         aggregation.refreshTransactionCategories() { (result) in
             switch result {
@@ -1066,19 +1036,17 @@ class BillsTests: BaseTestCase {
     func testFetchBillPaymentByID() {
         let expectation1 = expectation(description: "Completion")
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         let managedObjectContext = database.newBackgroundContext()
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1109,19 +1077,17 @@ class BillsTests: BaseTestCase {
     func testFetchBillPayments() {
         let expectation1 = expectation(description: "Completion")
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         let managedObjectContext = database.newBackgroundContext()
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1161,19 +1127,17 @@ class BillsTests: BaseTestCase {
     func testBillPaymentsFetchedResultsController() {
         let expectation1 = expectation(description: "Completion")
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         let managedObjectContext = database.newBackgroundContext()
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1225,19 +1189,16 @@ class BillsTests: BaseTestCase {
             return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1274,18 +1235,16 @@ class BillsTests: BaseTestCase {
             return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = false
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1298,7 +1257,7 @@ class BillsTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -1321,18 +1280,16 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payments_2018-12-01_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1374,18 +1331,16 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payments_2018-12-01_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = false
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1401,7 +1356,7 @@ class BillsTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -1424,18 +1379,16 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payment_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1475,18 +1428,16 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payment_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = false
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1499,7 +1450,7 @@ class BillsTests: BaseTestCase {
                     
                     if let loggedOutError = error as? DataError {
                         XCTAssertEqual(loggedOutError.type, .authentication)
-                        XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                     } else {
                         XCTFail("Wrong error type returned")
                     }
@@ -1522,18 +1473,16 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payment_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1586,39 +1535,50 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payment_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = false
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
+            let managedObjectContext = database.newBackgroundContext()
             
-            bills.updateBillPayment(billPaymentID: 12345) { (result) in
-                switch result {
-                    case .failure(let error):
-                        XCTAssertNotNil(error)
-                        
-                        if let loggedOutError = error as? DataError {
-                            XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
-                        } else {
-                            XCTFail("Wrong error type returned")
-                        }
-                    case .success:
-                        XCTFail("User logged out, request should fail")
+            managedObjectContext.performAndWait {
+                let billPayment = BillPayment(context: managedObjectContext)
+                billPayment.populateTestData()
+                billPayment.billPaymentID = 12345
+                
+                try? managedObjectContext.save()
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            
+                bills.updateBillPayment(billPaymentID: 12345) { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTAssertNotNil(error)
+                            
+                            if let loggedOutError = error as? DataError {
+                                XCTAssertEqual(loggedOutError.type, .authentication)
+                                XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
+                            } else {
+                                XCTFail("Wrong error type returned")
+                            }
+                        case .success:
+                            XCTFail("User logged out, request should fail")
+                    }
+                    
+                    expectation1.fulfill()
                 }
                 
-                expectation1.fulfill()
             }
         }
         
@@ -1633,19 +1593,17 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payment_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         let managedObjectContext = database.newBackgroundContext()
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1695,14 +1653,13 @@ class BillsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payments_2018-12-01_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1711,11 +1668,9 @@ class BillsTests: BaseTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-            
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let bills = Bills(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
         
         bills.refreshBills() { (result) in
             switch result {

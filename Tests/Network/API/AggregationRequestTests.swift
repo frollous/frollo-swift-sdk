@@ -212,10 +212,11 @@ class AggregationRequestTests: BaseTestCase {
         
         connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "provider_account_id_123", addingStatusCode: 201)
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let filledForm = ProviderLoginForm.loginFormFilledData()

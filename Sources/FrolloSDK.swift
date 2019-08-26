@@ -286,30 +286,35 @@ public class Frollo {
         
         Log.logLevel = configuration.logLevel
         
+        _authentication = Authentication(serverEndpoint: configuration.serverEndpoint, preemptiveRefreshTime: configuration.preemptiveRefreshTime)
+        network = Network(serverEndpoint: configuration.serverEndpoint, authentication: _authentication, pinnedPublicKeys: pinnedKeys)
+        
         // Setup authentication stack
         switch configuration.authenticationType {
             case .custom(let authenticationDataSource, let authenticationDelegate):
-                _authentication = Authentication(serverEndpoint: configuration.serverEndpoint, preemptiveRefreshTime: configuration.preemptiveRefreshTime, dataSource: authenticationDataSource, delegate: authenticationDelegate)
+                _authentication.dataSource = authenticationDataSource
+                _authentication.delegate = authenticationDelegate
                 
             case .oAuth2(let redirectURL, let authorizationEndpoint, let tokenEndpoint, let revokeTokenEndpoint):
                 let authService = OAuthService(authorizationEndpoint: authorizationEndpoint, tokenEndpoint: tokenEndpoint, redirectURL: redirectURL, revokeURL: revokeTokenEndpoint, network: network)
                 let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: configuration.clientID, redirectURL: redirectURL, serverURL: configuration.serverEndpoint, authService: authService, preferences: preferences, delegate: self)
-                _authentication = Authentication(serverEndpoint: configuration.serverEndpoint, preemptiveRefreshTime: configuration.preemptiveRefreshTime, dataSource: oAuth2Authentication, delegate: oAuth2Authentication)
+                _authentication.dataSource = oAuth2Authentication
+                _authentication.delegate = oAuth2Authentication
+                
+                defaultAuthentication = oAuth2Authentication
         }
-        
-        network = Network(serverEndpoint: configuration.serverEndpoint, authentication: _authentication, pinnedPublicKeys: pinnedKeys)
         
         let service = APIService(serverEndpoint: configuration.serverEndpoint, network: network)
         
         Log.manager.service = service
         
-        _aggregation = Aggregation(database: _database, service: service, authentication: _authentication)
-        _bills = Bills(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
-        _events = Events(service: service, authentication: _authentication)
-        _goals = Goals(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
-        _messages = Messages(database: _database, service: service, authentication: _authentication)
-        _reports = Reports(database: _database, service: service, aggregation: _aggregation, authentication: _authentication)
-        _surveys = Surveys(service: service, authentication: _authentication)
+        _aggregation = Aggregation(database: _database, service: service)
+        _bills = Bills(database: _database, service: service, aggregation: _aggregation)
+        _events = Events(service: service)
+        _goals = Goals(database: _database, service: service, aggregation: _aggregation)
+        _messages = Messages(database: _database, service: service)
+        _reports = Reports(database: _database, service: service, aggregation: _aggregation)
+        _surveys = Surveys(service: service)
         _userManagement = UserManagement(database: _database, service: service, clientID: configuration.clientID, authentication: defaultAuthentication, preferences: preferences, delegate: self)
         _notifications = Notifications(events: _events, messages: _messages, userManagement: _userManagement)
         

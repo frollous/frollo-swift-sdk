@@ -21,7 +21,6 @@ import Foundation
 public class Goals: CachedObjects, ResponseHandler {
     
     private let aggregation: Aggregation
-    private let authentication: Authentication
     private let database: Database
     private let service: APIService
     
@@ -31,11 +30,10 @@ public class Goals: CachedObjects, ResponseHandler {
     private var linkingAccountIDs = Set<Int64>()
     private var linkingGoalIDs = Set<Int64>()
     
-    internal init(database: Database, service: APIService, aggregation: Aggregation, authentication: Authentication) {
+    internal init(database: Database, service: APIService, aggregation: Aggregation) {
         self.database = database
         self.service = service
         self.aggregation = aggregation
-        self.authentication = authentication
     }
     
     // MARK: - Goals

@@ -81,8 +81,7 @@ class UserManagementTests: BaseTestCase {
         connect(endpoint: UserEndpoint.register.path.prefixedWithSlash, toResourceWithName: "error_duplicate", addingStatusCode: 409)
         
         let keychain = defaultKeychain(isNetwork: false)
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator)
+        let oAuth2Authentication = defaultOAuth2Authentication()
         let user = defaultUser(keychain: keychain, loggedIn: false)
         
         database.setup { (error) in
@@ -91,14 +90,12 @@ class UserManagementTests: BaseTestCase {
             user.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password") { (result) in
                 switch result {
                     case .failure(let error):
-                        XCTAssertFalse(authentication.loggedIn)
+                        XCTAssertFalse(oAuth2Authentication.loggedIn)
                         
                         XCTAssertNil(user.fetchUser(context: self.database.newBackgroundContext()))
                         
-                        XCTAssertNil(networkAuthenticator.accessToken)
-                        XCTAssertNil(networkAuthenticator.expiryDate)
-                        
-                        XCTAssertNil(authentication.refreshToken)
+                        XCTAssertNil(oAuth2Authentication.accessToken)
+                        XCTAssertNil(oAuth2Authentication.refreshToken)
                         
                         if let apiError = error as? APIError {
                             XCTAssertEqual(apiError.type, .alreadyExists)
@@ -107,42 +104,6 @@ class UserManagementTests: BaseTestCase {
                         }
                     case .success:
                         XCTFail("Invalid registration data should fail")
-                }
-                
-                expectation1.fulfill()
-            }
-        }
-        
-        wait(for: [expectation1], timeout: 3.0)
-        
-        try? FileManager.default.removeItem(at: tempFolderPath())
-    }
-    
-    func testRegisterUserFailsIfLoggedIn() {
-        let expectation1 = expectation(description: "Network Request")
-        
-        connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
-        connect(endpoint: UserEndpoint.register.path.prefixedWithSlash, toResourceWithName: "user_details_complete", addingStatusCode: 201)
-        
-        let authentication = defaultAuthentication(loggedIn: true)
-        let user = defaultUser()
-        
-        database.setup { (error) in
-            XCTAssertNil(error)
-            
-            user.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password") { (result) in
-                switch result {
-                case .failure(let error):
-                    XCTAssertTrue(authentication.loggedIn)
-                    
-                    if let dataError = error as? DataError {
-                        XCTAssertEqual(dataError.type, .authentication)
-                        XCTAssertEqual(dataError.subType, .alreadyLoggedIn)
-                    } else {
-                        XCTFail("Wrong error returned")
-                    }
-                case .success:
-                    XCTFail("User was already logged in. Should fail.")
                 }
                 
                 expectation1.fulfill()
@@ -221,7 +182,7 @@ class UserManagementTests: BaseTestCase {
         try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
-    func testUpdateUserFailsIfLoggedOut() {
+    func testUpdateUserFailsIfMissingToken() {
         let expectation1 = expectation(description: "Network Request")
         
         connect(endpoint: UserEndpoint.details.path, toResourceWithName: "user_details_complete")
@@ -246,7 +207,7 @@ class UserManagementTests: BaseTestCase {
                     case .failure(let error):
                         if let dataError = error as? DataError {
                             XCTAssertEqual(dataError.type, .authentication)
-                            XCTAssertEqual(dataError.subType, .loggedOut)
+                            XCTAssertEqual(dataError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type")
                         }
@@ -383,12 +344,9 @@ class UserManagementTests: BaseTestCase {
         connect(endpoint: UserEndpoint.user.path.prefixedWithSlash, addingData: Data(), addingStatusCode: 204)
         
         let keychain = validKeychain()
-        let authentication = defaultAuthentication(keychain: keychain, loggedIn: true)
-        
-        let authenticationStub = AuthenticationDelegateStub {
-            authentication.reset()
-        }
-        let user = defaultUser(keychain: keychain, authentication: authentication, delegate: authenticationStub)
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        let user = defaultUser(keychain: keychain, authentication: authentication, delegate: nil)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -407,7 +365,7 @@ class UserManagementTests: BaseTestCase {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        XCTAssertFalse(authentication.loggedIn)
+                        XCTAssertFalse(oAuth2Authentication.loggedIn)
                 }
                 
                 expectation1.fulfill()
@@ -415,8 +373,6 @@ class UserManagementTests: BaseTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
-        _ = authenticationStub
         
         try? FileManager.default.removeItem(at: tempFolderPath())
     }
@@ -446,7 +402,7 @@ class UserManagementTests: BaseTestCase {
                     case .failure(let error):
                         if let dataError = error as? DataError {
                             XCTAssertEqual(dataError.type, .authentication)
-                            XCTAssertEqual(dataError.subType, .loggedOut)
+                            XCTAssertEqual(dataError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type")
                         }
@@ -473,20 +429,16 @@ class UserManagementTests: BaseTestCase {
         }
         
         let keychain = validKeychain()
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
-        let delegateStub = AuthenticationDelegateStub {
-            network.reset()
-            authentication.reset()
-        }
+        authentication.dataSource = oAuth2Authentication
+        authentication.delegate = oAuth2Authentication
         
-        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: delegateStub)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: oAuth2Authentication, preferences: preferences, delegate: nil)
         
-        let resetter = NetworkResetterStub(authentication: authentication)
-        network.delegate = resetter
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -496,59 +448,16 @@ class UserManagementTests: BaseTestCase {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        XCTAssertFalse(authentication.loggedIn)
+                        XCTAssertFalse(oAuth2Authentication.loggedIn)
                         
-                        XCTAssertNil(authentication.refreshToken)
-                        XCTAssertNil(networkAuthenticator.accessToken)
+                        XCTAssertNil(oAuth2Authentication.refreshToken)
+                        XCTAssertNil(oAuth2Authentication.accessToken)
                 }
                 
                 expectation1.fulfill()
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
-    }
-    
-    func testMigrateUserFailsIfLoggedOut() {
-        let expectation1 = expectation(description: "Network Request")
-
-        let config = FrolloSDKConfiguration.testConfig()
-
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.migrate.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
-        }
-
-        let keychain = validKeychain()
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: false)
-        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
-        
-        let resetter = NetworkResetterStub(authentication: authentication)
-        network.delegate = resetter
-
-        database.setup { (error) in
-            XCTAssertNil(error)
-
-            user.migrateUser(password: "1234") { (result) in
-                switch result {
-                    case .failure(let error):
-                        if let dataError = error as? DataError {
-                            XCTAssertEqual(dataError.type, .authentication)
-                            XCTAssertEqual(dataError.subType, .loggedOut)
-                        } else {
-                            XCTFail("Wrong error returned")
-                        }
-                    case .success:
-                        XCTFail("Change password should fail")
-                }
-
-                expectation1.fulfill()
-            }
-        }
-
         wait(for: [expectation1], timeout: 3.0)
     }
 
@@ -562,15 +471,12 @@ class UserManagementTests: BaseTestCase {
         }
 
         let keychain = Keychain(service: "EmptyMe")
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let networkAuthenticator = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
         let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
-        
-        let resetter = NetworkResetterStub(authentication: authentication)
-        network.delegate = resetter
 
         database.setup { (error) in
             XCTAssertNil(error)
@@ -605,16 +511,13 @@ class UserManagementTests: BaseTestCase {
         }
 
         let keychain = validKeychain()
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let networkAuthenticator = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let authentication = defaultAuthentication(keychain: keychain, networkAuthenticator: networkAuthenticator, loggedIn: true)
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
         let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
         
-        let resetter = NetworkResetterStub(authentication: authentication)
-        network.delegate = resetter
-
         database.setup { (error) in
             XCTAssertNil(error)
 
@@ -737,12 +640,12 @@ class UserManagementTests: BaseTestCase {
     
     func testAuthenticatingRequestManually() {
         let keychain = validKeychain()
-        let user = defaultUser(keychain: keychain)
+        let authentication = defaultAuthentication(keychain: keychain)
         
         let requestURL = URL(string: "https://api.example.com/somewhere")!
         let request = URLRequest(url: requestURL)
         do {
-            let adaptedRequest = try user.authenticateRequest(request)
+            let adaptedRequest = try authentication.adapt(request)
             
             guard let authHeader = adaptedRequest.allHTTPHeaderFields?["Authorization"]
                 else {

@@ -20,9 +20,7 @@ import XCTest
 import Alamofire
 import OHHTTPStubs
 
-class NetworkTests: XCTestCase {
-    
-    private let keychainService = "NetworkTestsKeychain"
+class NetworkTests: BaseTestCase {
     
     private let realPublicKeyData = Data(bytes: [0x30, 0x82, 0x01, 0x22, 0x30, 0x0D, 0x06, 0x09, 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x01, 0x05, 0x00, 0x03, 0x82, 0x01, 0x0F, 0x00, 0x30, 0x82, 0x01, 0x0A, 0x02, 0x82, 0x01, 0x01, 0x00, 0xE9, 0xA5, 0x69, 0xF1, 0x6F, 0x28, 0x45, 0x1D, 0x8A, 0x01, 0x46, 0xCB, 0x30, 0x92, 0x34, 0x35, 0x27, 0x5D, 0xF6, 0x5B, 0x6A, 0xC4, 0x3F, 0x5C, 0x76, 0x71, 0x98, 0x98, 0x05, 0x95, 0x14, 0x71, 0x32, 0x52, 0x54, 0xF9, 0xA1, 0xCE, 0x10, 0x0C, 0xC9, 0xB8, 0xCE, 0xE1, 0xF3, 0x0B, 0xC5, 0xCA, 0x45, 0x36, 0xBA, 0xCD, 0x70, 0x5F, 0xD3, 0xC3, 0xED, 0xC9, 0x31, 0xCA, 0xB8, 0x79, 0x26, 0xF3, 0xCB, 0x77, 0x39, 0x29, 0xCF, 0x70, 0xB0, 0xB3, 0xE9, 0x05, 0x38, 0x13, 0x3F, 0xB2, 0xFD, 0x3C, 0x90, 0xFA, 0x4B, 0x58, 0x27, 0x60, 0x40, 0x88, 0x8C, 0xAC, 0x00, 0x5B, 0x1C, 0x5B, 0x13, 0xE5, 0x36, 0xC7, 0xEB, 0xCB, 0x66, 0xE5, 0xA3, 0xC9, 0xB1, 0xCA, 0xD0, 0xD6, 0x66, 0x88, 0x02, 0xA7, 0xCF, 0x22, 0xCF, 0x82, 0xCA, 0xB9, 0x84, 0x70, 0xB1, 0x1E, 0x4F, 0xEB, 0x20, 0x6F, 0x35, 0x7C, 0x93, 0x3C, 0xA7, 0x4E, 0x3E, 0x71, 0xBA, 0xA7, 0xF4, 0xAE, 0x84, 0xCF, 0x01, 0xE6, 0x20, 0x27, 0x33, 0x87, 0x5F, 0x26, 0xD2, 0x36, 0x99, 0x07, 0x82, 0xE3, 0x45, 0x27, 0x90, 0xE9, 0xA7, 0x6A, 0x89, 0xDA, 0x7A, 0xD8, 0x98, 0x61, 0xCC, 0x22, 0x19, 0xE4, 0x4E, 0xF4, 0x85, 0xF8, 0x92, 0x37, 0x17, 0xE1, 0x7E, 0xF6, 0xDB, 0x76, 0xF9, 0xDC, 0x67, 0xC4, 0x48, 0xF3, 0xB6, 0x0F, 0x30, 0xA3, 0x79, 0xD0, 0x1F, 0xC9, 0x3A, 0x9D, 0xE9, 0xE9, 0xD8, 0x83, 0x7C, 0x5E, 0xF3, 0x10, 0xEF, 0x1E, 0x44, 0x89, 0x12, 0x95, 0xCB, 0x52, 0xFC, 0x1B, 0x05, 0x1A, 0xBB, 0x06, 0x0A, 0x19, 0x69, 0xF6, 0x76, 0xFE, 0xEB, 0xA4, 0x35, 0x17, 0xCA, 0x5D, 0x62, 0xF0, 0xB1, 0x2F, 0xB7, 0xEE, 0x9A, 0x60, 0xCB, 0x83, 0xAF, 0xC0, 0x6B, 0xBF, 0xC2, 0x81, 0xBC, 0x60, 0x69, 0x08, 0xB5, 0x25, 0xE7, 0xC3, 0x02, 0x03, 0x01, 0x00, 0x01] as [UInt8], count: 294)
     
@@ -32,6 +30,8 @@ class NetworkTests: XCTestCase {
     private var fakePublicKey: SecKey!
     
     override func setUp() {
+        testsKeychainService = "NetworkTestsKeychain"
+        
         super.setUp()
         
         let keyDict: [NSString: Any] = [
@@ -85,11 +85,8 @@ class NetworkTests: XCTestCase {
                                             serverEndpoint: URL(string: "https://api.frollo.us/api/")!)
         let testURL = config.serverEndpoint.appendingPathComponent("pages/terms")
         
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys: [config.serverEndpoint: [realPublicKey], tokenEndpoint: [realPublicKey]])
-        
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        let authentication = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication, pinnedPublicKeys: [config.serverEndpoint: [realPublicKey], tokenEndpoint: [realPublicKey]])
         
         network.sessionManager.request(testURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).response { (response) in
             XCTAssertNil(response.error)
@@ -116,8 +113,8 @@ class NetworkTests: XCTestCase {
                                             serverEndpoint: URL(string: "https://api.frollo.us/api/")!)
         let testURL = config.serverEndpoint.appendingPathComponent("pages/terms")
         
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator, pinnedPublicKeys:  [config.serverEndpoint: [fakePublicKey], tokenEndpoint: [fakePublicKey]])
+        let authentication = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication, pinnedPublicKeys:  [config.serverEndpoint: [fakePublicKey], tokenEndpoint: [fakePublicKey]])
         network.sessionManager.request(testURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).response { (response) in
             XCTAssertNotNil(response.error)
             if let responseData = response.data {
@@ -144,11 +141,8 @@ class NetworkTests: XCTestCase {
                                             clientID: "zyx987",
                                             serverEndpoint: URL(string: "https://google.com.au")!)
         
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
+        let authentication = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         
         network.sessionManager.request(config.serverEndpoint, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).response { (response) in
             XCTAssertNil(response.error)
@@ -180,12 +174,9 @@ class NetworkTests: XCTestCase {
         
         let keychain = Keychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authentication = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
         
         service.fetchUser { (result) in
             switch result {
@@ -214,12 +205,9 @@ class NetworkTests: XCTestCase {
         
         let keychain = Keychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authentication = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
         
         service.fetchUser { (result) in
             switch result {
@@ -254,18 +242,15 @@ class NetworkTests: XCTestCase {
         
         let keychain = Keychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authentication = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
-        
-        let delegateStub = AuthenticationDelegateStub {
+        let completionAuthenticationDelegate = MockAuthenticationCompletion {
             expectation2.fulfill()
         }
-        
-        network.delegate = delegateStub
+        authentication.dataSource = completionAuthenticationDelegate
+        authentication.delegate = completionAuthenticationDelegate
         
         service.fetchUser { (result) in
             switch result {
@@ -293,18 +278,15 @@ class NetworkTests: XCTestCase {
         
         let keychain = Keychain(service: keychainService)
         
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let authentication = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let oAuthService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: nil, network: network)
         
-        network.authenticator.accessToken = "AnExistingAccessToken"
-        network.authenticator.expiryDate = Date(timeIntervalSinceNow: 1000) // Not expired by time
-        
-        let delegateStub = AuthenticationDelegateStub {
+        let completionAuthenticationDelegate = MockAuthenticationCompletion {
             expectation2.fulfill()
         }
-        
-        network.delegate = delegateStub
+        authentication.dataSource = completionAuthenticationDelegate
+        authentication.delegate = completionAuthenticationDelegate
         
         let request = OAuthTokenRequest.testLoginValidData()
         oAuthService.refreshTokens(request: request) { (result) in

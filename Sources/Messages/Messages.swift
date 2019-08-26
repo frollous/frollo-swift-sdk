@@ -26,14 +26,12 @@ public class Messages: CachedObjects, ResponseHandler {
     
     internal weak var delegate: FrolloSDKDelegate?
     
-    private let authentication: Authentication
     private let database: Database
     private let service: APIService
     
     private let messageLock = NSLock()
     
-    internal init(database: Database, service: APIService, authentication: Authentication) {
-        self.authentication = authentication
+    internal init(database: Database, service: APIService) {
         self.database = database
         self.service = service
     }

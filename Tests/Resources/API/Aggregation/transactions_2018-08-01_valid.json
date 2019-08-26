@@ -7,6 +7,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-14",
 	"post_date": "2018-07-29",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-59.00",
 		"currency": "AUD"
@@ -46,6 +47,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-14",
 	"post_date": "2018-07-29",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-40.00",
 		"currency": "AUD"
@@ -71,6 +73,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-13",
 	"post_date": "2018-07-28",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-23.00",
 		"currency": "AUD"
@@ -96,6 +99,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-13",
 	"post_date": "2018-01-02",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-100.00",
 		"currency": "AUD"
@@ -119,6 +123,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-12",
 	"post_date": "2018-07-27",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-20.00",
 		"currency": "AUD"
@@ -144,6 +149,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-12",
 	"post_date": "2018-07-27",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-185.00",
 		"currency": "AUD"
@@ -167,6 +173,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-12",
 	"post_date": "2018-01-01",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "2700.00",
 		"currency": "AUD"
@@ -190,6 +197,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-12",
 	"post_date": "2018-01-01",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-185.00",
 		"currency": "AUD"
@@ -215,6 +223,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-12",
 	"post_date": "2018-01-01",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-6.00",
 		"currency": "AUD"
@@ -237,6 +246,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-12",
 	"post_date": "2018-01-01",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-20.37",
 		"currency": "AUD"
@@ -259,6 +269,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-12",
 	"post_date": "2018-01-01",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "3.82",
 		"currency": "AUD"
@@ -281,6 +292,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-11",
 	"post_date": "2018-07-26",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-59.69",
 		"currency": "AUD"
@@ -306,6 +318,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-11",
 	"post_date": "2018-07-26",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "100.00",
 		"currency": "AUD"
@@ -329,6 +342,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-11",
 	"post_date": "2017-12-31",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "100.00",
 		"currency": "AUD"
@@ -352,6 +366,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-10",
 	"post_date": "2018-07-25",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-100.00",
 		"currency": "AUD"
@@ -375,6 +390,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-10",
 	"post_date": "2017-12-30",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-20.00",
 		"currency": "AUD"
@@ -398,6 +414,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-09",
 	"post_date": "2018-07-24",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-6.00",
 		"currency": "AUD"
@@ -420,6 +437,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-09",
 	"post_date": "2018-07-24",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-20.37",
 		"currency": "AUD"
@@ -442,6 +460,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-09",
 	"post_date": "2018-07-24",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "3.82",
 		"currency": "AUD"
@@ -464,6 +483,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-09",
 	"post_date": "2018-07-24",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-12.50",
 		"currency": "AUD"
@@ -487,6 +507,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-08",
 	"post_date": "2018-07-23",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-8.00",
 		"currency": "AUD"
@@ -512,6 +533,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-08",
 	"post_date": "2018-07-23",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-12.50",
 		"currency": "AUD"
@@ -537,6 +559,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-08",
 	"post_date": "2018-07-23",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-25.00",
 		"currency": "AUD"
@@ -560,6 +583,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-07",
 	"post_date": "2018-07-22",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-10.00",
 		"currency": "AUD"
@@ -585,6 +609,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-07",
 	"post_date": "2018-07-22",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-20.00",
 		"currency": "AUD"
@@ -608,6 +633,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-07",
 	"post_date": "2017-12-27",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-20.00",
 		"currency": "AUD"
@@ -631,6 +657,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-06",
 	"post_date": "2018-07-21",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-8.00",
 		"currency": "AUD"
@@ -656,6 +683,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-06",
 	"post_date": "2018-07-21",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-120.00",
 		"currency": "AUD"
@@ -681,6 +709,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-06",
 	"post_date": "2018-07-21",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-7.95",
 		"currency": "AUD"
@@ -706,6 +735,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-06",
 	"post_date": "2018-07-21",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-23.00",
 		"currency": "AUD"
@@ -729,6 +759,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-05",
 	"post_date": "2018-07-20",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-27.00",
 		"currency": "AUD"
@@ -752,6 +783,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-05",
 	"post_date": "2018-07-20",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-185.00",
 		"currency": "AUD"
@@ -775,6 +807,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-05",
 	"post_date": "2017-12-25",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-185.00",
 		"currency": "AUD"
@@ -800,6 +833,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-04",
 	"post_date": "2018-07-19",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-24.50",
 		"currency": "AUD"
@@ -825,6 +859,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-04",
 	"post_date": "2018-07-19",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-20.00",
 		"currency": "AUD"
@@ -848,6 +883,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-03",
 	"post_date": "2018-07-18",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-85.00",
 		"currency": "AUD"
@@ -873,6 +909,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-02",
 	"post_date": "2018-07-17",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-8.00",
 		"currency": "AUD"
@@ -898,6 +935,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-02",
 	"post_date": "2018-07-17",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-15.95",
 		"currency": "AUD"
@@ -923,6 +961,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-02",
 	"post_date": "2018-07-17",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-15.95",
 		"currency": "AUD"
@@ -946,6 +985,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-02",
 	"post_date": "2017-12-22",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-20.00",
 		"currency": "AUD"
@@ -969,6 +1009,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-02",
 	"post_date": "2017-12-22",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-40.00",
 		"currency": "AUD"
@@ -992,6 +1033,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-01",
 	"post_date": "2018-07-16",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-8.00",
 		"currency": "AUD"
@@ -1017,6 +1059,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-02-01",
 	"post_date": "2018-07-16",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-33.00",
 		"currency": "AUD"
@@ -1040,6 +1083,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-31",
 	"post_date": "2018-07-15",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-8.00",
 		"currency": "AUD"
@@ -1065,6 +1109,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-31",
 	"post_date": "2018-07-15",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-30.00",
 		"currency": "AUD"
@@ -1090,6 +1135,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-31",
 	"post_date": "2018-07-15",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-21.50",
 		"currency": "AUD"
@@ -1115,6 +1161,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-31",
 	"post_date": "2018-07-15",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-21.00",
 		"currency": "AUD"
@@ -1138,6 +1185,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-44.00",
 		"currency": "AUD"
@@ -1163,6 +1211,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-22.00",
 		"currency": "AUD"
@@ -1188,6 +1237,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-11.99",
 		"currency": "AUD"
@@ -1211,6 +1261,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-46.00",
 		"currency": "AUD"
@@ -1234,6 +1285,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-20.00",
 		"currency": "AUD"
@@ -1257,6 +1309,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-30",
 	"post_date": "2018-07-14",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-40.00",
 		"currency": "AUD"
@@ -1280,6 +1333,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-29",
 	"post_date": "2018-07-13",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-60.00",
 		"currency": "AUD"
@@ -1305,6 +1359,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-29",
 	"post_date": "2018-07-13",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-40.00",
 		"currency": "AUD"
@@ -1330,6 +1385,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-29",
 	"post_date": "2018-07-13",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "1000.00",
 		"currency": "AUD"
@@ -1352,6 +1408,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-29",
 	"post_date": "2018-07-13",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-1000.00",
 		"currency": "AUD"
@@ -1374,6 +1431,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-29",
 	"post_date": "2018-07-13",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-185.00",
 		"currency": "AUD"
@@ -1397,6 +1455,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-29",
 	"post_date": "2017-12-18",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-1000.00",
 		"currency": "AUD"
@@ -1419,6 +1478,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-29",
 	"post_date": "2017-12-18",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-185.00",
 		"currency": "AUD"
@@ -1444,6 +1504,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-28",
 	"post_date": "2018-07-12",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-70.00",
 		"currency": "AUD"
@@ -1467,6 +1528,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-28",
 	"post_date": "2017-12-17",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-70.00",
 		"currency": "AUD"
@@ -1490,6 +1552,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-28",
 	"post_date": "2017-12-17",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-50.00",
 		"currency": "AUD"
@@ -1513,6 +1576,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-27",
 	"post_date": "2018-07-11",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-74.00",
 		"currency": "AUD"
@@ -1538,6 +1602,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-27",
 	"post_date": "2018-07-11",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-159.41",
 		"currency": "AUD"
@@ -1563,6 +1628,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-26",
 	"post_date": "2018-07-10",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-8.00",
 		"currency": "AUD"
@@ -1588,6 +1654,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-25",
 	"post_date": "2018-07-09",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-8.00",
 		"currency": "AUD"
@@ -1613,6 +1680,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-25",
 	"post_date": "2018-07-09",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-50.00",
 		"currency": "AUD"
@@ -1636,6 +1704,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-25",
 	"post_date": "2018-07-09",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-39.90",
 		"currency": "AUD"
@@ -1659,6 +1728,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-25",
 	"post_date": "2017-12-14",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-20.00",
 		"currency": "AUD"
@@ -1682,6 +1752,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-25",
 	"post_date": "2017-12-14",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-39.90",
 		"currency": "AUD"
@@ -1707,6 +1778,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-24",
 	"post_date": "2018-07-08",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-40.00",
 		"currency": "AUD"
@@ -1730,6 +1802,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-24",
 	"post_date": "2018-07-08",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-12.60",
 		"currency": "AUD"
@@ -1755,6 +1828,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-23",
 	"post_date": "2018-07-07",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-65.00",
 		"currency": "AUD"
@@ -1778,6 +1852,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-23",
 	"post_date": "2017-12-12",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-20.00",
 		"currency": "AUD"
@@ -1801,6 +1876,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-22",
 	"post_date": "2018-07-06",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-20.00",
 		"currency": "AUD"
@@ -1824,6 +1900,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-22",
 	"post_date": "2018-07-06",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-185.00",
 		"currency": "AUD"
@@ -1847,6 +1924,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-22",
 	"post_date": "2017-12-11",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-185.00",
 		"currency": "AUD"
@@ -1872,6 +1950,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-21",
 	"post_date": "2018-07-05",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-10.00",
 		"currency": "AUD"
@@ -1897,6 +1976,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-21",
 	"post_date": "2018-07-05",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-17.99",
 		"currency": "AUD"
@@ -1922,6 +2002,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-20",
 	"post_date": "2018-07-04",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-150.00",
 		"currency": "AUD"
@@ -1945,6 +2026,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-20",
 	"post_date": "2018-07-04",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-20.00",
 		"currency": "AUD"
@@ -1968,6 +2050,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-20",
 	"post_date": "2018-07-04",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "4050.00",
 		"currency": "AUD"
@@ -1991,6 +2074,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-19",
 	"post_date": "2018-07-03",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-8.00",
 		"currency": "AUD"
@@ -2016,6 +2100,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-19",
 	"post_date": "2018-07-03",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-39.00",
 		"currency": "AUD"
@@ -2041,6 +2126,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-18",
 	"post_date": "2018-07-02",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-8.00",
 		"currency": "AUD"
@@ -2066,6 +2152,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-18",
 	"post_date": "2018-07-02",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-53.00",
 		"currency": "AUD"
@@ -2091,6 +2178,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-18",
 	"post_date": "2018-07-02",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-34.95",
 		"currency": "AUD"
@@ -2116,6 +2204,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-18",
 	"post_date": "2017-12-07",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-50.00",
 		"currency": "AUD"
@@ -2139,6 +2228,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-18",
 	"post_date": "2017-12-07",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-40.00",
 		"currency": "AUD"
@@ -2162,6 +2252,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-17",
 	"post_date": "2018-07-01",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-8.00",
 		"currency": "AUD"
@@ -2187,6 +2278,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-16",
 	"post_date": "2018-06-30",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-25.50",
 		"currency": "AUD"
@@ -2212,6 +2304,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-16",
 	"post_date": "2018-06-30",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-70.00",
 		"currency": "AUD"
@@ -2235,6 +2328,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-16",
 	"post_date": "2017-12-05",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-70.00",
 		"currency": "AUD"
@@ -2258,6 +2352,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-15",
 	"post_date": "2018-06-29",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-63.00",
 		"currency": "AUD"
@@ -2283,6 +2378,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-15",
 	"post_date": "2018-06-29",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-50.00",
 		"currency": "AUD"
@@ -2306,6 +2402,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-15",
 	"post_date": "2018-06-29",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-40.00",
 		"currency": "AUD"
@@ -2329,6 +2426,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-15",
 	"post_date": "2018-06-29",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-185.00",
 		"currency": "AUD"
@@ -2352,6 +2450,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-15",
 	"post_date": "2017-12-04",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-185.00",
 		"currency": "AUD"
@@ -2377,6 +2476,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-14",
 	"post_date": "2018-06-28",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-59.00",
 		"currency": "AUD"
@@ -2402,6 +2502,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-14",
 	"post_date": "2018-06-28",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-40.00",
 		"currency": "AUD"
@@ -2427,6 +2528,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-13",
 	"post_date": "2018-06-27",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-23.00",
 		"currency": "AUD"
@@ -2452,6 +2554,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-13",
 	"post_date": "2017-12-02",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-100.00",
 		"currency": "AUD"
@@ -2475,6 +2578,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-12",
 	"post_date": "2018-06-26",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-20.00",
 		"currency": "AUD"
@@ -2500,6 +2604,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-12",
 	"post_date": "2018-06-26",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-12.50",
 		"currency": "AUD"
@@ -2523,6 +2628,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-12",
 	"post_date": "2018-06-26",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "100.00",
 		"currency": "AUD"
@@ -2546,6 +2652,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-12",
 	"post_date": "2017-12-01",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "2700.00",
 		"currency": "AUD"
@@ -2569,6 +2676,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-12",
 	"post_date": "2017-12-01",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-6.00",
 		"currency": "AUD"
@@ -2591,6 +2699,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-12",
 	"post_date": "2017-12-01",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-20.37",
 		"currency": "AUD"
@@ -2613,6 +2722,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-12",
 	"post_date": "2017-12-01",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "3.82",
 		"currency": "AUD"
@@ -2635,6 +2745,7 @@
     "user_tags": ["tag1", "tag2"],
 	"transaction_date": "2019-01-12",
 	"post_date": "2017-12-01",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "1189.00",
 		"currency": "AUD"

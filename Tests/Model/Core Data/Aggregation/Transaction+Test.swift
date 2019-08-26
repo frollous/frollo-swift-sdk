@@ -23,6 +23,7 @@ extension Transaction: TestableCoreData {
         transactionID = Int64.random(in: 1...Int64.max)
         accountID = Int64.random(in: 1...Int64.max)
         merchantID = Int64.random(in: 1...Int64.max)
+        externalID = UUID().uuidString
         transactionCategoryID = Int64.random(in: 1...Int64.max)
         memo = UUID().uuidString
         originalDescription = UUID().uuidString
