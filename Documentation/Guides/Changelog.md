@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.1.0
+## 4.0
 
 - Goals
 
@@ -10,7 +10,12 @@
 
 ### Changes
 
+- Improved custom authentication making it easier to implement
 - API version 2.4 with support for client ID on register/reset password
+
+### Fixes
+
+- Fixed an issue where naming conflicts could cause an issue and not be easily resolved by using the module namespace. The `FrolloSDK` class was renamed to `Frollo` to allow `FrolloSDK.Authentication` for example to work.
 
 ## 3.0.0
 

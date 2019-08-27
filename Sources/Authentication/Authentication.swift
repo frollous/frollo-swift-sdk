@@ -41,6 +41,7 @@ public protocol AccessToken {
  */
 public protocol AuthenticationDataSource: AnyObject {
     
+    /// Access token to use for authorisation if available. If this is not available network requests will not proceed
     var accessToken: AccessToken? { get }
     
 }

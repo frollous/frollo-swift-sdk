@@ -167,7 +167,7 @@ class NetworkTests: BaseTestCase {
             XCTAssertEqual(request.allHTTPHeaderFields?["X-Api-Version"], "2.4")
             XCTAssertEqual(request.allHTTPHeaderFields?["X-Bundle-Id"], "us.frollo.FrolloSDK")
             XCTAssertTrue(request.allHTTPHeaderFields?["X-Device-Version"]?.contains(ProcessInfo.processInfo.operatingSystemVersionString) == true)
-            XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "SDK3.1-B310")
+            XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "SDK4.0-B400")
             
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
