@@ -60,6 +60,13 @@ public protocol AuthenticationDelegate: AnyObject {
      */
     func accessTokenExpired(completion: @escaping (Bool) -> Void)
     
+    /**
+     Access Token Invalid
+     
+     The host has rejected the access token and the user should be re-authenticated
+     */
+    func accessTokenInvalid()
+    
 }
 
 /**
@@ -93,6 +100,10 @@ public class Authentication: RequestAdapter, RequestRetrier {
     
     internal func reset() {
         cancelRetryRequests()
+    }
+    
+    internal func tokenInvalidated() {
+        delegate?.accessTokenInvalid()
     }
     
     // MARK: - Authorize Network Requests

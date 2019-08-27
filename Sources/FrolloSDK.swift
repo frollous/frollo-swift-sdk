@@ -11,7 +11,7 @@ import Foundation
 public typealias FrolloSDKCompletionHandler = (EmptyResult<Error>) -> Void
 
 /// Frollo SDK manager and main instantiation. Responsible for managing the lifecycle and coordination of the SDK
-public class Frollo {
+public class Frollo: UserManagementDelegate {
     
     /// Notification triggered when ever the authentication status of the SDK changes. Observe this notification to detect if the SDK user has authenticated or been logged out.
     public static let authenticationChangedNotification = Notification.Name(rawValue: "FrolloSDK.authenticationChangedNotification")
@@ -384,6 +384,8 @@ public class Frollo {
     internal func internalReset(completionHandler: FrolloSDKCompletionHandler? = nil) {
         pauseScheduledRefreshing()
         
+        defaultAuthentication?.reset()
+        
         network.reset()
         
         keychain.removeAll()
@@ -513,9 +515,7 @@ public class Frollo {
         refreshTimer = nil
     }
     
-}
-
-extension Frollo: UserManagementDelegate {
+    // MARK: - User Management Delegate
     
     internal func userDeleted() {
         authentication.reset()

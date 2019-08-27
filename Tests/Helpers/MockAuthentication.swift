@@ -51,20 +51,32 @@ class MockAuthentication: AuthenticationDataSource, AuthenticationDelegate {
         completion(canSuccessfullyRefresh)
     }
     
+    func accessTokenInvalid() {
+        privateToken = nil
+    }
+    
 }
 
 class MockAuthenticationCompletion: MockAuthentication {
     
-    let mockCompletion: (() -> Void)
+    let expiredCompletion: (() -> Void)?
+    let invalidCompletion: (() -> Void)?
     
-    init(_ completion: @escaping () -> Void) {
-        self.mockCompletion = completion
+    init(expiredCompletion: (() -> Void)?, invalidCompletion: (() -> Void)?) {
+        self.expiredCompletion = expiredCompletion
+        self.invalidCompletion = invalidCompletion
     }
     
     override func accessTokenExpired(completion: @escaping (Bool) -> Void) {
         super.accessTokenExpired(completion: completion)
         
-        mockCompletion()
+        expiredCompletion?()
+    }
+    
+    override func accessTokenInvalid() {
+        super.accessTokenInvalid()
+        
+        invalidCompletion?()
     }
     
 }

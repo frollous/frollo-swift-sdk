@@ -186,7 +186,6 @@ class OAuth2AuthenticationTests: BaseTestCase {
                         XCTAssertFalse(oAuth2Authentication.loggedIn)
                         
                         XCTAssertNil(oAuth2Authentication.accessToken)
-                        
                         XCTAssertNil(oAuth2Authentication.refreshToken)
                         
                         if let authError = error as? OAuth2Error {
@@ -235,29 +234,19 @@ class OAuth2AuthenticationTests: BaseTestCase {
         
         let path = tempFolderPath()
         let database = Database(path: path)
-        let preferences = Preferences(path: path)
         let keychain = Keychain(service: keychainService)
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            authentication.loginUserUsingWeb(scopes: ["offline_access", "email", "openid"]) { (result) in
+            oAuth2Authentication.loginUserUsingWeb(scopes: ["offline_access", "email", "openid"]) { (result) in
                 switch result {
                     case .failure(let error):
-                        XCTAssertFalse(authentication.loggedIn)
+                        XCTAssertFalse(oAuth2Authentication.loggedIn)
                         
-                        XCTAssertNil(user.fetchUser(context: database.newBackgroundContext()))
-                        
-                        XCTAssertNil(networkAuthenticator.accessToken)
-                        XCTAssertNil(networkAuthenticator.expiryDate)
-                        
-                        XCTAssertNil(authentication.refreshToken)
+                        XCTAssertNil(oAuth2Authentication.accessToken)
+                        XCTAssertNil(oAuth2Authentication.refreshToken)
                         
                         if let authError = error as? OAuth2Error {
                             XCTAssertEqual(authError.type, .clientError)
@@ -275,7 +264,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             let authURL = URL(string: "app://redirect?code=4VbXuJz8dfFiCaJh&state=smpNp40xhOR5hDUQRevUtPDjkEV5e9Xh0k7dtjaTelA")!
             
-            let result = authentication.resumeAuthentication(url: authURL)
+            let result = oAuth2Authentication.resumeAuthentication(url: authURL)
             
             XCTAssertTrue(result)
             
@@ -594,7 +583,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "error_oauth2_invalid_grant", addingStatusCode: 401)
         
         let keychain = validKeychain()
-        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain)
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
         
         oAuth2Authentication.updateRefreshToken("IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
         
@@ -633,7 +622,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
         
         let keychain = Keychain(service: keychainService)
-        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain)
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
         
         database.setup { (error) in
             XCTAssertNil(error)

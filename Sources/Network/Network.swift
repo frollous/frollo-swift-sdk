@@ -141,6 +141,8 @@ class Network: SessionDelegate {
     
     internal func handleFailure<T: ResponseError>(type: T.Type, response: DataResponse<Data>, error: Error, completion: (_: FrolloSDKError) -> Void) {
         if let parsedError = error as? DataError, parsedError.type == .authentication, parsedError.subType == .missingRefreshToken {
+            authentication.tokenInvalidated()
+            
             reset()
             
             completion(parsedError)
@@ -153,12 +155,16 @@ class Network: SessionDelegate {
                 let clearTokenStatuses: [APIError.APIErrorType] = [.invalidRefreshToken, .suspendedDevice, .suspendedUser, .otherAuthorisation, .accountLocked]
                 
                 if clearTokenStatuses.contains(apiError.type) {
+                    authentication.tokenInvalidated()
+                    
                     reset()
                 }
             } else if let oAuth2Error = responseError as? OAuth2Error {
                 let clearTokenStatuses: [OAuth2Error.OAuth2ErrorType] = [.invalidClient, .invalidRequest, .invalidGrant, .invalidScope, .unauthorizedClient, .unsupportedGrantType, .serverError]
                 
                 if clearTokenStatuses.contains(oAuth2Error.type) {
+                    authentication.tokenInvalidated()
+                    
                     reset()
                 }
             }

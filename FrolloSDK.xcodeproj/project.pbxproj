@@ -793,6 +793,9 @@
 		01A7229222E7F6A6006136D8 /* FrolloSDKDataModel-1.3.3.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 01A7228B22E7F6A5006136D8 /* FrolloSDKDataModel-1.3.3.sqlite-wal */; };
 		01A7229322E7F6A6006136D8 /* FrolloSDKDataModel-1.3.3.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 01A7228B22E7F6A5006136D8 /* FrolloSDKDataModel-1.3.3.sqlite-wal */; };
 		01A7229422E7F6A6006136D8 /* FrolloSDKDataModel-1.3.3.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 01A7228B22E7F6A5006136D8 /* FrolloSDKDataModel-1.3.3.sqlite-wal */; };
+		01B71A2C23149C4D0040D5A5 /* MockFrolloDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B71A2B23149C4D0040D5A5 /* MockFrolloDelegate.swift */; };
+		01B71A2D23149C4D0040D5A5 /* MockFrolloDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B71A2B23149C4D0040D5A5 /* MockFrolloDelegate.swift */; };
+		01B71A2E23149C4D0040D5A5 /* MockFrolloDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B71A2B23149C4D0040D5A5 /* MockFrolloDelegate.swift */; };
 		01B896B520F2EDA30068069A /* error_invalid_value.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896A320F2EDA30068069A /* error_invalid_value.json */; };
 		01B896B620F2EDA30068069A /* error_invalid_auth_head.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896A420F2EDA30068069A /* error_invalid_auth_head.json */; };
 		01B896B720F2EDA30068069A /* error_invalid_access_token.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B896A520F2EDA30068069A /* error_invalid_access_token.json */; };
@@ -1514,6 +1517,7 @@
 		01A7228922E7F6A4006136D8 /* FrolloSDKDataModel-1.3.3.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.3.3.sqlite-shm"; sourceTree = "<group>"; };
 		01A7228A22E7F6A4006136D8 /* FrolloSDKDataModel-1.3.3.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.3.3.sqlite"; sourceTree = "<group>"; };
 		01A7228B22E7F6A5006136D8 /* FrolloSDKDataModel-1.3.3.sqlite-wal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FrolloSDKDataModel-1.3.3.sqlite-wal"; sourceTree = "<group>"; };
+		01B71A2B23149C4D0040D5A5 /* MockFrolloDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFrolloDelegate.swift; sourceTree = "<group>"; };
 		01B896A320F2EDA30068069A /* error_invalid_value.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_invalid_value.json; sourceTree = "<group>"; };
 		01B896A420F2EDA30068069A /* error_invalid_auth_head.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_invalid_auth_head.json; sourceTree = "<group>"; };
 		01B896A520F2EDA30068069A /* error_invalid_access_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_invalid_access_token.json; sourceTree = "<group>"; };
@@ -2406,6 +2410,7 @@
 			isa = PBXGroup;
 			children = (
 				01D4926F22D4645D0074C7EC /* MockAuthentication.swift */,
+				01B71A2B23149C4D0040D5A5 /* MockFrolloDelegate.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -4104,6 +4109,7 @@
 				0101A8EE21CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
 				01D4927022D4645D0074C7EC /* MockAuthentication.swift in Sources */,
 				017F0FE122DEB70500ACE7BB /* APIGoalUpdateRequest+Test.swift in Sources */,
+				01B71A2C23149C4D0040D5A5 /* MockFrolloDelegate.swift in Sources */,
 				011C198B21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */,
 				01C824F320EC4D600093400E /* LogTests.swift in Sources */,
 				03E157BA227BBFD90083F0D8 /* BaseTestCase.swift in Sources */,
@@ -4228,6 +4234,7 @@
 				0101A8EF21CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
 				01D4927122D4645D0074C7EC /* MockAuthentication.swift in Sources */,
 				017F0FE222DEB70500ACE7BB /* APIGoalUpdateRequest+Test.swift in Sources */,
+				01B71A2D23149C4D0040D5A5 /* MockFrolloDelegate.swift in Sources */,
 				011C198C21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */,
 				017B483E2101B4FE00447E65 /* LogTests.swift in Sources */,
 				03E157BB227BBFE50083F0D8 /* BaseTestCase.swift in Sources */,
@@ -4361,6 +4368,7 @@
 				0101A8F021CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
 				01D4927222D4645D0074C7EC /* MockAuthentication.swift in Sources */,
 				017F0FE322DEB70500ACE7BB /* APIGoalUpdateRequest+Test.swift in Sources */,
+				01B71A2E23149C4D0040D5A5 /* MockFrolloDelegate.swift in Sources */,
 				011C198D21E30B7B00490EDD /* APIBillPaymentUpdateRequest+Test.swift in Sources */,
 				016097EC210EA0D60034E857 /* XCTestCase+TempFolder.swift in Sources */,
 				03E157BC227BBFE50083F0D8 /* BaseTestCase.swift in Sources */,

@@ -348,6 +348,9 @@ class UserManagementTests: BaseTestCase {
         let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
         let user = defaultUser(keychain: keychain, authentication: authentication, delegate: nil)
         
+        authentication.dataSource = oAuth2Authentication
+        authentication.delegate = oAuth2Authentication
+        
         database.setup { (error) in
             XCTAssertNil(error)
             
@@ -421,6 +424,7 @@ class UserManagementTests: BaseTestCase {
     
     func testMigrateUser() {
         let expectation1 = expectation(description: "Network Request")
+        let expectation2 = expectation(description: "Reset")
         
         let config = FrolloSDKConfiguration.testConfig()
         
@@ -437,8 +441,14 @@ class UserManagementTests: BaseTestCase {
         authentication.dataSource = oAuth2Authentication
         authentication.delegate = oAuth2Authentication
         
-        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: oAuth2Authentication, preferences: preferences, delegate: nil)
+        let mockFrollo = MockFrolloDelegate {
+            authentication.reset()
+            oAuth2Authentication.reset()
+            
+            expectation2.fulfill()
+        }
         
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: oAuth2Authentication, preferences: preferences, delegate: mockFrollo)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -458,7 +468,7 @@ class UserManagementTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1, expectation2], timeout: 3.0)
     }
 
     func testMigrateUserFailsIfMissingRefreshToken() {

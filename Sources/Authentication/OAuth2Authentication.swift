@@ -349,7 +349,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
             
             Log.error(error.localizedDescription)
             
-            reset()
+            forcedReset()
             
             DispatchQueue.main.async {
                 completion(.failure(error))
@@ -412,7 +412,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
             
             Log.error(error.localizedDescription)
             
-            reset()
+            forcedReset()
             
             DispatchQueue.main.async {
                 completion?(.failure(error))
@@ -480,7 +480,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
             }
         }
         
-        reset()
+        forcedReset()
     }
     
     /**
@@ -490,6 +490,10 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
         loggedIn = false
         
         clearTokens()
+    }
+    
+    private func forcedReset() {
+        reset()
         
         delegate?.reset()
     }
@@ -500,7 +504,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
         refreshTokens { result in
             switch result {
                 case .failure:
-                    self.reset()
+                    self.forcedReset()
                     
                     completion(false)
                 case .success:
@@ -509,18 +513,22 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
         }
     }
     
+    public func accessTokenInvalid() {
+        forcedReset()
+    }
+    
     internal func handleTokenError(error: Error) {
         if let authError = error as? OAuth2Error {
             let clearTokenStatuses: [OAuth2Error.OAuth2ErrorType] = [.invalidClient, .invalidRequest, .invalidGrant, .invalidScope, .unauthorizedClient, .unsupportedGrantType, .serverError]
             
             if clearTokenStatuses.contains(authError.type) {
-                reset()
+                forcedReset()
             }
         } else if let dataError = error as? DataError {
             let clearTokenStatuses: [DataError.DataErrorType] = [.authentication]
             
             if clearTokenStatuses.contains(dataError.type) {
-                reset()
+                forcedReset()
             }
         }
     }

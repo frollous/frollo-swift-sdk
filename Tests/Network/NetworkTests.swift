@@ -242,13 +242,13 @@ class NetworkTests: BaseTestCase {
         
         let keychain = Keychain(service: keychainService)
         
+        let completionAuthenticationDelegate = MockAuthenticationCompletion(expiredCompletion: nil) {
+            expectation2.fulfill()
+        }
         let authentication = defaultAuthentication(keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let completionAuthenticationDelegate = MockAuthenticationCompletion {
-            expectation2.fulfill()
-        }
         authentication.dataSource = completionAuthenticationDelegate
         authentication.delegate = completionAuthenticationDelegate
         
@@ -282,7 +282,7 @@ class NetworkTests: BaseTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let oAuthService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: nil, network: network)
         
-        let completionAuthenticationDelegate = MockAuthenticationCompletion {
+        let completionAuthenticationDelegate = MockAuthenticationCompletion(expiredCompletion: nil) {
             expectation2.fulfill()
         }
         authentication.dataSource = completionAuthenticationDelegate
