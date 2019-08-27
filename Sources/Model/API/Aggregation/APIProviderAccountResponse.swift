@@ -47,7 +47,7 @@ struct APIProviderAccountResponse: APIUniqueResponse, Codable {
     
     var id: Int64
     let editable: Bool
-    let externalID: String
+    let externalID: String?
     let loginForm: ProviderLoginForm?
     let providerID: Int64
     let refreshStatus: RefreshStatus

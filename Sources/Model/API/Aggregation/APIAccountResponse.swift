@@ -133,7 +133,7 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
     let accountAttributes: Attributes
     let accountName: String
     let accountStatus: Account.AccountStatus
-    let externalID: String
+    let externalID: String?
     let favourite: Bool
     let hidden: Bool
     let included: Bool

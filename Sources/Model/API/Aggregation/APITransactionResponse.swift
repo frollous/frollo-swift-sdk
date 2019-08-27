@@ -111,7 +111,7 @@ struct APITransactionResponse: APIUniqueResponse, Codable {
     let budgetCategory: BudgetCategory
     let categoryID: Int64
     let description: Description
-    let externalID: String
+    let externalID: String?
     let included: Bool
     let memo: String?
     let merchant: Merchant
