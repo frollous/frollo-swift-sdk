@@ -886,6 +886,8 @@ public class Reports: ResponseHandler, CachedObjects {
                 groupReport.linkedID = groupReportResponse.id
                 groupReport.value = NSDecimalNumber(string: groupReportResponse.value)
                 groupReport.name = groupReportResponse.name
+                groupReport.transactionCount = Int64(groupReportResponse.transactionIDs.count)
+                groupReport.transactionIDs = groupReportResponse.transactionIDs
                 
                 if groupReport.grouping == .budgetCategory {
                     groupReport.budgetCategory = BudgetCategory(rawValue: groupReportResponse.name)
