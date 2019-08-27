@@ -280,7 +280,7 @@ class NetworkTests: BaseTestCase {
         
         let authentication = defaultAuthentication(keychain: keychain)
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
-        let oAuthService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: nil, network: network)
+        let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: nil, network: network)
         
         let completionAuthenticationDelegate = MockAuthenticationCompletion(expiredCompletion: nil) {
             expectation2.fulfill()
@@ -288,8 +288,8 @@ class NetworkTests: BaseTestCase {
         authentication.dataSource = completionAuthenticationDelegate
         authentication.delegate = completionAuthenticationDelegate
         
-        let request = OAuthTokenRequest.testLoginValidData()
-        oAuthService.refreshTokens(request: request) { (result) in
+        let request = OAuth2TokenRequest.testLoginValidData()
+        authService.refreshTokens(request: request) { (result) in
             switch result {
                 case .failure:
                     break

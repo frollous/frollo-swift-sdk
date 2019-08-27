@@ -19,7 +19,7 @@ import XCTest
 
 import OHHTTPStubs
 
-class OAuthServiceTests: XCTestCase {
+class OAuth2ServiceTests: XCTestCase {
     
     private let keychainService = "TokenRequestTests"
 
@@ -46,9 +46,9 @@ class OAuthServiceTests: XCTestCase {
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+        let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
-        let loginRequest = OAuthTokenRequest.testLoginValidData()
+        let loginRequest = OAuth2TokenRequest.testLoginValidData()
         
         authService.refreshTokens(request: loginRequest) { (result) in
             switch result {
@@ -84,9 +84,9 @@ class OAuthServiceTests: XCTestCase {
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+        let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
-        let loginRequest = OAuthTokenRequest.testLoginInvalidData()
+        let loginRequest = OAuth2TokenRequest.testLoginInvalidData()
         
         authService.refreshTokens(request: loginRequest) { (result) in
             switch result {

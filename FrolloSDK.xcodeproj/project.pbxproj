@@ -106,8 +106,8 @@
 		01226E3122A5071400A443EF /* error_migration_failed.json in Resources */ = {isa = PBXBuildFile; fileRef = 01226E3022A5071400A443EF /* error_migration_failed.json */; };
 		01226E3222A5071400A443EF /* error_migration_failed.json in Resources */ = {isa = PBXBuildFile; fileRef = 01226E3022A5071400A443EF /* error_migration_failed.json */; };
 		01226E3322A5071400A443EF /* error_migration_failed.json in Resources */ = {isa = PBXBuildFile; fileRef = 01226E3022A5071400A443EF /* error_migration_failed.json */; };
-		01226E3A22A774DE00A443EF /* OAuthTokenRevokeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01226E3922A774DD00A443EF /* OAuthTokenRevokeRequest.swift */; };
-		01226E3B22A774DE00A443EF /* OAuthTokenRevokeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01226E3922A774DD00A443EF /* OAuthTokenRevokeRequest.swift */; };
+		01226E3A22A774DE00A443EF /* OAuth2TokenRevokeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01226E3922A774DD00A443EF /* OAuth2TokenRevokeRequest.swift */; };
+		01226E3B22A774DE00A443EF /* OAuth2TokenRevokeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01226E3922A774DD00A443EF /* OAuth2TokenRevokeRequest.swift */; };
 		01236D0721EBEC09008DD61A /* APITransactionHistoryReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0621EBEC09008DD61A /* APITransactionHistoryReportResponse.swift */; };
 		01236D0A21EBF4E5008DD61A /* Reports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0921EBF4E5008DD61A /* Reports.swift */; };
 		01236D0C21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D0B21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift */; };
@@ -826,10 +826,10 @@
 		01BB5A57221CDDA1000C03F0 /* FrolloSDKConfiguration+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A56221CDDA1000C03F0 /* FrolloSDKConfiguration+Test.swift */; };
 		01BB5A58221CDDA1000C03F0 /* FrolloSDKConfiguration+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A56221CDDA1000C03F0 /* FrolloSDKConfiguration+Test.swift */; };
 		01BB5A59221CDDA1000C03F0 /* FrolloSDKConfiguration+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A56221CDDA1000C03F0 /* FrolloSDKConfiguration+Test.swift */; };
-		01BB5A5C221D1A26000C03F0 /* OAuthTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A5B221D1A26000C03F0 /* OAuthTokenRequest.swift */; };
-		01BB5A5E221E00AA000C03F0 /* OAuthTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A5D221E00AA000C03F0 /* OAuthTokenResponse.swift */; };
+		01BB5A5C221D1A26000C03F0 /* OAuth2TokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A5B221D1A26000C03F0 /* OAuth2TokenRequest.swift */; };
+		01BB5A5E221E00AA000C03F0 /* OAuth2TokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A5D221E00AA000C03F0 /* OAuth2TokenResponse.swift */; };
 		01BB5A64221E07D0000C03F0 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A63221E07D0000C03F0 /* HTTPHeader.swift */; };
-		01BB5A68221E1E21000C03F0 /* OAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A67221E1E21000C03F0 /* OAuthService.swift */; };
+		01BB5A68221E1E21000C03F0 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A67221E1E21000C03F0 /* OAuth2Service.swift */; };
 		01BB5A6A221E1E2F000C03F0 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A69221E1E2F000C03F0 /* APIService.swift */; };
 		01BB5A6D221F54A3000C03F0 /* OAuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A6C221F54A3000C03F0 /* OAuthServiceTests.swift */; };
 		01BB5A6E221F54A3000C03F0 /* OAuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A6C221F54A3000C03F0 /* OAuthServiceTests.swift */; };
@@ -893,7 +893,7 @@
 		01E5BEFB2227A475003D85FD /* PublicKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0159E46D2190F3BD002CC3BB /* PublicKeys.swift */; };
 		01E5BEFC2227A475003D85FD /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B48D92106E1C100447E65 /* User+CoreDataClass.swift */; };
 		01E5BEFD2227A475003D85FD /* APIProviderResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016097F4210EE2BA0034E857 /* APIProviderResponse.swift */; };
-		01E5BEFE2227A475003D85FD /* OAuthTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A5D221E00AA000C03F0 /* OAuthTokenResponse.swift */; };
+		01E5BEFE2227A475003D85FD /* OAuth2TokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A5D221E00AA000C03F0 /* OAuth2TokenResponse.swift */; };
 		01E5BEFF2227A475003D85FD /* ReportAccountBalance+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01704F5721FAD13D00666DAE /* ReportAccountBalance+CoreDataClass.swift */; };
 		01E5BF002227A475003D85FD /* APIService+Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126069221992A36005D8377 /* APIService+Messages.swift */; };
 		01E5BF012227A475003D85FD /* APIBillUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01405E4921DC43A8009356CC /* APIBillUpdateRequest.swift */; };
@@ -943,7 +943,7 @@
 		01E5BF2F2227A475003D85FD /* ReportTransactionCurrent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104E02C21E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataClass.swift */; };
 		01E5BF302227A475003D85FD /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0136D224210011E70062EAEA /* Keychain.swift */; };
 		01E5BF312227A475003D85FD /* ReportTransactionCurrent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104E02D21E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataProperties.swift */; };
-		01E5BF322227A475003D85FD /* OAuthTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A5B221D1A26000C03F0 /* OAuthTokenRequest.swift */; };
+		01E5BF322227A475003D85FD /* OAuth2TokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A5B221D1A26000C03F0 /* OAuth2TokenRequest.swift */; };
 		01E5BF332227A475003D85FD /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068221990377005D8377 /* Messages.swift */; };
 		01E5BF342227A475003D85FD /* APIMessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126069521992AD4005D8377 /* APIMessageResponse.swift */; };
 		01E5BF352227A475003D85FD /* FailableCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EEDDD210FD7710081AD76 /* FailableCodable.swift */; };
@@ -954,7 +954,7 @@
 		01E5BF3B2227A475003D85FD /* AccountBalanceTier+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01483B6A2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift */; };
 		01E5BF3C2227A475003D85FD /* ReportTransactionHistory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104E02B21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataProperties.swift */; };
 		01E5BF3D2227A475003D85FD /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EED86120E5A7EA00F4516B /* Preferences.swift */; };
-		01E5BF3E2227A475003D85FD /* OAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A67221E1E21000C03F0 /* OAuthService.swift */; };
+		01E5BF3E2227A475003D85FD /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BB5A67221E1E21000C03F0 /* OAuth2Service.swift */; };
 		01E5BF3F2227A475003D85FD /* Message+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068621991963005D8377 /* Message+CoreDataClass.swift */; };
 		01E5BF402227A475003D85FD /* APIUserChangePasswordRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01333D3E216AAF36005764A4 /* APIUserChangePasswordRequest.swift */; };
 		01E5BF412227A475003D85FD /* APIErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017391EF20EF001200C0BB32 /* APIErrorResponse.swift */; };
@@ -1221,7 +1221,7 @@
 		011F8152219E637E00A1495F /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		01226E2D22A506FD00A443EF /* APIUserMigrationRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIUserMigrationRequest.swift; sourceTree = "<group>"; };
 		01226E3022A5071400A443EF /* error_migration_failed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_migration_failed.json; sourceTree = "<group>"; };
-		01226E3922A774DD00A443EF /* OAuthTokenRevokeRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthTokenRevokeRequest.swift; sourceTree = "<group>"; };
+		01226E3922A774DD00A443EF /* OAuth2TokenRevokeRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2TokenRevokeRequest.swift; sourceTree = "<group>"; };
 		01236D0621EBEC09008DD61A /* APITransactionHistoryReportResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionHistoryReportResponse.swift; sourceTree = "<group>"; };
 		01236D0921EBF4E5008DD61A /* Reports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reports.swift; sourceTree = "<group>"; };
 		01236D0B21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionCurrentReportResponse.swift; sourceTree = "<group>"; };
@@ -1544,10 +1544,10 @@
 		01BB5A50221CC727000C03F0 /* DatabaseResetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseResetTests.swift; sourceTree = "<group>"; };
 		01BB5A54221CD2AE000C03F0 /* FrolloSDKConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrolloSDKConfiguration.swift; sourceTree = "<group>"; };
 		01BB5A56221CDDA1000C03F0 /* FrolloSDKConfiguration+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FrolloSDKConfiguration+Test.swift"; sourceTree = "<group>"; };
-		01BB5A5B221D1A26000C03F0 /* OAuthTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenRequest.swift; sourceTree = "<group>"; };
-		01BB5A5D221E00AA000C03F0 /* OAuthTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponse.swift; sourceTree = "<group>"; };
+		01BB5A5B221D1A26000C03F0 /* OAuth2TokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2TokenRequest.swift; sourceTree = "<group>"; };
+		01BB5A5D221E00AA000C03F0 /* OAuth2TokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2TokenResponse.swift; sourceTree = "<group>"; };
 		01BB5A63221E07D0000C03F0 /* HTTPHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
-		01BB5A67221E1E21000C03F0 /* OAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthService.swift; sourceTree = "<group>"; };
+		01BB5A67221E1E21000C03F0 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		01BB5A69221E1E2F000C03F0 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		01BB5A6C221F54A3000C03F0 /* OAuthServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthServiceTests.swift; sourceTree = "<group>"; };
 		01BB5A71221F55F9000C03F0 /* OAuthTokenRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OAuthTokenRequest+Test.swift"; sourceTree = "<group>"; };
@@ -2742,15 +2742,15 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
-		01BB5A5A221D19F4000C03F0 /* OAuth */ = {
+		01BB5A5A221D19F4000C03F0 /* OAuth2 */ = {
 			isa = PBXGroup;
 			children = (
 				2FE180072248892800B87AAB /* OAuth2ErrorResponse.swift */,
-				01BB5A5B221D1A26000C03F0 /* OAuthTokenRequest.swift */,
-				01BB5A5D221E00AA000C03F0 /* OAuthTokenResponse.swift */,
-				01226E3922A774DD00A443EF /* OAuthTokenRevokeRequest.swift */,
+				01BB5A5B221D1A26000C03F0 /* OAuth2TokenRequest.swift */,
+				01BB5A5D221E00AA000C03F0 /* OAuth2TokenResponse.swift */,
+				01226E3922A774DD00A443EF /* OAuth2TokenRevokeRequest.swift */,
 			);
-			path = OAuth;
+			path = OAuth2;
 			sourceTree = "<group>";
 		};
 		01BB5A65221E1C56000C03F0 /* API */ = {
@@ -2763,12 +2763,12 @@
 			path = API;
 			sourceTree = "<group>";
 		};
-		01BB5A66221E1C6F000C03F0 /* OAuth */ = {
+		01BB5A66221E1C6F000C03F0 /* OAuth2 */ = {
 			isa = PBXGroup;
 			children = (
-				01BB5A67221E1E21000C03F0 /* OAuthService.swift */,
+				01BB5A67221E1E21000C03F0 /* OAuth2Service.swift */,
 			);
-			path = OAuth;
+			path = OAuth2;
 			sourceTree = "<group>";
 		};
 		01BB5A6B221F5484000C03F0 /* OAuth */ = {
@@ -2905,7 +2905,7 @@
 			children = (
 				013D2D81210A885F00EEDEC5 /* API */,
 				017391EC20EEFFEA00C0BB32 /* Core Data */,
-				01BB5A5A221D19F4000C03F0 /* OAuth */,
+				01BB5A5A221D19F4000C03F0 /* OAuth2 */,
 				017391EB20EEFFEA00C0BB32 /* Transient */,
 				013BC1DC218A690F005A2714 /* View Model */,
 			);
@@ -2933,7 +2933,7 @@
 			isa = PBXGroup;
 			children = (
 				01BB5A65221E1C56000C03F0 /* API */,
-				01BB5A66221E1C6F000C03F0 /* OAuth */,
+				01BB5A66221E1C6F000C03F0 /* OAuth2 */,
 				01BB5A63221E07D0000C03F0 /* HTTPHeader.swift */,
 				0159E46D2190F3BD002CC3BB /* PublicKeys.swift */,
 				01EED85F20E5A7EA00F4516B /* Network.swift */,
@@ -3866,7 +3866,7 @@
 				01EED86E20E5AAAB00F4516B /* Database.swift in Sources */,
 				01874B8120FDA1DD005A7D0C /* Authentication.swift in Sources */,
 				0159E4832193CBAD002CC3BB /* Transaction+CoreDataProperties.swift in Sources */,
-				01226E3A22A774DE00A443EF /* OAuthTokenRevokeRequest.swift in Sources */,
+				01226E3A22A774DE00A443EF /* OAuth2TokenRevokeRequest.swift in Sources */,
 				01226E2E22A5070000A443EF /* APIUserMigrationRequest.swift in Sources */,
 				0159E4842193CBAD002CC3BB /* TransactionCategory+CoreDataProperties.swift in Sources */,
 				01C824FD20EDD6630093400E /* FrolloSDKError.swift in Sources */,
@@ -3884,7 +3884,7 @@
 				0159E46E2190F3BD002CC3BB /* PublicKeys.swift in Sources */,
 				017B48DB2106E1C100447E65 /* User+CoreDataClass.swift in Sources */,
 				016097F5210EE2BB0034E857 /* APIProviderResponse.swift in Sources */,
-				01BB5A5E221E00AA000C03F0 /* OAuthTokenResponse.swift in Sources */,
+				01BB5A5E221E00AA000C03F0 /* OAuth2TokenResponse.swift in Sources */,
 				01704F5921FAD13D00666DAE /* ReportAccountBalance+CoreDataClass.swift in Sources */,
 				0126069321992A36005D8377 /* APIService+Messages.swift in Sources */,
 				0175C801224ADC070065AF9F /* ResponseError.swift in Sources */,
@@ -3945,7 +3945,7 @@
 				0136D225210011E70062EAEA /* Keychain.swift in Sources */,
 				0104E03121E84EED00D98EE7 /* ReportTransactionCurrent+CoreDataProperties.swift in Sources */,
 				2F657DA3223B26B300471B85 /* Survey.swift in Sources */,
-				01BB5A5C221D1A26000C03F0 /* OAuthTokenRequest.swift in Sources */,
+				01BB5A5C221D1A26000C03F0 /* OAuth2TokenRequest.swift in Sources */,
 				0161394D2283EF74001A62E8 /* UserManagement.swift in Sources */,
 				0126068321990377005D8377 /* Messages.swift in Sources */,
 				0126069621992AD4005D8377 /* APIMessageResponse.swift in Sources */,
@@ -3958,7 +3958,7 @@
 				01483B6E2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift in Sources */,
 				0104E02F21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataProperties.swift in Sources */,
 				01EED86420E5A7EB00F4516B /* Preferences.swift in Sources */,
-				01BB5A68221E1E21000C03F0 /* OAuthService.swift in Sources */,
+				01BB5A68221E1E21000C03F0 /* OAuth2Service.swift in Sources */,
 				0126068821991963005D8377 /* Message+CoreDataClass.swift in Sources */,
 				01333D3F216AAF36005764A4 /* APIUserChangePasswordRequest.swift in Sources */,
 				017391F020EF001200C0BB32 /* APIErrorResponse.swift in Sources */,
@@ -4421,7 +4421,7 @@
 				01E5BEEE2227A475003D85FD /* Database.swift in Sources */,
 				01E5BEEF2227A475003D85FD /* Authentication.swift in Sources */,
 				03ADF87C22795C78001B5E20 /* Tag+CoreDataProperties.swift in Sources */,
-				01226E3B22A774DE00A443EF /* OAuthTokenRevokeRequest.swift in Sources */,
+				01226E3B22A774DE00A443EF /* OAuth2TokenRevokeRequest.swift in Sources */,
 				01226E2F22A5070000A443EF /* APIUserMigrationRequest.swift in Sources */,
 				01E5BEF02227A475003D85FD /* Transaction+CoreDataProperties.swift in Sources */,
 				01E5BEF12227A475003D85FD /* TransactionCategory+CoreDataProperties.swift in Sources */,
@@ -4440,7 +4440,7 @@
 				01E5BEFB2227A475003D85FD /* PublicKeys.swift in Sources */,
 				01E5BEFC2227A475003D85FD /* User+CoreDataClass.swift in Sources */,
 				01E5BEFD2227A475003D85FD /* APIProviderResponse.swift in Sources */,
-				01E5BEFE2227A475003D85FD /* OAuthTokenResponse.swift in Sources */,
+				01E5BEFE2227A475003D85FD /* OAuth2TokenResponse.swift in Sources */,
 				01E5BEFF2227A475003D85FD /* ReportAccountBalance+CoreDataClass.swift in Sources */,
 				01E5BF002227A475003D85FD /* APIService+Messages.swift in Sources */,
 				0175C802224ADC070065AF9F /* ResponseError.swift in Sources */,
@@ -4501,7 +4501,7 @@
 				01E5BF302227A475003D85FD /* Keychain.swift in Sources */,
 				01E5BF312227A475003D85FD /* ReportTransactionCurrent+CoreDataProperties.swift in Sources */,
 				0161394E2283EF74001A62E8 /* UserManagement.swift in Sources */,
-				01E5BF322227A475003D85FD /* OAuthTokenRequest.swift in Sources */,
+				01E5BF322227A475003D85FD /* OAuth2TokenRequest.swift in Sources */,
 				01E5BF332227A475003D85FD /* Messages.swift in Sources */,
 				01E5BF342227A475003D85FD /* APIMessageResponse.swift in Sources */,
 				01E5BF352227A475003D85FD /* FailableCodable.swift in Sources */,
@@ -4512,7 +4512,7 @@
 				01E5BF3B2227A475003D85FD /* AccountBalanceTier+CoreDataClass.swift in Sources */,
 				01E5BF3C2227A475003D85FD /* ReportTransactionHistory+CoreDataProperties.swift in Sources */,
 				01E5BF3D2227A475003D85FD /* Preferences.swift in Sources */,
-				01E5BF3E2227A475003D85FD /* OAuthService.swift in Sources */,
+				01E5BF3E2227A475003D85FD /* OAuth2Service.swift in Sources */,
 				01E5BF3F2227A475003D85FD /* Message+CoreDataClass.swift in Sources */,
 				01E5BF402227A475003D85FD /* APIUserChangePasswordRequest.swift in Sources */,
 				01E5BF412227A475003D85FD /* APIErrorResponse.swift in Sources */,

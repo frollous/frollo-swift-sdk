@@ -203,7 +203,7 @@ class DatabaseMigrationTests: XCTestCase {
                     XCTAssertNotNil(error)
                     
                     XCTAssertFalse(FileManager.default.fileExists(atPath: sdk._database.storeURL.path))
-                    XCTAssertFalse(sdk.defaultAuthentication?.loggedIn == true)
+                    XCTAssertFalse(sdk.oAuth2Authentication?.loggedIn == true)
                         
                     expectation1.fulfill()
                 case .success:

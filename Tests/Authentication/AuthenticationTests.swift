@@ -66,7 +66,7 @@ class AuthenticationTests: BaseTestCase {
         
         XCTAssert(authenticationHandler === sdk.authentication.dataSource)
         XCTAssert(authenticationHandler === sdk.authentication.delegate)
-        XCTAssertNil(sdk.defaultAuthentication)
+        XCTAssertNil(sdk.oAuth2Authentication)
         
         XCTAssertNotNil(authenticationHandler.accessToken)
         

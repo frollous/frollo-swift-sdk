@@ -261,7 +261,7 @@ class FrolloSDKTests: XCTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    sdk.defaultAuthentication?.loginUser(email: "user@example.com", password: "password", scopes: ["offline_access", "email", "openid"], completion: { (error) in
+                    sdk.oAuth2Authentication?.loginUser(email: "user@example.com", password: "password", scopes: ["offline_access", "email", "openid"], completion: { (error) in
                         sdk.refreshData()
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {

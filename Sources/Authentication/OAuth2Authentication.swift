@@ -34,6 +34,23 @@ import UIKit
  */
 public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDelegate {
     
+    /// Notification triggered whenever the authentication status of the OAuth2 client changes. Observe this notification to detect if the OAuth2 user has authenticated or been logged out.
+    public static let authenticationChangedNotification = Notification.Name(rawValue: "Frollo.OAuth2Authentication.Notification.authenticationChangedNotification")
+    
+    /// User info key for authentication status sent with `authenticationChangedNotification` notifications.
+    public static let authenticationStatusKey = "Frollo.OAuth2Authentication.Key.authenticationStatus"
+    
+    /// Status of the FrolloSDK authentication with Frollo servers
+    public enum AuthenticationStatus {
+        
+        /// Authenticated
+        case authenticated
+        
+        /// User was logged out
+        case loggedOut
+        
+    }
+    
     internal struct KeychainKey {
         static let accessToken = "accessToken"
         static let accessTokenExpiry = "accessTokenExpiry"
@@ -59,6 +76,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
         }
     }
     
+    /// OAuth2 access token if authenticated
     public var accessToken: AccessToken?
     
     internal weak var delegate: Frollo?
@@ -66,7 +84,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
     internal var authorizationFlow: OIDExternalUserAgentSession?
     internal var refreshToken: String?
     
-    private let authService: OAuthService
+    private let authService: OAuth2Service
     private let clientID: String
     private let domain: String
     private let keychain: Keychain
@@ -74,7 +92,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
     private let redirectURL: URL
     private let serverURL: URL
     
-    init(keychain: Keychain, clientID: String, redirectURL: URL, serverURL: URL, authService: OAuthService, preferences: Preferences, delegate: Frollo?) {
+    init(keychain: Keychain, clientID: String, redirectURL: URL, serverURL: URL, authService: OAuth2Service, preferences: Preferences, delegate: Frollo?) {
         self.keychain = keychain
         self.clientID = clientID
         self.domain = serverURL.host ?? serverURL.absoluteString
@@ -195,18 +213,18 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
             return
         }
         
-        let request = OAuthTokenRequest(audience: serverURL.absoluteString,
-                                        clientID: clientID,
-                                        code: nil,
-                                        codeVerifier: nil,
-                                        domain: domain,
-                                        grantType: .password,
-                                        legacyToken: nil,
-                                        password: password,
-                                        redirectURI: nil,
-                                        refreshToken: nil,
-                                        scope: scopes.joined(separator: " "),
-                                        username: email)
+        let request = OAuth2TokenRequest(audience: serverURL.absoluteString,
+                                         clientID: clientID,
+                                         code: nil,
+                                         codeVerifier: nil,
+                                         domain: domain,
+                                         grantType: .password,
+                                         legacyToken: nil,
+                                         password: password,
+                                         redirectURI: nil,
+                                         refreshToken: nil,
+                                         scope: scopes.joined(separator: " "),
+                                         username: email)
         
         // Authorize the user
         authService.refreshTokens(request: request) { result in
@@ -284,18 +302,18 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
             return
         }
         
-        let request = OAuthTokenRequest(audience: serverURL.absoluteString,
-                                        clientID: clientID,
-                                        code: code,
-                                        codeVerifier: codeVerifier,
-                                        domain: domain,
-                                        grantType: .authorizationCode,
-                                        legacyToken: nil,
-                                        password: nil,
-                                        redirectURI: authService.redirectURL.absoluteString,
-                                        refreshToken: nil,
-                                        scope: scopes.joined(separator: " "),
-                                        username: nil)
+        let request = OAuth2TokenRequest(audience: serverURL.absoluteString,
+                                         clientID: clientID,
+                                         code: code,
+                                         codeVerifier: codeVerifier,
+                                         domain: domain,
+                                         grantType: .authorizationCode,
+                                         legacyToken: nil,
+                                         password: nil,
+                                         redirectURI: authService.redirectURL.absoluteString,
+                                         refreshToken: nil,
+                                         scope: scopes.joined(separator: " "),
+                                         username: nil)
         
         authService.refreshTokens(request: request) { result in
             switch result {
@@ -357,20 +375,20 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
             return
         }
         
-        let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
+        let scopes = [OAuth2TokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
         
-        let request = OAuthTokenRequest(audience: serverURL.absoluteString,
-                                        clientID: clientID,
-                                        code: nil,
-                                        codeVerifier: nil,
-                                        domain: domain,
-                                        grantType: .password,
-                                        legacyToken: token,
-                                        password: nil,
-                                        redirectURI: nil,
-                                        refreshToken: nil,
-                                        scope: scopes,
-                                        username: nil)
+        let request = OAuth2TokenRequest(audience: serverURL.absoluteString,
+                                         clientID: clientID,
+                                         code: nil,
+                                         codeVerifier: nil,
+                                         domain: domain,
+                                         grantType: .password,
+                                         legacyToken: token,
+                                         password: nil,
+                                         redirectURI: nil,
+                                         refreshToken: nil,
+                                         scope: scopes,
+                                         username: nil)
         
         authService.refreshTokens(request: request) { result in
             switch result {
@@ -420,18 +438,18 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
             return
         }
         
-        let request = OAuthTokenRequest(audience: nil,
-                                        clientID: clientID,
-                                        code: nil,
-                                        codeVerifier: nil,
-                                        domain: domain,
-                                        grantType: .refreshToken,
-                                        legacyToken: nil,
-                                        password: nil,
-                                        redirectURI: nil,
-                                        refreshToken: token,
-                                        scope: nil,
-                                        username: nil)
+        let request = OAuth2TokenRequest(audience: nil,
+                                         clientID: clientID,
+                                         code: nil,
+                                         codeVerifier: nil,
+                                         domain: domain,
+                                         grantType: .refreshToken,
+                                         legacyToken: nil,
+                                         password: nil,
+                                         redirectURI: nil,
+                                         refreshToken: token,
+                                         scope: nil,
+                                         username: nil)
         
         authService.refreshTokens(request: request) { result in
             switch result {
@@ -468,7 +486,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
     public func logout() {
         // Revoke the refresh token if possible
         if let token = refreshToken {
-            let request = OAuthTokenRevokeRequest(clientID: clientID, token: token)
+            let request = OAuth2TokenRevokeRequest(clientID: clientID, token: token)
             
             authService.revokeToken(request: request) { result in
                 switch result {
@@ -490,6 +508,8 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
         loggedIn = false
         
         clearTokens()
+        
+        NotificationCenter.default.post(name: OAuth2Authentication.authenticationChangedNotification, object: self, userInfo: [OAuth2Authentication.authenticationStatusKey: AuthenticationStatus.loggedOut])
     }
     
     private func forcedReset() {

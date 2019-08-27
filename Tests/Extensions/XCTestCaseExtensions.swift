@@ -95,12 +95,12 @@ extension KeychainServiceIdentifying where Self: XCTestCase {
         return APIService(serverEndpoint: self.config.serverEndpoint, network: network)
     }
     
-    func defaultAuthService(keychain: Keychain) -> OAuthService {
+    func defaultAuthService(keychain: Keychain) -> OAuth2Service {
         return defaultAuthService(keychain: keychain, network: defaultNetwork(keychain: keychain))
     }
     
-    func defaultAuthService(keychain: Keychain, network: Network) -> OAuthService {
-        return OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+    func defaultAuthService(keychain: Keychain, network: Network) -> OAuth2Service {
+        return OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
     }
 }
 

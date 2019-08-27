@@ -16,7 +16,7 @@
 
 import Foundation
 
-struct OAuthTokenRequest: Codable {
+struct OAuth2TokenRequest: Codable {
     
     enum GrantType: String, Codable, CaseIterable {
         case authorizationCode = "authorization_code"

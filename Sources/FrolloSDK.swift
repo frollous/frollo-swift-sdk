@@ -13,25 +13,8 @@ public typealias FrolloSDKCompletionHandler = (EmptyResult<Error>) -> Void
 /// Frollo SDK manager and main instantiation. Responsible for managing the lifecycle and coordination of the SDK
 public class Frollo: UserManagementDelegate {
     
-    /// Notification triggered when ever the authentication status of the SDK changes. Observe this notification to detect if the SDK user has authenticated or been logged out.
-    public static let authenticationChangedNotification = Notification.Name(rawValue: "FrolloSDK.authenticationChangedNotification")
-    
-    /// User info key for authentication status sent with `authenticationChangedNotification` notifications.
-    public static let authenticationStatusKey = "FrolloSDKKey.authenticationStatus"
-    
     /// Global singleton for SDK
     public static let shared = Frollo()
-    
-    /// Status of the FrolloSDK authentication with Frollo servers
-    public enum FrolloSDKAuthenticationStatus {
-        
-        /// Authenticated
-        case authenticated
-        
-        /// User was logged out
-        case loggedOut
-        
-    }
     
     private struct FrolloSDKConstants {
         static let dataFolder = "FrolloSDKData"
@@ -80,7 +63,7 @@ public class Frollo: UserManagementDelegate {
     }
     
     /// Default OAuth2 Authentication - Returns the default OAuth2 based authentication if no custom one has been applied
-    public var defaultAuthentication: OAuth2Authentication?
+    public var oAuth2Authentication: OAuth2Authentication?
     
     /// Bills - All bills and bill payments see `Bills` for details
     public var bills: Bills {
@@ -296,12 +279,10 @@ public class Frollo: UserManagementDelegate {
                 _authentication.delegate = authenticationDelegate
                 
             case .oAuth2(let redirectURL, let authorizationEndpoint, let tokenEndpoint, let revokeTokenEndpoint):
-                let authService = OAuthService(authorizationEndpoint: authorizationEndpoint, tokenEndpoint: tokenEndpoint, redirectURL: redirectURL, revokeURL: revokeTokenEndpoint, network: network)
-                let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: configuration.clientID, redirectURL: redirectURL, serverURL: configuration.serverEndpoint, authService: authService, preferences: preferences, delegate: self)
+                let authService = OAuth2Service(authorizationEndpoint: authorizationEndpoint, tokenEndpoint: tokenEndpoint, redirectURL: redirectURL, revokeURL: revokeTokenEndpoint, network: network)
+                oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: configuration.clientID, redirectURL: redirectURL, serverURL: configuration.serverEndpoint, authService: authService, preferences: preferences, delegate: self)
                 _authentication.dataSource = oAuth2Authentication
                 _authentication.delegate = oAuth2Authentication
-                
-                defaultAuthentication = oAuth2Authentication
         }
         
         let service = APIService(serverEndpoint: configuration.serverEndpoint, network: network)
@@ -315,7 +296,7 @@ public class Frollo: UserManagementDelegate {
         _messages = Messages(database: _database, service: service)
         _reports = Reports(database: _database, service: service, aggregation: _aggregation)
         _surveys = Surveys(service: service)
-        _userManagement = UserManagement(database: _database, service: service, clientID: configuration.clientID, authentication: defaultAuthentication, preferences: preferences, delegate: self)
+        _userManagement = UserManagement(database: _database, service: service, clientID: configuration.clientID, authentication: oAuth2Authentication, preferences: preferences, delegate: self)
         _notifications = Notifications(events: _events, messages: _messages, userManagement: _userManagement)
         
         _events.delegate = delegate
@@ -384,7 +365,7 @@ public class Frollo: UserManagementDelegate {
     internal func internalReset(completionHandler: FrolloSDKCompletionHandler? = nil) {
         pauseScheduledRefreshing()
         
-        defaultAuthentication?.reset()
+        oAuth2Authentication?.reset()
         
         network.reset()
         
@@ -399,8 +380,6 @@ public class Frollo: UserManagementDelegate {
                 completionHandler?(.success)
             }
         }
-        
-        NotificationCenter.default.post(name: Frollo.authenticationChangedNotification, object: self, userInfo: [Frollo.authenticationStatusKey: FrolloSDKAuthenticationStatus.loggedOut])
     }
     
     // MARK: - Lifecycle
