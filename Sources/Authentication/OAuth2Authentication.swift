@@ -79,6 +79,9 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
     /// OAuth2 access token if authenticated
     public var accessToken: AccessToken?
     
+    /// Refresh the token 3 minutes before expiry
+    public var preemptiveRefreshTime: TimeInterval? = 180
+    
     internal weak var delegate: Frollo?
     
     internal var authorizationFlow: OIDExternalUserAgentSession?

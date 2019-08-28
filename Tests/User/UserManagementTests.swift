@@ -345,7 +345,7 @@ class UserManagementTests: BaseTestCase {
         
         let keychain = validKeychain()
         let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain)
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
         let user = defaultUser(keychain: keychain, authentication: authentication, delegate: nil)
         
         authentication.dataSource = oAuth2Authentication
@@ -434,7 +434,7 @@ class UserManagementTests: BaseTestCase {
         
         let keychain = validKeychain()
         let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         

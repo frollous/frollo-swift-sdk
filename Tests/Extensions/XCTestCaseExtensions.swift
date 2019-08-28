@@ -46,14 +46,14 @@ extension KeychainServiceIdentifying where Self: XCTestCase {
     
     func defaultAuthentication(keychain: Keychain, loggedIn: Bool = true) -> Authentication {
         let mockAuthentication = MockAuthentication(valid: loggedIn)
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         return authentication
     }
     
     func defaultAuthentication(keychain: Keychain, handler: AuthenticationDataSource & AuthenticationDelegate) -> Authentication {
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
         authentication.dataSource = handler
         authentication.delegate = handler
         return authentication

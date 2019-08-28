@@ -315,7 +315,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         connect(endpoint: UserEndpoint.details.path.prefixedWithSlash, toResourceWithName: "error_suspended_device", addingStatusCode: 401)
         
         let keychain = validKeychain()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
         let network = defaultNetwork(keychain: keychain, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
@@ -660,7 +660,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         let expiryDate = Date(timeIntervalSince1970: 1721259268)
         let refreshToken = "AnExistingRefreshToken"
         
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
         let network =  Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         var oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
@@ -694,7 +694,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
         
         let path = tempFolderPath()
         let preferences = Preferences(path: path)
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint, preemptiveRefreshTime: 180)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)

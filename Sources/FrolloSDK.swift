@@ -269,7 +269,7 @@ public class Frollo: UserManagementDelegate {
         
         Log.logLevel = configuration.logLevel
         
-        _authentication = Authentication(serverEndpoint: configuration.serverEndpoint, preemptiveRefreshTime: configuration.preemptiveRefreshTime)
+        _authentication = Authentication(serverEndpoint: configuration.serverEndpoint)
         network = Network(serverEndpoint: configuration.serverEndpoint, authentication: _authentication, pinnedPublicKeys: pinnedKeys)
         
         // Setup authentication stack

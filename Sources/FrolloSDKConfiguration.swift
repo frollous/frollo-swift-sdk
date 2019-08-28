@@ -41,9 +41,6 @@ public struct FrolloSDKConfiguration {
     /// Level of logging for debug and error messages. Default is `error`
     public var logLevel: LogLevel = .error
     
-    /// Time before expiry to refresh an access token. Defaults to 3 minutes. Set to 0 to disable
-    public var preemptiveRefreshTime: TimeInterval = 180
-    
     /// Enable or disable public key pinning for *.frollo.us domains- useful for disabling in debug mode
     public var publicKeyPinningEnabled: Bool = true
     

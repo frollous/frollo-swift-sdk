@@ -33,6 +33,9 @@ class MockAuthentication: AuthenticationDataSource, AuthenticationDelegate {
     var accessToken: AccessToken? {
         return privateToken
     }
+    
+    var preemptiveRefreshTime: TimeInterval? = nil
+    
     var privateToken: PrivateToken? = PrivateToken()
     
     var canSuccessfullyRefresh: Bool = true
@@ -46,7 +49,7 @@ class MockAuthentication: AuthenticationDataSource, AuthenticationDelegate {
     }
     
     func accessTokenExpired(completion: @escaping (Bool) -> Void) {
-        (accessToken as? PrivateToken)?.refreshToken()
+        privateToken?.refreshToken()
         
         completion(canSuccessfullyRefresh)
     }

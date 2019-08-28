@@ -44,6 +44,9 @@ public protocol AuthenticationDataSource: AnyObject {
     /// Access token to use for authorisation if available. If this is not available network requests will not proceed
     var accessToken: AccessToken? { get }
     
+    /// Time in seconds the access token should pre-emptively be refreshed before it expires. Optional, otherwise token will be refreshed on a 401
+    var preemptiveRefreshTime: TimeInterval? { get }
+    
 }
 
 /**
@@ -58,6 +61,9 @@ public protocol AuthenticationDelegate: AnyObject {
      Access Token Expired
      
      Alerts the authentication handler to an expired access token that needs refreshing
+     
+     - parameters:
+        - completion: Completion handler that must be called when the access token has been refreshed. Indicates if the refresh was successful or not.
      */
     func accessTokenExpired(completion: @escaping (Bool) -> Void)
     
@@ -83,7 +89,6 @@ public class Authentication: RequestAdapter, RequestRetrier {
     private let bearerFormat = "Bearer %@"
     private let lock = NSLock()
     private let maxRateLimitCount: Double = 10
-    private let preemptiveRefreshTime: TimeInterval
     private let requestQueue = DispatchQueue(label: "FrolloSDK.APIAuthenticatorRequestQueue", qos: .userInitiated, attributes: .concurrent)
     private let responseQueue = DispatchQueue(label: "FrolloSDK.APIAuthenticatorResponseQueue", qos: .userInitiated, attributes: .concurrent)
     private let serverURL: URL
@@ -92,9 +97,8 @@ public class Authentication: RequestAdapter, RequestRetrier {
     private var refreshing = false
     private var requestsToRetry: [RequestRetryCompletion] = []
     
-    init(serverEndpoint: URL, preemptiveRefreshTime: TimeInterval) {
+    init(serverEndpoint: URL) {
         self.serverURL = serverEndpoint
-        self.preemptiveRefreshTime = preemptiveRefreshTime
     }
     
     // MARK: - Authentication Status
@@ -268,13 +272,14 @@ public class Authentication: RequestAdapter, RequestRetrier {
             return false
         }
         
-        // Check if we have an expiry date otherwise assume it's still good
-        guard let expiryDate = accessToken.expiryDate
+        // Check if we have an expiry date and pre-emptive refresh time otherwise assume it's still good
+        guard let expiryDate = accessToken.expiryDate,
+            let refreshTime = dataSource?.preemptiveRefreshTime
         else {
             return true
         }
         
-        let adjustedExpiryDate = expiryDate.addingTimeInterval(-preemptiveRefreshTime)
+        let adjustedExpiryDate = expiryDate.addingTimeInterval(-refreshTime)
         let nowDate = Date()
         
         guard nowDate.compare(adjustedExpiryDate) == .orderedAscending
