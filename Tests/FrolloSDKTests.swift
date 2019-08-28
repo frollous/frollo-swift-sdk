@@ -16,12 +16,13 @@ class FrolloSDKTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        removeDataFolder()
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
+        
+        removeDataFolder()
     }
     
     // MARK: - Helpers
@@ -557,7 +558,8 @@ class FrolloSDKTests: XCTestCase {
     }
     
     func testSetupInvokesDatabaseMigration() {
-        let expectation1 = expectation(description: "Setup")
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Setup")
         
         try? FileManager.default.createDirectory(at: Frollo.defaultDataFolderURL, withIntermediateDirectories: true, attributes: nil)
         
@@ -567,6 +569,12 @@ class FrolloSDKTests: XCTestCase {
         let sdk = Frollo()
         
         populateTestDataNamed(name: "FrolloSDKDataModel-1.0.0", atPath: Frollo.defaultDataFolderURL)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
         
         sdk.setup(configuration: config) { (result) in
             switch result {
@@ -576,10 +584,10 @@ class FrolloSDKTests: XCTestCase {
                     XCTAssertFalse(sdk.database.needsMigration())
             }
             
-            expectation1.fulfill()
+            expectation2.fulfill()
         }
         
-        wait(for: [expectation1], timeout: 15.0)
+        wait(for: [expectation2], timeout: 15.0)
     }
     
     func testReset() {
@@ -614,7 +622,33 @@ class FrolloSDKTests: XCTestCase {
     }
     
     func testSDKCustomDataFolder() {
+        let expectation1 = expectation(description: "Setup")
         
+        let tempFolder = tempFolderPath()
+        
+        let config = FrolloSDKConfiguration(authenticationType: .oAuth2(redirectURL: FrolloSDKConfiguration.redirectURL,
+                                                                        authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint,
+                                                                        tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint,
+                                                                        revokeTokenEndpoint: FrolloSDKConfiguration.revokeTokenEndpoint),
+                                            clientID: "abc123",
+                                            dataDirectory: tempFolder,
+                                            serverEndpoint: URL(string: "https://api.example.com")!)
+        
+        let sdk = Frollo()
+        sdk.setup(configuration: config) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    XCTAssertTrue(sdk.setup)
+                    
+                    XCTAssertTrue(FileManager.default.fileExists(atPath: tempFolder.appendingPathComponent("FrolloSDKDatabase.sqlite").path))
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
     }
     
 }

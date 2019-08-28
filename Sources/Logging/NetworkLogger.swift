@@ -25,6 +25,11 @@ class NetworkLogger: Logger {
     }
     
     func writeMessage(_ message: String, level: LogLevel) {
+        guard service?.network.authentication.dataSource?.accessToken != nil
+        else {
+            return
+        }
+        
         let deviceInfo = DeviceInfo.current()
         
         let request = APIDeviceLogRequest(details: nil,
