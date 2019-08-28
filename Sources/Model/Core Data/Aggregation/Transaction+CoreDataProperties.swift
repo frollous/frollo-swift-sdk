@@ -56,6 +56,9 @@ extension Transaction {
     /// Currency ISO code of the transaction
     @NSManaged public var currency: String
     
+    /// External ID of the object - i.e. the internal ID used by a provider
+    @NSManaged public var externalID: String?
+    
     /// Address of the merchant formatted for display
     @NSManaged public var formattedAddress: String?
     

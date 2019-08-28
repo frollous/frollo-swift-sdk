@@ -1,6 +1,7 @@
 {
 	"id": 123,
 	"provider_id": 4078,
+	"external_id": "AF79E472-4137-44DD-9E96-166E1862A6D2",
 	"editable": true,
 	"refresh_status": {
 		"status": "needs_action",

@@ -28,6 +28,7 @@ extension APIProviderAccountResponse {
         
         return APIProviderAccountResponse(id: 76251,
                                           editable: true,
+                                          externalID: UUID().uuidString,
                                           loginForm: ProviderLoginForm.loginFormFilledData(),
                                           providerID: 54321,
                                           refreshStatus: refreshStatus)

@@ -6,6 +6,7 @@
 	"included": true,
 	"transaction_date": "2019-04-09",
 	"post_date": "2018-09-21",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-120.00",
 		"currency": "AUD"
@@ -31,6 +32,7 @@
 	"included": false,
 	"transaction_date": "2019-03-17",
 	"post_date": "2018-08-29",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-59.00",
 		"currency": "AUD"
@@ -56,6 +58,7 @@
 	"included": false,
 	"transaction_date": "2019-03-17",
 	"post_date": "2018-08-29",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-40.00",
 		"currency": "AUD"
@@ -81,6 +84,7 @@
 	"included": false,
 	"transaction_date": "2019-03-09",
 	"post_date": "2018-08-21",
+    "external_id": "9052BB2B-5C6B-4079-98D7-7008BE480243",
 	"amount": {
 		"amount": "-120.00",
 		"currency": "AUD"

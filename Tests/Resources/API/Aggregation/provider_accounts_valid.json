@@ -1,6 +1,7 @@
 [{
 	"id": 623,
 	"provider_id": 11582,
+	"external_id": "7D119EA6-43DE-4A87-ACBB-8EDA7EC655B4",
 	"editable": true,
 	"refresh_status": {
 		"status": "success",
@@ -10,6 +11,7 @@
 }, {
 	"id": 624,
 	"provider_id": 11583,
+	"external_id": "0A7F8102-73F3-48C9-82CC-029AAFED27C7",
 	"editable": true,
 	"refresh_status": {
 		"status": "success",
@@ -19,6 +21,7 @@
 }, {
 	"id": 625,
 	"provider_id": 11584,
+	"external_id": "AEC25309-27E6-4CD4-8272-F6C4F61F2DB5",
 	"editable": true,
 	"refresh_status": {
 		"status": "success",
@@ -28,6 +31,7 @@
 }, {
 	"id": 867,
 	"provider_id": 12345,
+	"external_id": "693BCB79-FBD3-4F74-93BC-7E38B8BD3893",
 	"editable": true,
 	"refresh_status": {
 		"status": "needs_action",

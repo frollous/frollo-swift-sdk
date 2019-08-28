@@ -17,10 +17,10 @@
 import Foundation
 @testable import FrolloSDK
 
-extension OAuthTokenRequest {
+extension OAuth2TokenRequest {
     
-    static func testLoginValidData() -> OAuthTokenRequest {
-        return OAuthTokenRequest(audience: "https://api.example.com/api/v2",
+    static func testLoginValidData() -> OAuth2TokenRequest {
+        return OAuth2TokenRequest(audience: "https://api.example.com/api/v2",
                                  clientID: String.randomString(length: 32),
                                  code: nil,
                                  codeVerifier: nil,
@@ -30,12 +30,12 @@ extension OAuthTokenRequest {
                                  password: String.randomString(range: 8...32),
                                  redirectURI: nil,
                                  refreshToken: nil,
-                                 scope: OAuthTokenRequest.Scope.offlineAccess.rawValue,
+                                 scope: OAuth2TokenRequest.Scope.offlineAccess.rawValue,
                                  username: "user@example.com")
     }
     
-    static func testLoginInvalidData() -> OAuthTokenRequest {
-        return OAuthTokenRequest(audience: "https://api.example.com/api/v2",
+    static func testLoginInvalidData() -> OAuth2TokenRequest {
+        return OAuth2TokenRequest(audience: "https://api.example.com/api/v2",
                                  clientID: String.randomString(length: 32),
                                  code: nil,
                                  codeVerifier: nil,

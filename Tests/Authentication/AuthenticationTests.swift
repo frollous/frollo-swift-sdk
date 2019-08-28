@@ -40,57 +40,13 @@ class AuthenticationTests: BaseTestCase {
     }
     
     func testCustomAuthentication() {
-        class CustomAuthentication: Authentication {
-            
-            private var tokenIndex = 0
-            private let validTokens = ["AccessToken001", "AccessToken002", "AccessToken003"]
-            
-            var loggedIn = false
-            
-            var delegate: AuthenticationDelegate?
-            var tokenDelegate: AuthenticationTokenDelegate?
-            
-            func login() {
-                loggedIn = true
-                
-                tokenDelegate?.saveAccessTokens(accessToken: validTokens[tokenIndex], expiry: Date().addingTimeInterval(3600))
-            }
-            
-            func refreshTokens(completion: FrolloSDKCompletionHandler?) {
-                if tokenIndex < 2 {
-                    tokenIndex += 1
-                } else {
-                    tokenIndex = 0
-                }
-                
-                tokenDelegate?.saveAccessTokens(accessToken: validTokens[tokenIndex], expiry: Date().addingTimeInterval(3600))
-                
-                completion?(.success)
-            }
-            
-            func resumeAuthentication(url: URL) -> Bool {
-                return false
-            }
-            
-            func logout() {
-                reset()
-            }
-            
-            func reset() {
-                loggedIn = false
-                
-                tokenIndex = 0
-            }
-            
-        }
-        
         let expectation1 = expectation(description: "SDK Setup")
         let expectation2 = expectation(description: "Refresh Tokens")
         
-        let authentication = CustomAuthentication()
+        let authenticationHandler = MockAuthentication()
         
         let serverURL = URL(string: "https://api.example.com")!
-        let config = FrolloSDKConfiguration(authenticationType: .custom(authentication: authentication),
+        let config = FrolloSDKConfiguration(authenticationType: .custom(authenticationDataSource: authenticationHandler, authenticationDelegate: authenticationHandler),
                                             clientID: "abc123",
                                             serverEndpoint: serverURL)
         
@@ -108,20 +64,19 @@ class AuthenticationTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        XCTAssert(authentication === sdk.authentication)
-        XCTAssertEqual(sdk.authentication.loggedIn, false)
+        XCTAssert(authenticationHandler === sdk.authentication.dataSource)
+        XCTAssert(authenticationHandler === sdk.authentication.delegate)
+        XCTAssertNil(sdk.oAuth2Authentication)
         
-        authentication.login()
+        XCTAssertNotNil(authenticationHandler.accessToken)
         
-        XCTAssertEqual(sdk.authentication.loggedIn, true)
-        XCTAssertEqual(sdk.network.authenticator.accessToken, "AccessToken001")
+        let oldToken = authenticationHandler.accessToken?.token
         
-        sdk.authentication.refreshTokens { (result) in
-            switch result {
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
-                case .success:
-                    XCTAssertEqual(sdk.network.authenticator.accessToken, "AccessToken002")
+        sdk.authentication.delegate?.accessTokenExpired { (success) in
+            if success {
+                XCTAssertNotEqual(sdk.authentication.dataSource?.accessToken?.token, oldToken)
+            } else {
+                XCTFail("Mocking auth failed")
             }
             
             expectation2.fulfill()

@@ -16,7 +16,7 @@
 
 import Foundation
 
-struct OAuthTokenResponse: Codable {
+struct OAuth2TokenResponse: Codable {
     
     enum CodingKeys: String, CodingKey {
         case accessToken = "access_token"

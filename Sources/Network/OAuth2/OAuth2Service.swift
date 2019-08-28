@@ -16,7 +16,7 @@
 
 import Foundation
 
-class OAuthService {
+class OAuth2Service {
     
     internal let authorizationURL: URL
     internal let network: Network
@@ -38,7 +38,7 @@ class OAuthService {
         self.tokenURL = tokenEndpoint
     }
     
-    internal func refreshTokens(request: OAuthTokenRequest, completion: @escaping RequestCompletion<OAuthTokenResponse>) {
+    internal func refreshTokens(request: OAuth2TokenRequest, completion: @escaping RequestCompletion<OAuth2TokenResponse>) {
         requestQueue.async {
             guard request.valid
             else {
@@ -57,12 +57,12 @@ class OAuthService {
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: OAuthTokenResponse.self, errorType: OAuth2Error.self, response: response, dateDecodingStrategy: .secondsSince1970, completion: completion)
+                self.network.handleResponse(type: OAuth2TokenResponse.self, errorType: OAuth2Error.self, response: response, dateDecodingStrategy: .secondsSince1970, completion: completion)
             }
         }
     }
     
-    internal func revokeToken(request: OAuthTokenRevokeRequest, completion: @escaping NetworkCompletion) {
+    internal func revokeToken(request: OAuth2TokenRevokeRequest, completion: @escaping NetworkCompletion) {
         requestQueue.async {
             guard let revokeTokenURL = self.revokeURL
             else {

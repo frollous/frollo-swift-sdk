@@ -26,14 +26,12 @@ public class Messages: CachedObjects, ResponseHandler {
     
     internal weak var delegate: FrolloSDKDelegate?
     
-    private let authentication: Authentication
     private let database: Database
     private let service: APIService
     
     private let messageLock = NSLock()
     
-    internal init(database: Database, service: APIService, authentication: Authentication) {
-        self.authentication = authentication
+    internal init(database: Database, service: APIService) {
         self.database = database
         self.service = service
     }
@@ -189,18 +187,6 @@ public class Messages: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshMessages(completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         service.fetchMessages { result in
             switch result {
                 case .failure(let error):
@@ -229,18 +215,6 @@ public class Messages: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshMessage(messageID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         service.fetchMessage(messageID: messageID) { result in
             switch result {
                 case .failure(let error):
@@ -269,18 +243,6 @@ public class Messages: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func updateMessage(messageID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         let managedObjectContext = database.newBackgroundContext()
         
         guard let message = message(context: managedObjectContext, messageID: messageID)
@@ -326,18 +288,6 @@ public class Messages: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshUnreadMessages(completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         service.fetchUnreadMessages { result in
             switch result {
                 case .failure(let error):

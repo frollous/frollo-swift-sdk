@@ -40,14 +40,13 @@ class ReportsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -78,10 +77,8 @@ class ReportsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2017-06-01")!
             let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-01-31")!
@@ -105,22 +102,19 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_day_2018-10-29_2019-01-29", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
             let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
@@ -132,7 +126,7 @@ class ReportsTests: XCTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -157,22 +151,19 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_day_2018-10-29_2019-01-29", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
             let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
@@ -227,22 +218,19 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_month_2018-10-29_2019-01-29", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
             let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
@@ -297,22 +285,19 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_week_2018-10-29_2019-01-29", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
             let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
@@ -367,22 +352,19 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_day_account_id_937_2018-10-29_2019-01-29", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
             let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
@@ -443,14 +425,13 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_day_container_bank_2018-10-29_2019-01-29", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -460,9 +441,7 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
+        let aggregation = Aggregation(database: database, service: service)
         
         aggregation.refreshAccounts() { (result) in
             switch result {
@@ -479,7 +458,7 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation2], timeout: 3.0)
                 
-        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
         let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
@@ -554,14 +533,13 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_month_2018-11-01_2019-02-01", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -570,11 +548,9 @@ class ReportsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-            
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         let oldFromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
         let oldToDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
@@ -721,14 +697,13 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_month_2018-10-29_2019-01-29", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -738,10 +713,8 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        let aggregation = Aggregation(database: database, service: service)
+        let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
         let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2019-01-29")!
@@ -866,14 +839,13 @@ class ReportsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -913,10 +885,8 @@ class ReportsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fetchedReports = reports.currentTransactionReports(context: database.viewContext, overall: true, grouping: .budgetCategory)
             
@@ -938,22 +908,19 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_budget_category", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             reports.refreshTransactionCurrentReports(grouping: .budgetCategory) { (result) in
                 switch result {
@@ -962,7 +929,7 @@ class ReportsTests: XCTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -987,22 +954,19 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_budget_category", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             reports.refreshTransactionCurrentReports(grouping: .budgetCategory) { (result) in
                 switch result {
@@ -1081,22 +1045,19 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_merchant", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             reports.refreshTransactionCurrentReports(grouping: .merchant) { (result) in
                 switch result {
@@ -1174,22 +1135,19 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_txn_category", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             reports.refreshTransactionCurrentReports(grouping: .transactionCategory) { (result) in
                 switch result {
@@ -1267,22 +1225,19 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_txn_category_lifestyle", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             reports.refreshTransactionCurrentReports(grouping: .transactionCategory, budgetCategory: .lifestyle) { (result) in
                 switch result {
@@ -1368,14 +1323,13 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_txn_category", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1384,11 +1338,9 @@ class ReportsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-            
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let reports = Reports(database: database, service: service, aggregation: aggregation)
             
         reports.refreshTransactionCurrentReports(grouping: .transactionCategory) { (result) in
             switch result {
@@ -1545,14 +1497,13 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_current_txn_category", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1561,11 +1512,9 @@ class ReportsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-            
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let reports = Reports(database: database, service: service, aggregation: aggregation)
             
         reports.refreshTransactionCurrentReports(grouping: .transactionCategory, budgetCategory: .lifestyle) { (result) in
             switch result {
@@ -1773,14 +1722,13 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1789,11 +1737,9 @@ class ReportsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-            
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         aggregation.refreshMerchants() { (result) in
             switch result {
@@ -1860,14 +1806,13 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_categories_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -1876,11 +1821,9 @@ class ReportsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-            
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         aggregation.refreshTransactionCategories() { (result) in
             switch result {
@@ -1940,14 +1883,13 @@ class ReportsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -2005,10 +1947,8 @@ class ReportsTests: XCTestCase {
                 try! managedObjectContext.save()
             }
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2017-06-01")!
             let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-01-31")!
@@ -2033,22 +1973,19 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_budget_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(valid: false)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = false
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
             let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -2060,7 +1997,7 @@ class ReportsTests: XCTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -2085,22 +2022,19 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_budget_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
             let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -2192,22 +2126,19 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_merchant_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
             let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -2299,22 +2230,19 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_txn_category_daily_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
             let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -2405,22 +2333,19 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_txn_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
-            
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
             let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -2509,22 +2434,19 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_txn_category_weekly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
             let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -2615,22 +2537,19 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_txn_category_monthly_lifestyle_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-            let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
             
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
             let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -2733,14 +2652,13 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_txn_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -2749,11 +2667,9 @@ class ReportsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-            
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         let oldFromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
         let oldToDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -2974,14 +2890,13 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_txn_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -2990,11 +2905,9 @@ class ReportsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-            
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
         let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -3216,14 +3129,13 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_txn_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -3233,10 +3145,8 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        let aggregation = Aggregation(database: database, service: service)
+        let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
         let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
@@ -3406,14 +3316,13 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "merchants_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -3422,11 +3331,9 @@ class ReportsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-            
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         aggregation.refreshMerchants() { (result) in
             switch result {
@@ -3497,14 +3404,13 @@ class ReportsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_categories_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         let database = Database(path: tempFolderPath())
-        let preferences = Preferences(path: tempFolderPath())
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -3514,11 +3420,9 @@ class ReportsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-            
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-            authentication.loggedIn = true
-            let aggregation = Aggregation(database: database, service: service, authentication: authentication)
-        let reports = Reports(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        
+        let aggregation = Aggregation(database: database, service: service)
+        let reports = Reports(database: database, service: service, aggregation: aggregation)
             
         aggregation.refreshTransactionCategories() { (result) in
             switch result {

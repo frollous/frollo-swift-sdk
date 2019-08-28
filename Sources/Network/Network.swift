@@ -21,7 +21,7 @@ import Alamofire
 internal typealias NetworkCompletion = (_: Swift.Result<Data, Error>) -> Void
 internal typealias RequestCompletion<T> = (_: Swift.Result<T, Error>) -> Void
 
-class Network: SessionDelegate, AuthenticationTokenDelegate {
+class Network: SessionDelegate {
     
     #if !os(watchOS)
     public let reachability: NetworkReachabilityManager
@@ -30,9 +30,7 @@ class Network: SessionDelegate, AuthenticationTokenDelegate {
     /// Base URL of the API
     internal let serverURL: URL
     
-    internal weak var delegate: AuthenticationDelegate?
-    
-    internal var authenticator: NetworkAuthenticator
+    internal var authentication: Authentication
     internal var sessionManager: SessionManager!
     
     private let APIVersion = "2.4"
@@ -42,13 +40,13 @@ class Network: SessionDelegate, AuthenticationTokenDelegate {
      
      - parameters:
      - serverEndpoint: Base URL endpoint of the API, e.g. https://api.example.com/v1/
-     - networkAuthenticator: The authentication service for authenticating requests and managing tokens
+     - authentication: The authentication service for authenticating requests and managing tokens
      - pinnedPublicKeys: Dictionary of hosts and their public keys to pin the server's certificates against (Optional)
      
      - warning: If using certificate pinning make sure you pin a second public key as a backup in case the production private/public key pair becomes compromised. Failure to do this will render your app unusable until updated with the new public/private key pair.
      */
-    internal init(serverEndpoint: URL, networkAuthenticator: NetworkAuthenticator, pinnedPublicKeys: [URL: [SecKey]]? = nil) {
-        self.authenticator = networkAuthenticator
+    internal init(serverEndpoint: URL, authentication: Authentication, pinnedPublicKeys: [URL: [SecKey]]? = nil) {
+        self.authentication = authentication
         self.serverURL = serverEndpoint
         
         #if os(macOS)
@@ -97,8 +95,8 @@ class Network: SessionDelegate, AuthenticationTokenDelegate {
         super.init()
         
         self.sessionManager = SessionManager(configuration: configuration, delegate: self, serverTrustPolicyManager: serverTrustManager)
-        sessionManager.adapter = authenticator
-        sessionManager.retrier = authenticator
+        sessionManager.adapter = authentication
+        sessionManager.retrier = authentication
     }
     
     // MARK: - Reset
@@ -110,7 +108,7 @@ class Network: SessionDelegate, AuthenticationTokenDelegate {
         
         URLCache.shared.removeAllCachedResponses()
         
-        authenticator.clearTokens()
+        authentication.reset()
     }
     
     // MARK: - Requests
@@ -143,9 +141,9 @@ class Network: SessionDelegate, AuthenticationTokenDelegate {
     
     internal func handleFailure<T: ResponseError>(type: T.Type, response: DataResponse<Data>, error: Error, completion: (_: FrolloSDKError) -> Void) {
         if let parsedError = error as? DataError, parsedError.type == .authentication, parsedError.subType == .missingRefreshToken {
-            reset()
+            authentication.tokenInvalidated()
             
-            delegate?.authenticationReset()
+            reset()
             
             completion(parsedError)
         } else if let parsedError = error as? FrolloSDKError {
@@ -157,17 +155,17 @@ class Network: SessionDelegate, AuthenticationTokenDelegate {
                 let clearTokenStatuses: [APIError.APIErrorType] = [.invalidRefreshToken, .suspendedDevice, .suspendedUser, .otherAuthorisation, .accountLocked]
                 
                 if clearTokenStatuses.contains(apiError.type) {
-                    reset()
+                    authentication.tokenInvalidated()
                     
-                    delegate?.authenticationReset()
+                    reset()
                 }
             } else if let oAuth2Error = responseError as? OAuth2Error {
                 let clearTokenStatuses: [OAuth2Error.OAuth2ErrorType] = [.invalidClient, .invalidRequest, .invalidGrant, .invalidScope, .unauthorizedClient, .unsupportedGrantType, .serverError]
                 
                 if clearTokenStatuses.contains(oAuth2Error.type) {
-                    reset()
+                    authentication.tokenInvalidated()
                     
-                    delegate?.authenticationReset()
+                    reset()
                 }
             }
             
@@ -236,12 +234,6 @@ class Network: SessionDelegate, AuthenticationTokenDelegate {
                     completion(.failure(processedError))
                 }
         }
-    }
-    
-    // MARK: - Authentication Token Delegate
-    
-    func saveAccessTokens(accessToken: String, expiry: Date) {
-        authenticator.saveAccessToken(accessToken, expiry: expiry)
     }
     
 }

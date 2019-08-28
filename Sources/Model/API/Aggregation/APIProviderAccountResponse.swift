@@ -20,6 +20,7 @@ struct APIProviderAccountResponse: APIUniqueResponse, Codable {
     
     enum CodingKeys: String, CodingKey {
         case editable
+        case externalID = "external_id"
         case id
         case loginForm = "login_form"
         case providerID = "provider_id"
@@ -46,6 +47,7 @@ struct APIProviderAccountResponse: APIUniqueResponse, Codable {
     
     var id: Int64
     let editable: Bool
+    let externalID: String?
     let loginForm: ProviderLoginForm?
     let providerID: Int64
     let refreshStatus: RefreshStatus

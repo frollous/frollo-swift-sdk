@@ -24,17 +24,17 @@ Import the FrolloSDK into your AppDelegate and then add the following line to re
 import FrolloSDK
 
 func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-    FrolloSDK.shared.notifications.registerPushNotificationToken(deviceToken)
+    Frollo.shared.notifications.registerPushNotificationToken(deviceToken)
 }
 ```
 
 ### Handling Notifications and Events
 
-In your AppDelegate pass the userInfo received from the remote notification to the SDK by implementing the following method.
+In your AppDelegate pass the userInfo received from the remote notification to the SDK by implementing the following method. This deprecated method is required otherwise silent push notifications will not be processed.
 
 ```swift
 func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    FrolloSDK.shared.notifications.handlePushNotification(userInfo: userInfo)
+    Frollo.shared.notifications.handlePushNotification(userInfo: userInfo)
         
     completionHandler(.newData)
 }

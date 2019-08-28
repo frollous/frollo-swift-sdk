@@ -39,31 +39,6 @@ class NetworkAuthenticatorTests: XCTestCase {
     
     // MARK: - Token Refresh Tests
     
-    func testTokensPersist() {
-        let keychain = Keychain(service: keychainService)
-        
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let accessToken = "AnExistingAccessToken"
-        let expiryDateString = "1721259268.0"
-        let expiryDate = Date(timeIntervalSince1970: 1721259268)
-        
-        var networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        networkAuthenticator.saveAccessToken(accessToken, expiry: expiryDate)
-        var network =  Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        var service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        
-        XCTAssertEqual(keychain["accessToken"], accessToken)
-        XCTAssertEqual(keychain["accessTokenExpiry"], expiryDateString)
-        
-        networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        
-        XCTAssertEqual(service.network.authenticator.accessToken, accessToken)
-        XCTAssertEqual(service.network.authenticator.expiryDate, expiryDate)
-    }
-    
     func testForceRefreshingAccessTokens() {
         let expectation1 = expectation(description: "API Response")
         
@@ -77,22 +52,21 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let path = tempFolderPath()
         let preferences = Preferences(path: path)
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
+        let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
         
-        authentication.refreshTokens { (result) in
+        oAuth2Authentication.refreshTokens { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    XCTAssertEqual(service.network.authenticator.accessToken, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
-                    XCTAssertEqual(service.network.authenticator.expiryDate, Date(timeIntervalSince1970: 2550794799))
+                    XCTAssertEqual(oAuth2Authentication.accessToken?.token, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
+                    XCTAssertEqual(oAuth2Authentication.accessToken?.expiryDate, Date(timeIntervalSince1970: 2550794799))
                 
-                    XCTAssertEqual(authentication.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
+                    XCTAssertEqual(oAuth2Authentication.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
             }
             
             expectation1.fulfill()
@@ -117,25 +91,19 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let path = tempFolderPath()
         let preferences = Preferences(path: path)
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+        let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
+        authentication.dataSource = oAuth2Authentication
+        authentication.delegate = oAuth2Authentication
         
-        networkAuthenticator.authentication = authentication
-        
-        let resetter = NetworkResetterStub(authentication: authentication)
-        network.delegate = resetter
-        
-        authentication.refreshTokens { (result) in
+        oAuth2Authentication.refreshTokens { (result) in
             switch result {
                 case .failure(let error):
-                    XCTAssertNil(service.network.authenticator.accessToken)
-                    XCTAssertNil(service.network.authenticator.expiryDate)
-                    
-                    XCTAssertNil(authentication.refreshToken)
+                    XCTAssertNil(oAuth2Authentication.accessToken)
+                    XCTAssertNil(oAuth2Authentication.refreshToken)
                     
                     if let apiError = error as? OAuth2Error {
                         XCTAssertEqual(apiError.type, .invalidGrant)
@@ -174,25 +142,26 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let path = tempFolderPath()
         let preferences = Preferences(path: path)
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
+        let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
+        oAuth2Authentication.loggedIn = true
         
-        networkAuthenticator.authentication = authentication
+        authentication.dataSource = oAuth2Authentication
+        authentication.delegate = oAuth2Authentication
         
         service.fetchUser { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    XCTAssertEqual(service.network.authenticator.accessToken, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
-                    XCTAssertEqual(service.network.authenticator.expiryDate, Date(timeIntervalSince1970: 2550794799))
+                    XCTAssertEqual(oAuth2Authentication.accessToken?.token, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
+                    XCTAssertEqual(oAuth2Authentication.accessToken?.expiryDate, Date(timeIntervalSince1970: 2550794799))
                 
-                    XCTAssertEqual(authentication.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
+                    XCTAssertEqual(oAuth2Authentication.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
             }
             
             expectation1.fulfill()
@@ -227,76 +196,26 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let path = tempFolderPath()
         let preferences = Preferences(path: path)
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
+        let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
+        oAuth2Authentication.loggedIn = true
         
-        networkAuthenticator.authentication = authentication
+        authentication.dataSource = oAuth2Authentication
+        authentication.delegate = oAuth2Authentication
         
         service.fetchUser { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    XCTAssertEqual(service.network.authenticator.accessToken, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
-                    XCTAssertEqual(service.network.authenticator.expiryDate, Date(timeIntervalSince1970: 2550794799))
+                    XCTAssertEqual(oAuth2Authentication.accessToken?.token, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
+                    XCTAssertEqual(oAuth2Authentication.accessToken?.expiryDate, Date(timeIntervalSince1970: 2550794799))
                 
-                    XCTAssertEqual(authentication.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
-            }
-            
-            expectation1.fulfill()
-        }
-        
-        wait(for: [expectation1], timeout: 3.0)
-        
-        OHHTTPStubs.removeAllStubs()
-        keychain.removeAll()
-    }
-    
-    func testInvalidRefreshTokenFails() {
-        let expectation1 = expectation(description: "API Response")
-        
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_refresh_token", ofType: "json")!, status: 401, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let path = tempFolderPath()
-        let preferences = Preferences(path: path)
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        
-        let resetter = NetworkResetterStub(authentication: authentication)
-        network.delegate = resetter
-        
-        networkAuthenticator.authentication = authentication
-        
-        service.fetchUser { (result) in
-            switch result {
-                case .failure(let error):
-                    XCTAssertNil(service.network.authenticator.accessToken)
-                    XCTAssertNil(service.network.authenticator.expiryDate)
-                    
-                    XCTAssertNil(authentication.refreshToken)
-                    
-                    if let apiError = error as? APIError {
-                        XCTAssertEqual(apiError.type, .invalidRefreshToken)
-                    } else {
-                        XCTFail("Error is of wrong type")
-                    }
-                case .success:
-                    XCTFail("Invalid token should fail")
+                    XCTAssertEqual(oAuth2Authentication.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
             }
             
             expectation1.fulfill()
@@ -337,25 +256,26 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let path = tempFolderPath()
         let preferences = Preferences(path: path)
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
+        let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
+        oAuth2Authentication.loggedIn = true
         
-        networkAuthenticator.authentication = authentication
+        authentication.dataSource = oAuth2Authentication
+        authentication.delegate = oAuth2Authentication
         
         service.fetchUser { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success:
-                    XCTAssertEqual(service.network.authenticator.accessToken, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
-                    XCTAssertEqual(service.network.authenticator.expiryDate, Date(timeIntervalSince1970: 2550794799))
+                    XCTAssertEqual(oAuth2Authentication.accessToken?.token, "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3")
+                    XCTAssertEqual(oAuth2Authentication.accessToken?.expiryDate, Date(timeIntervalSince1970: 2550794799))
                 
-                    XCTAssertEqual(authentication.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
+                    XCTAssertEqual(oAuth2Authentication.refreshToken, "IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk")
             }
             
             expectation1.fulfill()
@@ -405,26 +325,22 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let path = tempFolderPath()
         let preferences = Preferences(path: path)
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
-        let authService = OAuthService(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
+        let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
+        oAuth2Authentication.loggedIn = true
         
-        let resetter = NetworkResetterStub(authentication: authentication)
-        network.delegate = resetter
-        
-        networkAuthenticator.authentication = authentication
+        authentication.dataSource = oAuth2Authentication
+        authentication.delegate = oAuth2Authentication
         
         service.fetchUser { (result) in
             switch result {
                 case .failure:
-                    XCTAssertNil(service.network.authenticator.accessToken)
-                    XCTAssertNil(service.network.authenticator.expiryDate)
-                
-                    XCTAssertNil(authentication.refreshToken)
+                    XCTAssertNil(oAuth2Authentication.accessToken)
+                    XCTAssertNil(oAuth2Authentication.refreshToken)
                 case .success:
                     XCTFail("Request should fail")
             }
@@ -453,9 +369,6 @@ class NetworkAuthenticatorTests: XCTestCase {
         }
         
         wait(for: [expectation1, expectation2, expectation3], timeout: 5.0)
-        
-        OHHTTPStubs.removeAllStubs()
-        keychain.removeAll()
     }
     
     func testRateLimitRetries() {
@@ -475,10 +388,11 @@ class NetworkAuthenticatorTests: XCTestCase {
             }
         }
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         service.fetchUser { (result) in
@@ -493,9 +407,6 @@ class NetworkAuthenticatorTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 15.0)
-        
-        OHHTTPStubs.removeAllStubs()
-        keychain.removeAll()
     }
     
     // MARK: - Adapter Header Tests
@@ -503,16 +414,17 @@ class NetworkAuthenticatorTests: XCTestCase {
     func testNoHeaderAppendedToRegistrationRequest() {
         let config = FrolloSDKConfiguration.testConfig()
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let userURL = URL(string: UserEndpoint.register.path, relativeTo: config.serverEndpoint)!
         let request = network.sessionManager.request(userURL, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
         do {
-            let adaptedRequest = try service.network.authenticator.adapt(request.request!)
+            let adaptedRequest = try service.network.authentication.adapt(request.request!)
             
             if adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue) != nil {
                 XCTFail("Authorization Header found")
@@ -520,23 +432,22 @@ class NetworkAuthenticatorTests: XCTestCase {
         } catch {
             XCTFail(error.localizedDescription)
         }
-        
-        keychain.removeAll()
     }
     
     func testNoHeaderAppendedToResetPasswordRequest() {
         let config = FrolloSDKConfiguration.testConfig()
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let userURL = URL(string: UserEndpoint.resetPassword.path, relativeTo: config.serverEndpoint)!
         let request = network.sessionManager.request(userURL, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
         do {
-            let adaptedRequest = try service.network.authenticator.adapt(request.request!)
+            let adaptedRequest = try service.network.authentication.adapt(request.request!)
             
             if adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue) != nil {
                 XCTFail("Authorization Header found")
@@ -544,17 +455,16 @@ class NetworkAuthenticatorTests: XCTestCase {
         } catch {
             XCTFail(error.localizedDescription)
         }
-        
-        keychain.removeAll()
     }
     
     func testHeaderRemainsIntactMigrateUserRequest() {
         let config = FrolloSDKConfiguration.testConfig()
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let userURL = URL(string: UserEndpoint.migrate.path, relativeTo: config.serverEndpoint)!
@@ -568,29 +478,28 @@ class NetworkAuthenticatorTests: XCTestCase {
         let request = network.sessionManager.request(urlRequest!)
         
         do {
-            let adaptedRequest = try service.network.authenticator.adapt(request.request!)
+            let adaptedRequest = try service.network.authentication.adapt(request.request!)
             
             XCTAssertEqual(adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue), bearer)
         } catch {
             XCTFail(error.localizedDescription)
         }
-        
-        keychain.removeAll()
     }
     
     func testAccessTokenHeaderAppendedToHostRequests() {
         let config = FrolloSDKConfiguration.testConfig()
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication(token: "AnExistingAccessToken")
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let userURL = URL(string: UserEndpoint.details.path, relativeTo: config.serverEndpoint)!
         let request = network.sessionManager.request(userURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil)
         do {
-            let adaptedRequest = try service.network.authenticator.adapt(request.request!)
+            let adaptedRequest = try service.network.authentication.adapt(request.request!)
             
             if let authorizationHeader = adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue) {
                 XCTAssertEqual(authorizationHeader, "Bearer AnExistingAccessToken")
@@ -601,57 +510,47 @@ class NetworkAuthenticatorTests: XCTestCase {
         } catch {
             XCTFail(error.localizedDescription)
         }
-        
-        keychain.removeAll()
     }
     
     func testNoHeaderAppendedToTokenRequest() {
         let config = FrolloSDKConfiguration.testConfig()
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let request = network.sessionManager.request(FrolloSDKConfiguration.tokenEndpoint, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
         do {
-            let adaptedRequest = try service.network.authenticator.adapt(request.request!)
+            let adaptedRequest = try service.network.authentication.adapt(request.request!)
             
             XCTAssertNil(adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue))
         } catch {
             XCTFail(error.localizedDescription)
         }
-        
-        keychain.removeAll()
     }
     
     func testNoHeaderAppendedToExternalHostRequests() {
         let config = FrolloSDKConfiguration.testConfig()
         
-        let keychain = Keychain.validNetworkKeychain(service: keychainService)
-        
-        let networkAuthenticator = NetworkAuthenticator(serverEndpoint: config.serverEndpoint, keychain: keychain)
-        let network = Network(serverEndpoint: config.serverEndpoint, networkAuthenticator: networkAuthenticator)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let userURL = URL(string: "https://google.com.au")!
         let request = network.sessionManager.request(userURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil)
         do {
-            let adaptedRequest = try service.network.authenticator.adapt(request.request!)
+            let adaptedRequest = try service.network.authentication.adapt(request.request!)
             
             XCTAssertNil(adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue))
         } catch {
             XCTFail(error.localizedDescription)
         }
-        
-        keychain.removeAll()
-    }
-    
-    // MARK: - Auth delegate
-    
-    func authenticationReset() {
-        
     }
     
 }

@@ -89,6 +89,9 @@ extension Account {
     /// Next due date on the account (optional)
     @NSManaged public var dueDate: Date?
     
+    /// External ID of the object - i.e. the internal ID used by a provider
+    @NSManaged public var externalID: String?
+    
     /// Favourited
     @NSManaged public var favourite: Bool
     

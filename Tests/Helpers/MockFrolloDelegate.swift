@@ -17,15 +17,15 @@
 import Foundation
 @testable import FrolloSDK
 
-class AuthenticationDelegateStub: AuthenticationDelegate {
+class MockFrolloDelegate: Frollo {
     
     let completion: () -> Void
     
-    init(completion: @escaping () -> Void) {
+    init(_ completion: @escaping () -> Void) {
         self.completion = completion
     }
     
-    func authenticationReset() {
+    override func userDeleted() {
         completion()
     }
     

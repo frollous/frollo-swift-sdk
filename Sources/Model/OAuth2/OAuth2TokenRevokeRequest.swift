@@ -16,7 +16,7 @@
 
 import Foundation
 
-struct OAuthTokenRevokeRequest: Codable {
+struct OAuth2TokenRevokeRequest: Codable {
     
     enum CodingKeys: String, CodingKey {
         case clientID = "client_id"

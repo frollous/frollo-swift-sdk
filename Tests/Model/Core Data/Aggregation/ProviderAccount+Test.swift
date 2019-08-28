@@ -23,6 +23,7 @@ extension ProviderAccount: TestableCoreData {
         providerAccountID = Int64.random(in: 1...Int64.max)
         providerID = Int64.random(in: 1...Int64.max)
         editable = true
+        externalID = UUID().uuidString
         lastRefreshed = Date(timeIntervalSince1970: 1533183204)
         nextRefresh = Date(timeIntervalSince1970: 1533183224)
         refreshStatus = .needsAction

@@ -7,37 +7,37 @@
   "documentation": "Documentation/Guides/*.md",
   "abstract": "Documentation/Includes/*.md",
   "custom_categories": [
-  	{
-  		"name": "Documentation",
-  		"children": [
+    {
+      "name": "Documentation",
+      "children": [
         "Overview",
-  			"Changelog",
-		    "Getting Started",
+        "Changelog",
+        "Getting Started",
         "Push Notifications",
         "License"
-  		]
-  	},
-  	{
-  		"name": "SDK",
-  		"children": [
-  			"FrolloSDK",
-		    "FrolloSDKDelegate",
-			  "FrolloSDKConfiguration",
-  			"FrolloSDKCompletionHandler",
+      ]
+    },
+    {
+      "name": "SDK",
+      "children": [
+        "Frollo",
+        "FrolloSDKDelegate",
+        "FrolloSDKConfiguration",
+        "FrolloSDKCompletionHandler",
         "LogLevel",
-        "EmptyResult",
-        "Result"
-  		]
-  	},
-  	{
-  		"name": "Authentication",
-  		"children": [
-  			"Authentication",
+        "EmptyResult"
+      ]
+    },
+    {
+      "name": "Authentication",
+      "children": [
+        "Authentication",
+        "AuthenticationDataSource",
         "AuthenticationDelegate",
-        "AuthenticationTokenDelegate",
-        "OAuth2Authentication"
-  		]
-  	},
+        "OAuth2Authentication",
+        "AccessToken"
+      ]
+    },
     {
       "name": "User",
       "children": [
@@ -45,27 +45,27 @@
         "User"
       ]
     },
-	{
-		"name": "Aggregation",
-		"children": [
-		  "Aggregation",
-			"Provider",
-			"ProviderAccount",
-			"Account",
-			"Transaction",
+  {
+    "name": "Aggregation",
+    "children": [
+      "Aggregation",
+      "Provider",
+      "ProviderAccount",
+      "Account",
+      "Transaction",
       "TransactionCategory",
       "Tag",
       "SuggestedTag",
-			"Merchant",
-			"AccountBalanceTier",
-			"AccountRefreshStatus",
-			"AccountRefreshSubStatus",
-			"AccountRefreshAdditionalStatus",
-			"BudgetCategory",
-			"ProviderLoginForm",
-			"ProviderLoginFormViewModel"
-		]
-	},
+      "Merchant",
+      "AccountBalanceTier",
+      "AccountRefreshStatus",
+      "AccountRefreshSubStatus",
+      "AccountRefreshAdditionalStatus",
+      "BudgetCategory",
+      "ProviderLoginForm",
+      "ProviderLoginFormViewModel"
+    ]
+  },
   {
     "name": "Bills",
     "children": [

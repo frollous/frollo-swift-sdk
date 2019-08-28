@@ -207,7 +207,7 @@ class AggregationTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -358,7 +358,7 @@ class AggregationTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -608,7 +608,7 @@ class AggregationTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -679,7 +679,7 @@ class AggregationTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -808,7 +808,7 @@ class AggregationTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -877,7 +877,7 @@ class AggregationTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -953,7 +953,7 @@ class AggregationTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -1206,7 +1206,7 @@ class AggregationTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -1276,7 +1276,7 @@ class AggregationTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -1415,22 +1415,32 @@ class AggregationTests: BaseTestCase {
         database.setup { error in
             XCTAssertNil(error)
             
-            aggregation.updateAccount(accountID: 542) { result in
-                switch result {
-                    case .failure(let error):
-                        XCTAssertNotNil(error)
-                        
-                        if let loggedOutError = error as? DataError {
-                            XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
-                        } else {
-                            XCTFail("Wrong error type returned")
-                        }
-                    case .success:
-                        XCTFail("User logged out, request should fail")
-                }
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let account = Account(context: managedObjectContext)
+                account.populateTestData()
+                account.accountID = 542
                 
-                expectation1.fulfill()
+                try? managedObjectContext.save()
+            
+                aggregation.updateAccount(accountID: 542) { result in
+                    switch result {
+                        case .failure(let error):
+                            XCTAssertNotNil(error)
+                            
+                            if let loggedOutError = error as? DataError {
+                                XCTAssertEqual(loggedOutError.type, .authentication)
+                                XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
+                            } else {
+                                XCTFail("Wrong error type returned")
+                            }
+                        case .success:
+                            XCTFail("User logged out, request should fail")
+                    }
+                    
+                    expectation1.fulfill()
+                }
             }
         }
         
@@ -1613,7 +1623,7 @@ class AggregationTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -1779,7 +1789,7 @@ class AggregationTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -1853,7 +1863,7 @@ class AggregationTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -2232,22 +2242,32 @@ class AggregationTests: BaseTestCase {
         database.setup { error in
             XCTAssertNil(error)
             
-            aggregation.updateTransaction(transactionID: 194630) { result in
-                switch result {
-                    case .failure(let error):
-                        XCTAssertNotNil(error)
-                        
-                        if let loggedOutError = error as? DataError {
-                            XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
-                        } else {
-                            XCTFail("Wrong error type returned")
-                        }
-                    case .success:
-                        XCTFail("User logged out, request should fail")
-                }
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let transaction = Transaction(context: managedObjectContext)
+                transaction.populateTestData()
+                transaction.transactionID = 194630
                 
-                expectation1.fulfill()
+                try? managedObjectContext.save()
+            
+                aggregation.updateTransaction(transactionID: 194630) { result in
+                    switch result {
+                        case .failure(let error):
+                            XCTAssertNotNil(error)
+                            
+                            if let loggedOutError = error as? DataError {
+                                XCTAssertEqual(loggedOutError.type, .authentication)
+                                XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
+                            } else {
+                                XCTFail("Wrong error type returned")
+                            }
+                        case .success:
+                            XCTFail("User logged out, request should fail")
+                    }
+                    
+                    expectation1.fulfill()
+                }
             }
         }
         
@@ -2389,7 +2409,7 @@ class AggregationTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -2438,7 +2458,7 @@ class AggregationTests: BaseTestCase {
     func testTransactionSummaryFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactionSummary.path.prefixedWithSlash, toResourceWithName: "transactions_summary")
+        connect(endpoint: AggregationEndpoint.transactionSummary.path.prefixedWithSlash, toResourceWithName: "transaction_summary")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -2455,7 +2475,7 @@ class AggregationTests: BaseTestCase {
                     
                     if let loggedOutError = error as? DataError {
                         XCTAssertEqual(loggedOutError.type, .authentication)
-                        XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                     } else {
                         XCTFail("Wrong error type returned")
                     }
@@ -2640,7 +2660,7 @@ class AggregationTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -2925,36 +2945,6 @@ class AggregationTests: BaseTestCase {
         
     }
     
-    func testTransactionUserTagsFailsIfLoggedOut() {
-        let expectation1 = expectation(description: "Completion")
-        
-        let aggregation = self.aggregation(loggedIn: false)
-        
-        database.setup { error in
-            XCTAssertNil(error)
-            
-            aggregation.transactionUserTags() { result in
-                switch result {
-                case .failure(let error):
-                    XCTAssertNotNil(error)
-                    
-                    if let loggedOutError = error as? DataError {
-                        XCTAssertEqual(loggedOutError.type, .authentication)
-                        XCTAssertEqual(loggedOutError.subType, .loggedOut)
-                    } else {
-                        XCTFail("Wrong error type returned")
-                    }
-                case .success:
-                    XCTFail("User logged out, request should fail")
-                }
-                
-                expectation1.fulfill()
-            }
-        }
-        
-        wait(for: [expectation1], timeout: 3.0)
-    }
-    
     func testRefreshTransactionUserTagsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -2972,7 +2962,7 @@ class AggregationTests: BaseTestCase {
                     
                     if let loggedOutError = error as? DataError {
                         XCTAssertEqual(loggedOutError.type, .authentication)
-                        XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                     } else {
                         XCTFail("Wrong error type returned")
                     }
@@ -3110,7 +3100,7 @@ class AggregationTests: BaseTestCase {
                     
                     if let loggedOutError = error as? DataError {
                         XCTAssertEqual(loggedOutError.type, .authentication)
-                        XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                     } else {
                         XCTFail("Wrong error type returned")
                     }
@@ -3295,7 +3285,7 @@ class AggregationTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -3371,7 +3361,7 @@ class AggregationTests: BaseTestCase {
                     
                     if let loggedOutError = error as? DataError {
                         XCTAssertEqual(loggedOutError.type, .authentication)
-                        XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                        XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                     } else {
                         XCTFail("Wrong error type returned")
                     }
@@ -3448,7 +3438,7 @@ class AggregationTests: BaseTestCase {
                         
                         if let loggedOutError = error as? DataError {
                             XCTAssertEqual(loggedOutError.type, .authentication)
-                            XCTAssertEqual(loggedOutError.subType, .loggedOut)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
                         } else {
                             XCTFail("Wrong error type returned")
                         }

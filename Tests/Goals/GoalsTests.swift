@@ -28,16 +28,16 @@ class GoalsTests: BaseTestCase {
         
         let keychain = defaultKeychain(isNetwork: true)
         
-        let networkAuthenticator = defaultNetworkAuthenticator(keychain: keychain)
-        let network = defaultNetwork(keychain: keychain, networkAuthenticator: networkAuthenticator)
-        let service = defaultService(keychain: keychain, networkAuthenticator: networkAuthenticator)
+        let authentication = defaultAuthentication(keychain: keychain)
+        let network = defaultNetwork(keychain: keychain, authentication: authentication)
+        let service = defaultService(keychain: keychain, authentication: authentication)
         let authService = defaultAuthService(keychain: keychain, network: network)
         
-        let authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil, tokenDelegate: network)
-        authentication.loggedIn = true
-        aggregation = Aggregation(database: database, service: service, authentication: authentication)
+        let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
+        oAuth2Authentication.loggedIn = true
+        aggregation = Aggregation(database: database, service: service)
         
-        goals = Goals(database: database, service: service, aggregation: aggregation, authentication: authentication)
+        goals = Goals(database: database, service: service, aggregation: aggregation)
     }
     
     override func tearDown() {

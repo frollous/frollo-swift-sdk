@@ -32,10 +32,36 @@ import UIKit
  
  Manages authentication, login, registration, logout and the user profile.
  */
-public class OAuth2Authentication: Authentication {
+public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDelegate {
+    
+    /// Notification triggered whenever the authentication status of the OAuth2 client changes. Observe this notification to detect if the OAuth2 user has authenticated or been logged out.
+    public static let authenticationChangedNotification = Notification.Name(rawValue: "Frollo.OAuth2Authentication.Notification.authenticationChangedNotification")
+    
+    /// User info key for authentication status sent with `authenticationChangedNotification` notifications.
+    public static let authenticationStatusKey = "Frollo.OAuth2Authentication.Key.authenticationStatus"
+    
+    /// Status of the FrolloSDK authentication with Frollo servers
+    public enum AuthenticationStatus {
+        
+        /// Authenticated
+        case authenticated
+        
+        /// User was logged out
+        case loggedOut
+        
+    }
     
     internal struct KeychainKey {
+        static let accessToken = "accessToken"
+        static let accessTokenExpiry = "accessTokenExpiry"
         static let refreshToken = "refreshToken"
+    }
+    
+    internal struct OAuth2AccessToken: AccessToken {
+        
+        let expiryDate: Date?
+        let token: String
+        
     }
     
     /**
@@ -50,20 +76,18 @@ public class OAuth2Authentication: Authentication {
         }
     }
     
-    /**
-     SDK delegate to be called to update SDK about authentication events. SDK sets this as part of setup
-     */
-    public weak var delegate: AuthenticationDelegate?
+    /// OAuth2 access token if authenticated
+    public var accessToken: AccessToken?
     
-    /**
-     SDK delegate to be called to update SDK about token update events. SDK sets this as part of setup
-     */
-    public weak var tokenDelegate: AuthenticationTokenDelegate?
+    /// Refresh the token 3 minutes before expiry
+    public var preemptiveRefreshTime: TimeInterval? = 180
+    
+    internal weak var delegate: Frollo?
     
     internal var authorizationFlow: OIDExternalUserAgentSession?
     internal var refreshToken: String?
     
-    private let authService: OAuthService
+    private let authService: OAuth2Service
     private let clientID: String
     private let domain: String
     private let keychain: Keychain
@@ -71,7 +95,7 @@ public class OAuth2Authentication: Authentication {
     private let redirectURL: URL
     private let serverURL: URL
     
-    init(keychain: Keychain, clientID: String, redirectURL: URL, serverURL: URL, authService: OAuthService, preferences: Preferences, delegate: AuthenticationDelegate?, tokenDelegate: AuthenticationTokenDelegate?) {
+    init(keychain: Keychain, clientID: String, redirectURL: URL, serverURL: URL, authService: OAuth2Service, preferences: Preferences, delegate: Frollo?) {
         self.keychain = keychain
         self.clientID = clientID
         self.domain = serverURL.host ?? serverURL.absoluteString
@@ -80,7 +104,6 @@ public class OAuth2Authentication: Authentication {
         self.redirectURL = redirectURL
         self.serverURL = serverURL
         self.delegate = delegate
-        self.tokenDelegate = tokenDelegate
         
         loadTokens()
     }
@@ -193,18 +216,18 @@ public class OAuth2Authentication: Authentication {
             return
         }
         
-        let request = OAuthTokenRequest(audience: serverURL.absoluteString,
-                                        clientID: clientID,
-                                        code: nil,
-                                        codeVerifier: nil,
-                                        domain: domain,
-                                        grantType: .password,
-                                        legacyToken: nil,
-                                        password: password,
-                                        redirectURI: nil,
-                                        refreshToken: nil,
-                                        scope: scopes.joined(separator: " "),
-                                        username: email)
+        let request = OAuth2TokenRequest(audience: serverURL.absoluteString,
+                                         clientID: clientID,
+                                         code: nil,
+                                         codeVerifier: nil,
+                                         domain: domain,
+                                         grantType: .password,
+                                         legacyToken: nil,
+                                         password: password,
+                                         redirectURI: nil,
+                                         refreshToken: nil,
+                                         scope: scopes.joined(separator: " "),
+                                         username: email)
         
         // Authorize the user
         authService.refreshTokens(request: request) { result in
@@ -216,14 +239,12 @@ public class OAuth2Authentication: Authentication {
                         completion(.failure(error))
                     }
                 case .success(let response):
-                    let createdDate = response.createdAt ?? Date()
-                    let expiryDate = createdDate.addingTimeInterval(response.expiresIn)
-                    
                     if let refreshToken = response.refreshToken {
-                        self.updateToken(refreshToken)
+                        self.updateRefreshToken(refreshToken)
                     }
                     
-                    self.tokenDelegate?.saveAccessTokens(accessToken: response.accessToken, expiry: expiryDate)
+                    let expiryDate = response.createdAt?.addingTimeInterval(response.expiresIn)
+                    self.updateAccessToken(response.accessToken, expiryDate: expiryDate)
                     
                     self.loggedIn = true
                     
@@ -235,6 +256,14 @@ public class OAuth2Authentication: Authentication {
         }
     }
     
+    /**
+     Application received URL Open request
+     
+     Notify the OAuth2 authentication of an application open URL event
+     
+     - returns: Indication if the URL was handled successfully or not
+     
+     */
     public func resumeAuthentication(url: URL) -> Bool {
         if url.scheme == redirectURL.scheme,
             url.user == redirectURL.user,
@@ -276,18 +305,18 @@ public class OAuth2Authentication: Authentication {
             return
         }
         
-        let request = OAuthTokenRequest(audience: serverURL.absoluteString,
-                                        clientID: clientID,
-                                        code: code,
-                                        codeVerifier: codeVerifier,
-                                        domain: domain,
-                                        grantType: .authorizationCode,
-                                        legacyToken: nil,
-                                        password: nil,
-                                        redirectURI: authService.redirectURL.absoluteString,
-                                        refreshToken: nil,
-                                        scope: scopes.joined(separator: " "),
-                                        username: nil)
+        let request = OAuth2TokenRequest(audience: serverURL.absoluteString,
+                                         clientID: clientID,
+                                         code: code,
+                                         codeVerifier: codeVerifier,
+                                         domain: domain,
+                                         grantType: .authorizationCode,
+                                         legacyToken: nil,
+                                         password: nil,
+                                         redirectURI: authService.redirectURL.absoluteString,
+                                         refreshToken: nil,
+                                         scope: scopes.joined(separator: " "),
+                                         username: nil)
         
         authService.refreshTokens(request: request) { result in
             switch result {
@@ -298,14 +327,12 @@ public class OAuth2Authentication: Authentication {
                         completion(.failure(error))
                     }
                 case .success(let response):
-                    let createdDate = response.createdAt ?? Date()
-                    let expiryDate = createdDate.addingTimeInterval(response.expiresIn)
-                    
                     if let refreshToken = response.refreshToken {
-                        self.updateToken(refreshToken)
+                        self.updateRefreshToken(refreshToken)
                     }
                     
-                    self.tokenDelegate?.saveAccessTokens(accessToken: response.accessToken, expiry: expiryDate)
+                    let expiryDate = response.createdAt?.addingTimeInterval(response.expiresIn)
+                    self.updateAccessToken(response.accessToken, expiryDate: expiryDate)
                     
                     self.loggedIn = true
                     
@@ -343,7 +370,7 @@ public class OAuth2Authentication: Authentication {
             
             Log.error(error.localizedDescription)
             
-            reset()
+            forcedReset()
             
             DispatchQueue.main.async {
                 completion(.failure(error))
@@ -351,20 +378,20 @@ public class OAuth2Authentication: Authentication {
             return
         }
         
-        let scopes = [OAuthTokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
+        let scopes = [OAuth2TokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
         
-        let request = OAuthTokenRequest(audience: serverURL.absoluteString,
-                                        clientID: clientID,
-                                        code: nil,
-                                        codeVerifier: nil,
-                                        domain: domain,
-                                        grantType: .password,
-                                        legacyToken: token,
-                                        password: nil,
-                                        redirectURI: nil,
-                                        refreshToken: nil,
-                                        scope: scopes,
-                                        username: nil)
+        let request = OAuth2TokenRequest(audience: serverURL.absoluteString,
+                                         clientID: clientID,
+                                         code: nil,
+                                         codeVerifier: nil,
+                                         domain: domain,
+                                         grantType: .password,
+                                         legacyToken: token,
+                                         password: nil,
+                                         redirectURI: nil,
+                                         refreshToken: nil,
+                                         scope: scopes,
+                                         username: nil)
         
         authService.refreshTokens(request: request) { result in
             switch result {
@@ -377,14 +404,12 @@ public class OAuth2Authentication: Authentication {
                         completion(.failure(error))
                     }
                 case .success(let response):
-                    let createdDate = response.createdAt ?? Date()
-                    let expiryDate = createdDate.addingTimeInterval(response.expiresIn)
-                    
                     if let refreshToken = response.refreshToken {
-                        self.updateToken(refreshToken)
+                        self.updateRefreshToken(refreshToken)
                     }
                     
-                    self.tokenDelegate?.saveAccessTokens(accessToken: response.accessToken, expiry: expiryDate)
+                    let expiryDate = response.createdAt?.addingTimeInterval(response.expiresIn)
+                    self.updateAccessToken(response.accessToken, expiryDate: expiryDate)
                     
                     DispatchQueue.main.async {
                         completion(.success)
@@ -408,7 +433,7 @@ public class OAuth2Authentication: Authentication {
             
             Log.error(error.localizedDescription)
             
-            reset()
+            forcedReset()
             
             DispatchQueue.main.async {
                 completion?(.failure(error))
@@ -416,18 +441,18 @@ public class OAuth2Authentication: Authentication {
             return
         }
         
-        let request = OAuthTokenRequest(audience: nil,
-                                        clientID: clientID,
-                                        code: nil,
-                                        codeVerifier: nil,
-                                        domain: domain,
-                                        grantType: .refreshToken,
-                                        legacyToken: nil,
-                                        password: nil,
-                                        redirectURI: nil,
-                                        refreshToken: token,
-                                        scope: nil,
-                                        username: nil)
+        let request = OAuth2TokenRequest(audience: nil,
+                                         clientID: clientID,
+                                         code: nil,
+                                         codeVerifier: nil,
+                                         domain: domain,
+                                         grantType: .refreshToken,
+                                         legacyToken: nil,
+                                         password: nil,
+                                         redirectURI: nil,
+                                         refreshToken: token,
+                                         scope: nil,
+                                         username: nil)
         
         authService.refreshTokens(request: request) { result in
             switch result {
@@ -440,14 +465,12 @@ public class OAuth2Authentication: Authentication {
                         completion?(.failure(error))
                     }
                 case .success(let response):
-                    let createdDate = response.createdAt ?? Date()
-                    let expiryDate = createdDate.addingTimeInterval(response.expiresIn)
-                    
                     if let refreshToken = response.refreshToken {
-                        self.updateToken(refreshToken)
+                        self.updateRefreshToken(refreshToken)
                     }
                     
-                    self.tokenDelegate?.saveAccessTokens(accessToken: response.accessToken, expiry: expiryDate)
+                    let expiryDate = response.createdAt?.addingTimeInterval(response.expiresIn)
+                    self.updateAccessToken(response.accessToken, expiryDate: expiryDate)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -466,7 +489,7 @@ public class OAuth2Authentication: Authentication {
     public func logout() {
         // Revoke the refresh token if possible
         if let token = refreshToken {
-            let request = OAuthTokenRevokeRequest(clientID: clientID, token: token)
+            let request = OAuth2TokenRevokeRequest(clientID: clientID, token: token)
             
             authService.revokeToken(request: request) { result in
                 switch result {
@@ -478,7 +501,7 @@ public class OAuth2Authentication: Authentication {
             }
         }
         
-        reset()
+        forcedReset()
     }
     
     /**
@@ -489,28 +512,66 @@ public class OAuth2Authentication: Authentication {
         
         clearTokens()
         
-        delegate?.authenticationReset()
+        NotificationCenter.default.post(name: OAuth2Authentication.authenticationChangedNotification, object: self, userInfo: [OAuth2Authentication.authenticationStatusKey: AuthenticationStatus.loggedOut])
+    }
+    
+    private func forcedReset() {
+        reset()
+        
+        delegate?.reset()
     }
     
     // MARK: - Token Handling
+    
+    public func accessTokenExpired(completion: @escaping (Bool) -> Void) {
+        refreshTokens { result in
+            switch result {
+                case .failure:
+                    self.forcedReset()
+                    
+                    completion(false)
+                case .success:
+                    completion(true)
+            }
+        }
+    }
+    
+    public func accessTokenInvalid() {
+        forcedReset()
+    }
     
     internal func handleTokenError(error: Error) {
         if let authError = error as? OAuth2Error {
             let clearTokenStatuses: [OAuth2Error.OAuth2ErrorType] = [.invalidClient, .invalidRequest, .invalidGrant, .invalidScope, .unauthorizedClient, .unsupportedGrantType, .serverError]
             
             if clearTokenStatuses.contains(authError.type) {
-                reset()
+                forcedReset()
             }
         } else if let dataError = error as? DataError {
             let clearTokenStatuses: [DataError.DataErrorType] = [.authentication]
             
             if clearTokenStatuses.contains(dataError.type) {
-                reset()
+                forcedReset()
             }
         }
     }
     
-    internal func updateToken(_ token: String) {
+    internal func updateAccessToken(_ token: String, expiryDate: Date?) {
+        accessToken = OAuth2AccessToken(expiryDate: expiryDate, token: token)
+        
+        keychain[KeychainKey.accessToken] = token
+        
+        guard let date = expiryDate
+        else {
+            keychain[KeychainKey.accessTokenExpiry] = nil
+            return
+        }
+        
+        let expirySeconds = String(date.timeIntervalSince1970)
+        keychain[KeychainKey.accessTokenExpiry] = expirySeconds
+    }
+    
+    internal func updateRefreshToken(_ token: String) {
         refreshToken = token
         
         keychain[KeychainKey.refreshToken] = token
@@ -518,12 +579,28 @@ public class OAuth2Authentication: Authentication {
     
     internal func clearTokens() {
         refreshToken = nil
+        accessToken = nil
         
         keychain[KeychainKey.refreshToken] = nil
+        keychain[KeychainKey.accessToken] = nil
+        keychain[KeychainKey.accessTokenExpiry] = nil
     }
     
     private func loadTokens() {
         refreshToken = keychain[KeychainKey.refreshToken]
+        
+        guard let rawAccessToken = keychain[KeychainKey.accessToken]
+        else {
+            accessToken = nil
+            return
+        }
+        
+        var expiryDate: Date?
+        if let expiryTime = keychain[KeychainKey.accessTokenExpiry], let expirySeconds = TimeInterval(expiryTime) {
+            expiryDate = Date(timeIntervalSince1970: expirySeconds)
+        }
+        
+        accessToken = OAuth2AccessToken(expiryDate: expiryDate, token: rawAccessToken)
     }
     
 }

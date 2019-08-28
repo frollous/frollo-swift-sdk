@@ -21,7 +21,6 @@ import Foundation
 public class Goals: CachedObjects, ResponseHandler {
     
     private let aggregation: Aggregation
-    private let authentication: Authentication
     private let database: Database
     private let service: APIService
     
@@ -31,11 +30,10 @@ public class Goals: CachedObjects, ResponseHandler {
     private var linkingAccountIDs = Set<Int64>()
     private var linkingGoalIDs = Set<Int64>()
     
-    internal init(database: Database, service: APIService, aggregation: Aggregation, authentication: Authentication) {
+    internal init(database: Database, service: APIService, aggregation: Aggregation) {
         self.database = database
         self.service = service
         self.aggregation = aggregation
-        self.authentication = authentication
     }
     
     // MARK: - Goals
@@ -165,18 +163,6 @@ public class Goals: CachedObjects, ResponseHandler {
          - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshGoal(goalID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         service.fetchGoal(goalID: goalID) { result in
             switch result {
                 case .failure(let error):
@@ -211,18 +197,6 @@ public class Goals: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshGoals(status: Goal.Status? = nil, trackingStatus: Goal.TrackingStatus? = nil, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         service.fetchGoals(status: status, trackingStatus: trackingStatus) { result in
             switch result {
                 case .failure(let error):
@@ -280,18 +254,6 @@ public class Goals: CachedObjects, ResponseHandler {
                            targetAmount: Decimal?,
                            accountID: Int64,
                            completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         var endDateString: String?
         if let date = endDate {
             endDateString = Goal.goalDateFormatter.string(from: date)
@@ -357,18 +319,6 @@ public class Goals: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func deleteGoal(goalID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         service.deleteGoal(goalID: goalID) { result in
             switch result {
                 case .failure(let error):
@@ -395,18 +345,6 @@ public class Goals: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func updateGoal(goalID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         let managedObjectContext = database.newBackgroundContext()
         
         guard let goal = goal(context: managedObjectContext, goalID: goalID)
@@ -527,18 +465,6 @@ public class Goals: CachedObjects, ResponseHandler {
          - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshGoalPeriod(goalID: Int64, goalPeriodID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         service.fetchGoalPeriod(goalID: goalID, goalPeriodID: goalPeriodID) { result in
             switch result {
                 case .failure(let error):
@@ -569,18 +495,6 @@ public class Goals: CachedObjects, ResponseHandler {
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshGoalPeriods(goalID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        guard authentication.loggedIn
-        else {
-            let error = DataError(type: .authentication, subType: .loggedOut)
-            
-            Log.error(error.localizedDescription)
-            
-            DispatchQueue.main.async {
-                completion?(.failure(error))
-            }
-            return
-        }
-        
         service.fetchGoalPeriods(goalID: goalID) { result in
             switch result {
                 case .failure(let error):
