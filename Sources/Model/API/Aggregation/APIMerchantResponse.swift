@@ -28,6 +28,6 @@ struct APIMerchantResponse: APIUniqueResponse, Codable {
     var id: Int64
     let merchantType: Merchant.MerchantType
     let name: String
-    let smallLogoURL: String
+    let smallLogoURL: String?
     
 }

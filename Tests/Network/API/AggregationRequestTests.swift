@@ -623,7 +623,7 @@ class AggregationRequestTests: BaseTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success(let response):
-                    XCTAssertEqual(response.count, 1196)
+                    XCTAssertEqual(response.count, 1197)
                     
                     if let firstMerchant = response.first {
                         XCTAssertEqual(firstMerchant.id, 1)

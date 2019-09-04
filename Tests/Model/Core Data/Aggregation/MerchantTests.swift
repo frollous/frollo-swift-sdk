@@ -43,7 +43,7 @@ class MerchantTests: XCTestCase {
             XCTAssertEqual(merchant.merchantID, merchantResponse.id)
             XCTAssertEqual(merchant.name, merchantResponse.name)
             XCTAssertEqual(merchant.merchantType, merchantResponse.merchantType)
-            XCTAssertEqual(merchant.smallLogoURL, URL(string: merchantResponse.smallLogoURL))
+            XCTAssertEqual(merchant.smallLogoURL, URL(string: merchantResponse.smallLogoURL!))
         }
     }
     
