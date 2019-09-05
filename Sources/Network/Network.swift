@@ -102,6 +102,8 @@ class Network: SessionDelegate {
     // MARK: - Reset
     
     internal func reset() {
+        Log.debug("SDK Network reset initiated...")
+        
         sessionManager.session.getAllTasks { tasks in
             tasks.forEach { $0.cancel() }
         }

@@ -509,8 +509,11 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
      */
     public func reset() {
         guard !loggedIn else {
+            Log.debug("SDK OAuth2 reset cancelled as logged out")
             return
         }
+        
+        Log.debug("SDK OAuth2 reset initiated...")
         
         loggedIn = false
         

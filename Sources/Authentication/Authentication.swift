@@ -104,6 +104,8 @@ public class Authentication: RequestAdapter, RequestRetrier {
     // MARK: - Authentication Status
     
     internal func reset() {
+        Log.debug("SDK Authentication reset initiated...")
+        
         cancelRetryRequests()
     }
     

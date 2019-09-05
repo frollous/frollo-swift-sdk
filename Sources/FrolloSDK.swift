@@ -352,6 +352,8 @@ public class Frollo: UserManagementDelegate {
         - completion: Completion handler with option error if something goes wrong (optional)
      */
     public func reset(completionHandler: FrolloSDKCompletionHandler? = nil) {
+        Log.debug("SDK Reset Called")
+        
         authentication.reset()
         
         internalReset(completionHandler: completionHandler)
@@ -363,6 +365,8 @@ public class Frollo: UserManagementDelegate {
      Triggers the internal cleanup of the SDK. Called from public logout/reset methods and also forced logout
      */
     internal func internalReset(completionHandler: FrolloSDKCompletionHandler? = nil) {
+        Log.debug("SDK internal reset initiated...")
+        
         pauseScheduledRefreshing()
         
         oAuth2Authentication?.reset()

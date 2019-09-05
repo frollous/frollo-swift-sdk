@@ -327,6 +327,8 @@ public class Database {
      Resets the persistent store and rebuilds the persistent container
      */
     internal func reset(completionHandler: @escaping (Error?) -> Void) {
+        Log.debug("SDK Database reset initiated...")
+        
         persistentHistoryPersistence.reset()
         
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
