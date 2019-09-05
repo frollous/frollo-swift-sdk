@@ -145,10 +145,6 @@ public class UserManagement {
                 case .success(let userResponse):
                     self.handleUserResponse(userResponse: userResponse)
                     
-                    DispatchQueue.global(qos: .utility).async {
-                        self.updateDevice()
-                    }
-                    
                     DispatchQueue.main.async {
                         completion(.success)
                     }

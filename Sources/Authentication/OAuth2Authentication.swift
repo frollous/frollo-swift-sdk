@@ -249,6 +249,8 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
                     self.loggedIn = true
                     
                     DispatchQueue.main.async {
+                        Frollo.shared.userManagement.updateDevice()
+                        
                         completion(.success)
                     }
             }
@@ -337,6 +339,8 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
                     self.loggedIn = true
                     
                     DispatchQueue.main.async {
+                        Frollo.shared.userManagement.updateDevice()
+                        
                         completion(.success)
                     }
             }
