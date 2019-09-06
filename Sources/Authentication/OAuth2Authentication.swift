@@ -512,7 +512,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
      Reset the authentication state. Resets the user to a logged out state and clears any tokens cached
      */
     public func reset() {
-        guard !loggedIn else {
+        guard loggedIn else {
             Log.debug("SDK OAuth2 reset cancelled as logged out")
             return
         }
