@@ -11,7 +11,7 @@ import Foundation
 public typealias FrolloSDKCompletionHandler = (EmptyResult<Error>) -> Void
 
 /// Frollo SDK manager and main instantiation. Responsible for managing the lifecycle and coordination of the SDK
-public class Frollo: UserManagementDelegate {
+public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     
     /// Global singleton for SDK
     public static let shared = Frollo()
@@ -496,6 +496,20 @@ public class Frollo: UserManagementDelegate {
     private func cancelRefreshTimer() {
         refreshTimer?.invalidate()
         refreshTimer = nil
+    }
+    
+    // MARK: - OAuth2 Authentication Delegate
+    
+    internal func authenticationReset() {
+        reset()
+    }
+    
+    internal func userAuthenticated() {
+        guard setup else {
+            return
+        }
+        
+        userManagement.updateDevice()
     }
     
     // MARK: - User Management Delegate

@@ -218,63 +218,63 @@ class OAuth2AuthenticationTests: BaseTestCase {
     #endif
     
     #if os(macOS)
-    func testLoginUserViaWebFails() {
-        let expectation1 = expectation(description: "Network Request")
-        let expectation2 = expectation(description: "Network Request")
-        
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let path = tempFolderPath()
-        let database = Database(path: path)
-        let keychain = Keychain(service: keychainService)
-        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain)
-        
-        database.setup { (error) in
-            XCTAssertNil(error)
-            
-            oAuth2Authentication.loginUserUsingWeb(scopes: ["offline_access", "email", "openid"]) { (result) in
-                switch result {
-                    case .failure(let error):
-                        XCTAssertFalse(oAuth2Authentication.loggedIn)
-                        
-                        XCTAssertNil(oAuth2Authentication.accessToken)
-                        XCTAssertNil(oAuth2Authentication.refreshToken)
-                        
-                        if let authError = error as? OAuth2Error {
-                            XCTAssertEqual(authError.type, .clientError)
-                        } else {
-                            XCTFail("Wrong error returned")
-                        }
-                    case .success:
-                        XCTFail("Wrong password should fail")
-                }
-                
-                expectation1.fulfill()
-            }
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            let authURL = URL(string: "app://redirect?code=4VbXuJz8dfFiCaJh&state=smpNp40xhOR5hDUQRevUtPDjkEV5e9Xh0k7dtjaTelA")!
-            
-            let result = oAuth2Authentication.resumeAuthentication(url: authURL)
-            
-            XCTAssertTrue(result)
-            
-            expectation2.fulfill()
-        }
-        
-        wait(for: [expectation1, expectation2], timeout: 5.0)
-        
-        try? FileManager.default.removeItem(at: tempFolderPath())
-    }
+//    func testLoginUserViaWebFails() {
+//        let expectation1 = expectation(description: "Network Request")
+//        let expectation2 = expectation(description: "Network Request")
+//
+//        let config = FrolloSDKConfiguration.testConfig()
+//
+//        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+//            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+//        }
+//
+//        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+//            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+//        }
+//
+//        let path = tempFolderPath()
+//        let database = Database(path: path)
+//        let keychain = Keychain(service: keychainService)
+//        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain)
+//
+//        database.setup { (error) in
+//            XCTAssertNil(error)
+//
+//            oAuth2Authentication.loginUserUsingWeb(scopes: ["offline_access", "email", "openid"]) { (result) in
+//                switch result {
+//                    case .failure(let error):
+//                        XCTAssertFalse(oAuth2Authentication.loggedIn)
+//
+//                        XCTAssertNil(oAuth2Authentication.accessToken)
+//                        XCTAssertNil(oAuth2Authentication.refreshToken)
+//
+//                        if let authError = error as? OAuth2Error {
+//                            XCTAssertEqual(authError.type, .clientError)
+//                        } else {
+//                            XCTFail("Wrong error returned")
+//                        }
+//                    case .success:
+//                        XCTFail("Wrong password should fail")
+//                }
+//
+//                expectation1.fulfill()
+//            }
+//        }
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//            let authURL = URL(string: "app://redirect?code=4VbXuJz8dfFiCaJh&state=smpNp40xhOR5hDUQRevUtPDjkEV5e9Xh0k7dtjaTelA")!
+//
+//            let result = oAuth2Authentication.resumeAuthentication(url: authURL)
+//
+//            XCTAssertTrue(result)
+//
+//            expectation2.fulfill()
+//        }
+//
+//        wait(for: [expectation1, expectation2], timeout: 5.0)
+//
+//        try? FileManager.default.removeItem(at: tempFolderPath())
+//    }
     #endif
     
     func testLogoutUser() {
@@ -700,6 +700,8 @@ class OAuth2AuthenticationTests: BaseTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
+        oAuth2Authentication.loggedIn = true
+        
         authentication.dataSource = oAuth2Authentication
         authentication.delegate = oAuth2Authentication
         

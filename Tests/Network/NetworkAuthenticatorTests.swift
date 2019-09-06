@@ -95,6 +95,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
+        oAuth2Authentication.loggedIn = true
         
         authentication.dataSource = oAuth2Authentication
         authentication.delegate = oAuth2Authentication

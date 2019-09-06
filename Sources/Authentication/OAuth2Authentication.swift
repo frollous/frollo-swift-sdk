@@ -27,6 +27,13 @@ import SafariServices
 import UIKit
 #endif
 
+internal protocol OAuth2AuthenticationDelegate: AnyObject {
+    
+    func authenticationReset()
+    func userAuthenticated()
+    
+}
+
 /**
  Authentication
  
@@ -82,7 +89,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
     /// Refresh the token 3 minutes before expiry
     public var preemptiveRefreshTime: TimeInterval? = 180
     
-    internal weak var delegate: Frollo?
+    internal weak var delegate: OAuth2AuthenticationDelegate?
     
     internal var authorizationFlow: OIDExternalUserAgentSession?
     internal var refreshToken: String?
@@ -95,7 +102,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
     private let redirectURL: URL
     private let serverURL: URL
     
-    init(keychain: Keychain, clientID: String, redirectURL: URL, serverURL: URL, authService: OAuth2Service, preferences: Preferences, delegate: Frollo?) {
+    init(keychain: Keychain, clientID: String, redirectURL: URL, serverURL: URL, authService: OAuth2Service, preferences: Preferences, delegate: OAuth2AuthenticationDelegate?) {
         self.keychain = keychain
         self.clientID = clientID
         self.domain = serverURL.host ?? serverURL.absoluteString
@@ -249,7 +256,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
                     self.loggedIn = true
                     
                     DispatchQueue.main.async {
-                        Frollo.shared.userManagement.updateDevice()
+                        self.delegate?.userAuthenticated()
                         
                         completion(.success)
                     }
@@ -339,7 +346,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
                     self.loggedIn = true
                     
                     DispatchQueue.main.async {
-                        Frollo.shared.userManagement.updateDevice()
+                        self.delegate?.userAuthenticated()
                         
                         completion(.success)
                     }
@@ -529,7 +536,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
     private func forcedReset() {
         reset()
         
-        delegate?.reset()
+        delegate?.authenticationReset()
     }
     
     // MARK: - Token Handling
