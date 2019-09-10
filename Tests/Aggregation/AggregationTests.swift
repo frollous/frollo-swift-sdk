@@ -2748,6 +2748,7 @@ class AggregationTests: BaseTestCase {
         
         let aggregation = self.aggregation(loggedIn: true)
         
+        
         database.setup { error in
             XCTAssertNil(error)
             
@@ -2769,19 +2770,15 @@ class AggregationTests: BaseTestCase {
                 try! managedObjectContext.save()
             }
             
-            aggregation.transactionUserTags() { result in
-                switch result {
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
-                case .success(let data):
-                    XCTAssertEqual(data.count, 3)
-                    let sortedData = data.sorted(by: { $0.count < $1.count })
-                    XCTAssertEqual(sortedData.first?.count, 1)
-                    XCTAssertEqual(sortedData.last?.count, 3)
-                }
-                
-                expectation1.fulfill()
-            }
+            let userTags = aggregation.transactionUserTags(context: managedObjectContext)
+            
+            XCTAssertEqual(userTags?.count, 3)
+            let sortedData = userTags?.sorted(by: { $0.count < $1.count })
+            XCTAssertEqual(sortedData?.first?.count, 1)
+            XCTAssertEqual(sortedData?.last?.count, 3)
+            
+            expectation1.fulfill()
+
         }
         
         wait(for: [expectation1], timeout: 3.0)
