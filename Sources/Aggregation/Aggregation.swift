@@ -1383,18 +1383,15 @@ public class Aggregation: CachedObjects, ResponseHandler {
     /**
      Gets all cached user tags for transactions.
      - parameters:
-     - completion: The completion block that will be executed after fetching from cache. The result will contain either the array of user tags, or an error if the request fails
+     - context: Managed object context to fetch these from; background or main thread
+     - filteredBy: Predicate of properties to match for fetching. See `Tag` for properties (Optional)
+     - sortedBy: Array of sort descriptors to sort the results by (Optional). By default sorts by tag name; ascending.
+     - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func transactionUserTags(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil,
-                                    sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)], completion: @escaping (Result<[Tag], Error>) -> Void) {
+                                    sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)], limit: Int? = nil) -> [Tag]? {
         
-        context.performAndWait {
-            do {
-                completion(.success(try Tag.all(predicate: predicate, sortDescriptors: sortDescriptors, context: context)))
-            } catch {
-                completion(.failure(error))
-            }
-        }
+        return cachedObjects(type: Tag.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
