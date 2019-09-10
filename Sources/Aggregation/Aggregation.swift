@@ -1375,7 +1375,11 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     }
                 case .success(let response):
                     let tags = response.map(SuggestedTag.init)
-                    completion(.success(tags))
+                    
+                    DispatchQueue.main.async {
+                        completion(.success(tags))
+                    }
+                
             }
         }
     }
