@@ -1383,16 +1383,14 @@ public class Aggregation: CachedObjects, ResponseHandler {
     /**
      Gets all cached user tags for transactions.
      - parameters:
-     - completion: The completion block that will be executed when there is a response from the server. The result will contain either the array of user tags, or an error if the request fails
+     - completion: The completion block that will be executed after fetching from cache. The result will contain either the array of user tags, or an error if the request fails
      */
-    public func transactionUserTags(filteredBy predicate: NSPredicate? = nil,
+    public func transactionUserTags(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil,
                                     sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)], completion: @escaping (Result<[Tag], Error>) -> Void) {
         
-        let managedObjectContext = database.newBackgroundContext()
-        
-        managedObjectContext.performAndWait {
+        context.performAndWait {
             do {
-                completion(.success(try Tag.all(predicate: predicate, sortDescriptors: sortDescriptors, context: managedObjectContext)))
+                completion(.success(try Tag.all(predicate: predicate, sortDescriptors: sortDescriptors, context: context)))
             } catch {
                 completion(.failure(error))
             }

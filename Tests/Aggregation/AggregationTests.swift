@@ -2748,6 +2748,7 @@ class AggregationTests: BaseTestCase {
         
         let aggregation = self.aggregation(loggedIn: true)
         
+        
         database.setup { error in
             XCTAssertNil(error)
             
@@ -2769,7 +2770,8 @@ class AggregationTests: BaseTestCase {
                 try! managedObjectContext.save()
             }
             
-            aggregation.transactionUserTags() { result in
+            
+            aggregation.transactionUserTags(context: managedObjectContext) { result in
                 switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
