@@ -1379,7 +1379,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     DispatchQueue.main.async {
                         completion(.success(tags))
                     }
-                
+                    
             }
         }
     }

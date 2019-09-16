@@ -2770,7 +2770,7 @@ class AggregationTests: BaseTestCase {
                 try! managedObjectContext.save()
             }
             
-            let userTags = aggregation.transactionUserTags(context: managedObjectContext)
+            let userTags = aggregation.transactionUserTags(context: self.context)
             
             XCTAssertEqual(userTags?.count, 3)
             let sortedData = userTags?.sorted(by: { $0.count < $1.count })
