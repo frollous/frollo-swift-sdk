@@ -251,6 +251,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - filteredBy: Predicate of properties to match for fetching. See `ReportTransactionCurrent` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to date ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
+        - tags: Array of tags associated with the report. Leave blank to fetch default report (Optional)
      */
     public func historyTransactionReports(context: NSManagedObjectContext,
                                           from fromDate: Date,

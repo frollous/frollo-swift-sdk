@@ -3483,7 +3483,7 @@ class ReportsTests: XCTestCase {
         
         let expectation1 = expectation(description: "Network Request 1")
         let tagNames = ["Frollo", "Volt Labs"]
-        let tagsRawValue = "Frollo,Volt Labs,"
+        let tagsRawValue = "|Frollo|Volt Labs|"
         
         let config = FrolloSDKConfiguration.testConfig()
         
@@ -3578,6 +3578,84 @@ class ReportsTests: XCTestCase {
                             }
                         } catch {
                             XCTFail(error.localizedDescription)
+                        }
+                        
+                        expectation1.fulfill()
+                    }
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testLocalTagReports(){
+        
+        let expectation1 = expectation(description: "Network Request 1")
+        let tagNames = ["Frollo", "Volt Labs"]
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_budget_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            
+            let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
+            let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
+            
+            reports.refreshTransactionHistoryReports(grouping: .budgetCategory, period: .month, from: fromDate, to: toDate, tags: tagNames) { (result) in
+                switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        let context = database.viewContext
+                        
+                        let fetchedOverallReports = reports.historyTransactionReports(context: context, from: fromDate, to: toDate, overall: true, grouping: .budgetCategory, period: .month, tags: tagNames)
+                        
+                        XCTAssertEqual(fetchedOverallReports?.count, 12)
+                        
+                        if let firstReport = fetchedOverallReports?.first {
+                            XCTAssertEqual(firstReport.dateString, "2018-01")
+                            XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "744.37"))
+                            XCTAssertEqual(firstReport.budget, NSDecimalNumber(string: "11000"))
+                            XCTAssertNil(firstReport.filterBudgetCategory)
+                            XCTAssertNil(firstReport.overall)
+                            XCTAssertNotNil(firstReport.reports)
+                            XCTAssertEqual(firstReport.reports?.count, 4)
+                            XCTAssertEqual(firstReport.linkedID, -1)
+                            XCTAssertNil(firstReport.name)
+                            XCTAssertEqual(firstReport.transactionCount, 0)
+                            XCTAssertNil(firstReport.transactionIDs)
+                            XCTAssertEqual(firstReport.tags, tagNames)
+                        } else {
+                            XCTFail("Reports not found")
+                        }
+                        
+                        let fetchedAllReports = reports.historyTransactionReports(context: context, from: fromDate, to: toDate, grouping: .budgetCategory, period: .month, tags: tagNames)
+                        
+                        XCTAssertEqual(fetchedAllReports?.count, 60)
+                        
+                        if let firstReport = fetchedAllReports?.first {
+                            XCTAssertEqual(firstReport.tags, tagNames)
+                            
+                        } else {
+                            XCTFail("Reports not found")
                         }
                         
                         expectation1.fulfill()
