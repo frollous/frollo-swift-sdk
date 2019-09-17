@@ -65,7 +65,7 @@ extension APIService {
     
     // MARK: - Transaction History Reports
     
-    internal func fetchTransactionHistoryReports(grouping: ReportGrouping, period: ReportTransactionHistory.Period, fromDate: Date, toDate: Date, budgetCategory: BudgetCategory?, completion: @escaping RequestCompletion<APITransactionHistoryReportsResponse>) {
+    internal func fetchTransactionHistoryReports(grouping: ReportGrouping, period: ReportTransactionHistory.Period, fromDate: Date, toDate: Date, budgetCategory: BudgetCategory?, tags: [String]? = nil, completion: @escaping RequestCompletion<APITransactionHistoryReportsResponse>) {
         requestQueue.async {
             let url = URL(string: ReportsEndpoint.transactionsHistory.path, relativeTo: self.serverURL)!
             
@@ -80,7 +80,12 @@ extension APIService {
                 parameters[ReportsEndpoint.QueryParameters.budgetCategory.rawValue] = category.rawValue
             }
             
+            if let tags = tags, tags.count > 0 {
+                parameters[ReportsEndpoint.QueryParameters.tags.rawValue] = tags.joined(separator: ",")
+            }
+            
             self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                
                 self.network.handleResponse(type: APITransactionHistoryReportsResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }

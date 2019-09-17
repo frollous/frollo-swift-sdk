@@ -3479,4 +3479,193 @@ class ReportsTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testHistoryTagsReports(){
+        
+        let expectation1 = expectation(description: "Network Request 1")
+        let tagNames = ["Frollo", "Volt Labs"]
+        let tagsRawValue = "|Frollo|Volt Labs|"
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_budget_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            
+            let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
+            let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
+            
+            reports.refreshTransactionHistoryReports(grouping: .budgetCategory, period: .month, from: fromDate, to: toDate, tags: tagNames) { (result) in
+                switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        let context = database.viewContext
+                        
+                        // Check for overall reports
+                        let overallFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
+                        overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.tagsRawValue) + " == %@", argumentArray: [ReportTransactionHistory.Period.month.rawValue,  ReportGrouping.budgetCategory.rawValue, ReportTransactionHistory.Period.month.rawValue,
+                            tagsRawValue])
+                        overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true)]
+                        
+                        do {
+                            let fetchedReports = try context.fetch(overallFetchRequest)
+                            
+                            XCTAssertEqual(fetchedReports.count, 12)
+                            
+                            if let firstReport = fetchedReports.first {
+                                XCTAssertEqual(firstReport.dateString, "2018-01")
+                                XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "744.37"))
+                                XCTAssertEqual(firstReport.budget, NSDecimalNumber(string: "11000"))
+                                XCTAssertNil(firstReport.filterBudgetCategory)
+                                XCTAssertNil(firstReport.overall)
+                                XCTAssertNotNil(firstReport.reports)
+                                XCTAssertEqual(firstReport.reports?.count, 4)
+                                XCTAssertEqual(firstReport.linkedID, -1)
+                                XCTAssertNil(firstReport.name)
+                                XCTAssertEqual(firstReport.transactionCount, 0)
+                                XCTAssertNil(firstReport.transactionIDs)
+                                XCTAssertEqual(firstReport.tags, tagNames)
+                            } else {
+                                XCTFail("Reports not found")
+                            }
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                        
+                        // Check for group reports
+                        let fetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.tagsRawValue) + " == %@", argumentArray: ["2018-03", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.budgetCategory.rawValue, tagsRawValue])
+                        fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
+                        
+                        do {
+                            let fetchedReports = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedReports.count, 4)
+                            
+                            if let firstReport = fetchedReports.first {
+                                XCTAssertEqual(firstReport.dateString, "2018-03")
+                                XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "3250"))
+                                XCTAssertEqual(firstReport.budget, NSDecimalNumber(string: "4050"))
+                                XCTAssertNil(firstReport.filterBudgetCategory)
+                                XCTAssertNotNil(firstReport.overall)
+                                XCTAssertEqual(firstReport.overall?.dateString, "2018-03")
+                                XCTAssertNotNil(firstReport.reports)
+                                XCTAssertEqual(firstReport.reports?.count, 0)
+                                XCTAssertEqual(firstReport.linkedID, 0)
+                                XCTAssertEqual(firstReport.name, "income")
+                                XCTAssertEqual(firstReport.budgetCategory, .income)
+                                XCTAssertEqual(firstReport.transactionIDs, [194125])
+                                XCTAssertEqual(firstReport.transactionCount, 1)
+                                XCTAssertEqual(firstReport.tags, tagNames)
+                                
+                            } else {
+                                XCTFail("Reports not found")
+                            }
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                        
+                        expectation1.fulfill()
+                    }
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testLocalTagReports(){
+        
+        let expectation1 = expectation(description: "Network Request 1")
+        let tagNames = ["Frollo", "Volt Labs"]
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_budget_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let aggregation = Aggregation(database: database, service: service)
+            let reports = Reports(database: database, service: service, aggregation: aggregation)
+            
+            let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
+            let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
+            
+            reports.refreshTransactionHistoryReports(grouping: .budgetCategory, period: .month, from: fromDate, to: toDate, tags: tagNames) { (result) in
+                switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        let context = database.viewContext
+                        
+                        let fetchedOverallReports = reports.historyTransactionReports(context: context, from: fromDate, to: toDate, overall: true, grouping: .budgetCategory, period: .month, tags: tagNames)
+                        
+                        XCTAssertEqual(fetchedOverallReports?.count, 12)
+                        
+                        if let firstReport = fetchedOverallReports?.first {
+                            XCTAssertEqual(firstReport.dateString, "2018-01")
+                            XCTAssertEqual(firstReport.value, NSDecimalNumber(string: "744.37"))
+                            XCTAssertEqual(firstReport.budget, NSDecimalNumber(string: "11000"))
+                            XCTAssertNil(firstReport.filterBudgetCategory)
+                            XCTAssertNil(firstReport.overall)
+                            XCTAssertNotNil(firstReport.reports)
+                            XCTAssertEqual(firstReport.reports?.count, 4)
+                            XCTAssertEqual(firstReport.linkedID, -1)
+                            XCTAssertNil(firstReport.name)
+                            XCTAssertEqual(firstReport.transactionCount, 0)
+                            XCTAssertNil(firstReport.transactionIDs)
+                            XCTAssertEqual(firstReport.tags, tagNames)
+                        } else {
+                            XCTFail("Reports not found")
+                        }
+                        
+                        let fetchedAllReports = reports.historyTransactionReports(context: context, from: fromDate, to: toDate, grouping: .budgetCategory, period: .month, tags: tagNames)
+                        
+                        XCTAssertEqual(fetchedAllReports?.count, 60)
+                        
+                        if let firstReport = fetchedAllReports?.first {
+                            XCTAssertEqual(firstReport.tags, tagNames)
+                            
+                        } else {
+                            XCTFail("Reports not found")
+                        }
+                        
+                        expectation1.fulfill()
+                    }
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
 }

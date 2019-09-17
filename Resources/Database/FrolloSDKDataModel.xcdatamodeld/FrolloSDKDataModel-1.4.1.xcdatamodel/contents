@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14492.1" systemVersion="18E226" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.4.0">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14492.1" systemVersion="18E226" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.4.1">
     <entity name="Account" representedClassName=".Account" syncable="YES">
         <attribute name="accountHolderName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
@@ -363,6 +363,7 @@
         <attribute name="linkedID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="periodRawValue" attributeType="String" syncable="YES"/>
+        <attribute name="tagsRawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="transactionCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="transactionIDRawValues" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
@@ -515,7 +516,7 @@
         <element name="ProviderAccount" positionX="-164.078125" positionY="13.7109375" width="128" height="225"/>
         <element name="ReportAccountBalance" positionX="-360" positionY="180" width="128" height="135"/>
         <element name="ReportTransactionCurrent" positionX="-360" positionY="180" width="128" height="225"/>
-        <element name="ReportTransactionHistory" positionX="-378" positionY="162" width="128" height="270"/>
+        <element name="ReportTransactionHistory" positionX="-378" positionY="162" width="128" height="285"/>
         <element name="Tag" positionX="283.4609375" positionY="696.9375" width="128" height="105"/>
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="540"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="210"/>
