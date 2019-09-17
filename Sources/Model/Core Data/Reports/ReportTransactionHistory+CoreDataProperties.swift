@@ -74,8 +74,8 @@ extension ReportTransactionHistory {
     /// Related merchant (Optional)
     @NSManaged public var merchant: Merchant?
     
-    /// Raw value of the tags for the report. Use only in predicates (Optional)
-    @NSManaged public var tagsRawValue: String?
+    /// Tag associated to the report (Optional)
+    @NSManaged public var tag: String?
     
 }
 

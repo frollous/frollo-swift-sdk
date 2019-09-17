@@ -3482,8 +3482,7 @@ class ReportsTests: XCTestCase {
     func testHistoryTagsReports(){
         
         let expectation1 = expectation(description: "Network Request 1")
-        let tagNames = ["Frollo", "Volt Labs"]
-        let tagsRawValue = "|Frollo|Volt Labs|"
+        let tagName = "Frollo"
         
         let config = FrolloSDKConfiguration.testConfig()
         
@@ -3508,7 +3507,7 @@ class ReportsTests: XCTestCase {
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
             let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
             
-            reports.refreshTransactionHistoryReports(grouping: .budgetCategory, period: .month, from: fromDate, to: toDate, tags: tagNames) { (result) in
+            reports.refreshTransactionHistoryReports(grouping: .budgetCategory, period: .month, from: fromDate, to: toDate, tag: tagName) { (result) in
                 switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -3518,8 +3517,8 @@ class ReportsTests: XCTestCase {
                         
                         // Check for overall reports
                         let overallFetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                        overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.tagsRawValue) + " == %@", argumentArray: [ReportTransactionHistory.Period.month.rawValue,  ReportGrouping.budgetCategory.rawValue, ReportTransactionHistory.Period.month.rawValue,
-                            tagsRawValue])
+                        overallFetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall) + " == nil && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.tag) + " == %@", argumentArray: [ReportTransactionHistory.Period.month.rawValue,  ReportGrouping.budgetCategory.rawValue, ReportTransactionHistory.Period.month.rawValue,
+                            tagName])
                         overallFetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true)]
                         
                         do {
@@ -3539,7 +3538,7 @@ class ReportsTests: XCTestCase {
                                 XCTAssertNil(firstReport.name)
                                 XCTAssertEqual(firstReport.transactionCount, 0)
                                 XCTAssertNil(firstReport.transactionIDs)
-                                XCTAssertEqual(firstReport.tags, tagNames)
+                                XCTAssertEqual(firstReport.tag, tagName)
                             } else {
                                 XCTFail("Reports not found")
                             }
@@ -3549,7 +3548,7 @@ class ReportsTests: XCTestCase {
                         
                         // Check for group reports
                         let fetchRequest: NSFetchRequest<ReportTransactionHistory> = ReportTransactionHistory.fetchRequest()
-                        fetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.tagsRawValue) + " == %@", argumentArray: ["2018-03", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.budgetCategory.rawValue, tagsRawValue])
+                        fetchRequest.predicate = NSPredicate(format: #keyPath(ReportTransactionHistory.overall.dateString) + " == %@ && " + #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil && " + #keyPath(ReportTransactionHistory.periodRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.groupingRawValue) + " == %@ && " + #keyPath(ReportTransactionHistory.tag) + " == %@", argumentArray: ["2018-03", ReportTransactionHistory.Period.month.rawValue, ReportGrouping.budgetCategory.rawValue, tagName])
                         fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.linkedID), ascending: true)]
                         
                         do {
@@ -3571,7 +3570,7 @@ class ReportsTests: XCTestCase {
                                 XCTAssertEqual(firstReport.budgetCategory, .income)
                                 XCTAssertEqual(firstReport.transactionIDs, [194125])
                                 XCTAssertEqual(firstReport.transactionCount, 1)
-                                XCTAssertEqual(firstReport.tags, tagNames)
+                                XCTAssertEqual(firstReport.tag, tagName)
                                 
                             } else {
                                 XCTFail("Reports not found")
@@ -3593,7 +3592,7 @@ class ReportsTests: XCTestCase {
     func testLocalTagReports(){
         
         let expectation1 = expectation(description: "Network Request 1")
-        let tagNames = ["Frollo", "Volt Labs"]
+        let tagName = "Frollo"
         
         let config = FrolloSDKConfiguration.testConfig()
         
@@ -3618,7 +3617,7 @@ class ReportsTests: XCTestCase {
             let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
             let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
             
-            reports.refreshTransactionHistoryReports(grouping: .budgetCategory, period: .month, from: fromDate, to: toDate, tags: tagNames) { (result) in
+            reports.refreshTransactionHistoryReports(grouping: .budgetCategory, period: .month, from: fromDate, to: toDate, tag: tagName) { (result) in
                 switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -3626,7 +3625,7 @@ class ReportsTests: XCTestCase {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                         let context = database.viewContext
                         
-                        let fetchedOverallReports = reports.historyTransactionReports(context: context, from: fromDate, to: toDate, overall: true, grouping: .budgetCategory, period: .month, tags: tagNames)
+                        let fetchedOverallReports = reports.historyTransactionReports(context: context, from: fromDate, to: toDate, overall: true, grouping: .budgetCategory, period: .month, tag: tagName)
                         
                         XCTAssertEqual(fetchedOverallReports?.count, 12)
                         
@@ -3642,21 +3641,25 @@ class ReportsTests: XCTestCase {
                             XCTAssertNil(firstReport.name)
                             XCTAssertEqual(firstReport.transactionCount, 0)
                             XCTAssertNil(firstReport.transactionIDs)
-                            XCTAssertEqual(firstReport.tags, tagNames)
+                            XCTAssertEqual(firstReport.tag, tagName)
                         } else {
                             XCTFail("Reports not found")
                         }
                         
-                        let fetchedAllReports = reports.historyTransactionReports(context: context, from: fromDate, to: toDate, grouping: .budgetCategory, period: .month, tags: tagNames)
+                        let fetchedAllReports = reports.historyTransactionReports(context: context, from: fromDate, to: toDate, grouping: .budgetCategory, period: .month, tag: tagName)
                         
                         XCTAssertEqual(fetchedAllReports?.count, 60)
                         
                         if let firstReport = fetchedAllReports?.first {
-                            XCTAssertEqual(firstReport.tags, tagNames)
+                            XCTAssertEqual(firstReport.tag , tagName)
                             
                         } else {
                             XCTFail("Reports not found")
                         }
+                        
+                        let fetchedBadReports = reports.historyTransactionReports(context: context, from: fromDate, to: toDate, grouping: .budgetCategory, period: .month, tag: "xxxx")
+                        
+                        XCTAssertEqual(fetchedBadReports?.count, 0)
                         
                         expectation1.fulfill()
                     }

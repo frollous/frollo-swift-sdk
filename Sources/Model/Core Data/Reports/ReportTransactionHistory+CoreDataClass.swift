@@ -152,23 +152,4 @@ public class ReportTransactionHistory: NSManagedObject {
         }
     }
     
-    /// Tags associated to the report (Optional)
-    public var tags: [String]? {
-        get {
-            let tags = tagsRawValue?.components(separatedBy: "|") ?? []
-            return tags.filter { (tag) -> Bool in
-                !tag.isEmpty
-            }
-        }
-        set {
-            if let newTags = newValue, newTags.count > 0 {
-                let tagsString = newTags.joined(separator: "|")
-                tagsRawValue = "|" + tagsString + "|"
-            } else {
-                tagsRawValue = nil
-            }
-            
-        }
-    }
-    
 }
