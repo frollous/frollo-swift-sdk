@@ -363,7 +363,7 @@
         <attribute name="linkedID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="periodRawValue" attributeType="String" syncable="YES"/>
-        <attribute name="tagsRawValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="transactionCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="transactionIDRawValues" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
