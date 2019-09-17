@@ -330,7 +330,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - fromDate: Start date to fetch reports from (inclusive)
         - toDate: End date to fetch reports up to (inclusive)
         - budgetCategory: Budget category to filter reports by. Leave blank to return all reports (Optional)
-        - tags : Array of Tag names associated to the report. Leave blank to return default reports (Optional)
+        - tag : Tag associated to the report. Leave blank to return default report (Optional)
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshTransactionHistoryReports(grouping: ReportGrouping, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, budgetCategory: BudgetCategory? = nil, tag: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
