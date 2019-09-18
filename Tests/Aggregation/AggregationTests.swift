@@ -2688,6 +2688,21 @@ class AggregationTests: BaseTestCase {
         database.setup { error in
             XCTAssertNil(error)
             
+            let managedObjectContext = self.database.newBackgroundContext()
+            managedObjectContext.performAndWait {
+                let testTag1 = Tag(context: managedObjectContext)
+                testTag1.populateTestData()
+                testTag1.name = "dinner"
+                testTag1.count = 3
+
+                let testTag3 = Tag(context: managedObjectContext)
+                testTag3.populateTestData()
+                testTag3.name = "Kinner"
+                testTag3.count = 3
+                
+                try! managedObjectContext.save()
+            }
+            
             aggregation.refreshTransactionUserTags() { result in
                 switch result {
                 case .failure(let error):
@@ -2700,8 +2715,9 @@ class AggregationTests: BaseTestCase {
                     do {
                         let fetchedTransactions = try context.fetch(fetchRequest).sorted(by: { $0.name < $1.name })
                         
-                        XCTAssertEqual(fetchedTransactions.count, 5)
+                        XCTAssertEqual(fetchedTransactions.count, 3)
                         XCTAssertEqual(fetchedTransactions.first?.name, "dinner")
+                        XCTAssertEqual(fetchedTransactions.first?.count, 5)
                         XCTAssertEqual(fetchedTransactions.last?.name, "pub_lunch")
                     } catch {
                         XCTFail(error.localizedDescription)
@@ -2712,7 +2728,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1], timeout: 30.0)
         
     }
     
@@ -2757,10 +2773,12 @@ class AggregationTests: BaseTestCase {
             managedObjectContext.performAndWait {
                 let testTag1 = Tag(context: managedObjectContext)
                 testTag1.populateTestData()
+                testTag1.name = "Repeated"
                 testTag1.count = 1
                 
                 let testTag2 = Tag(context: managedObjectContext)
                 testTag2.populateTestData()
+                testTag2.name = "Repeated"
                 testTag2.count = 2
                 
                 let testTag3 = Tag(context: managedObjectContext)
