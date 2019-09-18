@@ -1994,18 +1994,26 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 let databaseData = try Tag.all(including: tagNamesInResponse, context: managedObjectContext).sorted(by: { $0.name < $1.name })
                 
+                var index = 0
+                
                 // Go through each item in the API response to check if it needs to be added or updated
-                response.enumerated().forEach { index, item in
+                
+                for objectResponse in response {
                     var object: Tag
+                    
                     // If database item is in the api response, set the initial object to the API object
-                    if index < databaseData.count, databaseData[index].name == item.name {
+                    if index < databaseData.count, databaseData[index].name == objectResponse.name {
                         object = databaseData[index]
+                        index += 1
+                        
                         // Otherwise, create a new object
                     } else {
                         object = Tag(context: managedObjectContext)
                     }
+                    
                     // Update the object with the data from the API (API is the source of truth)
-                    object.update(response: item, context: managedObjectContext)
+                    object.update(response: objectResponse, context: managedObjectContext)
+                    
                 }
                 
                 // Since API is the source of truth, all data not existing in the API but is still in the database should be deleted
