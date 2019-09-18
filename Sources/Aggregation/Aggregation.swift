@@ -2006,14 +2006,14 @@ public class Aggregation: CachedObjects, ResponseHandler {
                         object = databaseData[index]
                         index += 1
                         
-                    // Otherwise, create a new object
+                        // Otherwise, create a new object
                     } else {
                         object = Tag(context: managedObjectContext)
                     }
                     
                     // Update the object with the data from the API (API is the source of truth)
                     object.update(response: objectResponse, context: managedObjectContext)
-
+                    
                 }
                 
                 // Since API is the source of truth, all data not existing in the API but is still in the database should be deleted

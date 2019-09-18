@@ -2728,7 +2728,7 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 30.0)
+        wait(for: [expectation1], timeout: 3.0)
         
     }
     
