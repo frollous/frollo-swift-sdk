@@ -1076,11 +1076,12 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - transactionID: ID of the transaction to be updated
+        - budgetCategoryApplyAll: Apply budget category to all similar transactions (Optional)
         - includeApplyAll: Apply included flag to all similar transactions (Optional)
         - recategoriseAll: Apply recategorisation to all similar transactions (Optional)
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func updateTransaction(transactionID: Int64, includeApplyAll: Bool? = nil, recategoriseAll: Bool? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+    public func updateTransaction(transactionID: Int64, budgetCategoryApplyAll: Bool? = nil, includeApplyAll: Bool? = nil, recategoriseAll: Bool? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         let managedObjectContext = database.newBackgroundContext()
         
         guard let transaction = transaction(context: managedObjectContext, transactionID: transactionID)
@@ -1099,6 +1100,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             request = transaction.updateRequest()
         }
         
+        request.budgetApplyAll = budgetCategoryApplyAll
         request.includeApplyAll = includeApplyAll
         request.recategoriseAll = recategoriseAll
         

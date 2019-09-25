@@ -25,6 +25,7 @@ extension APITransactionUpdateRequest {
                                            included: true,
                                            memo: UUID().uuidString,
                                            userDescription: UUID().uuidString,
+                                           budgetApplyAll: nil,
                                            includeApplyAll: nil,
                                            recategoriseAll: nil)
     }

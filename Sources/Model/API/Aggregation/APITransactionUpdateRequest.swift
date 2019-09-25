@@ -19,6 +19,7 @@ import Foundation
 struct APITransactionUpdateRequest: Codable {
     
     enum CodingKeys: String, CodingKey {
+        case budgetApplyAll = "budget_apply_all"
         case budgetCategory = "budget_category"
         case categoryID = "category_id"
         case included
@@ -34,6 +35,7 @@ struct APITransactionUpdateRequest: Codable {
     let memo: String?
     let userDescription: String?
     
+    var budgetApplyAll: Bool?
     var includeApplyAll: Bool?
     var recategoriseAll: Bool?
     

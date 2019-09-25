@@ -549,14 +549,14 @@ class AggregationRequestTests: BaseTestCase {
         
         service.fetchTransactionUserTags(searchTerm: "term", sort: .name, order: .asc) { (result) in
             switch result {
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            case .success(let response):
-                XCTAssertEqual(response.count, 5)
-                
-                if let firstTag = response.first {
-                    XCTAssertEqual(firstTag.name, "pub_lunch")
-                }
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.count, 3)
+                    
+                    if let firstTag = response.first {
+                        XCTAssertEqual(firstTag.name, "pub_lunch")
+                    }
             }
             
             expectation1.fulfill()
