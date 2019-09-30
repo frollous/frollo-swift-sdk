@@ -127,7 +127,7 @@ public class Authentication: RequestAdapter, RequestRetrier {
             return urlRequest
         }
         
-        var request = urlRequest
+        let request = urlRequest
         
         if let relativePath = request.url?.relativePath, !(relativePath.contains(UserEndpoint.register.path) || relativePath.contains(UserEndpoint.resetPassword.path) || relativePath.contains(UserEndpoint.migrate.path)) {
             do {
