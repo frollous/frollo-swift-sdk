@@ -47,7 +47,7 @@ struct APIGoalResponse: APIUniqueResponse, Codable {
     var id: Int64
     let accountID: Int64?
     let currentAmount: String
-    let currentPeriod: APIGoalPeriodResponse
+    let currentPeriod: APIGoalPeriodResponse?
     let currency: String
     let description: String?
     let endDate: String

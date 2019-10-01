@@ -26,6 +26,7 @@ internal enum ReportsEndpoint: Endpoint {
         case grouping
         case period
         case toDate = "to_date"
+        case tags
     }
     
     internal var path: String {

@@ -251,6 +251,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - filteredBy: Predicate of properties to match for fetching. See `ReportTransactionCurrent` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to date ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
+        - tag: Tag associated with the report. Leave blank to fetch default report (Optional)
      */
     public func historyTransactionReports(context: NSManagedObjectContext,
                                           from fromDate: Date,
@@ -261,6 +262,7 @@ public class Reports: ResponseHandler, CachedObjects {
                                           budgetCategory: BudgetCategory? = nil,
                                           filteredBy predicate: NSPredicate? = nil,
                                           sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ReportTransactionHistory.dateString), ascending: true)],
+                                          tag: String? = nil,
                                           limit: Int? = nil) -> [ReportTransactionHistory]? {
         let dateFormatter: DateFormatter
         switch period {
@@ -296,6 +298,12 @@ public class Reports: ResponseHandler, CachedObjects {
             predicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil", argumentArray: nil))
         }
         
+        if let tag = tag {
+            predicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.tag) + " == %@", argumentArray: [tag]))
+        } else {
+            predicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.tag) + " == nil", argumentArray: nil))
+        }
+        
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         return historyTransactionReports(context: context, filteredBy: predicate, sortedBy: sortDescriptors, limit: limit)
     }
@@ -322,10 +330,11 @@ public class Reports: ResponseHandler, CachedObjects {
         - fromDate: Start date to fetch reports from (inclusive)
         - toDate: End date to fetch reports up to (inclusive)
         - budgetCategory: Budget category to filter reports by. Leave blank to return all reports (Optional)
+        - tag : Tag associated to the report. Leave blank to return default report (Optional)
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func refreshTransactionHistoryReports(grouping: ReportGrouping, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, budgetCategory: BudgetCategory? = nil, completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchTransactionHistoryReports(grouping: grouping, period: period, fromDate: fromDate, toDate: toDate, budgetCategory: budgetCategory) { result in
+    public func refreshTransactionHistoryReports(grouping: ReportGrouping, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, budgetCategory: BudgetCategory? = nil, tag: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        service.fetchTransactionHistoryReports(grouping: grouping, period: period, fromDate: fromDate, toDate: toDate, budgetCategory: budgetCategory, tag: tag) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -336,7 +345,7 @@ public class Reports: ResponseHandler, CachedObjects {
                 case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleTransactionHistoryReportsResponse(response, grouping: grouping, period: period, from: fromDate, to: toDate, budgetCategory: budgetCategory, managedObjectContext: managedObjectContext)
+                    self.handleTransactionHistoryReportsResponse(response, grouping: grouping, period: period, from: fromDate, to: toDate, budgetCategory: budgetCategory, tag: tag, managedObjectContext: managedObjectContext)
                     
                     self.linkReportTransactionHistoryToMerchants(managedObjectContext: managedObjectContext)
                     self.linkReportTransactionHistoryToTransactionCategories(managedObjectContext: managedObjectContext)
@@ -730,7 +739,7 @@ public class Reports: ResponseHandler, CachedObjects {
         }
     }
     
-    private func handleTransactionHistoryReportsResponse(_ reportsResponse: APITransactionHistoryReportsResponse, grouping: ReportGrouping, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, budgetCategory: BudgetCategory? = nil, managedObjectContext: NSManagedObjectContext) {
+    private func handleTransactionHistoryReportsResponse(_ reportsResponse: APITransactionHistoryReportsResponse, grouping: ReportGrouping, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, budgetCategory: BudgetCategory? = nil, tag: String? = nil, managedObjectContext: NSManagedObjectContext) {
         historyReportsLock.lock()
         
         defer {
@@ -781,6 +790,13 @@ public class Reports: ResponseHandler, CachedObjects {
                 filterPredicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.filterBudgetCategoryRawValue) + " == nil", argumentArray: nil))
             }
             
+            // Filter by tag is tag report otherwise default report
+            if let tag = tag {
+                filterPredicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.tag) + " == %@", argumentArray: [tag]))
+            } else {
+                filterPredicates.append(NSPredicate(format: #keyPath(ReportTransactionHistory.tag) + " == nil", argumentArray: nil))
+            }
+            
             // Specify dates
             let datePredicate = NSPredicate(format: #keyPath(ReportTransactionHistory.dateString) + " IN %@", argumentArray: [reportDates])
             
@@ -803,10 +819,12 @@ public class Reports: ResponseHandler, CachedObjects {
                         report.grouping = grouping
                         report.period = period
                         report.filterBudgetCategory = budgetCategory
+                        
                     }
                     
                     report.dateString = reportResponse.date
                     report.value = NSDecimalNumber(string: reportResponse.value)
+                    report.tag = tag
                     
                     if let value = reportResponse.budget {
                         report.budget = NSDecimalNumber(string: value)
@@ -814,7 +832,7 @@ public class Reports: ResponseHandler, CachedObjects {
                         report.budget = nil
                     }
                     
-                    handleTransactionHistoryGroupReportsResponse(reportResponse.groups, overallReport: report, managedObjectContext: managedObjectContext)
+                    handleTransactionHistoryGroupReportsResponse(reportResponse.groups, overallReport: report, tag: tag, managedObjectContext: managedObjectContext)
                 }
                 
                 // Fetch and delete any leftovers
@@ -848,7 +866,7 @@ public class Reports: ResponseHandler, CachedObjects {
         }
     }
     
-    private func handleTransactionHistoryGroupReportsResponse(_ categoryReportsResponse: [APITransactionHistoryReportsResponse.Report.GroupReport], overallReport: ReportTransactionHistory, managedObjectContext: NSManagedObjectContext) {
+    private func handleTransactionHistoryGroupReportsResponse(_ categoryReportsResponse: [APITransactionHistoryReportsResponse.Report.GroupReport], overallReport: ReportTransactionHistory, tag: String?, managedObjectContext: NSManagedObjectContext) {
         // Sort by linked ID
         let sortedCategoryReportResponses = categoryReportsResponse.sorted(by: { (responseA: APITransactionHistoryReportsResponse.Report.GroupReport, responseB: APITransactionHistoryReportsResponse.Report.GroupReport) -> Bool in
             responseB.id > responseA.id
@@ -881,6 +899,7 @@ public class Reports: ResponseHandler, CachedObjects {
                     groupReport.period = overallReport.period
                     groupReport.grouping = overallReport.grouping
                     groupReport.filterBudgetCategory = overallReport.filterBudgetCategory
+                    groupReport.tag = tag
                 }
                 
                 groupReport.linkedID = groupReportResponse.id
@@ -893,6 +912,12 @@ public class Reports: ResponseHandler, CachedObjects {
                     groupReport.budgetCategory = BudgetCategory(rawValue: groupReportResponse.name)
                 } else {
                     groupReport.budgetCategory = nil
+                }
+                
+                if let tag = tag {
+                    groupReport.tag = tag
+                } else {
+                    groupReport.tag = nil
                 }
                 
                 if let value = groupReportResponse.budget {

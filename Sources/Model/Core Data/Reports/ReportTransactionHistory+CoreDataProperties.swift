@@ -74,6 +74,9 @@ extension ReportTransactionHistory {
     /// Related merchant (Optional)
     @NSManaged public var merchant: Merchant?
     
+    /// Tag associated to the report (Optional)
+    @NSManaged public var tag: String?
+    
 }
 
 // MARK: Generated accessors for reports

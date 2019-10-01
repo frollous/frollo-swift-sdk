@@ -574,7 +574,11 @@ public class Goals: CachedObjects, ResponseHandler {
         
         updateObjectWithResponse(type: Goal.self, objectResponse: goalResponse, primaryKey: #keyPath(Goal.goalID), managedObjectContext: managedObjectContext)
         
-        handleGoalPeriodResponse(goalResponse.currentPeriod, managedObjectContext: managedObjectContext)
+        if let currentGoalResponse = goalResponse.currentPeriod {
+            handleGoalPeriodResponse(currentGoalResponse, managedObjectContext: managedObjectContext)
+            
+            linkingGoalIDs.insert(currentGoalResponse.goalID)
+        }
         
         if let accountID = goalResponse.accountID {
             linkingAccountIDs.insert(accountID)

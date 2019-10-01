@@ -213,6 +213,7 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
                                            included: included,
                                            memo: memo,
                                            userDescription: userDescription,
+                                           budgetApplyAll: nil,
                                            includeApplyAll: nil,
                                            recategoriseAll: nil)
     }

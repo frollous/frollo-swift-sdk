@@ -1076,11 +1076,12 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - transactionID: ID of the transaction to be updated
+        - budgetCategoryApplyAll: Apply budget category to all similar transactions (Optional)
         - includeApplyAll: Apply included flag to all similar transactions (Optional)
         - recategoriseAll: Apply recategorisation to all similar transactions (Optional)
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func updateTransaction(transactionID: Int64, includeApplyAll: Bool? = nil, recategoriseAll: Bool? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+    public func updateTransaction(transactionID: Int64, budgetCategoryApplyAll: Bool? = nil, includeApplyAll: Bool? = nil, recategoriseAll: Bool? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         let managedObjectContext = database.newBackgroundContext()
         
         guard let transaction = transaction(context: managedObjectContext, transactionID: transactionID)
@@ -1099,6 +1100,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             request = transaction.updateRequest()
         }
         
+        request.budgetApplyAll = budgetCategoryApplyAll
         request.includeApplyAll = includeApplyAll
         request.recategoriseAll = recategoriseAll
         
@@ -1375,7 +1377,11 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     }
                 case .success(let response):
                     let tags = response.map(SuggestedTag.init)
-                    completion(.success(tags))
+                    
+                    DispatchQueue.main.async {
+                        completion(.success(tags))
+                    }
+                    
             }
         }
     }
@@ -1383,20 +1389,15 @@ public class Aggregation: CachedObjects, ResponseHandler {
     /**
      Gets all cached user tags for transactions.
      - parameters:
-     - completion: The completion block that will be executed when there is a response from the server. The result will contain either the array of user tags, or an error if the request fails
+     - context: Managed object context to fetch these from; background or main thread
+     - filteredBy: Predicate of properties to match for fetching. See `Tag` for properties (Optional)
+     - sortedBy: Array of sort descriptors to sort the results by (Optional). By default sorts by tag name; ascending.
+     - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func transactionUserTags(filteredBy predicate: NSPredicate? = nil,
-                                    sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)], completion: @escaping (Result<[Tag], Error>) -> Void) {
+    public func transactionUserTags(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil,
+                                    sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)], limit: Int? = nil) -> [Tag]? {
         
-        let managedObjectContext = database.newBackgroundContext()
-        
-        managedObjectContext.performAndWait {
-            do {
-                completion(.success(try Tag.all(predicate: predicate, sortDescriptors: sortDescriptors, context: managedObjectContext)))
-            } catch {
-                completion(.failure(error))
-            }
-        }
+        return cachedObjects(type: Tag.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
     }
     
     /**
@@ -1995,18 +1996,26 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 let databaseData = try Tag.all(including: tagNamesInResponse, context: managedObjectContext).sorted(by: { $0.name < $1.name })
                 
+                var index = 0
+                
                 // Go through each item in the API response to check if it needs to be added or updated
-                response.enumerated().forEach { index, item in
+                
+                for objectResponse in response {
                     var object: Tag
+                    
                     // If database item is in the api response, set the initial object to the API object
-                    if index < databaseData.count, databaseData[index].name == item.name {
+                    if index < databaseData.count, databaseData[index].name == objectResponse.name {
                         object = databaseData[index]
+                        index += 1
+                        
                         // Otherwise, create a new object
                     } else {
                         object = Tag(context: managedObjectContext)
                     }
+                    
                     // Update the object with the data from the API (API is the source of truth)
-                    object.update(response: item, context: managedObjectContext)
+                    object.update(response: objectResponse, context: managedObjectContext)
+                    
                 }
                 
                 // Since API is the source of truth, all data not existing in the API but is still in the database should be deleted
