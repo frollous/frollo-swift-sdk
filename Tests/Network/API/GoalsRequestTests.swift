@@ -148,6 +148,7 @@ class GoalsRequestTests: BaseTestCase {
                         XCTAssertEqual(period.startDate, "2019-07-18")
                         XCTAssertEqual(period.endDate, "2019-07-25")
                         XCTAssertEqual(period.trackingStatus, .behind)
+                        XCTAssertEqual(period.index, 0)
                     }
             }
             

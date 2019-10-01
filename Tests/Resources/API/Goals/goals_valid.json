@@ -30,7 +30,8 @@
       "target_amount": "400",
       "current_amount": "200",
       "required_amount": "347.54",
-      "tracking_status": "ahead"
+      "tracking_status": "ahead",
+      "index": 2
     }
   }, {
     "id": 123,
@@ -61,7 +62,8 @@
       "target_amount": "100",
       "current_amount": "0",
       "required_amount": "147.33",
-      "tracking_status": "behind"
+      "tracking_status": "behind",
+      "index": 4
     }
   }, {
     "id": 98777772,
@@ -92,7 +94,8 @@
       "target_amount": "250",
       "current_amount": "250",
       "required_amount": "250",
-      "tracking_status": "on_track"
+      "tracking_status": "on_track",
+      "index": 0
     }
   }
 ]
