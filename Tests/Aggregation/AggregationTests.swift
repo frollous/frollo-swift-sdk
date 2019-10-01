@@ -1536,22 +1536,33 @@ class AggregationTests: BaseTestCase {
                 let testTransaction2 = Transaction(context: managedObjectContext)
                 testTransaction2.populateTestData()
                 testTransaction2.baseType = .credit
+                testTransaction2.postDate = Date(timeIntervalSinceNow: -10)
                 
                 let testTransaction3 = Transaction(context: managedObjectContext)
                 testTransaction3.populateTestData()
                 testTransaction3.baseType = .debit
                 
+                let testTransaction4 = Transaction(context: managedObjectContext)
+                testTransaction4.populateTestData()
+                testTransaction4.baseType = .credit
+                testTransaction4.postDate = Date(timeIntervalSinceNow: -432000)
+                
+                let testTransaction5 = Transaction(context: managedObjectContext)
+                testTransaction5.populateTestData()
+                testTransaction5.baseType = .credit
+                testTransaction5.postDate = Date(timeIntervalSinceNow: -172800)
+                
                 try! managedObjectContext.save()
             }
             
             let predicate = NSPredicate(format: "baseTypeRawValue == %@", argumentArray: [Transaction.BaseType.credit.rawValue])
-            let fetchedResultsController = aggregation.transactionsFetchedResultsController(context: self.context, filteredBy: predicate)
+            let fetchedResultsController = aggregation.transactionsFetchedResultsController(context: self.context, filteredBy: predicate, sectionNameKeypath: "sectionDate")
             
             do {
                 try fetchedResultsController?.performFetch()
-                
+                XCTAssertEqual(fetchedResultsController?.sections?.count, 3)
                 XCTAssertNotNil(fetchedResultsController?.fetchedObjects)
-                XCTAssertEqual(fetchedResultsController?.fetchedObjects?.count, 1)
+                XCTAssertEqual(fetchedResultsController?.fetchedObjects?.count, 3)
                 
             } catch {
                 XCTFail(error.localizedDescription)
@@ -3487,3 +3498,5 @@ class AggregationTests: BaseTestCase {
         wait(for: [expectation1], timeout: 5.0)
     }
 }
+
+
