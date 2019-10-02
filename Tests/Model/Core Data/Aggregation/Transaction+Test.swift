@@ -46,4 +46,9 @@ extension Transaction: TestableCoreData {
         transactionID = id
     }
     
+    @objc public var sectionDate: String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM"
+        return dateFormatter.string(from: postDate ?? Date())
+    }
 }
