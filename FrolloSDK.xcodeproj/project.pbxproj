@@ -170,6 +170,20 @@
 		01236D6E21EED72C008DD61A /* ReportsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D6D21EED72C008DD61A /* ReportsTests.swift */; };
 		01236D6F21EED72C008DD61A /* ReportsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D6D21EED72C008DD61A /* ReportsTests.swift */; };
 		01236D7021EED72C008DD61A /* ReportsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01236D6D21EED72C008DD61A /* ReportsTests.swift */; };
+		0125878E234412E10077D8B4 /* APIPayDayResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125878D234412E10077D8B4 /* APIPayDayResponse.swift */; };
+		0125878F234412E10077D8B4 /* APIPayDayResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125878D234412E10077D8B4 /* APIPayDayResponse.swift */; };
+		01258793234418EE0077D8B4 /* PayDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01258792234418EE0077D8B4 /* PayDays.swift */; };
+		01258794234418EE0077D8B4 /* PayDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01258792234418EE0077D8B4 /* PayDays.swift */; };
+		0125879623442C0D0077D8B4 /* APIService+PayDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125879523442C0D0077D8B4 /* APIService+PayDay.swift */; };
+		0125879723442C0D0077D8B4 /* APIService+PayDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125879523442C0D0077D8B4 /* APIService+PayDay.swift */; };
+		0125879923442FAB0077D8B4 /* PayDayEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125879823442FAB0077D8B4 /* PayDayEndpoint.swift */; };
+		0125879A23442FAB0077D8B4 /* PayDayEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125879823442FAB0077D8B4 /* PayDayEndpoint.swift */; };
+		0125879D234456490077D8B4 /* APIPayDayResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125879C234456490077D8B4 /* APIPayDayResponse+Test.swift */; };
+		0125879E234456490077D8B4 /* APIPayDayResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125879C234456490077D8B4 /* APIPayDayResponse+Test.swift */; };
+		0125879F234456490077D8B4 /* APIPayDayResponse+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125879C234456490077D8B4 /* APIPayDayResponse+Test.swift */; };
+		012587A1234457940077D8B4 /* PayDayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012587A0234457940077D8B4 /* PayDayTests.swift */; };
+		012587A2234457940077D8B4 /* PayDayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012587A0234457940077D8B4 /* PayDayTests.swift */; };
+		012587A3234457940077D8B4 /* PayDayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012587A0234457940077D8B4 /* PayDayTests.swift */; };
 		0126068321990377005D8377 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068221990377005D8377 /* Messages.swift */; };
 		0126068821991963005D8377 /* Message+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068621991963005D8377 /* Message+CoreDataClass.swift */; };
 		0126068921991963005D8377 /* Message+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0126068721991963005D8377 /* Message+CoreDataProperties.swift */; };
@@ -1054,6 +1068,12 @@
 		01EEDB1D20EAEA2000F4516B /* DatabaseMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EEDB1C20EAEA2000F4516B /* DatabaseMigrationTests.swift */; };
 		01F220E320FEAC7600C70B00 /* APITokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F220E220FEAC7600C70B00 /* APITokenResponse.swift */; };
 		01F220EA20FECA9100C70B00 /* refresh_token_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 01F220E820FECA8900C70B00 /* refresh_token_invalid.json */; };
+		01F8060223445EBF00A4FCA9 /* PayDaysTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F8060123445EBF00A4FCA9 /* PayDaysTests.swift */; };
+		01F8060323445EBF00A4FCA9 /* PayDaysTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F8060123445EBF00A4FCA9 /* PayDaysTests.swift */; };
+		01F8060423445EBF00A4FCA9 /* PayDaysTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F8060123445EBF00A4FCA9 /* PayDaysTests.swift */; };
+		01F806072344620800A4FCA9 /* pay_day.json in Resources */ = {isa = PBXBuildFile; fileRef = 01F806062344620800A4FCA9 /* pay_day.json */; };
+		01F806082344620800A4FCA9 /* pay_day.json in Resources */ = {isa = PBXBuildFile; fileRef = 01F806062344620800A4FCA9 /* pay_day.json */; };
+		01F806092344620800A4FCA9 /* pay_day.json in Resources */ = {isa = PBXBuildFile; fileRef = 01F806062344620800A4FCA9 /* pay_day.json */; };
 		01F832FE2327595D004520D0 /* PayDay+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F832FD2327595D004520D0 /* PayDay+Test.swift */; };
 		01F832FF2327595D004520D0 /* PayDay+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F832FD2327595D004520D0 /* PayDay+Test.swift */; };
 		01F833002327595D004520D0 /* PayDay+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F832FD2327595D004520D0 /* PayDay+Test.swift */; };
@@ -1271,6 +1291,12 @@
 		01236D5821EED5F6008DD61A /* transaction_reports_current_txn_category_lifestyle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_reports_current_txn_category_lifestyle.json; sourceTree = "<group>"; };
 		01236D5921EED5F6008DD61A /* transaction_reports_current_budget_category.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_reports_current_budget_category.json; sourceTree = "<group>"; };
 		01236D6D21EED72C008DD61A /* ReportsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsTests.swift; sourceTree = "<group>"; };
+		0125878D234412E10077D8B4 /* APIPayDayResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIPayDayResponse.swift; sourceTree = "<group>"; };
+		01258792234418EE0077D8B4 /* PayDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayDays.swift; sourceTree = "<group>"; };
+		0125879523442C0D0077D8B4 /* APIService+PayDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+PayDay.swift"; sourceTree = "<group>"; };
+		0125879823442FAB0077D8B4 /* PayDayEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayDayEndpoint.swift; sourceTree = "<group>"; };
+		0125879C234456490077D8B4 /* APIPayDayResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIPayDayResponse+Test.swift"; sourceTree = "<group>"; };
+		012587A0234457940077D8B4 /* PayDayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayDayTests.swift; sourceTree = "<group>"; };
 		0126068221990377005D8377 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		0126068621991963005D8377 /* Message+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+CoreDataClass.swift"; sourceTree = "<group>"; };
 		0126068721991963005D8377 /* Message+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -1628,6 +1654,8 @@
 		01EEDB1C20EAEA2000F4516B /* DatabaseMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseMigrationTests.swift; sourceTree = "<group>"; };
 		01F220E220FEAC7600C70B00 /* APITokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITokenResponse.swift; sourceTree = "<group>"; };
 		01F220E820FECA8900C70B00 /* refresh_token_invalid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = refresh_token_invalid.json; sourceTree = "<group>"; };
+		01F8060123445EBF00A4FCA9 /* PayDaysTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayDaysTests.swift; sourceTree = "<group>"; };
+		01F806062344620800A4FCA9 /* pay_day.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pay_day.json; sourceTree = "<group>"; };
 		01F832FD2327595D004520D0 /* PayDay+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PayDay+Test.swift"; sourceTree = "<group>"; };
 		01F8330123275A52004520D0 /* FrolloSDKDataModel-1.5.0.sqlite-wal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FrolloSDKDataModel-1.5.0.sqlite-wal"; sourceTree = "<group>"; };
 		01F8330223275A53004520D0 /* FrolloSDKDataModel-1.5.0.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.5.0.sqlite"; sourceTree = "<group>"; };
@@ -1902,6 +1930,38 @@
 			path = Reports;
 			sourceTree = "<group>";
 		};
+		0125878C234412B10077D8B4 /* PayDay */ = {
+			isa = PBXGroup;
+			children = (
+				0125878D234412E10077D8B4 /* APIPayDayResponse.swift */,
+			);
+			path = PayDay;
+			sourceTree = "<group>";
+		};
+		01258791234418C50077D8B4 /* PayDays */ = {
+			isa = PBXGroup;
+			children = (
+				01258792234418EE0077D8B4 /* PayDays.swift */,
+			);
+			path = PayDays;
+			sourceTree = "<group>";
+		};
+		0125879B234456260077D8B4 /* PayDay */ = {
+			isa = PBXGroup;
+			children = (
+				0125879C234456490077D8B4 /* APIPayDayResponse+Test.swift */,
+			);
+			path = PayDay;
+			sourceTree = "<group>";
+		};
+		012587A423445BF30077D8B4 /* PayDays */ = {
+			isa = PBXGroup;
+			children = (
+				01F8060123445EBF00A4FCA9 /* PayDaysTests.swift */,
+			);
+			path = PayDays;
+			sourceTree = "<group>";
+		};
 		0126068121990158005D8377 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
@@ -2066,6 +2126,7 @@
 				011F813C219D251000A1495F /* Events */,
 				017F0F9422DBF97500ACE7BB /* Goals */,
 				0126069421992ABA005D8377 /* Messages */,
+				0125878C234412B10077D8B4 /* PayDay */,
 				01236D0521EBEBCF008DD61A /* Reports */,
 				013D2D83210A888900EEDEC5 /* Shared */,
 				013D2D82210A887C00EEDEC5 /* User */,
@@ -2111,6 +2172,7 @@
 				0101A8EA21CC4F6B00DCFCEB /* Bills */,
 				017F0FA122DC349A00ACE7BB /* Goals */,
 				012606D2219BC2A2005D8377 /* Messages */,
+				0125879B234456260077D8B4 /* PayDay */,
 				01236D1521EC2441008DD61A /* Reports */,
 				013D2D89210A8AF000EEDEC5 /* User */,
 			);
@@ -2180,6 +2242,7 @@
 				01EED85A20E5A7EA00F4516B /* Model */,
 				01EED85E20E5A7EA00F4516B /* Network */,
 				011F8151219E636900A1495F /* Notifications */,
+				01258791234418C50077D8B4 /* PayDays */,
 				01EED86020E5A7EA00F4516B /* Preferences */,
 				01236D0821EBF4CD008DD61A /* Reports */,
 				01819147211178AC000E0F80 /* Shared */,
@@ -2213,6 +2276,7 @@
 				017B48D32106D46900447E65 /* Model */,
 				0101949C20F595C900334482 /* Network */,
 				0135D2FE21A2559C00318142 /* Notifications */,
+				012587A423445BF30077D8B4 /* PayDays */,
 				017B486B2105431200447E65 /* Preferences */,
 				01236D6C21EED6FA008DD61A /* Reports */,
 				01EEDB1520EADEFA00F4516B /* Resources */,
@@ -2702,6 +2766,7 @@
 				011F813F219D25F000A1495F /* EventsEndpoint.swift */,
 				017F0FB222DC513800ACE7BB /* GoalsEndpoint.swift */,
 				0126069021992909005D8377 /* MessagesEndpoint.swift */,
+				0125879823442FAB0077D8B4 /* PayDayEndpoint.swift */,
 				01236D0D21EBFA34008DD61A /* ReportsEndpoint.swift */,
 				2F657DA8223B323A00471B85 /* SurveysEndpoint.swift */,
 				01874B7320F81EA8005A7D0C /* UserEndpoint.swift */,
@@ -2718,6 +2783,7 @@
 				011F8141219D282400A1495F /* APIService+Events.swift */,
 				017F0FB522DC523800ACE7BB /* APIService+Goals.swift */,
 				0126069221992A36005D8377 /* APIService+Messages.swift */,
+				0125879523442C0D0077D8B4 /* APIService+PayDay.swift */,
 				01236D0F21EC02CC008DD61A /* APIService+Reports.swift */,
 				2F657DA6223B314100471B85 /* APIService+Surveys.swift */,
 				01874B7C20FD6FB9005A7D0C /* APIService+User.swift */,
@@ -2749,6 +2815,7 @@
 				01B896A220F2EDA30068069A /* Error */,
 				017F0FC122DD411000ACE7BB /* Goals */,
 				0126069C219A5409005D8377 /* Messages */,
+				01F806052344620800A4FCA9 /* PayDay */,
 				01236D3321EEBE30008DD61A /* Reports */,
 				2F657DAD223B461000471B85 /* Surveys */,
 				01F220E420FEBB6B00C70B00 /* User */,
@@ -3046,10 +3113,19 @@
 			path = User;
 			sourceTree = "<group>";
 		};
+		01F806052344620800A4FCA9 /* PayDay */ = {
+			isa = PBXGroup;
+			children = (
+				01F806062344620800A4FCA9 /* pay_day.json */,
+			);
+			path = PayDay;
+			sourceTree = "<group>";
+		};
 		01F832FC23275944004520D0 /* PayDay */ = {
 			isa = PBXGroup;
 			children = (
 				01F832FD2327595D004520D0 /* PayDay+Test.swift */,
+				012587A0234457940077D8B4 /* PayDayTests.swift */,
 			);
 			path = PayDay;
 			sourceTree = "<group>";
@@ -3332,6 +3408,7 @@
 				01ED8FD9211A846500ACE691 /* transactions_2018-08-01_invalid.json in Resources */,
 				01A7228F22E7F6A6006136D8 /* FrolloSDKDataModel-1.3.3.sqlite in Resources */,
 				017B48E721082DCA00447E65 /* user_details_complete.json in Resources */,
+				01F806072344620800A4FCA9 /* pay_day.json in Resources */,
 				033D46D42272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */,
 				01B896C020F2EDA30068069A /* error_invalid_count.json in Resources */,
 				017F0FAF22DC3D7700ACE7BB /* FrolloSDKDataModel-1.4.0.sqlite-shm in Resources */,
@@ -3485,6 +3562,7 @@
 				01ED8FDA211A846500ACE691 /* transactions_2018-08-01_invalid.json in Resources */,
 				01A7229022E7F6A6006136D8 /* FrolloSDKDataModel-1.3.3.sqlite in Resources */,
 				017B48E821082DCA00447E65 /* user_details_complete.json in Resources */,
+				01F806082344620800A4FCA9 /* pay_day.json in Resources */,
 				033D46D52272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */,
 				017B48452101B4FE00447E65 /* error_invalid_count.json in Resources */,
 				017F0FB022DC3D7700ACE7BB /* FrolloSDKDataModel-1.4.0.sqlite-shm in Resources */,
@@ -3647,6 +3725,7 @@
 				01ED8FDB211A846500ACE691 /* transactions_2018-08-01_invalid.json in Resources */,
 				01A7229122E7F6A6006136D8 /* FrolloSDKDataModel-1.3.3.sqlite in Resources */,
 				017B48E921082DCB00447E65 /* user_details_complete.json in Resources */,
+				01F806092344620800A4FCA9 /* pay_day.json in Resources */,
 				033D46D62272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */,
 				017B48A22105958100447E65 /* error_invalid_count.json in Resources */,
 				017F0FB122DC3D7700ACE7BB /* FrolloSDKDataModel-1.4.0.sqlite-shm in Resources */,
@@ -3982,9 +4061,11 @@
 				0159E48A2193CBAD002CC3BB /* AccountBalanceTier+CoreDataProperties.swift in Sources */,
 				018240DE21C8B80B005705F9 /* Bill+CoreDataProperties.swift in Sources */,
 				0101A8E021C9BDEF00DCFCEB /* APIService+Bills.swift in Sources */,
+				0125879923442FAB0077D8B4 /* PayDayEndpoint.swift in Sources */,
 				01C824EE20EC40FD0093400E /* ConsoleLogger.swift in Sources */,
 				012606AF219A784D005D8377 /* MessageVideo+CoreDataClass.swift in Sources */,
 				01483BB921196E2100D0DA87 /* APIMerchantResponse.swift in Sources */,
+				0125878E234412E10077D8B4 /* APIPayDayResponse.swift in Sources */,
 				01236D0721EBEC09008DD61A /* APITransactionHistoryReportResponse.swift in Sources */,
 				01483B712117C7E900D0DA87 /* APIAccountResponse.swift in Sources */,
 				017B48E02107FE6A00447E65 /* APIUserResponse.swift in Sources */,
@@ -4037,6 +4118,7 @@
 				0126069121992909005D8377 /* MessagesEndpoint.swift in Sources */,
 				01483B6E2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift in Sources */,
 				0104E02F21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataProperties.swift in Sources */,
+				01258793234418EE0077D8B4 /* PayDays.swift in Sources */,
 				01EED86420E5A7EB00F4516B /* Preferences.swift in Sources */,
 				01BB5A68221E1E21000C03F0 /* OAuth2Service.swift in Sources */,
 				0126068821991963005D8377 /* Message+CoreDataClass.swift in Sources */,
@@ -4068,6 +4150,7 @@
 				010EB42B211BF92A005A926A /* APITransactionUpdateRequest.swift in Sources */,
 				017E58D0217FD92D00DC56FF /* CachedObjects.swift in Sources */,
 				01A1F59A2148DBC9002B9A93 /* Data.swift in Sources */,
+				0125879623442C0D0077D8B4 /* APIService+PayDay.swift in Sources */,
 				01874B7820F82C98005A7D0C /* DeviceEndpoint.swift in Sources */,
 				013A32C12112AF4E00B0590B /* DateFormatter.swift in Sources */,
 				012606B4219A784D005D8377 /* MessageHTML+CoreDataProperties.swift in Sources */,
@@ -4112,6 +4195,7 @@
 				01ED8FCC211A660900ACE691 /* APITransactionResponse+Test.swift in Sources */,
 				01BB5A51221CC727000C03F0 /* DatabaseResetTests.swift in Sources */,
 				017F0FA322DC34BA00ACE7BB /* APIGoalResponse+Test.swift in Sources */,
+				012587A1234457940077D8B4 /* PayDayTests.swift in Sources */,
 				01483B822117F65500D0DA87 /* AccountBalanceTierTests.swift in Sources */,
 				03D965B92277C519009BC283 /* Tag+Test.swift in Sources */,
 				0135D30021A255B000318142 /* NotificationsTests.swift in Sources */,
@@ -4152,11 +4236,13 @@
 				0101A8FD21CC832600DCFCEB /* BillTests.swift in Sources */,
 				01236D6E21EED72C008DD61A /* ReportsTests.swift in Sources */,
 				01C824F920EC8EF90093400E /* ConsoleLoggerTests.swift in Sources */,
+				01F8060223445EBF00A4FCA9 /* PayDaysTests.swift in Sources */,
 				013A32CB2112BE6600B0590B /* ProviderAccountTests.swift in Sources */,
 				011F8137219CE5D100A1495F /* UserDefaultsPersistenceTests.swift in Sources */,
 				01483BA02119318D00D0DA87 /* APITransactionCategoryResponse+Test.swift in Sources */,
 				01EEDB1D20EAEA2000F4516B /* DatabaseMigrationTests.swift in Sources */,
 				01ED8FD4211A684E00ACE691 /* TransactionTests.swift in Sources */,
+				0125879D234456490077D8B4 /* APIPayDayResponse+Test.swift in Sources */,
 				03ADF878227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */,
 				017F0FF222DEFF6500ACE7BB /* GoalPeriodTests.swift in Sources */,
 				01BC3D132166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift in Sources */,
@@ -4238,6 +4324,7 @@
 				01ED8FCD211A660900ACE691 /* APITransactionResponse+Test.swift in Sources */,
 				01BB5A52221CC727000C03F0 /* DatabaseResetTests.swift in Sources */,
 				017F0FA422DC34BA00ACE7BB /* APIGoalResponse+Test.swift in Sources */,
+				012587A2234457940077D8B4 /* PayDayTests.swift in Sources */,
 				01483B832117F65500D0DA87 /* AccountBalanceTierTests.swift in Sources */,
 				03D965BA2277C519009BC283 /* Tag+Test.swift in Sources */,
 				0135D30121A255B000318142 /* NotificationsTests.swift in Sources */,
@@ -4278,11 +4365,13 @@
 				0101A8FE21CC832600DCFCEB /* BillTests.swift in Sources */,
 				01236D6F21EED72C008DD61A /* ReportsTests.swift in Sources */,
 				017B48372101B4FE00447E65 /* ConsoleLoggerTests.swift in Sources */,
+				01F8060323445EBF00A4FCA9 /* PayDaysTests.swift in Sources */,
 				013A32CC2112BE6600B0590B /* ProviderAccountTests.swift in Sources */,
 				011F8138219CE5D100A1495F /* UserDefaultsPersistenceTests.swift in Sources */,
 				01483BA12119318D00D0DA87 /* APITransactionCategoryResponse+Test.swift in Sources */,
 				017B48382101B4FE00447E65 /* DatabaseMigrationTests.swift in Sources */,
 				01ED8FD5211A684E00ACE691 /* TransactionTests.swift in Sources */,
+				0125879E234456490077D8B4 /* APIPayDayResponse+Test.swift in Sources */,
 				03ADF879227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */,
 				017F0FF322DEFF6500ACE7BB /* GoalPeriodTests.swift in Sources */,
 				01BC3D142166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift in Sources */,
@@ -4373,6 +4462,7 @@
 				01ED8FCE211A660900ACE691 /* APITransactionResponse+Test.swift in Sources */,
 				01BB5A53221CC728000C03F0 /* DatabaseResetTests.swift in Sources */,
 				017F0FA522DC34BA00ACE7BB /* APIGoalResponse+Test.swift in Sources */,
+				012587A3234457940077D8B4 /* PayDayTests.swift in Sources */,
 				017B488D2105958100447E65 /* APIErrorTests.swift in Sources */,
 				03D965BB2277C519009BC283 /* Tag+Test.swift in Sources */,
 				0135D30221A255B000318142 /* NotificationsTests.swift in Sources */,
@@ -4413,11 +4503,13 @@
 				0101A8FF21CC832600DCFCEB /* BillTests.swift in Sources */,
 				01236D7021EED72C008DD61A /* ReportsTests.swift in Sources */,
 				017B48932105958100447E65 /* DatabaseMigrationTests.swift in Sources */,
+				01F8060423445EBF00A4FCA9 /* PayDaysTests.swift in Sources */,
 				01483B752117D80100D0DA87 /* APIAccountResponse+Test.swift in Sources */,
 				011F8139219CE5D100A1495F /* UserDefaultsPersistenceTests.swift in Sources */,
 				016097F0210EA27E0034E857 /* Keychain+Test.swift in Sources */,
 				017B48942105958100447E65 /* NetworkTests.swift in Sources */,
 				01ED8FD6211A684E00ACE691 /* TransactionTests.swift in Sources */,
+				0125879F234456490077D8B4 /* APIPayDayResponse+Test.swift in Sources */,
 				03ADF87A227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */,
 				017F0FF422DEFF6500ACE7BB /* GoalPeriodTests.swift in Sources */,
 				01BC3D152166E1BC0065A4B8 /* APIUserRegisterRequest+Test.swift in Sources */,
@@ -4541,9 +4633,11 @@
 				01E5BF082227A475003D85FD /* PreferencesPersistence.swift in Sources */,
 				01E5BF092227A475003D85FD /* BillPayment+CoreDataProperties.swift in Sources */,
 				01E5BF0A2227A475003D85FD /* ProviderAccount+CoreDataClass.swift in Sources */,
+				0125879A23442FAB0077D8B4 /* PayDayEndpoint.swift in Sources */,
 				01456B7522433D060077FC56 /* Survey.swift in Sources */,
 				01E5BF0B2227A475003D85FD /* AccountBalanceTier+CoreDataProperties.swift in Sources */,
 				01E5BF0C2227A475003D85FD /* Bill+CoreDataProperties.swift in Sources */,
+				0125878F234412E10077D8B4 /* APIPayDayResponse.swift in Sources */,
 				01E5BF0D2227A475003D85FD /* APIService+Bills.swift in Sources */,
 				01E5BF0E2227A475003D85FD /* ConsoleLogger.swift in Sources */,
 				01E5BF0F2227A475003D85FD /* MessageVideo+CoreDataClass.swift in Sources */,
@@ -4596,6 +4690,7 @@
 				01E5BF3A2227A475003D85FD /* MessagesEndpoint.swift in Sources */,
 				01E5BF3B2227A475003D85FD /* AccountBalanceTier+CoreDataClass.swift in Sources */,
 				01E5BF3C2227A475003D85FD /* ReportTransactionHistory+CoreDataProperties.swift in Sources */,
+				01258794234418EE0077D8B4 /* PayDays.swift in Sources */,
 				01E5BF3D2227A475003D85FD /* Preferences.swift in Sources */,
 				01E5BF3E2227A475003D85FD /* OAuth2Service.swift in Sources */,
 				01E5BF3F2227A475003D85FD /* Message+CoreDataClass.swift in Sources */,
@@ -4627,6 +4722,7 @@
 				01E5BF522227A475003D85FD /* APIAccountBalanceReportResponse.swift in Sources */,
 				01E5BF532227A475003D85FD /* APITransactionUpdateRequest.swift in Sources */,
 				01E5BF542227A475003D85FD /* CachedObjects.swift in Sources */,
+				0125879723442C0D0077D8B4 /* APIService+PayDay.swift in Sources */,
 				01E5BF552227A475003D85FD /* Data.swift in Sources */,
 				01E5BF562227A475003D85FD /* DeviceEndpoint.swift in Sources */,
 				01E5BF572227A475003D85FD /* DateFormatter.swift in Sources */,

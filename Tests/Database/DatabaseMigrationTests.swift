@@ -36,7 +36,7 @@ class DatabaseMigrationTests: XCTestCase {
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(Progress.totalUnitCount), let progress = object as? Progress {
-            XCTAssertEqual(progress.totalUnitCount, 8)
+            XCTAssertEqual(progress.totalUnitCount, 9)
             
             progress.removeObserver(self, forKeyPath: #keyPath(Progress.totalUnitCount))
         }
@@ -128,10 +128,10 @@ class DatabaseMigrationTests: XCTestCase {
     // MARK: - Test Data
     
 //    // Uncomment to generate test data for each data model. Do this whenever adding a new Core Data model version
-//    func testGenerateTestCoreDataDatabases() {
-//        generateCoreDataModelTestDatabases()
-//        generateFakeCoreDataModelTestDatabase()
-//    }
+    func testGenerateTestCoreDataDatabases() {
+        generateCoreDataModelTestDatabases()
+        generateFakeCoreDataModelTestDatabase()
+    }
     
     // MARK: - Migration Tests
     
@@ -344,6 +344,24 @@ class DatabaseMigrationTests: XCTestCase {
         let expectation1 = XCTestExpectation(description: "Migration Completion")
         
         let path = populateTestDataNamed(name: "FrolloSDKDataModel-1.4.0")
+        
+        let database = Database(path: path)
+        
+        XCTAssertTrue(database.needsMigration())
+        
+        database.migrate { (error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 15.0)
+    }
+    
+    func testMigrationFrom141() {
+        let expectation1 = XCTestExpectation(description: "Migration Completion")
+        
+        let path = populateTestDataNamed(name: "FrolloSDKDataModel-1.4.1")
         
         let database = Database(path: path)
         

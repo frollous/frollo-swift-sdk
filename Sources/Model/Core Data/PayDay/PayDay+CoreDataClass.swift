@@ -63,10 +63,6 @@ public class PayDay: NSManagedObject {
         /// Estimated - Pay day has been calculated from transaction history
         case estimated
         
-        #warning("Document me")
-        /// Suspended
-        case suspended
-        
         /// Unknown
         case unknown
         
@@ -74,6 +70,48 @@ public class PayDay: NSManagedObject {
     
     /// Core Data entity description name
     static var entityName = "Goal"
+    
+    /// Date formatter to convert from stored date string to user's current locale
+    public static let payDayDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.autoupdatingCurrent
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter
+    }()
+    
+    public var lastDate: Date? {
+        get {
+            if let dateString = lastDateString {
+                return PayDay.payDayDateFormatter.date(from: dateString)!
+            }
+            return nil
+            
+        }
+        set {
+            if let newDate = newValue {
+                lastDateString = PayDay.payDayDateFormatter.string(from: newDate)
+            } else {
+                lastDateString = nil
+            }
+        }
+    }
+    
+    public var nextDate: Date? {
+        get {
+            if let dateString = nextDateString {
+                return PayDay.payDayDateFormatter.date(from: dateString)!
+            }
+            return nil
+            
+        }
+        set {
+            if let newDate = newValue {
+                nextDateString = PayDay.payDayDateFormatter.string(from: newDate)
+            } else {
+                nextDateString = nil
+            }
+        }
+    }
     
     /// Period
     public var period: Period {
@@ -93,6 +131,15 @@ public class PayDay: NSManagedObject {
         set {
             statusRawValue = newValue.rawValue
         }
+    }
+    
+    // MARK: - Updating object
+    
+    internal func update(response: APIPayDayResponse) {
+        lastDateString = response.lastTransactionDate
+        nextDateString = response.nextTransactionDate
+        period = response.frequency
+        status = response.status
     }
     
 }

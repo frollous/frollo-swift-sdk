@@ -13,21 +13,17 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //
-//
 
 import Foundation
-import CoreData
+@testable import FrolloSDK
 
-
-extension PayDay {
-
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<PayDay> {
-        return NSFetchRequest<PayDay>(entityName: "PayDay")
+extension APIPayDayResponse {
+    
+    static func testCompleteData() -> APIPayDayResponse {
+        return APIPayDayResponse(frequency: PayDay.Period.allCases.randomElement()!,
+                                 lastTransactionDate: "2019-08-15",
+                                 nextTransactionDate: "2019-09-15",
+                                 status: PayDay.Status.allCases.randomElement()!)
     }
-
-    @NSManaged public var statusRawValue: String?
-    @NSManaged public var periodRawValue: String?
-    @NSManaged public var nextDate: NSDate?
-    @NSManaged public var lastDate: NSDate?
-
+    
 }
