@@ -18,6 +18,11 @@
 import CoreData
 import Foundation
 
+/**
+ Pay Day
+ 
+ Core data model of pay day
+ */
 public class PayDay: NSManagedObject {
     
     /**
@@ -79,6 +84,7 @@ public class PayDay: NSManagedObject {
         return dateFormatter
     }()
     
+    /// Last pay date (Optional)
     public var lastDate: Date? {
         get {
             if let dateString = lastDateString {
@@ -96,6 +102,7 @@ public class PayDay: NSManagedObject {
         }
     }
     
+    /// Next pay date (Optional)
     public var nextDate: Date? {
         get {
             if let dateString = nextDateString {
