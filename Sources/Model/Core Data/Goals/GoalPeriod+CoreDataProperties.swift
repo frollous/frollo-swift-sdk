@@ -41,6 +41,9 @@ extension GoalPeriod {
     /// Raw value of the end date. Use only in predicates
     @NSManaged public var endDateString: String
     
+    /// Index of the period
+    @NSManaged public var index: Int64
+    
     /// Target amount to reach for the goal period
     @NSManaged public var targetAmount: NSDecimalNumber
     

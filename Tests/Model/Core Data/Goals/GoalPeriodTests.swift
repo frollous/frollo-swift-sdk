@@ -46,6 +46,7 @@ class GoalPeriodTests: XCTestCase {
             XCTAssertEqual(goalPeriod.startDateString, goalPeriodResponse.startDate)
             XCTAssertEqual(goalPeriod.targetAmount.stringValue, goalPeriodResponse.targetAmount)
             XCTAssertEqual(goalPeriod.trackingStatus, goalPeriodResponse.trackingStatus)
+            XCTAssertEqual(goalPeriod.index, goalPeriodResponse.index)
         }
         
     }

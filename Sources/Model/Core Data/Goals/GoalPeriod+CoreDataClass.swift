@@ -92,6 +92,7 @@ public class GoalPeriod: NSManagedObject, UniqueManagedObject {
         currentAmount = NSDecimalNumber(string: response.currentAmount)
         endDateString = response.endDate
         goalID = response.goalID
+        index = response.index
         requiredAmount = NSDecimalNumber(string: response.requiredAmount)
         startDateString = response.startDate
         targetAmount = NSDecimalNumber(string: response.targetAmount)

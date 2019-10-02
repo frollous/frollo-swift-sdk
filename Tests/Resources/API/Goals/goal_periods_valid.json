@@ -7,7 +7,8 @@
     "target_amount": "150",
     "current_amount": "111.42",
     "required_amount": "173.5",
-    "tracking_status": "behind"
+    "tracking_status": "behind",
+    "index": 0
   },
   {
     "goal_id": 123,
@@ -17,7 +18,8 @@
     "target_amount": "150",
     "current_amount": "0",
     "required_amount": "173.5",
-    "tracking_status": "on_track"
+    "tracking_status": "on_track",
+    "index": 1
   },
   {
     "goal_id": 123,
@@ -27,6 +29,7 @@
     "target_amount": "150",
     "current_amount": "0",
     "required_amount": "173.5",
-    "tracking_status": "on_track"
+    "tracking_status": "on_track",
+    "index": 2
   }
 ]
