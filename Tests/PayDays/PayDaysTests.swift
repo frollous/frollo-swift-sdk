@@ -110,5 +110,42 @@ class PayDaysTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testUpdatePayDay() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: PayDayEndpoint.payDay.path.prefixedWithSlash, toResourceWithName: "pay_day")
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.payDays.updatePayDay(period: PayDay.Period.allCases.randomElement()!, nextDate: Date()) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = self.database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<PayDay> = PayDay.fetchRequest()
+                        
+                        do {
+                            let fetchedPayDays = try context.fetch(fetchRequest)
+                            
+                            if let payDay = fetchedPayDays.first {
+                                XCTAssertTrue(PayDay.Status.allCases.contains(payDay.status))
+                            } else {
+                                XCTFail("PayDay not found")
+                            }
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
 
 }

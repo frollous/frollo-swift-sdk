@@ -92,6 +92,41 @@ public class PayDays {
         }
     }
     
+    /**
+     Update Pay Day
+     
+     Updates the user's pay day on the host
+     
+     - parameters:
+        - period: Period the user is paid over
+        - nextDate: Next day the user is paid
+        - completion: A completion handler once the API has returned and the cache has been updated. Returns any error that occurred during the process. (Optional)
+     */
+    public func updatePayDay(period: PayDay.Period, nextDate: Date, completion: FrolloSDKCompletionHandler? = nil) {
+        let dateString = PayDay.payDayDateFormatter.string(from: nextDate)
+        
+        let request = APIPayDayRequest(frequency: period, nextTransactionDate: dateString)
+        
+        service.updatePayDay(request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handlePayDayResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
     // MARK: - Response Handling
     
     private func handlePayDayResponse(_ payDayResponse: APIPayDayResponse, managedObjectContext: NSManagedObjectContext) {

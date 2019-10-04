@@ -16,18 +16,16 @@
 
 import Foundation
 
-struct APIPayDayResponse: Codable {
+struct APIPayDayRequest: Codable {
     
     enum CodingKeys: String, CodingKey {
+        
         case frequency
-        case lastTransactionDate = "last_transaction_date"
         case nextTransactionDate = "next_transaction_date"
-        case status
+        
     }
     
     let frequency: PayDay.Period
-    let lastTransactionDate: String?
-    let nextTransactionDate: String?
-    let status: PayDay.Status
+    let nextTransactionDate: String
     
 }

@@ -4,9 +4,9 @@
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
 //  You may obtain a copy of the License at
-//
+// 
 //      http://www.apache.org/licenses/LICENSE-2.0
-//
+// 
 //  Unless required by applicable law or agreed to in writing, software
 //  distributed under the License is distributed on an "AS IS" BASIS,
 //  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,19 +15,13 @@
 //
 
 import Foundation
+@testable import FrolloSDK
 
-struct APIPayDayResponse: Codable {
+extension APIPayDayRequest {
     
-    enum CodingKeys: String, CodingKey {
-        case frequency
-        case lastTransactionDate = "last_transaction_date"
-        case nextTransactionDate = "next_transaction_date"
-        case status
+    static func testCompleteData() -> APIPayDayRequest {
+        return APIPayDayRequest(frequency: PayDay.Period.allCases.randomElement()!,
+                                nextTransactionDate: "2020-03-31")
     }
-    
-    let frequency: PayDay.Period
-    let lastTransactionDate: String?
-    let nextTransactionDate: String?
-    let status: PayDay.Status
     
 }

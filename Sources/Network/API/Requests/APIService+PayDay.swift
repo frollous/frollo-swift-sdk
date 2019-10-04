@@ -30,4 +30,22 @@ extension APIService {
         }
     }
     
+    internal func updatePayDay(request: APIPayDayRequest, completion: @escaping RequestCompletion<APIPayDayResponse>) {
+        requestQueue.async {
+            let url = URL(string: PayDayEndpoint.payDay.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APIPayDayResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
 }
