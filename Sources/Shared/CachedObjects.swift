@@ -21,7 +21,7 @@ protocol CachedObjects {
     
     func cachedObject<T: NSManagedObject>(type: T.Type, context: NSManagedObjectContext, objectID: Int64, objectKey: String) -> T?
     func cachedObjects<T: NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, limit: Int?) -> [T]?
-    func fetchedResultsController<T: NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, limit: Int?) -> NSFetchedResultsController<T>
+    func fetchedResultsController<T: NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, batchSize: Int?, limit: Int?, sectionNameKeypath: String?) -> NSFetchedResultsController<T>
     
 }
 
@@ -68,7 +68,7 @@ extension CachedObjects {
         return fetchedObjects
     }
     
-    internal func fetchedResultsController<T: NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, limit: Int?) -> NSFetchedResultsController<T> {
+    internal func fetchedResultsController<T: NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, batchSize: Int? = nil, limit: Int?, sectionNameKeypath: String? = nil) -> NSFetchedResultsController<T> {
         let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
         fetchRequest.predicate = predicate
         fetchRequest.sortDescriptors = sortDescriptors
@@ -77,7 +77,11 @@ extension CachedObjects {
             fetchRequest.fetchLimit = fetchLimit
         }
         
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        if let fetchBatchSize = batchSize {
+            fetchRequest.fetchBatchSize = fetchBatchSize
+        }
+        
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: sectionNameKeypath, cacheName: nil)
     }
     
 }

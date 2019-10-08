@@ -799,6 +799,7 @@ class GoalsTests: BaseTestCase {
                                 XCTAssertEqual(goalPeriod.startDateString, "2019-07-18")
                                 XCTAssertEqual(goalPeriod.targetAmount, 150)
                                 XCTAssertEqual(goalPeriod.trackingStatus, .behind)
+                                XCTAssertEqual(goalPeriod.index, 0)
                             } else {
                                 XCTFail("Goal Period missing")
                             }

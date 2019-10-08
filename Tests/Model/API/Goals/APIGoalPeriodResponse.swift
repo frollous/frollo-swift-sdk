@@ -23,6 +23,7 @@ struct APIGoalPeriodResponse: APIUniqueResponse, Codable {
         case endDate = "end_date"
         case goalID = "goal_id"
         case id
+        case index
         case requiredAmount = "required_amount"
         case startDate = "start_date"
         case targetAmount = "target_amount"
@@ -33,6 +34,7 @@ struct APIGoalPeriodResponse: APIUniqueResponse, Codable {
     let currentAmount: String
     let endDate: String
     let goalID: Int64
+    let index: Int64
     let requiredAmount: String
     let startDate: String
     let targetAmount: String

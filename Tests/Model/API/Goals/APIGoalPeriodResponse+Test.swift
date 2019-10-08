@@ -24,6 +24,7 @@ extension APIGoalPeriodResponse {
                                      currentAmount: "172.01",
                                      endDate: "2020-03-31",
                                      goalID: Int64.random(in: 1...Int64.max),
+                                     index: Int64.random(in: 1...Int64.max),
                                      requiredAmount: "330",
                                      startDate: "2018-04-01",
                                      targetAmount: "275",

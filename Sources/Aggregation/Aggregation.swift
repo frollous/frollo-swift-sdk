@@ -799,14 +799,15 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - filteredBy: Predicate of properties to match for fetching. See `Transaction` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to transactionID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
+        - sectionNameKeyPath: Section Name to group transactions sections (Optional)
      */
     public func transactionsFetchedResultsController(context: NSManagedObjectContext,
                                                      baseType: Transaction.BaseType? = nil,
                                                      budgetCategory: BudgetCategory? = nil,
                                                      status: Transaction.Status? = nil,
                                                      filteredBy predicate: NSPredicate? = nil,
-                                                     sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)],
-                                                     limit: Int? = nil) -> NSFetchedResultsController<Transaction>? {
+                                                     sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)], batchSize: Int? = nil,
+                                                     limit: Int? = nil, sectionNameKeypath: String? = nil) -> NSFetchedResultsController<Transaction>? {
         var predicates = [NSPredicate]()
         
         if let filterBaseType = baseType {
@@ -825,7 +826,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             predicates.append(filterPredicate)
         }
         
-        return fetchedResultsController(type: Transaction.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
+        return fetchedResultsController(type: Transaction.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, batchSize: batchSize, limit: limit, sectionNameKeypath: sectionNameKeypath)
     }
     
     /**
