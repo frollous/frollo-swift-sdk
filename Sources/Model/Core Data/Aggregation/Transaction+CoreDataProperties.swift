@@ -128,4 +128,7 @@ extension Transaction {
     /// Related transaction tags
     @NSManaged public var userTagsRawValue: String?
     
+    /// Amount in string to support search by amount
+    @NSManaged public var searchAmount: String?
+    
 }

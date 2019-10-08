@@ -1574,6 +1574,65 @@ class AggregationTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testTransactionsFetchedResultsControllerSearchByAmount() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testTransaction1 = Transaction(context: managedObjectContext)
+                testTransaction1.populateTestData()
+                testTransaction1.baseType = .debit
+                testTransaction1.searchAmount = "28.00"
+                
+                let testTransaction2 = Transaction(context: managedObjectContext)
+                testTransaction2.populateTestData()
+                testTransaction2.baseType = .credit
+                testTransaction2.searchAmount = "8.00"
+                
+                let testTransaction3 = Transaction(context: managedObjectContext)
+                testTransaction3.populateTestData()
+                testTransaction3.baseType = .debit
+                testTransaction3.searchAmount = "128.00"
+                
+                let testTransaction4 = Transaction(context: managedObjectContext)
+                testTransaction4.populateTestData()
+                testTransaction4.baseType = .credit
+                testTransaction4.searchAmount = "-28.00"
+                
+                let testTransaction5 = Transaction(context: managedObjectContext)
+                testTransaction5.populateTestData()
+                testTransaction5.baseType = .credit
+                testTransaction5.searchAmount = "28.04"
+                
+                try! managedObjectContext.save()
+            }
+            
+            let predicate = NSPredicate(format: "searchAmount BEGINSWITH[cd] %@ || searchAmount BEGINSWITH[cd] %@", argumentArray: ["28.00", "-28.00"])
+            
+            
+            let fetchedResultsController = aggregation.transactionsFetchedResultsController(context: self.context, filteredBy: predicate)
+            
+            do {
+                try fetchedResultsController?.performFetch()
+                XCTAssertNotNil(fetchedResultsController?.fetchedObjects)
+                XCTAssertEqual(fetchedResultsController?.fetchedObjects?.count, 2)
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testRefreshTransactionsIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         let notificationExpectation = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil, handler: nil)

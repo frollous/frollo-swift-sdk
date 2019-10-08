@@ -806,7 +806,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                                                      budgetCategory: BudgetCategory? = nil,
                                                      status: Transaction.Status? = nil,
                                                      filteredBy predicate: NSPredicate? = nil,
-                                                     sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)],
+                                                     sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Transaction.transactionID), ascending: true)], batchSize: Int? = nil,
                                                      limit: Int? = nil, sectionNameKeypath: String? = nil) -> NSFetchedResultsController<Transaction>? {
         var predicates = [NSPredicate]()
         
@@ -826,7 +826,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             predicates.append(filterPredicate)
         }
         
-        return fetchedResultsController(type: Transaction.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit, sectionNameKeypath: sectionNameKeypath)
+        return fetchedResultsController(type: Transaction.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, batchSize: batchSize, limit: limit, sectionNameKeypath: sectionNameKeypath)
     }
     
     /**
