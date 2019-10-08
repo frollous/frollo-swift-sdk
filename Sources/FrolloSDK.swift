@@ -125,6 +125,16 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         return _notifications
     }
     
+    /// PayDays - Managing and detecting the user's pay cycle
+    public var payDays: PayDays {
+        guard _setup
+        else {
+            fatalError("SDK not setup")
+        }
+        
+        return _payDays
+    }
+    
     /// Reports - Aggregation data reports
     public var reports: Reports {
         guard _setup
@@ -171,6 +181,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     internal var _messages: Messages!
     internal var _notifications: Notifications!
     internal var network: Network!
+    internal var _payDays: PayDays!
     internal var preferences: Preferences!
     internal var refreshTimer: Timer?
     internal var _reports: Reports!
@@ -294,6 +305,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         _events = Events(service: service)
         _goals = Goals(database: _database, service: service, aggregation: _aggregation)
         _messages = Messages(database: _database, service: service)
+        _payDays = PayDays(database: _database, service: service)
         _reports = Reports(database: _database, service: service, aggregation: _aggregation)
         _surveys = Surveys(service: service)
         _userManagement = UserManagement(database: _database, service: service, clientID: configuration.clientID, authentication: oAuth2Authentication, preferences: preferences, delegate: self)
