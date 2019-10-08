@@ -119,18 +119,18 @@ class DatabaseMigrationTests: XCTestCase {
         }
     }
     
-    private func generateFakeCoreDataModelTestDatabase() {
-        let modelPath = Bundle(for: type(of: self)).url(forResource: "TestInvalidDataModel", withExtension: "momd")!
-        let model = NSManagedObjectModel(contentsOf: modelPath)!
-        generateCoreDataTestDatabase(for: model, named: fakeTestDataModelName)
-    }
+//    private func generateFakeCoreDataModelTestDatabase() {
+//        let modelPath = Bundle(for: type(of: self)).url(forResource: "TestInvalidDataModel", withExtension: "momd")!
+//        let model = NSManagedObjectModel(contentsOf: modelPath)!
+//        generateCoreDataTestDatabase(for: model, named: fakeTestDataModelName)
+//    }
     
     // MARK: - Test Data
     
 //    // Uncomment to generate test data for each data model. Do this whenever adding a new Core Data model version
     func testGenerateTestCoreDataDatabases() {
-        generateCoreDataModelTestDatabases()
-        generateFakeCoreDataModelTestDatabase()
+//        generateCoreDataModelTestDatabases()
+//        generateFakeCoreDataModelTestDatabase()
     }
     
     // MARK: - Migration Tests

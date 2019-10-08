@@ -37,7 +37,7 @@ class DateExtensionsTests: XCTestCase {
             case "AEST", "GMT+10":
                 startMonthDate = Date(timeIntervalSince1970: 1538316000) // 1st October 2018 - 00:00 AEST
             case "AEDT", "GMT+11":
-                startMonthDate = Date(timeIntervalSince1970: 1538319600) // 1st October 2018 - 00:00 AEDT
+                startMonthDate = Date(timeIntervalSince1970: 1538316000) // 1st October 2018 - 00:00 AEDT
             default:
                 startMonthDate = Date(timeIntervalSince1970: 1538318600) // 1st October 2018 - 00:00 GMT+1
         }
@@ -58,7 +58,7 @@ class DateExtensionsTests: XCTestCase {
             case "AEST", "GMT+10":
                 startLastMonthDate = Date(timeIntervalSince1970: 1535724000) // 1st September 2018 - 00:00 AEST
             case "AEDT", "GMT+11":
-                startLastMonthDate = Date(timeIntervalSince1970: 1535727600) // 1st September 2018 - 00:00 AEDT
+                startLastMonthDate = Date(timeIntervalSince1970: 1535724000) // 1st September 2018 - 00:00 AEDT
             default:
                 startLastMonthDate = Date(timeIntervalSince1970: 1535763600) // 1st September 2018 - 00:00 GMT+1
         }
@@ -79,7 +79,7 @@ class DateExtensionsTests: XCTestCase {
             case "AEST", "GMT+10":
                 endMonthDate = Date(timeIntervalSince1970: 1540990800) // 1st November 2018 - 00:00 AEST
             case "AEDT", "GMT+11":
-                endMonthDate = Date(timeIntervalSince1970: 1540994400) // 1st November 2018 - 00:00 AEDT
+                endMonthDate = Date(timeIntervalSince1970: 1540990800) // 1st November 2018 - 00:00 AEDT
             default:
                 endMonthDate = Date(timeIntervalSince1970: 1541034000) // 1st November 2018 - 00:00 GMT+1
         }
