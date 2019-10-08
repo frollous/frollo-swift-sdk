@@ -357,6 +357,7 @@ class DatabaseMigrationTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 15.0)
     }
+
     
     func testMigrationProgress() {
         let expectation1 = XCTestExpectation(description: "Migration Completion")
