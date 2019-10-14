@@ -1667,14 +1667,6 @@
 		03E157B9227BBFD90083F0D8 /* BaseTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTestCase.swift; sourceTree = "<group>"; };
 		2F2F0C9C22A0D0E700F05961 /* APITagUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITagUpdateRequest.swift; sourceTree = "<group>"; };
 		2F2F0C9E22A0D29800F05961 /* APITagUpdateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITagUpdateResponse.swift; sourceTree = "<group>"; };
-		2F5D7120234C540800106A44 /* FrolloSDKDataModel-1.3.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.3.1.xcdatamodel"; sourceTree = "<group>"; };
-		2F5D7122234C540800106A44 /* FrolloSDKDataModel-1.2.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.2.0.xcdatamodel"; sourceTree = "<group>"; };
-		2F5D7123234C540800106A44 /* FrolloSDKDataModel-1.3.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.3.2.xcdatamodel"; sourceTree = "<group>"; };
-		2F5D7124234C540800106A44 /* FrolloSDKDataModel-1.1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.1.0.xcdatamodel"; sourceTree = "<group>"; };
-		2F5D7125234C540800106A44 /* FrolloSDKDataModel-1.0.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.0.0.xcdatamodel"; sourceTree = "<group>"; };
-		2F5D7126234C540800106A44 /* FrolloSDKDataModel-1.4.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.4.0.xcdatamodel"; sourceTree = "<group>"; };
-		2F5D7127234C540800106A44 /* FrolloSDKDataModel-1.3.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.3.0.xcdatamodel"; sourceTree = "<group>"; };
-		2F5D7128234C540800106A44 /* FrolloSDKDataModel-1.3.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.3.3.xcdatamodel"; sourceTree = "<group>"; };
 		2F657DA2223B26B300471B85 /* Survey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Survey.swift; sourceTree = "<group>"; };
 		2F657DA4223B2FB300471B85 /* Surveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Surveys.swift; sourceTree = "<group>"; };
 		2F657DA6223B314100471B85 /* APIService+Surveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+Surveys.swift"; sourceTree = "<group>"; };
@@ -4995,7 +4987,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = YES;
-				SDK_VERSION = 4.0;
+				SDK_VERSION = 4.1;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
@@ -5036,7 +5028,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				SDK_VERSION = 4.0;
+				SDK_VERSION = 4.1;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
@@ -5081,7 +5073,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 400;
+				CURRENT_PROJECT_VERSION = 410;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -5160,7 +5152,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 400;
+				CURRENT_PROJECT_VERSION = 410;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -5805,7 +5797,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 400;
+				CURRENT_PROJECT_VERSION = 410;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -5886,7 +5878,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 400;
+				CURRENT_PROJECT_VERSION = 410;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -6017,14 +6009,6 @@
 			isa = XCVersionGroup;
 			children = (
 				01C88BE32321EE7E0027D01B /* FrolloSDKDataModel-1.5.0.xcdatamodel */,
-				01A7228422E7F605006136D8 /* FrolloSDKDataModel-1.4.0.xcdatamodel */,
-				01A7228622E7F605006136D8 /* FrolloSDKDataModel-1.3.3.xcdatamodel */,
-				01A7228122E7F605006136D8 /* FrolloSDKDataModel-1.3.2.xcdatamodel */,
-				01A7227F22E7F605006136D8 /* FrolloSDKDataModel-1.3.1.xcdatamodel */,
-				01A7228522E7F605006136D8 /* FrolloSDKDataModel-1.3.0.xcdatamodel */,
-				01A7228022E7F605006136D8 /* FrolloSDKDataModel-1.2.0.xcdatamodel */,
-				01A7228222E7F605006136D8 /* FrolloSDKDataModel-1.1.0.xcdatamodel */,
-				01A7228322E7F605006136D8 /* FrolloSDKDataModel-1.0.0.xcdatamodel */,
 			);
 			currentVersion = 01C88BE32321EE7E0027D01B /* FrolloSDKDataModel-1.5.0.xcdatamodel */;
 			path = FrolloSDKDataModel.xcdatamodeld;

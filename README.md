@@ -2,7 +2,7 @@
 
 # Frollo Swift SDK
 
-**V4.0.0**
+**V4.1.0**
 
 - [Features](#features)
 - [Requirements](#requirements)
@@ -20,6 +20,7 @@
 - Goals
 - Messages
 - Notifications
+- Pay Days
 - Reports
 - User
 - Surveys

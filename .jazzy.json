@@ -107,6 +107,13 @@
     ]
   },
   {
+    "name": "PayDays",
+    "children": [
+      "PayDays",
+      "PayDay"
+    ]
+  },
+  {
     "name": "Reports",
     "children": [
       "Reports",

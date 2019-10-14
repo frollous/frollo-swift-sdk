@@ -117,6 +117,8 @@ The following features are part of budgets and pay day:
 * Set multiple budgets
 * Set budgets by category, merchant or bucket
 
+See [PayDays](paydays.html) for more details.
+
 *Coming Soon to SDK*
 
 ## Reports

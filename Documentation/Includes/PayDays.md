@@ -1,0 +1,3 @@
+# PayDays
+
+Manages pay days

@@ -1,5 +1,18 @@
 # Changelog
 
+## 4.1
+
+- Pay Days
+
+### Features
+
+- Pay Days
+
+### Changes
+
+- Budget category apply all
+- Goal enhancements
+
 ## 4.0
 
 - Goals
