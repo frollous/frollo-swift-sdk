@@ -67,8 +67,13 @@ platform :ios do
     begin
       cisetup
 
-      bootstrap
-
+      #bootstrap
+      
+      carthage(
+          command: "bootstrap",
+          platform: "all",
+          use_binaries: false)
+      
       xcodebuild(scheme: "FrolloSDK",
           clean: true,
           build: true,
