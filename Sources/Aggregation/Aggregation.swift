@@ -1992,49 +1992,61 @@ public class Aggregation: CachedObjects, ResponseHandler {
             userTagsLock.unlock()
         }
         
+        // Sort by ID
+        let sortedTagResponses = response.sorted { (responseA, responseB) -> Bool in
+            responseA.name.compare(responseB.name) == .orderedAscending
+        }
+        
+        // Build name list predicate
         let tagNamesInResponse = response.map { $0.name }
+        
         managedObjectContext.performAndWait {
+            // Fetch existing objects for updating
+            let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest() as! NSFetchRequest<Tag>
+            fetchRequest.predicate = NSPredicate(format: #keyPath(Tag.name) + " IN %@", argumentArray: [tagNamesInResponse])
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)]
+            
             do {
-                let databaseData = try Tag.all(including: tagNamesInResponse, context: managedObjectContext).sorted(by: { $0.name < $1.name })
+                let existingTags = try managedObjectContext.fetch(fetchRequest)
                 
                 var index = 0
                 
-                // Go through each item in the API response to check if it needs to be added or updated
-                
-                for objectResponse in response {
-                    var object: Tag
+                for tagResponse in sortedTagResponses {
+                    var tag: Tag
                     
-                    // If database item is in the api response, set the initial object to the API object
-                    if index < databaseData.count, databaseData[index].name == objectResponse.name {
-                        object = databaseData[index]
+                    if index < existingTags.count, existingTags[index].name == tagResponse.name {
+                        tag = existingTags[index]
                         index += 1
-                        
-                        // Otherwise, create a new object
                     } else {
-                        object = Tag(context: managedObjectContext)
+                        tag = Tag(context: managedObjectContext)
                     }
                     
-                    // Update the object with the data from the API (API is the source of truth)
-                    object.update(response: objectResponse, context: managedObjectContext)
+                    tag.update(response: tagResponse, context: managedObjectContext)
+                }
+                
+                // Fetch and delete any leftovers
+                let deleteRequest: NSFetchRequest<Tag> = Tag.fetchRequest() as! NSFetchRequest<Tag>
+                deleteRequest.predicate = NSPredicate(format: "NOT " + #keyPath(Tag.name) + " IN %@", argumentArray: [tagNamesInResponse])
+                
+                do {
+                    let deleteObjects = try managedObjectContext.fetch(deleteRequest)
                     
+                    for deleteObject in deleteObjects {
+                        managedObjectContext.delete(deleteObject)
+                    }
+                } catch let fetchError {
+                    Log.error(fetchError.localizedDescription)
                 }
-                
-                // Since API is the source of truth, all data not existing in the API but is still in the database should be deleted
-                
-                // Get all the items that are in the database but not in the API
-                let itemsToDelete = try Tag.all(excluding: tagNamesInResponse, context: managedObjectContext)
-                // Delete items
-                itemsToDelete.forEach { tag in
-                    managedObjectContext.delete(tag)
-                }
-                
+            } catch let fetchError {
+                Log.error(fetchError.localizedDescription)
+            }
+            
+            do {
                 try managedObjectContext.save()
-                
             } catch {
                 Log.error(error.localizedDescription)
             }
         }
-        
     }
     
     private func handleUpdateTagsResponse(_ requestArray: [APITagUpdateRequest], isAdd: Bool = true, transactionID: Int64, managedObjectContext: NSManagedObjectContext) {

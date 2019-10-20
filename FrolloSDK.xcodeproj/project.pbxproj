@@ -524,6 +524,9 @@
 		01743B1A212BCF9A0082DA00 /* provider_login_form_validation.json in Resources */ = {isa = PBXBuildFile; fileRef = 01743B17212BCF9A0082DA00 /* provider_login_form_validation.json */; };
 		0175C801224ADC070065AF9F /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C800224ADC070065AF9F /* ResponseError.swift */; };
 		0175C802224ADC070065AF9F /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175C800224ADC070065AF9F /* ResponseError.swift */; };
+		01773AC1235D1DCB009DAFC4 /* transactions_user_tags_expanded.json in Resources */ = {isa = PBXBuildFile; fileRef = 01773AC0235D1DC8009DAFC4 /* transactions_user_tags_expanded.json */; };
+		01773AC2235D1DCB009DAFC4 /* transactions_user_tags_expanded.json in Resources */ = {isa = PBXBuildFile; fileRef = 01773AC0235D1DC8009DAFC4 /* transactions_user_tags_expanded.json */; };
+		01773AC3235D1DCB009DAFC4 /* transactions_user_tags_expanded.json in Resources */ = {isa = PBXBuildFile; fileRef = 01773AC0235D1DC8009DAFC4 /* transactions_user_tags_expanded.json */; };
 		017B48322101B4FE00447E65 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016DD0A320EF365100F41919 /* APIErrorTests.swift */; };
 		017B48332101B4FE00447E65 /* DatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EEDB1A20EAE2CE00F4516B /* DatabaseTests.swift */; };
 		017B48342101B4FE00447E65 /* NetworkAuthenticatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E0819220FDB6F30036133F /* NetworkAuthenticatorTests.swift */; };
@@ -1469,6 +1472,7 @@
 		01743B13212BC3280082DA00 /* provider_login_form_options.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_login_form_options.json; sourceTree = "<group>"; };
 		01743B17212BCF9A0082DA00 /* provider_login_form_validation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_login_form_validation.json; sourceTree = "<group>"; };
 		0175C800224ADC070065AF9F /* ResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseError.swift; sourceTree = "<group>"; };
+		01773AC0235D1DC8009DAFC4 /* transactions_user_tags_expanded.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transactions_user_tags_expanded.json; sourceTree = "<group>"; };
 		017B48682101B4FE00447E65 /* FrolloSDK macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FrolloSDK macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		017B486C2105433B00447E65 /* PreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesTests.swift; sourceTree = "<group>"; };
 		017B486F21054F0B00447E65 /* PreferencesPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesPersistence.swift; sourceTree = "<group>"; };
@@ -2282,7 +2286,6 @@
 		015EEDDF210FDA4D0081AD76 /* Aggregation */ = {
 			isa = PBXGroup;
 			children = (
-				016F2A9D2265863C00BA1842 /* transactions_search.json */,
 				01483B87211808DE00D0DA87 /* account_id_542.json */,
 				01483B85211808DC00D0DA87 /* accounts_invalid.json */,
 				01483B86211808DE00D0DA87 /* accounts_valid.json */,
@@ -2310,12 +2313,14 @@
 				01E5BF81222C88E8003D85FD /* transaction_id_194630_excluded.json */,
 				01ED8FDF211A868F00ACE691 /* transaction_id_194630.json */,
 				01E5BF7D2228B031003D85FD /* transaction_summary.json */,
+				2F9F199D22A4ABC000A416EA /* transaction_update_tag.json */,
 				01ED8FD7211A846300ACE691 /* transactions_2018-08-01_invalid.json */,
 				01ED8FD8211A846500ACE691 /* transactions_2018-08-01_valid.json */,
 				01E5BF85222CC8E5003D85FD /* transactions_2018-12-04_count_200_skip_0.json */,
 				01E5BF86222CC8E6003D85FD /* transactions_2018-12-04_count_200_skip_200.json */,
+				016F2A9D2265863C00BA1842 /* transactions_search.json */,
 				033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */,
-				2F9F199D22A4ABC000A416EA /* transaction_update_tag.json */,
+				01773AC0235D1DC8009DAFC4 /* transactions_user_tags_expanded.json */,
 				03D965B22276DFD2009BC283 /* transactions_user_tags.json */,
 			);
 			path = Aggregation;
@@ -3399,6 +3404,7 @@
 				017B48E721082DCA00447E65 /* user_details_complete.json in Resources */,
 				01F806072344620800A4FCA9 /* pay_day.json in Resources */,
 				033D46D42272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */,
+				01773AC1235D1DCB009DAFC4 /* transactions_user_tags_expanded.json in Resources */,
 				01B896C020F2EDA30068069A /* error_invalid_count.json in Resources */,
 				017F0FAF22DC3D7700ACE7BB /* FrolloSDKDataModel-1.4.0.sqlite-shm in Resources */,
 				01E5BF82222C88E9003D85FD /* transaction_id_194630_excluded.json in Resources */,
@@ -3550,6 +3556,7 @@
 				017B48E821082DCA00447E65 /* user_details_complete.json in Resources */,
 				01F806082344620800A4FCA9 /* pay_day.json in Resources */,
 				033D46D52272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */,
+				01773AC2235D1DCB009DAFC4 /* transactions_user_tags_expanded.json in Resources */,
 				017B48452101B4FE00447E65 /* error_invalid_count.json in Resources */,
 				017F0FB022DC3D7700ACE7BB /* FrolloSDKDataModel-1.4.0.sqlite-shm in Resources */,
 				01E5BF83222C88E9003D85FD /* transaction_id_194630_excluded.json in Resources */,
@@ -3710,6 +3717,7 @@
 				017B48E921082DCB00447E65 /* user_details_complete.json in Resources */,
 				01F806092344620800A4FCA9 /* pay_day.json in Resources */,
 				033D46D62272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */,
+				01773AC3235D1DCB009DAFC4 /* transactions_user_tags_expanded.json in Resources */,
 				017B48A22105958100447E65 /* error_invalid_count.json in Resources */,
 				017F0FB122DC3D7700ACE7BB /* FrolloSDKDataModel-1.4.0.sqlite-shm in Resources */,
 				01E5BF84222C88E9003D85FD /* transaction_id_194630_excluded.json in Resources */,

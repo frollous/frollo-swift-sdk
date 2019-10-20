@@ -2802,6 +2802,98 @@ class AggregationTests: BaseTestCase {
         
     }
     
+    func testRefreshTransactionUserTagsIsSynced() {
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Request 1")
+        let expectation3 = expectation(description: "Network Request 2")
+        
+        connect(endpoint: AggregationEndpoint.transactionUserTags.path.prefixedWithSlash, toResourceWithName: "transactions_user_tags")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+            
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+            
+        let managedObjectContext = self.database.newBackgroundContext()
+        managedObjectContext.performAndWait {
+            let testTag1 = Tag(context: managedObjectContext)
+            testTag1.populateTestData()
+            testTag1.name = "dinner"
+            testTag1.count = 3
+
+            let testTag3 = Tag(context: managedObjectContext)
+            testTag3.populateTestData()
+            testTag3.name = "Kinner"
+            testTag3.count = 3
+            
+            try! managedObjectContext.save()
+        }
+        
+        aggregation.refreshTransactionUserTags() { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    let context = self.context
+                    
+                    let fetchRequest: NSFetchRequest<Tag> = Tag.tagFetchRequest()
+                    fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)]
+                    
+                    do {
+                        let fetchedTransactions = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedTransactions.count, 7)
+                        XCTAssertEqual(fetchedTransactions[1].name, "brewery")
+                        XCTAssertEqual(fetchedTransactions[1].count, 17)
+                        XCTAssertEqual(fetchedTransactions[6].name, "tag with spaces")
+                        XCTAssertEqual(fetchedTransactions[6].count, 1)
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+        
+        connect(endpoint: AggregationEndpoint.transactionUserTags.path.prefixedWithSlash, toResourceWithName: "transactions_user_tags_expanded")
+        
+        aggregation.refreshTransactionUserTags() { result in
+            switch result {
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            case .success:
+                let context = self.context
+                
+                let fetchRequest: NSFetchRequest<Tag> = Tag.tagFetchRequest()
+                fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)]
+                
+                do {
+                    let fetchedTransactions = try context.fetch(fetchRequest)
+                    
+                    XCTAssertEqual(fetchedTransactions.count, 10)
+                    XCTAssertEqual(fetchedTransactions[0].name, "Test")
+                    XCTAssertEqual(fetchedTransactions[0].count, 1)
+                    XCTAssertEqual(fetchedTransactions[6].name, "groceries")
+                    XCTAssertEqual(fetchedTransactions[6].count, 2)
+                } catch {
+                    XCTFail(error.localizedDescription)
+                }
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+    }
+    
     func testRefreshTransactionUserTagsInvalidResponse() {
         let expectation1 = expectation(description: "Network Request 1")
         let invalidStatusCode = 500
