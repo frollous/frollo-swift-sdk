@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.1.1
+
+### Fixes
+
+- Fix issue where user tags could be duplicated in the cache
+
 ## 4.1
 
 - Pay Days
