@@ -552,10 +552,10 @@ class AggregationRequestTests: BaseTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success(let response):
-                    XCTAssertEqual(response.count, 3)
+                    XCTAssertEqual(response.count, 7)
                     
                     if let firstTag = response.first {
-                        XCTAssertEqual(firstTag.name, "pub_lunch")
+                        XCTAssertEqual(firstTag.name, "brew")
                     }
             }
             

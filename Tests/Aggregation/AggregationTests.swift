@@ -2785,10 +2785,10 @@ class AggregationTests: BaseTestCase {
                     do {
                         let fetchedTransactions = try context.fetch(fetchRequest).sorted(by: { $0.name < $1.name })
                         
-                        XCTAssertEqual(fetchedTransactions.count, 3)
-                        XCTAssertEqual(fetchedTransactions.first?.name, "dinner")
-                        XCTAssertEqual(fetchedTransactions.first?.count, 5)
-                        XCTAssertEqual(fetchedTransactions.last?.name, "pub_lunch")
+                        XCTAssertEqual(fetchedTransactions.count, 7)
+                        XCTAssertEqual(fetchedTransactions.first?.name, "brew")
+                        XCTAssertEqual(fetchedTransactions.first?.count, 2)
+                        XCTAssertEqual(fetchedTransactions.last?.name, "tag with spaces")
                     } catch {
                         XCTFail(error.localizedDescription)
                     }
