@@ -67,7 +67,7 @@ public class Account: NSManagedObject, UniqueManagedObject {
         case savings
         
         /// Emergency savings fund
-        case emergencyFund = "emegency_fund"
+        case emergencyFund = "emergency_fund"
         
         /// Term deposit
         case termDeposit = "term_deposit"
