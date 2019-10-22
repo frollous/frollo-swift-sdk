@@ -1,0 +1,90 @@
+{
+	"data": [{
+		"date": "2018-10",
+		"value": "50.0",
+		"groups": [{
+			"id": 119,
+			"name": "General Merchandise",
+			"value": "25.0",
+			"transaction_ids": [126983]
+		},{
+			"id": 120,
+			"name": "Restaurants",
+			"value": "25.0",
+			"transaction_ids": [126984]
+		}]
+	}, {
+		"date": "2018-11",
+		"value": "0",
+		"groups": []
+	}, {
+		"date": "2018-12",
+		"value": "0",
+		"groups": []
+	}, {
+		"date": "2019-01",
+		"value": "-25.0",
+		"groups": [{
+			"id": 119,
+			"name": "General Merchandise",
+			"value": "-25.0",
+			"transaction_ids": [124985]
+		},]
+	}, {
+		"date": "2019-02",
+		"value": "0",
+		"groups": []
+	}, {
+		"date": "2019-03",
+		"value": "0",
+		"groups": []
+	}, {
+		"date": "2019-04",
+		"value": "0",
+		"groups": []
+	}, {
+		"date": "2019-05",
+		"value": "0",
+		"groups": []
+	}, {
+		"date": "2019-06",
+		"value": "0",
+		"groups": []
+	}, {
+		"date": "2019-07",
+		"value": "-50.0",
+		"groups": [{
+			"id": 119,
+			"name": "General Merchandise",
+			"value": "-25.0",
+			"transaction_ids": [126985]
+		},{
+			"id": 120,
+			"name": "Restaurants",
+			"value": "-25.0",
+			"transaction_ids": [126986]
+		}]
+	}, {
+		"date": "2019-08",
+		"value": "0",
+		"groups": []
+	}, {
+		"date": "2019-09",
+		"value": "0",
+		"groups": []
+	}, {
+		"date": "2019-10",
+		"value": "-50.0",
+		"groups": [{
+			"id": 119,
+			"name": "General Merchandise",
+			"value": "-25.0",
+			"transaction_ids": [126987]
+		},{
+			"id": 120,
+			"name": "Restaurants",
+			"value": "-25.0",
+			"transaction_ids": [126988]
+		}]
+	}]
+}
