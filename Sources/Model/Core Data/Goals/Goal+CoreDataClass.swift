@@ -215,6 +215,33 @@ public class Goal: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    /// Metadata - custom JSON to be stored with the goal (optional)
+    public var metadata: [String: Any]? {
+        get {
+            if let rawValue = metadataRawValue {
+                do {
+                    return try JSONSerialization.jsonObject(with: rawValue, options: .allowFragments) as? [String: Any]
+                } catch {
+                    Log.error(error.localizedDescription)
+                }
+            }
+            return nil
+        }
+        set {
+            if let newRawValue = newValue {
+                do {
+                    metadataRawValue = try JSONSerialization.data(withJSONObject: newRawValue, options: [])
+                } catch {
+                    Log.error(error.localizedDescription)
+                    
+                    metadataRawValue = nil
+                }
+            } else {
+                metadataRawValue = nil
+            }
+        }
+    }
+    
     /// Date the goal starts
     public var startDate: Date {
         get {
@@ -289,18 +316,17 @@ public class Goal: NSManagedObject, UniqueManagedObject {
         estimatedEndDateString = response.estimatedEndDate
         frequency = response.frequency
         imageURLString = response.imageURL
+        metadata = response.metadata?.value as? [String: Any]
         name = response.name
         periodAmount = NSDecimalNumber(string: response.periodAmount)
         periodCount = response.periodsCount
         startAmount = NSDecimalNumber(string: response.startAmount)
         startDateString = response.startDate
         status = response.status
-        subType = response.subType
         target = response.target
         targetAmount = NSDecimalNumber(string: response.targetAmount)
         trackingStatus = response.trackingStatus
         trackingType = response.trackingType
-        type = response.type
         
         if let amount = response.estimatedTargetAmount {
             estimatedTargetAmount = NSDecimalNumber(string: amount)
@@ -312,6 +338,7 @@ public class Goal: NSManagedObject, UniqueManagedObject {
     internal func updateRequest() -> APIGoalUpdateRequest {
         return APIGoalUpdateRequest(description: details,
                                     imageURL: imageURLString,
+                                    metadata: AnyCodable(metadata),
                                     name: name)
     }
     

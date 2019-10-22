@@ -54,12 +54,16 @@ class GoalTests: XCTestCase {
             XCTAssertEqual(goalResponse.startAmount, goal.startAmount.stringValue)
             XCTAssertEqual(goalResponse.startDate, goal.startDateString)
             XCTAssertEqual(goalResponse.status, goal.status)
-            XCTAssertEqual(goalResponse.subType, goal.subType)
             XCTAssertEqual(goalResponse.target, goal.target)
             XCTAssertEqual(goalResponse.targetAmount, goal.targetAmount.stringValue)
             XCTAssertEqual(goalResponse.trackingStatus, goal.trackingStatus)
             XCTAssertEqual(goalResponse.trackingType, goal.trackingType)
-            XCTAssertEqual(goalResponse.type, goal.type)
+            
+            if let responseMetadata = goalResponse.metadata?.value as? [String: Any], let responseSeen = responseMetadata["seen"] as? Bool, let goalSeen = goal.metadata?["seen"] as? Bool {
+                XCTAssertEqual(responseSeen, goalSeen)
+            } else {
+                XCTFail("No metadata")
+            }
         }
     }
 }

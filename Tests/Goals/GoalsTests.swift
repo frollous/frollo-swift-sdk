@@ -335,18 +335,17 @@ class GoalsTests: BaseTestCase {
                             XCTAssertEqual(goal.frequency, .weekly)
                             XCTAssertEqual(goal.goalID, 3211)
                             XCTAssertEqual(goal.imageURL, URL(string: "https://example.com/image.png"))
+                            XCTAssertEqual(goal.metadata?["seen"] as? Bool, true)
                             XCTAssertEqual(goal.name, "Holiday Fund")
                             XCTAssertEqual(goal.periodAmount, 400)
                             XCTAssertEqual(goal.periodCount, 10)
                             XCTAssertEqual(goal.startAmount, 0)
                             XCTAssertEqual(goal.startDateString, "2019-07-15")
                             XCTAssertEqual(goal.status, .active)
-                            XCTAssertEqual(goal.subType, "USA")
                             XCTAssertEqual(goal.target, .amount)
                             XCTAssertEqual(goal.targetAmount, 5000)
                             XCTAssertEqual(goal.trackingStatus, .ahead)
                             XCTAssertEqual(goal.trackingType, .debit)
-                            XCTAssertEqual(goal.type, "Saving for a holiday")
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -430,8 +429,6 @@ class GoalsTests: BaseTestCase {
             self.goals.createGoal(name: "My test goal",
                              description: "The bestest test goal",
                              imageURL: URL(string: "https://example.com/image.png"),
-                             type: "Holiday",
-                             subType: "Winter",
                              target: .amount,
                              trackingType: .credit,
                              frequency: .weekly,
@@ -440,7 +437,8 @@ class GoalsTests: BaseTestCase {
                              periodAmount: 700,
                              startAmount: 0,
                              targetAmount: 20000,
-                             accountID: 123) { (result) in
+                             accountID: 123,
+                             metadata: ["seen": true]) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -478,8 +476,6 @@ class GoalsTests: BaseTestCase {
             self.goals.createGoal(name: "My test goal",
                              description: "The bestest test goal",
                              imageURL: URL(string: "https://example.com/image.png"),
-                             type: "Holiday",
-                             subType: "Winter",
                              target: .amount,
                              trackingType: .credit,
                              frequency: .weekly,
@@ -488,7 +484,8 @@ class GoalsTests: BaseTestCase {
                              periodAmount: 700,
                              startAmount: 0,
                              targetAmount: nil,
-                             accountID: 123) { (result) in
+                             accountID: 123,
+                             metadata: ["seen": true]) { (result) in
                                 switch result {
                                     case .failure(let error):
                                         XCTAssertNotNil(error)

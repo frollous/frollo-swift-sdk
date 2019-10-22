@@ -24,15 +24,14 @@ struct APIGoalCreateRequest: Codable {
         case endDate = "end_date"
         case frequency
         case imageURL = "image_url"
+        case metadata
         case name
         case periodAmount = "period_amount"
         case startAmount = "start_amount"
         case startDate = "start_date"
-        case subType = "sub_type"
         case target
         case targetAmount = "target_amount"
         case trackingType = "tracking_type"
-        case type
     }
     
     let accountID: Int64
@@ -40,15 +39,14 @@ struct APIGoalCreateRequest: Codable {
     let endDate: String?
     let frequency: Goal.Frequency
     let imageURL: String?
+    let metadata: AnyCodable?
     let name: String
     let periodAmount: String?
     let startAmount: String?
     let startDate: String?
-    let subType: String?
     let target: Goal.Target
     let targetAmount: String?
     let trackingType: Goal.TrackingType
-    let type: String?
     
     internal func valid() -> Bool {
         switch target {

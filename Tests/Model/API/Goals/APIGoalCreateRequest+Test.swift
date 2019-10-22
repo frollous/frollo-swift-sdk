@@ -25,15 +25,14 @@ extension APIGoalCreateRequest {
                                     endDate: "2019-12-31",
                                     frequency: .monthly,
                                     imageURL: "https://example.com/image.png",
+                                    metadata: nil,
                                     name: String.randomString(range: 1...20),
                                     periodAmount: "300",
                                     startAmount: "0",
                                     startDate: "2018-10-01",
-                                    subType: String.randomString(range: 1...20),
                                     target: .amount,
                                     targetAmount: nil,
-                                    trackingType: Goal.TrackingType.allCases.randomElement()!,
-                                    type: String.randomString(range: 1...20))
+                                    trackingType: Goal.TrackingType.allCases.randomElement()!)
     }
     
     static func testAmountTargetData() -> APIGoalCreateRequest {
@@ -42,15 +41,14 @@ extension APIGoalCreateRequest {
                                     endDate: "2019-12-31",
                                     frequency: .monthly,
                                     imageURL: "https://example.com/image.png",
+                                    metadata: ["seen": true],
                                     name: String.randomString(range: 1...20),
                                     periodAmount: nil,
                                     startAmount: "0",
                                     startDate: "2018-10-01",
-                                    subType: String.randomString(range: 1...20),
                                     target: .amount,
                                     targetAmount: "20000",
-                                    trackingType: Goal.TrackingType.allCases.randomElement()!,
-                                    type: String.randomString(range: 1...20))
+                                    trackingType: Goal.TrackingType.allCases.randomElement()!)
     }
     
     static func testDateTargetData() -> APIGoalCreateRequest {
@@ -59,15 +57,14 @@ extension APIGoalCreateRequest {
                                     endDate: nil,
                                     frequency: .monthly,
                                     imageURL: "https://example.com/image.png",
+                                    metadata: ["seen": true],
                                     name: String.randomString(range: 1...20),
                                     periodAmount: "300",
                                     startAmount: "0",
                                     startDate: "2018-10-01",
-                                    subType: String.randomString(range: 1...20),
                                     target: .date,
                                     targetAmount: "20000",
-                                    trackingType: Goal.TrackingType.allCases.randomElement()!,
-                                    type: String.randomString(range: 1...20))
+                                    trackingType: Goal.TrackingType.allCases.randomElement()!)
     }
     
     static func testOpenEndedTargetData() -> APIGoalCreateRequest {
@@ -76,15 +73,14 @@ extension APIGoalCreateRequest {
                                     endDate: "2019-12-31",
                                     frequency: .monthly,
                                     imageURL: "https://example.com/image.png",
+                                    metadata: ["seen": true],
                                     name: String.randomString(range: 1...20),
                                     periodAmount: "300",
                                     startAmount: "0",
                                     startDate: "2018-10-01",
-                                    subType: String.randomString(range: 1...20),
                                     target: .openEnded,
                                     targetAmount: nil,
-                                    trackingType: Goal.TrackingType.allCases.randomElement()!,
-                                    type: String.randomString(range: 1...20))
+                                    trackingType: Goal.TrackingType.allCases.randomElement()!)
     }
     
 }

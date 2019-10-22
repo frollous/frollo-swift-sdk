@@ -227,8 +227,6 @@ public class Goals: CachedObjects, ResponseHandler {
          - name: Name of the goal
          - description: Additional description of the goal for the user (Optional)
          - imageURL: Image URL of an icon/picture associated with the goal (Optional)
-         - type: Type of the goal (Optional)
-         - subType: Sub type of the goal (Optional)
          - target: Target of the goal
          - trackingType: Tracking method the goal uses
          - frequency: Frequency of contributions to the goal
@@ -237,13 +235,13 @@ public class Goals: CachedObjects, ResponseHandler {
          - periodAmount: Amount to be saved each period. Required for open ended and amount based goals
          - startAmount: Amount already contributed to a goal. Defaults to zero (Optional)
          - targetAmount: Target amount to reach for the goal. Required for amount and date based goals
+         - accountID: Account ID to track the goal against
+         - metadata: Optional metadata payload to append to the goal
          - completion: Optional completion handler with optional error if the request fails
      */
     public func createGoal(name: String,
                            description: String? = nil,
                            imageURL: URL? = nil,
-                           type: String? = nil,
-                           subType: String? = nil,
                            target: Goal.Target,
                            trackingType: Goal.TrackingType,
                            frequency: Goal.Frequency,
@@ -253,6 +251,7 @@ public class Goals: CachedObjects, ResponseHandler {
                            startAmount: Decimal = 0,
                            targetAmount: Decimal?,
                            accountID: Int64,
+                           metadata: [String: Any]?,
                            completion: FrolloSDKCompletionHandler? = nil) {
         var endDateString: String?
         if let date = endDate {
@@ -268,15 +267,14 @@ public class Goals: CachedObjects, ResponseHandler {
                                            endDate: endDateString,
                                            frequency: frequency,
                                            imageURL: imageURL?.absoluteString,
+                                           metadata: AnyCodable(metadata),
                                            name: name,
                                            periodAmount: (periodAmount as NSDecimalNumber?)?.stringValue,
                                            startAmount: (startAmount as NSDecimalNumber?)?.stringValue,
                                            startDate: startDateString,
-                                           subType: subType,
                                            target: target,
                                            targetAmount: (targetAmount as NSDecimalNumber?)?.stringValue,
-                                           trackingType: trackingType,
-                                           type: type)
+                                           trackingType: trackingType)
         
         guard request.valid()
         else {

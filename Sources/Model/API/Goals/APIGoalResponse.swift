@@ -30,18 +30,17 @@ struct APIGoalResponse: APIUniqueResponse, Codable {
         case frequency
         case id
         case imageURL = "image_url"
+        case metadata
         case name
         case periodAmount = "period_amount"
         case periodsCount = "periods_count"
         case startAmount = "start_amount"
         case startDate = "start_date"
         case status
-        case subType = "sub_type"
         case target
         case targetAmount = "target_amount"
         case trackingStatus = "tracking_status"
         case trackingType = "tracking_type"
-        case type
     }
     
     var id: Int64
@@ -55,17 +54,16 @@ struct APIGoalResponse: APIUniqueResponse, Codable {
     let estimatedTargetAmount: String?
     let frequency: Goal.Frequency
     let imageURL: String?
+    let metadata: AnyCodable?
     let name: String
     let periodAmount: String
     let periodsCount: Int64
     let startAmount: String
     let startDate: String
     let status: Goal.Status
-    let subType: String?
     let target: Goal.Target
     let targetAmount: String
     let trackingStatus: Goal.TrackingStatus
     let trackingType: Goal.TrackingType
-    let type: String?
     
 }

@@ -4,8 +4,6 @@
     "description": "New York",
     "image_url": "https://example.com/image.png",
     "account_id": 45,
-    "type": "Saving for a holiday",
-    "sub_type": "USA",
     "tracking_status": "ahead",
     "tracking_type": "debit_credit",
     "status": "active",
