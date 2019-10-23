@@ -59,6 +59,9 @@ extension Goal {
     /// Raw value for the image URL (Optional)
     @NSManaged public var imageURLString: String?
     
+    /// Raw value for the metadata JSON associated with the goal (Optional)
+    @NSManaged public var metadataRawValue: Data?
+    
     /// Name of the goal
     @NSManaged public var name: String
     
@@ -77,9 +80,6 @@ extension Goal {
     /// Raw value of the status. Use only in predicates
     @NSManaged public var statusRawValue: String
     
-    /// Sub-type of the goal (Optional)
-    @NSManaged public var subType: String?
-    
     /// Target amount to reach for the goal
     @NSManaged public var targetAmount: NSDecimalNumber
     
@@ -91,9 +91,6 @@ extension Goal {
     
     /// Raw value of the tracking type. Use only in predicates
     @NSManaged public var trackingTypeRawValue: String
-    
-    /// Type of the goal (Optional)
-    @NSManaged public var type: String?
     
     /// Account associated with the goal (Optional)
     @NSManaged public var account: Account?

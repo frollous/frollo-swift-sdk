@@ -22,6 +22,8 @@ extension APIGoalResponse {
     static func testCompleteData() -> APIGoalResponse {
         let period = APIGoalPeriodResponse.testCompleteData()
         
+        let metadata: AnyCodable = ["seen": true]
+        
         return APIGoalResponse(id: Int64.random(in: 1...Int64.max),
                                accountID: Int64.random(in: 1...Int64.max),
                                currentAmount: "4514.73",
@@ -33,18 +35,17 @@ extension APIGoalResponse {
                                estimatedTargetAmount: "25000",
                                frequency: Goal.Frequency.allCases.randomElement()!,
                                imageURL: "https://example.com/image.png",
+                               metadata: metadata,
                                name: String.randomString(range: 5...20),
                                periodAmount: "250",
                                periodsCount: Int64.random(in: 1...Int64.max),
                                startAmount: "0",
                                startDate: "2019-01-02",
                                status: Goal.Status.allCases.randomElement()!,
-                               subType: String.randomString(range: 5...20),
                                target: Goal.Target.allCases.randomElement()!,
                                targetAmount: "26000",
                                trackingStatus: Goal.TrackingStatus.allCases.randomElement()!,
-                               trackingType: Goal.TrackingType.allCases.randomElement()!,
-                               type: String.randomString(range: 5...20))
+                               trackingType: Goal.TrackingType.allCases.randomElement()!)
     }
     
 }

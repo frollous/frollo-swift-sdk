@@ -21,11 +21,13 @@ struct APIGoalUpdateRequest: Codable {
     enum CodingKeys: String, CodingKey {
         case description
         case imageURL = "image_url"
+        case metadata
         case name
     }
     
     let description: String?
     let imageURL: String?
+    let metadata: AnyCodable?
     let name: String
     
 }

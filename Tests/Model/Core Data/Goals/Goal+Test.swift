@@ -30,18 +30,17 @@ extension Goal: TestableCoreData {
         estimatedTargetAmount = 20000
         frequency = Frequency.allCases.randomElement()!
         imageURLString = "https://example.com/image.png"
+        metadata = ["seen": Bool.random()]
         name = String.randomString(range: 5...20)
         periodAmount = 300
         periodCount = 52
         startAmount = 0
         startDateString = "2019-01-02"
         status = Status.allCases.randomElement()!
-        subType = String.randomString(range: 5...20)
         target = Target.allCases.randomElement()!
         targetAmount = 20000
         trackingStatus = TrackingStatus.allCases.randomElement()!
         trackingType = TrackingType.allCases.randomElement()!
-        type = String.randomString(range: 5...20)
     }
     
 }

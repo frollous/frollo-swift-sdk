@@ -22,6 +22,7 @@ extension APIGoalUpdateRequest {
     static func testData() -> APIGoalUpdateRequest {
         return APIGoalUpdateRequest(description: String.randomString(range: 1...200),
                                     imageURL: "https://example.com/image.png",
+                                    metadata: ["seen": true],
                                     name: String.randomString(range: 1...20))
     }
     

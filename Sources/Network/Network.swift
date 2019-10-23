@@ -33,7 +33,7 @@ class Network: SessionDelegate {
     internal var authentication: Authentication
     internal var sessionManager: SessionManager!
     
-    private let APIVersion = "2.4"
+    private let APIVersion = "2.5"
     
     /**
      Initialise a network stack pointing to an API at a specific URL
@@ -61,8 +61,10 @@ class Network: SessionDelegate {
         let osVersion = "unknownOS"
         #endif
         
-        let appBuild = Bundle(for: Network.self).object(forInfoDictionaryKey: VersionConstants.bundleVersion) as! String
-        let appVersion = Bundle(for: Network.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
+        let sdkBuild = Bundle(for: Network.self).object(forInfoDictionaryKey: VersionConstants.bundleVersion) as! String
+        let sdkVersion = Bundle(for: Network.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
+        let appBuild = Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleVersion) as! String
+        let appVersion = Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
         let bundleID = Bundle(for: Network.self).bundleIdentifier!
         let systemVersion = ProcessInfo.processInfo.operatingSystemVersionString
         
@@ -75,7 +77,7 @@ class Network: SessionDelegate {
         configuration.httpAdditionalHeaders = [HTTPHeader.apiVersion.rawValue: APIVersion,
                                                HTTPHeader.bundleID.rawValue: bundleID,
                                                HTTPHeader.deviceVersion.rawValue: osVersion + systemVersion,
-                                               HTTPHeader.softwareVersion.rawValue: String(format: "SDK%@-B%@", arguments: [appVersion, appBuild])]
+                                               HTTPHeader.softwareVersion.rawValue: String(format: "SDK%@-B%@|APP%@-B%@", arguments: [sdkVersion, sdkBuild, appVersion, appBuild])]
         
         var serverTrustManager: ServerTrustPolicyManager?
         

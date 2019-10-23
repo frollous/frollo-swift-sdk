@@ -5,8 +5,6 @@
     "description": "New York",
     "image_url": "https://example.com/image.png",
     "account_id": 45,
-    "type": "Saving for a holiday",
-    "sub_type": "USA",
     "tracking_status": "on_track",
     "tracking_type": "debit",
     "status": "cancelled",
@@ -21,6 +19,14 @@
     "end_date": "2019-07-15",
     "estimated_end_date": "2019-07-15",
     "estimated_target_amount": "5555.55",
+    "metadata": {
+      "type": "Holiday",
+      "sub_type": "Annual",
+      "author": {
+        "name": "John Smith",
+        "count": 45
+      }
+    },
     "periods_count": 10,
     "current_period": {
       "goal_id": 3211,
@@ -38,7 +44,6 @@
     "name": "Renovations",
     "image_url": "https://example.com/image.png",
     "account_id": 46,
-    "type": "Home Improvement",
     "tracking_status": "on_track",
     "tracking_type": "debit_credit",
     "status": "cancelled",
