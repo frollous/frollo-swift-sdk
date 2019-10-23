@@ -3631,6 +3631,14 @@ class AggregationTests: BaseTestCase {
         
     }
     
+    func testCachedMerchantsRefresh() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_by_id")
+        
+        
+    }
+    
     func testTransactionsRefreshedOnNotification() {
         let expectation1 = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil) { (_) -> Bool in
             true
