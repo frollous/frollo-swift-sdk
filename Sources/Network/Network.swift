@@ -63,8 +63,8 @@ class Network: SessionDelegate {
         
         let sdkBuild = Bundle(for: Network.self).object(forInfoDictionaryKey: VersionConstants.bundleVersion) as! String
         let sdkVersion = Bundle(for: Network.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
-        let appBuild = Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleVersion) as! String
-        let appVersion = Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
+        let appBuild = Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleVersion) as? String
+        let appVersion = Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as? String
         let bundleID = Bundle(for: Network.self).bundleIdentifier!
         let systemVersion = ProcessInfo.processInfo.operatingSystemVersionString
         
@@ -72,12 +72,18 @@ class Network: SessionDelegate {
         reachability = NetworkReachabilityManager(host: serverURL.host!)!
         #endif
         
+        var versionString = String(format: "SDK%@-B%@", arguments: [sdkVersion, sdkBuild])
+        if let version = appVersion, let build = appBuild {
+            let appVersionString = String(format: "|APP%@-B%@", arguments: [version, build])
+            versionString.append(appVersionString)
+        }
+        
         let configuration = URLSessionConfiguration.default
         configuration.allowsCellularAccess = true
         configuration.httpAdditionalHeaders = [HTTPHeader.apiVersion.rawValue: APIVersion,
                                                HTTPHeader.bundleID.rawValue: bundleID,
                                                HTTPHeader.deviceVersion.rawValue: osVersion + systemVersion,
-                                               HTTPHeader.softwareVersion.rawValue: String(format: "SDK%@-B%@|APP%@-B%@", arguments: [sdkVersion, sdkBuild, appVersion, appBuild])]
+                                               HTTPHeader.softwareVersion.rawValue: versionString]
         
         var serverTrustManager: ServerTrustPolicyManager?
         
