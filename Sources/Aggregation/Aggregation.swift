@@ -1723,50 +1723,52 @@ public class Aggregation: CachedObjects, ResponseHandler {
     public func refreshCachedMerchants(count: Int? = nil, offset: Int = 0, completion: FrolloSDKCompletionHandler? = nil) {
         let managedObjectContext = database.newBackgroundContext()
         
-        let merchantCount: Int
-        if let cachedCount = count {
-            merchantCount = cachedCount
-        } else {
-            let countFetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
+        managedObjectContext.performAndWait {
+            let merchantCount: Int
+            if let cachedCount = count {
+                merchantCount = cachedCount
+            } else {
+                let countFetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
+                
+                let fetchedCount = try? managedObjectContext.count(for: countFetchRequest)
+                merchantCount = fetchedCount ?? 0
+            }
             
-            let fetchedCount = try? managedObjectContext.count(for: countFetchRequest)
-            merchantCount = fetchedCount ?? 0
-        }
-        
-        // Check we have some merchants to actually refresh
-        guard merchantCount > 0
+            // Check we have some merchants to actually refresh
+            guard merchantCount > 0
             else {
                 completion?(.success)
                 return
-        }
-        
-        // Fetch all cached merchant IDs
-        let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)]
-        fetchRequest.fetchBatchSize = merchantBatchSize
-        fetchRequest.fetchOffset = offset
-        fetchRequest.propertiesToFetch = [#keyPath(Merchant.merchantID)]
-        
-        do {
-            let fetchedMerchantIDs = try managedObjectContext.fetch(fetchRequest)
-            let cachedMerchantIDs = fetchedMerchantIDs.compactMap({$0.merchantID})
-            
-            refreshMerchants(merchantIDs: cachedMerchantIDs) { (result) in
-                switch result {
-                    case .failure(_):
-                        completion?(result)
-                    case .success:
-                        let nextOffset = offset + self.merchantBatchSize
-                        
-                        if nextOffset >= merchantCount {
-                            completion?(result)
-                        } else {
-                            self.refreshCachedMerchants(count: merchantCount, offset: nextOffset, completion: completion)
-                        }
-                }
             }
-        } catch {
-            Log.error(error.localizedDescription)
+            
+            // Fetch all cached merchant IDs
+            let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)]
+            fetchRequest.fetchBatchSize = merchantBatchSize
+            fetchRequest.fetchOffset = offset
+            fetchRequest.propertiesToFetch = [#keyPath(Merchant.merchantID)]
+            
+            do {
+                let fetchedMerchantIDs = try managedObjectContext.fetch(fetchRequest)
+                let cachedMerchantIDs = fetchedMerchantIDs.compactMap { $0.merchantID }
+                
+                refreshMerchants(merchantIDs: cachedMerchantIDs) { result in
+                    switch result {
+                        case .failure:
+                            completion?(result)
+                        case .success:
+                            let nextOffset = offset + self.merchantBatchSize
+                            
+                            if nextOffset >= merchantCount {
+                                completion?(result)
+                            } else {
+                                self.refreshCachedMerchants(count: merchantCount, offset: nextOffset, completion: completion)
+                            }
+                    }
+                }
+            } catch {
+                Log.error(error.localizedDescription)
+            }
         }
     }
     
