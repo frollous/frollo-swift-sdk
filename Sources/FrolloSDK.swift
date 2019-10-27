@@ -487,6 +487,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     private func refreshSystem() {
         aggregation.refreshProviders()
         aggregation.refreshTransactionCategories()
+        aggregation.refreshCachedMerchants()
         bills.refreshBills()
         userManagement.updateDevice()
     }
