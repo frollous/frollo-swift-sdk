@@ -216,28 +216,24 @@ public class Goal: NSManagedObject, UniqueManagedObject {
     }
     
     /// Metadata - custom JSON to be stored with the goal (optional)
-    public var metadata: [String: Any]? {
+    public var metadata: [String: Any] {
         get {
             if let rawValue = metadataRawValue {
                 do {
-                    return try JSONSerialization.jsonObject(with: rawValue, options: .allowFragments) as? [String: Any]
+                    return try JSONSerialization.jsonObject(with: rawValue, options: .allowFragments) as? [String: Any] ?? [:]
                 } catch {
                     Log.error(error.localizedDescription)
                 }
             }
-            return nil
+            return [:]
         }
         set {
-            if let newRawValue = newValue {
-                do {
-                    metadataRawValue = try JSONSerialization.data(withJSONObject: newRawValue, options: [])
-                } catch {
-                    Log.error(error.localizedDescription)
-                    
-                    metadataRawValue = nil
-                }
-            } else {
-                metadataRawValue = nil
+            do {
+                metadataRawValue = try JSONSerialization.data(withJSONObject: newValue, options: [])
+            } catch {
+                Log.error(error.localizedDescription)
+                
+                metadataRawValue = try? JSONSerialization.data(withJSONObject: [:], options: [])
             }
         }
     }
@@ -316,7 +312,7 @@ public class Goal: NSManagedObject, UniqueManagedObject {
         estimatedEndDateString = response.estimatedEndDate
         frequency = response.frequency
         imageURLString = response.imageURL
-        metadata = response.metadata?.value as? [String: Any]
+        metadata = response.metadata?.value as? [String: Any] ?? [:]
         name = response.name
         periodAmount = NSDecimalNumber(string: response.periodAmount)
         periodCount = response.periodsCount

@@ -251,7 +251,7 @@ public class Goals: CachedObjects, ResponseHandler {
                            startAmount: Decimal = 0,
                            targetAmount: Decimal?,
                            accountID: Int64,
-                           metadata: [String: Any]? = nil,
+                           metadata: [String: Any] = [:],
                            completion: FrolloSDKCompletionHandler? = nil) {
         var endDateString: String?
         if let date = endDate {
