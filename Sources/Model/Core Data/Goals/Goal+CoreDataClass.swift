@@ -215,7 +215,7 @@ public class Goal: NSManagedObject, UniqueManagedObject {
         }
     }
     
-    /// Metadata - custom JSON to be stored with the goal (optional)
+    /// Metadata - custom JSON to be stored with the goal
     public var metadata: [String: Any] {
         get {
             if let rawValue = metadataRawValue {
