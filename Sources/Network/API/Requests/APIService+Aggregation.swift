@@ -221,7 +221,7 @@ extension APIService {
             
             let dateFormatter = Transaction.transactionDateFormatter
             
-            var parameters = [AggregationEndpoint.QueryParameters.searchTerm.rawValue: searchTerm]
+            var parameters = [AggregationEndpoint.QueryParameters.searchTerm.rawValue: searchTerm, AggregationEndpoint.QueryParameters.count.rawValue: String(count), AggregationEndpoint.QueryParameters.skip.rawValue: String(skip)]
             
             if let from = fromDate {
                 parameters[AggregationEndpoint.QueryParameters.fromDate.rawValue] = dateFormatter.string(from: from)
