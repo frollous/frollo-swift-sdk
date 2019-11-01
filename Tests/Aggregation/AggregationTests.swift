@@ -1037,6 +1037,72 @@ class AggregationTests: BaseTestCase {
         
     }
     
+    func testSyncProviderAccounts() {
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Request 1")
+        let expectation3 = expectation(description: "Network Request 2")
+        let notificationExpectation = expectation(forNotification: Aggregation.providerAccountsUpdatedNotification, object: nil, handler: nil)
+        
+        connect(endpoint: AggregationEndpoint.syncProviderAccounts(providerAccountIDs: [22]).path.prefixedWithSlash, toResourceWithName: "provider_accounts_valid")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        aggregation.syncProviderAccounts(providerAccountIDs: [22]) { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    let context = self.context
+                    
+                    let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
+                    
+                    do {
+                        let fetchedProviderAccounts = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedProviderAccounts.count, 4)
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 5.0)
+        
+        aggregation.syncProviderAccounts(providerAccountIDs: [22]) { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    let context = self.context
+                    
+                    let fetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
+                    
+                    do {
+                        let fetchedProviderAccounts = try context.fetch(fetchRequest)
+                        
+                        XCTAssertEqual(fetchedProviderAccounts.count, 4, "Provider Accounts Duplicated")
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3, notificationExpectation], timeout: 3.0)
+        
+    }
+    
     // MARK: - Account Tests
     
     func testFetchAccountByID() {

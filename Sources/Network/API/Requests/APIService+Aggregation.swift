@@ -110,6 +110,17 @@ extension APIService {
         }
     }
     
+    internal func syncProviderAccounts(providerAccountIDs: [Int64], completion: @escaping RequestCompletion<[APIProviderAccountResponse]>) {
+        
+        let url = URL(string: AggregationEndpoint.syncProviderAccounts(providerAccountIDs: providerAccountIDs).path, relativeTo: serverURL)!
+        
+        requestQueue.async {
+            self.network.sessionManager.request(url, method: .put, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleArrayResponse(type: APIProviderAccountResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     // MARK: - Accounts
     
     internal func fetchAccounts(completion: @escaping RequestCompletion<[APIAccountResponse]>) {

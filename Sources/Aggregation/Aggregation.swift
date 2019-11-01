@@ -469,6 +469,39 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Fetches the latest account data from the aggregation partner.
+     
+     - parameters:
+        - providerAccountIDs: Array of IDs of the provider account separated by comma(,)
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func syncProviderAccounts(providerAccountIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
+        service.syncProviderAccounts(providerAccountIDs: providerAccountIDs) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleProviderAccountsResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.providerAccountsUpdatedNotification, object: self)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+        
+    }
+    
     // MARK: - Accounts
     
     /**
