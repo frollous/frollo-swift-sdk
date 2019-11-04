@@ -77,7 +77,7 @@ enum AggregationEndpoint: Endpoint {
             case .providerAccounts:
                 return "aggregation/provideraccounts"
             case .syncProviderAccounts(let providerAccountIDs):
-                return "aggregation/provideraccounts/=" + providerAccountIDs.map { String($0) }.joined(separator: ",")
+                return "aggregation/provideraccounts?provideraccount_ids=" + providerAccountIDs.map { String($0) }.joined(separator: ",")
             case .transaction(let transactionID):
                 return "aggregation/transactions/" + String(transactionID)
             case .transactions:
