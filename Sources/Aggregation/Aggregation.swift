@@ -326,7 +326,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleProviderAccountsResponse(response, managedObjectContext: managedObjectContext)
+                    self.handleProviderAccountsResponse(response, predicate: nil, managedObjectContext: managedObjectContext)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
                     
@@ -467,6 +467,39 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     }
             }
         }
+    }
+    
+    /**
+     Fetches the latest account data from the aggregation partner.
+     
+     - parameters:
+        - providerAccountIDs: Array of IDs of the provider account separated by comma(,)
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func syncProviderAccounts(providerAccountIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
+        service.syncProviderAccounts(providerAccountIDs: providerAccountIDs) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleProviderAccountsResponse(response, providerAccountIDs: providerAccountIDs, managedObjectContext: managedObjectContext)
+                    
+                    self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.providerAccountsUpdatedNotification, object: self)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+        
     }
     
     // MARK: - Accounts
@@ -1961,14 +1994,20 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
-    private func handleProviderAccountsResponse(_ providerAccountsResponse: [APIProviderAccountResponse], managedObjectContext: NSManagedObjectContext) {
+    private func handleProviderAccountsResponse(_ providerAccountsResponse: [APIProviderAccountResponse], providerAccountIDs: [Int64], managedObjectContext: NSManagedObjectContext) {
+        let predicate = NSPredicate(format: #keyPath(ProviderAccount.providerAccountID) + " IN %@", argumentArray: [providerAccountIDs])
+        
+        handleProviderAccountsResponse(providerAccountsResponse, predicate: predicate, managedObjectContext: managedObjectContext)
+    }
+    
+    private func handleProviderAccountsResponse(_ providerAccountsResponse: [APIProviderAccountResponse], predicate: NSPredicate?, managedObjectContext: NSManagedObjectContext) {
         providerAccountLock.lock()
         
         defer {
             providerAccountLock.unlock()
         }
         
-        let updatedLinkedIDs = updateObjectsWithResponse(type: ProviderAccount.self, objectsResponse: providerAccountsResponse, primaryKey: #keyPath(ProviderAccount.providerAccountID), linkedKeys: [\ProviderAccount.providerID], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        let updatedLinkedIDs = updateObjectsWithResponse(type: ProviderAccount.self, objectsResponse: providerAccountsResponse, primaryKey: #keyPath(ProviderAccount.providerAccountID), linkedKeys: [\ProviderAccount.providerID], filterPredicate: predicate, managedObjectContext: managedObjectContext)
         
         if let providerIDs = updatedLinkedIDs[\ProviderAccount.providerID] {
             linkingProviderIDs = linkingProviderIDs.union(providerIDs)

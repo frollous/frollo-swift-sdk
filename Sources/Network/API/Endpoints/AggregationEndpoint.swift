@@ -45,6 +45,7 @@ enum AggregationEndpoint: Endpoint {
     case providers
     case providerAccount(providerAccountID: Int64)
     case providerAccounts
+    case syncProviderAccounts(providerAccountIDs: [Int64])
     case transaction(transactionID: Int64)
     case transactions
     case transactionsByID(transactionIDs: [Int64])
@@ -75,6 +76,8 @@ enum AggregationEndpoint: Endpoint {
                 return "aggregation/provideraccounts/" + String(providerAccountID)
             case .providerAccounts:
                 return "aggregation/provideraccounts"
+            case .syncProviderAccounts(let providerAccountIDs):
+                return "aggregation/provideraccounts/=" + providerAccountIDs.map { String($0) }.joined(separator: ",")
             case .transaction(let transactionID):
                 return "aggregation/transactions/" + String(transactionID)
             case .transactions:
@@ -93,6 +96,7 @@ enum AggregationEndpoint: Endpoint {
                 return "aggregation/transactions/tags/user"
             case .transactionTags(let transactionID):
                 return "aggregation/transactions/" + String(transactionID) + "/tags"
+                
         }
     }
     
