@@ -1,0 +1,21 @@
+[{
+	"id": 22,
+	"provider_id": 11582,
+	"external_id": "7D119EA6-43DE-4A87-ACBB-8EDA7EC655B4",
+	"editable": true,
+	"refresh_status": {
+		"status": "success",
+		"sub_status": "success",
+		"last_refreshed": "2018-08-02T01:40:26.000+00:00"
+	}
+}, {
+	"id": 33,
+	"provider_id": 11583,
+	"external_id": "0A7F8102-73F3-48C9-82CC-029AAFED27C7",
+	"editable": true,
+	"refresh_status": {
+		"status": "success",
+		"sub_status": "success",
+		"last_refreshed": "2018-08-02T07:12:49.696+10:00"
+	}
+}]

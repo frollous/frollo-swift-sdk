@@ -1043,7 +1043,7 @@ class AggregationTests: BaseTestCase {
         let expectation3 = expectation(description: "Network Request 2")
         let notificationExpectation = expectation(forNotification: Aggregation.providerAccountsUpdatedNotification, object: nil, handler: nil)
         
-        connect(endpoint: AggregationEndpoint.syncProviderAccounts(providerAccountIDs: [22]).path.prefixedWithSlash, toResourceWithName: "provider_accounts_valid")
+        connect(endpoint: AggregationEndpoint.syncProviderAccounts(providerAccountIDs: [22,33]).path.prefixedWithSlash, toResourceWithName: "provider_accounts_valid_sync")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1055,7 +1055,7 @@ class AggregationTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        aggregation.syncProviderAccounts(providerAccountIDs: [22]) { result in
+        aggregation.syncProviderAccounts(providerAccountIDs: [22,33]) { result in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -1067,7 +1067,7 @@ class AggregationTests: BaseTestCase {
                     do {
                         let fetchedProviderAccounts = try context.fetch(fetchRequest)
                         
-                        XCTAssertEqual(fetchedProviderAccounts.count, 4)
+                        XCTAssertEqual(fetchedProviderAccounts.count, 2)
                     } catch {
                         XCTFail(error.localizedDescription)
                     }
@@ -1078,7 +1078,7 @@ class AggregationTests: BaseTestCase {
         
         wait(for: [expectation2], timeout: 5.0)
         
-        aggregation.syncProviderAccounts(providerAccountIDs: [22]) { result in
+        aggregation.syncProviderAccounts(providerAccountIDs: [22,33]) { result in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -1090,7 +1090,7 @@ class AggregationTests: BaseTestCase {
                     do {
                         let fetchedProviderAccounts = try context.fetch(fetchRequest)
                         
-                        XCTAssertEqual(fetchedProviderAccounts.count, 4, "Provider Accounts Duplicated")
+                        XCTAssertEqual(fetchedProviderAccounts.count, 2, "Provider Accounts Duplicated")
                     } catch {
                         XCTFail(error.localizedDescription)
                     }
