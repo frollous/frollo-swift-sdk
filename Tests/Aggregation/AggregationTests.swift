@@ -1042,8 +1042,8 @@ class AggregationTests: BaseTestCase {
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Network Request 2")
         let notificationExpectation = expectation(forNotification: Aggregation.providerAccountsUpdatedNotification, object: nil, handler: nil)
-        
-        connect(endpoint: AggregationEndpoint.syncProviderAccounts(providerAccountIDs: [22,33]).path.prefixedWithSlash, toResourceWithName: "provider_accounts_valid_sync")
+         
+        connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "provider_accounts_valid_sync")
         
         let aggregation = self.aggregation(loggedIn: true)
         
