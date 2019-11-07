@@ -122,7 +122,7 @@ public class Authentication: RequestAdapter, RequestRetrier {
         - urlRequest: The request to be authorized
      */
     public func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
-        guard let url = urlRequest.url, url.absoluteString.hasPrefix(serverURL.absoluteString)
+        guard let url = urlRequest.url, url.host == serverURL.host
         else {
             return urlRequest
         }
