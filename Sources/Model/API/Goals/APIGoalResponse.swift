@@ -15,6 +15,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 struct APIGoalResponse: APIUniqueResponse, Codable {
     
@@ -54,7 +55,7 @@ struct APIGoalResponse: APIUniqueResponse, Codable {
     let estimatedTargetAmount: String?
     let frequency: Goal.Frequency
     let imageURL: String?
-    let metadata: AnyCodable?
+    let metadata: JSON?
     let name: String
     let periodAmount: String
     let periodsCount: Int64

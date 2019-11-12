@@ -16,6 +16,7 @@
 
 import CoreData
 import Foundation
+import SwiftyJSON
 
 /// Manages user goals and tracking
 public class Goals: CachedObjects, ResponseHandler {
@@ -251,7 +252,7 @@ public class Goals: CachedObjects, ResponseHandler {
                            startAmount: Decimal = 0,
                            targetAmount: Decimal?,
                            accountID: Int64,
-                           metadata: [String: Any] = [:],
+                           metadata: JSON,
                            completion: FrolloSDKCompletionHandler? = nil) {
         var endDateString: String?
         if let date = endDate {
@@ -267,7 +268,7 @@ public class Goals: CachedObjects, ResponseHandler {
                                            endDate: endDateString,
                                            frequency: frequency,
                                            imageURL: imageURL?.absoluteString,
-                                           metadata: AnyCodable(metadata),
+                                           metadata: metadata,
                                            name: name,
                                            periodAmount: (periodAmount as NSDecimalNumber?)?.stringValue,
                                            startAmount: (startAmount as NSDecimalNumber?)?.stringValue,

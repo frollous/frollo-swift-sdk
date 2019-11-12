@@ -3,3 +3,6 @@ github "Alamofire/Alamofire" ~> 4.9.0
 
 # AppAuth - OAuth2
 github "openid/AppAuth-iOS" ~> 1.2.0
+
+# Swifty JSON
+github "SwiftyJSON/SwiftyJSON" ~> 4.0

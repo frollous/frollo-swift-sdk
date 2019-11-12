@@ -17,6 +17,7 @@
 
 import CoreData
 import Foundation
+import SwiftyJSON
 
 /**
  Goal
@@ -216,11 +217,11 @@ public class Goal: NSManagedObject, UniqueManagedObject {
     }
     
     /// Metadata - custom JSON to be stored with the goal
-    public var metadata: [String: Any] {
+    public var metadata: JSON {
         get {
             if let rawValue = metadataRawValue {
                 do {
-                    return try JSONSerialization.jsonObject(with: rawValue, options: .allowFragments) as? [String: Any] ?? [:]
+                    return try JSON(data: rawValue)
                 } catch {
                     Log.error(error.localizedDescription)
                 }
@@ -229,7 +230,7 @@ public class Goal: NSManagedObject, UniqueManagedObject {
         }
         set {
             do {
-                metadataRawValue = try JSONSerialization.data(withJSONObject: newValue, options: [])
+                metadataRawValue = try newValue.rawData()
             } catch {
                 Log.error(error.localizedDescription)
                 
@@ -312,7 +313,7 @@ public class Goal: NSManagedObject, UniqueManagedObject {
         estimatedEndDateString = response.estimatedEndDate
         frequency = response.frequency
         imageURLString = response.imageURL
-        metadata = response.metadata?.value as? [String: Any] ?? [:]
+        metadata = response.metadata ?? JSON()
         name = response.name
         periodAmount = NSDecimalNumber(string: response.periodAmount)
         periodCount = response.periodsCount
@@ -334,7 +335,7 @@ public class Goal: NSManagedObject, UniqueManagedObject {
     internal func updateRequest() -> APIGoalUpdateRequest {
         return APIGoalUpdateRequest(description: details,
                                     imageURL: imageURLString,
-                                    metadata: AnyCodable(metadata),
+                                    metadata: metadata,
                                     name: name)
     }
     
