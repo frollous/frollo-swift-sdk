@@ -217,7 +217,7 @@ public class Goal: NSManagedObject, UniqueManagedObject {
     }
     
     /// Metadata - custom JSON to be stored with the goal
-    public var metadata: JSON? {
+    public var metadata: JSON {
         get {
             if let rawValue = metadataRawValue {
                 do {
@@ -230,7 +230,7 @@ public class Goal: NSManagedObject, UniqueManagedObject {
         }
         set {
             do {
-                metadataRawValue = try newValue?.rawData()
+                metadataRawValue = try newValue.rawData()
             } catch {
                 Log.error(error.localizedDescription)
                 
@@ -313,7 +313,7 @@ public class Goal: NSManagedObject, UniqueManagedObject {
         estimatedEndDateString = response.estimatedEndDate
         frequency = response.frequency
         imageURLString = response.imageURL
-        metadata = response.metadata
+        metadata = response.metadata ?? [:]
         name = response.name
         periodAmount = NSDecimalNumber(string: response.periodAmount)
         periodCount = response.periodsCount

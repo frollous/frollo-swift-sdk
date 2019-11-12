@@ -335,7 +335,7 @@ class GoalsTests: BaseTestCase {
                             XCTAssertEqual(goal.frequency, .weekly)
                             XCTAssertEqual(goal.goalID, 3211)
                             XCTAssertEqual(goal.imageURL, URL(string: "https://example.com/image.png"))
-                            XCTAssertEqual(goal.metadata?["seen"].bool, true)
+                            XCTAssertEqual(goal.metadata["seen"].bool, true)
                             XCTAssertEqual(goal.name, "Holiday Fund")
                             XCTAssertEqual(goal.periodAmount, 400)
                             XCTAssertEqual(goal.periodCount, 10)
