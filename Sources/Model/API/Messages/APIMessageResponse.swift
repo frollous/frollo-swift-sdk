@@ -15,6 +15,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 struct APIMessageResponse: APIUniqueResponse {
     
@@ -29,6 +30,7 @@ struct APIMessageResponse: APIUniqueResponse {
         case iconURL = "icon_url"
         case id
         case interacted
+        case metadata
         case messageTypes = "message_types"
         case persists
         case placement
@@ -129,12 +131,12 @@ struct APIMessageResponse: APIUniqueResponse {
         
         enum CodingKeys: String, CodingKey {
             case link
-            case openExternal = "open_external"
+            case openMode = "open_mode"
             case title
         }
         
         let link: String?
-        let openExternal: Bool
+        let openMode: Message.OpenMode?
         let title: String?
         
     }
@@ -145,6 +147,7 @@ struct APIMessageResponse: APIUniqueResponse {
     let contentType: Message.ContentType
     let event: String
     let interacted: Bool
+    let metadata: JSON?
     let messageTypes: [String]
     let persists: Bool
     let placement: Int64
@@ -172,6 +175,7 @@ extension APIMessageResponse: Codable {
         title = try container.decodeIfPresent(String.self, forKey: .title)
         userEventID = try container.decodeIfPresent(Int64.self, forKey: .userEventID)
         autoDismiss = try container.decode(Bool.self, forKey: .autoDismiss)
+        metadata = try container.decodeIfPresent(JSON.self, forKey: .metadata)
         
         switch contentType {
             case .html:
@@ -206,6 +210,7 @@ extension APIMessageResponse: Codable {
         try container.encode(read, forKey: .read)
         try container.encodeIfPresent(title, forKey: .title)
         try container.encodeIfPresent(userEventID, forKey: .userEventID)
+        try container.encodeIfPresent(metadata, forKey: .metadata)
         
         if let contents = content {
             switch contents {

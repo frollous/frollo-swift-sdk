@@ -65,10 +65,13 @@ extension Message {
     /// Raw value of the action URL. Use only in predicates (optional)
     @NSManaged public var actionURLString: String?
     
-    /// Action should open the link externally or internally. Externally means the system should handle opening the link.
-    @NSManaged public var actionOpenExternal: Bool
+    /// Raw value of open mode. Determines how  link should be opened.
+    @NSManaged public var openModeRawValue: String?
     
     /// Specifies whether the message will be dismissed automatically or manually. True means automatically. False means manually
     @NSManaged public var autoDismiss: Bool
+    
+    /// Raw value for the metadata JSON associated with the message (Optional)
+    @NSManaged public var metadataRawValue: Data?
     
 }
