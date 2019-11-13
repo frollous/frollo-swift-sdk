@@ -15,6 +15,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 struct APIGoalCreateRequest: Codable {
     
@@ -39,7 +40,7 @@ struct APIGoalCreateRequest: Codable {
     let endDate: String?
     let frequency: Goal.Frequency
     let imageURL: String?
-    let metadata: AnyCodable?
+    let metadata: JSON?
     let name: String
     let periodAmount: String?
     let startAmount: String?

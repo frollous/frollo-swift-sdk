@@ -15,6 +15,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 struct APIGoalUpdateRequest: Codable {
     
@@ -27,7 +28,7 @@ struct APIGoalUpdateRequest: Codable {
     
     let description: String?
     let imageURL: String?
-    let metadata: AnyCodable?
+    let metadata: JSON?
     let name: String
     
 }

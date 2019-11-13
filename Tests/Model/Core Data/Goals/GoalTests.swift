@@ -59,7 +59,7 @@ class GoalTests: XCTestCase {
             XCTAssertEqual(goalResponse.trackingStatus, goal.trackingStatus)
             XCTAssertEqual(goalResponse.trackingType, goal.trackingType)
             
-            if let responseMetadata = goalResponse.metadata?.value as? [String: Any], let responseSeen = responseMetadata["seen"] as? Bool, let goalSeen = goal.metadata["seen"] as? Bool {
+            if let responseMetadata = goalResponse.metadata, let responseSeen = responseMetadata["seen"].bool, let goalSeen = goal.metadata["seen"].bool {
                 XCTAssertEqual(responseSeen, goalSeen)
             } else {
                 XCTFail("No metadata")
