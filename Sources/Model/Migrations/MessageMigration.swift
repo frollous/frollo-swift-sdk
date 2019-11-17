@@ -33,7 +33,7 @@ class MessageMigration: NSEntityMigrationPolicy {
                 throw NSError(domain: MessageMigrationKeys.errorDomain, code: -1, userInfo: nil)
             }
             
-            if modelVersion == "1.5.1" {
+            if modelVersion == "1.5.2" {
                 let sourceKeys = Array(sInstance.entity.attributesByName.keys)
                 let sourceValues = sInstance.dictionaryWithValues(forKeys: sourceKeys)
                 
