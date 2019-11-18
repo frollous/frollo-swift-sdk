@@ -69,8 +69,10 @@ class MessagesRequestTests: XCTestCase {
                         XCTAssertEqual(firstMessage.content!, .text(APIMessageResponse.Content.Text(designType: "information", footer: "Footer", header: "Header", imageURL: nil, text: "Some body")))
                         XCTAssertEqual(firstMessage.action?.title, "Claim Points")
                         XCTAssertEqual(firstMessage.action?.link, "frollo://dashboard/")
-                        XCTAssertEqual(firstMessage.action?.openExternal, false)
+                        XCTAssertEqual(firstMessage.action?.openMode, .internalOpen)
                         XCTAssertEqual(firstMessage.autoDismiss, true)
+                        XCTAssertEqual(firstMessage.metadata, ["category":"Holiday"])
+                        XCTAssertEqual(firstMessage.metadata?["category"].string, "Holiday")
                     }
             }
             
@@ -150,8 +152,10 @@ class MessagesRequestTests: XCTestCase {
                         XCTAssertEqual(firstMessage.content!, APIMessageResponse.Content.html(APIMessageResponse.Content.HTML(footer: nil, header: nil, main: "<html></html>")))
                         XCTAssertEqual(firstMessage.action?.title, "Claim Points")
                         XCTAssertEqual(firstMessage.action?.link, "frollo://dashboard/")
-                        XCTAssertEqual(firstMessage.action?.openExternal, false)
+                        XCTAssertEqual(firstMessage.action?.openMode, .internalOpen)
                         XCTAssertEqual(firstMessage.autoDismiss, true)
+                        XCTAssertEqual(firstMessage.metadata, ["category":"Holiday", "subcategory": true])
+                        XCTAssertEqual(firstMessage.metadata?["subcategory"].bool, true)
                     }
                     
                     for message in response {
@@ -202,7 +206,7 @@ class MessagesRequestTests: XCTestCase {
                     XCTAssertEqual(message.content!, .text(APIMessageResponse.Content.Text(designType: "information", footer: "Footer", header: "Header", imageURL: nil, text: "Some body")))
                     XCTAssertNil(message.action?.title)
                     XCTAssertEqual(message.action?.link, "https://example.com")
-                    XCTAssertEqual(message.action?.openExternal, false)
+                    XCTAssertEqual(message.action?.openMode, .internalSecure)
                     XCTAssertEqual(message.autoDismiss, true)
             }
             

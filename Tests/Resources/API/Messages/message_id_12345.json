@@ -13,6 +13,6 @@
 	"content": { "design_type": "information", "footer": "Footer", "header": "Header", "icon_url": "https://example.com/image.png", "text": "Some body" },
 	"action": {
 		"link": "https://example.com",
-		"open_external": false
+		"open_mode": "internal_secure"
 	}
 }

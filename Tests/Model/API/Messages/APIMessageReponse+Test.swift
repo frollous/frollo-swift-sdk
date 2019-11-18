@@ -20,7 +20,7 @@ import Foundation
 extension APIMessageResponse {
     
     static func testCompleteData(type: Message.ContentType? = nil) -> APIMessageResponse {
-        let actionLink = APIMessageResponse.Link(link: "frollo://dashboard", openExternal: Bool.random(), title: String.randomString(range: 1...30))
+        let actionLink = APIMessageResponse.Link(link: "frollo://dashboard", openMode: .internalOpen, title: String.randomString(range: 1...30))
         
         let htmlContent = APIMessageResponse.Content.HTML(footer: String.randomString(range: 1...10), header: String.randomString(range: 1...20), main: "<html></html>")
         let imageContent = APIMessageResponse.Content.Image(height: Double.random(in: 1...1000), url: "https://example.com/image.png", width: Double.random(in: 1...1000))
@@ -51,6 +51,7 @@ extension APIMessageResponse {
                                   contentType: contentType,
                                   event: String.randomString(range: 1...30),
                                   interacted: Bool.random(),
+                                  metadata: [:],
                                   messageTypes: ["home_nudge"],
                                   persists: Bool.random(),
                                   placement: Int64.random(in: 1...1000),
@@ -58,6 +59,7 @@ extension APIMessageResponse {
                                   title: String.randomString(range: 1...100),
                                   userEventID: Int64.random(in: 1...100000),
                                   autoDismiss: Bool.random())
+        
     }
     
 }
