@@ -73,7 +73,7 @@ class CustomMessageMigrationTest: XCTestCase {
         
         try! managedObjectContext.save()
         
-        let mappingModel = NSMappingModel(from: Bundle.allBundles, forSourceModel: oldManagedObjectModel!, destinationModel: newManagedObjectModel!)
+        let mappingModel = NSMappingModel(from: nil, forSourceModel: oldManagedObjectModel!, destinationModel: newManagedObjectModel!)
 
         XCTAssertNotNil(mappingModel)
 
