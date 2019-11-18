@@ -1,5 +1,26 @@
 # Changelog
 
+## 4.2
+
+- Aggregation, Goals and Messages Ehancements
+
+### Features
+
+- Force a refresh of a provider account with the aggregator
+- Refresh cached merchant data
+- Goals generic metadata support
+- Messages generic metadata support
+
+### Changes
+
+- Send app version in addition to SDK version in headers
+- Messages supports expanded URL opening methods
+
+### Fixes
+
+- Transaction search API fix
+- Access token subdomain validation fixed when appending tokens to requests
+
 ## 4.1.1
 
 ### Fixes

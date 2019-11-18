@@ -1498,6 +1498,22 @@
 		01704F5721FAD13D00666DAE /* ReportAccountBalance+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportAccountBalance+CoreDataClass.swift"; sourceTree = "<group>"; };
 		01704F5821FAD13D00666DAE /* ReportAccountBalance+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportAccountBalance+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		017094B523821FCD008E9EEB /* error_aggregator_bad_request.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_aggregator_bad_request.json; sourceTree = "<group>"; };
+		017094EB23823DCF008E9EEB /* Authentication.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Authentication.md; sourceTree = "<group>"; };
+		017094EC23823DCF008E9EEB /* Bills.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Bills.md; sourceTree = "<group>"; };
+		017094ED23823DCF008E9EEB /* Notifications.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Notifications.md; sourceTree = "<group>"; };
+		017094EE23823DCF008E9EEB /* Messages.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Messages.md; sourceTree = "<group>"; };
+		017094EF23823DCF008E9EEB /* SDK.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SDK.md; sourceTree = "<group>"; };
+		017094F023823DCF008E9EEB /* Aggregation.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Aggregation.md; sourceTree = "<group>"; };
+		017094F123823DCF008E9EEB /* PayDays.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PayDays.md; sourceTree = "<group>"; };
+		017094F223823DCF008E9EEB /* User.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = User.md; sourceTree = "<group>"; };
+		017094F323823DCF008E9EEB /* Events.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Events.md; sourceTree = "<group>"; };
+		017094F423823DCF008E9EEB /* Goals.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Goals.md; sourceTree = "<group>"; };
+		017094F523823DCF008E9EEB /* Database.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Database.md; sourceTree = "<group>"; };
+		017094F723823DCF008E9EEB /* License.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = License.md; sourceTree = "<group>"; };
+		017094F823823DCF008E9EEB /* Overview.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Overview.md; sourceTree = "<group>"; };
+		017094F923823DCF008E9EEB /* Changelog.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Changelog.md; sourceTree = "<group>"; };
+		017094FA23823DCF008E9EEB /* Getting Started.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "Getting Started.md"; sourceTree = "<group>"; };
+		017094FB23823DCF008E9EEB /* Push Notifications.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "Push Notifications.md"; sourceTree = "<group>"; };
 		017391EF20EF001200C0BB32 /* APIErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorResponse.swift; sourceTree = "<group>"; };
 		01743B07212BA3D00082DA00 /* captcha.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = captcha.bmp; sourceTree = "<group>"; };
 		01743B0B212BA9860082DA00 /* provider_login_form_question_answer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_login_form_question_answer.json; sourceTree = "<group>"; };
@@ -2252,6 +2268,7 @@
 				018B042B216EFD95008C34D7 /* Gemfile */,
 				01527CDB20E1CD1800B5042A /* README.md */,
 				01527CD720E1C2D700B5042A /* Package.swift */,
+				017094E723823DCF008E9EEB /* Documentation */,
 				01C8250820EDEC630093400E /* Resources */,
 				01527CC120E1B5C300B5042A /* Sources */,
 				01527CCC20E1B5C300B5042A /* Tests */,
@@ -2590,6 +2607,45 @@
 				2FE180142248AA9200B87AAB /* OAuth2ErrorTests.swift */,
 			);
 			path = Error;
+			sourceTree = "<group>";
+		};
+		017094E723823DCF008E9EEB /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				017094F623823DCF008E9EEB /* Guides */,
+				017094EA23823DCF008E9EEB /* Includes */,
+			);
+			path = Documentation;
+			sourceTree = "<group>";
+		};
+		017094EA23823DCF008E9EEB /* Includes */ = {
+			isa = PBXGroup;
+			children = (
+				017094F023823DCF008E9EEB /* Aggregation.md */,
+				017094EB23823DCF008E9EEB /* Authentication.md */,
+				017094EC23823DCF008E9EEB /* Bills.md */,
+				017094F523823DCF008E9EEB /* Database.md */,
+				017094F323823DCF008E9EEB /* Events.md */,
+				017094F423823DCF008E9EEB /* Goals.md */,
+				017094EE23823DCF008E9EEB /* Messages.md */,
+				017094ED23823DCF008E9EEB /* Notifications.md */,
+				017094F123823DCF008E9EEB /* PayDays.md */,
+				017094EF23823DCF008E9EEB /* SDK.md */,
+				017094F223823DCF008E9EEB /* User.md */,
+			);
+			path = Includes;
+			sourceTree = "<group>";
+		};
+		017094F623823DCF008E9EEB /* Guides */ = {
+			isa = PBXGroup;
+			children = (
+				017094F923823DCF008E9EEB /* Changelog.md */,
+				017094FA23823DCF008E9EEB /* Getting Started.md */,
+				017094F723823DCF008E9EEB /* License.md */,
+				017094F823823DCF008E9EEB /* Overview.md */,
+				017094FB23823DCF008E9EEB /* Push Notifications.md */,
+			);
+			path = Guides;
 			sourceTree = "<group>";
 		};
 		017391EB20EEFFEA00C0BB32 /* Transient */ = {
@@ -5099,6 +5155,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CURRENT_PROJECT_VERSION = 420;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -5111,7 +5168,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = YES;
-				SDK_VERSION = 4.1.1;
+				SDK_VERSION = 4.2;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
@@ -5142,6 +5199,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CURRENT_PROJECT_VERSION = 420;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -5152,7 +5210,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				SDK_VERSION = 4.1.1;
+				SDK_VERSION = 4.2;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
@@ -5197,7 +5255,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 411;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -5276,7 +5333,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 411;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -5921,7 +5977,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 411;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -6002,7 +6057,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 411;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
