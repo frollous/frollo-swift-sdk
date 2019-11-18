@@ -115,6 +115,17 @@ class APIErrorTests: XCTestCase {
         XCTAssertNotNil(error.message)
     }
     
+    func testAPIErrorAggregatorBadRequest() {
+        let errorJSON = errorJSONNamed("error_aggregator_bad_request")
+        
+        let error = APIError(statusCode: 400, response: errorJSON)
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.AggregatorBadRequest"))
+        XCTAssertEqual(error.statusCode, 400)
+        XCTAssertEqual(error.type, .aggregatorBadRequest)
+        XCTAssertEqual(error.errorCode, .aggregatorBadRequest)
+        XCTAssertNotNil(error.message)
+    }
+    
     // MARK: - Authorisation Tests
     
     func testAPIErrorInvalidAccessToken() {
@@ -330,7 +341,7 @@ class APIErrorTests: XCTestCase {
         XCTAssertEqual(error.statusCode, 302)
         XCTAssertEqual(error.type, .unknown)
         XCTAssertNil(error.errorCode)
-        XCTAssertNil(error.message)
+        XCTAssertNotNil(error.message)
     }
     
     func testAPIErrorMissingCode() {
@@ -341,7 +352,7 @@ class APIErrorTests: XCTestCase {
         XCTAssertEqual(error.statusCode, 302)
         XCTAssertEqual(error.type, .unknown)
         XCTAssertNil(error.errorCode)
-        XCTAssertNil(error.message)
+        XCTAssertNotNil(error.message)
     }
     
     func testDebugDescription() {
