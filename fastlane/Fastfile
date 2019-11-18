@@ -33,21 +33,12 @@ platform :ios do
 
   desc "Bootstraps just dependencies for carthage"
   lane :bootstrap do
-    if carthage_cache_exist(bucket: 'frollo-carthage-cache')
-        carthage_cache_install(
-          bucket: 'frollo-carthage-cache'
-        )
-      else
-        carthage(
-          command: "bootstrap",
-          platform: "all",
-          use_binaries: false
-        )
-
-        carthage_cache_publish(
-          bucket: 'frollo-carthage-cache'
-        )
-      end
+    carthage(
+      command: "bootstrap",
+      cache_builds: true,
+      platform: "all",
+      use_binaries: false
+    )
   end
 
   lane :update_dependencies do

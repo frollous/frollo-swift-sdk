@@ -48,6 +48,9 @@ public class APIError: FrolloSDKError, ResponseError {
         /// Bad request
         case badRequest
         
+        /// Aggregator rejected a bad request
+        case aggregatorBadRequest
+        
         /// Unauthorised
         case unauthorised
         
@@ -136,6 +139,8 @@ public class APIError: FrolloSDKError, ResponseError {
                             self.type = .passwordMustBeDifferent
                         case .migrationFailed:
                             self.type = .migrationFailed
+                        case .aggregatorBadRequest:
+                            self.type = .aggregatorBadRequest
                         default:
                             self.type = .badRequest
                     }
@@ -200,6 +205,8 @@ public class APIError: FrolloSDKError, ResponseError {
         switch type {
             case .accountLocked:
                 return Localization.string("Error.API.AccountLocked")
+            case .aggregatorBadRequest:
+                return Localization.string("Error.API.AggregatorBadRequest")
             case .alreadyExists:
                 return Localization.string("Error.API.UserAlreadyExists")
             case .badRequest:

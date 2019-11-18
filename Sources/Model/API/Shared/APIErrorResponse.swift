@@ -47,6 +47,9 @@ public enum APIErrorCode: String, Codable {
     /// F0012 - Migration Failed
     case migrationFailed = "F0012"
     
+    /// F0014 - Aggregator Bad Request Received
+    case aggregatorBadRequest = "F0014"
+    
     /// F0101 - Invalid Access Token
     case invalidAccessToken = "F0101"
     
@@ -90,15 +93,26 @@ internal struct APIErrorResponse: Codable {
     internal struct ErrorBody: Codable {
         
         enum CodingKeys: String, CodingKey {
-            case errorCode = "error_code"
+            case errorCodeRawValue = "error_code"
             case errorMessage = "error_message"
         }
         
-        let errorCode: APIErrorCode
+        let errorCodeRawValue: String?
         let errorMessage: String
         
     }
     
     internal let error: ErrorBody
+    
+}
+
+extension APIErrorResponse.ErrorBody {
+    
+    var errorCode: APIErrorCode? {
+        if let rawValue = errorCodeRawValue {
+            return APIErrorCode(rawValue: rawValue)
+        }
+        return nil
+    }
     
 }
