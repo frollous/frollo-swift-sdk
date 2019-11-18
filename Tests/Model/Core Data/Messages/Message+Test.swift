@@ -32,7 +32,7 @@ extension Message: TestableCoreData {
         contentType = ContentType.allCases.randomElement()!
         actionTitle = String.randomString(range: 1...50)
         actionURLString = "frollo://dashboard"
-        actionOpenExternal = Bool.random()
+        openModeRawValue = "internal"
         autoDismiss = Bool.random()
     }
     

@@ -17,6 +17,7 @@
 
 import CoreData
 import Foundation
+import SwiftyJSON
 
 /**
  Message
@@ -50,6 +51,26 @@ public class Message: NSManagedObject, UniqueManagedObject {
         
     }
     
+    /**
+     Open Mode
+     
+     Indicates the open mode of the link and how it should be opened
+     */
+    public enum OpenMode: String, CaseIterable, Codable {
+        
+        /// Opens the link internally using native web view and no user controls
+        case internalOpen = "internal"
+        
+        /// Opens the link internally using native web view and navigation controls
+        case internalNavigation = "internal_navigation"
+        
+        /// Opens the link internally using the secure web view - SFSafariViewController
+        case internalSecure = "internal_secure"
+        
+        /// Opens the linkusing the native browser on the phone (or app if deeplink)
+        case external
+    }
+    
     /// Core Data entity description name
     static var entityName = "Message"
     
@@ -78,6 +99,19 @@ public class Message: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    /// Open mode of the link, indicates how the link should be opened
+    public var messageOpenMode: OpenMode? {
+        get {
+            if let rawValue = openModeRawValue {
+                return OpenMode(rawValue: rawValue)
+            }
+            return nil
+        }
+        set {
+            openModeRawValue = newValue?.rawValue
+        }
+    }
+    
     /// All message types the message should be displayed in
     public var messageTypes: [String] {
         get {
@@ -89,6 +123,29 @@ public class Message: NSManagedObject, UniqueManagedObject {
         set {
             let typesString = newValue.joined(separator: "|")
             typesRawValue = "|" + typesString + "|"
+        }
+    }
+    
+    /// Metadata - custom JSON to be stored with the message
+    public var metadata: JSON {
+        get {
+            if let rawValue = metadataRawValue {
+                do {
+                    return try JSON(data: rawValue)
+                } catch {
+                    Log.error(error.localizedDescription)
+                }
+            }
+            return [:]
+        }
+        set {
+            do {
+                metadataRawValue = try newValue.rawData()
+            } catch {
+                Log.error(error.localizedDescription)
+                
+                metadataRawValue = try? JSONSerialization.data(withJSONObject: [:], options: [])
+            }
         }
     }
     
@@ -118,7 +175,7 @@ public class Message: NSManagedObject, UniqueManagedObject {
         autoDismiss = response.autoDismiss
         
         actionURLString = response.action?.link
-        actionOpenExternal = response.action?.openExternal ?? false
+        messageOpenMode = response.action?.openMode
         actionTitle = response.action?.title
     }
     

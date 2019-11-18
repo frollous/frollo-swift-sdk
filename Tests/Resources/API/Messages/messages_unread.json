@@ -14,8 +14,9 @@
 	"action": {
 		"title": "Claim Points",
 		"link": "frollo://dashboard/",
-		"open_external": false
-	}
+		"open_mode": "internal"
+	},
+    "metadata" : {"category":"Holiday", "subcategory": true}
 }, {
 	"id": 52451,
 	"event": "DEMO_OFFER",
