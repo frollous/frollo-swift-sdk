@@ -16,6 +16,7 @@ class FrolloSDKTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
+        removeDataFolder()
     }
     
     override func tearDown() {
