@@ -15,6 +15,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 /**
  Survey Model
@@ -35,12 +36,34 @@ public class Survey: Codable {
     /// List of all questions within a survey.
     public let questions: [Question]
     
+    /// Display text of survey.
+    public let displayText: String?
+    
+    /// Icon url of survey.
+    public let iconURL: String?
+    
+    /// Custom JSON metadata associated with survey.
+    public let metadata: JSON?
+    
     /// initilizer
-    init(id: Int64, key: String, name: String?, questions: [Question]) {
+    init(id: Int64, key: String, name: String?, questions: [Question], displayText: String?, iconURL: String?, metadata: JSON?) {
         self.id = id
         self.key = key
         self.name = name
         self.questions = questions
+        self.displayText = displayText
+        self.iconURL = iconURL
+        self.metadata = metadata
+    }
+    
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case key
+        case name
+        case questions
+        case displayText = "display_text"
+        case iconURL = "icon_url"
+        case metadata
     }
     
     /**
@@ -71,8 +94,11 @@ public class Survey: Codable {
         /// List of answers of the survey question.
         public var answers: [Answer]
         
+        /// Custom JSON metadata associated with survey question.
+        public let metadata: JSON?
+        
         /// initilizer
-        init(id: Int64, type: QuestionType, title: String, displayText: String?, iconURL: String?, questionOptional: Bool?, answers: [Answer]) {
+        init(id: Int64, type: QuestionType, title: String, displayText: String?, iconURL: String?, questionOptional: Bool?, answers: [Answer], metadata: JSON?) {
             self.id = id
             self.type = type
             self.title = title
@@ -80,6 +106,7 @@ public class Survey: Codable {
             self.iconURL = iconURL
             self.questionOptional = questionOptional
             self.answers = answers
+            self.metadata = metadata
         }
         
         private enum CodingKeys: String, CodingKey {
@@ -90,6 +117,7 @@ public class Survey: Codable {
             case iconURL = "icon_url"
             case questionOptional = "optional"
             case answers
+            case metadata
         }
         
         /// type of a question

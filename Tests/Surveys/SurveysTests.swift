@@ -59,10 +59,18 @@ class SurveysTests: XCTestCase {
                     XCTFail(error.localizedDescription)
                 case .success(let survey):
                     XCTAssertEqual(survey.key, surveyKey)
-                    XCTAssertEqual(survey.questions.count, 1)
+                    XCTAssertEqual(survey.displayText, "Survey display text")
+                    XCTAssertEqual(survey.iconURL, "https://www.frollo.us/images/survey/1/icon_url.png")
+                    XCTAssertEqual(survey.questions.count, 2)
+                    XCTAssertEqual(survey.metadata, ["additional_text":"Additional text", "is_optional": false])
+                    XCTAssertEqual(survey.metadata?["additional_text"].string, "Additional text")
+                    XCTAssertEqual(survey.metadata?["is_optional"].bool, false)
                     XCTAssertEqual(survey.questions[0].type, Survey.Question.QuestionType.slider)
                     XCTAssertEqual(survey.questions[0].id, 1)
                     XCTAssertEqual(survey.questions[0].answers.count, 1)
+                    XCTAssertEqual(survey.questions[0].metadata, ["additional_text":"Additional question text", "is_optional": true])
+                    XCTAssertEqual(survey.questions[0].metadata?["additional_text"].string, "Additional question text")
+                    XCTAssertEqual(survey.questions[0].metadata?["is_optional"].bool, true)
             }
             expectation1.fulfill()
         }
@@ -143,6 +151,11 @@ class SurveysTests: XCTestCase {
                     XCTAssertEqual(survey.questions[0].answers[0].id, 1)
                     XCTAssertEqual(survey.questions[0].answers[0].answerType, Survey.Question.Answer.AnswerType.selection)
                     XCTAssertEqual(survey.questions[0].answers[1].answerType, Survey.Question.Answer.AnswerType.freeform)
+                
+                    XCTAssertEqual(survey.metadata, testSurvey?.metadata)
+                    XCTAssertEqual(survey.questions[0].metadata, testSurvey?.questions[0].metadata)
+                    XCTAssertEqual(survey.questions[0].metadata?["additional_text"].string, testSurvey?.questions[0].metadata?["additional_text"].string)
+                    XCTAssertEqual(survey.questions[0].metadata?["is_optional"].bool, testSurvey?.questions[0].metadata?["is_optional"].bool)
             }
             expectation1.fulfill()
         }
@@ -197,8 +210,8 @@ class SurveysTests: XCTestCase {
 extension Survey {
     static func createTestSurvey() -> Survey?{
         let answer = Question.Answer(id: 0, title: nil, displayText: nil, iconURL: nil, value: "1", selected: true, answerType : Question.Answer.AnswerType.selection)
-        let question = Question(id: 1, type: Survey.Question.QuestionType.multipleChoice, title: "", displayText: nil, iconURL: nil, questionOptional: nil, answers: [answer])
+        let question = Question(id: 1, type: Survey.Question.QuestionType.multipleChoice, title: "", displayText: nil, iconURL: nil, questionOptional: nil, answers: [answer], metadata: ["additional_text":"Additional question text", "is_optional": true])
         
-        return Survey(id: 3, key: "FINANCIAL_WELLBEING", name: "", questions: [question])
+        return Survey(id: 3, key: "FINANCIAL_WELLBEING", name: "Wellbeing Survey", questions: [question], displayText: "Survey display text", iconURL: "https://www.frollo.us/images/survey/1/icon_url.png", metadata: ["additional_text":"Additional text", "is_optional": false])
     }
 }
