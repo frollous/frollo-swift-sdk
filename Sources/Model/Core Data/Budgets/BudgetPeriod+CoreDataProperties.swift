@@ -13,27 +13,26 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //
-//
 
 import CoreData
 import Foundation
 
-extension GoalPeriod {
+extension BudgetPeriod {
     
     /**
      Fetch Request
      
-     - returns: Fetch request for `GoalPeriod` type
+     - returns: Fetch request for `BudgetPeriod` type
      */
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<GoalPeriod> {
-        return NSFetchRequest<GoalPeriod>(entityName: "GoalPeriod")
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<BudgetPeriod> {
+        return NSFetchRequest<BudgetPeriod>(entityName: "BudgetPeriod")
     }
     
-    /// Unique ID of the goal period
-    @NSManaged public var goalPeriodID: Int64
+    /// Unique ID of the budget period
+    @NSManaged public var budgetPeriodID: Int64
     
-    /// Goal ID of the parent goal
-    @NSManaged public var goalID: Int64
+    /// Budget ID of the parent budget
+    @NSManaged public var budgetID: Int64
     
     /// Raw value of the start date. Use only in predicates
     @NSManaged public var startDateString: String
@@ -44,19 +43,19 @@ extension GoalPeriod {
     /// Index of the period
     @NSManaged public var index: Int64
     
-    /// Target amount to reach for the goal period
+    /// Target amount to reach for the budget period
     @NSManaged public var targetAmount: NSDecimalNumber
     
-    /// Current amount progressed against the goal period. Depending on `trackingType` of the goal this will include credits and/or debits towards the goal
+    /// Current amount progressed against the budget period depending on `trackingType` of the budget
     @NSManaged public var currentAmount: NSDecimalNumber
     
-    /// Required amount for the goal period to get back or stay on track with the goal
+    /// Required amount to get your targetAmount.
     @NSManaged public var requiredAmount: NSDecimalNumber
     
     /// Raw value of the tracking status. Use only in predicates
     @NSManaged public var trackingStatusRawValue: String?
     
-    /// Goal periods are associated with
-    @NSManaged public var goal: Goal?
+    /// Budget associated with
+    @NSManaged public var budget: Budget?
     
 }
