@@ -158,7 +158,7 @@ public class Budgets: CachedObjects, ResponseHandler {
     
     /**
      Refresh all available budgets from the host.
-          
+     
      - parameters:
         - status: Filter goals by their current status (Optional)
         - trackingStatus: Filter goals by their current tracking status (Optional)
@@ -176,10 +176,10 @@ public class Budgets: CachedObjects, ResponseHandler {
                 case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleGoalsResponse(response, status: status, trackingStatus: trackingStatus, managedObjectContext: managedObjectContext)
-                    
-                    self.linkGoalsToAccounts(managedObjectContext: managedObjectContext)
-                    self.linkGoalPeriodsToGoals(managedObjectContext: managedObjectContext)
+//                    self.handleGoalsResponse(response, status: status, trackingStatus: trackingStatus, managedObjectContext: managedObjectContext)
+//
+//                    self.linkGoalsToAccounts(managedObjectContext: managedObjectContext)
+//                    self.linkGoalPeriodsToGoals(managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -256,5 +256,38 @@ public class Budgets: CachedObjects, ResponseHandler {
         }
         
         return fetchedResultsController(type: BudgetPeriod.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    // MARK: - Response Handling
+    
+    private func handleBudgetsResponse(_ budgetsResponse: [APIBudgetResponse], current: Bool?, categoryType: String?, managedObjectContext: NSManagedObjectContext) {
+        budgetsLock.lock()
+        
+        defer {
+            budgetsLock.unlock()
+        }
+        
+        var predicates = [NSPredicate]()
+        if let current = current {
+            predicates.append(NSPredicate(format: #keyPath(Budget.isCurrent) + " == %ld", argumentArray: [current]))
+        }
+        if let categoryType = categoryType {
+            predicates.append(NSPredicate(format: #keyPath(Budget.trackingStatusRawValue) + " == %@", argumentArray: [trackingStatusFilter.rawValue]))
+        }
+        
+        var filterPredicate: NSPredicate?
+        if !predicates.isEmpty {
+            filterPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        }
+        
+        updateObjectsWithResponse(type: Budget.self, objectsResponse: budgetsResponse, primaryKey: #keyPath(Budget.budgetID), linkedKeys: [], filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
     }
 }
