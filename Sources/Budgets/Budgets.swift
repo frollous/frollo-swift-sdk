@@ -164,17 +164,22 @@ public class Budgets: CachedObjects, ResponseHandler {
      
      - parameters:
          - context: Managed object context to fetch these from; background or main thread
+         - budgetID: Filter by budgetID (Optional)
          - trackingStatus: Filter by tracking status of the period
          - filteredBy: Predicate of properties to match for fetching. See `Budget` for properties (Optional)
          - sortedBy: Array of sort descriptors to sort the results by. Defaults to budgetPeriodID ascending (Optional)
          - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func budgetPeriods(context: NSManagedObjectContext,
+    public func budgetPeriods(context: NSManagedObjectContext, budgetID: Int64? = nil,
                               trackingStatus: Budget.TrackingStatus? = nil,
                               filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(BudgetPeriod.budgetPeriodID), ascending: true)],
                               limit: Int? = nil) -> [BudgetPeriod]? {
         
         var predicates = [NSPredicate]()
+        
+        if let filterBudgetID = budgetID {
+            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.budgetID) + " == %ld", argumentArray: [filterBudgetID]))
+        }
         
         if let filterTrackingStatus = trackingStatus {
             predicates.append(NSPredicate(format: #keyPath(Budget.trackingStatusRawValue) + " == %@", argumentArray: [filterTrackingStatus.rawValue]))
@@ -192,18 +197,22 @@ public class Budgets: CachedObjects, ResponseHandler {
      
      - parameters:
          - context: Managed object context to fetch these from; background or main thread
+         - budgetID: Filter by budgetID (Optional)
          - trackingStatus: Filter by tracking status of the period (Optional)
          - filteredBy: Predicate of properties to match for fetching. See `BudgetPeriod` for properties (Optional)
          - sortedBy: Array of sort descriptors to sort the results by. Defaults to budgetPeriodID ascending (Optional)
          - limit: Fetch limit to set maximum number of returned items (Optional)
      */
-    public func budgetPeriodsFetchedResultsController(context: NSManagedObjectContext,
-                                                      trackingStatus: Budget.TrackingStatus? = nil,
+    public func budgetPeriodsFetchedResultsController(context: NSManagedObjectContext, budgetID: Int64? = nil, trackingStatus: Budget.TrackingStatus? = nil,
                                                       filteredBy predicate: NSPredicate? = nil,
                                                       sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(BudgetPeriod.budgetPeriodID), ascending: true)],
                                                       limit: Int? = nil) -> NSFetchedResultsController<BudgetPeriod>? {
         
         var predicates = [NSPredicate]()
+        
+        if let filterBudgetID = budgetID {
+            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.budgetID) + " == %ld", argumentArray: [filterBudgetID]))
+        }
         
         if let filterTrackingStatus = trackingStatus {
             predicates.append(NSPredicate(format: #keyPath(Budget.trackingStatusRawValue) + " == %@", argumentArray: [filterTrackingStatus.rawValue]))

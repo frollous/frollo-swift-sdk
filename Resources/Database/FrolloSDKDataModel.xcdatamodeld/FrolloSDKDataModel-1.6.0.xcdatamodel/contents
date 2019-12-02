@@ -47,7 +47,7 @@
         <attribute name="totalCreditLineCurrency" optional="YES" attributeType="String"/>
         <relationship name="balanceTiers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AccountBalanceTier" inverseName="account" inverseEntity="AccountBalanceTier"/>
         <relationship name="bills" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Bill" inverseName="account" inverseEntity="Bill"/>
-        <relationship name="budgets" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Budget" inverseName="account" inverseEntity="Budget"/>
+        <relationship name="budgets" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Budget"/>
         <relationship name="goals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Goal" inverseName="account" inverseEntity="Goal"/>
         <relationship name="providerAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProviderAccount" inverseName="accounts" inverseEntity="ProviderAccount"/>
         <relationship name="reports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReportAccountBalance" inverseName="account" inverseEntity="ReportAccountBalance"/>
@@ -124,7 +124,6 @@
         </uniquenessConstraints>
     </entity>
     <entity name="Budget" representedClassName=".Budget" syncable="YES">
-        <attribute name="accountID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="budgetID" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="currency" optional="YES" attributeType="String"/>
         <attribute name="currentAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
@@ -141,13 +140,9 @@
         <attribute name="targetAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="trackingStatusRawValue" optional="YES" attributeType="String"/>
         <attribute name="trackingTypeRawValue" optional="YES" attributeType="String"/>
-        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="budgets" inverseEntity="Account"/>
         <relationship name="periods" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BudgetPeriod" inverseName="budget" inverseEntity="BudgetPeriod"/>
         <fetchIndex name="byBudgetID">
             <fetchIndexElement property="budgetID" type="Binary" order="ascending"/>
-        </fetchIndex>
-        <fetchIndex name="byAccountID">
-            <fetchIndexElement property="accountID" type="Binary" order="ascending"/>
         </fetchIndex>
         <uniquenessConstraints>
             <uniquenessConstraint>
@@ -568,7 +563,7 @@
         <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
         <element name="Bill" positionX="-378" positionY="162" width="128" height="360"/>
         <element name="BillPayment" positionX="-378" positionY="162" width="128" height="178"/>
-        <element name="Budget" positionX="-378" positionY="162" width="128" height="328"/>
+        <element name="Budget" positionX="-378" positionY="162" width="128" height="298"/>
         <element name="BudgetPeriod" positionX="-369" positionY="171" width="128" height="193"/>
         <element name="Goal" positionX="-378" positionY="162" width="128" height="388"/>
         <element name="GoalPeriod" positionX="-360" positionY="180" width="128" height="193"/>

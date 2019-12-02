@@ -21,7 +21,6 @@ extension Budget: TestableCoreData {
     
     @objc func populateTestData() {
         budgetID = Int64.random(in: 1...Int64.max)
-        accountID = Int64.random(in: 1...Int64.max)
         isCurrent = Bool.random()
         currentAmount = 7514.92
         currency = "AUD"

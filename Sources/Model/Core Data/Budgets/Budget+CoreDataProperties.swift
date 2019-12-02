@@ -31,25 +31,22 @@ extension Budget {
     /// Unique ID of the budget
     @NSManaged public var budgetID: Int64
     
-    /// Account ID goal is associated with
-    @NSManaged public var accountID: Int64
-    
     /// Returns true if the budget is active
     @NSManaged public var isCurrent: Bool
     
     /// Raw value for the image URL (Optional)
     @NSManaged public var imageURLString: String?
     
-    /// Raw value of tracking status
+    /// Raw value of tracking status. Only use in predicates
     @NSManaged public var trackingStatusRawValue: String
     
-    /// Raw value of tracking type
+    /// Raw value of tracking type. Only use in predicates
     @NSManaged public var trackingTypeRawValue: String
     
-    /// Raw value of status
+    /// Raw value of status. Only use in predicates
     @NSManaged public var statusRawValue: String
     
-    /// Raw value of the frequency
+    /// Raw value of the frequency. Only use in predicates
     @NSManaged public var frequencyRawValue: String
     
     /// Currency of the budget
@@ -78,9 +75,6 @@ extension Budget {
     
     /// Custom JSON metadata (optional)
     @NSManaged public var metadataRawValue: Data?
-    
-    /// Account associated with the budget (Optional)
-    @NSManaged public var account: Account?
     
     /// Budget periods
     @NSManaged public var periods: Set<BudgetPeriod>?

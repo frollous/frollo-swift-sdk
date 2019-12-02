@@ -91,7 +91,7 @@ public class Budget: NSManagedObject, UniqueManagedObject {
     /**
      Tracking Status
      
-     How the user is tracking against an in progress budget
+     How the user is tracking against an in progress budget or how the tracked against a previous budget period
      */
     public enum TrackingStatus: String, Codable, CaseIterable {
         
