@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.2.1
+
+### Changes
+
+- Upgrade 3rd party dependencies to resolve conflicts
+
 ## 4.2
 
 - Aggregation, Goals and Messages Ehancements
