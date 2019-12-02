@@ -21,10 +21,20 @@ import SwiftyJSON
 /// Manages user budgets and tracking
 public class Budgets: CachedObjects, ResponseHandler {
     
+    private let aggregation: Aggregation
     private let database: Database
+    private let service: APIService
     
-    internal init(database: Database) {
+    private let budgetsLock = NSLock()
+    private let budgetPeriodsLock = NSLock()
+    
+    private var linkingAccountIDs = Set<Int64>()
+    private var linkingBudgetIDs = Set<Int64>()
+    
+    internal init(database: Database, service: APIService, aggregation: Aggregation) {
         self.database = database
+        self.service = service
+        self.aggregation = aggregation
     }
     
     // MARK: - Budgets
@@ -144,6 +154,38 @@ public class Budgets: CachedObjects, ResponseHandler {
         }
         
         return fetchedResultsController(type: Budget.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Refresh all available budgets from the host.
+          
+     - parameters:
+        - status: Filter goals by their current status (Optional)
+        - trackingStatus: Filter goals by their current tracking status (Optional)
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshBudgets(current: Bool? = true, category: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        service.fetchBudgets(current: current, category: category) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleGoalsResponse(response, status: status, trackingStatus: trackingStatus, managedObjectContext: managedObjectContext)
+                    
+                    self.linkGoalsToAccounts(managedObjectContext: managedObjectContext)
+                    self.linkGoalPeriodsToGoals(managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
     }
     
     // MARK: - Budget Periods
