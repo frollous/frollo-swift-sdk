@@ -142,7 +142,7 @@
         <attribute name="trackingStatusRawValue" optional="YES" attributeType="String"/>
         <attribute name="trackingTypeRawValue" optional="YES" attributeType="String"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="budgets" inverseEntity="Account"/>
-        <relationship name="currentPeriod" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BudgetPeriod" inverseName="budget" inverseEntity="BudgetPeriod"/>
+        <relationship name="periods" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BudgetPeriod" inverseName="budget" inverseEntity="BudgetPeriod"/>
         <fetchIndex name="byBudgetID">
             <fetchIndexElement property="budgetID" type="Binary" order="ascending"/>
         </fetchIndex>
@@ -165,7 +165,7 @@
         <attribute name="startDateString" optional="YES" attributeType="String"/>
         <attribute name="targetAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="trackingStatusRawValue" optional="YES" attributeType="String"/>
-        <relationship name="budget" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Budget" inverseName="currentPeriod" inverseEntity="Budget"/>
+        <relationship name="budget" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Budget" inverseName="periods" inverseEntity="Budget"/>
         <fetchIndex name="byBudgetPeriodID">
             <fetchIndexElement property="budgetPeriodID" type="Binary" order="ascending"/>
         </fetchIndex>

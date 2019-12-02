@@ -82,7 +82,29 @@ extension Budget {
     /// Account associated with the budget (Optional)
     @NSManaged public var account: Account?
     
-    /// Current budget period
-    @NSManaged public var currentPeriod: BudgetPeriod?
+    /// Budget periods
+    @NSManaged public var periods: Set<BudgetPeriod>?
+    
+}
+
+// MARK: Generated accessors for budget periods
+
+extension Budget {
+    
+    /// Add a budget period relationship
+    @objc(addPeriodsObject:)
+    @NSManaged public func addToPeriods(_ value: BudgetPeriod)
+    
+    /// Remove a budget period relationship
+    @objc(removePeriodsObject:)
+    @NSManaged public func removeFromPeriods(_ value: BudgetPeriod)
+    
+    /// Add budget period relationships
+    @objc(addPeriods:)
+    @NSManaged public func addToPeriods(_ values: Set<BudgetPeriod>)
+    
+    /// Remove budget period relationships
+    @objc(removePeriods:)
+    @NSManaged public func removeFromPeriods(_ values: Set<BudgetPeriod>)
     
 }
