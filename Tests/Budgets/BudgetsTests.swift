@@ -119,7 +119,7 @@ class BudgetsTests: BaseTestCase {
                 testBudget1.populateTestData()
                 testBudget1.frequency = .weekly
                 testBudget1.status = .failed
-                testBudget1.trackingType = .credit
+                testBudget1.budgetType = .merchant
                 testBudget1.trackingStatus = .ahead
                 testBudget1.isCurrent = true
                 
@@ -127,7 +127,7 @@ class BudgetsTests: BaseTestCase {
                 testBudget2.populateTestData()
                 testBudget2.frequency = .monthly
                 testBudget2.status = .active
-                testBudget2.trackingType = .debitCredit
+                testBudget2.budgetType = .category
                 testBudget2.trackingStatus = .behind
                 testBudget2.isCurrent = false
                 
@@ -135,14 +135,14 @@ class BudgetsTests: BaseTestCase {
                 testBudget3.populateTestData()
                 testBudget3.frequency = .weekly
                 testBudget3.status = .failed
-                testBudget3.trackingType = .credit
+                testBudget3.budgetType = .budgetCategory
                 testBudget3.trackingStatus = .ahead
                 testBudget3.isCurrent = true
                 
                 try! managedObjectContext.save()
             }
             
-            let fetchedGoals = self.budgets.budgets(context: self.database.viewContext, current: false, frequency: .monthly, status: .active, trackingStatus: .behind, trackingType: .debitCredit)
+            let fetchedGoals = self.budgets.budgets(context: self.database.viewContext, current: false, budgetType: .category, frequency: .monthly, status: .active, trackingStatus: .behind)
             
             XCTAssertNotNil(fetchedGoals)
             XCTAssertEqual(fetchedGoals?.count, 1)
@@ -216,7 +216,7 @@ class BudgetsTests: BaseTestCase {
                 testBudget1.frequency = .monthly
                 testBudget1.status = .active
                 testBudget1.trackingStatus = .onTrack
-                testBudget1.trackingType = .credit
+                testBudget1.budgetType = .category
                 
                 let testBudget2 = Budget(context: managedObjectContext)
                 testBudget2.populateTestData()
@@ -224,7 +224,7 @@ class BudgetsTests: BaseTestCase {
                 testBudget2.frequency = .monthly
                 testBudget2.status = .active
                 testBudget2.trackingStatus = .onTrack
-                testBudget2.trackingType = .credit
+                testBudget2.budgetType = .category
                 
                 let testBudget3 = Budget(context: managedObjectContext)
                 testBudget3.populateTestData()
@@ -232,12 +232,12 @@ class BudgetsTests: BaseTestCase {
                 testBudget3.frequency = .annually
                 testBudget3.status = .completed
                 testBudget3.trackingStatus = .ahead
-                testBudget3.trackingType = .debit
+                testBudget3.budgetType = .category
                 
                 try! managedObjectContext.save()
             }
             
-            let fetchedResultsController = self.budgets.budgetsFetchedResultsController(context: self.database.viewContext, current: true, frequency: .annually, status: .completed, trackingStatus: .ahead, trackingType: .debit)
+            let fetchedResultsController = self.budgets.budgetsFetchedResultsController(context: self.database.viewContext, current: true, budgetType: .category, frequency: .annually, status: .completed, trackingStatus: .ahead)
             
             do {
                 try fetchedResultsController?.performFetch()

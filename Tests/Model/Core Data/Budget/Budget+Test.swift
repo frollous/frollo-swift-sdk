@@ -27,15 +27,14 @@ extension Budget: TestableCoreData {
         startDateString = "2019-12-02"
         estimatedTargetAmount = 20000
         frequency = Frequency.allCases.randomElement()!
-        imageURLString = "https://example.com/image.png"
         metadata = ["seen": Bool.random()]
         periodAmount = 300
-        startAmount = 0
+        budgetType = BudgetType.allCases.randomElement()!
         periodsCount = Int64.random(in: 1...12)
         status = Status.allCases.randomElement()!
         targetAmount = 20000
         trackingStatus = TrackingStatus.allCases.randomElement()!
-        trackingType = TrackingType.allCases.randomElement()!
+        typeValue = ""
     }
     
 }

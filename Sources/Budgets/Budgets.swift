@@ -45,21 +45,23 @@ public class Budgets: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - budgetType: Filter by type of the budget (optional)
+        - typeValue: Filter by  type value of the budget (optional). budget category name, category ID or merchant ID
         - current: Filter budgets by current budget. Defaults to current budget = true (Optional)
         - frequency: Filter by frequency of the budget (optional)
         - status: Filter by status of the budget (optional)
         - trackingStatus: Filter by tracking status of the budget (optional)
-        - trackingType: Filter by tracking type of the budget (optional)
         - filteredBy: Predicate of properties to match for fetching. See `Budget` for properties (Optional)
         - sortedBy: Array of sort descriptors to sort the results by. Defaults to budgetID ascending (Optional)
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func budgets(context: NSManagedObjectContext,
                         current: Bool? = true,
+                        budgetType: Budget.BudgetType? = nil,
+                        typeValue: String? = nil,
                         frequency: Budget.Frequency? = nil,
                         status: Budget.Status? = nil,
                         trackingStatus: Budget.TrackingStatus? = nil,
-                        trackingType: Budget.TrackingType? = nil,
                         filteredBy predicate: NSPredicate? = nil,
                         sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Budget.budgetID), ascending: true)],
                         limit: Int? = nil) -> [Budget]? {
@@ -68,6 +70,14 @@ public class Budgets: CachedObjects, ResponseHandler {
         
         if let isCurrentBudget = current {
             predicates.append(NSPredicate(format: #keyPath(Budget.isCurrent) + " == %ld", argumentArray: [isCurrentBudget]))
+        }
+        
+        if let filterBudgetType = budgetType {
+            predicates.append(NSPredicate(format: #keyPath(Budget.typeRawValue) + " == %@", argumentArray: [filterBudgetType.rawValue]))
+        }
+        
+        if let filterTypeValue = typeValue {
+            predicates.append(NSPredicate(format: #keyPath(Budget.typeValue) + " == %@", argumentArray: [filterTypeValue]))
         }
         
         if let filterFrequency = frequency {
@@ -80,10 +90,6 @@ public class Budgets: CachedObjects, ResponseHandler {
         
         if let filterTrackingStatus = trackingStatus {
             predicates.append(NSPredicate(format: #keyPath(Budget.trackingStatusRawValue) + " == %@", argumentArray: [filterTrackingStatus.rawValue]))
-        }
-        
-        if let filterTrackingType = trackingType {
-            predicates.append(NSPredicate(format: #keyPath(Budget.trackingTypeRawValue) + " == %@", argumentArray: [filterTrackingType.rawValue]))
         }
         
         if let filterPredicate = predicate {
@@ -99,6 +105,8 @@ public class Budgets: CachedObjects, ResponseHandler {
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
         - current: Filter budgets by current budget. Defaults to current budget = true (Optional)
+        - budgetType: Filter by type of the budget (optional)
+        - typeValue: Filter by  type value of the budget (optional). budget category name, category ID or merchant ID
         - frequency: Filter by frequency of the budget (optional)
         - status: Filter by status of the budget (optional)
         - trackingStatus: Filter by tracking status of the budget (optional)
@@ -109,10 +117,11 @@ public class Budgets: CachedObjects, ResponseHandler {
      */
     public func budgetsFetchedResultsController(context: NSManagedObjectContext,
                                                 current: Bool? = true,
+                                                budgetType: Budget.BudgetType? = nil,
+                                                typeValue: String? = nil,
                                                 frequency: Budget.Frequency? = nil,
                                                 status: Budget.Status? = nil,
                                                 trackingStatus: Budget.TrackingStatus? = nil,
-                                                trackingType: Budget.TrackingType? = nil,
                                                 filteredBy predicate: NSPredicate? = nil,
                                                 sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Budget.budgetID), ascending: true)],
                                                 limit: Int? = nil) -> NSFetchedResultsController<Budget>? {
@@ -121,6 +130,14 @@ public class Budgets: CachedObjects, ResponseHandler {
         
         if let isCurrentBudget = current {
             predicates.append(NSPredicate(format: #keyPath(Budget.isCurrent) + " == %ld", argumentArray: [isCurrentBudget]))
+        }
+        
+        if let filterBudgetType = budgetType {
+            predicates.append(NSPredicate(format: #keyPath(Budget.typeRawValue) + " == %@", argumentArray: [filterBudgetType.rawValue]))
+        }
+        
+        if let filterTypeValue = typeValue {
+            predicates.append(NSPredicate(format: #keyPath(Budget.typeValue) + " == %@", argumentArray: [filterTypeValue]))
         }
         
         if let filterFrequency = frequency {
@@ -133,10 +150,6 @@ public class Budgets: CachedObjects, ResponseHandler {
         
         if let filterTrackingStatus = trackingStatus {
             predicates.append(NSPredicate(format: #keyPath(Budget.trackingStatusRawValue) + " == %@", argumentArray: [filterTrackingStatus.rawValue]))
-        }
-        
-        if let filterTrackingType = trackingType {
-            predicates.append(NSPredicate(format: #keyPath(Budget.trackingTypeRawValue) + " == %@", argumentArray: [filterTrackingType.rawValue]))
         }
         
         if let filterPredicate = predicate {

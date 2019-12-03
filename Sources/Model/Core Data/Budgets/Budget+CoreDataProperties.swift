@@ -31,17 +31,20 @@ extension Budget {
     /// Unique ID of the budget
     @NSManaged public var budgetID: Int64
     
+    /// User ID
+    @NSManaged public var userID: Int64
+    
     /// Returns true if the budget is active
     @NSManaged public var isCurrent: Bool
     
-    /// Raw value for the image URL (Optional)
-    @NSManaged public var imageURLString: String?
+    /// Raw value for the type. Only use in predicates
+    @NSManaged public var typeRawValue: String
+    
+    /// Value of the type. name if budget category and id if category and merchant
+    @NSManaged public var typeValue: String
     
     /// Raw value of tracking status. Only use in predicates
     @NSManaged public var trackingStatusRawValue: String
-    
-    /// Raw value of tracking type. Only use in predicates
-    @NSManaged public var trackingTypeRawValue: String
     
     /// Raw value of status. Only use in predicates
     @NSManaged public var statusRawValue: String
@@ -57,9 +60,6 @@ extension Budget {
     
     /// The amount you want each BudgetPeriod to be.
     @NSManaged public var periodAmount: NSDecimalNumber
-    
-    /// The starting amount of the Budget.
-    @NSManaged public var startAmount: NSDecimalNumber
     
     /// The overall target amount of the Budget.
     @NSManaged public var targetAmount: NSDecimalNumber

@@ -129,17 +129,17 @@
         <attribute name="currentAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="estimatedTargetAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="frequencyRawValue" optional="YES" attributeType="String"/>
-        <attribute name="imageURLString" optional="YES" attributeType="String"/>
         <attribute name="isCurrent" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="metadataRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="periodAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="periodsCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="startAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="startDateString" optional="YES" attributeType="String"/>
         <attribute name="statusRawValue" optional="YES" attributeType="String"/>
         <attribute name="targetAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="trackingStatusRawValue" optional="YES" attributeType="String"/>
-        <attribute name="trackingTypeRawValue" optional="YES" attributeType="String"/>
+        <attribute name="typeRawValue" optional="YES" attributeType="String"/>
+        <attribute name="typeValue" optional="YES" attributeType="String"/>
+        <attribute name="userID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="periods" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BudgetPeriod" inverseName="budget" inverseEntity="BudgetPeriod"/>
         <fetchIndex name="byBudgetID">
             <fetchIndexElement property="budgetID" type="Binary" order="ascending"/>

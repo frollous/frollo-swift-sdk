@@ -107,20 +107,20 @@ public class Budget: NSManagedObject, UniqueManagedObject {
     }
     
     /**
-     Tracking Type
+     Type
      
-     How the budget is being tracked
+     Type of the budget
      */
-    public enum TrackingType: String, Codable, CaseIterable {
+    public enum BudgetType: String, Codable, CaseIterable {
         
-        /// Credit - only credits are accounted in the budget
-        case credit
+        /// BudgetCategory
+        case budgetCategory = "budget_category"
         
-        /// Debit - only debits are accounted in the budget
-        case debit
+        /// Category
+        case category
         
-        /// Debit and Credit - Both debits and credits are accounted in the budget.
-        case debitCredit = "debit_credit"
+        /// Metchant
+        case merchant
         
     }
     
@@ -158,19 +158,6 @@ public class Budget: NSManagedObject, UniqueManagedObject {
         }
         set {
             frequencyRawValue = newValue.rawValue
-        }
-    }
-    
-    // URL of the budget image
-    public var imageURL: URL? {
-        get {
-            if let url = imageURLString {
-                return URL(string: url)
-            }
-            return nil
-        }
-        set {
-            imageURLString = newValue?.absoluteString
         }
     }
     
@@ -218,12 +205,12 @@ public class Budget: NSManagedObject, UniqueManagedObject {
     }
     
     /// The strategy for tracking the Budget.
-    public var trackingType: TrackingType {
+    public var budgetType: BudgetType {
         get {
-            return TrackingType(rawValue: trackingTypeRawValue)!
+            return BudgetType(rawValue: typeRawValue)!
         }
         set {
-            trackingTypeRawValue = newValue.rawValue
+            typeRawValue = newValue.rawValue
         }
     }
     
