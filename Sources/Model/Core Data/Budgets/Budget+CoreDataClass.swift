@@ -218,7 +218,42 @@ public class Budget: NSManagedObject, UniqueManagedObject {
 
 extension Budget {
     
-    func linkObject(object: NSManagedObject) {}
+    internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
+        if let budgetResponse = response as? APIBudgetResponse {
+            update(response: budgetResponse, context: context)
+        }
+    }
     
-    func update(response: APIUniqueResponse, context: NSManagedObjectContext) {}
+    internal func update(response: APIBudgetResponse, context: NSManagedObjectContext) {
+        budgetID = response.id
+        isCurrent = response.isCurrent
+        budgetType = response.budgetType
+        typeValue = response.typeValue
+        userID = response.userID
+        currentAmount = NSDecimalNumber(string: response.currentAmount)
+        currency = response.currency
+        startDateString = response.startDate
+        frequency = response.frequency
+        metadata = response.metadata ?? [:]
+        currentAmount = NSDecimalNumber(string: response.currentAmount)
+        periodAmount = NSDecimalNumber(string: response.periodAmount)
+        periodsCount = response.periodsCount
+        startDateString = response.startDate
+        status = response.status
+        targetAmount = NSDecimalNumber(string: response.targetAmount)
+        trackingStatus = response.trackingStatus
+        
+        if let amount = response.estimatedTargetAmount {
+            estimatedTargetAmount = NSDecimalNumber(string: amount)
+        } else {
+            estimatedTargetAmount = nil
+        }
+    }
+    
+    func linkObject(object: NSManagedObject) {
+        if let budgetPeriod = object as? BudgetPeriod {
+            addToPeriods(budgetPeriod)
+        }
+    }
+    
 }
