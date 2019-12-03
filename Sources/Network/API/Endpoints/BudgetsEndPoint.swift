@@ -21,6 +21,8 @@ enum BudgetsEndpoint: Endpoint {
     enum QueryParameters: String, Codable {
         case current
         case categoryType = "category_type"
+        case fromDate = "from_date"
+        case toDate = "to_date"
     }
     
     internal var path: String {

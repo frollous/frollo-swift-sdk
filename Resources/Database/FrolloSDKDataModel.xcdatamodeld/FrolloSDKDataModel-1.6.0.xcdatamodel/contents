@@ -140,7 +140,7 @@
         <attribute name="typeRawValue" optional="YES" attributeType="String"/>
         <attribute name="typeValue" optional="YES" attributeType="String"/>
         <attribute name="userID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="periods" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BudgetPeriod" inverseName="budget" inverseEntity="BudgetPeriod"/>
+        <relationship name="periods" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BudgetPeriod" inverseName="budget" inverseEntity="BudgetPeriod"/>
         <fetchIndex name="byBudgetID">
             <fetchIndexElement property="budgetID" type="Binary" order="ascending"/>
         </fetchIndex>

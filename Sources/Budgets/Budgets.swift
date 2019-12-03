@@ -201,7 +201,7 @@ public class Budgets: CachedObjects, ResponseHandler {
      
      - parameters:
         - current: Filter by current budget (Optional)
-        - budgetType: Filter budget by budget (Optional)
+        - budgetType: Filter budget by budget `BudgetType`, defaults to budgetCategory (Optional)
         - completion: Optional completion handler with optional error if the request fails
      */
     public func refreshBudgets(current: Bool? = true, budgetType: Budget.BudgetType? = nil, completion: FrolloSDKCompletionHandler? = nil) {
@@ -340,10 +340,12 @@ public class Budgets: CachedObjects, ResponseHandler {
      
      - parameters:
         - budgetID: ID of the budget to fetch periods for
+        - fromDate: Start date to fetch budget periods from
+        - toDate: End date to fetch budget periods up to
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func refreshBudgetPeriods(budgetID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchBudgetPeriods(budgetID: budgetID) { result in
+    public func refreshBudgetPeriods(budgetID: Int64, from fromDate: Date, to toDate: Date, completion: FrolloSDKCompletionHandler? = nil) {
+        service.fetchBudgetPeriods(budgetID: budgetID, from: fromDate, to: toDate) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -402,6 +404,8 @@ public class Budgets: CachedObjects, ResponseHandler {
         
         if let currentBudgetResponse = budgetResponse.currentPeriod {
             handleBudgetPeriodResponse(currentBudgetResponse, managedObjectContext: managedObjectContext)
+            
+            linkingBudgetIDs.insert(currentBudgetResponse.budgetID)
         }
         
         managedObjectContext.performAndWait {

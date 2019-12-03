@@ -158,10 +158,10 @@ class BudgetsTests: BaseTestCase {
                 try! managedObjectContext.save()
             }
             
-            let fetchedGoals = self.budgets.budgets(context: self.database.viewContext, current: false, budgetType: .category, frequency: .monthly, status: .active, trackingStatus: .behind)
+            let fetchedBudgets = self.budgets.budgets(context: self.database.viewContext, current: false, budgetType: .category, frequency: .monthly, status: .active, trackingStatus: .behind)
             
-            XCTAssertNotNil(fetchedGoals)
-            XCTAssertEqual(fetchedGoals?.count, 1)
+            XCTAssertNotNil(fetchedBudgets)
+            XCTAssertEqual(fetchedBudgets?.count, 1)
             
             expectation1.fulfill()
         }
@@ -288,9 +288,9 @@ class BudgetsTests: BaseTestCase {
                         fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [4])
                         
                         do {
-                            let fetchedGoals = try context.fetch(fetchRequest)
+                            let fetchedBudgets = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedGoals.first?.budgetID, 4)
+                            XCTAssertEqual(fetchedBudgets.first?.budgetID, 4)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -354,70 +354,7 @@ class BudgetsTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
     }
-    
-    func testRefreshBudgetsFiltered() {
-        let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "goals_filtered_cancelled_ontrack")
-        
-        database.setup { (error) in
-            XCTAssertNil(error)
-            
-            let context = self.database.newBackgroundContext()
-            
-            context.performAndWait {
-                let budget = Budget(context: context)
-                budget.populateTestData()
-                budget.budgetID = 4
-                budget.status = .active
-                budget.trackingStatus = .behind
-                
-                try? context.save()
-            }
-            
-            self.budgets.refreshBudgets(current: true, budgetType: .budgetCategory) { (reselt) in
-                
-            }
-            
-            self.budgets.refreshBudgets(current: true, budgetType: .budgetCategory) { (result) in
-                switch result {
-                    case .failure(let error):
-                        XCTFail(error.localizedDescription)
-                    case .success:
-                        let context = self.database.viewContext
-                        
-                        // Check budget still exists that doesn't match filter
-                        let fetchRequest: NSFetchRequest<Budget> = Budget.fetchRequest()
-                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [4])
-                        
-                        do {
-                            let fetchedGoals = try context.fetch(fetchRequest)
-                            
-                            XCTAssertEqual(fetchedGoals.first?.budgetID, 3211)
-                        } catch {
-                            XCTFail(error.localizedDescription)
-                        }
-                    
-                        // Check new budgets added
-                        let fetchFilteredRequest: NSFetchRequest<Budget> = Budget.fetchRequest()
-                        fetchFilteredRequest.predicate = NSPredicate(format: #keyPath(Budget.statusRawValue) + " == %@ &&" + #keyPath(Budget.trackingStatusRawValue) + " == %@", argumentArray: [Budget.Status.cancelled.rawValue, Budget.TrackingStatus.onTrack.rawValue])
-                        
-                        do {
-                            let fetchedFilteredGoals = try context.fetch(fetchFilteredRequest)
-                            
-                            XCTAssertEqual(fetchedFilteredGoals.count, 2)
-                        } catch {
-                            XCTFail(error.localizedDescription)
-                    }
-                }
-                
-                expectation1.fulfill()
-            }
-        }
-        
-        wait(for: [expectation1], timeout: 3.0)
-    }
-    
     // MARK: - Budget Periods
     
     func testFetchBudgetPeriodByID() {
@@ -539,7 +476,10 @@ class BudgetsTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            self.budgets.refreshBudgetPeriods(budgetID: 85) { (result) in
+            let fromDate = Budget.budgetDateFormatter.date(from: "2019-11-21")!
+            let toDate = Budget.budgetDateFormatter.date(from: "2019-12-05")!
+            
+            self.budgets.refreshBudgetPeriods(budgetID: 85, from: fromDate, to: toDate) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -582,7 +522,7 @@ class BudgetsTests: BaseTestCase {
     func testRefreshBudgetPeriod() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: BudgetsEndpoint.period(budgetID: 4, budgetPeriodID: 96).path.prefixedWithSlash, toResourceWithName: "budget_periods_valid_96")
+        connect(endpoint: BudgetsEndpoint.period(budgetID: 4, budgetPeriodID: 96).path.prefixedWithSlash, toResourceWithName: "budget_periods_96")
         
         database.setup { (error) in
             XCTAssertNil(error)
