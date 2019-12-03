@@ -63,11 +63,15 @@ extension APIService {
         }
     }
     
-    internal func fetchBudgetPeriods(budgetID: Int64, completion: @escaping RequestCompletion<[APIBudgetPeriodResponse]>) {
+    internal func fetchBudgetPeriods(budgetID: Int64, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<[APIBudgetPeriodResponse]>) {
         requestQueue.async {
             let url = URL(string: BudgetsEndpoint.periods(budgetID: budgetID).path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+            let dateFormatter = Budget.budgetDateFormatter
+            
+            let parameters = [BudgetsEndpoint.QueryParameters.fromDate.rawValue: dateFormatter.string(from: fromDate), BudgetsEndpoint.QueryParameters.toDate.rawValue: dateFormatter.string(from: toDate)]
+            
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APIBudgetPeriodResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
