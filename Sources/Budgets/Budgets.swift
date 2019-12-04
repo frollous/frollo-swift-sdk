@@ -22,9 +22,16 @@ import SwiftyJSON
 public class Budgets: CachedObjects, ResponseHandler {
     
     private let database: Database
+    private let service: APIService
     
-    internal init(database: Database) {
+    private let budgetsLock = NSLock()
+    private let budgetPeriodsLock = NSLock()
+    
+    private var linkingBudgetIDs = Set<Int64>()
+    
+    internal init(database: Database, service: APIService) {
         self.database = database
+        self.service = service
     }
     
     // MARK: - Budgets
@@ -159,6 +166,65 @@ public class Budgets: CachedObjects, ResponseHandler {
         return fetchedResultsController(type: Budget.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
     }
     
+    /**
+     Refresh a specific budget by ID from the host
+     
+     - parameters:
+         - budgetID: ID of the budget to fetch
+         - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshBudget(budgetID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        service.fetchBudget(budgetID: budgetID) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleBudgetResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    self.linkBudgetPeriodsToBudgets(managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
+     Refresh all available budgets from the host.
+     
+     - parameters:
+        - current: Filter by current budget (Optional)
+        - budgetType: Filter budget by budget `BudgetType`, defaults to budgetCategory (Optional)
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshBudgets(current: Bool? = true, budgetType: Budget.BudgetType? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        service.fetchBudgets(current: current, budgetType: budgetType) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleBudgetsResponse(response, current: current, budgetType: budgetType, managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
     // MARK: - Budget Periods
     
     /**
@@ -236,5 +302,193 @@ public class Budgets: CachedObjects, ResponseHandler {
         }
         
         return fetchedResultsController(type: BudgetPeriod.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Refresh a specific budget period by ID from the host
+     
+     - parameters:
+         - budgetID: ID of the budget the period is associated with
+         - budgetPeriodID: ID of the budget period to fetch
+         - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshBudgetPeriod(budgetID: Int64, budgetPeriodID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        service.fetchBudgetPeriod(budgetID: budgetID, budgetPeriodID: budgetPeriodID) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleBudgetPeriodResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    self.linkBudgetPeriodsToBudgets(managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
+     Refresh budget periods for a budget from the host.
+     
+     - parameters:
+        - budgetID: ID of the budget to fetch periods for
+        - fromDate: Start date to fetch budget periods from (Optional)
+        - toDate: End date to fetch budget periods up to (Optional)
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshBudgetPeriods(budgetID: Int64, from fromDate: Date? = nil, to toDate: Date? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        service.fetchBudgetPeriods(budgetID: budgetID, from: fromDate, to: toDate) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleBudgetPeriodsResponse(response, budgetID: budgetID, managedObjectContext: managedObjectContext)
+                    
+                    self.linkBudgetPeriodsToBudgets(managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    // MARK: - Linking Objects
+    
+    private func linkBudgetPeriodsToBudgets(managedObjectContext: NSManagedObjectContext) {
+        budgetsLock.lock()
+        budgetPeriodsLock.lock()
+        
+        defer {
+            budgetsLock.unlock()
+            budgetPeriodsLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: BudgetPeriod.self, parentType: Budget.self, managedObjectContext: managedObjectContext, linkedIDs: linkingBudgetIDs, linkedKey: \BudgetPeriod.budgetID, linkedKeyName: #keyPath(BudgetPeriod.budgetID))
+        
+        linkingBudgetIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    // MARK: - Response Handling
+    
+    private func handleBudgetResponse(_ budgetResponse: APIBudgetResponse, managedObjectContext: NSManagedObjectContext) {
+        budgetsLock.lock()
+        
+        defer {
+            budgetsLock.unlock()
+        }
+        
+        updateObjectWithResponse(type: Budget.self, objectResponse: budgetResponse, primaryKey: #keyPath(Budget.budgetID), managedObjectContext: managedObjectContext)
+        
+        if let currentBudgetResponse = budgetResponse.currentPeriod {
+            handleBudgetPeriodResponse(currentBudgetResponse, managedObjectContext: managedObjectContext)
+            
+            linkingBudgetIDs.insert(currentBudgetResponse.budgetID)
+        }
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleBudgetsResponse(_ budgetsResponse: [APIBudgetResponse], current: Bool?, budgetType: Budget.BudgetType?, managedObjectContext: NSManagedObjectContext) {
+        budgetsLock.lock()
+        
+        defer {
+            budgetsLock.unlock()
+        }
+        
+        var predicates = [NSPredicate]()
+        if let current = current {
+            predicates.append(NSPredicate(format: #keyPath(Budget.isCurrent) + " == %ld", argumentArray: [current]))
+        }
+        if let budgetType = budgetType {
+            predicates.append(NSPredicate(format: #keyPath(Budget.typeRawValue) + " == %@", argumentArray: [budgetType.rawValue]))
+        }
+        
+        var filterPredicate: NSPredicate?
+        if !predicates.isEmpty {
+            filterPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        }
+        
+        updateObjectsWithResponse(type: Budget.self, objectsResponse: budgetsResponse, primaryKey: #keyPath(Budget.budgetID), linkedKeys: [], filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleBudgetPeriodResponse(_ budgetPeriodResponse: APIBudgetPeriodResponse, managedObjectContext: NSManagedObjectContext) {
+        budgetPeriodsLock.lock()
+        
+        defer {
+            budgetPeriodsLock.unlock()
+        }
+        
+        updateObjectWithResponse(type: BudgetPeriod.self, objectResponse: budgetPeriodResponse, primaryKey: #keyPath(BudgetPeriod.budgetPeriodID), managedObjectContext: managedObjectContext)
+        
+        linkingBudgetIDs.insert(budgetPeriodResponse.budgetID)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleBudgetPeriodsResponse(_ budgetPeriodsResponse: [APIBudgetPeriodResponse], budgetID: Int64, managedObjectContext: NSManagedObjectContext) {
+        budgetPeriodsLock.lock()
+        
+        defer {
+            budgetPeriodsLock.unlock()
+        }
+        
+        let filterPredicate = NSPredicate(format: #keyPath(BudgetPeriod.budgetID) + " == %ld", argumentArray: [budgetID])
+        
+        let updatedLinkedIDs = updateObjectsWithResponse(type: BudgetPeriod.self, objectsResponse: budgetPeriodsResponse, primaryKey: #keyPath(BudgetPeriod.budgetPeriodID), linkedKeys: [\BudgetPeriod.budgetID], filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
+        
+        if let budgetIDs = updatedLinkedIDs[\BudgetPeriod.budgetID] {
+            linkingBudgetIDs = linkingBudgetIDs.union(budgetIDs)
+        }
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
     }
 }
