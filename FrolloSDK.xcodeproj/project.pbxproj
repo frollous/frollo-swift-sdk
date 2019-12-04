@@ -1208,6 +1208,8 @@
 		13AC07C0239712E500982FB1 /* FrolloSDKDataModel-1.6.0.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 13AC07B9239712E500982FB1 /* FrolloSDKDataModel-1.6.0.sqlite-shm */; };
 		13AC07C1239712E500982FB1 /* FrolloSDKDataModel-1.6.0.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 13AC07B9239712E500982FB1 /* FrolloSDKDataModel-1.6.0.sqlite-shm */; };
 		13AC07C2239712E500982FB1 /* FrolloSDKDataModel-1.6.0.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 13AC07B9239712E500982FB1 /* FrolloSDKDataModel-1.6.0.sqlite-shm */; };
+		13CFDA68239725D400559476 /* APIBudgetCreateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CFDA67239725D400559476 /* APIBudgetCreateRequest.swift */; };
+		13CFDA69239725D800559476 /* APIBudgetCreateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CFDA67239725D400559476 /* APIBudgetCreateRequest.swift */; };
 		2F2F0C9D22A0D0E700F05961 /* APITagUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F0C9C22A0D0E700F05961 /* APITagUpdateRequest.swift */; };
 		2F2F0C9F22A0D29800F05961 /* APITagUpdateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F0C9E22A0D29800F05961 /* APITagUpdateResponse.swift */; };
 		2F657DA3223B26B300471B85 /* Survey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F657DA2223B26B300471B85 /* Survey.swift */; };
@@ -1810,6 +1812,7 @@
 		13AC07B7239712E500982FB1 /* FrolloSDKDataModel-1.6.0.sqlite-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.6.0.sqlite-wal"; sourceTree = "<group>"; };
 		13AC07B8239712E500982FB1 /* FrolloSDKDataModel-1.6.0.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.6.0.sqlite"; sourceTree = "<group>"; };
 		13AC07B9239712E500982FB1 /* FrolloSDKDataModel-1.6.0.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.6.0.sqlite-shm"; sourceTree = "<group>"; };
+		13CFDA67239725D400559476 /* APIBudgetCreateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIBudgetCreateRequest.swift; sourceTree = "<group>"; };
 		2F2F0C9C22A0D0E700F05961 /* APITagUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITagUpdateRequest.swift; sourceTree = "<group>"; };
 		2F2F0C9E22A0D29800F05961 /* APITagUpdateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITagUpdateResponse.swift; sourceTree = "<group>"; };
 		2F657DA2223B26B300471B85 /* Survey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Survey.swift; sourceTree = "<group>"; };
@@ -3378,6 +3381,7 @@
 			children = (
 				13AC076A2394BE1E00982FB1 /* APIBudgetResponse.swift */,
 				13AC076D2394BF5900982FB1 /* APIBudgetPeriodResponse.swift */,
+				13CFDA67239725D400559476 /* APIBudgetCreateRequest.swift */,
 			);
 			path = Budget;
 			sourceTree = "<group>";
@@ -4358,6 +4362,7 @@
 				01BB5A64221E07D0000C03F0 /* HTTPHeader.swift in Sources */,
 				017F0FDE22DEB68500ACE7BB /* APIGoalUpdateRequest.swift in Sources */,
 				016097F8210EE3300034E857 /* Provider+CoreDataClass.swift in Sources */,
+				13CFDA68239725D400559476 /* APIBudgetCreateRequest.swift in Sources */,
 				0104E02E21E84EED00D98EE7 /* ReportTransactionHistory+CoreDataClass.swift in Sources */,
 				01483B9E21192F1600D0DA87 /* BudgetCategory.swift in Sources */,
 				01405E5021DDA9CE009356CC /* APIBillCreateRequest.swift in Sources */,
@@ -4960,6 +4965,7 @@
 				0175C802224ADC070065AF9F /* ResponseError.swift in Sources */,
 				01E5BF012227A475003D85FD /* APIBillUpdateRequest.swift in Sources */,
 				017F0FDF22DEB68500ACE7BB /* APIGoalUpdateRequest.swift in Sources */,
+				13CFDA69239725D800559476 /* APIBudgetCreateRequest.swift in Sources */,
 				2FE1803222498B5100B87AAB /* OAuth2ErrorResponse.swift in Sources */,
 				01E5BF022227A475003D85FD /* HTTPHeader.swift in Sources */,
 				01E5BF032227A475003D85FD /* Provider+CoreDataClass.swift in Sources */,

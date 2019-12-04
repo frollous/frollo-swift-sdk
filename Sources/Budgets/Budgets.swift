@@ -225,6 +225,60 @@ public class Budgets: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Create a new budget on the host
+     
+     - parameters:
+         - frequency: Frequency of contributions to the goal
+         - periodAmount: Amount to be saved each period
+         - targetAmount: Target amount for the budget
+         - budgetType: `BudgetType` of the budget
+         - typeValue: value of `budgetType`
+         - metadata: Optional metadata payload to append to the budget
+         - completion: Optional completion handler with optional error if the request fails
+     */
+    public func createGoal(frequency: Budget.Frequency,
+                           periodAmount: Decimal?,
+                           targetAmount: Decimal?,
+                           budgetType: Budget.BudgetType,
+                           typeValue: String,
+                           metadata: JSON = [:],
+                           completion: FrolloSDKCompletionHandler? = nil) {
+        
+        let request = APIBudgetCreateRequest(frequency: frequency, periodAmount: (periodAmount as NSDecimalNumber?)?.stringValue, targetAmount: (targetAmount as NSDecimalNumber?)?.stringValue, type: budgetType, typeValue: typeValue)
+        
+        guard request.valid()
+        else {
+            let error = DataError(type: .api, subType: .invalidData)
+
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
+        service.createBudget(request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleBudgetResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    self.linkBudgetPeriodsToBudgets(managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
     // MARK: - Budget Periods
     
     /**
