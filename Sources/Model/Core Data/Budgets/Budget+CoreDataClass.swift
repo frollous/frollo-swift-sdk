@@ -124,7 +124,6 @@ public class Budget: NSManagedObject, UniqueManagedObject {
         
     }
     
-    
     // Core Data entity description name
     static var entityName = "Budget"
     

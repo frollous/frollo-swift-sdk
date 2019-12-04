@@ -237,20 +237,20 @@ public class Budgets: CachedObjects, ResponseHandler {
          - metadata: Optional metadata payload to append to the budget
          - completion: Optional completion handler with optional error if the request fails
      */
-    public func createGoal(frequency: Budget.Frequency,
-                           periodAmount: Decimal?,
-                           targetAmount: Decimal?,
-                           budgetType: Budget.BudgetType,
-                           typeValue: String,
-                           metadata: JSON = [:],
-                           completion: FrolloSDKCompletionHandler? = nil) {
+    public func createBudget(frequency: Budget.Frequency,
+                             periodAmount: Decimal?,
+                             targetAmount: Decimal?,
+                             budgetType: Budget.BudgetType,
+                             typeValue: String,
+                             metadata: JSON = [:],
+                             completion: FrolloSDKCompletionHandler? = nil) {
         
         let request = APIBudgetCreateRequest(frequency: frequency, periodAmount: (periodAmount as NSDecimalNumber?)?.stringValue, targetAmount: (targetAmount as NSDecimalNumber?)?.stringValue, type: budgetType, typeValue: typeValue)
         
         guard request.valid()
         else {
             let error = DataError(type: .api, subType: .invalidData)
-
+            
             DispatchQueue.main.async {
                 completion?(.failure(error))
             }
@@ -359,7 +359,7 @@ public class Budgets: CachedObjects, ResponseHandler {
     }
     
     /**
-     Refresh a specific busget period by ID from the host
+     Refresh a specific budget period by ID from the host
      
      - parameters:
          - budgetID: ID of the budget the period is associated with
@@ -394,11 +394,11 @@ public class Budgets: CachedObjects, ResponseHandler {
      
      - parameters:
         - budgetID: ID of the budget to fetch periods for
-        - fromDate: Start date to fetch budget periods from
-        - toDate: End date to fetch budget periods up to
+        - fromDate: Start date to fetch budget periods from (Optional)
+        - toDate: End date to fetch budget periods up to (Optional)
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func refreshBudgetPeriods(budgetID: Int64, from fromDate: Date, to toDate: Date, completion: FrolloSDKCompletionHandler? = nil) {
+    public func refreshBudgetPeriods(budgetID: Int64, from fromDate: Date? = nil, to toDate: Date? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         service.fetchBudgetPeriods(budgetID: budgetID, from: fromDate, to: toDate) { result in
             switch result {
                 case .failure(let error):
@@ -421,7 +421,7 @@ public class Budgets: CachedObjects, ResponseHandler {
         }
     }
     
-    // MARK: - Linking Bojects
+    // MARK: - Linking Objects
     
     private func linkBudgetPeriodsToBudgets(managedObjectContext: NSManagedObjectContext) {
         budgetsLock.lock()

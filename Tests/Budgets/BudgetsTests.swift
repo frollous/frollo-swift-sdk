@@ -354,6 +354,70 @@ class BudgetsTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testCreateBudget() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "budget_valid_4", addingStatusCode: 201)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.budgets.createBudget(frequency: .weekly, periodAmount: 100, targetAmount: 200, budgetType: .category, typeValue: "22") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = self.database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Budget> = Budget.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [4])
+                        
+                        do {
+                            let fetchedBudgets = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedBudgets.first?.budgetID, 4)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testCreateBudgetInvalidDataFails() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "budget_valid_4", addingStatusCode: 201)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.budgets.createBudget(frequency: .weekly, periodAmount: 100, targetAmount: 200, budgetType: .category, typeValue: "") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .api)
+                            XCTAssertEqual(dataError.subType, .invalidData)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Invalid data should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
         
     // MARK: - Budget Periods
     
@@ -374,7 +438,6 @@ class BudgetsTests: BaseTestCase {
                 
                 try! managedObjectContext.save()
             }
-            
             
             let budgetPeriod = self.budgets.budgetPeriod(context: self.database.viewContext, budgetPeriodID: id)
             
@@ -471,7 +534,7 @@ class BudgetsTests: BaseTestCase {
     func testRefreshBudgetPeriods() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: BudgetsEndpoint.periods(budgetID: 85).path.prefixedWithSlash, toResourceWithName: "budget_periods_valid")
+        connect(endpoint: BudgetsEndpoint.periods(budgetID: 4).path.prefixedWithSlash, toResourceWithName: "budget_periods_valid")
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -479,7 +542,7 @@ class BudgetsTests: BaseTestCase {
             let fromDate = Budget.budgetDateFormatter.date(from: "2019-11-21")!
             let toDate = Budget.budgetDateFormatter.date(from: "2019-12-05")!
             
-            self.budgets.refreshBudgetPeriods(budgetID: 85, from: fromDate, to: toDate) { (result) in
+            self.budgets.refreshBudgetPeriods(budgetID: 4, from: fromDate, to: toDate) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -551,5 +614,69 @@ class BudgetsTests: BaseTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testBudgetPeriodsLinkToBudgetss() {
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Budgets Request")
+        let expectation3 = expectation(description: "Network Budget Periods Request")
+        
+        connect(endpoint: BudgetsEndpoint.periods(budgetID: 4).path.prefixedWithSlash, toResourceWithName: "budget_periods_valid")
+        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "budgets_valid")
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        budgets.refreshBudgets { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+        
+        budgets.refreshBudgetPeriods(budgetID: 4) { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+        
+        let context = database.viewContext
+        
+        let fetchRequest: NSFetchRequest<BudgetPeriod> = BudgetPeriod.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "budgetPeriodID == %ld", argumentArray: [85])
+        
+        do {
+            let fetchedBudgetPeriods = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedBudgetPeriods.count, 1)
+            
+            if let budgetPeriod = fetchedBudgetPeriods.first {
+                XCTAssertNotNil(budgetPeriod.budgetID)
+                
+                XCTAssertEqual(budgetPeriod.budgetID, budgetPeriod.budget?.budgetID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
+        OHHTTPStubs.removeAllStubs()
     }
 }
