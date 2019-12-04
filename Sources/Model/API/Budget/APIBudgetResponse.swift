@@ -27,13 +27,13 @@ struct APIBudgetResponse: Codable, APIUniqueResponse {
         case estimatedTargetAmount = "estimated_target_amount"
         case frequency
         case id
+        case imageURL = "image_url"
         case isCurrent = "is_current"
         case metadata
         case periodAmount = "period_amount"
         case periodsCount = "periods_count"
         case startDate = "start_date"
         case status
-        case targetAmount = "target_amount"
         case trackingStatus = "tracking_status"
         case typeValue = "type_value"
         case userID = "user_id"
@@ -51,7 +51,7 @@ struct APIBudgetResponse: Codable, APIUniqueResponse {
     let periodsCount: Int64
     let startDate: String
     let status: Budget.Status
-    let targetAmount: String
+    let imageURL: String?
     let trackingStatus: Budget.TrackingStatus
     let budgetType: Budget.BudgetType
     let typeValue: String

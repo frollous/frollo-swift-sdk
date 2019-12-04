@@ -231,19 +231,19 @@ public class Budgets: CachedObjects, ResponseHandler {
      - parameters:
          - frequency: Frequency of  the budget
          - periodAmount: Budget amount for one budget period
-         - targetAmount: Target amount for the budget
          - budgetType: `BudgetType` of the budget
          - typeValue: value of `budgetType`
+         - imageURL: Image Url of the budget (Optional)
          - completion: Optional completion handler with optional error if the request fails
      */
     public func createBudget(frequency: Budget.Frequency,
                              periodAmount: Decimal?,
-                             targetAmount: Decimal?,
                              budgetType: Budget.BudgetType,
                              typeValue: String,
+                             imageURL: String? = nil,
                              completion: FrolloSDKCompletionHandler? = nil) {
         
-        let request = APIBudgetCreateRequest(frequency: frequency, periodAmount: (periodAmount as NSDecimalNumber?)?.stringValue, targetAmount: (targetAmount as NSDecimalNumber?)?.stringValue, type: budgetType, typeValue: typeValue)
+        let request = APIBudgetCreateRequest(frequency: frequency, periodAmount: (periodAmount as NSDecimalNumber?)?.stringValue, type: budgetType, typeValue: typeValue, imageURL: imageURL)
         
         guard request.valid()
         else {

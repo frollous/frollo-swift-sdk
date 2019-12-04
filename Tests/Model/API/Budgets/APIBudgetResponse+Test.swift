@@ -35,7 +35,7 @@ extension APIBudgetResponse {
                                  periodsCount: 10,
                                  startDate: "2019-11-02",
                                  status: Budget.Status.allCases.randomElement()!,
-                                 targetAmount: "4500",
+                                 imageURL: "http://www.example.com/image/image_1.png",
                                  trackingStatus: Budget.TrackingStatus.allCases.randomElement()!,
                                  budgetType: Budget.BudgetType.allCases.randomElement()!,
                                  typeValue: "",

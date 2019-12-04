@@ -340,7 +340,7 @@ class BudgetsTests: BaseTestCase {
                             XCTAssertEqual(budget.startDateString, "2019-10-02")
                             XCTAssertEqual(budget.status, .active)
                             XCTAssertEqual(budget.typeValue, "lifestyle")
-                            XCTAssertEqual(budget.targetAmount, 1000.00)
+                            XCTAssertEqual(budget.imageURLString, "http://www.example.com/image/image_1.png")
                             XCTAssertEqual(budget.trackingStatus, .ahead)
                             XCTAssertEqual(budget.budgetType, .category)
                         } catch {
@@ -363,7 +363,7 @@ class BudgetsTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            self.budgets.createBudget(frequency: .weekly, periodAmount: 100, targetAmount: 200, budgetType: .category, typeValue: "22") { (result) in
+            self.budgets.createBudget(frequency: .weekly, periodAmount: 100, budgetType: .category, typeValue: "22", imageURL: "http://www.example.com/image/image_1.png") { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -397,7 +397,7 @@ class BudgetsTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            self.budgets.createBudget(frequency: .weekly, periodAmount: 100, targetAmount: 200, budgetType: .category, typeValue: "") { (result) in
+            self.budgets.createBudget(frequency: .weekly, periodAmount: 100, budgetType: .category, typeValue: "") { (result) in
                 switch result {
                     case .failure(let error):
                         XCTAssertNotNil(error)

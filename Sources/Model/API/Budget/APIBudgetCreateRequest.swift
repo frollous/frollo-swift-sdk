@@ -21,20 +21,20 @@ struct APIBudgetCreateRequest: Codable {
     
     enum CodingKeys: String, CodingKey {
         case frequency
+        case imageURL = "image_url"
         case periodAmount = "period_amount"
-        case targetAmount = "target_amount"
         case type
         case typeValue = "type_value"
     }
     
     let frequency: Budget.Frequency
     let periodAmount: String?
-    let targetAmount: String?
     let type: Budget.BudgetType
     let typeValue: String
+    let imageURL: String?
     
     internal func valid() -> Bool {
-        return targetAmount != nil && periodAmount != nil && !typeValue.isEmpty
+        return periodAmount != nil && !typeValue.isEmpty
     }
     
 }

@@ -214,6 +214,19 @@ public class Budget: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    /// URL of the budget image
+    public var imageURL: URL? {
+        get {
+            if let url = imageURLString {
+                return URL(string: url)
+            }
+            return nil
+        }
+        set {
+            imageURLString = newValue?.absoluteString
+        }
+    }
+    
 }
 
 extension Budget {
@@ -240,7 +253,7 @@ extension Budget {
         periodsCount = response.periodsCount
         startDateString = response.startDate
         status = response.status
-        targetAmount = NSDecimalNumber(string: response.targetAmount)
+        imageURLString = response.imageURL
         trackingStatus = response.trackingStatus
         
         if let amount = response.estimatedTargetAmount {

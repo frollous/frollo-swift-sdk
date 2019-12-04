@@ -32,7 +32,7 @@ extension Budget: TestableCoreData {
         budgetType = BudgetType.allCases.randomElement()!
         periodsCount = Int64.random(in: 1...12)
         status = Status.allCases.randomElement()!
-        targetAmount = 20000
+        imageURLString = "http://www.example.com/image/image_1.png"
         trackingStatus = TrackingStatus.allCases.randomElement()!
         typeValue = ""
     }

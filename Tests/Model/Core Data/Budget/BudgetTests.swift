@@ -45,7 +45,7 @@ class BudgetTests: XCTestCase {
             XCTAssertEqual(budgetResponse.frequency, budget.frequency)
             XCTAssertEqual(budgetResponse.periodAmount, budget.periodAmount.stringValue)
             XCTAssertEqual(budgetResponse.status, budget.status)
-            XCTAssertEqual(budgetResponse.targetAmount, budget.targetAmount.stringValue)
+            XCTAssertEqual(budgetResponse.imageURL, budget.imageURLString)
             XCTAssertEqual(budgetResponse.trackingStatus, budget.trackingStatus)
             
             if let responseMetadata = budgetResponse.metadata, let responseSeen = responseMetadata["seen"].bool, let budgetSeen = budget.metadata["seen"].bool {
