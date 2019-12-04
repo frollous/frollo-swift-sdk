@@ -392,7 +392,7 @@ class BudgetsTests: BaseTestCase {
     func testCreateBudgetInvalidDataFails() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "budget_valid_4", addingStatusCode: 201)
+        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "budget_valid_4", addingStatusCode: 201)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -410,6 +410,40 @@ class BudgetsTests: BaseTestCase {
                         }
                     case .success:
                         XCTFail("Invalid data should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testDeleteBudget() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: BudgetsEndpoint.budget(budgetID: 4).path.prefixedWithSlash, addingData: Data(), addingStatusCode: 204)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let budget = Budget(context: managedObjectContext)
+                budget.populateTestData()
+                budget.budgetID = 4
+                
+                try? managedObjectContext.save()
+            }
+            
+            self.budgets.deleteBudget(budgetID: 4) { (result) in
+                switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    let deletedBudget = self.budgets.budget(context: self.database.viewContext, budgetID: 4)
+                    XCTAssertNil(deletedBudget)
                 }
                 
                 expectation1.fulfill()

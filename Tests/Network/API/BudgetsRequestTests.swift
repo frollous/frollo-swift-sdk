@@ -23,7 +23,7 @@ class BudgetsRequestTests: BaseTestCase {
     var service: APIService!
 
     override func setUp() {
-        testsKeychainService = "GoalsRequestTests"
+        testsKeychainService = "BudgetsRequestTests"
         
         super.setUp()
         
