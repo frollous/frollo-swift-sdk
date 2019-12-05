@@ -55,4 +55,49 @@ public enum BudgetCategory: String, Codable, CaseIterable {
         }
     }
     
+    var id: Int {
+        switch self {
+            case .income:
+                return 0
+            case .living:
+                return 1
+            case .lifestyle:
+                return 2
+            case .savings:
+                return 3
+            case .oneOff:
+                return 4
+        }
+    }
+    
+}
+
+enum TransactionReportFilter {
+    case budgetCategory(id: Int?)
+    case merchant(id: Int?)
+    case category(id: Int?)
+    case tag(name: String?)
+    
+    var entity: String {
+        switch self {
+            case .budgetCategory:
+                return "budget_categories"
+            case .merchant:
+                return "merchants"
+            case .category:
+                return "categories"
+            case .tag:
+                return "tags"
+        }
+    }
+    
+    var id: String? {
+        switch self {
+            case .budgetCategory(let id), .category(let id), .merchant(let id):
+                guard let id = id else { return nil }
+                return "\(id)"
+            case .tag(let name):
+                return name
+        }
+    }
 }

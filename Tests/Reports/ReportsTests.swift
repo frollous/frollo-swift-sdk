@@ -837,8 +837,11 @@ class ReportsTests: XCTestCase {
     func testFetchTransactionReport_GroupedByBudgetCategory() {
 
         let expectation1 = expectation(description: "Database setup")
+        let budgetCategory = BudgetCategory.income
+        let filter = TransactionReportFilter.budgetCategory(id: budgetCategory.id)
+        let transactionHistoryPath = ReportsEndpoint.transactionsHistory(entity: filter.entity, id: filter.id)
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + transactionHistoryPath.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_budget_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -868,7 +871,7 @@ class ReportsTests: XCTestCase {
 
         var fetchResult: Result<[ReportResponse<BudgetCategoryGroupReport>], Error>?
 
-        reports.fetchTransactionReports(grouping: BudgetCategoryGroupReport.self, period: .week, from: fromDate, to: toDate) { (result) in
+        reports.fetchTransactionBudgetCategoryReports(budgetCategory, period: .week, from: fromDate, to: toDate) { (result) in
             fetchResult = result
             expectation2.fulfill()
         }

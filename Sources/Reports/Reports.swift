@@ -210,16 +210,15 @@ public class Reports: ResponseHandler, CachedObjects {
      Fetch transaction history reports from the host
      
      - parameters:
+        - filtering: The entity to filter on
         - grouping: Grouping that reports should be broken down into
         - period: Period that reports should be broken down by
         - fromDate: Start date to fetch reports from (inclusive)
         - toDate: End date to fetch reports up to (inclusive)
-        - budgetCategory: Budget category to filter reports by. Leave blank to return all reports (Optional)
-        - tag : Tag associated to the report. Leave blank to return default report (Optional)
         - completion: Completion handler with either the data from the host or an error
      */
-    public func fetchTransactionReports<T: Reportable>(grouping: T.Type, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<T>>) {
-        service.fetchTransactionHistoryReports(grouping: T.grouping, period: period, fromDate: fromDate, toDate: toDate) { result in
+    func fetchTransactionReports<T: Reportable>(filtering: TransactionReportFilter, grouping: T.Type, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<T>>) {
+        service.fetchTransactionHistoryReports(filtering: filtering, grouping: T.grouping, period: period, fromDate: fromDate, toDate: toDate) { result in
             switch result {
                 case .success(let response):
                     let reports = response.data.map { ReportResponse(type: T.self, report: $0) }
@@ -228,6 +227,62 @@ public class Reports: ResponseHandler, CachedObjects {
                     completion(.failure(error))
             }
         }
+    }
+    
+    /**
+     Fetch transaction history reports from the host grouped by categories
+     
+     - parameters:
+        - id: The id of the category to filter on, or nil if no filtering is required
+        - period: Period that reports should be broken down by
+        - fromDate: Start date to fetch reports from (inclusive)
+        - toDate: End date to fetch reports up to (inclusive)
+        - completion: Completion handler with either the data from the host or an error
+     */
+    public func fetchTransactionCategoryReports(_ id: Int? = nil, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<TransactionCategoryGroupReport>>) {
+        fetchTransactionReports(filtering: .category(id: id), grouping: TransactionCategoryGroupReport.self, period: period, from: fromDate, to: toDate, completion: completion)
+    }
+    
+    /**
+     Fetch transaction history reports from the host grouped by merchants
+     
+     - parameters:
+        - id: The id of the merchant to filter on, or nil if no filtering is required
+        - period: Period that reports should be broken down by
+        - fromDate: Start date to fetch reports from (inclusive)
+        - toDate: End date to fetch reports up to (inclusive)
+        - completion: Completion handler with either the data from the host or an error
+     */
+    public func fetchTransactionMerchantReports(_ id: Int? = nil, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<MerchantGroupReport>>) {
+        fetchTransactionReports(filtering: .merchant(id: id), grouping: MerchantGroupReport.self, period: period, from: fromDate, to: toDate, completion: completion)
+    }
+    
+    /**
+     Fetch transaction history reports from the host grouped by budget categories
+     
+     - parameters:
+        - id: The id of the budget category to filter on, or nil if no filtering is required
+        - period: Period that reports should be broken down by
+        - fromDate: Start date to fetch reports from (inclusive)
+        - toDate: End date to fetch reports up to (inclusive)
+        - completion: Completion handler with either the data from the host or an error
+     */
+    public func fetchTransactionBudgetCategoryReports(_ budgetCategory: BudgetCategory? = nil, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<BudgetCategoryGroupReport>>) {
+        fetchTransactionReports(filtering: .budgetCategory(id: budgetCategory?.id), grouping: BudgetCategoryGroupReport.self, period: period, from: fromDate, to: toDate, completion: completion)
+    }
+    
+    /**
+     Fetch transaction history reports from the host grouped by tags
+     
+     - parameters:
+        - id: The id of the tag to filter on, or nil if no filtering is required
+        - period: Period that reports should be broken down by
+        - fromDate: Start date to fetch reports from (inclusive)
+        - toDate: End date to fetch reports up to (inclusive)
+        - completion: Completion handler with either the data from the host or an error
+     */
+    public func fetchTransactionTagReports(_ name: String? = nil, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<TagGroupReport>>) {
+        fetchTransactionReports(filtering: .tag(name: name), grouping: TagGroupReport.self, period: period, from: fromDate, to: toDate, completion: completion)
     }
     
     // MARK: - Linking Objects
