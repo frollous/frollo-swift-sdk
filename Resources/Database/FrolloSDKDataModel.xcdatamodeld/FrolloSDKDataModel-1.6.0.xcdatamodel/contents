@@ -47,7 +47,6 @@
         <attribute name="totalCreditLineCurrency" optional="YES" attributeType="String"/>
         <relationship name="balanceTiers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AccountBalanceTier" inverseName="account" inverseEntity="AccountBalanceTier"/>
         <relationship name="bills" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Bill" inverseName="account" inverseEntity="Bill"/>
-        <relationship name="budgets" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Budget"/>
         <relationship name="goals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Goal" inverseName="account" inverseEntity="Goal"/>
         <relationship name="providerAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProviderAccount" inverseName="accounts" inverseEntity="ProviderAccount"/>
         <relationship name="reports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReportAccountBalance" inverseName="account" inverseEntity="ReportAccountBalance"/>
@@ -127,15 +126,14 @@
         <attribute name="budgetID" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="currency" optional="YES" attributeType="String"/>
         <attribute name="currentAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
-        <attribute name="estimatedTargetAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="frequencyRawValue" optional="YES" attributeType="String"/>
+        <attribute name="imageURLString" optional="YES" attributeType="String"/>
         <attribute name="isCurrent" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="metadataRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="periodAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="periodsCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="startDateString" optional="YES" attributeType="String"/>
         <attribute name="statusRawValue" optional="YES" attributeType="String"/>
-        <attribute name="targetAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="trackingStatusRawValue" optional="YES" attributeType="String"/>
         <attribute name="typeRawValue" optional="YES" attributeType="String"/>
         <attribute name="typeValue" optional="YES" attributeType="String"/>
@@ -559,11 +557,11 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="808"/>
+        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="793"/>
         <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
         <element name="Bill" positionX="-378" positionY="162" width="128" height="360"/>
         <element name="BillPayment" positionX="-378" positionY="162" width="128" height="178"/>
-        <element name="Budget" positionX="-378" positionY="162" width="128" height="298"/>
+        <element name="Budget" positionX="-378" positionY="162" width="128" height="283"/>
         <element name="BudgetPeriod" positionX="-369" positionY="171" width="128" height="193"/>
         <element name="Goal" positionX="-378" positionY="162" width="128" height="388"/>
         <element name="GoalPeriod" positionX="-360" positionY="180" width="128" height="193"/>

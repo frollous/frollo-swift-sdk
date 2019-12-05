@@ -51,6 +51,34 @@ extension APIService {
         }
     }
     
+    internal func createBudget(request: APIBudgetCreateRequest, completion: @escaping RequestCompletion<APIBudgetResponse>) {
+        requestQueue.async {
+            let url = URL(string: BudgetsEndpoint.budgets.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APIBudgetResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func deleteBudget(budgetID: Int64, completion: @escaping NetworkCompletion) {
+        requestQueue.async {
+            let url = URL(string: BudgetsEndpoint.budget(budgetID: budgetID).path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     // MARK: - Budget Periods
     
     internal func fetchBudgetPeriod(budgetID: Int64, budgetPeriodID: Int64, completion: @escaping RequestCompletion<APIBudgetPeriodResponse>) {

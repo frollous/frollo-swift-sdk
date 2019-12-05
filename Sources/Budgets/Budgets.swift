@@ -225,6 +225,84 @@ public class Budgets: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Create a new budget on the host
+     
+     - parameters:
+         - frequency: Frequency of  the budget
+         - periodAmount: Budget amount for one budget period
+         - budgetType: `BudgetType` of the budget
+         - typeValue: value of `budgetType`
+         - imageURL: Image Url of the budget (Optional)
+         - completion: Optional completion handler with optional error if the request fails
+     */
+    public func createBudget(frequency: Budget.Frequency,
+                             periodAmount: Decimal?,
+                             budgetType: Budget.BudgetType,
+                             typeValue: String,
+                             imageURL: String? = nil,
+                             completion: FrolloSDKCompletionHandler? = nil) {
+        
+        let request = APIBudgetCreateRequest(frequency: frequency, periodAmount: (periodAmount as NSDecimalNumber?)?.stringValue, type: budgetType, typeValue: typeValue, imageURL: imageURL)
+        
+        guard request.valid()
+        else {
+            let error = DataError(type: .api, subType: .invalidData)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
+        service.createBudget(request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleBudgetResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    self.linkBudgetPeriodsToBudgets(managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
+     Detele a specific budget by ID from the host
+     
+     - parameters:
+        - budgetID: ID of the budget to be deleted
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func deleteBudget(budgetID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        service.deleteBudget(budgetID: budgetID) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success:
+                    self.removeCachedBudget(budgetID: budgetID)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
     // MARK: - Budget Periods
     
     /**
@@ -482,6 +560,26 @@ public class Budgets: CachedObjects, ResponseHandler {
         if let budgetIDs = updatedLinkedIDs[\BudgetPeriod.budgetID] {
             linkingBudgetIDs = linkingBudgetIDs.union(budgetIDs)
         }
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func removeCachedBudget(budgetID: Int64) {
+        budgetsLock.lock()
+        
+        defer {
+            budgetsLock.unlock()
+        }
+        
+        let managedObjectContext = database.newBackgroundContext()
+        
+        removeObject(type: Budget.self, id: budgetID, primaryKey: #keyPath(Budget.budgetID), managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
             do {

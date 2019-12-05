@@ -61,14 +61,11 @@ extension Budget {
     /// The amount you want each BudgetPeriod to be.
     @NSManaged public var periodAmount: NSDecimalNumber
     
-    /// The overall target amount of the Budget.
-    @NSManaged public var targetAmount: NSDecimalNumber
+    /// Raw value for the image URL (Optional)
+    @NSManaged public var imageURLString: String?
     
     /// The date at which to start the Budget.
     @NSManaged public var startDateString: String
-    
-    /// A calculated field that gives you the estimated targetAmount that you would hit at the end_date, based on your previous performance. (optional)
-    @NSManaged public var estimatedTargetAmount: NSDecimalNumber?
     
     /// The number of periods that belong to this budget.
     @NSManaged public var periodsCount: Int64

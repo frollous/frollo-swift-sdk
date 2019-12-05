@@ -25,17 +25,15 @@ extension Budget: TestableCoreData {
         currentAmount = 7514.92
         currency = "AUD"
         startDateString = "2019-12-02"
-        estimatedTargetAmount = 20000
         frequency = Frequency.allCases.randomElement()!
         metadata = ["seen": Bool.random()]
         periodAmount = 300
         budgetType = BudgetType.allCases.randomElement()!
         periodsCount = Int64.random(in: 1...12)
         status = Status.allCases.randomElement()!
-        targetAmount = 20000
+        imageURLString = "http://www.example.com/image/image_1.png"
         trackingStatus = TrackingStatus.allCases.randomElement()!
         typeValue = ""
     }
     
 }
-

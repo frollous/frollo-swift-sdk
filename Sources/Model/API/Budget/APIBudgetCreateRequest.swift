@@ -17,42 +17,24 @@
 import Foundation
 import SwiftyJSON
 
-struct APIBudgetResponse: Codable, APIUniqueResponse {
+struct APIBudgetCreateRequest: Codable {
     
     enum CodingKeys: String, CodingKey {
-        case budgetType = "type"
-        case currentAmount = "current_amount"
-        case currentPeriod = "current_period"
-        case currency
         case frequency
-        case id
         case imageURL = "image_url"
-        case isCurrent = "is_current"
-        case metadata
         case periodAmount = "period_amount"
-        case periodsCount = "periods_count"
-        case startDate = "start_date"
-        case status
-        case trackingStatus = "tracking_status"
+        case type
         case typeValue = "type_value"
-        case userID = "user_id"
     }
     
-    var id: Int64
-    let currentAmount: String
-    let currentPeriod: APIBudgetPeriodResponse?
-    let isCurrent: Bool
-    let currency: String
     let frequency: Budget.Frequency
-    let metadata: JSON?
-    let periodAmount: String
-    let periodsCount: Int64
-    let startDate: String
-    let status: Budget.Status
-    let imageURL: String?
-    let trackingStatus: Budget.TrackingStatus
-    let budgetType: Budget.BudgetType
+    let periodAmount: String?
+    let type: Budget.BudgetType
     let typeValue: String
-    let userID: Int64
+    let imageURL: String?
+    
+    internal func valid() -> Bool {
+        return periodAmount != nil && !typeValue.isEmpty
+    }
     
 }

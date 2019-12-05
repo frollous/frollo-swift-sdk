@@ -332,7 +332,6 @@ class BudgetsTests: BaseTestCase {
                             XCTAssertEqual(budget.isCurrent,true)
                             XCTAssertEqual(budget.currency, "AUD")
                             XCTAssertEqual(budget.currentAmount, 3880.00)
-                            XCTAssertEqual(budget.estimatedTargetAmount, 248.33)
                             XCTAssertEqual(budget.frequency, .fourWeekly)
                             XCTAssertEqual(budget.metadata, [:])
                             XCTAssertEqual(budget.periodAmount, 15.38)
@@ -340,12 +339,110 @@ class BudgetsTests: BaseTestCase {
                             XCTAssertEqual(budget.startDateString, "2019-10-02")
                             XCTAssertEqual(budget.status, .active)
                             XCTAssertEqual(budget.typeValue, "lifestyle")
-                            XCTAssertEqual(budget.targetAmount, 1000.00)
+                            XCTAssertEqual(budget.imageURLString, "http://www.example.com/image/image_1.png")
                             XCTAssertEqual(budget.trackingStatus, .ahead)
                             XCTAssertEqual(budget.budgetType, .category)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testCreateBudget() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "budget_valid_4", addingStatusCode: 201)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.budgets.createBudget(frequency: .weekly, periodAmount: 100, budgetType: .category, typeValue: "22", imageURL: "http://www.example.com/image/image_1.png") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = self.database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Budget> = Budget.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [4])
+                        
+                        do {
+                            let fetchedBudgets = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedBudgets.first?.budgetID, 4)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testCreateBudgetInvalidDataFails() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "budget_valid_4", addingStatusCode: 201)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.budgets.createBudget(frequency: .weekly, periodAmount: 100, budgetType: .category, typeValue: "") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .api)
+                            XCTAssertEqual(dataError.subType, .invalidData)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Invalid data should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testDeleteBudget() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: BudgetsEndpoint.budget(budgetID: 4).path.prefixedWithSlash, addingData: Data(), addingStatusCode: 204)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let budget = Budget(context: managedObjectContext)
+                budget.populateTestData()
+                budget.budgetID = 4
+                
+                try? managedObjectContext.save()
+            }
+            
+            self.budgets.deleteBudget(budgetID: 4) { (result) in
+                switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    let deletedBudget = self.budgets.budget(context: self.database.viewContext, budgetID: 4)
+                    XCTAssertNil(deletedBudget)
                 }
                 
                 expectation1.fulfill()
@@ -374,7 +471,6 @@ class BudgetsTests: BaseTestCase {
                 
                 try! managedObjectContext.save()
             }
-            
             
             let budgetPeriod = self.budgets.budgetPeriod(context: self.database.viewContext, budgetPeriodID: id)
             
