@@ -893,8 +893,10 @@ class ReportsTests: XCTestCase {
     func testFetchTransactionReport_GroupedByCategory() {
 
         let expectation1 = expectation(description: "Database setup")
+        
+        let filter = TransactionReportFilter.category(id: 1)
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory(entity: filter.entity, id: filter.id).path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_txn_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -923,8 +925,9 @@ class ReportsTests: XCTestCase {
         let expectation2 = expectation(description: "Network Call")
 
         var fetchResult: Result<[ReportResponse<TransactionCategoryGroupReport>], Error>?
+        
 
-        reports.fetchTransactionReports(grouping: TransactionCategoryGroupReport.self, period: .week, from: fromDate, to: toDate) { (result) in
+        reports.fetchTransactionReports(filtering: filter, grouping: TransactionCategoryGroupReport.self, period: .week, from: fromDate, to: toDate) { (result) in
             fetchResult = result
             expectation2.fulfill()
         }
@@ -946,8 +949,10 @@ class ReportsTests: XCTestCase {
     func testFetchTransactionReport_GroupedByMerchant() {
 
         let expectation1 = expectation(description: "Database setup")
+        
+        let filter = TransactionReportFilter.category(id: 1)
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory(entity: filter.entity, id: filter.id).path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_merchant_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -977,7 +982,7 @@ class ReportsTests: XCTestCase {
 
         var fetchResult: Result<[ReportResponse<MerchantGroupReport>], Error>?
 
-        reports.fetchTransactionReports(grouping: MerchantGroupReport.self, period: .week, from: fromDate, to: toDate) { (result) in
+        reports.fetchTransactionReports(filtering: filter, grouping: MerchantGroupReport.self, period: .week, from: fromDate, to: toDate) { (result) in
             fetchResult = result
             expectation2.fulfill()
         }

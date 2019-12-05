@@ -87,7 +87,9 @@ class ReportsRequestTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory.path)) { (request) -> OHHTTPStubsResponse in
+        let filter = TransactionReportFilter.category(id: 1)
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory(entity: filter.entity, id: filter.id).path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_txn_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -101,7 +103,7 @@ class ReportsRequestTests: XCTestCase {
         let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
         let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
         
-        service.fetchTransactionHistoryReports(grouping: .budgetCategory, period: .month, fromDate: fromDate, toDate: toDate) { (result) in
+        service.fetchTransactionHistoryReports(filtering: filter, grouping: ReportGrouping.transactionCategory, period: .week, fromDate: Date(), toDate: Date()) { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
