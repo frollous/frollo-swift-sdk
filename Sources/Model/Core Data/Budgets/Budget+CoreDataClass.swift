@@ -264,4 +264,9 @@ extension Budget {
         }
     }
     
+    internal func updateRequest() -> APIBudgetUpdateRequest {
+        
+        return APIBudgetUpdateRequest(imageURL: imageURLString, metadata: metadata, periodAmount: periodAmount.stringValue)
+    }
+    
 }

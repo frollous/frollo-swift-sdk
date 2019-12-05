@@ -30,13 +30,13 @@ public class ReportResponse<T: Reportable> {
     public let groupReports: [T]
     public let isIncome: Bool
     public let date: String
-    public let value: Double
+    public let value: Decimal
     
     init(type: T.Type, report: APIReportsResponse.Report) {
         self.groupReports = report.groups.map { T(groupReport: $0) }
         self.isIncome = report.income
         self.date = report.date
-        self.value = Double(report.value) ?? 0
+        self.value = Decimal(string: report.value)
     }
 }
 
@@ -44,10 +44,10 @@ public typealias ReportsResponse<T: Reportable> = [ReportResponse<T>]
 
 public class GroupReport {
     public var transactionIDs: [Int64]
-    public var value: Double
+    public var value: Decimal
     public var isIncome: Bool
     
-    public init(transactionIDs: [Int64], value: Double, isIncome: Bool) {
+    public init(transactionIDs: [Int64], value: Decimal, isIncome: Bool) {
         self.transactionIDs = transactionIDs
         self.value = value
         self.isIncome = isIncome
@@ -55,7 +55,7 @@ public class GroupReport {
     
     public init(groupReport: APIReportsResponse.Report.GroupReport) {
         self.transactionIDs = groupReport.transactionIDs
-        self.value = Double(groupReport.value) ?? 0
+        self.value = Decimal(string: groupReport.value)
         self.isIncome = groupReport.income
     }
 }
