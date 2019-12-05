@@ -218,8 +218,16 @@ public class Reports: ResponseHandler, CachedObjects {
         - tag : Tag associated to the report. Leave blank to return default report (Optional)
         - completion: Completion handler with either the data from the host or an error
      */
-    public func fetchTransactionHistoryReports(grouping: ReportGrouping, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, budgetCategory: BudgetCategory? = nil, tag: String? = nil, completion: @escaping RequestCompletion<APITransactionHistoryReportsResponse>) {
-        service.fetchTransactionHistoryReports(grouping: grouping, period: period, fromDate: fromDate, toDate: toDate, budgetCategory: budgetCategory, tag: tag, completion: completion)
+    public func fetchTransactionReports<T: Reportable>(grouping: T.Type, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<T>>) {
+        service.fetchTransactionHistoryReports(grouping: T.grouping, period: period, fromDate: fromDate, toDate: toDate) { result in
+            switch result {
+                case .success(let response):
+                    let reports = response.data.map { ReportResponse(type: T.self, report: $0) }
+                    completion(.success(reports))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
+        }
     }
     
     // MARK: - Linking Objects

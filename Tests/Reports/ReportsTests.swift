@@ -831,6 +831,167 @@ class ReportsTests: XCTestCase {
         
         wait(for: [expectation5], timeout: 5.0)
     }
+
+    // MARK: - Transaction Report Tests
+
+    func testFetchTransactionReport_GroupedByBudgetCategory() {
+
+        let expectation1 = expectation(description: "Database setup")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_budget_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+
+        let aggregation = Aggregation(database: database, service: service)
+        let reports = Reports(database: database, service: service, aggregation: aggregation)
+
+        let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
+        let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2019-01-29")!
+
+        let expectation2 = expectation(description: "Network Call")
+
+        var fetchResult: Result<[ReportResponse<BudgetCategoryGroupReport>], Error>?
+
+        reports.fetchTransactionReports(grouping: BudgetCategoryGroupReport.self, period: .week, from: fromDate, to: toDate) { (result) in
+            fetchResult = result
+            expectation2.fulfill()
+        }
+
+        wait(for: [expectation2], timeout: 3.0)
+
+        switch fetchResult {
+        case .success(let response):
+            guard response.count > 2 else { XCTFail(); return }
+            let secondItem = response[1]
+            guard secondItem.groupReports.count > 2 else { XCTFail(); return }
+            let secondReport = secondItem.groupReports[1]
+            XCTAssertEqual(secondReport.budgetCategory, BudgetCategory.living)
+        default:
+            XCTFail()
+        }
+    }
+
+    func testFetchTransactionReport_GroupedByCategory() {
+
+        let expectation1 = expectation(description: "Database setup")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_txn_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+
+        let aggregation = Aggregation(database: database, service: service)
+        let reports = Reports(database: database, service: service, aggregation: aggregation)
+
+        let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
+        let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2019-01-29")!
+
+        let expectation2 = expectation(description: "Network Call")
+
+        var fetchResult: Result<[ReportResponse<TransactionCategoryGroupReport>], Error>?
+
+        reports.fetchTransactionReports(grouping: TransactionCategoryGroupReport.self, period: .week, from: fromDate, to: toDate) { (result) in
+            fetchResult = result
+            expectation2.fulfill()
+        }
+
+        wait(for: [expectation2], timeout: 3.0)
+
+        switch fetchResult {
+        case .success(let response):
+            guard response.count > 2 else { XCTFail(); return }
+            let secondItem = response[1]
+            guard secondItem.groupReports.count > 2 else { XCTFail(); return }
+            let secondReport = secondItem.groupReports[1]
+            XCTAssertEqual(secondReport.id, 66)
+        default:
+            XCTFail()
+        }
+    }
+
+    func testFetchTransactionReport_GroupedByMerchant() {
+
+        let expectation1 = expectation(description: "Database setup")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_merchant_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+
+        let aggregation = Aggregation(database: database, service: service)
+        let reports = Reports(database: database, service: service, aggregation: aggregation)
+
+        let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
+        let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2019-01-29")!
+
+        let expectation2 = expectation(description: "Network Call")
+
+        var fetchResult: Result<[ReportResponse<MerchantGroupReport>], Error>?
+
+        reports.fetchTransactionReports(grouping: MerchantGroupReport.self, period: .week, from: fromDate, to: toDate) { (result) in
+            fetchResult = result
+            expectation2.fulfill()
+        }
+
+        wait(for: [expectation2], timeout: 3.0)
+
+        switch fetchResult {
+        case .success(let response):
+            guard response.count > 2 else { XCTFail(); return }
+            let secondItem = response[1]
+            guard secondItem.groupReports.count > 2 else { XCTFail(); return }
+            let secondReport = secondItem.groupReports[1]
+            XCTAssertEqual(secondReport.id, 2)
+        default:
+            XCTFail()
+        }
+    }
     
     // MARK: - Current Report Tests
     

@@ -101,7 +101,7 @@ class ReportsRequestTests: XCTestCase {
         let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
         let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
         
-        service.fetchTransactionHistoryReports(grouping: .budgetCategory, period: .month, fromDate: fromDate, toDate: toDate, budgetCategory: nil) { (result) in
+        service.fetchTransactionHistoryReports(grouping: .budgetCategory, period: .month, fromDate: fromDate, toDate: toDate) { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -119,7 +119,7 @@ class ReportsRequestTests: XCTestCase {
                             XCTAssertEqual(firstGroupReport.name, "Entertainment/Recreation")
                             XCTAssertEqual(firstGroupReport.value, "-17.99")
                             XCTAssertEqual(firstGroupReport.transactionIDs, [194418])
-                            XCTAssertNil(firstGroupReport.budget)
+                            XCTAssertFalse(firstGroupReport.income)
                         } else {
                             XCTFail("No category report")
                         }

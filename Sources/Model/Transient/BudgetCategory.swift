@@ -38,4 +38,21 @@ public enum BudgetCategory: String, Codable, CaseIterable {
     /// Savings budget
     case savings = "goals"
     
+    init?(id: Int64) {
+        switch id {
+            case 0:
+                self = .income
+            case 1:
+                self = .living
+            case 2:
+                self = .lifestyle
+            case 3:
+                self = .savings
+            case 4:
+                self = .oneOff
+            default:
+                return nil
+        }
+    }
+    
 }
