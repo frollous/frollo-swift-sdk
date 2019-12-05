@@ -451,6 +451,52 @@ class BudgetsTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testUpdateBudget() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.budget(budgetID: 4).path.prefixedWithSlash, toResourceWithName: "budget_valid_4")
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let context = self.database.newBackgroundContext()
+            
+            context.performAndWait {
+                let budget = Budget(context: context)
+                budget.populateTestData()
+                budget.budgetID = 4
+                
+                try? context.save()
+            }
+            
+            self.budgets.updateBudget(budgetID: 4) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = self.database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Budget> = Budget.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [4])
+                        
+                        do {
+                            let fetchedBudgets = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedBudgets.first?.budgetID, 4)
+                            XCTAssertEqual(fetchedBudgets.first?.startDateString, "2019-10-02")
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
         
     // MARK: - Budget Periods
     
