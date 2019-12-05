@@ -332,7 +332,6 @@ class BudgetsTests: BaseTestCase {
                             XCTAssertEqual(budget.isCurrent,true)
                             XCTAssertEqual(budget.currency, "AUD")
                             XCTAssertEqual(budget.currentAmount, 3880.00)
-                            XCTAssertEqual(budget.estimatedTargetAmount, 248.33)
                             XCTAssertEqual(budget.frequency, .fourWeekly)
                             XCTAssertEqual(budget.metadata, [:])
                             XCTAssertEqual(budget.periodAmount, 15.38)

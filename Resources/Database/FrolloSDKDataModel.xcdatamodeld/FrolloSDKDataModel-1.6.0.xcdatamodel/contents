@@ -126,7 +126,6 @@
         <attribute name="budgetID" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="currency" optional="YES" attributeType="String"/>
         <attribute name="currentAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
-        <attribute name="estimatedTargetAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="frequencyRawValue" optional="YES" attributeType="String"/>
         <attribute name="imageURLString" optional="YES" attributeType="String"/>
         <attribute name="isCurrent" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -562,7 +561,7 @@
         <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
         <element name="Bill" positionX="-378" positionY="162" width="128" height="360"/>
         <element name="BillPayment" positionX="-378" positionY="162" width="128" height="178"/>
-        <element name="Budget" positionX="-378" positionY="162" width="128" height="298"/>
+        <element name="Budget" positionX="-378" positionY="162" width="128" height="283"/>
         <element name="BudgetPeriod" positionX="-369" positionY="171" width="128" height="193"/>
         <element name="Goal" positionX="-378" positionY="162" width="128" height="388"/>
         <element name="GoalPeriod" positionX="-360" positionY="180" width="128" height="193"/>

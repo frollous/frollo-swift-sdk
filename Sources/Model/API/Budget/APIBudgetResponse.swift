@@ -24,7 +24,6 @@ struct APIBudgetResponse: Codable, APIUniqueResponse {
         case currentAmount = "current_amount"
         case currentPeriod = "current_period"
         case currency
-        case estimatedTargetAmount = "estimated_target_amount"
         case frequency
         case id
         case imageURL = "image_url"
@@ -44,7 +43,6 @@ struct APIBudgetResponse: Codable, APIUniqueResponse {
     let currentPeriod: APIBudgetPeriodResponse?
     let isCurrent: Bool
     let currency: String
-    let estimatedTargetAmount: String?
     let frequency: Budget.Frequency
     let metadata: JSON?
     let periodAmount: String

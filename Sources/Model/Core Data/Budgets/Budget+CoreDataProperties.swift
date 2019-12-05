@@ -67,9 +67,6 @@ extension Budget {
     /// The date at which to start the Budget.
     @NSManaged public var startDateString: String
     
-    /// A calculated field that gives you the estimated targetAmount that you would hit at the end_date, based on your previous performance. (optional)
-    @NSManaged public var estimatedTargetAmount: NSDecimalNumber?
-    
     /// The number of periods that belong to this budget.
     @NSManaged public var periodsCount: Int64
     

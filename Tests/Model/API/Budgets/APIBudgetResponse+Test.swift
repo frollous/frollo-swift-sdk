@@ -28,7 +28,6 @@ extension APIBudgetResponse {
                                  currentPeriod: period,
                                  isCurrent: true,
                                  currency: "4514",
-                                 estimatedTargetAmount: "5000",
                                  frequency: Budget.Frequency.allCases.randomElement()!,
                                  metadata: ["seen": true],
                                  periodAmount: "25000",

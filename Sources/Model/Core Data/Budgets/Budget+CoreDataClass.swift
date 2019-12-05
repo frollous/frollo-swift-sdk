@@ -256,11 +256,6 @@ extension Budget {
         imageURLString = response.imageURL
         trackingStatus = response.trackingStatus
         
-        if let amount = response.estimatedTargetAmount {
-            estimatedTargetAmount = NSDecimalNumber(string: amount)
-        } else {
-            estimatedTargetAmount = nil
-        }
     }
     
     func linkObject(object: NSManagedObject) {
