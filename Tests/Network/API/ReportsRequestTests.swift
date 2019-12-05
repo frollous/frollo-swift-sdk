@@ -103,7 +103,7 @@ class ReportsRequestTests: XCTestCase {
         let fromDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-01-01")!
         let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2018-12-31")!
         
-        service.fetchTransactionHistoryReports(filtering: filter, grouping: ReportGrouping.transactionCategory, period: .week, fromDate: Date(), toDate: Date()) { (result) in
+        service.fetchTransactionHistoryReports(filtering: filter, grouping: ReportGrouping.transactionCategory, period: .week, fromDate: fromDate, toDate: toDate) { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)

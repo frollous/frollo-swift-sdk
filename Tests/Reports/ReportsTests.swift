@@ -842,7 +842,7 @@ class ReportsTests: XCTestCase {
         let transactionHistoryPath = ReportsEndpoint.transactionsHistory(entity: filter.entity, id: filter.id)
 
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + transactionHistoryPath.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_budget_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_txn_category_monthly_2019_01_01_2019_12_31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
         let mockAuthentication = MockAuthentication()
@@ -897,7 +897,7 @@ class ReportsTests: XCTestCase {
         let filter = TransactionReportFilter.category(id: 1)
 
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory(entity: filter.entity, id: filter.id).path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_txn_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_txn_category_monthly_2019_01_01_2019_12_31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
         let mockAuthentication = MockAuthentication()
@@ -953,7 +953,7 @@ class ReportsTests: XCTestCase {
         let filter = TransactionReportFilter.category(id: 1)
 
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory(entity: filter.entity, id: filter.id).path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_merchant_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_merchant_monthly_2019_01_01_2019_12_31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
         let mockAuthentication = MockAuthentication()
