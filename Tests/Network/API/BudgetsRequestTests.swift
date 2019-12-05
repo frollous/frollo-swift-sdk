@@ -58,5 +58,27 @@ class BudgetsRequestTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testUpdateBudget() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: BudgetsEndpoint.budget(budgetID: 4).path.prefixedWithSlash, toResourceWithName: "budget_valid_4", addingStatusCode: 201)
+        
+        let request = APIBudgetUpdateRequest.testData()
+        
+        service.updateBudget(budgetID: 4, request: request) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.id, 4)
+                    XCTAssertEqual(response.imageURL, "http://www.example.com/image/image_1.png")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
 
 }

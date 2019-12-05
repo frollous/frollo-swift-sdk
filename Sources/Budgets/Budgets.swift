@@ -303,6 +303,54 @@ public class Budgets: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Update a budget on the host
+     
+     - parameters:
+        - budgetID: ID of the budget to be updated
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func updateBudget(budgetID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        let managedObjectContext = database.newBackgroundContext()
+        
+        guard let budget = budget(context: managedObjectContext, budgetID: budgetID)
+        else {
+            let error = DataError(type: .database, subType: .notFound)
+            
+            DispatchQueue.main.async {
+                completion?(.failure(error))
+            }
+            return
+        }
+        
+        var request: APIBudgetUpdateRequest!
+        
+        managedObjectContext.performAndWait {
+            request = budget.updateRequest()
+        }
+        
+        service.updateBudget(budgetID: budgetID, request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleBudgetResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    self.linkBudgetPeriodsToBudgets(managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
     // MARK: - Budget Periods
     
     /**
