@@ -25,7 +25,7 @@ extension APIReportsResponse.Report.GroupReport {
             id: Int64.random(in: range),
             name: String.randomString(range: 1...20),
             transactionIDs: [Int64.random(in: 1...Int64.max), Int64.random(in: 1...Int64.max), Int64.random(in: 1...Int64.max)],
-            value: "8.97"
+            value: 8.97
         )
     }
 }
@@ -35,7 +35,7 @@ extension APIReportsResponse.Report {
         return APIReportsResponse.Report(groups: APIReportsResponse.testGroupReports(),
                                          income: true,
                                          date: "2018-" + String(monthNumber) + "-01",
-                                         value: "10.32")
+                                         value: 10.32)
     }
 }
 

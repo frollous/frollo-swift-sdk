@@ -842,7 +842,7 @@ class ReportsTests: XCTestCase {
         let transactionHistoryPath = ReportsEndpoint.transactionsHistory(entity: filter.entity, id: filter.id)
 
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + transactionHistoryPath.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_txn_category_monthly_2019_01_01_2019_12_31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_txn_budget_category_monthly_2019_01_01_2019_12_31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
         let mockAuthentication = MockAuthentication()
@@ -880,11 +880,11 @@ class ReportsTests: XCTestCase {
 
         switch fetchResult {
         case .success(let response):
-            guard response.count > 2 else { XCTFail(); return }
-            let secondItem = response[1]
+            guard response.count > 5 else { XCTFail(); return }
+            let secondItem = response[5]
             guard secondItem.groupReports.count > 2 else { XCTFail(); return }
             let secondReport = secondItem.groupReports[1]
-            XCTAssertEqual(secondReport.budgetCategory, BudgetCategory.living)
+            XCTAssertEqual(secondReport.budgetCategory, BudgetCategory.lifestyle)
         default:
             XCTFail()
         }
@@ -936,11 +936,11 @@ class ReportsTests: XCTestCase {
 
         switch fetchResult {
         case .success(let response):
-            guard response.count > 2 else { XCTFail(); return }
-            let secondItem = response[1]
+            guard response.count > 5 else { XCTFail(); return }
+            let secondItem = response[5]
             guard secondItem.groupReports.count > 2 else { XCTFail(); return }
             let secondReport = secondItem.groupReports[1]
-            XCTAssertEqual(secondReport.id, 66)
+            XCTAssertEqual(secondReport.id, 80)
         default:
             XCTFail()
         }
@@ -991,11 +991,11 @@ class ReportsTests: XCTestCase {
 
         switch fetchResult {
         case .success(let response):
-            guard response.count > 2 else { XCTFail(); return }
-            let secondItem = response[1]
+            guard response.count > 5 else { XCTFail(); return }
+            let secondItem = response[5]
             guard secondItem.groupReports.count > 2 else { XCTFail(); return }
             let secondReport = secondItem.groupReports[1]
-            XCTAssertEqual(secondReport.id, 2)
+            XCTAssertEqual(secondReport.id, 24)
         default:
             XCTFail()
         }

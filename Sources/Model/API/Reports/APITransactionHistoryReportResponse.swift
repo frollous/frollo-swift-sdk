@@ -34,14 +34,14 @@ public struct APIReportsResponse: Codable {
             public let id: Int64
             public let name: String
             public let transactionIDs: [Int64]
-            public let value: String
+            public let value: Decimal
             
         }
         
         public let groups: [GroupReport]
         public let income: Bool
         public let date: String
-        public let value: String
+        public let value: Decimal
         
     }
     

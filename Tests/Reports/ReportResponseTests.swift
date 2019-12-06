@@ -30,7 +30,7 @@ class ReportResponseTests: XCTestCase {
         XCTAssertEqual(budgetCategoryGroupReport.budgetCategory, budgetCategory)
         XCTAssertEqual(budgetCategoryGroupReport.isIncome, report.income)
         XCTAssertEqual(budgetCategoryGroupReport.transactionIDs, report.transactionIDs)
-        XCTAssertEqual(budgetCategoryGroupReport.value, Decimal(string: report.value))
+        XCTAssertEqual(budgetCategoryGroupReport.value, report.value)
     }
     
     func testReportResponse_Category() {
@@ -41,7 +41,7 @@ class ReportResponseTests: XCTestCase {
         XCTAssertEqual(category.id, report.id)
         XCTAssertEqual(category.isIncome, report.income)
         XCTAssertEqual(category.transactionIDs, report.transactionIDs)
-        XCTAssertEqual(category.value, Decimal(string: report.value))
+        XCTAssertEqual(category.value, report.value)
     }
     
     func testReportResponse_Merchant() {
@@ -52,7 +52,7 @@ class ReportResponseTests: XCTestCase {
         XCTAssertEqual(merchant.id, report.id)
         XCTAssertEqual(merchant.isIncome, report.income)
         XCTAssertEqual(merchant.transactionIDs, report.transactionIDs)
-        XCTAssertEqual(merchant.value, Decimal(string: report.value))
+        XCTAssertEqual(merchant.value, report.value)
     }
     
     func testReportResponse_Tag() {
@@ -63,7 +63,7 @@ class ReportResponseTests: XCTestCase {
         XCTAssertEqual(tag.id, report.id)
         XCTAssertEqual(tag.isIncome, report.income)
         XCTAssertEqual(tag.transactionIDs, report.transactionIDs)
-        XCTAssertEqual(tag.value, Decimal(string: report.value))
+        XCTAssertEqual(tag.value, report.value)
     }
     
     func testReportResponse() {
@@ -71,6 +71,6 @@ class ReportResponseTests: XCTestCase {
         let response = ReportResponse(type: BudgetCategoryGroupReport.self, report: report)
         XCTAssertEqual(response.date, report.date)
         XCTAssertEqual(response.isIncome, report.income)
-        XCTAssertEqual(response.value, Decimal(string: report.value))
+        XCTAssertEqual(response.value, report.value)
     }
 }
