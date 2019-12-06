@@ -4,9 +4,9 @@
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
 //  You may obtain a copy of the License at
-//
+// 
 //      http://www.apache.org/licenses/LICENSE-2.0
-//
+// 
 //  Unless required by applicable law or agreed to in writing, software
 //  distributed under the License is distributed on an "AS IS" BASIS,
 //  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,16 +14,19 @@
 //  limitations under the License.
 //
 
-import Foundation
+import XCTest
+import FrolloSDK
 
-extension Decimal {
-    init(string: String) {
-        self = NSDecimalNumber(string: string) as Decimal
-    }
-}
+class CaseIterable_RandomTests: XCTestCase {
 
-extension String {
-    init(decimal: Decimal) {
-        self = (decimal as NSDecimalNumber).stringValue
+    func testRandomCaseIterable() {
+        
+        let randomFrequency = Budget.Frequency.randomElement
+        XCTAssertTrue(Budget.Frequency.allCases.contains(randomFrequency))
+        
+        let randomStatus = Budget.Status.randomElement
+        XCTAssertTrue(Budget.Status.allCases.contains(randomStatus))
+        
     }
+
 }

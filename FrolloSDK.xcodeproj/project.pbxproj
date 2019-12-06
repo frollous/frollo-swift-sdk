@@ -1137,6 +1137,11 @@
 		03E157BB227BBFE50083F0D8 /* BaseTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E157B9227BBFD90083F0D8 /* BaseTestCase.swift */; };
 		03E157BC227BBFE50083F0D8 /* BaseTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E157B9227BBFD90083F0D8 /* BaseTestCase.swift */; };
 		03EB8B18227671A80080F59B /* APITransactionTagsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46C82272856500E0C6D6 /* APITransactionTagsResponse.swift */; };
+		13055C32239A191700E7D43B /* CaseIterable+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13055C31239A191700E7D43B /* CaseIterable+Random.swift */; };
+		13055C33239A191700E7D43B /* CaseIterable+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13055C31239A191700E7D43B /* CaseIterable+Random.swift */; };
+		13055C35239A1BEF00E7D43B /* CaseIterable+RandomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13055C34239A1BEF00E7D43B /* CaseIterable+RandomTests.swift */; };
+		13055C36239A1BEF00E7D43B /* CaseIterable+RandomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13055C34239A1BEF00E7D43B /* CaseIterable+RandomTests.swift */; };
+		13055C37239A1BEF00E7D43B /* CaseIterable+RandomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13055C34239A1BEF00E7D43B /* CaseIterable+RandomTests.swift */; };
 		1318C1C7237B95E200ABFC51 /* MessageMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1318C1C6237B95E200ABFC51 /* MessageMigration.swift */; };
 		1318C1D9237BAAA600ABFC51 /* FakeDatabaseModel.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 1318C1D6237BAAA500ABFC51 /* FakeDatabaseModel.sqlite-wal */; };
 		1318C1DA237BAAA600ABFC51 /* FakeDatabaseModel.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 1318C1D6237BAAA500ABFC51 /* FakeDatabaseModel.sqlite-wal */; };
@@ -1813,6 +1818,8 @@
 		03D965B22276DFD2009BC283 /* transactions_user_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transactions_user_tags.json; sourceTree = "<group>"; };
 		03D965B82277C519009BC283 /* Tag+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+Test.swift"; sourceTree = "<group>"; };
 		03E157B9227BBFD90083F0D8 /* BaseTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTestCase.swift; sourceTree = "<group>"; };
+		13055C31239A191700E7D43B /* CaseIterable+Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaseIterable+Random.swift"; sourceTree = "<group>"; };
+		13055C34239A1BEF00E7D43B /* CaseIterable+RandomTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaseIterable+RandomTests.swift"; sourceTree = "<group>"; };
 		1318C1C4237B877A00ABFC51 /* FrolloSDKDataModel-1.5.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.5.2.xcdatamodel"; sourceTree = "<group>"; };
 		1318C1C6237B95E200ABFC51 /* MessageMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMigration.swift; sourceTree = "<group>"; };
 		1318C1D6237BAAA500ABFC51 /* FakeDatabaseModel.sqlite-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FakeDatabaseModel.sqlite-wal"; sourceTree = "<group>"; };
@@ -3167,6 +3174,7 @@
 				012606CE219BBD75005D8377 /* String+Random.swift */,
 				016097E9210EA0D60034E857 /* XCTestCase+TempFolder.swift */,
 				03ADF877227937A9001B5E20 /* XCTestCaseExtensions.swift */,
+				13055C34239A1BEF00E7D43B /* CaseIterable+RandomTests.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3244,6 +3252,7 @@
 				017B83A6221A4CBF0022884E /* Result.swift */,
 				011E87CF213766550026E047 /* SecKeyPEM.swift */,
 				034BD7D523988D9D00142B7A /* Decimal.swift */,
+				13055C31239A191700E7D43B /* CaseIterable+Random.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -4389,6 +4398,7 @@
 				017B83A7221A4CBF0022884E /* Result.swift in Sources */,
 				01236D0C21EBF5AA008DD61A /* APITransactionCurrentReportResponse.swift in Sources */,
 				018240DD21C8B80B005705F9 /* Bill+CoreDataClass.swift in Sources */,
+				13055C32239A191700E7D43B /* CaseIterable+Random.swift in Sources */,
 				01C8250720EDDB4F0093400E /* DataError.swift in Sources */,
 				01ED8FC7211A5DE800ACE691 /* Transaction+CoreDataClass.swift in Sources */,
 				011C198921E3063600490EDD /* APIBillPaymentUpdateRequest.swift in Sources */,
@@ -4703,6 +4713,7 @@
 				011F814C219D35ED00A1495F /* EventsTests.swift in Sources */,
 				017F0FCE22DE9C1000ACE7BB /* APIGoalCreateRequest+Test.swift in Sources */,
 				017F0FEB22DEE71B00ACE7BB /* GoalPeriod+Test.swift in Sources */,
+				13055C35239A1BEF00E7D43B /* CaseIterable+RandomTests.swift in Sources */,
 				01613958228928F2001A62E8 /* OAuth2AuthenticationTests.swift in Sources */,
 				01483BA821194AEC00D0DA87 /* TransactionCategoryTests.swift in Sources */,
 				01236D1C21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift in Sources */,
@@ -4846,6 +4857,7 @@
 				011F814D219D35ED00A1495F /* EventsTests.swift in Sources */,
 				017F0FCF22DE9C1000ACE7BB /* APIGoalCreateRequest+Test.swift in Sources */,
 				017F0FEC22DEE71B00ACE7BB /* GoalPeriod+Test.swift in Sources */,
+				13055C36239A1BEF00E7D43B /* CaseIterable+RandomTests.swift in Sources */,
 				01613959228928F2001A62E8 /* OAuth2AuthenticationTests.swift in Sources */,
 				01483BA921194AEC00D0DA87 /* TransactionCategoryTests.swift in Sources */,
 				01236D1D21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift in Sources */,
@@ -4998,6 +5010,7 @@
 				011F814E219D35ED00A1495F /* EventsTests.swift in Sources */,
 				017F0FD022DE9C1000ACE7BB /* APIGoalCreateRequest+Test.swift in Sources */,
 				017F0FED22DEE71B00ACE7BB /* GoalPeriod+Test.swift in Sources */,
+				13055C37239A1BEF00E7D43B /* CaseIterable+RandomTests.swift in Sources */,
 				0161395A228928F2001A62E8 /* OAuth2AuthenticationTests.swift in Sources */,
 				017B48F32108356C00447E65 /* User+Test.swift in Sources */,
 				01236D1E21EC2FCB008DD61A /* ReportTransactionCurrent+Test.swift in Sources */,
@@ -5019,6 +5032,7 @@
 				01E5BEE72227A475003D85FD /* Result.swift in Sources */,
 				01E5BEE82227A475003D85FD /* APITransactionCurrentReportResponse.swift in Sources */,
 				01E5BEE92227A475003D85FD /* Bill+CoreDataClass.swift in Sources */,
+				13055C33239A191700E7D43B /* CaseIterable+Random.swift in Sources */,
 				01E5BEEA2227A475003D85FD /* DataError.swift in Sources */,
 				01E5BEEB2227A475003D85FD /* Transaction+CoreDataClass.swift in Sources */,
 				01E5BEEC2227A475003D85FD /* APIBillPaymentUpdateRequest.swift in Sources */,

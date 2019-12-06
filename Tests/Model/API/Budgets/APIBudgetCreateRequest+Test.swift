@@ -21,12 +21,12 @@ extension APIBudgetCreateRequest {
     
     static func testInvalidData() -> APIBudgetCreateRequest {
         
-        return APIBudgetCreateRequest(frequency: Budget.Frequency.allCases.randomElement()!, periodAmount: nil, type: Budget.BudgetType.allCases.randomElement()!, typeValue: "", imageURL: "http://www.example.com/image/image_1.png", startDate: "", metadata: [:])
+        return APIBudgetCreateRequest(frequency: Budget.Frequency.randomElement, periodAmount: nil, type: Budget.BudgetType.randomElement, typeValue: "", imageURL: "http://www.example.com/image/image_1.png", startDate: "", metadata: [:])
     }
     
     static func testValidData() -> APIBudgetCreateRequest {
         
-        return APIBudgetCreateRequest(frequency: Budget.Frequency.allCases.randomElement()!, periodAmount: "200", type: Budget.BudgetType.allCases.randomElement()!, typeValue: "22", imageURL: "http://www.example.com/image/image_1.png", startDate: "2019-12-12", metadata: ["example":true])
+        return APIBudgetCreateRequest(frequency: Budget.Frequency.randomElement, periodAmount: "200", type: Budget.BudgetType.randomElement, typeValue: "22", imageURL: "http://www.example.com/image/image_1.png", startDate: "2019-12-12", metadata: ["example":true])
     }
     
     

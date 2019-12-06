@@ -14,16 +14,9 @@
 //  limitations under the License.
 //
 
-import Foundation
-
-extension Decimal {
-    init(string: String) {
-        self = NSDecimalNumber(string: string) as Decimal
-    }
-}
-
-extension String {
-    init(decimal: Decimal) {
-        self = (decimal as NSDecimalNumber).stringValue
+extension CaseIterable {
+    public static var randomElement: Self {
+        let randomElement = Array(Self.allCases)
+        return randomElement[Int.random(in: 0..<Self.allCases.count)]
     }
 }
