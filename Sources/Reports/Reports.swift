@@ -239,7 +239,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - toDate: End date to fetch reports up to (inclusive)
         - completion: Completion handler with either the data from the host or an error
      */
-    public func fetchTransactionCategoryReports(_ id: Int? = nil, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<TransactionCategoryGroupReport>>) {
+    public func fetchTransactionCategoryReports(_ id: Int64? = nil, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<TransactionCategoryGroupReport>>) {
         fetchTransactionReports(filtering: .category(id: id), grouping: TransactionCategoryGroupReport.self, period: period, from: fromDate, to: toDate, completion: completion)
     }
     
@@ -253,7 +253,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - toDate: End date to fetch reports up to (inclusive)
         - completion: Completion handler with either the data from the host or an error
      */
-    public func fetchTransactionMerchantReports(_ id: Int? = nil, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<MerchantGroupReport>>) {
+    public func fetchTransactionMerchantReports(_ id: Int64? = nil, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<MerchantGroupReport>>) {
         fetchTransactionReports(filtering: .merchant(id: id), grouping: MerchantGroupReport.self, period: period, from: fromDate, to: toDate, completion: completion)
     }
     

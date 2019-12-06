@@ -55,7 +55,7 @@ public enum BudgetCategory: String, Codable, CaseIterable {
         }
     }
     
-    var id: Int {
+    var id: Int64 {
         switch self {
             case .income:
                 return 0
@@ -73,9 +73,9 @@ public enum BudgetCategory: String, Codable, CaseIterable {
 }
 
 enum TransactionReportFilter {
-    case budgetCategory(id: Int?)
-    case merchant(id: Int?)
-    case category(id: Int?)
+    case budgetCategory(id: Int64?)
+    case merchant(id: Int64?)
+    case category(id: Int64?)
     case tag(name: String?)
     
     var entity: String {
