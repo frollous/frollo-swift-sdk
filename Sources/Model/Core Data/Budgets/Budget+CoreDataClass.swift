@@ -142,12 +142,19 @@ public class Budget: NSManagedObject, UniqueManagedObject {
     }()
     
     // Start date of the budget
-    public var startDate: Date {
+    public var startDate: Date? {
         get {
-            return Budget.budgetDateFormatter.date(from: startDateString)!
+            if let rawDateString = startDateString {
+                return Budget.budgetDateFormatter.date(from: rawDateString)
+            }
+            return nil
         }
         set {
-            startDateString = Budget.budgetDateFormatter.string(from: newValue)
+            if let newRawDate = newValue {
+                startDateString = Budget.budgetDateFormatter.string(from: newRawDate)
+            } else {
+                startDateString = nil
+            }
         }
     }
     
@@ -204,7 +211,7 @@ public class Budget: NSManagedObject, UniqueManagedObject {
         }
     }
     
-    /// The strategy for tracking the Budget.
+    /// Budget type
     public var budgetType: BudgetType {
         get {
             return BudgetType(rawValue: typeRawValue)!

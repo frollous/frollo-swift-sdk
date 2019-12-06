@@ -40,7 +40,7 @@ extension Budget {
     /// Raw value for the type. Only use in predicates
     @NSManaged public var typeRawValue: String
     
-    /// Value of the type. name if budget category and id if category and merchant
+    /// Value of the `budgetType`. `name` if budget category and `id` if category and merchant.
     @NSManaged public var typeValue: String
     
     /// Raw value of tracking status. Only use in predicates
@@ -55,7 +55,7 @@ extension Budget {
     /// Currency of the budget
     @NSManaged public var currency: String
     
-    /// The current progress amount the Budget has. Depending on the tracking_type, this is the sum of all transactions for the Budget.
+    /// Current amount of the Budget
     @NSManaged public var currentAmount: NSDecimalNumber
     
     /// The amount you want each BudgetPeriod to be.
@@ -64,10 +64,10 @@ extension Budget {
     /// Raw value for the image URL (Optional)
     @NSManaged public var imageURLString: String?
     
-    /// The date at which to start the Budget.
-    @NSManaged public var startDateString: String
+    /// The date at which to start the Budget (Optional)
+    @NSManaged public var startDateString: String?
     
-    /// The number of periods that belong to this budget.
+    /// The number of periods that belong to this Budget
     @NSManaged public var periodsCount: Int64
     
     /// Custom JSON metadata (optional)

@@ -22,9 +22,11 @@ struct APIBudgetCreateRequest: Codable {
     enum CodingKeys: String, CodingKey {
         case frequency
         case imageURL = "image_url"
+        case metadata
         case periodAmount = "period_amount"
         case type
         case typeValue = "type_value"
+        case startDate = "start_date"
     }
     
     let frequency: Budget.Frequency
@@ -32,6 +34,8 @@ struct APIBudgetCreateRequest: Codable {
     let type: Budget.BudgetType
     let typeValue: String
     let imageURL: String?
+    let startDate: String?
+    let metadata: JSON?
     
     internal func valid() -> Bool {
         return periodAmount != nil && !typeValue.isEmpty
