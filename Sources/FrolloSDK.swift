@@ -480,7 +480,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         aggregation.refreshTransactions(from: Date().startOfLastMonth(), to: Date().endOfMonth())
         userManagement.refreshUser()
         messages.refreshUnreadMessages()
-        budgets.refreshBudgets()
+        budgets.refreshBudgets(current: true)
     }
     
     /**

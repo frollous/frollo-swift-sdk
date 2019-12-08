@@ -52,9 +52,9 @@ public class Budgets: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
+        - current: Filter budgets by current budget (optional)
         - budgetType: Filter by type of the budget (optional)
         - typeValue: Filter by  type value of the budget (optional). budget category name, category ID or merchant ID
-        - current: Filter budgets by current budget. Defaults to current budget = true (Optional)
         - frequency: Filter by frequency of the budget (optional)
         - status: Filter by status of the budget (optional)
         - trackingStatus: Filter by tracking status of the budget (optional)
@@ -63,7 +63,7 @@ public class Budgets: CachedObjects, ResponseHandler {
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func budgets(context: NSManagedObjectContext,
-                        current: Bool? = true,
+                        current: Bool? = nil,
                         budgetType: Budget.BudgetType? = nil,
                         typeValue: String? = nil,
                         frequency: Budget.Frequency? = nil,
@@ -111,7 +111,7 @@ public class Budgets: CachedObjects, ResponseHandler {
      
      - parameters:
         - context: Managed object context to fetch these from; background or main thread
-        - current: Filter budgets by current budget. Defaults to current budget = true (Optional)
+        - current: Filter budgets by current budget (optional)
         - budgetType: Filter by type of the budget (optional)
         - typeValue: Filter by  type value of the budget (optional). budget category name, category ID or merchant ID
         - frequency: Filter by frequency of the budget (optional)
@@ -123,7 +123,7 @@ public class Budgets: CachedObjects, ResponseHandler {
         - limit: Fetch limit to set maximum number of returned items (Optional)
      */
     public func budgetsFetchedResultsController(context: NSManagedObjectContext,
-                                                current: Bool? = true,
+                                                current: Bool? = nil,
                                                 budgetType: Budget.BudgetType? = nil,
                                                 typeValue: String? = nil,
                                                 frequency: Budget.Frequency? = nil,
@@ -204,7 +204,7 @@ public class Budgets: CachedObjects, ResponseHandler {
         - budgetType: Filter budget by budget `BudgetType`, defaults to budgetCategory (Optional)
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func refreshBudgets(current: Bool? = true, budgetType: Budget.BudgetType? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+    public func refreshBudgets(current: Bool? = nil, budgetType: Budget.BudgetType? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         service.fetchBudgets(current: current, budgetType: budgetType) { result in
             switch result {
                 case .failure(let error):
