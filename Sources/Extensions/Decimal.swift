@@ -21,3 +21,9 @@ extension Decimal {
         self = NSDecimalNumber(string: string) as Decimal
     }
 }
+
+extension String {
+    init(decimal: Decimal) {
+        self = (decimal as NSDecimalNumber).stringValue
+    }
+}
