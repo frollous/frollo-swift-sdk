@@ -837,9 +837,12 @@ class ReportsTests: XCTestCase {
     func testFetchTransactionReport_GroupedByBudgetCategory() {
 
         let expectation1 = expectation(description: "Database setup")
+        let budgetCategory = BudgetCategory.income
+        let filter = TransactionReportFilter.budgetCategory(id: budgetCategory.id)
+        let transactionHistoryPath = ReportsEndpoint.transactionsHistory(entity: filter.entity, id: filter.id)
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_budget_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + transactionHistoryPath.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_txn_budget_category_monthly_2019_01_01_2019_12_31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
         let mockAuthentication = MockAuthentication()
@@ -868,7 +871,7 @@ class ReportsTests: XCTestCase {
 
         var fetchResult: Result<[ReportResponse<BudgetCategoryGroupReport>], Error>?
 
-        reports.fetchTransactionReports(grouping: BudgetCategoryGroupReport.self, period: .week, from: fromDate, to: toDate) { (result) in
+        reports.fetchTransactionBudgetCategoryReports(budgetCategory, period: .week, from: fromDate, to: toDate) { (result) in
             fetchResult = result
             expectation2.fulfill()
         }
@@ -877,11 +880,11 @@ class ReportsTests: XCTestCase {
 
         switch fetchResult {
         case .success(let response):
-            guard response.count > 2 else { XCTFail(); return }
-            let secondItem = response[1]
+            guard response.count > 5 else { XCTFail(); return }
+            let secondItem = response[5]
             guard secondItem.groupReports.count > 2 else { XCTFail(); return }
             let secondReport = secondItem.groupReports[1]
-            XCTAssertEqual(secondReport.budgetCategory, BudgetCategory.living)
+            XCTAssertEqual(secondReport.budgetCategory, BudgetCategory.lifestyle)
         default:
             XCTFail()
         }
@@ -890,9 +893,11 @@ class ReportsTests: XCTestCase {
     func testFetchTransactionReport_GroupedByCategory() {
 
         let expectation1 = expectation(description: "Database setup")
+        
+        let filter = TransactionReportFilter.category(id: 1)
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_txn_category_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory(entity: filter.entity, id: filter.id).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_txn_category_monthly_2019_01_01_2019_12_31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
         let mockAuthentication = MockAuthentication()
@@ -920,8 +925,9 @@ class ReportsTests: XCTestCase {
         let expectation2 = expectation(description: "Network Call")
 
         var fetchResult: Result<[ReportResponse<TransactionCategoryGroupReport>], Error>?
+        
 
-        reports.fetchTransactionReports(grouping: TransactionCategoryGroupReport.self, period: .week, from: fromDate, to: toDate) { (result) in
+        reports.fetchTransactionReports(filtering: filter, grouping: TransactionCategoryGroupReport.self, period: .week, from: fromDate, to: toDate) { (result) in
             fetchResult = result
             expectation2.fulfill()
         }
@@ -930,11 +936,11 @@ class ReportsTests: XCTestCase {
 
         switch fetchResult {
         case .success(let response):
-            guard response.count > 2 else { XCTFail(); return }
-            let secondItem = response[1]
+            guard response.count > 5 else { XCTFail(); return }
+            let secondItem = response[5]
             guard secondItem.groupReports.count > 2 else { XCTFail(); return }
             let secondReport = secondItem.groupReports[1]
-            XCTAssertEqual(secondReport.id, 66)
+            XCTAssertEqual(secondReport.id, 80)
         default:
             XCTFail()
         }
@@ -943,9 +949,11 @@ class ReportsTests: XCTestCase {
     func testFetchTransactionReport_GroupedByMerchant() {
 
         let expectation1 = expectation(description: "Database setup")
+        
+        let filter = TransactionReportFilter.category(id: 1)
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_history_merchant_monthly_2018-01-01_2018-12-31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory(entity: filter.entity, id: filter.id).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_merchant_monthly_2019_01_01_2019_12_31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
         let mockAuthentication = MockAuthentication()
@@ -974,7 +982,7 @@ class ReportsTests: XCTestCase {
 
         var fetchResult: Result<[ReportResponse<MerchantGroupReport>], Error>?
 
-        reports.fetchTransactionReports(grouping: MerchantGroupReport.self, period: .week, from: fromDate, to: toDate) { (result) in
+        reports.fetchTransactionReports(filtering: filter, grouping: MerchantGroupReport.self, period: .week, from: fromDate, to: toDate) { (result) in
             fetchResult = result
             expectation2.fulfill()
         }
@@ -983,11 +991,11 @@ class ReportsTests: XCTestCase {
 
         switch fetchResult {
         case .success(let response):
-            guard response.count > 2 else { XCTFail(); return }
-            let secondItem = response[1]
+            guard response.count > 5 else { XCTFail(); return }
+            let secondItem = response[5]
             guard secondItem.groupReports.count > 2 else { XCTFail(); return }
             let secondReport = secondItem.groupReports[1]
-            XCTAssertEqual(secondReport.id, 2)
+            XCTAssertEqual(secondReport.id, 24)
         default:
             XCTFail()
         }

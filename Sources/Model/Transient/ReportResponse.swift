@@ -36,7 +36,7 @@ public class ReportResponse<T: Reportable> {
         self.groupReports = report.groups.map { T(groupReport: $0) }
         self.isIncome = report.income
         self.date = report.date
-        self.value = Decimal(string: report.value)
+        self.value = report.value
     }
 }
 
@@ -55,7 +55,7 @@ public class GroupReport {
     
     public init(groupReport: APIReportsResponse.Report.GroupReport) {
         self.transactionIDs = groupReport.transactionIDs
-        self.value = Decimal(string: groupReport.value)
+        self.value = groupReport.value
         self.isIncome = groupReport.income
     }
 }
