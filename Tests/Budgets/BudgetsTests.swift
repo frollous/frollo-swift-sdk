@@ -354,15 +354,15 @@ class BudgetsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
-    func testCreateBudget() {
+    func testCreateBudgetCategoryBudget() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "budget_valid_4", addingStatusCode: 201)
+        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "budget_category_budget", addingStatusCode: 201)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            self.budgets.createBudget(frequency: .weekly, periodAmount: 100, budgetType: .category, typeValue: "22", imageURL: "http://www.example.com/image/image_1.png") { (result) in
+            self.budgets.createBudgetCategoryBudget(budgetCategory: .lifestyle, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png") { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -376,6 +376,8 @@ class BudgetsTests: BaseTestCase {
                             let fetchedBudgets = try context.fetch(fetchRequest)
                             
                             XCTAssertEqual(fetchedBudgets.first?.budgetID, 4)
+                            XCTAssertEqual(fetchedBudgets.first?.typeValue, "lifestyle")
+                            XCTAssertEqual(fetchedBudgets.first?.budgetType, .budgetCategory)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -388,27 +390,69 @@ class BudgetsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
-    func testCreateBudgetInvalidDataFails() {
+    func testCreateCategoryBudget() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "budget_valid_4", addingStatusCode: 201)
+        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "category_budget", addingStatusCode: 201)
         
         database.setup { (error) in
             XCTAssertNil(error)
             
-            self.budgets.createBudget(frequency: .weekly, periodAmount: 100, budgetType: .category, typeValue: "") { (result) in
+            self.budgets.createCategoryBudget(categoryID: 11, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png") { (result) in
                 switch result {
                     case .failure(let error):
-                        XCTAssertNotNil(error)
-                        
-                        if let dataError = error as? DataError {
-                            XCTAssertEqual(dataError.type, .api)
-                            XCTAssertEqual(dataError.subType, .invalidData)
-                        } else {
-                            XCTFail("Wrong error returned")
-                        }
+                        XCTFail(error.localizedDescription)
                     case .success:
-                        XCTFail("Invalid data should fail")
+                        let context = self.database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Budget> = Budget.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [4])
+                        
+                        do {
+                            let fetchedBudgets = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedBudgets.first?.budgetID, 4)
+                            XCTAssertEqual(fetchedBudgets.first?.typeValue, "11")
+                            XCTAssertEqual(fetchedBudgets.first?.budgetType, .category)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testCreateMerchantBudget() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "merchant_budget", addingStatusCode: 201)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.budgets.createMerchantBudget(merchantID: 11, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = self.database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Budget> = Budget.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [4])
+                        
+                        do {
+                            let fetchedBudgets = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedBudgets.first?.budgetID, 4)
+                            XCTAssertEqual(fetchedBudgets.first?.typeValue, "11")
+                            XCTAssertEqual(fetchedBudgets.first?.budgetType, .merchant)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
                 
                 expectation1.fulfill()

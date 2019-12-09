@@ -38,7 +38,7 @@ extension APIService {
             var parameters = [String: Any]()
             
             if let currentParameter = current {
-                parameters[BudgetsEndpoint.QueryParameters.current.rawValue] = currentParameter
+                parameters[BudgetsEndpoint.QueryParameters.current.rawValue] = currentParameter ? "true" : "false"
             }
             
             if let budgetType = budgetType {
@@ -114,7 +114,7 @@ extension APIService {
             let url = URL(string: BudgetsEndpoint.periods(budgetID: budgetID).path, relativeTo: self.serverURL)!
             
             let dateFormatter = Budget.budgetDateFormatter
-            var parameters: Parameters = [:]
+            var parameters = [String: Any]()
             
             if let fromDate = fromDate {
                 parameters[BudgetsEndpoint.QueryParameters.fromDate.rawValue] = dateFormatter.string(from: fromDate)
@@ -124,9 +124,10 @@ extension APIService {
                 parameters[BudgetsEndpoint.QueryParameters.toDate.rawValue] = dateFormatter.string(from: toDate)
             }
             
-            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APIBudgetPeriodResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
+            
         }
     }
     

@@ -226,26 +226,85 @@ public class Budgets: CachedObjects, ResponseHandler {
     }
     
     /**
-     Create a new budget on the host
+     Create a new budget by budget category on the host
      
      - parameters:
+         - budgetCategory: `BudgetCategory` to create a budget
          - frequency: Frequency of  the budget
          - periodAmount: Budget amount for one budget period
-         - budgetType: `BudgetType` of the budget
-         - typeValue: value of `budgetType`
          - imageURL: Image Url of the budget (Optional)
          - startDate: start date of the budget (Optional)
          - metadata: Optional JSON metadata accociated withf the budget
          - completion: Optional completion handler with optional error if the request fails
      */
-    public func createBudget(frequency: Budget.Frequency,
-                             periodAmount: Decimal,
-                             budgetType: Budget.BudgetType,
-                             typeValue: String,
-                             imageURL: String? = nil,
-                             startDate: String? = nil,
-                             metadata: JSON = [:],
-                             completion: FrolloSDKCompletionHandler? = nil) {
+    public func createBudgetCategoryBudget(budgetCategory: BudgetCategory,
+                                           frequency: Budget.Frequency,
+                                           periodAmount: Decimal,
+                                           imageURL: String? = nil,
+                                           startDate: String? = nil,
+                                           metadata: JSON = [:],
+                                           completion: FrolloSDKCompletionHandler? = nil) {
+        
+        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .budgetCategory, typeValue: budgetCategory.rawValue, imageURL: imageURL, startDate: startDate, metadata: metadata, completion: completion)
+        
+    }
+    
+    /**
+     Create a new budget by category on the host
+     
+     - parameters:
+         - categoryID: id of the `Category` to create a budget
+         - frequency: Frequency of  the budget
+         - periodAmount: Budget amount for one budget period
+         - imageURL: Image Url of the budget (Optional)
+         - startDate: start date of the budget (Optional)
+         - metadata: Optional JSON metadata accociated withf the budget
+         - completion: Optional completion handler with optional error if the request fails
+     */
+    public func createCategoryBudget(categoryID: Int64,
+                                     frequency: Budget.Frequency,
+                                     periodAmount: Decimal,
+                                     imageURL: String? = nil,
+                                     startDate: String? = nil,
+                                     metadata: JSON = [:],
+                                     completion: FrolloSDKCompletionHandler? = nil) {
+        
+        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .category, typeValue: "\(categoryID)", imageURL: imageURL, startDate: startDate, metadata: metadata, completion: completion)
+        
+    }
+    
+    /**
+     Create a new budget by merchant on the host
+     
+     - parameters:
+         - merchantID: id of the `Merchant` to create a budget
+         - frequency: Frequency of  the budget
+         - periodAmount: Budget amount for one budget period
+         - imageURL: Image Url of the budget (Optional)
+         - startDate: start date of the budget (Optional)
+         - metadata: Optional JSON metadata accociated withf the budget
+         - completion: Optional completion handler with optional error if the request fails
+     */
+    public func createMerchantBudget(merchantID: Int64,
+                                     frequency: Budget.Frequency,
+                                     periodAmount: Decimal,
+                                     imageURL: String? = nil,
+                                     startDate: String? = nil,
+                                     metadata: JSON = [:],
+                                     completion: FrolloSDKCompletionHandler? = nil) {
+        
+        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .merchant, typeValue: "\(merchantID)", imageURL: imageURL, startDate: startDate, metadata: metadata, completion: completion)
+        
+    }
+    
+    private func createBudget(frequency: Budget.Frequency,
+                              periodAmount: Decimal,
+                              budgetType: Budget.BudgetType,
+                              typeValue: String,
+                              imageURL: String? = nil,
+                              startDate: String? = nil,
+                              metadata: JSON = [:],
+                              completion: FrolloSDKCompletionHandler? = nil) {
         
         let request = APIBudgetCreateRequest(frequency: frequency, periodAmount: String(decimal: periodAmount), type: budgetType, typeValue: typeValue, imageURL: imageURL, startDate: startDate, metadata: metadata)
         
