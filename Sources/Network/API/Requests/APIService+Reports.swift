@@ -26,7 +26,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: ReportsEndpoint.accountBalance.path, relativeTo: self.serverURL)!
             
-            let dateFormatter = ReportTransactionHistory.dailyDateFormatter
+            let dateFormatter = Reports.dailyDateFormatter
             
             var parameters = [ReportsEndpoint.QueryParameters.period.rawValue: period.rawValue,
                               ReportsEndpoint.QueryParameters.fromDate.rawValue: dateFormatter.string(from: fromDate),
@@ -47,11 +47,11 @@ extension APIService {
     
     // MARK: - Transaction History Reports
     
-    internal func fetchTransactionHistoryReports(filtering: TransactionReportFilter, grouping: ReportGrouping?, period: ReportTransactionHistory.Period, fromDate: Date, toDate: Date, completion: @escaping RequestCompletion<APIReportsResponse>) {
+    internal func fetchTransactionHistoryReports(filtering: TransactionReportFilter, grouping: ReportGrouping?, period: Reports.Period, fromDate: Date, toDate: Date, completion: @escaping RequestCompletion<APIReportsResponse>) {
         requestQueue.async {
             let url = URL(string: ReportsEndpoint.transactionsHistory(entity: filtering.entity, id: filtering.id).path, relativeTo: self.serverURL)!
             
-            let dateFormatter = ReportTransactionHistory.dailyDateFormatter
+            let dateFormatter = Reports.dailyDateFormatter
             
             var parameters = [ReportsEndpoint.QueryParameters.period.rawValue: period.rawValue,
                               ReportsEndpoint.QueryParameters.fromDate.rawValue: dateFormatter.string(from: fromDate),

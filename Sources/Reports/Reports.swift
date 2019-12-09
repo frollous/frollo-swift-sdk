@@ -69,11 +69,11 @@ public class Reports: ResponseHandler, CachedObjects {
         let dateFormatter: DateFormatter
         switch period {
             case .day:
-                dateFormatter = ReportTransactionHistory.dailyDateFormatter
+                dateFormatter = Reports.dailyDateFormatter
             case .month:
-                dateFormatter = ReportTransactionHistory.monthlyDateFormatter
+                dateFormatter = Reports.monthlyDateFormatter
             case .week:
-                dateFormatter = ReportTransactionHistory.weeklyDateFormatter
+                dateFormatter = Reports.weeklyDateFormatter
         }
         
         let fromDateString = dateFormatter.string(from: fromDate)
@@ -146,64 +146,6 @@ public class Reports: ResponseHandler, CachedObjects {
         }
     }
     
-    // MARK: - Transaction Current Reports
-    
-    /**
-     Fetch current transaction reports from the cache
-     
-     - parameters:
-        - context: Managed object context to fetch these from; background or main thread
-        - overall: Filter reports to show just overall reports or by breakdown categories, e.g. by budget category. Leaving this blank will return both overall and breakdown reports (Optional)
-        - grouping: Grouping that reports should be broken down into
-        - budgetCategory: Budget Category to filter reports by. Leave blank to return all reports of that grouping (Optional)
-        - filteredBy: Predicate of properties to match for fetching. See `ReportTransactionCurrent` for properties (Optional)
-        - sortedBy: Array of sort descriptors to sort the results by. Defaults to day ascending (Optional)
-        - limit: Fetch limit to set maximum number of returned items (Optional)
-     */
-    public func currentTransactionReports(context: NSManagedObjectContext,
-                                          overall: Bool? = nil,
-                                          grouping: ReportGrouping,
-                                          budgetCategory: BudgetCategory? = nil,
-                                          filteredBy predicate: NSPredicate? = nil,
-                                          sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)],
-                                          limit: Int? = nil) -> [ReportTransactionCurrent]? {
-        var predicates = [NSPredicate(format: #keyPath(ReportTransactionCurrent.groupingRawValue) + " == %@", argumentArray: [grouping.rawValue])]
-        
-        if let overallFilter = overall {
-            if overallFilter {
-                predicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.linkedID) + " == %ld", argumentArray: [-1]))
-            } else {
-                predicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.linkedID) + " == nil", argumentArray: nil))
-            }
-        }
-        
-        if let category = budgetCategory {
-            predicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == %@", argumentArray: [category.rawValue]))
-        } else {
-            predicates.append(NSPredicate(format: #keyPath(ReportTransactionCurrent.filterBudgetCategoryRawValue) + " == nil", argumentArray: nil))
-        }
-        
-        if let filterPredicate = predicate {
-            predicates.append(filterPredicate)
-        }
-        
-        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-        return currentTransactionReports(context: context, filteredBy: predicate, sortedBy: sortDescriptors, limit: limit)
-    }
-    
-    /**
-     Fetch current transaction reports from the cache by predicate (advanced)
-     
-     - parameters:
-        - context: Managed object context to fetch these from; background or main thread
-        - filteredBy: Predicate of properties to match for fetching. See `ReportTransactionCurrent` for properties (Optional)
-        - sortedBy: Array of sort descriptors to sort the results by. Defaults to day ascending (Optional)
-        - limit: Fetch limit to set maximum number of returned items (Optional)
-     */
-    public func currentTransactionReports(context: NSManagedObjectContext, filteredBy predicate: NSPredicate? = nil, sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(ReportTransactionCurrent.day), ascending: true)], limit: Int? = nil) -> [ReportTransactionCurrent]? {
-        return cachedObjects(type: ReportTransactionCurrent.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
-    }
-    
     // MARK: - Transaction History Reports
     
     /**
@@ -217,7 +159,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - toDate: End date to fetch reports up to (inclusive)
         - completion: Completion handler with either the data from the host or an error
      */
-    func fetchTransactionReports<T: Reportable>(filtering: TransactionReportFilter, grouping: T.Type, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<T>>) {
+    func fetchTransactionReports<T: Reportable>(filtering: TransactionReportFilter, grouping: T.Type, period: Reports.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<T>>) {
         service.fetchTransactionHistoryReports(filtering: filtering, grouping: T.grouping, period: period, fromDate: fromDate, toDate: toDate) { result in
             switch result {
                 case .success(let response):
@@ -239,7 +181,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - toDate: End date to fetch reports up to (inclusive)
         - completion: Completion handler with either the data from the host or an error
      */
-    public func fetchTransactionCategoryReports(_ id: Int64? = nil, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<TransactionCategoryGroupReport>>) {
+    public func fetchTransactionCategoryReports(_ id: Int64? = nil, period: Reports.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<TransactionCategoryGroupReport>>) {
         fetchTransactionReports(filtering: .category(id: id), grouping: TransactionCategoryGroupReport.self, period: period, from: fromDate, to: toDate, completion: completion)
     }
     
@@ -253,7 +195,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - toDate: End date to fetch reports up to (inclusive)
         - completion: Completion handler with either the data from the host or an error
      */
-    public func fetchTransactionMerchantReports(_ id: Int64? = nil, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<MerchantGroupReport>>) {
+    public func fetchTransactionMerchantReports(_ id: Int64? = nil, period: Reports.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<MerchantGroupReport>>) {
         fetchTransactionReports(filtering: .merchant(id: id), grouping: MerchantGroupReport.self, period: period, from: fromDate, to: toDate, completion: completion)
     }
     
@@ -267,7 +209,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - toDate: End date to fetch reports up to (inclusive)
         - completion: Completion handler with either the data from the host or an error
      */
-    public func fetchTransactionBudgetCategoryReports(_ budgetCategory: BudgetCategory? = nil, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<BudgetCategoryGroupReport>>) {
+    public func fetchTransactionBudgetCategoryReports(_ budgetCategory: BudgetCategory? = nil, period: Reports.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<BudgetCategoryGroupReport>>) {
         fetchTransactionReports(filtering: .budgetCategory(id: budgetCategory?.id), grouping: BudgetCategoryGroupReport.self, period: period, from: fromDate, to: toDate, completion: completion)
     }
     
@@ -281,7 +223,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - toDate: End date to fetch reports up to (inclusive)
         - completion: Completion handler with either the data from the host or an error
      */
-    public func fetchTransactionTagReports(_ name: String? = nil, period: ReportTransactionHistory.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<TagGroupReport>>) {
+    public func fetchTransactionTagReports(_ name: String? = nil, period: Reports.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<TagGroupReport>>) {
         fetchTransactionReports(filtering: .tag(name: name), grouping: TagGroupReport.self, period: period, from: fromDate, to: toDate, completion: completion)
     }
     

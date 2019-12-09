@@ -717,7 +717,7 @@ class ReportsTests: XCTestCase {
         let reports = Reports(database: database, service: service, aggregation: aggregation)
         
         let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
-        let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2019-01-29")!
+        let toDate = Reports.dailyDateFormatter.date(from: "2019-01-29")!
         
         reports.refreshAccountBalanceReports(period: .day, from: fromDate, to: toDate) { (result) in
             switch result {
@@ -865,13 +865,13 @@ class ReportsTests: XCTestCase {
         let reports = Reports(database: database, service: service, aggregation: aggregation)
 
         let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
-        let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2019-01-29")!
+        let toDate = Reports.dailyDateFormatter.date(from: "2019-01-29")!
 
         let expectation2 = expectation(description: "Network Call")
 
         var fetchResult: Result<[ReportResponse<BudgetCategoryGroupReport>], Error>?
 
-        reports.fetchTransactionBudgetCategoryReports(budgetCategory, period: .week, from: fromDate, to: toDate) { (result) in
+        reports.fetchTransactionBudgetCategoryReports(budgetCategory, period: .weekly, from: fromDate, to: toDate) { (result) in
             fetchResult = result
             expectation2.fulfill()
         }
@@ -920,14 +920,14 @@ class ReportsTests: XCTestCase {
         let reports = Reports(database: database, service: service, aggregation: aggregation)
 
         let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
-        let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2019-01-29")!
+        let toDate = Reports.dailyDateFormatter.date(from: "2019-01-29")!
 
         let expectation2 = expectation(description: "Network Call")
 
         var fetchResult: Result<[ReportResponse<TransactionCategoryGroupReport>], Error>?
         
 
-        reports.fetchTransactionReports(filtering: filter, grouping: TransactionCategoryGroupReport.self, period: .week, from: fromDate, to: toDate) { (result) in
+        reports.fetchTransactionReports(filtering: filter, grouping: TransactionCategoryGroupReport.self, period: .weekly, from: fromDate, to: toDate) { (result) in
             fetchResult = result
             expectation2.fulfill()
         }
@@ -976,13 +976,13 @@ class ReportsTests: XCTestCase {
         let reports = Reports(database: database, service: service, aggregation: aggregation)
 
         let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
-        let toDate = ReportTransactionHistory.dailyDateFormatter.date(from: "2019-01-29")!
+        let toDate = Reports.dailyDateFormatter.date(from: "2019-01-29")!
 
         let expectation2 = expectation(description: "Network Call")
 
         var fetchResult: Result<[ReportResponse<MerchantGroupReport>], Error>?
 
-        reports.fetchTransactionReports(filtering: filter, grouping: MerchantGroupReport.self, period: .week, from: fromDate, to: toDate) { (result) in
+        reports.fetchTransactionReports(filtering: filter, grouping: MerchantGroupReport.self, period: .weekly, from: fromDate, to: toDate) { (result) in
             fetchResult = result
             expectation2.fulfill()
         }
@@ -999,73 +999,6 @@ class ReportsTests: XCTestCase {
         default:
             XCTFail()
         }
-    }
-    
-    // MARK: - Current Report Tests
-    
-    func testFetchCurrentTransactionReports() {
-        let expectation1 = expectation(description: "Completion")
-        
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
-        authentication.dataSource = mockAuthentication
-        authentication.delegate = mockAuthentication
-        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-        
-        database.setup { (error) in
-            XCTAssertNil(error)
-            
-            let managedObjectContext = database.newBackgroundContext()
-            
-            managedObjectContext.performAndWait {
-                let testReport1 = ReportTransactionCurrent(context: managedObjectContext)
-                testReport1.populateTestData()
-                testReport1.grouping = .budgetCategory
-                testReport1.filterBudgetCategory = nil
-                testReport1.linkedID = -1
-                
-                let testReport2 = ReportTransactionCurrent(context: managedObjectContext)
-                testReport2.populateTestData()
-                testReport2.grouping = .merchant
-                testReport2.filterBudgetCategory = nil
-                testReport2.linkedID = -1
-                
-                let testReport3 = ReportTransactionCurrent(context: managedObjectContext)
-                testReport3.populateTestData()
-                testReport3.grouping = .budgetCategory
-                testReport3.filterBudgetCategory = nil
-                testReport3.linkedID = -1
-                
-                let testReport4 = ReportTransactionCurrent(context: managedObjectContext)
-                testReport4.populateTestData()
-                testReport4.grouping = .transactionCategory
-                testReport4.filterBudgetCategory = nil
-                testReport4.linkedID = -1
-                
-                let testReport5 = ReportTransactionCurrent(context: managedObjectContext)
-                testReport5.populateTestData()
-                testReport5.grouping = .budgetCategory
-                testReport5.filterBudgetCategory = .living
-                
-                try! managedObjectContext.save()
-            }
-            
-            let aggregation = Aggregation(database: database, service: service)
-            let reports = Reports(database: database, service: service, aggregation: aggregation)
-            
-            let fetchedReports = reports.currentTransactionReports(context: database.viewContext, overall: true, grouping: .budgetCategory)
-            
-            XCTAssertNotNil(fetchedReports)
-            XCTAssertEqual(fetchedReports?.count, 2)
-            
-            expectation1.fulfill()
-        }
-        
-        wait(for: [expectation1], timeout: 5)
     }
     
 }

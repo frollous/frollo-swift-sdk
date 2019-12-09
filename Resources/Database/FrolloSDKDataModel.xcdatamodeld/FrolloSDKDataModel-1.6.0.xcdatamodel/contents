@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15400" systemVersion="19A603" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.6.0">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="18G95" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.6.0">
     <entity name="Account" representedClassName=".Account" syncable="YES">
         <attribute name="accountHolderName" optional="YES" attributeType="String"/>
         <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
@@ -236,8 +236,6 @@
         <attribute name="name" attributeType="String"/>
         <attribute name="smallLogoURLString" optional="YES" attributeType="String"/>
         <relationship name="bills" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Bill" inverseName="merchant" inverseEntity="Bill"/>
-        <relationship name="currentReports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReportTransactionCurrent" inverseName="merchant" inverseEntity="ReportTransactionCurrent"/>
-        <relationship name="historyReports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReportTransactionHistory" inverseName="merchant" inverseEntity="ReportTransactionHistory"/>
         <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="merchant" inverseEntity="Transaction"/>
         <fetchIndex name="byMerchantIDIndex">
             <fetchIndexElement property="merchantID" type="Binary" order="ascending"/>
@@ -390,56 +388,6 @@
         <attribute name="value" attributeType="Decimal" defaultValueString="0.0"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="reports" inverseEntity="Account"/>
     </entity>
-    <entity name="ReportTransactionCurrent" representedClassName=".ReportTransactionCurrent" syncable="YES">
-        <attribute name="amount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
-        <attribute name="average" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
-        <attribute name="budget" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
-        <attribute name="budgetCategoryRawValue" optional="YES" attributeType="String"/>
-        <attribute name="day" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="filterBudgetCategoryRawValue" optional="YES" attributeType="String"/>
-        <attribute name="groupingRawValue" optional="YES" attributeType="String"/>
-        <attribute name="linkedID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="previous" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
-        <relationship name="merchant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Merchant" inverseName="currentReports" inverseEntity="Merchant"/>
-        <relationship name="transactionCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TransactionCategory" inverseName="currentReports" inverseEntity="TransactionCategory"/>
-        <fetchIndex name="byGroupingIndex">
-            <fetchIndexElement property="groupingRawValue" type="Binary" order="ascending"/>
-        </fetchIndex>
-        <fetchIndex name="byBudgetCategoryIndex">
-            <fetchIndexElement property="filterBudgetCategoryRawValue" type="Binary" order="ascending"/>
-        </fetchIndex>
-    </entity>
-    <entity name="ReportTransactionHistory" representedClassName=".ReportTransactionHistory" syncable="YES">
-        <attribute name="budget" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
-        <attribute name="budgetCategoryRawValue" optional="YES" attributeType="String"/>
-        <attribute name="dateString" attributeType="String"/>
-        <attribute name="filterBudgetCategoryRawValue" optional="YES" attributeType="String"/>
-        <attribute name="groupingRawValue" attributeType="String"/>
-        <attribute name="linkedID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="periodRawValue" attributeType="String"/>
-        <attribute name="tag" optional="YES" attributeType="String"/>
-        <attribute name="transactionCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="transactionIDRawValues" optional="YES" attributeType="Binary"/>
-        <attribute name="value" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
-        <relationship name="merchant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Merchant" inverseName="historyReports" inverseEntity="Merchant"/>
-        <relationship name="overall" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ReportTransactionHistory" inverseName="reports" inverseEntity="ReportTransactionHistory"/>
-        <relationship name="reports" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ReportTransactionHistory" inverseName="overall" inverseEntity="ReportTransactionHistory"/>
-        <relationship name="transactionCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TransactionCategory" inverseName="historyReports" inverseEntity="TransactionCategory"/>
-        <fetchIndex name="byGroupingIndex">
-            <fetchIndexElement property="groupingRawValue" type="Binary" order="ascending"/>
-        </fetchIndex>
-        <fetchIndex name="byPeriodIndex">
-            <fetchIndexElement property="periodRawValue" type="Binary" order="ascending"/>
-        </fetchIndex>
-        <fetchIndex name="byDateIndex">
-            <fetchIndexElement property="dateString" type="Binary" order="ascending"/>
-        </fetchIndex>
-        <fetchIndex name="byBudgetCategoryIndex">
-            <fetchIndexElement property="filterBudgetCategoryRawValue" type="Binary" order="ascending"/>
-        </fetchIndex>
-    </entity>
     <entity name="Tag" representedClassName=".Tag" syncable="YES">
         <attribute name="count" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -511,8 +459,6 @@
         <attribute name="transactionCategoryID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
         <attribute name="userDefined" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <relationship name="bills" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Bill" inverseName="transactionCategory" inverseEntity="Bill"/>
-        <relationship name="currentReports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReportTransactionCurrent" inverseName="transactionCategory" inverseEntity="ReportTransactionCurrent"/>
-        <relationship name="historyReports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReportTransactionHistory" inverseName="transactionCategory" inverseEntity="ReportTransactionHistory"/>
         <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="transactionCategory" inverseEntity="Transaction"/>
         <fetchIndex name="byTransactionCategoryIndex">
             <fetchIndexElement property="transactionCategoryID" type="Binary" order="ascending"/>
@@ -565,7 +511,7 @@
         <element name="BudgetPeriod" positionX="-369" positionY="171" width="128" height="193"/>
         <element name="Goal" positionX="-378" positionY="162" width="128" height="388"/>
         <element name="GoalPeriod" positionX="-360" positionY="180" width="128" height="193"/>
-        <element name="Merchant" positionX="498.47265625" positionY="19.75" width="128" height="165"/>
+        <element name="Merchant" positionX="498.47265625" positionY="19.75" width="128" height="133"/>
         <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="268"/>
         <element name="MessageHTML" positionX="-317.359375" positionY="757.66015625" width="128" height="90"/>
         <element name="MessageImage" positionX="-319.14453125" positionY="879.53515625" width="128" height="28"/>
@@ -575,11 +521,9 @@
         <element name="Provider" positionX="-385.3984375" positionY="11.875" width="128" height="480"/>
         <element name="ProviderAccount" positionX="-164.078125" positionY="13.7109375" width="128" height="225"/>
         <element name="ReportAccountBalance" positionX="-360" positionY="180" width="128" height="135"/>
-        <element name="ReportTransactionCurrent" positionX="-360" positionY="180" width="128" height="225"/>
-        <element name="ReportTransactionHistory" positionX="-378" positionY="162" width="128" height="283"/>
         <element name="Tag" positionX="283.4609375" positionY="696.9375" width="128" height="105"/>
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="553"/>
-        <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="210"/>
+        <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="178"/>
         <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>
     </elements>
 </model>
