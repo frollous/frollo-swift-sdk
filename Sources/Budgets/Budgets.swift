@@ -229,7 +229,7 @@ public class Budgets: CachedObjects, ResponseHandler {
      Create a new budget by budget category on the host
      
      - parameters:
-         - budgetCategory: name of the `BudgetCategory` to create a budget
+         - budgetCategory: `BudgetCategory` to create a budget
          - frequency: Frequency of  the budget
          - periodAmount: Budget amount for one budget period
          - imageURL: Image Url of the budget (Optional)
@@ -237,7 +237,7 @@ public class Budgets: CachedObjects, ResponseHandler {
          - metadata: Optional JSON metadata accociated withf the budget
          - completion: Optional completion handler with optional error if the request fails
      */
-    public func createBudgetCategoryBudget(budgetCategory: String,
+    public func createBudgetCategoryBudget(budgetCategory: BudgetCategory,
                                            frequency: Budget.Frequency,
                                            periodAmount: Decimal,
                                            imageURL: String? = nil,
@@ -245,7 +245,7 @@ public class Budgets: CachedObjects, ResponseHandler {
                                            metadata: JSON = [:],
                                            completion: FrolloSDKCompletionHandler? = nil) {
         
-        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .budgetCategory, typeValue: budgetCategory, imageURL: imageURL, startDate: startDate, metadata: metadata, completion: completion)
+        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .budgetCategory, typeValue: budgetCategory.rawValue, imageURL: imageURL, startDate: startDate, metadata: metadata, completion: completion)
         
     }
     

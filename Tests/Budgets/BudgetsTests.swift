@@ -362,7 +362,7 @@ class BudgetsTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            self.budgets.createBudgetCategoryBudget(budgetCategory: "lifestyle", frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png") { (result) in
+            self.budgets.createBudgetCategoryBudget(budgetCategory: .lifestyle, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png") { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -453,36 +453,6 @@ class BudgetsTests: BaseTestCase {
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
-                }
-                
-                expectation1.fulfill()
-            }
-        }
-        
-        wait(for: [expectation1], timeout: 3.0)
-    }
-    
-    func testCreateBudgetInvalidDataFails() {
-        let expectation1 = expectation(description: "Network Request 1")
-        
-        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "budget_valid_4", addingStatusCode: 201)
-        
-        database.setup { (error) in
-            XCTAssertNil(error)
-            
-            self.budgets.createBudgetCategoryBudget(budgetCategory: "", frequency: .weekly, periodAmount: 100) { (result) in
-                switch result {
-                    case .failure(let error):
-                        XCTAssertNotNil(error)
-                        
-                        if let dataError = error as? DataError {
-                            XCTAssertEqual(dataError.type, .api)
-                            XCTAssertEqual(dataError.subType, .invalidData)
-                        } else {
-                            XCTFail("Wrong error returned")
-                        }
-                    case .success:
-                        XCTFail("Invalid data should fail")
                 }
                 
                 expectation1.fulfill()

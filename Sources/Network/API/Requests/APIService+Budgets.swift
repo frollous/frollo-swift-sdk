@@ -127,7 +127,7 @@ extension APIService {
             self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APIBudgetPeriodResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
-
+            
         }
     }
     
