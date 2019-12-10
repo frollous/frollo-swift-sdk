@@ -674,7 +674,7 @@ public class Budgets: CachedObjects, ResponseHandler {
         }
         
         if let toDate = toDate {
-            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.endDateString) + " <= %@", argumentArray: [Budget.budgetDateFormatter.string(from: toDate)]))
+            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " <= %@", argumentArray: [Budget.budgetDateFormatter.string(from: toDate)]))
         }
         
         let filterPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
