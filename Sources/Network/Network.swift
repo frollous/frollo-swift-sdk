@@ -88,7 +88,7 @@ class Network: SessionDelegate {
         var serverTrustManager: ServerTrustPolicyManager?
         
         // Public key pinning
-        if let pinnedKeys = pinnedPublicKeys {
+        if let pinnedKeys = pinnedPublicKeys, !pinnedKeys.isEmpty {
             var serverTrustPolicies: [String: ServerTrustPolicy] = [:]
             
             pinnedKeys.forEach { item in
