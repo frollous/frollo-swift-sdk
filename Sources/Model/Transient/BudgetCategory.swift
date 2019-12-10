@@ -38,6 +38,7 @@ public enum BudgetCategory: String, Codable, CaseIterable {
     /// Savings budget
     case savings = "goals"
     
+    /// Initializes the BudgetCategory by its `id`
     public init?(id: Int64) {
         switch id {
             case 0:
@@ -55,6 +56,7 @@ public enum BudgetCategory: String, Codable, CaseIterable {
         }
     }
     
+    /// Returns the `id` of the BudgetCategory
     public var id: Int64 {
         switch self {
             case .income:
@@ -72,12 +74,22 @@ public enum BudgetCategory: String, Codable, CaseIterable {
     
 }
 
+/// Defines all possible cases to filter on a specific entity
 public enum TransactionReportFilter {
+    
+    /// Filter based on budget category. `id` argument defines whether to filter based on a specific budget category or based on all of them
     case budgetCategory(id: Int64?)
+    
+    /// Filter based on merchant. `id` argument defines whether to filter based on a specific merchant or based on all of them
     case merchant(id: Int64?)
+    
+    /// Filter based on category. `id` argument defines whether to filter based on a specific category or based on all of them
     case category(id: Int64?)
+    
+    /// Filter based on tag. `name` argument defines whether to filter based on a specific category or based on all of them
     case tag(name: String?)
     
+    /// The entity name for each filter type based on the backend
     public var entity: String {
         switch self {
             case .budgetCategory:
@@ -91,6 +103,7 @@ public enum TransactionReportFilter {
         }
     }
     
+    /// The id of the entity to filter on
     public var id: String? {
         switch self {
             case .budgetCategory(let id), .category(let id), .merchant(let id):
