@@ -372,12 +372,23 @@ extension APIService {
     
     // MARK: - Merchants
     
-    internal func fetchMerchants(completion: @escaping RequestCompletion<[APIMerchantResponse]>) {
+    internal func fetchMerchants(after: Int?, before: Int?, size: Int?, completion: @escaping RequestCompletion<PaginatedResponse<APIMerchantResponse>>) {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.merchants.path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleArrayResponse(type: APIMerchantResponse.self, errorType: APIError.self, response: response, completion: completion)
+            var parameters = [String: String]()
+            if let before = before {
+                parameters[AggregationEndpoint.QueryParameters.before.rawValue] = String(before)
+            }
+            if let after = after {
+                parameters[AggregationEndpoint.QueryParameters.after.rawValue] = String(after)
+            }
+            if let size = size {
+                parameters[AggregationEndpoint.QueryParameters.size.rawValue] = String(size)
+            }
+            
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handlePaginatedArrayResponse(type: APIMerchantResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }

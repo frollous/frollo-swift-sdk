@@ -1656,8 +1656,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
      - parameters:
         - completion: Optional completion handler with optional error if the request fails
      */
-    internal func refreshMerchants(completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchMerchants { result in
+    internal func refreshMerchants(after: Int? = nil, before: Int? = nil, size: Int? = nil, completion: FrolloSDKPaginatedCompletionHandler? = nil) {
+        service.fetchMerchants(after: after, before: before, size: size) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -1668,14 +1668,14 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleMerchantsResponse(response, predicate: nil, managedObjectContext: managedObjectContext)
+                    self.handleMerchantsResponse(response.data, predicate: nil, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.merchantsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
-                        completion?(.success)
+                        completion?(.success(1, 2))
                     }
             }
         }
