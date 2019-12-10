@@ -7205,7 +7205,7 @@
       "before": 20,
       "after": 20
     },
-    "previous": "api/v2/aggregation/merchants/?beforer=20",
+    "previous": "api/v2/aggregation/merchants/?before=20",
     "next": "api/v2/aggregation/merchants/?after=20"
   }
 }

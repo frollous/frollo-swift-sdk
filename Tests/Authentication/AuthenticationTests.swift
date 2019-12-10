@@ -48,6 +48,7 @@ class AuthenticationTests: BaseTestCase {
         let serverURL = URL(string: "https://api.example.com")!
         let config = FrolloSDKConfiguration(authenticationType: .custom(authenticationDataSource: authenticationHandler, authenticationDelegate: authenticationHandler),
                                             clientID: "abc123",
+                                            dataDirectory: tempFolderPath(),
                                             serverEndpoint: serverURL)
         
         let sdk = Frollo()
@@ -62,7 +63,7 @@ class AuthenticationTests: BaseTestCase {
             expectation1.fulfill()
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1], timeout: 5.0)
         
         XCTAssert(authenticationHandler === sdk.authentication.dataSource)
         XCTAssert(authenticationHandler === sdk.authentication.delegate)

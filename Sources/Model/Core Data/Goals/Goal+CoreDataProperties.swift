@@ -23,7 +23,7 @@ extension Goal {
     /**
      Fetch Request
      
-     - returns: Fetch request for `Bill` type
+     - returns: Fetch request for `Goal` type
      */
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Goal> {
         return NSFetchRequest<Goal>(entityName: "Goal")

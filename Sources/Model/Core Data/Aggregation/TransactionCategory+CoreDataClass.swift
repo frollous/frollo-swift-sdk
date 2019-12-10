@@ -106,12 +106,6 @@ public class TransactionCategory: NSManagedObject, UniqueManagedObject {
         if let transaction = object as? Transaction {
             addToTransactions(transaction)
         }
-        if let currentReport = object as? ReportTransactionCurrent {
-            addToCurrentReports(currentReport)
-        }
-        if let historyReport = object as? ReportTransactionHistory {
-            addToHistoryReports(historyReport)
-        }
     }
     
     internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {

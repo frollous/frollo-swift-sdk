@@ -1,6 +1,9 @@
 {
     "id": 1,
     "key": "FINANCIAL_WELLBEING",
+    "display_text": "Survey display text",
+    "icon_url": "https://www.frollo.us/images/survey/1/icon_url.png",
+    "metadata": {"additional_text":"Additional text", "is_optional": false},
     "name": "Wellbeing Survey",
     "questions": [
         {
@@ -9,6 +12,7 @@
             "title": "How do you feel about your finances?",
             "display_text": "This let's us understand the level of support we should give you to keep you on the right track.",
             "icon_url": "https://content.frollo.us/surveys/images/question_icon.png",
+            "metadata": {"additional_text":"Additional question text", "is_optional": true},
             "optional": false,
             "answers": [
                 {

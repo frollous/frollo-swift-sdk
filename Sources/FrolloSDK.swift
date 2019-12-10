@@ -78,6 +78,16 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         return _bills
     }
     
+    /// Budgets - Tracking and managing budgets. See `Budget` for details
+    public var budgets: Budgets {
+        guard _setup
+        else {
+            fatalError("SDK not setup.")
+        }
+        
+        return _budgets
+    }
+    
     /// Database - Core Data management and contexts for fetching data. See `Database` for details
     public var database: Database {
         guard _setup
@@ -178,6 +188,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     internal var _aggregation: Aggregation!
     internal var _authentication: Authentication!
     internal var _bills: Bills!
+    internal var _budgets: Budgets!
     internal var _database: Database!
     internal var _events: Events!
     internal var _goals: Goals!
@@ -305,6 +316,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         
         _aggregation = Aggregation(database: _database, service: service)
         _bills = Bills(database: _database, service: service, aggregation: _aggregation)
+        _budgets = Budgets(database: _database, service: service)
         _events = Events(service: service)
         _goals = Goals(database: _database, service: service, aggregation: _aggregation)
         _messages = Messages(database: _database, service: service)
@@ -471,6 +483,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         aggregation.refreshTransactions(from: Date().startOfLastMonth(), to: Date().endOfMonth())
         userManagement.refreshUser()
         messages.refreshUnreadMessages()
+        budgets.refreshBudgets(current: true)
     }
     
     /**
@@ -482,6 +495,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         
         bills.refreshBillPayments(from: fromDate, to: toDate)
         goals.refreshGoals()
+        
     }
     
     /**

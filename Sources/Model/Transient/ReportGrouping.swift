@@ -35,4 +35,7 @@ public enum ReportGrouping: String, Codable, CaseIterable {
     /// Transaction Category Parent Group
     case transactionCategoryGroup = "by_transaction_category_group"
     
+    /// Tag group
+    case tag = "by_tag"
+    
 }

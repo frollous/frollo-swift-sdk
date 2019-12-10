@@ -34,17 +34,18 @@ internal enum ReportsEndpoint: Endpoint {
     }
     
     case accountBalance
-    case transactionsCurrent
-    case transactionsHistory
+    case transactionsHistory(entity: String, id: String?)
     
     private func urlPath() -> String {
         switch self {
             case .accountBalance:
                 return "reports/accounts/history/balances"
-            case .transactionsCurrent:
-                return "reports/transactions/current"
-            case .transactionsHistory:
-                return "reports/transactions/history"
+            case .transactionsHistory(let entity, let id):
+                var idFilter: String = ""
+                if let id = id {
+                    idFilter = "/\(id)"
+                }
+                return "reports/transactions/\(entity)\(idFilter)"
         }
     }
     

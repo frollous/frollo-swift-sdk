@@ -76,7 +76,7 @@ extension APIService {
                 return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APIProviderAccountResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -86,7 +86,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.providerAccount(providerAccountID: providerAccountID).path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -372,7 +372,7 @@ extension APIService {
     
     // MARK: - Merchants
     
-    internal func fetchMerchants(after: Int?, before: Int?, size: Int?, completion: @escaping RequestCompletion<PaginatedResponse<APIMerchantResponse>>) {
+    internal func fetchMerchants(after: Int? = nil, before: Int? = nil, size: Int? = nil, completion: @escaping RequestCompletion<PaginatedResponse<APIMerchantResponse>>) {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.merchants.path, relativeTo: self.serverURL)!
             

@@ -103,14 +103,6 @@ extension Merchant {
 
 extension Merchant {
     
-    /// Add a transaction history report relationship
-    @objc(addHistoryReportsObject:)
-    @NSManaged public func addToHistoryReports(_ value: ReportTransactionHistory)
-    
-    /// Remove a transaction history report relationship
-    @objc(removeHistoryReportsObject:)
-    @NSManaged public func removeFromHistoryReports(_ value: ReportTransactionHistory)
-    
     /// Add transaction history report relationships
     @objc(addHistoryReports:)
     @NSManaged public func addToHistoryReports(_ values: NSSet)
@@ -124,14 +116,6 @@ extension Merchant {
 // MARK: Generated accessors for currentReports
 
 extension Merchant {
-    
-    /// Add a transaction current report relationship
-    @objc(addCurrentReportsObject:)
-    @NSManaged public func addToCurrentReports(_ value: ReportTransactionCurrent)
-    
-    /// Remove a transaction current report relationship
-    @objc(removeCurrentReportsObject:)
-    @NSManaged public func removeFromCurrentReports(_ value: ReportTransactionCurrent)
     
     /// Add transaction current report relationships
     @objc(addCurrentReports:)

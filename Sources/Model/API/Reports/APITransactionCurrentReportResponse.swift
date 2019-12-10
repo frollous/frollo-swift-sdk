@@ -16,9 +16,9 @@
 
 import Foundation
 
-struct APITransactionCurrentReportResponse: Codable {
+public struct APITransactionCurrentReportResponse: Codable {
     
-    struct Report: Codable {
+    public struct Report: Codable {
         
         enum CodingKeys: String, CodingKey {
             
@@ -30,15 +30,15 @@ struct APITransactionCurrentReportResponse: Codable {
             
         }
         
-        let averageValue: String?
-        let budgetValue: String?
-        let day: Int64
-        let previousPeriodValue: String?
-        let spendValue: String?
+        public let averageValue: String?
+        public let budgetValue: String?
+        public let day: Int64
+        public let previousPeriodValue: String?
+        public let spendValue: String?
         
     }
     
-    struct GroupReport: Codable {
+    public struct GroupReport: Codable {
         
         enum CodingKeys: String, CodingKey {
             
@@ -52,17 +52,17 @@ struct APITransactionCurrentReportResponse: Codable {
             
         }
         
-        let averageValue: String?
-        let budgetValue: String?
-        let days: [Report]
-        let id: Int64
-        let name: String
-        let previousPeriodValue: String?
-        let spendValue: String?
+        public let averageValue: String?
+        public let budgetValue: String?
+        public let days: [Report]
+        public let id: Int64
+        public let name: String
+        public let previousPeriodValue: String?
+        public let spendValue: String?
         
     }
     
-    let groups: [GroupReport]
-    let days: [Report]
+    public let groups: [GroupReport]
+    public let days: [Report]
     
 }

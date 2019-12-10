@@ -1,0 +1,29 @@
+{
+    "id": 4,
+    "is_current": true,
+    "type": "category",
+    "type_value": "lifestyle",
+    "user_id": 374,
+    "target": "cycle_target",
+    "status": "active",
+    "tracking_status": "ahead",
+    "frequency": "four_weekly",
+    "currency": "AUD",
+    "current_amount": "3880.00",
+    "period_amount": "15.38",
+    "image_url": "http://www.example.com/image/image_1.png",
+    "metadata": {},
+    "start_date": "2019-10-02",
+    "periods_count": 75,
+    "current_period": {
+        "budget_id": 4,
+        "id": 94,
+        "start_date": "2019-12-02",
+        "end_date": "2019-12-03",
+        "target_amount": "15.62",
+        "current_amount": "0.00",
+        "required_amount": "0.00",
+        "tracking_status": "behind",
+        "index": 61
+    }
+}

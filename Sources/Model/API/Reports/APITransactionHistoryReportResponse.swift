@@ -16,35 +16,35 @@
 
 import Foundation
 
-struct APITransactionHistoryReportsResponse: Codable {
+public struct APIReportsResponse: Codable {
     
-    struct Report: Codable {
+    public struct Report: Codable {
         
-        struct GroupReport: Codable {
+        public struct GroupReport: Codable {
             
             enum CodingKeys: String, CodingKey {
-                case budget
+                case income
                 case id
                 case name
                 case transactionIDs = "transaction_ids"
                 case value
             }
             
-            let budget: String?
-            let id: Int64
-            let name: String
-            let transactionIDs: [Int64]
-            let value: String
+            public let income: Bool
+            public let id: Int64
+            public let name: String
+            public let transactionIDs: [Int64]
+            public let value: Decimal
             
         }
         
-        let groups: [GroupReport]
-        let budget: String?
-        let date: String
-        let value: String
+        public let groups: [GroupReport]
+        public let income: Bool
+        public let date: String
+        public let value: Decimal
         
     }
     
-    let data: [Report]
+    public let data: [Report]
     
 }

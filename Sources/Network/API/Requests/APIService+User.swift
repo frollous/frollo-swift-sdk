@@ -35,7 +35,7 @@ extension APIService {
                 return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -45,7 +45,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: UserEndpoint.user.path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -76,7 +76,7 @@ extension APIService {
                 return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 201...201).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.handleUserResponse(response: response, completion: completion)
             }
         }
@@ -94,7 +94,7 @@ extension APIService {
                 return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 202...202).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -136,7 +136,7 @@ extension APIService {
             
             urlRequest.setValue("Bearer " + token, forHTTPHeaderField: HTTPHeader.authorization.rawValue)
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 204...204).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
             }
         }

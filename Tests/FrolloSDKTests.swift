@@ -65,7 +65,17 @@ class FrolloSDKTests: XCTestCase {
     // MARK: - Tests
     
     func testSDKCreatesDefaultDataFolder() {
-        let expectation1 = expectation(description: "Setup")
+        let expectation1 = expectation(description: "Delete default data folder")
+        let expectation2 = expectation(description: "Setup")
+        
+        removeDataFolder()
+        
+        // wait 3 seconds to start setup after deleting dafault data folder
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
         
         let config = FrolloSDKConfiguration.testConfig()
         let sdk = Frollo()
@@ -77,10 +87,10 @@ class FrolloSDKTests: XCTestCase {
                     XCTAssertTrue(FileManager.default.fileExists(atPath: Frollo.defaultDataFolderURL.path))
             }
             
-            expectation1.fulfill()
+            expectation2.fulfill()
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation2], timeout: 3.0)
     }
     
     func testSDKCreatesCustomDataFolder() {

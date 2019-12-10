@@ -68,21 +68,21 @@ public class ReportAccountBalance: NSManagedObject {
         get {
             switch period {
                 case .day:
-                    return ReportTransactionHistory.dailyDateFormatter.date(from: dateString)!
+                    return Reports.dailyDateFormatter.date(from: dateString)!
                 case .month:
-                    return ReportTransactionHistory.monthlyDateFormatter.date(from: dateString)!
+                    return Reports.monthlyDateFormatter.date(from: dateString)!
                 case .week:
-                    return ReportTransactionHistory.weeklyDateFormatter.date(from: dateString)!
+                    return Reports.weeklyDateFormatter.date(from: dateString)!
             }
         }
         set {
             switch period {
                 case .day:
-                    dateString = ReportTransactionHistory.dailyDateFormatter.string(from: newValue)
+                    dateString = Reports.dailyDateFormatter.string(from: newValue)
                 case .month:
-                    dateString = ReportTransactionHistory.monthlyDateFormatter.string(from: newValue)
+                    dateString = Reports.monthlyDateFormatter.string(from: newValue)
                 case .week:
-                    dateString = ReportTransactionHistory.weeklyDateFormatter.string(from: newValue)
+                    dateString = Reports.weeklyDateFormatter.string(from: newValue)
             }
         }
     }

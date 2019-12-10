@@ -1,0 +1,1668 @@
+{
+	"data": [
+		{
+			"date": "2019-01-01",
+			"value": 0,
+			"income": false,
+			"groups": []
+		},
+		{
+			"date": "2019-02-01",
+			"value": 0,
+			"income": false,
+			"groups": []
+		},
+		{
+			"date": "2019-03-01",
+			"value": 0,
+			"income": false,
+			"groups": []
+		},
+		{
+			"date": "2019-04-01",
+			"value": 0,
+			"income": false,
+			"groups": []
+		},
+		{
+			"date": "2019-05-01",
+			"value": 0,
+			"income": false,
+			"groups": []
+		},
+		{
+			"date": "2019-06-01",
+			"value": 721.07,
+			"income": true,
+			"groups": [
+				{
+					"id": 65,
+					"name": "Direct Credit",
+					"value": 100.0,
+					"income": true,
+					"transaction_ids": [
+						103735
+					]
+				},
+				{
+					"id": 24,
+					"name": "Cash Withdrawal",
+					"value": 260.0,
+					"income": false,
+					"transaction_ids": [
+						103723,
+						103722,
+						103721,
+						103720,
+						103719,
+						103718
+					]
+				},
+				{
+					"id": 31,
+					"name": "PayPal",
+					"value": 28.45,
+					"income": false,
+					"transaction_ids": [
+						103795,
+						103794
+					]
+				},
+				{
+					"id": 2,
+					"name": "Woolworths",
+					"value": 337.05,
+					"income": false,
+					"transaction_ids": [
+						103843,
+						103842,
+						103841,
+						103840,
+						103839
+					]
+				},
+				{
+					"id": 44,
+					"name": "Coles",
+					"value": 95.5,
+					"income": false,
+					"transaction_ids": [
+						103903,
+						103902,
+						103901,
+						103900
+					]
+				},
+				{
+					"id": 1,
+					"name": "Unknown",
+					"value": 2360.0,
+					"income": true,
+					"transaction_ids": [
+						103642,
+						103641,
+						103960,
+						103648,
+						103640,
+						103743,
+						103753,
+						103639
+					]
+				},
+				{
+					"id": 23,
+					"name": "IGA grocery stores",
+					"value": 92.05,
+					"income": false,
+					"transaction_ids": [
+						103873,
+						103872,
+						103871,
+						103870
+					]
+				},
+				{
+					"id": 57,
+					"name": "AGL",
+					"value": 70.0,
+					"income": false,
+					"transaction_ids": [
+						103675
+					]
+				},
+				{
+					"id": 238,
+					"name": "The Occidental Hotel",
+					"value": 99.0,
+					"income": false,
+					"transaction_ids": [
+						103963,
+						103962
+					]
+				},
+				{
+					"id": 41,
+					"name": "Transport for NSW",
+					"value": 80.0,
+					"income": false,
+					"transaction_ids": [
+						103651,
+						103650
+					]
+				},
+				{
+					"id": 81,
+					"name": "McDonald's",
+					"value": 64.0,
+					"income": false,
+					"transaction_ids": [
+						104047,
+						104046,
+						104045,
+						104044,
+						104043,
+						104042,
+						104041,
+						104040
+					]
+				},
+				{
+					"id": 292,
+					"name": "SUSHI PTY. LTD.",
+					"value": 127.0,
+					"income": false,
+					"transaction_ids": [
+						103961,
+						103958
+					]
+				},
+				{
+					"id": 40,
+					"name": "Netflix",
+					"value": 17.99,
+					"income": false,
+					"transaction_ids": [
+						103807
+					]
+				},
+				{
+					"id": 107,
+					"name": "The Brew House Hotel",
+					"value": 65.0,
+					"income": false,
+					"transaction_ids": [
+						103959
+					]
+				},
+				{
+					"id": 205,
+					"name": "Amaysim",
+					"value": 39.9,
+					"income": false,
+					"transaction_ids": [
+						103669
+					]
+				},
+				{
+					"id": 125,
+					"name": "BIG W",
+					"value": 40.0,
+					"income": false,
+					"transaction_ids": [
+						103981
+					]
+				},
+				{
+					"id": 19,
+					"name": "Optus",
+					"value": 70.0,
+					"income": false,
+					"transaction_ids": [
+						103729
+					]
+				},
+				{
+					"id": 14,
+					"name": "Apple Inc",
+					"value": 11.99,
+					"income": false,
+					"transaction_ids": [
+						103801
+					]
+				},
+				{
+					"id": 97,
+					"name": "Dan Murphy",
+					"value": 60.0,
+					"income": false,
+					"transaction_ids": [
+						103975
+					]
+				},
+				{
+					"id": 248,
+					"name": "The Tree House",
+					"value": 66.0,
+					"income": false,
+					"transaction_ids": [
+						103957,
+						103956
+					]
+				},
+				{
+					"id": 72,
+					"name": "Bunnings",
+					"value": 30.0,
+					"income": false,
+					"transaction_ids": [
+						103969
+					]
+				},
+				{
+					"id": 249,
+					"name": "Burger Project",
+					"value": 85.0,
+					"income": false,
+					"transaction_ids": [
+						103955
+					]
+				}
+			]
+		},
+		{
+			"date": "2019-07-01",
+			"value": 487.57,
+			"income": true,
+			"groups": [
+				{
+					"id": 44,
+					"name": "Coles",
+					"value": 120.0,
+					"income": false,
+					"transaction_ids": [
+						103899,
+						103898,
+						103897,
+						103896,
+						103895
+					]
+				},
+				{
+					"id": 24,
+					"name": "Cash Withdrawal",
+					"value": 300.0,
+					"income": false,
+					"transaction_ids": [
+						103717,
+						103716,
+						103715,
+						103714,
+						103713,
+						103712,
+						103711,
+						103710
+					]
+				},
+				{
+					"id": 238,
+					"name": "The Occidental Hotel",
+					"value": 219.0,
+					"income": false,
+					"transaction_ids": [
+						103954,
+						103953,
+						103952
+					]
+				},
+				{
+					"id": 41,
+					"name": "Transport for NSW",
+					"value": 120.0,
+					"income": false,
+					"transaction_ids": [
+						103649,
+						103654,
+						103653
+					]
+				},
+				{
+					"id": 81,
+					"name": "McDonald's",
+					"value": 90.0,
+					"income": false,
+					"transaction_ids": [
+						104039,
+						104038,
+						104037,
+						104036,
+						104035,
+						104034,
+						104033,
+						104032,
+						104031,
+						104030,
+						104029
+					]
+				},
+				{
+					"id": 23,
+					"name": "IGA grocery stores",
+					"value": 100.0,
+					"income": false,
+					"transaction_ids": [
+						103869,
+						103868,
+						103867,
+						103866,
+						103865
+					]
+				},
+				{
+					"id": 31,
+					"name": "PayPal",
+					"value": 28.45,
+					"income": false,
+					"transaction_ids": [
+						103793,
+						103792
+					]
+				},
+				{
+					"id": 148,
+					"name": "Charge/Fee",
+					"value": 25.0,
+					"income": false,
+					"transaction_ids": [
+						103759
+					]
+				},
+				{
+					"id": 2,
+					"name": "Woolworths",
+					"value": 349.55,
+					"income": false,
+					"transaction_ids": [
+						103838,
+						103837,
+						103836,
+						103835,
+						103834,
+						103833
+					]
+				},
+				{
+					"id": 65,
+					"name": "Direct Credit",
+					"value": 100.0,
+					"income": true,
+					"transaction_ids": [
+						103734
+					]
+				},
+				{
+					"id": 1,
+					"name": "Unknown",
+					"value": 2337.45,
+					"income": true,
+					"transaction_ids": [
+						103615,
+						103616,
+						103614,
+						103638,
+						103637,
+						103742,
+						103752,
+						103950,
+						103647,
+						103636,
+						103635
+					]
+				},
+				{
+					"id": 57,
+					"name": "AGL",
+					"value": 70.0,
+					"income": false,
+					"transaction_ids": [
+						103674
+					]
+				},
+				{
+					"id": 292,
+					"name": "SUSHI PTY. LTD.",
+					"value": 127.0,
+					"income": false,
+					"transaction_ids": [
+						103951,
+						103948
+					]
+				},
+				{
+					"id": 40,
+					"name": "Netflix",
+					"value": 17.99,
+					"income": false,
+					"transaction_ids": [
+						103806
+					]
+				},
+				{
+					"id": 205,
+					"name": "Amaysim",
+					"value": 39.9,
+					"income": false,
+					"transaction_ids": [
+						103668
+					]
+				},
+				{
+					"id": 107,
+					"name": "The Brew House Hotel",
+					"value": 65.0,
+					"income": false,
+					"transaction_ids": [
+						103949
+					]
+				},
+				{
+					"id": 125,
+					"name": "BIG W",
+					"value": 40.0,
+					"income": false,
+					"transaction_ids": [
+						103980
+					]
+				},
+				{
+					"id": 19,
+					"name": "Optus",
+					"value": 70.0,
+					"income": false,
+					"transaction_ids": [
+						103728
+					]
+				},
+				{
+					"id": 14,
+					"name": "Apple Inc",
+					"value": 11.99,
+					"income": false,
+					"transaction_ids": [
+						103800
+					]
+				},
+				{
+					"id": 97,
+					"name": "Dan Murphy",
+					"value": 60.0,
+					"income": false,
+					"transaction_ids": [
+						103974
+					]
+				},
+				{
+					"id": 248,
+					"name": "The Tree House",
+					"value": 66.0,
+					"income": false,
+					"transaction_ids": [
+						103947,
+						103946
+					]
+				},
+				{
+					"id": 72,
+					"name": "Bunnings",
+					"value": 30.0,
+					"income": false,
+					"transaction_ids": [
+						103968
+					]
+				}
+			]
+		},
+		{
+			"date": "2019-08-01",
+			"value": 386.62,
+			"income": true,
+			"groups": [
+				{
+					"id": 44,
+					"name": "Coles",
+					"value": 120.0,
+					"income": false,
+					"transaction_ids": [
+						103894,
+						103893,
+						103892,
+						103891,
+						103890
+					]
+				},
+				{
+					"id": 24,
+					"name": "Cash Withdrawal",
+					"value": 300.0,
+					"income": false,
+					"transaction_ids": [
+						103709,
+						103708,
+						103707,
+						103706,
+						103705,
+						103704,
+						103703,
+						103702
+					]
+				},
+				{
+					"id": 31,
+					"name": "PayPal",
+					"value": 44.4,
+					"income": false,
+					"transaction_ids": [
+						103791,
+						103790,
+						103789
+					]
+				},
+				{
+					"id": 238,
+					"name": "The Occidental Hotel",
+					"value": 219.0,
+					"income": false,
+					"transaction_ids": [
+						103944,
+						103943,
+						103942
+					]
+				},
+				{
+					"id": 41,
+					"name": "Transport for NSW",
+					"value": 120.0,
+					"income": false,
+					"transaction_ids": [
+						103652,
+						103657,
+						103656
+					]
+				},
+				{
+					"id": 81,
+					"name": "McDonald's",
+					"value": 90.0,
+					"income": false,
+					"transaction_ids": [
+						104028,
+						104027,
+						104026,
+						104025,
+						104024,
+						104023,
+						104022,
+						104021,
+						104020,
+						104019,
+						104018
+					]
+				},
+				{
+					"id": 23,
+					"name": "IGA grocery stores",
+					"value": 100.0,
+					"income": false,
+					"transaction_ids": [
+						103864,
+						103863,
+						103862,
+						103861,
+						103860
+					]
+				},
+				{
+					"id": 1,
+					"name": "Unknown",
+					"value": 2337.45,
+					"income": true,
+					"transaction_ids": [
+						103634,
+						103612,
+						103613,
+						103611,
+						103741,
+						103751,
+						103633,
+						103940,
+						103646,
+						103632,
+						103631,
+						103740,
+						103750
+					]
+				},
+				{
+					"id": 148,
+					"name": "Charge/Fee",
+					"value": 25.0,
+					"income": false,
+					"transaction_ids": [
+						103758
+					]
+				},
+				{
+					"id": 2,
+					"name": "Woolworths",
+					"value": 349.55,
+					"income": false,
+					"transaction_ids": [
+						103832,
+						103831,
+						103830,
+						103829,
+						103828,
+						103827
+					]
+				},
+				{
+					"id": 65,
+					"name": "Direct Credit",
+					"value": 100.0,
+					"income": true,
+					"transaction_ids": [
+						103733
+					]
+				},
+				{
+					"id": 57,
+					"name": "AGL",
+					"value": 70.0,
+					"income": false,
+					"transaction_ids": [
+						103673
+					]
+				},
+				{
+					"id": 292,
+					"name": "SUSHI PTY. LTD.",
+					"value": 127.0,
+					"income": false,
+					"transaction_ids": [
+						103941,
+						103938
+					]
+				},
+				{
+					"id": 40,
+					"name": "Netflix",
+					"value": 17.99,
+					"income": false,
+					"transaction_ids": [
+						103805
+					]
+				},
+				{
+					"id": 107,
+					"name": "The Brew House Hotel",
+					"value": 65.0,
+					"income": false,
+					"transaction_ids": [
+						103939
+					]
+				},
+				{
+					"id": 205,
+					"name": "Amaysim",
+					"value": 39.9,
+					"income": false,
+					"transaction_ids": [
+						103667
+					]
+				},
+				{
+					"id": 125,
+					"name": "BIG W",
+					"value": 40.0,
+					"income": false,
+					"transaction_ids": [
+						103979
+					]
+				},
+				{
+					"id": 19,
+					"name": "Optus",
+					"value": 70.0,
+					"income": false,
+					"transaction_ids": [
+						103727
+					]
+				},
+				{
+					"id": 14,
+					"name": "Apple Inc",
+					"value": 11.99,
+					"income": false,
+					"transaction_ids": [
+						103799
+					]
+				},
+				{
+					"id": 97,
+					"name": "Dan Murphy",
+					"value": 60.0,
+					"income": false,
+					"transaction_ids": [
+						103973
+					]
+				},
+				{
+					"id": 248,
+					"name": "The Tree House",
+					"value": 66.0,
+					"income": false,
+					"transaction_ids": [
+						103937,
+						103936
+					]
+				},
+				{
+					"id": 72,
+					"name": "Bunnings",
+					"value": 30.0,
+					"income": false,
+					"transaction_ids": [
+						103967
+					]
+				},
+				{
+					"id": 249,
+					"name": "Burger Project",
+					"value": 85.0,
+					"income": false,
+					"transaction_ids": [
+						103935
+					]
+				}
+			]
+		},
+		{
+			"date": "2019-09-01",
+			"value": 2101.07,
+			"income": true,
+			"groups": [
+				{
+					"id": 1,
+					"name": "Unknown",
+					"value": 4141.45,
+					"income": true,
+					"transaction_ids": [
+						103630,
+						103609,
+						103610,
+						103608,
+						103607,
+						103629,
+						103628,
+						103930,
+						103645,
+						103739,
+						103627,
+						103749,
+						103626
+					]
+				},
+				{
+					"id": 238,
+					"name": "The Occidental Hotel",
+					"value": 219.0,
+					"income": false,
+					"transaction_ids": [
+						103934,
+						103933,
+						103932
+					]
+				},
+				{
+					"id": 41,
+					"name": "Transport for NSW",
+					"value": 120.0,
+					"income": false,
+					"transaction_ids": [
+						103655,
+						103659,
+						103658
+					]
+				},
+				{
+					"id": 81,
+					"name": "McDonald's",
+					"value": 90.0,
+					"income": false,
+					"transaction_ids": [
+						104017,
+						104016,
+						104015,
+						104014,
+						104013,
+						104012,
+						104011,
+						104010,
+						104009,
+						104008,
+						104007
+					]
+				},
+				{
+					"id": 23,
+					"name": "IGA grocery stores",
+					"value": 100.0,
+					"income": false,
+					"transaction_ids": [
+						103859,
+						103858,
+						103857,
+						103856,
+						103855
+					]
+				},
+				{
+					"id": 24,
+					"name": "Cash Withdrawal",
+					"value": 280.0,
+					"income": false,
+					"transaction_ids": [
+						103700,
+						103699,
+						103698,
+						103697,
+						103696,
+						103695,
+						103694
+					]
+				},
+				{
+					"id": 148,
+					"name": "Charge/Fee",
+					"value": 25.0,
+					"income": false,
+					"transaction_ids": [
+						103757
+					]
+				},
+				{
+					"id": 2,
+					"name": "Woolworths",
+					"value": 349.55,
+					"income": false,
+					"transaction_ids": [
+						103826,
+						103825,
+						103824,
+						103823,
+						103822,
+						103821
+					]
+				},
+				{
+					"id": 65,
+					"name": "Direct Credit",
+					"value": 100.0,
+					"income": true,
+					"transaction_ids": [
+						103732
+					]
+				},
+				{
+					"id": 31,
+					"name": "PayPal",
+					"value": 28.45,
+					"income": false,
+					"transaction_ids": [
+						103788,
+						103787
+					]
+				},
+				{
+					"id": 44,
+					"name": "Coles",
+					"value": 95.5,
+					"income": false,
+					"transaction_ids": [
+						103888,
+						103887,
+						103886,
+						103885
+					]
+				},
+				{
+					"id": 57,
+					"name": "AGL",
+					"value": 70.0,
+					"income": false,
+					"transaction_ids": [
+						103672
+					]
+				},
+				{
+					"id": 292,
+					"name": "SUSHI PTY. LTD.",
+					"value": 127.0,
+					"income": false,
+					"transaction_ids": [
+						103931,
+						103928
+					]
+				},
+				{
+					"id": 40,
+					"name": "Netflix",
+					"value": 17.99,
+					"income": false,
+					"transaction_ids": [
+						103804
+					]
+				},
+				{
+					"id": 205,
+					"name": "Amaysim",
+					"value": 39.9,
+					"income": false,
+					"transaction_ids": [
+						103666
+					]
+				},
+				{
+					"id": 107,
+					"name": "The Brew House Hotel",
+					"value": 65.0,
+					"income": false,
+					"transaction_ids": [
+						103929
+					]
+				},
+				{
+					"id": 125,
+					"name": "BIG W",
+					"value": 40.0,
+					"income": false,
+					"transaction_ids": [
+						103978
+					]
+				},
+				{
+					"id": 19,
+					"name": "Optus",
+					"value": 70.0,
+					"income": false,
+					"transaction_ids": [
+						103726
+					]
+				},
+				{
+					"id": 204,
+					"name": "Uber",
+					"value": 150.0,
+					"income": false,
+					"transaction_ids": [
+						103781,
+						103780,
+						103779,
+						103778,
+						103777
+					]
+				},
+				{
+					"id": 14,
+					"name": "Apple Inc",
+					"value": 11.99,
+					"income": false,
+					"transaction_ids": [
+						103798
+					]
+				},
+				{
+					"id": 97,
+					"name": "Dan Murphy",
+					"value": 60.0,
+					"income": false,
+					"transaction_ids": [
+						103972
+					]
+				},
+				{
+					"id": 248,
+					"name": "The Tree House",
+					"value": 66.0,
+					"income": false,
+					"transaction_ids": [
+						103927,
+						103926
+					]
+				},
+				{
+					"id": 72,
+					"name": "Bunnings",
+					"value": 30.0,
+					"income": false,
+					"transaction_ids": [
+						103966
+					]
+				},
+				{
+					"id": 249,
+					"name": "Burger Project",
+					"value": 85.0,
+					"income": false,
+					"transaction_ids": [
+						103925
+					]
+				}
+			]
+		},
+		{
+			"date": "2019-10-01",
+			"value": 1085.57,
+			"income": true,
+			"groups": [
+				{
+					"id": 44,
+					"name": "Coles",
+					"value": 120.0,
+					"income": false,
+					"transaction_ids": [
+						103884,
+						103883,
+						103882,
+						103881,
+						103880
+					]
+				},
+				{
+					"id": 24,
+					"name": "Cash Withdrawal",
+					"value": 300.0,
+					"income": false,
+					"transaction_ids": [
+						103693,
+						103692,
+						103691,
+						103690,
+						103689,
+						103688,
+						103687,
+						103686
+					]
+				},
+				{
+					"id": 238,
+					"name": "The Occidental Hotel",
+					"value": 219.0,
+					"income": false,
+					"transaction_ids": [
+						103924,
+						103923,
+						103922
+					]
+				},
+				{
+					"id": 31,
+					"name": "PayPal",
+					"value": 28.45,
+					"income": false,
+					"transaction_ids": [
+						103786,
+						103785
+					]
+				},
+				{
+					"id": 81,
+					"name": "McDonald's",
+					"value": 90.0,
+					"income": false,
+					"transaction_ids": [
+						104006,
+						104005,
+						104004,
+						104003,
+						104002,
+						104001,
+						104000,
+						103999,
+						103998,
+						103997,
+						103996
+					]
+				},
+				{
+					"id": 23,
+					"name": "IGA grocery stores",
+					"value": 100.0,
+					"income": false,
+					"transaction_ids": [
+						103854,
+						103853,
+						103852,
+						103851,
+						103850
+					]
+				},
+				{
+					"id": 148,
+					"name": "Charge/Fee",
+					"value": 25.0,
+					"income": false,
+					"transaction_ids": [
+						103756
+					]
+				},
+				{
+					"id": 2,
+					"name": "Woolworths",
+					"value": 349.55,
+					"income": false,
+					"transaction_ids": [
+						103820,
+						103819,
+						103818,
+						103817,
+						103816,
+						103815
+					]
+				},
+				{
+					"id": 65,
+					"name": "Direct Credit",
+					"value": 100.0,
+					"income": true,
+					"transaction_ids": [
+						103731
+					]
+				},
+				{
+					"id": 1,
+					"name": "Unknown",
+					"value": 3137.45,
+					"income": true,
+					"transaction_ids": [
+						103625,
+						103605,
+						103606,
+						103604,
+						103738,
+						103748,
+						103624,
+						103920,
+						103644,
+						103623,
+						103737,
+						103747,
+						103622
+					]
+				},
+				{
+					"id": 57,
+					"name": "AGL",
+					"value": 70.0,
+					"income": false,
+					"transaction_ids": [
+						103671
+					]
+				},
+				{
+					"id": 41,
+					"name": "Transport for NSW",
+					"value": 80.0,
+					"income": false,
+					"transaction_ids": [
+						103661,
+						103660
+					]
+				},
+				{
+					"id": 204,
+					"name": "Uber",
+					"value": 242.0,
+					"income": false,
+					"transaction_ids": [
+						103776,
+						103775,
+						103773,
+						103774,
+						103772,
+						103771,
+						103770,
+						103769
+					]
+				},
+				{
+					"id": 292,
+					"name": "SUSHI PTY. LTD.",
+					"value": 127.0,
+					"income": false,
+					"transaction_ids": [
+						103921,
+						103918
+					]
+				},
+				{
+					"id": 40,
+					"name": "Netflix",
+					"value": 17.99,
+					"income": false,
+					"transaction_ids": [
+						103803
+					]
+				},
+				{
+					"id": 205,
+					"name": "Amaysim",
+					"value": 39.9,
+					"income": false,
+					"transaction_ids": [
+						103665
+					]
+				},
+				{
+					"id": 107,
+					"name": "The Brew House Hotel",
+					"value": 65.0,
+					"income": false,
+					"transaction_ids": [
+						103919
+					]
+				},
+				{
+					"id": 125,
+					"name": "BIG W",
+					"value": 40.0,
+					"income": false,
+					"transaction_ids": [
+						103977
+					]
+				},
+				{
+					"id": 19,
+					"name": "Optus",
+					"value": 70.0,
+					"income": false,
+					"transaction_ids": [
+						103725
+					]
+				},
+				{
+					"id": 14,
+					"name": "Apple Inc",
+					"value": 11.99,
+					"income": false,
+					"transaction_ids": [
+						103797
+					]
+				},
+				{
+					"id": 97,
+					"name": "Dan Murphy",
+					"value": 60.0,
+					"income": false,
+					"transaction_ids": [
+						103971
+					]
+				},
+				{
+					"id": 248,
+					"name": "The Tree House",
+					"value": 66.0,
+					"income": false,
+					"transaction_ids": [
+						103917,
+						103916
+					]
+				},
+				{
+					"id": 72,
+					"name": "Bunnings",
+					"value": 30.0,
+					"income": false,
+					"transaction_ids": [
+						103965
+					]
+				}
+			]
+		},
+		{
+			"date": "2019-11-01",
+			"value": 944.07,
+			"income": true,
+			"groups": [
+				{
+					"id": 44,
+					"name": "Coles",
+					"value": 144.5,
+					"income": false,
+					"transaction_ids": [
+						103879,
+						103878,
+						103877,
+						103876,
+						103875,
+						103874
+					]
+				},
+				{
+					"id": 24,
+					"name": "Cash Withdrawal",
+					"value": 320.0,
+					"income": false,
+					"transaction_ids": [
+						103685,
+						103683,
+						103684,
+						103682,
+						103681,
+						103680,
+						103679,
+						103678,
+						103677
+					]
+				},
+				{
+					"id": 1,
+					"name": "Unknown",
+					"value": 3137.45,
+					"income": true,
+					"transaction_ids": [
+						103621,
+						103602,
+						103603,
+						103601,
+						103620,
+						103910,
+						103643,
+						103736,
+						103746,
+						103619,
+						103618
+					]
+				},
+				{
+					"id": 238,
+					"name": "The Occidental Hotel",
+					"value": 219.0,
+					"income": false,
+					"transaction_ids": [
+						103914,
+						103913,
+						103912
+					]
+				},
+				{
+					"id": 81,
+					"name": "McDonald's",
+					"value": 90.0,
+					"income": false,
+					"transaction_ids": [
+						103995,
+						103994,
+						103993,
+						103992,
+						103991,
+						103990,
+						103989,
+						103988,
+						103987,
+						103986,
+						103985
+					]
+				},
+				{
+					"id": 23,
+					"name": "IGA grocery stores",
+					"value": 100.0,
+					"income": false,
+					"transaction_ids": [
+						103849,
+						103848,
+						103847,
+						103846,
+						103845
+					]
+				},
+				{
+					"id": 204,
+					"name": "Uber",
+					"value": 254.0,
+					"income": false,
+					"transaction_ids": [
+						103768,
+						103767,
+						103766,
+						103764,
+						103765,
+						103763,
+						103762,
+						103761
+					]
+				},
+				{
+					"id": 2,
+					"name": "Woolworths",
+					"value": 349.55,
+					"income": false,
+					"transaction_ids": [
+						103813,
+						103814,
+						103812,
+						103811,
+						103810,
+						103809
+					]
+				},
+				{
+					"id": 148,
+					"name": "Charge/Fee",
+					"value": 25.0,
+					"income": false,
+					"transaction_ids": [
+						103755
+					]
+				},
+				{
+					"id": 65,
+					"name": "Direct Credit",
+					"value": 100.0,
+					"income": true,
+					"transaction_ids": [
+						103730
+					]
+				},
+				{
+					"id": 57,
+					"name": "AGL",
+					"value": 70.0,
+					"income": false,
+					"transaction_ids": [
+						103670
+					]
+				},
+				{
+					"id": 41,
+					"name": "Transport for NSW",
+					"value": 80.0,
+					"income": false,
+					"transaction_ids": [
+						103663,
+						103662
+					]
+				},
+				{
+					"id": 292,
+					"name": "SUSHI PTY. LTD.",
+					"value": 127.0,
+					"income": false,
+					"transaction_ids": [
+						103911,
+						103908
+					]
+				},
+				{
+					"id": 40,
+					"name": "Netflix",
+					"value": 17.99,
+					"income": false,
+					"transaction_ids": [
+						103802
+					]
+				},
+				{
+					"id": 107,
+					"name": "The Brew House Hotel",
+					"value": 65.0,
+					"income": false,
+					"transaction_ids": [
+						103909
+					]
+				},
+				{
+					"id": 125,
+					"name": "BIG W",
+					"value": 40.0,
+					"income": false,
+					"transaction_ids": [
+						103976
+					]
+				},
+				{
+					"id": 205,
+					"name": "Amaysim",
+					"value": 39.9,
+					"income": false,
+					"transaction_ids": [
+						103664
+					]
+				},
+				{
+					"id": 31,
+					"name": "PayPal",
+					"value": 28.45,
+					"income": false,
+					"transaction_ids": [
+						103783,
+						103782
+					]
+				},
+				{
+					"id": 19,
+					"name": "Optus",
+					"value": 70.0,
+					"income": false,
+					"transaction_ids": [
+						103724
+					]
+				},
+				{
+					"id": 97,
+					"name": "Dan Murphy",
+					"value": 60.0,
+					"income": false,
+					"transaction_ids": [
+						103970
+					]
+				},
+				{
+					"id": 248,
+					"name": "The Tree House",
+					"value": 66.0,
+					"income": false,
+					"transaction_ids": [
+						103907,
+						103906
+					]
+				},
+				{
+					"id": 14,
+					"name": "Apple Inc",
+					"value": 11.99,
+					"income": false,
+					"transaction_ids": [
+						103796
+					]
+				},
+				{
+					"id": 72,
+					"name": "Bunnings",
+					"value": 30.0,
+					"income": false,
+					"transaction_ids": [
+						103964
+					]
+				},
+				{
+					"id": 249,
+					"name": "Burger Project",
+					"value": 85.0,
+					"income": false,
+					"transaction_ids": [
+						103905
+					]
+				}
+			]
+		},
+		{
+			"date": "2019-12-01",
+			"value": 1090.95,
+			"income": true,
+			"groups": [
+				{
+					"id": 24,
+					"name": "Cash Withdrawal",
+					"value": 20.0,
+					"income": false,
+					"transaction_ids": [
+						103676
+					]
+				},
+				{
+					"id": 81,
+					"name": "McDonald's",
+					"value": 18.0,
+					"income": false,
+					"transaction_ids": [
+						103983,
+						103982
+					]
+				},
+				{
+					"id": 148,
+					"name": "Charge/Fee",
+					"value": 25.0,
+					"income": false,
+					"transaction_ids": [
+						103754
+					]
+				},
+				{
+					"id": 2,
+					"name": "Woolworths",
+					"value": 12.5,
+					"income": false,
+					"transaction_ids": [
+						103808
+					]
+				},
+				{
+					"id": 1,
+					"name": "Unknown",
+					"value": 1166.45,
+					"income": true,
+					"transaction_ids": [
+						103744,
+						103599,
+						103600,
+						103598,
+						103745,
+						103597
+					]
+				}
+			]
+		}
+	]
+}
