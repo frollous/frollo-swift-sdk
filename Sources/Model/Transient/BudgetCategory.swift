@@ -90,7 +90,7 @@ public enum TransactionReportFilter {
     case tag(name: String?)
     
     /// The entity name for each filter type based on the backend
-    public var entity: String {
+    var entity: String {
         switch self {
             case .budgetCategory:
                 return "budget_categories"
@@ -104,7 +104,7 @@ public enum TransactionReportFilter {
     }
     
     /// The id of the entity to filter on
-    public var id: String? {
+    var id: String? {
         switch self {
             case .budgetCategory(let id), .category(let id), .merchant(let id):
                 guard let id = id else { return nil }
