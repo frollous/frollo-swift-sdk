@@ -139,7 +139,6 @@ public class Budget: NSManagedObject, UniqueManagedObject {
         return periods?.first { $0.endDateString >= dateString && dateString >= $0.startDateString }
     }
     
-    
     /// Date formatter to convert from stored date string to user's current locale
     public static let budgetDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
