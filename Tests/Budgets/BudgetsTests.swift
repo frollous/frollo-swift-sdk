@@ -287,10 +287,15 @@ class BudgetsTests: BaseTestCase {
                         let fetchRequest: NSFetchRequest<Budget> = Budget.fetchRequest()
                         fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [4])
                         
+                        let fetchPeriodsRequest: NSFetchRequest<BudgetPeriod> = BudgetPeriod.fetchRequest()
+                        
                         do {
                             let fetchedBudgets = try context.fetch(fetchRequest)
+                            let fetchedPeriods = try context.fetch(fetchPeriodsRequest)
                             
                             XCTAssertEqual(fetchedBudgets.first?.budgetID, 4)
+                            XCTAssertEqual(fetchedPeriods.count, 1)
+                            XCTAssertEqual(fetchedPeriods.first?.budgetPeriodID, 94)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
