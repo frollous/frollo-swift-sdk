@@ -3429,6 +3429,46 @@ class AggregationTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testFetchPaginatedMerchants() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.merchantsUpdatedNotification, object: nil, handler: nil)
+        
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_valid")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            aggregation.refreshMerchants(after: 0, before: 0, size: 20) { result in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success(let before, let after):
+                        let context = self.context
+                        
+                        XCTAssertEqual(before, 20)
+                        XCTAssertEqual(after, 20)
+                        
+                        let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
+                        
+                        do {
+                            let fetchedMerchants = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedMerchants.count, 1200)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+        
+    }
+        
     func testMerchantsFetchedResultsController() {
         let expectation1 = expectation(description: "Completion")
         

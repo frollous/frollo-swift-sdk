@@ -1668,14 +1668,14 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleMerchantsResponse(response.data, predicate: nil, managedObjectContext: managedObjectContext)
+                    self.handleMerchantsResponse(response.data.elements, predicate: nil, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.merchantsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
-                        completion?(.success(1, 2))
+                        completion?(.success(response.paging.cursors.before, response.paging.cursors.after))
                     }
             }
         }
@@ -1732,7 +1732,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleMerchantsResponse(response, merchantIDs: merchantIDs, managedObjectContext: managedObjectContext)
+                    self.handleMerchantsResponse(response.data.elements, merchantIDs: merchantIDs, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     

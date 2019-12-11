@@ -27,7 +27,7 @@ public enum EmptyResult<Failure> {
     
 }
 
-/// A value that represents either a success or a failure, including an associated error on failure.
+/// A value that represents either a success (with before and after cursors for pagination)or a failure, including an associated error on failure.
 public enum PaginatedResult<Failure, before, after> {
     
     /// A success
