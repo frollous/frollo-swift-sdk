@@ -372,7 +372,7 @@ extension APIService {
     
     // MARK: - Merchants
     
-    internal func fetchMerchants(after: Int? = nil, before: Int? = nil, size: Int? = nil, completion: @escaping RequestCompletion<PaginatedResponse<APIMerchantResponse>>) {
+    internal func fetchMerchants(after: Int? = nil, before: Int? = nil, size: Int? = nil, completion: @escaping RequestCompletion<APIPaginatedResponse<APIMerchantResponse>>) {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.merchants.path, relativeTo: self.serverURL)!
             
@@ -403,7 +403,7 @@ extension APIService {
         }
     }
     
-    internal func fetchMerchants(merchantIDs: [Int64], after: Int? = nil, before: Int? = nil, size: Int? = nil, completion: @escaping RequestCompletion<PaginatedResponse<APIMerchantResponse>>) {
+    internal func fetchMerchants(merchantIDs: [Int64], after: Int? = nil, before: Int? = nil, size: Int? = nil, completion: @escaping RequestCompletion<APIPaginatedResponse<APIMerchantResponse>>) {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.merchantsByID(merchantIDs: merchantIDs).path, relativeTo: self.serverURL)!
             

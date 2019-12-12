@@ -1668,7 +1668,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleMerchantsResponse(response.data.elements, predicate: nil, managedObjectContext: managedObjectContext)
+                    let merchantIDs = response.data.elements.map { $0.id }
+                    
+                    self.handleMerchantsResponse(response.data.elements, merchantIDs: merchantIDs, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     

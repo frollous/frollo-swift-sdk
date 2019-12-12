@@ -235,14 +235,14 @@ class Network: SessionDelegate {
         }
     }
     
-    internal func handlePaginatedArrayResponse<T: Codable, U: ResponseError>(type: T.Type, errorType: U.Type, response: DataResponse<Data>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<PaginatedResponse<T>>) {
+    internal func handlePaginatedArrayResponse<T: Codable, U: ResponseError>(type: T.Type, errorType: U.Type, response: DataResponse<Data>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<APIPaginatedResponse<T>>) {
         switch response.result {
             case .success(let value):
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = dateDecodingStrategy
                 
                 do {
-                    let apiResponse = try decoder.decode(PaginatedResponse<T>.self, from: value)
+                    let apiResponse = try decoder.decode(APIPaginatedResponse<T>.self, from: value)
                     completion(.success(apiResponse))
                 } catch {
                     Log.error(error.localizedDescription)

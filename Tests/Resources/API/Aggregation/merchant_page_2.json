@@ -1,0 +1,311 @@
+{
+  "data": [{
+      "id": 51,
+      "name": "Mac",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 52,
+      "name": "Nexus Venture Partners",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 53,
+      "name": "Kikki.K",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/53/original/NedkwXhp.png?1519084284",
+      "small_logo_revision": 1
+  }, {
+      "id": 54,
+      "name": "women's ready to wear",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 55,
+      "name": "The Berkelouw Book",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 56,
+      "name": "Mitsubishi",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 57,
+      "name": "AGL",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/57/original/AGL_Energy_logo.png?1519866340",
+      "small_logo_revision": 4
+  }, {
+      "id": 58,
+      "name": "Ink Station",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 59,
+      "name": "Hoyt's Cinemas",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/59/original/hoyts.png?1519084218",
+      "small_logo_revision": 1
+  }, {
+      "id": 60,
+      "name": "Reversal of debit entry",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 61,
+      "name": "Todarello's Katoomba Village Fruit Market",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 62,
+      "name": "The Farm",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 63,
+      "name": "Ticketek Pty Ltd",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/63/original/jLr5-2qV.png?1519084391",
+      "small_logo_revision": 1
+  }, {
+      "id": 64,
+      "name": "American Automobile Association",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 65,
+      "name": "Direct Credit",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 66,
+      "name": "Fishpond Ltd",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 67,
+      "name": "WHSmith",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 68,
+      "name": "Harris Farm Markets",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/68/original/Screen_Shot_2017-02-17_at_10.53.16_am.png?1519084373",
+      "small_logo_revision": 1
+  }, {
+      "id": 69,
+      "name": "Adobe Systems Incorporated",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/69/original/Adobe_Systems_logo_and_wordmark.svg.png?1519084279",
+      "small_logo_revision": 1
+  }, {
+      "id": 70,
+      "name": "Sydney Water Corporation",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/70/original/Screen_Shot_2017-02-17_at_11.54.48_am.png?1519084316",
+      "small_logo_revision": 1
+  }, {
+      "id": 71,
+      "name": "Travelex",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 72,
+      "name": "Bunnings",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/72/original/hammer_400x400.png?1519084458",
+      "small_logo_revision": 2
+  }, {
+      "id": 73,
+      "name": "Service NSW",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 74,
+      "name": "Bakers",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 75,
+      "name": "Book Depository",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/75/original/logo_shape1.png?1519084273",
+      "small_logo_revision": 1
+  }, {
+      "id": 76,
+      "name": "Cirque du Soleil",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 77,
+      "name": "Caltex",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/77/original/Caltex_Logo.svg.png?1519084519",
+      "small_logo_revision": 1
+  }, {
+      "id": 78,
+      "name": "Momentum Energy Pty Ltd",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 79,
+      "name": "Deposit",
+      "merchant_type": "transactional",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/79/original/deposit.png?1519084532",
+      "small_logo_revision": 1
+  }, {
+      "id": 80,
+      "name": "TPG Internet",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/80/original/Screen_Shot_2017-02-27_at_10.52.38_am.png?1519084464",
+      "small_logo_revision": 1
+  }, {
+      "id": 81,
+      "name": "McDonald's",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/81/original/default_tile_logo_mcd_red.png?1519084546",
+      "small_logo_revision": 2
+  }, {
+      "id": 82,
+      "name": "Origin.com",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 83,
+      "name": "SUBWAY",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/83/original/Screen_Shot_2017-02-17_at_1.13.06_pm.png?1519084496",
+      "small_logo_revision": 1
+  }, {
+      "id": 84,
+      "name": "Spotify Ltd",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/84/original/1024x1024bb.png?1519084422",
+      "small_logo_revision": 1
+  }, {
+      "id": 85,
+      "name": "Medibank Private Limited",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/85/original/Screen_Shot_2017-02-17_at_1.14.48_pm.png?1519084299",
+      "small_logo_revision": 1
+  }, {
+      "id": 86,
+      "name": "Peter's of Kensington",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 87,
+      "name": "Guzman y Gomez",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/87/original/GYG14001_FA02_Mexican_Taq_Round_logo_CMYK_TM_High_Res.png?1519084461",
+      "small_logo_revision": 1
+  }, {
+      "id": 88,
+      "name": "DOLPHIN HOTEL",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 89,
+      "name": "Microsoft",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/89/original/Microsoft_logo.svg.png?1519084507",
+      "small_logo_revision": 1
+  }, {
+      "id": 90,
+      "name": "The Source",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 91,
+      "name": "Adobe",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/91/original/Adobe_Systems_logo_and_wordmark.svg.png?1519084461",
+      "small_logo_revision": 1
+  }, {
+      "id": 92,
+      "name": "Rocks on the Roof",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 93,
+      "name": "ALDI",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/93/original/ALDI.png?1519084495",
+      "small_logo_revision": 3
+  }, {
+      "id": 94,
+      "name": "Ikea",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/94/original/Screen_Shot_2017-02-17_at_1.26.57_pm.png?1519084484",
+      "small_logo_revision": 1
+  }, {
+      "id": 95,
+      "name": "Moshtix Pty Ltd",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 96,
+      "name": "Victoria's Secret",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 97,
+      "name": "Dan Murphy",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/97/original/Brand_DM.png?1519084481",
+      "small_logo_revision": 2
+  }, {
+      "id": 98,
+      "name": "Roasters",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 99,
+      "name": "Myer Store",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/99/original/Screen_Shot_2017-02-17_at_11.24.34_am.png?1519084424",
+      "small_logo_revision": 1
+  }, {
+      "id": 100,
+      "name": "Target",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/100/original/Target_Corporation_logo_(vector).svg.png?1519084306",
+      "small_logo_revision": 1
+  }],
+  "paging": {
+    "cursors": {
+      "before": 50,
+      "after": 100
+    },
+    "previous": "api/v2/aggregation/merchants/?before=50",
+    "next": "api/v2/aggregation/merchants/?after=100"
+  }
+}

@@ -3430,42 +3430,94 @@ class AggregationTests: BaseTestCase {
     }
     
     func testFetchPaginatedMerchants() {
-        let expectation1 = expectation(description: "Network Request 1")
-        let notificationExpectation = expectation(forNotification: Aggregation.merchantsUpdatedNotification, object: nil, handler: nil)
         
-        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_valid")
+        let expectation1 = expectation(description: "Database")
+        let expectation2 = expectation(description: "Network Request Page 1")
+        let expectation3 = expectation(description: "Fetch Request Page 1")
+        let expectation4 = expectation(description: "Network Request Page 2")
+        let expectation5 = expectation(description: "Fetch Request Page 2")
+        
+        let merchantStub = connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchant_page_1")
         
         let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
             
-            aggregation.refreshMerchants(after: 0, before: 0, size: 20) { result in
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        aggregation.refreshMerchants(after: 50, before: 0, size: 50) { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let before, let after):
+                    XCTAssertEqual(before, 0)
+                    XCTAssertEqual(after, 50)
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = self.context
+            
+            let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
+            
+            do {
+                let fetchedMerchants = try context.fetch(fetchRequest)
+                
+                XCTAssertEqual(fetchedMerchants.count, 50)
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+        
+        OHHTTPStubs.removeStub(merchantStub)
+        
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchant_page_2")
+        
+         aggregation.refreshMerchants(after: 50, before: 0, size: 50) { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success(let before, let after):
-                        let context = self.context
-                        
-                        XCTAssertEqual(before, 20)
-                        XCTAssertEqual(after, 20)
-                        
-                        let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
-                        
-                        do {
-                            let fetchedMerchants = try context.fetch(fetchRequest)
-                            
-                            XCTAssertEqual(fetchedMerchants.count, 1200)
-                        } catch {
-                            XCTFail(error.localizedDescription)
-                        }
+                        XCTAssertEqual(before, 50)
+                        XCTAssertEqual(after, 100)
                 }
-                
-                expectation1.fulfill()
-            }
+                   
+                expectation4.fulfill()
         }
         
-        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+        wait(for: [expectation4], timeout: 3.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = self.context
+            
+            let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
+            
+            do {
+                let fetchedMerchants = try context.fetch(fetchRequest)
+                
+                XCTAssertEqual(fetchedMerchants.count, 100)
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+                        
+            expectation5.fulfill()
+        }
+        
+        wait(for: [expectation5], timeout: 3.0)
         
     }
         

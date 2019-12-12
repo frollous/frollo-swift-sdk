@@ -16,7 +16,7 @@
 
 import Foundation
 
-struct PaginatedResponse<T: Decodable>: Decodable {
+struct APIPaginatedResponse<T: Decodable>: Decodable {
     
     var data: FailableCodableArray<T>
     var paging: Paging

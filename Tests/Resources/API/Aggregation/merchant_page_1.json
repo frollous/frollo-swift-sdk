@@ -1,0 +1,311 @@
+{
+  "data": [{
+      "id": 1,
+      "name": "Unknown",
+      "merchant_type": "unknown",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/1/original/Untitled-1.png?1519084540",
+      "small_logo_revision": 1
+  }, {
+      "id": 2,
+      "name": "Woolworths",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/2/original/Woolworths.png?1519084526",
+      "small_logo_revision": 3
+  }, {
+      "id": 3,
+      "name": "Transfer",
+      "merchant_type": "transactional",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/3/original/balance-transfer.png?1519084538",
+      "small_logo_revision": 1
+  }, {
+      "id": 4,
+      "name": "ABOUT LIFE PTY LTD",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/4/original/cropped-about-life-dot-logo-with-tagline.png?1519084245",
+      "small_logo_revision": 1
+  }, {
+      "id": 5,
+      "name": "TryBooking",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/5/original/TB_logo_f7f7f7bg.png?1519084291",
+      "small_logo_revision": 1
+  }, {
+      "id": 6,
+      "name": "Silver Service",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/6/original/Screen_Shot_2017-02-17_at_1.32.21_pm.png?1519084427",
+      "small_logo_revision": 1
+  }, {
+      "id": 7,
+      "name": "Ezidebit Pty Ltd",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/7/original/Screen_Shot_2017-02-17_at_12.43.07_pm.png?1519084550",
+      "small_logo_revision": 1
+  }, {
+      "id": 8,
+      "name": "Trattoria Caffe Italia",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 9,
+      "name": "Smiggle",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/9/original/Screen_Shot_2017-02-27_at_11.20.00_am.png?1519084271",
+      "small_logo_revision": 1
+  }, {
+      "id": 10,
+      "name": "CAFE GNOME PTY LTD",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 11,
+      "name": "Xero",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/11/original/xero-logo-150F46D39F-seeklogo.com.png?1519084546",
+      "small_logo_revision": 1
+  }, {
+      "id": 12,
+      "name": "RMS E-toll",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/12/original/Etoll_744x372.png?1519084350",
+      "small_logo_revision": 1
+  }, {
+      "id": 13,
+      "name": "Google Inc",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/13/original/google-logo.png?1519084340",
+      "small_logo_revision": 1
+  }, {
+      "id": 14,
+      "name": "Apple Inc",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/14/original/Apple_logo_black.svg.png?1519084491",
+      "small_logo_revision": 2
+  }, {
+      "id": 15,
+      "name": "Kickstarter, Inc.",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 16,
+      "name": "Limousine.com",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/16/original/Limousine-logo-black.png?1519084250",
+      "small_logo_revision": 1
+  }, {
+      "id": 17,
+      "name": "Witchery",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 18,
+      "name": "Interest",
+      "merchant_type": "transactional",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/18/original/money_interest.png?1519084489",
+      "small_logo_revision": 1
+  }, {
+      "id": 19,
+      "name": "Optus",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/19/original/Optus-Logo-PNG-04905.png?1519084543",
+      "small_logo_revision": 2
+  }, {
+      "id": 20,
+      "name": "Sydney Airport",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/20/original/9czxWZxi.png?1519084389",
+      "small_logo_revision": 1
+  }, {
+      "id": 21,
+      "name": "NEWSLINK",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/21/original/Newslink_0.png?1519084448",
+      "small_logo_revision": 1
+  }, {
+      "id": 22,
+      "name": "Blooms The Chemist",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/22/original/b92916c3b708b802e38072ee76523b14_d735b04e00161f6a3025a40cd770783502ffda0c3409684663d6c1267d24d524.png?1519084393",
+      "small_logo_revision": 1
+  }, {
+      "id": 23,
+      "name": "IGA grocery stores",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/23/original/Screen_Shot_2017-02-17_at_10.43.34_am.png?1519084478",
+      "small_logo_revision": 2
+  }, {
+      "id": 24,
+      "name": "Cash Withdrawal",
+      "merchant_type": "transactional",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/24/original/404594-200.png?1519084262",
+      "small_logo_revision": 1
+  }, {
+      "id": 25,
+      "name": "Webjet",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 26,
+      "name": "Airbnb, Inc.",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/26/original/airbnb-logo.png?1519084508",
+      "small_logo_revision": 1
+  }, {
+      "id": 27,
+      "name": "Qantas Airways",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/27/original/qantas1984.png?1519084362",
+      "small_logo_revision": 1
+  }, {
+      "id": 28,
+      "name": "Salary",
+      "merchant_type": "transactional",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/28/original/Background.png?1519084474",
+      "small_logo_revision": 1
+  }, {
+      "id": 29,
+      "name": "Rebate",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 30,
+      "name": "Sportsbet Pty Ltd",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/30/original/sportsbet_square_bigger.png?1519084410",
+      "small_logo_revision": 1
+  }, {
+      "id": 31,
+      "name": "PayPal",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/31/original/paypal_2014_logo_detail.png?1519084260",
+      "small_logo_revision": 3
+  }, {
+      "id": 32,
+      "name": "ANZ",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/32/original/Screen_Shot_2017-02-17_at_10.45.49_am.png?1519084514",
+      "small_logo_revision": 1
+  }, {
+      "id": 33,
+      "name": "Ingogo",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/33/original/logo-circle.png?1519084530",
+      "small_logo_revision": 1
+  }, {
+      "id": 34,
+      "name": "Hey You Pty Ltd",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/34/original/Screen_Shot_2017-02-17_at_12.41.28_pm.png?1519084342",
+      "small_logo_revision": 1
+  }, {
+      "id": 35,
+      "name": "American Express",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/35/original/2000px-American_Express_logo.svg.png?1519084552",
+      "small_logo_revision": 1
+  }, {
+      "id": 36,
+      "name": "Game Stores",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 37,
+      "name": "Virgin Australia Airlines",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/37/original/virginlogoold.png?1519084548",
+      "small_logo_revision": 1
+  }, {
+      "id": 38,
+      "name": "Whole Foods",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/38/original/Whole-Foods-logo.png?1519084453",
+      "small_logo_revision": 1
+  }, {
+      "id": 39,
+      "name": "Espresso",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 40,
+      "name": "Netflix",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/40/original/10478570_10152214521608870_2744465531652776073_n.0.png?1519084368",
+      "small_logo_revision": 2
+  }, {
+      "id": 41,
+      "name": "Transport for NSW",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/41/original/1376949352693.png?1519084239",
+      "small_logo_revision": 2
+  }, {
+      "id": 42,
+      "name": "David Jones",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/42/original/photo.png?1519084372",
+      "small_logo_revision": 1
+  }, {
+      "id": 43,
+      "name": "Kmart",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/43/original/Screen_Shot_2017-02-17_at_11.36.41_am.png?1519084294",
+      "small_logo_revision": 1
+  }, {
+      "id": 44,
+      "name": "Coles",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/44/original/Coles.png?1519084524",
+      "small_logo_revision": 3
+  }, {
+      "id": 45,
+      "name": "Amazon.com",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/45/original/6a00d83451b36c69e201b7c8d1290d970b-600wi.png?1519084338",
+      "small_logo_revision": 1
+  }, {
+      "id": 46,
+      "name": "Lime Taxis",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 47,
+      "name": "Bupa",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/47/original/bupa-logo.png?1519084438",
+      "small_logo_revision": 1
+  }, {
+      "id": 48,
+      "name": "Savers",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 49,
+      "name": "The Newport Casino",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+      "small_logo_revision": 0
+  }, {
+      "id": 50,
+      "name": "Lululemon",
+      "merchant_type": "retailer",
+      "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/50/original/VXqnFv33.png?1519084210",
+      "small_logo_revision": 1
+  }],
+  "paging": {
+    "cursors": {
+      "before": 0,
+      "after": 50
+    },
+    "previous": "api/v2/aggregation/merchants/?before=0",
+    "next": "api/v2/aggregation/merchants/?after=50"
+  }
+}
