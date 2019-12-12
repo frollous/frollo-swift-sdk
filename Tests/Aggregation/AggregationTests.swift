@@ -3444,6 +3444,17 @@ class AggregationTests: BaseTestCase {
         database.setup { error in
             XCTAssertNil(error)
             
+            let context = self.context
+            
+            context.performAndWait {
+                let testMerchant1 = Merchant(context: context)
+                testMerchant1.populateTestData()
+                testMerchant1.merchantID = 1
+                testMerchant1.name = "Test name"
+                
+                try! context.save()
+            }
+            
             expectation1.fulfill()
         }
         
@@ -3470,6 +3481,8 @@ class AggregationTests: BaseTestCase {
             
             do {
                 let fetchedMerchants = try context.fetch(fetchRequest)
+                let updatedMerchant = fetchedMerchants.first
+                XCTAssertEqual(updatedMerchant?.name, "Unknown")
                 
                 XCTAssertEqual(fetchedMerchants.count, 50)
                 
