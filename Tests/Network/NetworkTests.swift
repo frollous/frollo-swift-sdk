@@ -310,7 +310,7 @@ class NetworkTests: BaseTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
-    func testInvalidRefreshToken() {
+    func testInvalidRefreshTokenAPIFail() {
         let expectation1 = expectation(description: "Network Request")
         
         let config = FrolloSDKConfiguration.testConfig()
@@ -326,8 +326,13 @@ class NetworkTests: BaseTestCase {
     
         service.fetchUser { (result) in
             switch result {
-                case .failure:
-                    break
+                case .failure(let error):
+                    if let dataError = error as? DataError {
+                        XCTAssertEqual(dataError.type, .api)
+                        XCTAssertEqual(dataError.subType, .invalidData)
+                    } else {
+                        XCTFail("Wrong error type returned")
+                    }
                 case .success:
                     XCTFail("User was invalid so should fail")
             }
@@ -355,9 +360,9 @@ class NetworkTests: BaseTestCase {
                     case .failure(let error):
                         XCTAssertNotNil(error)
                     
-                        if let loggedOutError = error as? DataError {
-                            XCTAssertEqual(loggedOutError.type, .api)
-                            XCTAssertEqual(loggedOutError.subType, .invalidData)
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .api)
+                            XCTAssertEqual(dataError.subType, .invalidData)
                         } else {
                             XCTFail("Wrong error type returned")
                         }
@@ -384,9 +389,9 @@ class NetworkTests: BaseTestCase {
                 case .failure(let error):
                     XCTAssertNotNil(error)
                 
-                    if let loggedOutError = error as? DataError {
-                        XCTAssertEqual(loggedOutError.type, .api)
-                        XCTAssertEqual(loggedOutError.subType, .invalidData)
+                    if let dataError = error as? DataError {
+                        XCTAssertEqual(dataError.type, .api)
+                        XCTAssertEqual(dataError.subType, .invalidData)
                     } else {
                         XCTFail("Wrong error type returned")
                     }

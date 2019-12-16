@@ -308,6 +308,13 @@ class UserManagementTests: BaseTestCase {
             switch result {
                 case .failure(let error):
                     XCTAssertNotNil(error)
+                
+                    if let apiError = error as? APIError {
+                        XCTAssertEqual(apiError.type, .serverError)
+                        XCTAssertEqual(apiError.statusCode, 500)
+                    } else {
+                        XCTFail("Wrong error type returned")
+                    }
                 case .success:
                     XCTFail("Request should fail")
             }
@@ -519,6 +526,12 @@ class UserManagementTests: BaseTestCase {
             switch result {
                 case .failure(let error):
                     XCTAssertNotNil(error)
+                    if let apiError = error as? APIError {
+                        XCTAssertEqual(apiError.type, .serverError)
+                        XCTAssertEqual(apiError.statusCode, 500)
+                    } else {
+                        XCTFail("Wrong error type returned")
+                    }
                 case .success:
                     XCTFail("Request should fail")
             }
@@ -658,6 +671,12 @@ class UserManagementTests: BaseTestCase {
             switch result {
                 case .failure(let error):
                     XCTAssertNotNil(error)
+                    if let apiError = error as? APIError {
+                        XCTAssertEqual(apiError.type, .serverError)
+                        XCTAssertEqual(apiError.statusCode, 500)
+                    } else {
+                        XCTFail("Wrong error type returned")
+                    }
                 case .success:
                     XCTFail("Request should fail")
             }
