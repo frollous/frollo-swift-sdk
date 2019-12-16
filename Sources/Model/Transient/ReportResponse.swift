@@ -22,6 +22,8 @@ public protocol Reportable {
     /// The grouping type of the model
     static var grouping: ReportGrouping { get }
     
+    var value: Decimal { get }
+    
     /// Initializer from a group report object
     init(groupReport: APIReportsResponse.Report.GroupReport)
 }
