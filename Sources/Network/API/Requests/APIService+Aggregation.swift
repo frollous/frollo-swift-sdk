@@ -403,23 +403,12 @@ extension APIService {
         }
     }
     
-    internal func fetchMerchants(merchantIDs: [Int64], after: Int? = nil, before: Int? = nil, size: Int? = nil, completion: @escaping RequestCompletion<APIPaginatedResponse<APIMerchantResponse>>) {
+    internal func fetchMerchants(merchantIDs: [Int64], completion: @escaping RequestCompletion<[APIMerchantResponse]>) {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.merchantsByID(merchantIDs: merchantIDs).path, relativeTo: self.serverURL)!
             
-            var parameters = [String: String]()
-            if let before = before {
-                parameters[AggregationEndpoint.QueryParameters.before.rawValue] = String(before)
-            }
-            if let after = after {
-                parameters[AggregationEndpoint.QueryParameters.after.rawValue] = String(after)
-            }
-            if let size = size {
-                parameters[AggregationEndpoint.QueryParameters.size.rawValue] = String(size)
-            }
-            
-            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handlePaginatedArrayResponse(type: APIMerchantResponse.self, errorType: APIError.self, response: response, completion: completion)
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleArrayResponse(type: APIMerchantResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
             
         }

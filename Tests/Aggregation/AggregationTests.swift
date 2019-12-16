@@ -3450,7 +3450,12 @@ class AggregationTests: BaseTestCase {
                 let testMerchant1 = Merchant(context: context)
                 testMerchant1.populateTestData()
                 testMerchant1.merchantID = 1
-                testMerchant1.name = "Test name"
+                testMerchant1.name = "Updating merchant"
+                
+                let testMerchant2 = Merchant(context: context)
+                testMerchant2.populateTestData()
+                testMerchant2.merchantID = 78
+                testMerchant2.name = "Deleting merchant"
                 
                 try! context.save()
             }
@@ -3460,13 +3465,13 @@ class AggregationTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        aggregation.refreshMerchants(after: 50, before: 0, size: 50) { result in
+        aggregation.refreshMerchants(size: 50) { result in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success(let before, let after):
                     XCTAssertEqual(before, 0)
-                    XCTAssertEqual(after, 50)
+                    XCTAssertEqual(after, 51)
             }
             
             expectation2.fulfill()
@@ -3481,10 +3486,10 @@ class AggregationTests: BaseTestCase {
             
             do {
                 let fetchedMerchants = try context.fetch(fetchRequest)
-                let updatedMerchant = fetchedMerchants.first
-                XCTAssertEqual(updatedMerchant?.name, "Unknown")
+                let updatedMerchant = aggregation.merchant(context: context, merchantID: 1)
+                XCTAssertEqual(updatedMerchant?.name, "Updated Merchant")
                 
-                XCTAssertEqual(fetchedMerchants.count, 50)
+                XCTAssertEqual(fetchedMerchants.count, 51)
                 
             } catch {
                 XCTFail(error.localizedDescription)
@@ -3499,16 +3504,18 @@ class AggregationTests: BaseTestCase {
         
         connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchant_page_2")
         
-         aggregation.refreshMerchants(after: 50, before: 0, size: 50) { result in
+         aggregation.refreshMerchants(after: 51, size: 50) { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success(let before, let after):
                         XCTAssertEqual(before, 50)
-                        XCTAssertEqual(after, 100)
+                        XCTAssertEqual(after, 101)
                 }
+            
+            XCTAssertNil(aggregation.merchant(context: self.context, merchantID: 78))
                    
-                expectation4.fulfill()
+            expectation4.fulfill()
         }
         
         wait(for: [expectation4], timeout: 3.0)
@@ -3521,7 +3528,7 @@ class AggregationTests: BaseTestCase {
             do {
                 let fetchedMerchants = try context.fetch(fetchRequest)
                 
-                XCTAssertEqual(fetchedMerchants.count, 100)
+                XCTAssertEqual(fetchedMerchants.count, 99)
                 
             } catch {
                 XCTFail(error.localizedDescription)

@@ -1668,9 +1668,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    let merchantIDs = response.data.elements.map { $0.id }
-                    
-                    self.handleMerchantsResponse(response.data.elements, merchantIDs: merchantIDs, managedObjectContext: managedObjectContext)
+                    self.handleMerchantsResponse(response.data.elements, before: response.paging.cursors.before, after: response.paging.cursors.after, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     
@@ -1734,7 +1732,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleMerchantsResponse(response.data.elements, merchantIDs: merchantIDs, managedObjectContext: managedObjectContext)
+                    self.handleMerchantsResponse(response, merchantIDs: merchantIDs, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     
@@ -2349,6 +2347,13 @@ public class Aggregation: CachedObjects, ResponseHandler {
     
     private func handleMerchantsResponse(_ merchantsResponse: [APIMerchantResponse], merchantIDs: [Int64], managedObjectContext: NSManagedObjectContext) {
         let predicate = NSPredicate(format: #keyPath(Merchant.merchantID) + " IN %@", argumentArray: [merchantIDs])
+        
+        handleMerchantsResponse(merchantsResponse, predicate: predicate, managedObjectContext: managedObjectContext)
+    }
+    
+    private func handleMerchantsResponse(_ merchantsResponse: [APIMerchantResponse], before: Int64, after: Int64, managedObjectContext: NSManagedObjectContext) {
+        
+        let predicate = NSPredicate(format: #keyPath(Merchant.merchantID) + " > %ld && " + #keyPath(Merchant.merchantID) + " < %ld", argumentArray: [before, after])
         
         handleMerchantsResponse(merchantsResponse, predicate: predicate, managedObjectContext: managedObjectContext)
     }

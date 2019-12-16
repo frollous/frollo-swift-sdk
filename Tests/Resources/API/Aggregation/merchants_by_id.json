@@ -1,5 +1,4 @@
-{
-"data": [{
+[{
 	"id": 238,
 	"name": "The Occidental Hotel",
 	"merchant_type": "retailer",
@@ -11,13 +10,4 @@
 	"merchant_type": "retailer",
 	"small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
 	"small_logo_revision": 0
-}],
-  "paging": {
-    "cursors": {
-      "before": 20,
-      "after": 20
-    },
-    "previous": "api/v2/aggregation/merchants/?before=20",
-    "next": "api/v2/aggregation/merchants/?after=20"
-  }
-}
+}]

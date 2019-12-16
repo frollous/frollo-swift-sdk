@@ -162,12 +162,6 @@
       "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/77/original/Caltex_Logo.svg.png?1519084519",
       "small_logo_revision": 1
   }, {
-      "id": 78,
-      "name": "Momentum Energy Pty Ltd",
-      "merchant_type": "retailer",
-      "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
-      "small_logo_revision": 0
-  }, {
       "id": 79,
       "name": "Deposit",
       "merchant_type": "transactional",
@@ -303,7 +297,7 @@
   "paging": {
     "cursors": {
       "before": 50,
-      "after": 100
+      "after": 101
     },
     "previous": "api/v2/aggregation/merchants/?before=50",
     "next": "api/v2/aggregation/merchants/?after=100"

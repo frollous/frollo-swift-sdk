@@ -1,7 +1,7 @@
 {
   "data": [{
       "id": 1,
-      "name": "Unknown",
+      "name": "Updated Merchant",
       "merchant_type": "unknown",
       "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/1/original/Untitled-1.png?1519084540",
       "small_logo_revision": 1
@@ -303,7 +303,7 @@
   "paging": {
     "cursors": {
       "before": 0,
-      "after": 50
+      "after": 51
     },
     "previous": "api/v2/aggregation/merchants/?before=0",
     "next": "api/v2/aggregation/merchants/?after=50"
