@@ -296,6 +296,37 @@ class UserManagementTests: BaseTestCase {
         try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
+    func testChangePasswordAPIFailure() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: UserEndpoint.user.path.prefixedWithSlash, addingData: Data(), addingStatusCode: 500)
+        
+        let keychain = validKeychain()
+        let user = defaultUser(keychain: keychain)
+        
+        user.changePassword(currentPassword: UUID().uuidString, newPassword: UUID().uuidString, completion: { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertNotNil(error)
+                
+                    if let apiError = error as? APIError {
+                        XCTAssertEqual(apiError.type, .serverError)
+                        XCTAssertEqual(apiError.statusCode, 500)
+                    } else {
+                        XCTFail("Wrong error type returned")
+                    }
+                case .success:
+                    XCTFail("Request should fail")
+            }
+            
+            expectation1.fulfill()
+        })
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
+    }
+    
     func testChangePasswordFailsIfTooShort() {
         let expectation1 = expectation(description: "Network Request")
         
@@ -470,6 +501,46 @@ class UserManagementTests: BaseTestCase {
         
         wait(for: [expectation1, expectation2], timeout: 3.0)
     }
+    
+    func testMigrateUserAIPFailure() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.migrate.path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 500, headers: nil)
+        }
+        
+        let keychain = validKeychain()
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        authentication.dataSource = oAuth2Authentication
+        authentication.delegate = oAuth2Authentication
+        
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: oAuth2Authentication, preferences: preferences, delegate: nil)
+        
+        user.migrateUser(password: "12345678") { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertNotNil(error)
+                    if let apiError = error as? APIError {
+                        XCTAssertEqual(apiError.type, .serverError)
+                        XCTAssertEqual(apiError.statusCode, 500)
+                    } else {
+                        XCTFail("Wrong error type returned")
+                    }
+                case .success:
+                    XCTFail("Request should fail")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
 
     func testMigrateUserFailsIfMissingRefreshToken() {
         let expectation1 = expectation(description: "Network Request")
@@ -582,6 +653,36 @@ class UserManagementTests: BaseTestCase {
                 expectation1.fulfill()
             })
         }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
+    }
+    
+    func testResetPasswordAPIFailure() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: UserEndpoint.resetPassword.path.prefixedWithSlash, addingData: Data(), addingStatusCode: 500)
+        
+        let keychain = validKeychain()
+        let user = defaultUser(keychain: keychain)
+        
+         user.resetPassword(email: "test@domain.com", completion: { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertNotNil(error)
+                    if let apiError = error as? APIError {
+                        XCTAssertEqual(apiError.type, .serverError)
+                        XCTAssertEqual(apiError.statusCode, 500)
+                    } else {
+                        XCTFail("Wrong error type returned")
+                    }
+                case .success:
+                    XCTFail("Request should fail")
+            }
+            
+            expectation1.fulfill()
+        })
         
         wait(for: [expectation1], timeout: 3.0)
         
