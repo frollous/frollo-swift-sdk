@@ -90,7 +90,7 @@ public enum TransactionReportFilter {
     case tag(name: String?)
     
     /// The entity name for each filter type based on the backend
-    var entity: String {
+    public var entity: String {
         switch self {
             case .budgetCategory:
                 return "budget_categories"
