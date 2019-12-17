@@ -1726,7 +1726,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - size: Batch size of merchants to returned by API (optional); defaults to 500
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func refreshMerchantsWithCompletionHandler(merchantIDs: [Int64], after: Int64? = nil, before: Int64? = nil, size: Int? = 500, completion: FrolloSDKPaginatedCompletionHandler? = nil) {
+    public func refreshMerchantsWithCompletionHandler(merchantIDs: [Int64], before: Int64? = nil, after: Int64? = nil, size: Int? = 500, completion: FrolloSDKPaginatedCompletionHandler? = nil) {
         service.fetchMerchants(merchantIDs: merchantIDs, after: after, before: before, size: size) { result in
             switch result {
                 case .failure(let error):
