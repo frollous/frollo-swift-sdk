@@ -217,6 +217,7 @@ public class Budgets: CachedObjects, ResponseHandler {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleBudgetsResponse(response, current: current, budgetType: budgetType, managedObjectContext: managedObjectContext)
+                    self.linkBudgetPeriodsToBudgets(managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -545,7 +546,7 @@ public class Budgets: CachedObjects, ResponseHandler {
                 case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleBudgetPeriodsResponse(response, budgetID: budgetID, managedObjectContext: managedObjectContext)
+                    self.handleBudgetPeriodsResponse(response, budgetID: budgetID, from: fromDate, to: toDate, managedObjectContext: managedObjectContext)
                     
                     self.linkBudgetPeriodsToBudgets(managedObjectContext: managedObjectContext)
                     
@@ -657,14 +658,26 @@ public class Budgets: CachedObjects, ResponseHandler {
         }
     }
     
-    private func handleBudgetPeriodsResponse(_ budgetPeriodsResponse: [APIBudgetPeriodResponse], budgetID: Int64, managedObjectContext: NSManagedObjectContext) {
+    private func handleBudgetPeriodsResponse(_ budgetPeriodsResponse: [APIBudgetPeriodResponse], budgetID: Int64, from fromDate: Date? = nil, to toDate: Date? = nil, managedObjectContext: NSManagedObjectContext) {
         budgetPeriodsLock.lock()
         
         defer {
             budgetPeriodsLock.unlock()
         }
         
-        let filterPredicate = NSPredicate(format: #keyPath(BudgetPeriod.budgetID) + " == %ld", argumentArray: [budgetID])
+        var predicates = [NSPredicate]()
+        
+        predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.budgetID) + " == %ld", argumentArray: [budgetID]))
+        
+        if let fromDate = fromDate {
+            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " >= %@", argumentArray: [Budget.budgetDateFormatter.string(from: fromDate)]))
+        }
+        
+        if let toDate = toDate {
+            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " <= %@", argumentArray: [Budget.budgetDateFormatter.string(from: toDate)]))
+        }
+        
+        let filterPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         
         let updatedLinkedIDs = updateObjectsWithResponse(type: BudgetPeriod.self, objectsResponse: budgetPeriodsResponse, primaryKey: #keyPath(BudgetPeriod.budgetPeriodID), linkedKeys: [\BudgetPeriod.budgetID], filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
         

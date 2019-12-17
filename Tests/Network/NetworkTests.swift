@@ -310,4 +310,100 @@ class NetworkTests: BaseTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testInvalidRefreshTokenAPIFail() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let keychain = Keychain(service: "EmptyMe")
+        let networkAuthenticator = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_invalid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+    
+        service.fetchUser { (result) in
+            switch result {
+                case .failure(let error):
+                    if let dataError = error as? DataError {
+                        XCTAssertEqual(dataError.type, .api)
+                        XCTAssertEqual(dataError.subType, .invalidData)
+                    } else {
+                        XCTFail("Wrong error type returned")
+                    }
+                case .success:
+                    XCTFail("User was invalid so should fail")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    // MARK: - Invalid responses handling tests
+    
+    func testInvalidObjectResponse() {
+        
+        let service = defaultService(keychain: defaultKeychain(isNetwork: true))
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: AggregationEndpoint.merchant(merchantID: 197).path.prefixedWithSlash, toResourceWithName: "invalid_data")
+                
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            service.fetchMerchant(merchantID: 197) { result in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                    
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .api)
+                            XCTAssertEqual(dataError.subType, .invalidData)
+                        } else {
+                            XCTFail("Wrong error type returned")
+                        }
+                    case .success:
+                        XCTFail("Should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        wait(for: [expectation1], timeout: 3.0)
+        
+    }
+    
+    func testInvalidArrayResponse() {
+        
+        let service = defaultService(keychain: defaultKeychain(isNetwork: true))
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "invalid_data")
+        
+        service.fetchProviderAccounts { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertNotNil(error)
+                
+                    if let dataError = error as? DataError {
+                        XCTAssertEqual(dataError.type, .api)
+                        XCTAssertEqual(dataError.subType, .invalidData)
+                    } else {
+                        XCTFail("Wrong error type returned")
+                    }
+                case .success:
+                    XCTFail("Should fail")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+ 
+    
 }

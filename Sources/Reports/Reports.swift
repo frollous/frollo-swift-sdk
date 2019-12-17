@@ -159,7 +159,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - toDate: End date to fetch reports up to (inclusive)
         - completion: Completion handler with either the data from the host or an error
      */
-    func fetchTransactionReports<T: Reportable>(filtering: TransactionReportFilter, grouping: T.Type, period: Reports.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<T>>) {
+    public func fetchTransactionReports<T: Reportable>(filtering: TransactionReportFilter, grouping: T.Type, period: Reports.Period, from fromDate: Date, to toDate: Date, completion: @escaping RequestCompletion<ReportsResponse<T>>) {
         service.fetchTransactionHistoryReports(filtering: filtering, grouping: T.grouping, period: period, fromDate: fromDate, toDate: toDate) { result in
             switch result {
                 case .success(let response):

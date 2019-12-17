@@ -268,6 +268,8 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         }
         
         if configuration.publicKeyPinningEnabled, pinServer || pinToken {
+            pinnedKeys = [URL: [SecKey]]()
+            
             let activeKey: SecKey
             let backupKey: SecKey
             
