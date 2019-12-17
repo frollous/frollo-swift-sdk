@@ -1651,37 +1651,6 @@ public class Aggregation: CachedObjects, ResponseHandler {
     }
     
     /**
-     Refresh all merchants from the host.
-     
-     - parameters:
-        - completion: Optional completion handler with optional error if the request fails
-     */
-    internal func refreshMerchants(completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchMerchants { result in
-            switch result {
-                case .failure(let error):
-                    Log.error(error.localizedDescription)
-                    
-                    DispatchQueue.main.async {
-                        completion?(.failure(error))
-                    }
-                case .success(let response):
-                    let managedObjectContext = self.database.newBackgroundContext()
-                    
-                    self.handleMerchantsResponse(response, predicate: nil, managedObjectContext: managedObjectContext)
-                    
-                    self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
-                    
-                    NotificationCenter.default.post(name: Aggregation.merchantsUpdatedNotification, object: self)
-                    
-                    DispatchQueue.main.async {
-                        completion?(.success)
-                    }
-            }
-        }
-    }
-    
-    /**
      Refresh a specific merchant by ID from the host
      
      - parameters:
@@ -1714,14 +1683,16 @@ public class Aggregation: CachedObjects, ResponseHandler {
     }
     
     /**
-     Refresh specific merchants by ID from the host
+     Refresh all merchants from the host.
      
      - parameters:
-        - merchantIDs: List of merchant IDs to fetch
+        - before: Merchant ID to fetch before this merchant (optional)
+        - after: Merchant ID to fetch upto this merchant (optional)
+        - size: Batch size of merchants to returned by API (optional); defaults to 500
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func refreshMerchants(merchantIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchMerchants(merchantIDs: merchantIDs) { result in
+    internal func refreshMerchants(before: Int? = nil, after: Int? = nil, size: Int? = 500, completion: FrolloSDKPaginatedCompletionHandler? = nil) {
+        service.fetchMerchants(after: after, before: before, size: size) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -1732,28 +1703,107 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleMerchantsResponse(response, merchantIDs: merchantIDs, managedObjectContext: managedObjectContext)
+                    self.handleMerchantsResponse(response.data.elements, before: response.paging.cursors.before, after: response.paging.cursors.after, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.merchantsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
-                        completion?(.success)
+                        completion?(.success(response.paging.cursors.before, response.paging.cursors.after))
                     }
             }
         }
     }
     
     /**
+     Refresh specific merchants by ID from the host
+     
+     - parameters:
+        - merchantIDs: List of merchant IDs to fetch
+        - before: Merchant ID to fetch before this merchant (optional)
+        - after: Merchant ID to fetch upto this merchant (optional)
+        - size: Batch size of merchants to returned by API (optional); defaults to 500
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshMerchantsWithCompletionHandler(merchantIDs: [Int64], before: Int64? = nil, after: Int64? = nil, size: Int? = 500, completion: FrolloSDKPaginatedCompletionHandler? = nil) {
+        service.fetchMerchants(merchantIDs: merchantIDs, after: after, before: before, size: size) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleMerchantsResponse(response.data.elements, merchantIDs: response.data.elements.map { $0.id }, managedObjectContext: managedObjectContext)
+                    
+                    self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.merchantsUpdatedNotification, object: self)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success(response.paging.cursors.before, response.paging.cursors.after))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Iteratively refresh specific merchants by ID from the host
+     
+     - parameters:
+        - batchSize: Size of the batch for each response (optional); defaults to 500
+        - merchantIDs: List of merchant IDs to fetch
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshMerchants(batchSize: Int? = 500, merchantIDs: [Int64], completion: FrolloSDKPaginatedCompletionHandler? = nil) {
+        
+        var after: Int64?
+        
+        service.fetchMerchants(merchantIDs: merchantIDs, after: after, size: batchSize) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleMerchantsResponse(response.data.elements, merchantIDs: response.data.elements.map { $0.id }, managedObjectContext: managedObjectContext)
+                    
+                    self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Aggregation.merchantsUpdatedNotification, object: self)
+                    
+                    if let nextMerchantID = response.paging.cursors.after {
+                        after = nextMerchantID
+                        self.refreshMerchants(batchSize: batchSize, merchantIDs: merchantIDs, completion: completion)
+                    } else {
+                        DispatchQueue.main.async {
+                            completion?(.success(response.paging.cursors.before, response.paging.cursors.after))
+                        }
+                    }
+            }
+        }
+        
+    }
+    
+    /**
      Refresh merchant data for all cached merchants from the host
      
       - parameters:
-        - count: Total number of cached merchants (if already known)
-        - offset: Offset to fetch from (if already known)
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func refreshCachedMerchants(count: Int? = nil, offset: Int = 0, completion: FrolloSDKCompletionHandler? = nil) {
+    public func refreshCachedMerchants(completion: FrolloSDKCompletionHandler? = nil) {
+        
+        var count: Int?
+        var offset: Int = 0
+        
         let managedObjectContext = database.newBackgroundContext()
         
         managedObjectContext.performAndWait {
@@ -1785,17 +1835,32 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 let fetchedMerchantIDs = try managedObjectContext.fetch(fetchRequest)
                 let cachedMerchantIDs = fetchedMerchantIDs.compactMap { $0.merchantID }
                 
-                refreshMerchants(merchantIDs: cachedMerchantIDs) { result in
+                service.fetchMerchants(merchantIDs: cachedMerchantIDs) { result in
                     switch result {
-                        case .failure:
-                            completion?(result)
-                        case .success:
+                        
+                        case .failure(let error):
+                            Log.error(error.localizedDescription)
+                            
+                            DispatchQueue.main.async {
+                                completion?(.failure(error))
+                            }
+                        case .success(let response):
+                            let managedObjectContext = self.database.newBackgroundContext()
+                            
+                            self.handleMerchantsResponse(response.data.elements, merchantIDs: cachedMerchantIDs, managedObjectContext: managedObjectContext)
+                            
+                            self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
+                            
+                            NotificationCenter.default.post(name: Aggregation.merchantsUpdatedNotification, object: self)
+                            
                             let nextOffset = offset + self.merchantBatchSize
                             
                             if nextOffset >= merchantCount {
-                                completion?(result)
+                                completion?(.success)
                             } else {
-                                self.refreshCachedMerchants(count: merchantCount, offset: nextOffset, completion: completion)
+                                count = merchantCount
+                                offset = nextOffset
+                                self.refreshCachedMerchants(completion: completion)
                             }
                     }
                 }
@@ -2349,6 +2414,21 @@ public class Aggregation: CachedObjects, ResponseHandler {
         let predicate = NSPredicate(format: #keyPath(Merchant.merchantID) + " IN %@", argumentArray: [merchantIDs])
         
         handleMerchantsResponse(merchantsResponse, predicate: predicate, managedObjectContext: managedObjectContext)
+    }
+    
+    private func handleMerchantsResponse(_ merchantsResponse: [APIMerchantResponse], before: Int64?, after: Int64?, managedObjectContext: NSManagedObjectContext) {
+        
+        var predicates = [NSPredicate]()
+        
+        if let beforeID = before {
+            predicates.append(NSPredicate(format: #keyPath(Merchant.merchantID) + " > %ld", argumentArray: [beforeID]))
+        }
+        
+        if let afterID = after {
+            predicates.append(NSPredicate(format: #keyPath(Merchant.merchantID) + " <= %ld", argumentArray: [afterID]))
+        }
+        
+        handleMerchantsResponse(merchantsResponse, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), managedObjectContext: managedObjectContext)
     }
     
     private func handleMerchantsResponse(_ merchantsResponse: [APIMerchantResponse], predicate: NSPredicate?, managedObjectContext: NSManagedObjectContext) {

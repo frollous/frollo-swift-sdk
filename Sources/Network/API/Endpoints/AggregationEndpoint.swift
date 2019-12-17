@@ -21,9 +21,12 @@ enum AggregationEndpoint: Endpoint {
     enum QueryParameters: String, Codable {
         case accountIDs = "account_ids"
         case accountIncluded = "account_included"
+        case after
+        case before
         case count
         case fromDate = "from_date"
         case searchTerm = "search_term"
+        case size
         case skip
         case toDate = "to_date"
         case transactionIDs = "transaction_ids"
