@@ -22,7 +22,11 @@ public protocol Reportable {
     /// The grouping type of the model
     static var grouping: ReportGrouping { get }
     
+    /// The value of the report item
     var value: Decimal { get }
+    
+    /// The name of the report item
+    var name: String { get }
     
     /// Initializer from a group report object
     init(groupReport: APIReportsResponse.Report.GroupReport)
@@ -46,17 +50,20 @@ public typealias ReportsResponse<T: Reportable> = [ReportResponse<T>]
 
 public class GroupReport {
     public var transactionIDs: [Int64]
+    public var name: String
     public var value: Decimal
     public var isIncome: Bool
     
-    public init(transactionIDs: [Int64], value: Decimal, isIncome: Bool) {
+    public init(transactionIDs: [Int64], name: String, value: Decimal, isIncome: Bool) {
         self.transactionIDs = transactionIDs
+        self.name = name
         self.value = value
         self.isIncome = isIncome
     }
     
     public init(groupReport: APIReportsResponse.Report.GroupReport) {
         self.transactionIDs = groupReport.transactionIDs
+        self.name = groupReport.name
         self.value = groupReport.value
         self.isIncome = groupReport.income
     }

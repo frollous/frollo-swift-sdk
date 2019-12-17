@@ -24,18 +24,15 @@ import Foundation
 public enum ReportGrouping: String, Codable, CaseIterable {
     
     /// Budget category
-    case budgetCategory = "by_budget_category"
+    case budgetCategory = "budget_category"
     
     /// Merchant
-    case merchant = "by_merchant"
+    case merchant
     
     /// Transaction Category
-    case transactionCategory = "by_transaction_category"
-    
-    /// Transaction Category Parent Group
-    case transactionCategoryGroup = "by_transaction_category_group"
+    case transactionCategory = "category"
     
     /// Tag group
-    case tag = "by_tag"
+    case tag
     
 }
