@@ -1,13 +1,23 @@
-[{
-	"id": 238,
-	"name": "The Occidental Hotel",
-	"merchant_type": "retailer",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/238/original/occidental.png?1519084243",
-	"small_logo_revision": 2
-}, {
-	"id": 686,
-	"name": "Rent",
-	"merchant_type": "retailer",
-	"small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
-	"small_logo_revision": 0
-}]
+{
+    "data": [{
+        "id": 238,
+        "name": "The Occidental Hotel",
+        "merchant_type": "retailer",
+        "small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/merchants/238/original/occidental.png?1519084243",
+        "small_logo_revision": 2
+    }, {
+        "id": 686,
+        "name": "Rent",
+        "merchant_type": "retailer",
+        "small_logo_url": "https://s3-ap-southeast-2.amazonaws.com/frollo-production/merchants/default/small/logo.png",
+        "small_logo_revision": 0
+    }],
+    "paging": {
+        "cursors": {
+            "before": 237,
+            "after": null
+        },
+        "previous": "https://api-sandbox.frollo.us/api/v2/aggregation/merchants/?before=10&size=50",
+        "next": "https://api-sandbox.frollo.us/api/v2/aggregation/merchants/?after=60&size=50"
+    }
+}

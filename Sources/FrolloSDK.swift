@@ -10,8 +10,8 @@ import Foundation
 /// Frollo SDK Completion Handler with optional error if an issue occurs
 public typealias FrolloSDKCompletionHandler = (EmptyResult<Error>) -> Void
 
-/// Frollo SDK Completion Handler with pagination before and after cursors and optional error if an issue occurs
-public typealias FrolloSDKPaginatedCompletionHandler = (PaginatedResult<Error, Int64, Int64>) -> Void
+/// Frollo SDK Completion Handler with pagination optional before and after cursors and optional error if an issue occurs
+public typealias FrolloSDKPaginatedCompletionHandler = (PaginatedResult<Error, Int64?, Int64?>) -> Void
 
 /// Frollo SDK manager and main instantiation. Responsible for managing the lifecycle and coordination of the SDK
 public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {

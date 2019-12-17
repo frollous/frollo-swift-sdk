@@ -23,12 +23,12 @@ struct APIPaginatedResponse<T: Decodable>: Decodable {
     
     struct Paging: Codable {
         var cursors: Cursors
-        var previous: String
-        var next: String
+        var previous: String?
+        var next: String?
         
         struct Cursors: Codable {
-            var before: Int64
-            var after: Int64
+            var before: Int64?
+            var after: Int64?
         }
     }
 }
