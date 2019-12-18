@@ -503,7 +503,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     /**
      Refresh data from long lived sources which don't change often, e.g. transaction categories, providers
      */
-    private func refreshSystem() {
+    public func refreshSystem() {
         aggregation.refreshProviders()
         aggregation.refreshTransactionCategories()
         aggregation.refreshCachedMerchants()
