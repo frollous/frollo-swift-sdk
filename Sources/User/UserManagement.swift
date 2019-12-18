@@ -363,7 +363,7 @@ public class UserManagement {
      - notificationToken: Push notification token for the device (optional)
      - completion: Completion handler with any error that occurred (optional)
      */
-    internal func updateDevice(compliant: Bool? = nil, notificationToken: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+    public func updateDevice(compliant: Bool? = nil, notificationToken: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         let deviceInfo = DeviceInfo.current()
         
         let request = APIDeviceUpdateRequest(compliant: compliant,
