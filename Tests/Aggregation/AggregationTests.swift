@@ -3815,80 +3815,80 @@ class AggregationTests: BaseTestCase {
         
     }
     
-//    func testCachedMerchantsRefresh() {
-//        let expectation1 = expectation(description: "Database Setup")
-//        let expectation2 = expectation(description: "Network Request 1")
-//
-//        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_by_id")
-//
-//        database.setup { (error) in
-//            XCTAssertNil(error)
-//
-//            expectation1.fulfill()
-//        }
-//
-//        wait(for: [expectation1], timeout: 3.0)
-//
-//        // Insert stale data
-//        let managedObjectContext = self.database.newBackgroundContext()
-//
-//        managedObjectContext.performAndWait {
-//            let cachedMerchant1 = Merchant(context: managedObjectContext)
-//            cachedMerchant1.populateTestData()
-//            cachedMerchant1.merchantID = 238
-//
-//            let cachedMerchant2 = Merchant(context: managedObjectContext)
-//            cachedMerchant2.populateTestData()
-//            cachedMerchant2.merchantID = 239
-//
-//            let cachedMerchant3 = Merchant(context: managedObjectContext)
-//            cachedMerchant3.populateTestData()
-//            cachedMerchant3.merchantID = 268
-//
-//            try! managedObjectContext.save()
-//        }
-//
-//        let aggregation = self.aggregation(loggedIn: true)
-//
-//        aggregation.refreshCachedMerchants { (result) in
-//            switch result {
-//                case .failure(let error):
-//                    XCTFail(error.localizedDescription)
-//                case .success:
-//                    let context = self.context
-//
-//                    let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
-//                    fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)]
-//
-//                    do {
-//                        let fetchedMerchants = try context.fetch(fetchRequest)
-//
-//                        XCTAssertEqual(fetchedMerchants.count, 2)
-//
-//                        if let merchant = fetchedMerchants.last {
-//                            XCTAssertEqual(merchant.merchantID, 686)
-//                            XCTAssertEqual(merchant.name, "Rent")
-//                            XCTAssertEqual(merchant.merchantType, .retailer)
-//                        } else {
-//                            XCTFail("No merchants")
-//                        }
-//
-//                        let updatedMerchant = aggregation.merchant(context: context, merchantID: 238)
-//                        XCTAssertEqual(updatedMerchant?.name, "The Occidental Hotel")
-//
-//                        let deletedMerchant = aggregation.merchant(context: context, merchantID: 239)
-//                        XCTAssertNil(deletedMerchant)
-//
-//                    } catch {
-//                        XCTFail(error.localizedDescription)
-//                    }
-//            }
-//
-//            expectation2.fulfill()
-//        }
-//
-//        wait(for: [expectation2], timeout: 3.0)
-//    }
+    func testCachedMerchantsRefresh() {
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Request 1")
+
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_by_id")
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+
+        // Insert stale data
+        let managedObjectContext = self.database.newBackgroundContext()
+
+        managedObjectContext.performAndWait {
+            let cachedMerchant1 = Merchant(context: managedObjectContext)
+            cachedMerchant1.populateTestData()
+            cachedMerchant1.merchantID = 238
+
+            let cachedMerchant2 = Merchant(context: managedObjectContext)
+            cachedMerchant2.populateTestData()
+            cachedMerchant2.merchantID = 239
+
+            let cachedMerchant3 = Merchant(context: managedObjectContext)
+            cachedMerchant3.populateTestData()
+            cachedMerchant3.merchantID = 268
+
+            try! managedObjectContext.save()
+        }
+
+        let aggregation = self.aggregation(loggedIn: true)
+
+        aggregation.refreshCachedMerchants { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    let context = self.context
+
+                    let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
+                    fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)]
+
+                    do {
+                        let fetchedMerchants = try context.fetch(fetchRequest)
+
+                        XCTAssertEqual(fetchedMerchants.count, 2)
+
+                        if let merchant = fetchedMerchants.last {
+                            XCTAssertEqual(merchant.merchantID, 686)
+                            XCTAssertEqual(merchant.name, "Rent")
+                            XCTAssertEqual(merchant.merchantType, .retailer)
+                        } else {
+                            XCTFail("No merchants")
+                        }
+
+                        let updatedMerchant = aggregation.merchant(context: context, merchantID: 238)
+                        XCTAssertEqual(updatedMerchant?.name, "The Occidental Hotel")
+
+                        let deletedMerchant = aggregation.merchant(context: context, merchantID: 239)
+                        XCTAssertNil(deletedMerchant)
+
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+            }
+
+            expectation2.fulfill()
+        }
+
+        wait(for: [expectation2], timeout: 10.0)
+    }
     
     func testrefreshMerchantWithCompletionHandler(){
         let expectation1 = expectation(description: "Database Setup")
