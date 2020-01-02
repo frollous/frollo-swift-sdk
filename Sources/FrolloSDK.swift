@@ -516,8 +516,8 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     private func resumeScheduledRefreshing() {
         cancelRefreshTimer()
         
-        refreshTimer = Timer.scheduledTimer(withTimeInterval: cacheExpiry, repeats: true, block: { (_: Timer) in
-            self.refreshPrimary()
+        refreshTimer = Timer.scheduledTimer(withTimeInterval: cacheExpiry, repeats: true, block: { [weak self] (_: Timer) in
+            self?.refreshPrimary()
         })
     }
     

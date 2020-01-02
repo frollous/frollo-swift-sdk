@@ -131,7 +131,12 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
     /// Date the transaction occurred, localized
     public var transactionDate: Date {
         get {
-            return Transaction.transactionDateFormatter.date(from: transactionDateString)!
+            if let date = Transaction.transactionDateFormatter.date(from: transactionDateString) {
+                return date
+            } else {
+                Log.error("Crash occured in \(transactionID) with date \(transactionDateString)")
+                fatalError()
+            }
         }
         set {
             transactionDateString = Transaction.transactionDateFormatter.string(from: newValue)
