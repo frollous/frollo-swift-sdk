@@ -59,7 +59,7 @@ struct DeviceInfo {
         let deviceName = WKInterfaceDevice.current().name
         let deviceType = platform()
         #else
-        let deviceID = UIDevice.current.identifierForVendor!.uuidString
+        let deviceID = UIDevice.current.identifierForVendor?.uuidString ?? "Unknown"
         let deviceName = UIDevice.current.name
         let deviceType = platform()
         #endif
