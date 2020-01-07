@@ -136,11 +136,8 @@ extension TransactionCategoryGroupReport: Reportable {
 /// Tag Group Report
 public final class TagGroupReport: GroupReport {
     
-    public var id: Int64
-    
     /// Initializer from a group report object
     public override init(groupReport: APIGroupReport) {
-        self.id = groupReport.id
         super.init(groupReport: groupReport)
     }
     

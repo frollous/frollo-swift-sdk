@@ -60,7 +60,6 @@ class ReportResponseTests: XCTestCase {
         
         let tag = TagGroupReport(groupReport: report)
         
-        XCTAssertEqual(tag.id, report.id)
         XCTAssertEqual(tag.isIncome, report.income)
         XCTAssertEqual(tag.transactionIDs, report.transactionIDs)
         XCTAssertEqual(tag.value, report.value)
