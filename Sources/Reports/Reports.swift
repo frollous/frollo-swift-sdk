@@ -159,7 +159,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - toDate: End date to fetch reports up to (inclusive)
         - completion: Completion handler with either the data from the host or an error
      */
-    public func fetchTransactionReports<T: Reportable>(filtering: TransactionReportFilter, grouping: T.Type, period: Reports.Period, from fromDate: Date, to toDate: Date, completion: @escaping (Result<ReportsResponse<T>, Error>) -> Void) {
+    public func fetchTransactionReports<T: Reportable>(filtering: TransactionReportFilter, grouping: T.Type, period: Reports.Period, from fromDate: Date, to toDate: Date, completion: @escaping (Result<[ReportResponse<T>], Error>) -> Void) {
         service.fetchTransactionHistoryReports(filtering: filtering, grouping: T.grouping, period: period, fromDate: fromDate, toDate: toDate) { result in
             switch result {
                 case .success(let response):
@@ -181,7 +181,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - toDate: End date to fetch reports up to (inclusive)
         - completion: Completion handler with either the data from the host or an error
      */
-    public func fetchTransactionCategoryReports(_ id: Int64? = nil, period: Reports.Period, from fromDate: Date, to toDate: Date, completion: @escaping (Result<ReportsResponse<TransactionCategoryGroupReport>, Error>) -> Void) {
+    public func fetchTransactionCategoryReports(_ id: Int64? = nil, period: Reports.Period, from fromDate: Date, to toDate: Date, completion: @escaping (Result<[ReportResponse<TransactionCategoryGroupReport>], Error>) -> Void) {
         fetchTransactionReports(filtering: .category(id: id), grouping: TransactionCategoryGroupReport.self, period: period, from: fromDate, to: toDate, completion: completion)
     }
     
@@ -195,7 +195,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - toDate: End date to fetch reports up to (inclusive)
         - completion: Completion handler with either the data from the host or an error
      */
-    public func fetchTransactionMerchantReports(_ id: Int64? = nil, period: Reports.Period, from fromDate: Date, to toDate: Date, completion: @escaping (Result<ReportsResponse<MerchantGroupReport>, Error>) -> Void) {
+    public func fetchTransactionMerchantReports(_ id: Int64? = nil, period: Reports.Period, from fromDate: Date, to toDate: Date, completion: @escaping (Result<[ReportResponse<MerchantGroupReport>], Error>) -> Void) {
         fetchTransactionReports(filtering: .merchant(id: id), grouping: MerchantGroupReport.self, period: period, from: fromDate, to: toDate, completion: completion)
     }
     
@@ -209,7 +209,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - toDate: End date to fetch reports up to (inclusive)
         - completion: Completion handler with either the data from the host or an error
      */
-    public func fetchTransactionBudgetCategoryReports(_ budgetCategory: BudgetCategory? = nil, period: Reports.Period, from fromDate: Date, to toDate: Date, completion: @escaping (Result<ReportsResponse<BudgetCategoryGroupReport>, Error>) -> Void) {
+    public func fetchTransactionBudgetCategoryReports(_ budgetCategory: BudgetCategory? = nil, period: Reports.Period, from fromDate: Date, to toDate: Date, completion: @escaping (Result<[ReportResponse<BudgetCategoryGroupReport>], Error>) -> Void) {
         fetchTransactionReports(filtering: .budgetCategory(id: budgetCategory?.id), grouping: BudgetCategoryGroupReport.self, period: period, from: fromDate, to: toDate, completion: completion)
     }
     
@@ -223,7 +223,7 @@ public class Reports: ResponseHandler, CachedObjects {
         - toDate: End date to fetch reports up to (inclusive)
         - completion: Completion handler with either the data from the host or an error
      */
-    public func fetchTransactionTagReports(_ name: String? = nil, period: Reports.Period, from fromDate: Date, to toDate: Date, completion: @escaping (Result<ReportsResponse<TagGroupReport>, Error>) -> Void) {
+    public func fetchTransactionTagReports(_ name: String? = nil, period: Reports.Period, from fromDate: Date, to toDate: Date, completion: @escaping (Result<[ReportResponse<TagGroupReport>], Error>) -> Void) {
         fetchTransactionReports(filtering: .tag(name: name), grouping: TagGroupReport.self, period: period, from: fromDate, to: toDate, completion: completion)
     }
     

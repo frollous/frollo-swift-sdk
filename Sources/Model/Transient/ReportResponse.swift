@@ -29,39 +29,57 @@ public protocol Reportable {
     var name: String { get }
     
     /// Initializer from a group report object
-    init(groupReport: APIReportsResponse.Report.GroupReport)
+    init(groupReport: APIGroupReport)
+    
 }
 
+/// Response from the API with details on the reports and reports themselves
 public class ReportResponse<T: Reportable> {
+    
+    /// Reports in their grouping
     public let groupReports: [T]
+    
+    /// Indicates if the report represents income or expense. i.e. if false this means this value is a summation of negative values presented as a positive figure
     public let isIncome: Bool
+    
+    /// Date of the start of the report
     public let date: String
+    
+    /// Value of the report
     public let value: Decimal
     
-    init(type: T.Type, report: APIReportsResponse.Report) {
+    internal init(type: T.Type, report: APIReportsResponse.Report) {
         self.groupReports = report.groups.map { T(groupReport: $0) }
         self.isIncome = report.income
         self.date = report.date
         self.value = report.value
     }
+    
 }
 
-public typealias ReportsResponse<T: Reportable> = [ReportResponse<T>]
-
+/// Report grouped by the requested grouping
 public class GroupReport {
+    
+    /// Transaction IDs included in the report
     public var transactionIDs: [Int64]
+    
+    /// Name of the report
     public var name: String
+    
+    /// Value of the group report
     public var value: Decimal
+    
+    /// Indicates if the report represents income or expense. i.e. if false this means this value is a summation of negative values presented as a positive figure
     public var isIncome: Bool
     
-    public init(transactionIDs: [Int64], name: String, value: Decimal, isIncome: Bool) {
+    internal init(transactionIDs: [Int64], name: String, value: Decimal, isIncome: Bool) {
         self.transactionIDs = transactionIDs
         self.name = name
         self.value = value
         self.isIncome = isIncome
     }
     
-    public init(groupReport: APIReportsResponse.Report.GroupReport) {
+    internal init(groupReport: APIGroupReport) {
         self.transactionIDs = groupReport.transactionIDs
         self.name = groupReport.name
         self.value = groupReport.value
@@ -69,62 +87,93 @@ public class GroupReport {
     }
 }
 
+/// Budget Category Group Report
 public final class BudgetCategoryGroupReport: GroupReport {
+    
+    /// The budget category of the report
     public var budgetCategory: BudgetCategory
     
-    public override init(groupReport: APIReportsResponse.Report.GroupReport) {
+    /// Initializer from a group report object
+    public override init(groupReport: APIGroupReport) {
         self.budgetCategory = BudgetCategory(id: groupReport.id) ?? .income
         super.init(groupReport: groupReport)
     }
+    
 }
 
 extension BudgetCategoryGroupReport: Reportable {
+    
+    /// The grouping type of the model
     public static var grouping: ReportGrouping {
         return .budgetCategory
     }
+    
 }
 
+/// Transaction Category Group Report
 public final class TransactionCategoryGroupReport: GroupReport {
+    
+    /// The transaction category ID of the report
     public var id: Int64
     
-    public override init(groupReport: APIReportsResponse.Report.GroupReport) {
+    /// Initializer from a group report object
+    public override init(groupReport: APIGroupReport) {
         self.id = groupReport.id
         super.init(groupReport: groupReport)
     }
+    
 }
 
 extension TransactionCategoryGroupReport: Reportable {
+    
+    /// The grouping type of the model
     public static var grouping: ReportGrouping {
         return .transactionCategory
     }
+    
 }
 
+/// Tag Group Report
 public final class TagGroupReport: GroupReport {
+    
     public var id: Int64
     
-    public override init(groupReport: APIReportsResponse.Report.GroupReport) {
+    /// Initializer from a group report object
+    public override init(groupReport: APIGroupReport) {
         self.id = groupReport.id
         super.init(groupReport: groupReport)
     }
+    
 }
 
 extension TagGroupReport: Reportable {
+    
+    /// The grouping type of the model
     public static var grouping: ReportGrouping {
         return .tag
     }
+    
 }
 
+/// Merchant Group Report
 public final class MerchantGroupReport: GroupReport {
+    
+    /// The merchant ID of the report
     public var id: Int64
     
-    public override init(groupReport: APIReportsResponse.Report.GroupReport) {
+    /// Initializer from a group report object
+    public override init(groupReport: APIGroupReport) {
         self.id = groupReport.id
         super.init(groupReport: groupReport)
     }
+    
 }
 
 extension MerchantGroupReport: Reportable {
+    
+    /// The grouping type of the model
     public static var grouping: ReportGrouping {
         return .merchant
     }
+    
 }

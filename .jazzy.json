@@ -166,7 +166,7 @@
   {
     "name": "Network",
     "children": [
-      "APIReportsResponse",
+      "APIGroupReport",
       "PaginatedResult"
     ]
   }

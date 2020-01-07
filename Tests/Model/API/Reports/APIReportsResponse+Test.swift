@@ -17,10 +17,10 @@
 import Foundation
 @testable import FrolloSDK
 
-extension APIReportsResponse.Report.GroupReport {
-    static func testData(maxId: Int64 = 10000000) -> APIReportsResponse.Report.GroupReport {
+extension APIGroupReport {
+    static func testData(maxId: Int64 = 10000000) -> APIGroupReport {
         let range = 1...maxId
-        return APIReportsResponse.Report.GroupReport(
+        return APIGroupReport(
             income: Bool.random(),
             id: Int64.random(in: range),
             name: String.randomString(range: 1...20),
@@ -41,11 +41,11 @@ extension APIReportsResponse.Report {
 
 extension APIReportsResponse {
     
-    static func testGroupReports() -> [APIReportsResponse.Report.GroupReport] {
-        var reports = [APIReportsResponse.Report.GroupReport]()
+    static func testGroupReports() -> [APIGroupReport] {
+        var reports = [APIGroupReport]()
         
         for _ in 1...6 {
-            let report = APIReportsResponse.Report.GroupReport.testData()
+            let report = APIGroupReport.testData()
             
             reports.append(report)
         }

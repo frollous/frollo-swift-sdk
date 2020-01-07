@@ -147,7 +147,7 @@ public class Budget: NSManagedObject, UniqueManagedObject {
         return dateFormatter
     }()
     
-    // Start date of the budget
+    /// Start date of the budget
     public var startDate: Date? {
         get {
             if let rawDateString = startDateString {

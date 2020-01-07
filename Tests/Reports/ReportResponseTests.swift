@@ -21,7 +21,7 @@ import XCTest
 class ReportResponseTests: XCTestCase {
     
     func testReportResponse_BudgetCategory() {
-        let report = APIReportsResponse.Report.GroupReport.testData(maxId: 4)
+        let report = APIGroupReport.testData(maxId: 4)
         
         let budgetCategoryGroupReport = BudgetCategoryGroupReport(groupReport: report)
         
@@ -34,7 +34,7 @@ class ReportResponseTests: XCTestCase {
     }
     
     func testReportResponse_Category() {
-        let report = APIReportsResponse.Report.GroupReport.testData()
+        let report = APIGroupReport.testData()
         
         let category = TransactionCategoryGroupReport(groupReport: report)
         
@@ -45,7 +45,7 @@ class ReportResponseTests: XCTestCase {
     }
     
     func testReportResponse_Merchant() {
-        let report = APIReportsResponse.Report.GroupReport.testData()
+        let report = APIGroupReport.testData()
         
         let merchant = MerchantGroupReport(groupReport: report)
         
@@ -56,7 +56,7 @@ class ReportResponseTests: XCTestCase {
     }
     
     func testReportResponse_Tag() {
-        let report = APIReportsResponse.Report.GroupReport.testData()
+        let report = APIGroupReport.testData()
         
         let tag = TagGroupReport(groupReport: report)
         
