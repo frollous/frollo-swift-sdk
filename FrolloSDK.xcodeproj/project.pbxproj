@@ -1097,8 +1097,6 @@
 		033D46D62272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */; };
 		034BD7D623988D9D00142B7A /* Decimal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034BD7D523988D9D00142B7A /* Decimal.swift */; };
 		034BD7D723988D9D00142B7A /* Decimal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034BD7D523988D9D00142B7A /* Decimal.swift */; };
-		034BD7DA2399CE2C00142B7A /* transaction_reports_history_txn_category_monthly_lifestyle_2018-01-01_2018-12-31.json in Resources */ = {isa = PBXBuildFile; fileRef = 034BD7D82399CE2C00142B7A /* transaction_reports_history_txn_category_monthly_lifestyle_2018-01-01_2018-12-31.json */; };
-		034BD7DB2399CE2C00142B7A /* transaction_reports_history_txn_category_monthly_lifestyle_2018-01-01_2018-12-31.json in Resources */ = {isa = PBXBuildFile; fileRef = 034BD7D82399CE2C00142B7A /* transaction_reports_history_txn_category_monthly_lifestyle_2018-01-01_2018-12-31.json */; };
 		034BD7DD2399CF5000142B7A /* transaction_reports_txn_category_monthly_2019_01_01_2019_12_31.json in Resources */ = {isa = PBXBuildFile; fileRef = 034BD7DC2399CF4F00142B7A /* transaction_reports_txn_category_monthly_2019_01_01_2019_12_31.json */; };
 		034BD7DE2399CF5000142B7A /* transaction_reports_txn_category_monthly_2019_01_01_2019_12_31.json in Resources */ = {isa = PBXBuildFile; fileRef = 034BD7DC2399CF4F00142B7A /* transaction_reports_txn_category_monthly_2019_01_01_2019_12_31.json */; };
 		034BD7DF2399CF5000142B7A /* transaction_reports_txn_category_monthly_2019_01_01_2019_12_31.json in Resources */ = {isa = PBXBuildFile; fileRef = 034BD7DC2399CF4F00142B7A /* transaction_reports_txn_category_monthly_2019_01_01_2019_12_31.json */; };
@@ -3676,7 +3674,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0940;
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = Frollo;
 				TargetAttributes = {
 					0136D22F2101775B0062EAEA = {
@@ -4095,7 +4093,6 @@
 				015EEDF2210FE51C0081AD76 /* providers_invalid.json in Resources */,
 				135A1F1B239DD0BD002DF76F /* category_budget.json in Resources */,
 				01236D4921EEBE30008DD61A /* transaction_reports_history_budget_category_monthly_2018-01-01_2018-12-31.json in Resources */,
-				034BD7DA2399CE2C00142B7A /* transaction_reports_history_txn_category_monthly_lifestyle_2018-01-01_2018-12-31.json in Resources */,
 				018501D821FFC56F00069D87 /* account_balance_reports_by_week_2018-10-29_2019-01-29.json in Resources */,
 				01743B19212BCF9A0082DA00 /* provider_login_form_validation.json in Resources */,
 				01A7228D22E7F6A6006136D8 /* FrolloSDKDataModel-1.3.3.sqlite-shm in Resources */,
@@ -4282,7 +4279,6 @@
 				015EEDF3210FE51C0081AD76 /* providers_invalid.json in Resources */,
 				135A1F1C239DD0BD002DF76F /* category_budget.json in Resources */,
 				01236D4A21EEBE30008DD61A /* transaction_reports_history_budget_category_monthly_2018-01-01_2018-12-31.json in Resources */,
-				034BD7DB2399CE2C00142B7A /* transaction_reports_history_txn_category_monthly_lifestyle_2018-01-01_2018-12-31.json in Resources */,
 				018501D921FFC56F00069D87 /* account_balance_reports_by_week_2018-10-29_2019-01-29.json in Resources */,
 				01743B1A212BCF9A0082DA00 /* provider_login_form_validation.json in Resources */,
 				01A7228E22E7F6A6006136D8 /* FrolloSDKDataModel-1.3.3.sqlite-shm in Resources */,
