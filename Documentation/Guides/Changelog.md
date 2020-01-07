@@ -1,5 +1,24 @@
 # Changelog
 
+## 4.3
+
+- Budgeting and Reports Enhancements
+
+### Features
+
+- Budgeting
+- Enhanced Reporting - breakdown by additional periods and other filters
+- Enhancements to Surveys - generic metadata support and additional top level survey fields available
+
+### Changes
+
+- Removed caching of reports - this should now be managed at the application level
+- Pagination of the merchants API
+
+### Fixes
+
+- Various fixes for crash reports
+
 ## 4.2
 
 - Aggregation, Goals and Messages Ehancements

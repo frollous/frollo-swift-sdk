@@ -19,7 +19,7 @@ import Foundation
 import Alamofire
 
 internal typealias NetworkCompletion = (_: Swift.Result<Data, Error>) -> Void
-public typealias RequestCompletion<T> = (_: Swift.Result<T, Error>) -> Void
+internal typealias RequestCompletion<T> = (_: Swift.Result<T, Error>) -> Void
 
 class Network: SessionDelegate {
     

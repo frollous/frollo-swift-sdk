@@ -24,6 +24,7 @@
         "FrolloSDKDelegate",
         "FrolloSDKConfiguration",
         "FrolloSDKCompletionHandler",
+        "FrolloSDKPaginatedCompletionHandler",
         "LogLevel",
         "EmptyResult"
       ]
@@ -75,6 +76,14 @@
     ]
   },
   {
+    "name": "Budgets",
+    "children": [
+      "Budgets",
+      "Budget",
+      "BudgetPeriod"
+    ]
+  },
+  {
     "name": "Events",
     "children": [
       "Events"
@@ -117,10 +126,16 @@
     "name": "Reports",
     "children": [
       "Reports",
+      "TransactionReportFilter",
       "ReportAccountBalance",
-      "ReportTransactionCurrent",
-      "ReportTransactionHistory",
-      "ReportGrouping"
+      "GroupReport",
+      "Reportable",
+      "ReportResponse",
+      "ReportGrouping",
+      "BudgetCategoryGroupReport",
+      "MerchantGroupReport",
+      "TagGroupReport",
+      "TransactionCategoryGroupReport"
     ]
   },
   {
@@ -146,6 +161,13 @@
       "LoginFormError",
       "NetworkError",
       "OAuth2Error"
+    ]
+  },
+  {
+    "name": "Network",
+    "children": [
+      "APIReportsResponse",
+      "PaginatedResult"
     ]
   }
   ]

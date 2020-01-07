@@ -117,22 +117,21 @@ The following features are part of budgets and pay day:
 * Set multiple budgets
 * Set budgets by category, merchant or bucket
 
+See [Budgets](budgets.html) for more details.
 See [PayDays](paydays.html) for more details.
 
 *Coming Soon to SDK*
 
 ## Reports
 
-Reports give a breakdown of a user's spending or an account balance history. Reports can be used to show the user spending in the current month or allow the user to drill down and explore their spend in a variety of ways. Reports data is also suitable for driving graphs.
+Reports give a breakdown of a user's spending or an account balance history. Reports can be used to show the user spending in various periods or allow the user to drill down and explore their spend in a variety of ways. Reports data is also suitable for driving graphs.
 
-Reports can be generated across different time periods and broken down into several different ways including by category, by merchant and by bucket.
+Reports can be generated across different time periods and broken down into several different ways including by category, by merchant, by tag and by bucket.
 
 The following features are part of reports:
 
 * Account balance history
-* Current spend - track the spend for the current month against a budget
 * Historical spend - breakdown the spend of a user for them to explore and find where money is going
-* Tracking against a budget - if available a budget value will be returned to allow the user to visually see how they're tracking
 
 See [Reports](reports.html) for more details.
 
