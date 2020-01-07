@@ -18,6 +18,13 @@
 ### Fixes
 
 - Various fixes for crash reports
+- Fixed issue with certificate pinning
+
+## 4.2.1
+
+### Changes
+
+- Upgrade 3rd party dependencies to resolve conflicts
 
 ## 4.2
 
