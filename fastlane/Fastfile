@@ -18,7 +18,7 @@ fastlane_version "2.134.0"
 default_platform(:ios)
 
  private_lane :cisetup do
-    #setup_jenkins
+    setup_jenkins
 
     ensure_git_status_clean
 
@@ -47,21 +47,16 @@ platform :ios do
       platform: "all",
       use_binaries: false
     )
-
-    carthage_cache_publish(
-      bucket: 'frollo-carthage-cache'
-    )
   end
 
   desc "Frollo SDK testing and deployment"
   lane :test do
     begin
       cisetup
-
-      #bootstrap
       
       carthage(
           command: "bootstrap",
+          cache_builds: true,
           platform: "all",
           use_binaries: false)
       
