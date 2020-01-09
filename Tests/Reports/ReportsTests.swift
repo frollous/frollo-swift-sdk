@@ -917,6 +917,7 @@ class ReportsTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
 
         let aggregation = Aggregation(database: database, service: service)
+        
         let reports = Reports(database: database, service: service, aggregation: aggregation)
 
         let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
@@ -937,10 +938,10 @@ class ReportsTests: XCTestCase {
         switch fetchResult {
         case .success(let response):
             guard response.count > 5 else { XCTFail(); return }
-            let secondItem = response[5]
+            let secondItem = response[6]
             guard secondItem.groupReports.count > 2 else { XCTFail(); return }
             let secondReport = secondItem.groupReports[1]
-            XCTAssertEqual(secondReport.id, 80)
+            XCTAssertEqual(secondReport.id, 67)
         default:
             XCTFail()
         }
@@ -995,7 +996,7 @@ class ReportsTests: XCTestCase {
             let secondItem = response[5]
             guard secondItem.groupReports.count > 2 else { XCTFail(); return }
             let secondReport = secondItem.groupReports[1]
-            XCTAssertEqual(secondReport.id, 24)
+            XCTAssertEqual(secondReport.id, 44)
         default:
             XCTFail()
         }

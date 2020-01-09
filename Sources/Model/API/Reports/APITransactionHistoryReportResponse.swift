@@ -40,7 +40,7 @@ public struct APIGroupReport: Codable {
     public let transactionIDs: [Int64]
     
     /// API Value Property
-    public let value: Decimal
+    public let value: String
     
 }
 
@@ -51,7 +51,7 @@ internal struct APIReportsResponse: Codable {
         internal let groups: [APIGroupReport]
         internal let income: Bool
         internal let date: String
-        internal let value: Decimal
+        internal let value: String
         
     }
     
