@@ -57,5 +57,6 @@
         }]
       }
     ]
-  }
+  },
+  "aggregator_type": "yodlee"
 }

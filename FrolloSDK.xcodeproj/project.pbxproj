@@ -1087,6 +1087,31 @@
 		031A7A43239877A200A9F882 /* ReportResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031A7A42239877A200A9F882 /* ReportResponseTests.swift */; };
 		031A7A44239877A200A9F882 /* ReportResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031A7A42239877A200A9F882 /* ReportResponseTests.swift */; };
 		031A7A45239877A200A9F882 /* ReportResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031A7A42239877A200A9F882 /* ReportResponseTests.swift */; };
+		032F10A323DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A023DA6F1000F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite */; };
+		032F10A423DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A023DA6F1000F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite */; };
+		032F10A523DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A023DA6F1000F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite */; };
+		032F10A623DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A123DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-shm */; };
+		032F10A723DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A123DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-shm */; };
+		032F10A823DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A123DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-shm */; };
+		032F10A923DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A223DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-wal */; };
+		032F10AA23DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A223DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-wal */; };
+		032F10AB23DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A223DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-wal */; };
+		032F10B023DA781900F3BF01 /* APIService+CDR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10AC23DA781400F3BF01 /* APIService+CDR.swift */; };
+		032F10B123DA781900F3BF01 /* APIService+CDR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10AC23DA781400F3BF01 /* APIService+CDR.swift */; };
+		032F10B323DA7A5000F3BF01 /* CDREndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10B223DA7A5000F3BF01 /* CDREndpoint.swift */; };
+		032F10B423DA7A5000F3BF01 /* CDREndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10B223DA7A5000F3BF01 /* CDREndpoint.swift */; };
+		032F10B723DA7E2900F3BF01 /* APICDRConsentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10B623DA7E2900F3BF01 /* APICDRConsentRequest.swift */; };
+		032F10B823DA7E2900F3BF01 /* APICDRConsentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10B623DA7E2900F3BF01 /* APICDRConsentRequest.swift */; };
+		032F10BB23DA850D00F3BF01 /* CDRTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10BA23DA850D00F3BF01 /* CDRTests.swift */; };
+		032F10BC23DA850D00F3BF01 /* CDRTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10BA23DA850D00F3BF01 /* CDRTests.swift */; };
+		032F10BD23DA850D00F3BF01 /* CDRTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10BA23DA850D00F3BF01 /* CDRTests.swift */; };
+		032F10C023DA88E100F3BF01 /* CDRConsent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10BF23DA88E100F3BF01 /* CDRConsent.swift */; };
+		032F10C123DA88E100F3BF01 /* CDRConsent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10BF23DA88E100F3BF01 /* CDRConsent.swift */; };
+		032F10C323DA8A2B00F3BF01 /* APICDRConsentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10C223DA8A2B00F3BF01 /* APICDRConsentResponse.swift */; };
+		032F10C423DA8A2B00F3BF01 /* APICDRConsentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10C223DA8A2B00F3BF01 /* APICDRConsentResponse.swift */; };
+		032F10C623DA8CF700F3BF01 /* consent_submit.json in Resources */ = {isa = PBXBuildFile; fileRef = 032F10C523DA8CF700F3BF01 /* consent_submit.json */; };
+		032F10C723DA8CF700F3BF01 /* consent_submit.json in Resources */ = {isa = PBXBuildFile; fileRef = 032F10C523DA8CF700F3BF01 /* consent_submit.json */; };
+		032F10C823DA8CF700F3BF01 /* consent_submit.json in Resources */ = {isa = PBXBuildFile; fileRef = 032F10C523DA8CF700F3BF01 /* consent_submit.json */; };
 		033D46C92272856500E0C6D6 /* APITransactionTagsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46C82272856500E0C6D6 /* APITransactionTagsResponse.swift */; };
 		033D46D02272C7D800E0C6D6 /* Tag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46CF2272C7D800E0C6D6 /* Tag+CoreDataClass.swift */; };
 		033D46D22272C83800E0C6D6 /* Tag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46D12272C83800E0C6D6 /* Tag+CoreDataProperties.swift */; };
@@ -1809,6 +1834,17 @@
 		01F8330223275A53004520D0 /* FrolloSDKDataModel-1.5.0.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.5.0.sqlite"; sourceTree = "<group>"; };
 		01F8330323275A53004520D0 /* FrolloSDKDataModel-1.5.0.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.5.0.sqlite-shm"; sourceTree = "<group>"; };
 		031A7A42239877A200A9F882 /* ReportResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportResponseTests.swift; sourceTree = "<group>"; };
+		032F109E23D975BE00F3BF01 /* FrolloSDKDataModel-1.6.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.6.1.xcdatamodel"; sourceTree = "<group>"; };
+		032F10A023DA6F1000F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.6.1.sqlite"; sourceTree = "<group>"; };
+		032F10A123DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.6.1.sqlite-shm"; sourceTree = "<group>"; };
+		032F10A223DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.6.1.sqlite-wal"; sourceTree = "<group>"; };
+		032F10AC23DA781400F3BF01 /* APIService+CDR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+CDR.swift"; sourceTree = "<group>"; };
+		032F10B223DA7A5000F3BF01 /* CDREndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDREndpoint.swift; sourceTree = "<group>"; };
+		032F10B623DA7E2900F3BF01 /* APICDRConsentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICDRConsentRequest.swift; sourceTree = "<group>"; };
+		032F10BA23DA850D00F3BF01 /* CDRTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDRTests.swift; sourceTree = "<group>"; };
+		032F10BF23DA88E100F3BF01 /* CDRConsent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDRConsent.swift; sourceTree = "<group>"; };
+		032F10C223DA8A2B00F3BF01 /* APICDRConsentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICDRConsentResponse.swift; sourceTree = "<group>"; };
+		032F10C523DA8CF700F3BF01 /* consent_submit.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = consent_submit.json; sourceTree = "<group>"; };
 		033D46C82272856500E0C6D6 /* APITransactionTagsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionTagsResponse.swift; sourceTree = "<group>"; };
 		033D46CF2272C7D800E0C6D6 /* Tag+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataClass.swift"; sourceTree = "<group>"; };
 		033D46D12272C83800E0C6D6 /* Tag+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -2322,6 +2358,7 @@
 			isa = PBXGroup;
 			children = (
 				01819145211168C8000E0F80 /* APIUniqueResponse.swift */,
+				032F10BE23DA85B400F3BF01 /* CDR */,
 				13AC07692394BDEE00982FB1 /* Budget */,
 				016097F1210EE26C0034E857 /* Aggregation */,
 				018240DF21C8BA55005705F9 /* Bills */,
@@ -2463,6 +2500,7 @@
 		01527CCC20E1B5C300B5042A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				032F10B923DA84E800F3BF01 /* CDR */,
 				1364E7882394A569009C82CD /* Budgets */,
 				03E157B9227BBFD90083F0D8 /* BaseTestCase.swift */,
 				01BB5A56221CDDA1000C03F0 /* FrolloSDKConfiguration+Test.swift */,
@@ -2539,6 +2577,7 @@
 				033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */,
 				01773AC0235D1DC8009DAFC4 /* transactions_user_tags_expanded.json */,
 				03D965B22276DFD2009BC283 /* transactions_user_tags.json */,
+				032F10C523DA8CF700F3BF01 /* consent_submit.json */,
 			);
 			path = Aggregation;
 			sourceTree = "<group>";
@@ -2656,6 +2695,9 @@
 				13CFDA9523988DDD00559476 /* FrolloSDKDataModel-1.6.0.sqlite */,
 				13CFDA9423988DDC00559476 /* FrolloSDKDataModel-1.6.0.sqlite-shm */,
 				13CFDA9623988DDD00559476 /* FrolloSDKDataModel-1.6.0.sqlite-wal */,
+				032F10A023DA6F1000F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite */,
+				032F10A123DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-shm */,
+				032F10A223DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-wal */,
 				0160953C20F47FE10060791B /* TestInvalidDataModel.xcdatamodeld */,
 			);
 			path = Database;
@@ -2803,6 +2845,7 @@
 				2F657DA2223B26B300471B85 /* Survey.swift */,
 				03D965AF22768C92009BC283 /* SuggestedTag.swift */,
 				69E7DED42397692E00291937 /* ReportResponse.swift */,
+				032F10BF23DA88E100F3BF01 /* CDRConsent.swift */,
 			);
 			path = Transient;
 			sourceTree = "<group>";
@@ -3033,6 +3076,7 @@
 				2F657DA8223B323A00471B85 /* SurveysEndpoint.swift */,
 				01874B7320F81EA8005A7D0C /* UserEndpoint.swift */,
 				13AC07732394CF5300982FB1 /* BudgetsEndPoint.swift */,
+				032F10B223DA7A5000F3BF01 /* CDREndpoint.swift */,
 			);
 			path = Endpoints;
 			sourceTree = "<group>";
@@ -3051,6 +3095,7 @@
 				2F657DA6223B314100471B85 /* APIService+Surveys.swift */,
 				01874B7C20FD6FB9005A7D0C /* APIService+User.swift */,
 				13AC07702394CD0300982FB1 /* APIService+Budgets.swift */,
+				032F10AC23DA781400F3BF01 /* APIService+CDR.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -3400,6 +3445,23 @@
 				012587A0234457940077D8B4 /* PayDayTests.swift */,
 			);
 			path = PayDay;
+			sourceTree = "<group>";
+		};
+		032F10B923DA84E800F3BF01 /* CDR */ = {
+			isa = PBXGroup;
+			children = (
+				032F10BA23DA850D00F3BF01 /* CDRTests.swift */,
+			);
+			path = CDR;
+			sourceTree = "<group>";
+		};
+		032F10BE23DA85B400F3BF01 /* CDR */ = {
+			isa = PBXGroup;
+			children = (
+				032F10B623DA7E2900F3BF01 /* APICDRConsentRequest.swift */,
+				032F10C223DA8A2B00F3BF01 /* APICDRConsentResponse.swift */,
+			);
+			path = CDR;
 			sourceTree = "<group>";
 		};
 		1318C1C5237B95CD00ABFC51 /* Migrations */ = {
@@ -3839,12 +3901,14 @@
 				01483B88211808DE00D0DA87 /* accounts_invalid.json in Resources */,
 				01743B10212BC04E0082DA00 /* provider_login_form_token.json in Resources */,
 				0101949820F5815800334482 /* FrolloSDKDataModel-1.0.0.sqlite in Resources */,
+				032F10A323DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite in Resources */,
 				034BD7ED2399D88000142B7A /* transaction_reports_txn_budget_category_monthly_2019_01_01_2019_12_31.json in Resources */,
 				011F8125219BF4E100A1495F /* FrolloSDKDataModel-1.1.0.sqlite-shm in Resources */,
 				2FE1801E2249891100B87AAB /* error_oauth2_invalid_request.json in Resources */,
 				01B896B820F2EDA30068069A /* error_value_must_differ.json in Resources */,
 				01405E4421DC2618009356CC /* FrolloSDKDataModel-1.2.0.sqlite in Resources */,
 				13AC07AE239711A600982FB1 /* budgets_valid.json in Resources */,
+				032F10A623DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-shm in Resources */,
 				01483BC82119781C00D0DA87 /* merchants_invalid.json in Resources */,
 				135A1F20239DD0BD002DF76F /* budget_category_budget.json in Resources */,
 				01F8330423275A53004520D0 /* FrolloSDKDataModel-1.5.0.sqlite-wal in Resources */,
@@ -3880,6 +3944,7 @@
 				01483BB02119564600D0DA87 /* transaction_categories_valid.json in Resources */,
 				01743B14212BC3280082DA00 /* provider_login_form_options.json in Resources */,
 				018501DB2203A6E100069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json in Resources */,
+				032F10C623DA8CF700F3BF01 /* consent_submit.json in Resources */,
 				01E5BF7E2228B032003D85FD /* transaction_summary.json in Resources */,
 				01ED8FE0211A868F00ACE691 /* transaction_id_194630.json in Resources */,
 				01236D5121EEBE30008DD61A /* transaction_reports_history_txn_category_weekly_2018-01-01_2018-12-31.json in Resources */,
@@ -3890,6 +3955,7 @@
 				01B896BB20F2EDA30068069A /* error_invalid_username_password.json in Resources */,
 				13AC07AB239711A600982FB1 /* budget_periods_96.json in Resources */,
 				034BD7DD2399CF5000142B7A /* transaction_reports_txn_category_monthly_2019_01_01_2019_12_31.json in Resources */,
+				032F10A923DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-wal in Resources */,
 				0128DB5721F819A800DB3E62 /* FrolloSDKDataModel-1.3.0.sqlite-shm in Resources */,
 				13ABEDD1236FBE6A00FBE283 /* provider_accounts_valid_sync.json in Resources */,
 				03D965B52276DFDB009BC283 /* transactions_user_tags.json in Resources */,
@@ -4016,12 +4082,14 @@
 				017F0FAA22DC3D7700ACE7BB /* FrolloSDKDataModel-1.4.0.sqlite in Resources */,
 				017B48552101B4FE00447E65 /* error_not_found.json in Resources */,
 				01236D4021EEBE30008DD61A /* transaction_reports_history_txn_category_monthly_living_2018-01-01_2018-12-31.json in Resources */,
+				032F10A423DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite in Resources */,
 				01483B89211808DE00D0DA87 /* accounts_invalid.json in Resources */,
 				01743B11212BC04E0082DA00 /* provider_login_form_token.json in Resources */,
 				017B48562101B4FE00447E65 /* FrolloSDKDataModel-1.0.0.sqlite in Resources */,
 				011F8126219BF4E100A1495F /* FrolloSDKDataModel-1.1.0.sqlite-shm in Resources */,
 				2FE1801F2249891100B87AAB /* error_oauth2_invalid_request.json in Resources */,
 				017B48572101B4FE00447E65 /* error_value_must_differ.json in Resources */,
+				032F10A723DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-shm in Resources */,
 				01405E4521DC2618009356CC /* FrolloSDKDataModel-1.2.0.sqlite in Resources */,
 				13AC07AF239711A600982FB1 /* budgets_valid.json in Resources */,
 				01483BC92119781C00D0DA87 /* merchants_invalid.json in Resources */,
@@ -4057,6 +4125,7 @@
 				01405E4221DC2618009356CC /* FrolloSDKDataModel-1.2.0.sqlite-wal in Resources */,
 				013230BD22602179008C1ADC /* FrolloSDKDataModel-1.3.1.sqlite-shm in Resources */,
 				01483BB12119564600D0DA87 /* transaction_categories_valid.json in Resources */,
+				032F10C723DA8CF700F3BF01 /* consent_submit.json in Resources */,
 				01743B15212BC3280082DA00 /* provider_login_form_options.json in Resources */,
 				018501DC2203A6E100069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json in Resources */,
 				01E5BF7F2228B032003D85FD /* transaction_summary.json in Resources */,
@@ -4067,6 +4136,7 @@
 				2FB1E752235EA9A8004C5AFA /* transaction_reports_history_tag_monthly_2018-10-01_2019-10-31.json in Resources */,
 				012606BF219A8BAD005D8377 /* message_id_12345.json in Resources */,
 				017B485F2101B4FE00447E65 /* error_invalid_username_password.json in Resources */,
+				032F10AA23DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-wal in Resources */,
 				13AC07AC239711A600982FB1 /* budget_periods_96.json in Resources */,
 				034BD7DE2399CF5000142B7A /* transaction_reports_txn_category_monthly_2019_01_01_2019_12_31.json in Resources */,
 				0128DB5821F819A800DB3E62 /* FrolloSDKDataModel-1.3.0.sqlite-shm in Resources */,
@@ -4202,12 +4272,14 @@
 				017B48B22105958100447E65 /* error_not_found.json in Resources */,
 				01236D4121EEBE30008DD61A /* transaction_reports_history_txn_category_monthly_living_2018-01-01_2018-12-31.json in Resources */,
 				01483B8A211808DE00D0DA87 /* accounts_invalid.json in Resources */,
+				032F10A523DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite in Resources */,
 				01743B12212BC04E0082DA00 /* provider_login_form_token.json in Resources */,
 				017B48B32105958100447E65 /* FrolloSDKDataModel-1.0.0.sqlite in Resources */,
 				011F8127219BF4E100A1495F /* FrolloSDKDataModel-1.1.0.sqlite-shm in Resources */,
 				2FE180202249891200B87AAB /* error_oauth2_invalid_request.json in Resources */,
 				017B48B42105958100447E65 /* error_value_must_differ.json in Resources */,
 				01405E4621DC2618009356CC /* FrolloSDKDataModel-1.2.0.sqlite in Resources */,
+				032F10A823DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-shm in Resources */,
 				13AC07B0239711A600982FB1 /* budgets_valid.json in Resources */,
 				01483BCA2119781C00D0DA87 /* merchants_invalid.json in Resources */,
 				135A1F22239DD0BD002DF76F /* budget_category_budget.json in Resources */,
@@ -4243,6 +4315,7 @@
 				01405E4321DC2618009356CC /* FrolloSDKDataModel-1.2.0.sqlite-wal in Resources */,
 				013230BE22602179008C1ADC /* FrolloSDKDataModel-1.3.1.sqlite-shm in Resources */,
 				01483BB22119564600D0DA87 /* transaction_categories_valid.json in Resources */,
+				032F10C823DA8CF700F3BF01 /* consent_submit.json in Resources */,
 				01743B16212BC3280082DA00 /* provider_login_form_options.json in Resources */,
 				018501DD2203A6E100069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json in Resources */,
 				01E5BF802228B032003D85FD /* transaction_summary.json in Resources */,
@@ -4253,6 +4326,7 @@
 				2FB1E753235EA9A8004C5AFA /* transaction_reports_history_tag_monthly_2018-10-01_2019-10-31.json in Resources */,
 				012606C0219A8BAD005D8377 /* message_id_12345.json in Resources */,
 				017B48BC2105958100447E65 /* error_invalid_username_password.json in Resources */,
+				032F10AB23DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-wal in Resources */,
 				13AC07AD239711A600982FB1 /* budget_periods_96.json in Resources */,
 				034BD7DF2399CF5000142B7A /* transaction_reports_txn_category_monthly_2019_01_01_2019_12_31.json in Resources */,
 				0128DB5921F819A800DB3E62 /* FrolloSDKDataModel-1.3.0.sqlite-shm in Resources */,
@@ -4464,6 +4538,7 @@
 				017F0FB622DC523800ACE7BB /* APIService+Goals.swift in Sources */,
 				01874B7420F81EA8005A7D0C /* UserEndpoint.swift in Sources */,
 				01E8375A2149F08100A50E15 /* LoginFormError.swift in Sources */,
+				032F10C323DA8A2B00F3BF01 /* APICDRConsentResponse.swift in Sources */,
 				0159E46E2190F3BD002CC3BB /* PublicKeys.swift in Sources */,
 				017B48DB2106E1C100447E65 /* User+CoreDataClass.swift in Sources */,
 				016097F5210EE2BB0034E857 /* APIProviderResponse.swift in Sources */,
@@ -4488,6 +4563,7 @@
 				018240DE21C8B80B005705F9 /* Bill+CoreDataProperties.swift in Sources */,
 				0101A8E021C9BDEF00DCFCEB /* APIService+Bills.swift in Sources */,
 				0125879923442FAB0077D8B4 /* PayDayEndpoint.swift in Sources */,
+				032F10B123DA781900F3BF01 /* APIService+CDR.swift in Sources */,
 				01C824EE20EC40FD0093400E /* ConsoleLogger.swift in Sources */,
 				012606AF219A784D005D8377 /* MessageVideo+CoreDataClass.swift in Sources */,
 				01483BB921196E2100D0DA87 /* APIMerchantResponse.swift in Sources */,
@@ -4510,6 +4586,7 @@
 				034BD7F52399F54600142B7A /* Reports+Helpers.swift in Sources */,
 				01405E5721DDCD65009356CC /* BillPayment+CoreDataClass.swift in Sources */,
 				69E7DED52397692E00291937 /* ReportResponse.swift in Sources */,
+				032F10C023DA88E100F3BF01 /* CDRConsent.swift in Sources */,
 				01236D0E21EBFA34008DD61A /* ReportsEndpoint.swift in Sources */,
 				2FE180082248892800B87AAB /* OAuth2ErrorResponse.swift in Sources */,
 				011F8142219D282400A1495F /* APIService+Events.swift in Sources */,
@@ -4590,6 +4667,7 @@
 				01874B7820F82C98005A7D0C /* DeviceEndpoint.swift in Sources */,
 				013A32C12112AF4E00B0590B /* DateFormatter.swift in Sources */,
 				012606B4219A784D005D8377 /* MessageHTML+CoreDataProperties.swift in Sources */,
+				032F10B723DA7E2900F3BF01 /* APICDRConsentRequest.swift in Sources */,
 				13CFDAA12398990E00559476 /* APIBudgetUpdateRequest.swift in Sources */,
 				2F657DA7223B314100471B85 /* APIService+Surveys.swift in Sources */,
 				011E87D0213766550026E047 /* SecKeyPEM.swift in Sources */,
@@ -4609,6 +4687,7 @@
 				017F0FE822DED79800ACE7BB /* GoalPeriod+CoreDataProperties.swift in Sources */,
 				018240E321C8BB6A005705F9 /* APIBillsResponse.swift in Sources */,
 				01ED8FCA211A5E7A00ACE691 /* APITransactionResponse.swift in Sources */,
+				032F10B323DA7A5000F3BF01 /* CDREndpoint.swift in Sources */,
 				01EED86320E5A7EB00F4516B /* Network.swift in Sources */,
 				017F0FBA22DC543700ACE7BB /* Goals.swift in Sources */,
 				01236D1021EC02CC008DD61A /* APIService+Reports.swift in Sources */,
@@ -4678,6 +4757,7 @@
 				013A32D32112C40500B0590B /* CoreData+Test.swift in Sources */,
 				0101A8FD21CC832600DCFCEB /* BillTests.swift in Sources */,
 				01236D6E21EED72C008DD61A /* ReportsTests.swift in Sources */,
+				032F10BB23DA850D00F3BF01 /* CDRTests.swift in Sources */,
 				01C824F920EC8EF90093400E /* ConsoleLoggerTests.swift in Sources */,
 				01F8060223445EBF00A4FCA9 /* PayDaysTests.swift in Sources */,
 				013A32CB2112BE6600B0590B /* ProviderAccountTests.swift in Sources */,
@@ -4819,6 +4899,7 @@
 				013A32D42112C40500B0590B /* CoreData+Test.swift in Sources */,
 				0101A8FE21CC832600DCFCEB /* BillTests.swift in Sources */,
 				01236D6F21EED72C008DD61A /* ReportsTests.swift in Sources */,
+				032F10BC23DA850D00F3BF01 /* CDRTests.swift in Sources */,
 				017B48372101B4FE00447E65 /* ConsoleLoggerTests.swift in Sources */,
 				01F8060323445EBF00A4FCA9 /* PayDaysTests.swift in Sources */,
 				013A32CC2112BE6600B0590B /* ProviderAccountTests.swift in Sources */,
@@ -4969,6 +5050,7 @@
 				01483B96211913F200D0DA87 /* APIAccountUpdateRequest+Test.swift in Sources */,
 				0101A8FF21CC832600DCFCEB /* BillTests.swift in Sources */,
 				01236D7021EED72C008DD61A /* ReportsTests.swift in Sources */,
+				032F10BD23DA850D00F3BF01 /* CDRTests.swift in Sources */,
 				017B48932105958100447E65 /* DatabaseMigrationTests.swift in Sources */,
 				01F8060423445EBF00A4FCA9 /* PayDaysTests.swift in Sources */,
 				01483B752117D80100D0DA87 /* APIAccountResponse+Test.swift in Sources */,
@@ -5085,6 +5167,7 @@
 				01E5BEF72227A475003D85FD /* Merchant+CoreDataClass.swift in Sources */,
 				017F0FB722DC523800ACE7BB /* APIService+Goals.swift in Sources */,
 				01E5BEF82227A475003D85FD /* APIDeviceLogRequest.swift in Sources */,
+				032F10C423DA8A2B00F3BF01 /* APICDRConsentResponse.swift in Sources */,
 				01E5BEF92227A475003D85FD /* UserEndpoint.swift in Sources */,
 				01E5BEFA2227A475003D85FD /* LoginFormError.swift in Sources */,
 				01E5BEFB2227A475003D85FD /* PublicKeys.swift in Sources */,
@@ -5109,6 +5192,7 @@
 				01E5BF092227A475003D85FD /* BillPayment+CoreDataProperties.swift in Sources */,
 				01E5BF0A2227A475003D85FD /* ProviderAccount+CoreDataClass.swift in Sources */,
 				0125879A23442FAB0077D8B4 /* PayDayEndpoint.swift in Sources */,
+				032F10B023DA781900F3BF01 /* APIService+CDR.swift in Sources */,
 				01456B7522433D060077FC56 /* Survey.swift in Sources */,
 				01E5BF0B2227A475003D85FD /* AccountBalanceTier+CoreDataProperties.swift in Sources */,
 				01E5BF0C2227A475003D85FD /* Bill+CoreDataProperties.swift in Sources */,
@@ -5131,6 +5215,7 @@
 				034BD7F62399F54600142B7A /* Reports+Helpers.swift in Sources */,
 				01E5BF172227A475003D85FD /* UniqueManagedObject.swift in Sources */,
 				69E7DED62397692E00291937 /* ReportResponse.swift in Sources */,
+				032F10C123DA88E100F3BF01 /* CDRConsent.swift in Sources */,
 				01E5BF182227A475003D85FD /* Localization.swift in Sources */,
 				01E5BF192227A475003D85FD /* NetworkError.swift in Sources */,
 				01E5BF1A2227A475003D85FD /* APIMessageUpdateRequest.swift in Sources */,
@@ -5211,6 +5296,7 @@
 				01E5BF552227A475003D85FD /* Data.swift in Sources */,
 				01E5BF562227A475003D85FD /* DeviceEndpoint.swift in Sources */,
 				01E5BF572227A475003D85FD /* DateFormatter.swift in Sources */,
+				032F10B823DA7E2900F3BF01 /* APICDRConsentRequest.swift in Sources */,
 				13CFDAA22398990E00559476 /* APIBudgetUpdateRequest.swift in Sources */,
 				01E5BF582227A475003D85FD /* MessageHTML+CoreDataProperties.swift in Sources */,
 				01456B7622433D550077FC56 /* APIService+Surveys.swift in Sources */,
@@ -5230,6 +5316,7 @@
 				017F0FE922DED79800ACE7BB /* GoalPeriod+CoreDataProperties.swift in Sources */,
 				01E5BF642227A475003D85FD /* MessageImage+CoreDataClass.swift in Sources */,
 				01E5BF652227A475003D85FD /* APIBillsResponse.swift in Sources */,
+				032F10B423DA7A5000F3BF01 /* CDREndpoint.swift in Sources */,
 				01E5BF662227A475003D85FD /* APITransactionResponse.swift in Sources */,
 				017F0FBB22DC543700ACE7BB /* Goals.swift in Sources */,
 				01E5BF672227A475003D85FD /* Network.swift in Sources */,
@@ -6507,6 +6594,7 @@
 		01768620235E54FC00F66D17 /* FrolloSDKDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				032F109E23D975BE00F3BF01 /* FrolloSDKDataModel-1.6.1.xcdatamodel */,
 				1321545623909450001495A2 /* FrolloSDKDataModel-1.6.0.xcdatamodel */,
 				1318C1C4237B877A00ABFC51 /* FrolloSDKDataModel-1.5.2.xcdatamodel */,
 				01768621235E54FC00F66D17 /* FrolloSDKDataModel-1.3.1.xcdatamodel */,
@@ -6521,7 +6609,7 @@
 				0176862A235E54FC00F66D17 /* FrolloSDKDataModel-1.5.1.xcdatamodel */,
 				0176862B235E54FC00F66D17 /* FrolloSDKDataModel-1.3.3.xcdatamodel */,
 			);
-			currentVersion = 1321545623909450001495A2 /* FrolloSDKDataModel-1.6.0.xcdatamodel */;
+			currentVersion = 032F109E23D975BE00F3BF01 /* FrolloSDKDataModel-1.6.1.xcdatamodel */;
 			path = FrolloSDKDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

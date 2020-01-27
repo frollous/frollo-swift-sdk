@@ -1,0 +1,16 @@
+{
+    "provider_id": 30601,
+    "status": "pending",
+    "sharing_duration": 10368000,
+    "permissions": [
+        "account_details",
+        "transaction_details",
+        "customer_details"
+    ],
+    "additional_permissions": {
+        "suggest_ways_to_save_money": true,
+        "analyse_spending_behaviour": true
+    },
+    "delete_redundant_data": true,
+    "authorisation_request_url": "https://test.idp.westpac.com.au/identity/as/authorization.oauth2?redirect_url=https%3A%2F%2Fcdrtest-staging.frollo.us%2Fopenbanking%2Fredirect&client_id=6EGX4dIMwjh247LfBKMh4RRSXS&state=732fc862-cc69-4c38-993a-a78a6dd06022&nonce=af870651-058f-4076-ac20-a2d00ef10901&scope=openid+bank%3Aaccounts.basic%3Aread+bank%3Atransactions%3Aread+common%3Acustomer.basic%3Aread&response_type=code+id_token&request=eyJ0eXAiOiJKV1QiLCJraWQiOiJ4WFRXdFRVdDlHcEZqWUp3QWZyUFJkQTVZR1J3T0UxSC0zRlJMd282S2g4IiwiYWxnIjoiUFMyNTYifQ.eyJzY29wZSI6Im9wZW5pZCBiYW5rOmFjY291bnRzLmJhc2ljOnJlYWQgYmFuazp0cmFuc2FjdGlvbnM6cmVhZCBjb21tb246Y3VzdG9tZXIuYmFzaWM6cmVhZCIsInJlc3BvbnNlX3R5cGUiOiJjb2RlIGlkX3Rva2VuIiwicmVkaXJlY3RfdXJpIjoiaHR0cHM6Ly9jZHJ0ZXN0LXN0YWdpbmcuZnJvbGxvLnVzL29wZW5iYW5raW5nL3JlZGlyZWN0Iiwibm9uY2UiOiJiZjIzNjhjOC0wMzNkLTQ0ODUtODlhNi1jYjQ5ZmQ1Y2UwMzkiLCJzdGF0ZSI6IjczMmZjODYyLWNjNjktNGMzOC05OTNhLWE3OGE2ZGQwNjAyMiIsImNsaWVudF9pZCI6IjZFR1g0ZElNd2poMjQ3TGZCS01oNFJSU1hTIiwiYXVkIjoiaHR0cHM6Ly90ZXN0LmlkcC53ZXN0cGFjLmNvbS5hdS9pZGVudGl0eSIsImNsYWltcyI6eyJzaGFyaW5nX2R1cmF0aW9uIjoiMTAzNjgwMDAiLCJpZF90b2tlbiI6eyJhY3IiOnsidmFsdWVzIjpbInVybjpjZHMuYXU6Y2RyOjMiXSwiZXNzZW50aWFsIjp0cnVlfX19fQ.rTYpDwwbF07CNd_lkHPftsgmonM-vH8mcs_OP1J4mEOrMNIY6TcemrkJqJ0BkMM_XUbBbiQJPEyHjgcf3jgsxCGvy_EpI7SkNixsh7VWy9HJ8f3lHtS55qHJQL8_iTd-dTT_r-UTK3t9oCtRmAJTW3Kc5MDS_mCrjN1vAFSQaPkLwoRLsEXkmPbjfBVubQqoSdzmI5nPDCeC-W27C2sLMrAHqDuPkDDwbOs3yUhQSvHRQqvihDS4GQmPksGjwc0PTiLVIvr6CuRFQgRxEgqLDnel2nsf_uO_UIcA9z0UIyqDRxs-McLxqOhcptSZwYH6BxC-lsjEuB4MMx7KMBvKRg"
+}

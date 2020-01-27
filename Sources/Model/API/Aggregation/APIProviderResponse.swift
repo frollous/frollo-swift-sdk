@@ -36,6 +36,8 @@ struct APIProviderResponse: APIUniqueResponse, Codable {
         case popular
         case smallLogoURLString = "small_logo_url"
         case status
+        case permissions
+        case aggregatorType = "aggregator_type"
     }
     
     enum ContainerName: String, Codable {
@@ -83,5 +85,7 @@ struct APIProviderResponse: APIUniqueResponse, Codable {
     var mfaType: Provider.MFAType?
     var oAuthSite: Bool?
     var smallLogoURLString: String?
+    var aggregatorType: String
+    var permissions: [String]?
     
 }
