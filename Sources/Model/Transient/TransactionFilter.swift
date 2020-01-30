@@ -110,22 +110,22 @@ public struct TransactionFilter {
         }
         
         // Filter by transactionIDs
-        if let transactionIDs = transactionIDs {
+        if let transactionIDs = transactionIDs, transactionIDs.count > 0 {
             filterPredicates.append(NSPredicate(format: #keyPath(Transaction.transactionID) + " IN %@ ", argumentArray: [transactionIDs]))
         }
         
         // Filter by accountIDs
-        if let accountIDs = accountIDs {
+        if let accountIDs = accountIDs, accountIDs.count > 0 {
             filterPredicates.append(NSPredicate(format: #keyPath(Transaction.accountID) + " IN %@ ", argumentArray: [accountIDs]))
         }
         
         // Filter by transaction categoryIDs
-        if let transactionCategoryIDs = transactionCategoryIDs {
+        if let transactionCategoryIDs = transactionCategoryIDs, transactionCategoryIDs.count > 0 {
             filterPredicates.append(NSPredicate(format: #keyPath(Transaction.transactionCategoryID) + " IN %@ ", argumentArray: [transactionCategoryIDs]))
         }
         
         // Filter by budget categories
-        if let budgetCategories = budgetCategories {
+        if let budgetCategories = budgetCategories, budgetCategories.count > 0 {
             filterPredicates.append(NSPredicate(format: #keyPath(Transaction.budgetCategoryRawValue) + " IN %@ ", argumentArray: [budgetCategories.map { $0.rawValue }]))
         }
         
@@ -150,7 +150,7 @@ public struct TransactionFilter {
         }
         
         // Filter by search term
-        if let searchTerm = searchTerm, searchTerm.count > 1 {
+        if let searchTerm = searchTerm, searchTerm.count > 0 {
             var searchTermPredicates: [NSPredicate] = []
             
             searchTermPredicates.append(NSPredicate(format: #keyPath(Transaction.userDescription) + " CONTAINS[cd] %@ ", argumentArray: [searchTerm]))
@@ -178,23 +178,23 @@ public struct TransactionFilter {
             queryItems.append(URLQueryItem(name: "account_ids", value: accountIDs.map { String($0) }.joined(separator: ",")))
         }
         
-        if let transactionIDs = transactionIDs {
+        if let transactionIDs = transactionIDs, transactionIDs.count > 0 {
             queryItems.append(URLQueryItem(name: "transaction_ids", value: transactionIDs.map { String($0) }.joined(separator: ",")))
         }
         
-        if let merchantIDs = merchantIDs {
+        if let merchantIDs = merchantIDs, merchantIDs.count > 0 {
             queryItems.append(URLQueryItem(name: "merchant_ids", value: merchantIDs.map { String($0) }.joined(separator: ",")))
         }
         
-        if let transactionCategoryIDs = transactionCategoryIDs {
+        if let transactionCategoryIDs = transactionCategoryIDs, transactionCategoryIDs.count > 0 {
             queryItems.append(URLQueryItem(name: "transaction_category_ids", value: transactionCategoryIDs.map { String($0) }.joined(separator: ",")))
         }
         
-        if let searchTerm = searchTerm {
+        if let searchTerm = searchTerm, searchTerm.count > 0 {
             queryItems.append(URLQueryItem(name: "search_term", value: searchTerm))
         }
         
-        if let budgetCategories = budgetCategories {
+        if let budgetCategories = budgetCategories, budgetCategories.count > 0 {
             queryItems.append(URLQueryItem(name: "budget_category", value: (budgetCategories.map { $0.rawValue }).joined(separator: ",")))
         }
         
@@ -226,7 +226,7 @@ public struct TransactionFilter {
             queryItems.append(URLQueryItem(name: "account_included", value: accountIncluded ? "true" : "false"))
         }
         
-        if let tags = tags {
+        if let tags = tags, tags.count > 0 {
             queryItems.append(URLQueryItem(name: "tags", value: tags.joined(separator: ",")))
         }
         
