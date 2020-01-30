@@ -135,13 +135,13 @@ public class Provider: NSManagedObject, UniqueManagedObject {
     public enum Permission: String, Codable {
         
         /// Customer's name, occupation and contact details
-        case customerDetails
+        case customerDetails = "customer_details"
         
         /// Account name, balance and details
-        case accountDetails
+        case accountDetails = "account_details"
         
         /// Transaction details
-        case transactionDetails
+        case transactionDetails = "transaction_details"
         
         /// Unknown permission
         case unknown
