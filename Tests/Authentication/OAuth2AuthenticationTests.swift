@@ -353,7 +353,7 @@ class OAuth2AuthenticationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1], timeout: 5.0)
         
         try? FileManager.default.removeItem(at: tempFolderPath())
     }

@@ -2356,12 +2356,14 @@ public class Aggregation: CachedObjects, ResponseHandler {
         var beforeID: Int64?
         var afterID: Int64?
         
-        if let firstTransaction = transactionsResponse.data.elements.first {
+        // Upper limit predicate if not first page
+        if let firstTransaction = transactionsResponse.data.elements.first, transactionsResponse.paging?.cursors?.before != nil {
             beforeID = firstTransaction.id
             beforeDate = Transaction.transactionDateFormatter.date(from: firstTransaction.transactionDate)
         }
         
-        if let lastTransaction = transactionsResponse.data.elements.last {
+        // Lower limit predicate if not last page
+        if let lastTransaction = transactionsResponse.data.elements.last, transactionsResponse.paging?.cursors?.after != nil {
             afterID = lastTransaction.id
             afterDate = Transaction.transactionDateFormatter.date(from: lastTransaction.transactionDate)
         }
@@ -2374,7 +2376,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             
             let filterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " <= %@ ", argumentArray: [dayAfterFirstDateString])
             
-            let firstDayFilterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " == %@ && " + #keyPath(Transaction.transactionCategoryID) + " <= %@ ", argumentArray: [fromDateString, beforeID])
+            let firstDayFilterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " == %@ && " + #keyPath(Transaction.transactionID) + " <= %@ ", argumentArray: [fromDateString, beforeID])
             
             filterPredicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [filterPredicate, firstDayFilterPredicate]))
         }
@@ -2387,7 +2389,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             
             let filterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " >= %@ ", argumentArray: [dayBeforeLastDateString])
             
-            let lastDayFilterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " == %@ && " + #keyPath(Transaction.transactionCategoryID) + " >= %@ ", argumentArray: [toDateString, afterID])
+            let lastDayFilterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " == %@ && " + #keyPath(Transaction.transactionID) + " >= %@ ", argumentArray: [toDateString, afterID])
             
             filterPredicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [filterPredicate, lastDayFilterPredicate]))
         }

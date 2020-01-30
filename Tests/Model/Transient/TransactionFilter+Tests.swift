@@ -109,7 +109,111 @@ class TransactionFilterTests: BaseTestCase {
         
     }
     
+    func testCacheLogicForTransactionsSingleDay() {
+        
+        let expectation1 = expectation(description: "Database Request 1")
+        
+        database.setup { error in
+            XCTAssertNil(error)
+
+            let context = self.context
+
+            context.performAndWait {
+                let transaction1 = Transaction(context: context)
+                transaction1.populateTestData()
+                transaction1.transactionID = 1
+                transaction1.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-11-11")!
+                
+                let transaction2 = Transaction(context: context)
+                transaction2.populateTestData()
+                transaction2.transactionID = 2
+                transaction2.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-11-11")!
+                
+                let transaction3 = Transaction(context: context)
+                transaction3.populateTestData()
+                transaction3.transactionID = 3
+                transaction3.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-11-11")!
+                
+                let transaction4 = Transaction(context: context)
+                transaction4.populateTestData()
+                transaction4.transactionID = 4
+                transaction4.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-11-11")!
+                
+                let transaction5 = Transaction(context: context)
+                transaction5.populateTestData()
+                transaction5.transactionID = 5
+                transaction5.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-11-11")!
+                
+                let transaction6 = Transaction(context: context)
+                transaction6.populateTestData()
+                transaction6.transactionID = 6
+                transaction6.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-11-11")!
+                
+                let transaction7 = Transaction(context: context)
+                transaction7.populateTestData()
+                transaction7.transactionID = 7
+                transaction7.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-11-11")!
+                
+                let transaction8 = Transaction(context: context)
+                transaction8.populateTestData()
+                transaction8.transactionID = 8
+                transaction8.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-11-11")!
+                
+                let transaction9 = Transaction(context: context)
+                transaction9.populateTestData()
+                transaction9.transactionID = 9
+                transaction9.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-11-11")!
+                
+                let transaction10 = Transaction(context: context)
+                transaction10.populateTestData()
+                transaction10.transactionID = 10
+                transaction10.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-11-11")!
+                
+                let transaction11 = Transaction(context: context)
+                transaction11.populateTestData()
+                transaction11.transactionID = 11
+                transaction11.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-11-12")!
+                
+                let transaction12 = Transaction(context: context)
+                transaction12.populateTestData()
+                transaction12.transactionID = 12
+                transaction12.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-11-10")!
+
+                try! context.save()
+            }
+            
+            let filterPredicate1 = NSPredicate(format: "transactionDateString <= %@", argumentArray: ["2019-11-12"])
+            let filterPredicate2 = NSPredicate(format: "transactionDateString == %@ || transactionID <= %@", argumentArray: ["2019-11-11", 5])
+            let beforePredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [filterPredicate1, filterPredicate2])
+            
+            let filterPredicate3 = NSPredicate(format: "transactionDateString >= %@", argumentArray: ["2019-11-10"])
+            let filterPredicate4 = NSPredicate(format: "transactionDateString == %@ || transactionID >= %@", argumentArray: ["2019-11-11", 10])
+            let afterPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [filterPredicate3, filterPredicate4])
+            
+            let finalPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [beforePredicate, afterPredicate])
+            
+            let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+            fetchRequest.predicate = finalPredicate
+
+            do {
+                let fetchedTransactions = try context.fetch(fetchRequest)
+
+                XCTAssertEqual(fetchedTransactions.count, 10)
+
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+    }
+    
 }
+
+
 
 
 extension TransactionFilter {
