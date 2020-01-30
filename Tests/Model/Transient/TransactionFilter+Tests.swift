@@ -38,14 +38,14 @@ class TransactionFilterTests: BaseTestCase {
     func testTransactionFilterURL() {
         transactionFilter.populateTestData()
         
-        XCTAssertEqual(transactionFilter.urlString, "aggregation/transactions?account_ids=11,22,33&transaction_ids=66,77,88,99&merchant_ids=23,45,67,78&transaction_category_ids=4546,5767,6883&search_term=Woolies&budget_category=lifestyle,goals&min_amount=22.44&max_amount=66.00&from_date=2019-11-11&to_date=2020-01-29&base_type=credit&transaction_included=false&account_included=false&tags=Frollo,Groceries")
+        XCTAssertEqual(transactionFilter.urlString, "aggregation/transactions?account_ids=11,22,33&transaction_ids=66,77,88,99&merchant_ids=23,45,67,78&transaction_category_ids=4546,5767,6883&search_term=Woolies&budget_category=lifestyle,goals&min_amount=22.44&max_amount=66.00&from_date=2019-11-11&to_date=2020-01-29&base_type=credit&transaction_included=false&account_included=true&tags=Frollo%26Volt,Groceries%20Aldi")
     }
     
     func testTransactionFilterPredicates() {
         transactionFilter.populateTestData()
         let predicates = transactionFilter.filterPredicates
            
-        XCTAssertEqual(NSCompoundPredicate(andPredicateWithSubpredicates: predicates).predicateFormat, "transactionDateString >= \"2019-11-11\" AND transactionDateString <= \"2020-01-29\" AND transactionID IN {66, 77, 88, 99} AND accountID IN {11, 22, 33} AND transactionCategoryID IN {4546, 5767, 6883} AND budgetCategoryRawValue IN {\"lifestyle\", \"goals\"} AND baseTypeRawValue == \"credit\" AND amount >= 22.44 AND amount <= 66 AND (userDescription CONTAINS[cd] \"Woolies\" OR simpleDescription CONTAINS[cd] \"Woolies\" OR originalDescription CONTAINS[cd] \"Woolies\" OR memo CONTAINS[cd] \"Woolies\")")
+        XCTAssertEqual(NSCompoundPredicate(andPredicateWithSubpredicates: predicates).predicateFormat, "transactionDateString >= \"2019-11-11\" AND transactionDateString <= \"2020-01-29\" AND transactionID IN {66, 77, 88, 99} AND accountID IN {11, 22, 33} AND transactionCategoryID IN {4546, 5767, 6883} AND budgetCategoryRawValue IN {\"lifestyle\", \"goals\"} AND baseTypeRawValue == \"credit\" AND amount >= 22.44 AND amount <= 66 AND (userTagsRawValue CONTAINS[cd] \"Frollo&Volt\" OR userTagsRawValue CONTAINS[cd] \"Groceries Aldi\") AND included == \"FALSE\" AND account.included == \"TRUE\" AND (userDescription CONTAINS[cd] \"Woolies\" OR simpleDescription CONTAINS[cd] \"Woolies\" OR originalDescription CONTAINS[cd] \"Woolies\" OR memo CONTAINS[cd] \"Woolies\")")
        }
     
     func testTransactionFilters() {
@@ -127,7 +127,7 @@ extension TransactionFilter {
         minimumAmount = "22.44"
         maximumAmount = "66.00"
         searchTerm = "Woolies"
-        tags = ["Frollo", "Groceries"]
+        tags = ["Frollo&Volt", "Groceries Aldi"]
         transactionIncluded = false
     }
     
