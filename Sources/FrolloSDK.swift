@@ -13,6 +13,9 @@ public typealias FrolloSDKCompletionHandler = (EmptyResult<Error>) -> Void
 /// Frollo SDK Completion Handler with pagination optional before and after cursors and optional error if an issue occurs
 public typealias FrolloSDKPaginatedCompletionHandler = (PaginatedResult<Error, Int64?, Int64?>) -> Void
 
+/// Frollo SDK Completion Handler with pagination optional before and after cursors and optional error if an issue occurs
+public typealias TransactionPaginatedCompletionHandler = (TransactionPaginatedResult<Error, String?, String?>) -> Void
+
 /// Frollo SDK manager and main instantiation. Responsible for managing the lifecycle and coordination of the SDK
 public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     
@@ -482,7 +485,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     private func refreshPrimary() {
         aggregation.refreshProviderAccounts()
         aggregation.refreshAccounts()
-        aggregation.refreshTransactions(from: Date().startOfLastMonth(), to: Date().endOfMonth())
+        aggregation.fetchTransactions()
         userManagement.refreshUser()
         messages.refreshUnreadMessages()
         budgets.refreshBudgets(current: true)

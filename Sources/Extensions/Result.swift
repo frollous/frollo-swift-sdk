@@ -37,3 +37,14 @@ public enum PaginatedResult<Failure, before, after> {
     case failure(Failure)
     
 }
+
+/// A value that represents either a success (with before and after cursors for pagination)or a failure, including an associated error on failure.
+public enum TransactionPaginatedResult<Failure, before, after> {
+    
+    /// A success
+    case success(before, after)
+    
+    /// A failure, storing a `Failure` value.
+    case failure(Failure)
+    
+}
