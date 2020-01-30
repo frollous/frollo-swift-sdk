@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 Frollo. All rights reserved.
+//  Copyright © 2019 Frollo. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -16,19 +16,20 @@
 
 import Foundation
 
-internal struct APIPaginatedResponse<T: Decodable>: Decodable {
+internal struct APITransactionPaginatedResponse: Decodable {
     
-    var data: FailableCodableArray<T>
-    var paging: Paging
+    var data: FailableCodableArray<APITransactionResponse>
+    var paging: Paging?
     
     struct Paging: Codable {
-        var cursors: Cursors
+        var total: Int
+        var cursors: Cursors?
         var previous: String?
         var next: String?
         
         struct Cursors: Codable {
-            var before: Int64?
-            var after: Int64?
+            var before: String?
+            var after: String?
         }
     }
 }

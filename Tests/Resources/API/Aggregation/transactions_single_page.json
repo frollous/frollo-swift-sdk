@@ -420,9 +420,16 @@
         },
         "budget_category": "lifestyle",
         "category_id": 77,
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
         "user_tags": []
     }, {
         "id": 167398,
+        "account_id": 2149,
         "base_type": "credit",
         "status": "posted",
         "included": true,
@@ -476,6 +483,10 @@
         "included": true,
         "transaction_date": "2020-01-09",
         "post_date": "2020-01-09",
+        "amount": {
+            "amount": "-470.00",
+            "currency": "AUD"
+        },
         "description": {
             "original": "Transfer to CBA A/c CommBank app rent",
             "simple": "Transfer to Commonwealth Bank"
@@ -488,6 +499,7 @@
         },
         "user_tags": []
     }, {
+        "id": 167401,
         "account_id": 2150,
         "base_type": "credit",
         "status": "posted",
@@ -534,7 +546,7 @@
         "user_tags": []
     }, {
         "id": 165379,
-        "account_id": 2150,
+        "account_id": 940,
         "base_type": "debit",
         "status": "posted",
         "included": true,
@@ -576,7 +588,7 @@
         "budget_category": "lifestyle",
         "category_id": 71,
         "merchant": {
-            "id": 657,
+            "id": 238,
             "name": "Facebook"
         },
         "user_tags": []

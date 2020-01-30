@@ -408,45 +408,43 @@ class AggregationRequestTests: BaseTestCase {
     func testFetchTransactions() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
         
-        service.fetchTransactions(from: Date(timeIntervalSince1970: 1533124800), to: Date(timeIntervalSince1970: 1535673600), count: 500, skip: 0) { (result) in
+        service.fetchTransactions(transactionFilter: nil) { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success(let response):
-                    XCTAssertEqual(response.count, 111)
+                    XCTAssertEqual(response.data.elements.count, 34)
                     
-                    if let firstTransaction = response.first {
-                        XCTAssertEqual(firstTransaction.id, 194630)
-                        XCTAssertEqual(firstTransaction.accountID, 939)
-                        XCTAssertEqual(firstTransaction.amount.amount, "-59.00")
+                    if let firstTransaction = response.data.elements.first {
+                        XCTAssertEqual(firstTransaction.id, 168476)
+                        XCTAssertEqual(firstTransaction.accountID, 2150)
+                        XCTAssertEqual(firstTransaction.amount.amount, "-10.24")
                         XCTAssertEqual(firstTransaction.amount.currency, "AUD")
                         XCTAssertEqual(firstTransaction.baseType, .debit)
-                        XCTAssertEqual(firstTransaction.budgetCategory, .lifestyle)
-                        XCTAssertEqual(firstTransaction.description.original, "THE OCCIDENTAL HOTEL SYDNEY")
-                        XCTAssertEqual(firstTransaction.description.simple, "The Occidental Hotel")
-                        XCTAssertEqual(firstTransaction.description.user, "Occi")
-                        XCTAssertEqual(firstTransaction.included, false)
-                        XCTAssertEqual(firstTransaction.merchant.id, 238)
-                        XCTAssertEqual(firstTransaction.merchant.name, "The Occidental Hotel")
-                        XCTAssertEqual(firstTransaction.merchant.phone, "(02) 9299 2531")
-                        XCTAssertEqual(firstTransaction.merchant.website, "https://www.theoccidental.com")
-                        XCTAssertEqual(firstTransaction.merchant.location?.formattedAddress, "10 Falcon St, Crows Nest NSW 2065, Australia")
-                        XCTAssertEqual(firstTransaction.merchant.location?.line1, "10 Falcon St")
-                        XCTAssertEqual(firstTransaction.merchant.location?.line2, "Suite 2 Level 3")
-                        XCTAssertEqual(firstTransaction.merchant.location?.line3, "Building 2 MLC")
-                        XCTAssertEqual(firstTransaction.merchant.location?.suburb, "Crows Nest")
-                        XCTAssertEqual(firstTransaction.merchant.location?.state, "NSW")
-                        XCTAssertEqual(firstTransaction.merchant.location?.postcode, "2065")
-                        XCTAssertEqual(firstTransaction.merchant.location?.country, "Australia")
-                        XCTAssertEqual(firstTransaction.merchant.location?.latitude, -33.827499)
-                        XCTAssertEqual(firstTransaction.merchant.location?.longitude, 151.201699)
-                        XCTAssertEqual(firstTransaction.memo, "Remind me")
-                        XCTAssertEqual(firstTransaction.postDate, "2018-07-29")
+                        XCTAssertEqual(firstTransaction.budgetCategory, .living)
+                        XCTAssertEqual(firstTransaction.description.original, "WOOLWORTHS W1766         KOGARAH      AU Card xx0996")
+                        XCTAssertEqual(firstTransaction.description.simple, "Woolworths")
+                        XCTAssertEqual(firstTransaction.description.user, nil)
+                        XCTAssertEqual(firstTransaction.included, true)
+                        XCTAssertEqual(firstTransaction.merchant.id, 2)
+                        XCTAssertEqual(firstTransaction.merchant.name, "Woolworths")
+                        XCTAssertEqual(firstTransaction.merchant.phone, "(02) 8565 9336")
+                        XCTAssertEqual(firstTransaction.merchant.website, "https://www.woolworths.com.au")
+                        XCTAssertEqual(firstTransaction.merchant.location?.line2, nil)
+                        XCTAssertEqual(firstTransaction.merchant.location?.line3, nil)
+                        XCTAssertEqual(firstTransaction.merchant.location?.suburb, nil)
+                        XCTAssertEqual(firstTransaction.merchant.location?.state, nil)
+                        XCTAssertEqual(firstTransaction.merchant.location?.postcode, nil)
+                        XCTAssertEqual(firstTransaction.merchant.location?.country, nil)
+                        XCTAssertEqual(firstTransaction.merchant.location?.latitude, nil)
+                        XCTAssertEqual(firstTransaction.merchant.location?.longitude, nil)
+                        XCTAssertEqual(firstTransaction.memo, nil)
+                        XCTAssertEqual(firstTransaction.postDate, "2020-01-25")
                         XCTAssertEqual(firstTransaction.status, .posted)
-                        XCTAssertEqual(firstTransaction.categoryID, 77)
-                        XCTAssertEqual(firstTransaction.transactionDate, "2019-02-14")
+                        XCTAssertEqual(firstTransaction.categoryID, 66)
+                        XCTAssertEqual(firstTransaction.transactionDate, "2020-01-25")
                     }
             }
             
@@ -459,17 +457,17 @@ class AggregationRequestTests: BaseTestCase {
     func testFetchTransactionsSkipsInvalid() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_invalid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_invalid")
         
-        service.fetchTransactions(from: Date(timeIntervalSince1970: 1533124800), to: Date(timeIntervalSince1970: 1535673600), count: 500, skip: 0) { (result) in
+        service.fetchTransactions(transactionFilter: nil) { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success(let response):
-                    XCTAssertEqual(response.count, 108)
+                    XCTAssertEqual(response.data.elements.count, 30)
                     
-                    if let firstTransaction = response.first {
-                        XCTAssertEqual(firstTransaction.id, 194630)
+                    if let firstTransaction = response.data.elements.first {
+                        XCTAssertEqual(firstTransaction.id, 168476)
                     }
             }
             

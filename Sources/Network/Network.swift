@@ -33,7 +33,7 @@ class Network: SessionDelegate {
     internal var authentication: Authentication
     internal var sessionManager: SessionManager!
     
-    private let APIVersion = "2.7"
+    private let APIVersion = "2.8"
     
     /**
      Initialise a network stack pointing to an API at a specific URL
@@ -243,6 +243,29 @@ class Network: SessionDelegate {
                 
                 do {
                     let apiResponse = try decoder.decode(APIPaginatedResponse<T>.self, from: value)
+                    completion(.success(apiResponse))
+                } catch {
+                    Log.error(error.localizedDescription)
+                    
+                    let dataError = DataError(type: .api, subType: .invalidData)
+                    dataError.systemError = error
+                    completion(.failure(dataError))
+                }
+            case .failure(let error):
+                handleFailure(type: errorType, response: response, error: error) { processedError in
+                    completion(.failure(processedError))
+                }
+        }
+    }
+    
+    internal func handlePaginatedTransactionArrayResponse<U: ResponseError>(errorType: U.Type, response: DataResponse<Data>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<APITransactionPaginatedResponse>) {
+        switch response.result {
+            case .success(let value):
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = dateDecodingStrategy
+                
+                do {
+                    let apiResponse = try decoder.decode(APITransactionPaginatedResponse.self, from: value)
                     completion(.success(apiResponse))
                 } catch {
                     Log.error(error.localizedDescription)

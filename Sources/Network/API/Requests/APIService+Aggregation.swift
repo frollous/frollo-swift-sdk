@@ -171,23 +171,6 @@ extension APIService {
     
     // MARK: - Transactions
     
-    internal func fetchTransactions(from fromDate: Date, to toDate: Date, count: Int, skip: Int, completion: @escaping RequestCompletion<[APITransactionResponse]>) {
-        requestQueue.async {
-            let url = URL(string: AggregationEndpoint.transactions.path, relativeTo: self.serverURL)!
-            
-            let dateFormatter = Transaction.transactionDateFormatter
-            
-            let parameters = [AggregationEndpoint.QueryParameters.fromDate.rawValue: dateFormatter.string(from: fromDate),
-                              AggregationEndpoint.QueryParameters.toDate.rawValue: dateFormatter.string(from: toDate),
-                              AggregationEndpoint.QueryParameters.count.rawValue: String(count),
-                              AggregationEndpoint.QueryParameters.skip.rawValue: String(skip)]
-            
-            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleArrayResponse(type: APITransactionResponse.self, errorType: APIError.self, response: response, dateDecodingStrategy: .formatted(Transaction.transactionDateFormatter), completion: completion)
-            }
-        }
-    }
-    
     internal func fetchTransaction(transactionID: Int64, completion: @escaping RequestCompletion<APITransactionResponse>) {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.transaction(transactionID: transactionID).path, relativeTo: self.serverURL)!
@@ -198,12 +181,12 @@ extension APIService {
         }
     }
     
-    internal func fetchTransactions(transactionIDs: [Int64], completion: @escaping RequestCompletion<[APITransactionResponse]>) {
+    internal func fetchTransactions(transactionFilter: TransactionFilter?, completion: @escaping RequestCompletion<APITransactionPaginatedResponse>) {
         requestQueue.async {
-            let url = URL(string: AggregationEndpoint.transactionsByID(transactionIDs: transactionIDs).path, relativeTo: self.serverURL)!
+            let url = URL(string: AggregationEndpoint.transactions(transactionFilter: transactionFilter).path, relativeTo: self.serverURL)!
             
             self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleArrayResponse(type: APITransactionResponse.self, errorType: APIError.self, response: response, dateDecodingStrategy: .formatted(Transaction.transactionDateFormatter), completion: completion)
+                self.network.handlePaginatedTransactionArrayResponse(errorType: APIError.self, response: response, dateDecodingStrategy: .formatted(Transaction.transactionDateFormatter), completion: completion)
             }
         }
     }

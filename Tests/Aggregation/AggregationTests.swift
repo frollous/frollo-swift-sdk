@@ -1703,17 +1703,14 @@ class AggregationTests: BaseTestCase {
         let expectation1 = expectation(description: "Network Request 1")
         let notificationExpectation = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil, handler: nil)
         
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
         
         let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-            let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-            
-            aggregation.refreshTransactions(from: fromDate, to: toDate) { result in
+                        
+            aggregation.refreshTransactions() { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -1725,7 +1722,7 @@ class AggregationTests: BaseTestCase {
                         do {
                             let fetchedTransactions = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedTransactions.count, 111)
+                            XCTAssertEqual(fetchedTransactions.count, 34)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -1735,24 +1732,21 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 10.0)
         
     }
-    
+        
     func testRefreshTransactionsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
         
         let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-            let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-            
-            aggregation.refreshTransactions(from: fromDate, to: toDate) { result in
+                        
+            aggregation.refreshTransactions() { result in
                 switch result {
                     case .failure(let error):
                         XCTAssertNotNil(error)
@@ -1778,17 +1772,14 @@ class AggregationTests: BaseTestCase {
     func testRefreshTransactionsSkipsInvalid() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_invalid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_invalid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-            let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-            
-            aggregation.refreshTransactions(from: fromDate, to: toDate) { result in
+                        
+            aggregation.refreshTransactions() { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -1800,7 +1791,7 @@ class AggregationTests: BaseTestCase {
                         do {
                             let fetchedTransactions = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedTransactions.count, 108)
+                            XCTAssertEqual(fetchedTransactions.count, 30)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -1813,63 +1804,7 @@ class AggregationTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
         
     }
-    
-    func testRefreshPaginatedTransactions() {
-        let expectation1 = expectation(description: "Network Request 1")
-        let notificationExpectation = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil, handler: nil)
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (request) -> OHHTTPStubsResponse in
-            if let requestURL = request.url, let queryItems = URLComponents(url: requestURL, resolvingAgainstBaseURL: true)?.queryItems {
-                var skip: Int = 0
-                
-                for queryItem in queryItems {
-                    if queryItem.name == "skip", let value = queryItem.value, let skipCount = Int(value) {
-                        skip = skipCount
-                    }
-                }
-                
-                if skip == 200 {
-                    return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-12-04_count_200_skip_200", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-                }
-            }
-            
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-12-04_count_200_skip_0", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let aggregation = self.aggregation(loggedIn: true)
-        
-        database.setup { error in
-            XCTAssertNil(error)
-            
-            let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-            let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-            
-            aggregation.refreshTransactions(from: fromDate, to: toDate) { result in
-                switch result {
-                    case .failure(let error):
-                        XCTFail(error.localizedDescription)
-                    case .success:
-                        let context = self.context
-                        
-                        let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-                        
-                        do {
-                            let fetchedTransactions = try context.fetch(fetchRequest)
-                            
-                            XCTAssertEqual(fetchedTransactions.count, 311)
-                        } catch {
-                            XCTFail(error.localizedDescription)
-                        }
-                }
-                
-                expectation1.fulfill()
-            }
-        }
-        
-        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
-        
-    }
-    
     func testRefreshTransactionByIDIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         let notificationExpectation = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil, handler: nil)
@@ -1905,6 +1840,134 @@ class AggregationTests: BaseTestCase {
         }
         
         wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+        
+    }
+    
+    
+    func testFetchPaginatedTransactions() {
+        
+        let expectation1 = expectation(description: "Database")
+        let expectation2 = expectation(description: "Network Request Page 1")
+        let expectation3 = expectation(description: "Fetch Request Page 1")
+        let expectation4 = expectation(description: "Network Request Page 2")
+        let expectation5 = expectation(description: "Fetch Request Page 2")
+        
+        let transactionStub = connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_page_1")
+                
+        var transactionFilter = TransactionFilter()
+        transactionFilter.fromDate = "2019-07-26"
+        transactionFilter.toDate = "2020-01-31"
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+
+            let context = self.context
+
+            context.performAndWait {
+                let transaction1 = Transaction(context: context)
+                transaction1.populateTestData()
+                transaction1.transactionID = 164438
+                transaction1.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-11-11")!
+                transaction1.originalDescription = "Updating transaction"
+
+                let transaction2 = Transaction(context: context)
+                transaction2.populateTestData()
+                transaction2.transactionID = 600
+                transaction2.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-08-12")!
+                transaction2.userDescription = "Deleting transaction"
+
+                let transaction3 = Transaction(context: context)
+                transaction3.populateTestData()
+                transaction3.transactionID = 500
+                transaction3.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-06-11")!
+                transaction3.userDescription = "Ignored transaction"
+
+                try! context.save()
+            }
+
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        aggregation.refreshTransactions(transactionFilter: transactionFilter) { (result) in
+            
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let paginationSuccess):
+                    XCTAssertEqual(paginationSuccess.before, nil)
+                    XCTAssertEqual(paginationSuccess.after, "1564138032_160746")
+                    transactionFilter.after = paginationSuccess.after
+            }
+            
+             expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 10.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = self.context
+            
+            let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+            
+            do {
+                
+                let fetchedTransactions = try context.fetch(fetchRequest)
+                let updatedTransaction = aggregation.transaction(context: context, transactionID: 160142)
+                XCTAssertEqual(updatedTransaction?.originalDescription, "BURGER PROJECT SYDNEY AU")
+                
+                XCTAssertEqual(fetchedTransactions.count, 202)
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+        
+        OHHTTPStubs.removeStub(transactionStub)
+
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_page_2")
+
+        aggregation.refreshTransactions(transactionFilter: transactionFilter) { (result) in
+
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let paginationSuccess):
+                    XCTAssertEqual(paginationSuccess.before, "1564051625_160540")
+                    XCTAssertEqual(paginationSuccess.after, nil)
+                    transactionFilter.after = paginationSuccess.after
+            }
+
+             expectation4.fulfill()
+        }
+
+        wait(for: [expectation4], timeout: 3.0)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = self.context
+
+            let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+
+            do {
+                let fetchedTransactions = try context.fetch(fetchRequest)
+
+                XCTAssertEqual(fetchedTransactions.count, 399)
+                XCTAssertNotNil(aggregation.transaction(context: self.context, transactionID: 161135))
+
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+
+            expectation5.fulfill()
+        }
+
+        wait(for: [expectation5], timeout: 3.0)
         
     }
     
@@ -1947,7 +2010,7 @@ class AggregationTests: BaseTestCase {
         
         let transactions: [Int64] = [1, 2, 3, 4, 5]
         
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1966,7 +2029,7 @@ class AggregationTests: BaseTestCase {
                         do {
                             let fetchedTransactions = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedTransactions.count, 111)
+                            XCTAssertEqual(fetchedTransactions.count, 34)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -1985,7 +2048,7 @@ class AggregationTests: BaseTestCase {
         
         let transactions: [Int64] = [1, 2, 3, 4, 5]
         
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -2021,7 +2084,7 @@ class AggregationTests: BaseTestCase {
         let expectation3 = expectation(description: "Network Transaction Request")
         
         connect(endpoint: AggregationEndpoint.accounts.path.prefixedWithSlash, toResourceWithName: "accounts_valid")
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2045,11 +2108,8 @@ class AggregationTests: BaseTestCase {
         }
         
         wait(for: [expectation2], timeout: 3.0)
-        
-        let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-        let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-        
-        aggregation.refreshTransactions(from: fromDate, to: toDate) { result in
+                
+        aggregation.refreshTransactions() { result in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -2065,7 +2125,7 @@ class AggregationTests: BaseTestCase {
         let context = self.context
         
         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
+        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [165379])
         
         do {
             let fetchedTransactions = try context.fetch(fetchRequest)
@@ -2089,17 +2149,14 @@ class AggregationTests: BaseTestCase {
         let expectation2 = expectation(description: "Network Transaction Request")
         
         connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_by_id")
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
         
         let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-            let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-            
-            aggregation.refreshTransactions(from: fromDate, to: toDate) { result in
+                        
+            aggregation.refreshTransactions() { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -2117,7 +2174,7 @@ class AggregationTests: BaseTestCase {
             let context = self.context
             
             let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
+            fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [165266])
             
             do {
                 let fetchedTransactions = try context.fetch(fetchRequest)
@@ -2146,7 +2203,7 @@ class AggregationTests: BaseTestCase {
         let expectation3 = expectation(description: "Network Transaction Request")
         
         connect(endpoint: AggregationEndpoint.transactionCategories.path.prefixedWithSlash, toResourceWithName: "transaction_categories_valid")
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2170,11 +2227,8 @@ class AggregationTests: BaseTestCase {
         }
         
         wait(for: [expectation2], timeout: 3.0)
-        
-        let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-        let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-        
-        aggregation.refreshTransactions(from: fromDate, to: toDate) { result in
+                
+        aggregation.refreshTransactions() { result in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -2190,7 +2244,7 @@ class AggregationTests: BaseTestCase {
         let context = self.context
         
         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
+        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [164525])
         
         do {
             let fetchedTransactions = try context.fetch(fetchRequest)
@@ -2416,7 +2470,7 @@ class AggregationTests: BaseTestCase {
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Fetch Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
         connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_by_id")
         
         let aggregation = self.aggregation(loggedIn: true)
@@ -2429,10 +2483,7 @@ class AggregationTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-        let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-        
-        aggregation.refreshTransactions(from: fromDate, to: toDate) { result in
+        aggregation.refreshTransactions() { result in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -2453,7 +2504,7 @@ class AggregationTests: BaseTestCase {
             do {
                 let fetchedTransactions = try context.fetch(fetchRequest)
                 
-                XCTAssertEqual(fetchedTransactions.count, 111)
+                XCTAssertEqual(fetchedTransactions.count, 34)
             } catch {
                 XCTFail(error.localizedDescription)
             }
@@ -3977,7 +4028,7 @@ class AggregationTests: BaseTestCase {
         
         let ids: [Int64] = [4, 87, 9077777]
         
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
         
         database.setup { error in
             XCTAssertNil(error)
