@@ -962,7 +962,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
      */
     public func refreshTransactions(transactionIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
         
-        let transactionFilter = TransactionFilter()
+        let transactionFilter = TransactionFilter(transactionIDs: transactionIDs)
         refreshNextTransactions(transactionFilter: transactionFilter) { result in
             switch result {
                 case .failure(let error):

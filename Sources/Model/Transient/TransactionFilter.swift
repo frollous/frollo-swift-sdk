@@ -234,7 +234,9 @@ public struct TransactionFilter {
             queryItems.append(URLQueryItem(name: "after", value: after))
         }
         
-        urlComponents.queryItems = queryItems
+        if queryItems.count > 0 {
+            urlComponents.queryItems = queryItems
+        }
         
         return urlComponents.string
         
