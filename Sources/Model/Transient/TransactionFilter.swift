@@ -19,6 +19,28 @@ import Foundation
 // Repersents a model that contains all the filters to apply on transaction list
 public struct TransactionFilter {
     
+    // Initializer
+    public init(transactionIDs: [Int64]? = nil, accountIDs: [Int64]? = nil, budgetCategories: [BudgetCategory]? = nil, transactionCategoryIDs: [Int64]? = nil, merchantIDs: [Int64]? = nil, searchTerm: String? = nil, minimumAmount: String? = nil, maximumAmount: String? = nil, baseType: Transaction.BaseType? = nil, tags: [String]? = nil, status: Transaction.Status? = nil, fromDate: String? = nil, toDate: String? = nil, transactionIncluded: Bool? = nil, accountIncluded: Bool? = nil, after: String? = nil, before: String? = nil) {
+        
+        self.transactionIDs = transactionIDs
+        self.accountIDs = accountIDs
+        self.budgetCategories = budgetCategories
+        self.transactionCategoryIDs = transactionCategoryIDs
+        self.merchantIDs = merchantIDs
+        self.searchTerm = searchTerm
+        self.minimumAmount = minimumAmount
+        self.maximumAmount = maximumAmount
+        self.baseType = baseType
+        self.tags = tags
+        self.status = status
+        self.fromDate = fromDate
+        self.toDate = toDate
+        self.transactionIncluded = transactionIncluded
+        self.accountIncluded = accountIncluded
+        self.after = after
+        self.before = before
+    }
+    
     // Array of `Transaction.transactionID` to filter transactions
     public var transactionIDs: [Int64]?
     
@@ -70,7 +92,8 @@ public struct TransactionFilter {
     // after field to get previous list in pagination. Format is "<epoch_date>_<transaction_id>"
     public var before: String?
     
-    internal var filterPredicates: [NSPredicate] {
+    // predicates for `TransactionFilter`
+    public var filterPredicates: [NSPredicate] {
         
         var filterPredicates = [NSPredicate]()
         
@@ -145,105 +168,75 @@ public struct TransactionFilter {
         
     }
     
-    internal var urlString: String {
+    internal var urlString: String? {
         
-        var transactionBaseURL = "aggregation/transactions?"
+        var urlComponents = URLComponents()
+        urlComponents.path = "aggregation/transactions"
+        var queryItems = [URLQueryItem]()
         
         if let accountIDs = accountIDs, accountIDs.count > 0 {
-            transactionBaseURL.append("account_ids=")
-            transactionBaseURL.append(accountIDs.map { String($0) }.joined(separator: ","))
-            transactionBaseURL.append("&")
+            queryItems.append(URLQueryItem(name: "account_ids", value: accountIDs.map { String($0) }.joined(separator: ",")))
         }
         
         if let transactionIDs = transactionIDs {
-            transactionBaseURL.append("transaction_ids=")
-            transactionBaseURL.append(transactionIDs.map { String($0) }.joined(separator: ","))
-            transactionBaseURL.append("&")
+            queryItems.append(URLQueryItem(name: "transaction_ids", value: transactionIDs.map { String($0) }.joined(separator: ",")))
         }
         
         if let merchantIDs = merchantIDs {
-            transactionBaseURL.append("merchant_ids=")
-            transactionBaseURL.append(merchantIDs.map { String($0) }.joined(separator: ","))
-            transactionBaseURL.append("&")
+            queryItems.append(URLQueryItem(name: "merchant_ids", value: merchantIDs.map { String($0) }.joined(separator: ",")))
         }
         
         if let transactionCategoryIDs = transactionCategoryIDs {
-            transactionBaseURL.append("transaction_category_ids=")
-            transactionBaseURL.append(transactionCategoryIDs.map { String($0) }.joined(separator: ","))
-            transactionBaseURL.append("&")
+            queryItems.append(URLQueryItem(name: "transaction_category_ids", value: transactionCategoryIDs.map { String($0) }.joined(separator: ",")))
         }
         
         if let searchTerm = searchTerm {
-            transactionBaseURL.append("search_term=")
-            transactionBaseURL.append(searchTerm)
-            transactionBaseURL.append("&")
+            queryItems.append(URLQueryItem(name: "search_term", value: searchTerm))
         }
         
         if let budgetCategories = budgetCategories {
-            transactionBaseURL.append("budget_category=")
-            transactionBaseURL.append((budgetCategories.map { $0.rawValue }).joined(separator: ","))
-            transactionBaseURL.append("&")
+            queryItems.append(URLQueryItem(name: "budget_category", value: (budgetCategories.map { $0.rawValue }).joined(separator: ",")))
         }
         
         if let minAmount = minimumAmount {
-            transactionBaseURL.append("min_amount=")
-            transactionBaseURL.append(minAmount)
-            transactionBaseURL.append("&")
+            queryItems.append(URLQueryItem(name: "min_amount", value: minAmount))
         }
         
         if let maxAmount = maximumAmount {
-            transactionBaseURL.append("max_amount=")
-            transactionBaseURL.append(maxAmount)
-            transactionBaseURL.append("&")
+            queryItems.append(URLQueryItem(name: "max_amount", value: maxAmount))
         }
         
         if let fromDate = fromDate {
-            transactionBaseURL.append("from_date=")
-            transactionBaseURL.append(fromDate)
-            transactionBaseURL.append("&")
+            queryItems.append(URLQueryItem(name: "from_date", value: fromDate))
         }
         
         if let toDate = toDate {
-            transactionBaseURL.append("to_date=")
-            transactionBaseURL.append(toDate)
-            transactionBaseURL.append("&")
+            queryItems.append(URLQueryItem(name: "to_date", value: toDate))
         }
         
         if let baseType = baseType {
-            transactionBaseURL.append("base_type=")
-            transactionBaseURL.append(baseType.rawValue)
-            transactionBaseURL.append("&")
+            queryItems.append(URLQueryItem(name: "base_type", value: baseType.rawValue))
         }
         
         if let transactionIncluded = transactionIncluded {
-            transactionBaseURL.append("transaction_included=")
-            transactionBaseURL.append(transactionIncluded ? "true" : "false")
-            transactionBaseURL.append("&")
+            queryItems.append(URLQueryItem(name: "transaction_included", value: transactionIncluded ? "true" : "false"))
         }
         
         if let accountIncluded = transactionIncluded {
-            transactionBaseURL.append("account_included=")
-            transactionBaseURL.append(accountIncluded ? "true" : "false")
-            transactionBaseURL.append("&")
+            queryItems.append(URLQueryItem(name: "account_included", value: accountIncluded ? "true" : "false"))
         }
         
         if let tags = tags {
-            transactionBaseURL.append("tags=")
-            transactionBaseURL.append(tags.joined(separator: ","))
-            transactionBaseURL.append("&")
+            queryItems.append(URLQueryItem(name: "tags", value: tags.joined(separator: ",")))
         }
         
         if let after = after {
-            transactionBaseURL.append("after=")
-            transactionBaseURL.append(after)
-            transactionBaseURL.append("&")
+            queryItems.append(URLQueryItem(name: "after", value: after))
         }
         
-        if transactionBaseURL.last == "&" || transactionBaseURL.last == "?" {
-            transactionBaseURL = String(transactionBaseURL.dropLast())
-        }
+        urlComponents.queryItems = queryItems
         
-        return transactionBaseURL
+        return urlComponents.string
         
     }
 }

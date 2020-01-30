@@ -13,11 +13,11 @@ public typealias FrolloSDKCompletionHandler = (EmptyResult<Error>) -> Void
 /// Frollo SDK Completion Handler with pagination optional before and after cursors and optional error if an issue occurs
 public typealias FrolloSDKPaginatedCompletionHandler = (PaginatedResult<Error, Int64?, Int64?>) -> Void
 
-/// Result for Pagination success
-public typealias PaginationSuccess = (before: String?, after: String?)
+/// Result with informayion of Pagination cursors
+public typealias PaginationInfo = (before: String?, after: String?)
 
 /// Frollo SDK Completion Handler with pagination optional before and after cursors and optional error if an issue occurs
-public typealias TransactionPaginatedCompletionHandler = (TransactionPaginatedResult<Error, PaginationSuccess>) -> Void
+public typealias TransactionPaginatedCompletionHandler = (Result<PaginationInfo, Error>) -> Void
 
 /// Frollo SDK manager and main instantiation. Responsible for managing the lifecycle and coordination of the SDK
 public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {

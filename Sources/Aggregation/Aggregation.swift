@@ -913,7 +913,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
-                        completion?(.success(PaginationSuccess(before: response.paging?.cursors?.before, after: response.paging?.cursors?.after)))
+                        completion?(.success(PaginationInfo(before: response.paging?.cursors?.before, after: response.paging?.cursors?.after)))
                     }
             }
         }
@@ -962,7 +962,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
      */
     public func refreshTransactions(transactionIDs: [Int64], completion: FrolloSDKCompletionHandler? = nil) {
         
-        let transactionFilter = TransactionFilter(transactionIDs: transactionIDs)
+        let transactionFilter = TransactionFilter()
         refreshNextTransactions(transactionFilter: transactionFilter) { result in
             switch result {
                 case .failure(let error):
@@ -1041,7 +1041,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     
                     if after == nil {
                         DispatchQueue.main.async {
-                            completion?(.success(PaginationSuccess(before: before, after: after)))
+                            completion?(.success(PaginationInfo(before: before, after: after)))
                         }
                     } else {
                         var updatedTransactionFilter = transactionFilter
