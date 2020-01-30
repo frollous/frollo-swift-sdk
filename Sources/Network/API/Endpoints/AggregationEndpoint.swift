@@ -83,7 +83,7 @@ enum AggregationEndpoint: Endpoint {
             case .transaction(let transactionID):
                 return "aggregation/transactions/" + String(transactionID)
             case .transactions(let transactionFilter):
-                return transactionFilter?.transactionFilterURLString ?? "aggregation/transactions"
+                return transactionFilter?.urlString ?? "aggregation/transactions"
             case .transactionCategories:
                 return "aggregation/transactions/categories"
             case .transactionSearch:

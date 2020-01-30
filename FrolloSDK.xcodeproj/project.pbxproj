@@ -1253,6 +1253,10 @@
 		13CFDAA523989C1A00559476 /* APIBudgetUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CFDAA323989C1A00559476 /* APIBudgetUpdateRequest+Test.swift */; };
 		13CFDAA623989C1A00559476 /* APIBudgetUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CFDAA323989C1A00559476 /* APIBudgetUpdateRequest+Test.swift */; };
 		13D44A33238B5E2400AF74EC /* PaginatedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D44A32238B5E2400AF74EC /* PaginatedResponse.swift */; };
+		2F04B8A923E27028008354BF /* TransactionFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0B461A23DFF56B00D16143 /* TransactionFilter.swift */; };
+		2F04B8AC23E2704C008354BF /* TransactionFilter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F04B8AA23E2703B008354BF /* TransactionFilter+Tests.swift */; };
+		2F04B8AD23E2704D008354BF /* TransactionFilter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F04B8AA23E2703B008354BF /* TransactionFilter+Tests.swift */; };
+		2F04B8AE23E2704D008354BF /* TransactionFilter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F04B8AA23E2703B008354BF /* TransactionFilter+Tests.swift */; };
 		2F0B461B23DFF56B00D16143 /* TransactionFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0B461A23DFF56B00D16143 /* TransactionFilter.swift */; };
 		2F0B461D23E0E3BF00D16143 /* APITransactionPaginatedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0B461C23E0E3BF00D16143 /* APITransactionPaginatedResponse.swift */; };
 		2F0B461E23E0E3BF00D16143 /* APITransactionPaginatedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0B461C23E0E3BF00D16143 /* APITransactionPaginatedResponse.swift */; };
@@ -1880,6 +1884,7 @@
 		13CFDAA02398990E00559476 /* APIBudgetUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIBudgetUpdateRequest.swift; sourceTree = "<group>"; };
 		13CFDAA323989C1A00559476 /* APIBudgetUpdateRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIBudgetUpdateRequest+Test.swift"; sourceTree = "<group>"; };
 		13D44A32238B5E2400AF74EC /* PaginatedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginatedResponse.swift; sourceTree = "<group>"; };
+		2F04B8AA23E2703B008354BF /* TransactionFilter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TransactionFilter+Tests.swift"; sourceTree = "<group>"; };
 		2F0B461A23DFF56B00D16143 /* TransactionFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionFilter.swift; sourceTree = "<group>"; };
 		2F0B461C23E0E3BF00D16143 /* APITransactionPaginatedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionPaginatedResponse.swift; sourceTree = "<group>"; };
 		2F0B461F23E1333000D16143 /* transactions_single_page.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transactions_single_page.json; sourceTree = "<group>"; };
@@ -2806,6 +2811,7 @@
 		017391EB20EEFFEA00C0BB32 /* Transient */ = {
 			isa = PBXGroup;
 			children = (
+				2F0B461A23DFF56B00D16143 /* TransactionFilter.swift */,
 				01483B9D21192F1600D0DA87 /* BudgetCategory.swift */,
 				013D2D93210AA38800EEDEC5 /* DeviceInfo.swift */,
 				0135D2FC21A2202400318142 /* NotificationPayload.swift */,
@@ -2891,7 +2897,7 @@
 				0135D30321A25D5000318142 /* NotificationPayload+Test.swift */,
 				012C450B212A875900799A0A /* ProviderLoginForm+Test.swift */,
 				012C450D212A889F00799A0A /* ProviderLoginFormTests.swift */,
-				2F0B461A23DFF56B00D16143 /* TransactionFilter.swift */,
+				2F04B8AA23E2703B008354BF /* TransactionFilter+Tests.swift */,
 			);
 			path = Transient;
 			sourceTree = "<group>";
@@ -4741,6 +4747,7 @@
 				01236D1221EC0D96008DD61A /* ReportsRequestTests.swift in Sources */,
 				0101A8EE21CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
 				01D4927022D4645D0074C7EC /* MockAuthentication.swift in Sources */,
+				2F04B8AC23E2704C008354BF /* TransactionFilter+Tests.swift in Sources */,
 				017F0FE122DEB70500ACE7BB /* APIGoalUpdateRequest+Test.swift in Sources */,
 				13CFDA8223975B0700559476 /* BudgetsRequestTests.swift in Sources */,
 				01B71A2C23149C4D0040D5A5 /* MockFrolloDelegate.swift in Sources */,
@@ -4882,6 +4889,7 @@
 				01236D1321EC0D96008DD61A /* ReportsRequestTests.swift in Sources */,
 				0101A8EF21CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
 				01D4927122D4645D0074C7EC /* MockAuthentication.swift in Sources */,
+				2F04B8AD23E2704D008354BF /* TransactionFilter+Tests.swift in Sources */,
 				017F0FE222DEB70500ACE7BB /* APIGoalUpdateRequest+Test.swift in Sources */,
 				13CFDA8323975B0700559476 /* BudgetsRequestTests.swift in Sources */,
 				01B71A2D23149C4D0040D5A5 /* MockFrolloDelegate.swift in Sources */,
@@ -5032,6 +5040,7 @@
 				01236D1421EC0D96008DD61A /* ReportsRequestTests.swift in Sources */,
 				0101A8F021CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
 				01D4927222D4645D0074C7EC /* MockAuthentication.swift in Sources */,
+				2F04B8AE23E2704D008354BF /* TransactionFilter+Tests.swift in Sources */,
 				017F0FE322DEB70500ACE7BB /* APIGoalUpdateRequest+Test.swift in Sources */,
 				13CFDA8423975B0700559476 /* BudgetsRequestTests.swift in Sources */,
 				01B71A2E23149C4D0040D5A5 /* MockFrolloDelegate.swift in Sources */,
@@ -5243,6 +5252,7 @@
 				01E5BF5F2227A475003D85FD /* Log.swift in Sources */,
 				01E5BF602227A475003D85FD /* EventsEndpoint.swift in Sources */,
 				01E5BF612227A475003D85FD /* MessageVideo+CoreDataProperties.swift in Sources */,
+				2F04B8A923E27028008354BF /* TransactionFilter.swift in Sources */,
 				01E5BF622227A475003D85FD /* FrolloSDKConfiguration.swift in Sources */,
 				01E5BF632227A475003D85FD /* APIService+Aggregation.swift in Sources */,
 				017F0FE922DED79800ACE7BB /* GoalPeriod+CoreDataProperties.swift in Sources */,

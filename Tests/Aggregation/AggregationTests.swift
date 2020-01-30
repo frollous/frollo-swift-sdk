@@ -1735,68 +1735,7 @@ class AggregationTests: BaseTestCase {
         wait(for: [expectation1, notificationExpectation], timeout: 10.0)
         
     }
-    
-    func testTransactionFilters() {
-        let expectation1 = expectation(description: "Network Request 1")
-        let notificationExpectation = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil, handler: nil)
         
-        var transactionFilter = TransactionFilter()
-        
-        connect(endpoint: AggregationEndpoint.transactions(transactionFilter: transactionFilter).path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
-        
-        let aggregation = self.aggregation(loggedIn: true)
-        
-        database.setup { error in
-            XCTAssertNil(error)
-                        
-            aggregation.refreshTransactions() { result in
-                switch result {
-                    case .failure(let error):
-                        XCTFail(error.localizedDescription)
-                    case .success:
-                        let context = self.context
-                        
-                        transactionFilter.budgetCategories = [.living, .lifestyle]
-                        var fetchedTransactions = aggregation.transactions(context: context, transactionFilter: transactionFilter)
-                        XCTAssertEqual(fetchedTransactions?.count, 33)
-                    
-                        transactionFilter = TransactionFilter(budgetCategories: [.income])
-                        fetchedTransactions = aggregation.transactions(context: context, transactionFilter: transactionFilter)
-                        XCTAssertEqual(fetchedTransactions?.count, 1)
-
-                        transactionFilter = TransactionFilter(baseType: .credit)
-                        fetchedTransactions = aggregation.transactions(context: context, transactionFilter: transactionFilter)
-                        XCTAssertEqual(fetchedTransactions?.count, 9)
-
-                        transactionFilter = TransactionFilter(transactionCategoryIDs: [77, 102])
-                        fetchedTransactions = aggregation.transactions(context: context, transactionFilter: transactionFilter)
-                        XCTAssertEqual(fetchedTransactions?.count, 16)
-
-                        transactionFilter = TransactionFilter(accountIDs: [2150])
-                        fetchedTransactions = aggregation.transactions(context: context, transactionFilter: transactionFilter)
-                        XCTAssertEqual(fetchedTransactions?.count, 26)
-
-                        transactionFilter = TransactionFilter(merchantIDs: [1603])
-                        fetchedTransactions = aggregation.transactions(context: context, transactionFilter: transactionFilter)
-                        XCTAssertEqual(fetchedTransactions?.count, 34)
-                    
-                        transactionFilter = TransactionFilter(minimumAmount: "-22.00", maximumAmount: "55.00")
-                        fetchedTransactions = aggregation.transactions(context: context, transactionFilter: transactionFilter)
-                        XCTAssertEqual(fetchedTransactions?.count, 18)
-                    
-                        transactionFilter = TransactionFilter(fromDate: "2020-01-03", toDate: "2020-01-15")
-                        fetchedTransactions = aggregation.transactions(context: context, transactionFilter: transactionFilter)
-                        XCTAssertEqual(fetchedTransactions?.count, 17)
-                }
-                
-                expectation1.fulfill()
-            }
-        }
-        
-        wait(for: [expectation1, notificationExpectation], timeout: 10.0)
-        
-    }
-    
     func testRefreshTransactionsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -1929,7 +1868,7 @@ class AggregationTests: BaseTestCase {
                 let transaction1 = Transaction(context: context)
                 transaction1.populateTestData()
                 transaction1.transactionID = 164438
-                transaction1.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-08-11")!
+                transaction1.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-11-11")!
                 transaction1.originalDescription = "Updating transaction"
 
                 let transaction2 = Transaction(context: context)
@@ -1952,15 +1891,15 @@ class AggregationTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        aggregation.fetchTransactions(transactionFilter: transactionFilter) { (result) in
+        aggregation.refreshTransactions(transactionFilter: transactionFilter) { (result) in
             
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
-                case .success(let before, let after):
-                    XCTAssertEqual(before, nil)
-                    XCTAssertEqual(after, "1564138032_160746")
-                    transactionFilter.after = after
+                case .success(let paginationSuccess):
+                    XCTAssertEqual(paginationSuccess.before, nil)
+                    XCTAssertEqual(paginationSuccess.after, "1564138032_160746")
+                    transactionFilter.after = paginationSuccess.after
             }
             
              expectation2.fulfill()
@@ -1979,7 +1918,7 @@ class AggregationTests: BaseTestCase {
                 let updatedTransaction = aggregation.transaction(context: context, transactionID: 160142)
                 XCTAssertEqual(updatedTransaction?.originalDescription, "BURGER PROJECT SYDNEY AU")
                 
-                XCTAssertEqual(fetchedTransactions.count, 201)
+                XCTAssertEqual(fetchedTransactions.count, 202)
                 
             } catch {
                 XCTFail(error.localizedDescription)
@@ -1994,15 +1933,15 @@ class AggregationTests: BaseTestCase {
 
         connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_page_2")
 
-        aggregation.fetchTransactions(transactionFilter: transactionFilter) { (result) in
+        aggregation.refreshTransactions(transactionFilter: transactionFilter) { (result) in
 
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
-                case .success(let before, let after):
-                    XCTAssertEqual(before, "1564051625_160540")
-                    XCTAssertEqual(after, nil)
-                    transactionFilter.after = after
+                case .success(let paginationSuccess):
+                    XCTAssertEqual(paginationSuccess.before, "1564051625_160540")
+                    XCTAssertEqual(paginationSuccess.after, nil)
+                    transactionFilter.after = paginationSuccess.after
             }
 
              expectation4.fulfill()
@@ -2018,7 +1957,7 @@ class AggregationTests: BaseTestCase {
             do {
                 let fetchedTransactions = try context.fetch(fetchRequest)
 
-                XCTAssertEqual(fetchedTransactions.count, 398)
+                XCTAssertEqual(fetchedTransactions.count, 399)
                 XCTAssertNotNil(aggregation.transaction(context: self.context, transactionID: 161135))
 
             } catch {

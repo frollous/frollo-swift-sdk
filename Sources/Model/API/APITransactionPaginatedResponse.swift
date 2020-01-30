@@ -16,7 +16,7 @@
 
 import Foundation
 
-struct APITransactionPaginatedResponse: Decodable {
+internal struct APITransactionPaginatedResponse: Decodable {
     
     var data: FailableCodableArray<APITransactionResponse>
     var paging: Paging?

@@ -4,9 +4,9 @@
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
 //  You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 //  Unless required by applicable law or agreed to in writing, software
 //  distributed under the License is distributed on an "AS IS" BASIS,
 //  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,63 +16,61 @@
 
 import Foundation
 
-
 // Repersents a model that contains all the filters to apply on transaction list
 public struct TransactionFilter {
     
-    // Array of `transactionID` to filter transactions
-    public var transactionIDs: [Int64]? = nil
+    // Array of `Transaction.transactionID` to filter transactions
+    public var transactionIDs: [Int64]?
     
-    // Array of `accountID` to filter transactions
-    public var accountIDs: [Int64]? = nil
+    // Array of `Transaction.accountID` to filter transactions
+    public var accountIDs: [Int64]?
     
     // Array of `BudgetCategory` to filter transactions
-    public var budgetCategories: [BudgetCategory]? = nil
+    public var budgetCategories: [BudgetCategory]?
     
-    // Array of `transactionCategoryID` to filter transactions
-    public var transactionCategoryIDs: [Int64]? = nil
+    // Array of `Transaction.transactionCategoryID` to filter transactions
+    public var transactionCategoryIDs: [Int64]?
     
-    // Array of `mechantID` to filter transactions
-    public var merchantIDs: [Int64]? = nil
+    // Array of `Transaction.mechantID` to filter transactions
+    public var merchantIDs: [Int64]?
     
     // Search term to filter transactions
-    public var searchTerm: String? = nil
+    public var searchTerm: String?
     
     // Amount to filter tramsactions from (inclusive)
-    public var minimumAmount: String? = nil
+    public var minimumAmount: String?
     
     // Amount to filter transactions to (inclusive)
-    public var maximumAmount: String? = nil
+    public var maximumAmount: String?
     
-    // 'BaseType' to filter transactions
-    public var baseType: Transaction.BaseType? = nil
+    // 'Transaction.BaseType' to filter transactions
+    public var baseType: Transaction.BaseType?
     
     // Array of tags to filter transactions
-    public var tags: [String]? = nil
+    public var tags: [String]?
     
-    // 'Status' to filter transactions
-    public var status: Transaction.Status? = nil
+    // 'Transaction.Status' to filter transactions
+    public var status: Transaction.Status?
     
     // Date to filter transactions from (inclusive)
-    public var fromDate: String? = nil
+    public var fromDate: String?
     
     // Date to filter transactions to (inclusive)
-    public var toDate: String? = nil
+    public var toDate: String?
     
     // 'included' status of 'Transaction' to filter by
-    public var transactionIncluded: Bool? = nil
+    public var transactionIncluded: Bool?
     
     // 'included' status of 'Account' to filter by
-    public var accountIncluded: Bool? = nil
+    public var accountIncluded: Bool?
     
     // after field to get next list in pagination. Format is "<epoch_date>_<transaction_id>"
-    public var after: String? = nil
+    public var after: String?
     
     // after field to get previous list in pagination. Format is "<epoch_date>_<transaction_id>"
-    public var before: String? = nil
+    public var before: String?
     
-    
-    internal var filterPredicates: [NSPredicate]{
+    internal var filterPredicates: [NSPredicate] {
         
         var filterPredicates = [NSPredicate]()
         
@@ -147,8 +145,7 @@ public struct TransactionFilter {
         
     }
     
-    
-    internal var transactionFilterURLString: String {
+    internal var urlString: String {
         
         var transactionBaseURL = "aggregation/transactions?"
         

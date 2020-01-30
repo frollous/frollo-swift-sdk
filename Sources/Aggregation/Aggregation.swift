@@ -886,13 +886,13 @@ public class Aggregation: CachedObjects, ResponseHandler {
     }
     
     /**
-     Fetch transactions
+     Refresh transactions from from the host
      
      - parameters:
-         - transactionFilter: transactionFilter object to filter transactions
+         - transactionFilter: `TransactionFilter` object to filter transactions
          - completion: Optional completion handler with optional error if the request fails
      */
-    public func fetchTransactions(transactionFilter: TransactionFilter? = nil, completion: TransactionPaginatedCompletionHandler? = nil) {
+    public func refreshTransactions(transactionFilter: TransactionFilter? = nil, completion: TransactionPaginatedCompletionHandler? = nil) {
         service.fetchTransactions(transactionFilter: transactionFilter) { result in
             switch result {
                 case .failure(let error):
@@ -913,7 +913,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
-                        completion?(.success(response.paging?.cursors?.before, response.paging?.cursors?.after))
+                        completion?(.success(PaginationSuccess(before: response.paging?.cursors?.before, after: response.paging?.cursors?.after)))
                     }
             }
         }
@@ -989,7 +989,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - toDate: End date to fetch transactions. Optional; defaults to today date
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func refreshTransactions(fromDate: Date? = nil, toDate: Date? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+    public func refreshTransactionsByDate(fromDate: Date? = nil, toDate: Date? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         
         var startDate: String
         var endDate: String
@@ -1028,7 +1028,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
     
     private func refreshNextTransactions(transactionFilter: TransactionFilter, completion: TransactionPaginatedCompletionHandler? = nil) {
         
-        fetchTransactions(transactionFilter: transactionFilter) { result in
+        refreshTransactions(transactionFilter: transactionFilter) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -1036,11 +1036,12 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     DispatchQueue.main.async {
                         completion?(.failure(error))
                     }
+                    
                 case .success(let before, let after):
                     
                     if after == nil {
                         DispatchQueue.main.async {
-                            completion?(.success(before, after))
+                            completion?(.success(PaginationSuccess(before: before, after: after)))
                         }
                     } else {
                         var updatedTransactionFilter = transactionFilter
@@ -2350,23 +2351,19 @@ public class Aggregation: CachedObjects, ResponseHandler {
         
         var filterPredicates = [NSPredicate]()
         
-        // Cursors for Paginated response
-        let beforeCursorArray = transactionsResponse.paging?.cursors?.before?.split { $0 == "_" }.map(String.init)
-        let afterCursorArray = transactionsResponse.paging?.cursors?.after?.split { $0 == "_" }.map(String.init)
-        
         var beforeDate: Date?
         var afterDate: Date?
         var beforeID: Int64?
         var afterID: Int64?
         
-        if let beforeCursorArray = beforeCursorArray, beforeCursorArray.count == 2, let date = Double(beforeCursorArray[0]) {
-            beforeDate = Date(timeIntervalSince1970: date)
-            beforeID = Int64(beforeCursorArray[1])
+        if let firstTransaction = transactionsResponse.data.elements.first {
+            beforeID = firstTransaction.id
+            beforeDate = Transaction.transactionDateFormatter.date(from: firstTransaction.transactionDate)
         }
         
-        if let afterCursorArray = afterCursorArray, afterCursorArray.count == 2, let date = Double(afterCursorArray[0]) {
-            afterDate = Date(timeIntervalSince1970: date)
-            afterID = Int64(afterCursorArray[1])
+        if let lastTransaction = transactionsResponse.data.elements.last {
+            afterID = lastTransaction.id
+            afterDate = Transaction.transactionDateFormatter.date(from: lastTransaction.transactionDate)
         }
         
         // Filter by before cursor in paginated response
