@@ -20,7 +20,7 @@ import Foundation
 public struct TransactionFilter {
     
     // Initializer
-    public init(transactionIDs: [Int64]? = nil, accountIDs: [Int64]? = nil, budgetCategories: [BudgetCategory]? = nil, transactionCategoryIDs: [Int64]? = nil, merchantIDs: [Int64]? = nil, searchTerm: String? = nil, minimumAmount: String? = nil, maximumAmount: String? = nil, baseType: Transaction.BaseType? = nil, tags: [String]? = nil, status: Transaction.Status? = nil, fromDate: String? = nil, toDate: String? = nil, transactionIncluded: Bool? = nil, accountIncluded: Bool? = nil, after: String? = nil, before: String? = nil) {
+    public init(transactionIDs: [Int64]? = nil, accountIDs: [Int64]? = nil, budgetCategories: [BudgetCategory]? = nil, transactionCategoryIDs: [Int64]? = nil, merchantIDs: [Int64]? = nil, searchTerm: String? = nil, minimumAmount: String? = nil, maximumAmount: String? = nil, baseType: Transaction.BaseType? = nil, tags: [String]? = nil, status: Transaction.Status? = nil, fromDate: String? = nil, toDate: String? = nil, transactionIncluded: Bool? = nil, accountIncluded: Bool? = nil, after: String? = nil, before: String? = nil, size: Int? = nil) {
         
         self.transactionIDs = transactionIDs
         self.accountIDs = accountIDs
@@ -39,6 +39,7 @@ public struct TransactionFilter {
         self.accountIncluded = accountIncluded
         self.after = after
         self.before = before
+        self.size = size
     }
     
     // Array of `Transaction.transactionID` to filter transactions
@@ -92,6 +93,9 @@ public struct TransactionFilter {
     // after field to get previous list in pagination. Format is "<epoch_date>_<transaction_id>"
     public var before: String?
     
+    // Count of pojects to retuen in one call
+    public var size: Int?
+    
     // predicates for `TransactionFilter`
     public var filterPredicates: [NSPredicate] {
         
@@ -112,6 +116,11 @@ public struct TransactionFilter {
         // Filter by transactionIDs
         if let transactionIDs = transactionIDs, !transactionIDs.isEmpty {
             filterPredicates.append(NSPredicate(format: #keyPath(Transaction.transactionID) + " IN %@ ", argumentArray: [transactionIDs]))
+        }
+        
+        // Filter by merchantIDs
+        if let merchantIDs = merchantIDs, !merchantIDs.isEmpty {
+            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.merchantID) + " IN %@ ", argumentArray: [merchantIDs]))
         }
         
         // Filter by accountIDs
@@ -249,8 +258,16 @@ public struct TransactionFilter {
             queryItems.append(URLQueryItem(name: "tags", value: tags.joined(separator: ",")))
         }
         
+        if let before = before {
+            queryItems.append(URLQueryItem(name: "before", value: before))
+        }
+        
         if let after = after {
             queryItems.append(URLQueryItem(name: "after", value: after))
+        }
+        
+        if let size = size {
+            queryItems.append(URLQueryItem(name: "size", value: String(size)))
         }
         
         if !queryItems.isEmpty {
