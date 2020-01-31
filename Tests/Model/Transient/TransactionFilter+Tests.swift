@@ -45,7 +45,7 @@ class TransactionFilterTests: BaseTestCase {
         transactionFilter.populateTestData()
         let predicates = transactionFilter.filterPredicates
            
-        XCTAssertEqual(NSCompoundPredicate(andPredicateWithSubpredicates: predicates).predicateFormat, "transactionDateString >= \"2019-11-11\" AND transactionDateString <= \"2020-01-29\" AND transactionID IN {66, 77, 88, 99} AND accountID IN {11, 22, 33} AND transactionCategoryID IN {4546, 5767, 6883} AND budgetCategoryRawValue IN {\"lifestyle\", \"goals\"} AND baseTypeRawValue == \"credit\" AND amount >= 22.44 AND amount <= 66 AND (userTagsRawValue CONTAINS[cd] \"Frollo&Volt\" OR userTagsRawValue CONTAINS[cd] \"Groceries Aldi\") AND included == \"FALSE\" AND account.included == \"TRUE\" AND (userDescription CONTAINS[cd] \"Woolies\" OR simpleDescription CONTAINS[cd] \"Woolies\" OR originalDescription CONTAINS[cd] \"Woolies\" OR memo CONTAINS[cd] \"Woolies\")")
+        XCTAssertEqual(NSCompoundPredicate(andPredicateWithSubpredicates: predicates).predicateFormat, "transactionDateString >= \"2019-11-11\" AND transactionDateString <= \"2020-01-29\" AND transactionID IN {66, 77, 88, 99} AND accountID IN {11, 22, 33} AND transactionCategoryID IN {4546, 5767, 6883} AND budgetCategoryRawValue IN {\"lifestyle\", \"goals\"} AND baseTypeRawValue == \"credit\" AND amount >= 22.44 AND amount <= 66 AND (userTagsRawValue CONTAINS[cd] \"Frollo&Volt\" OR userTagsRawValue CONTAINS[cd] \"Groceries Aldi\") AND included == 0 AND account.included == 1 AND (userDescription CONTAINS[cd] \"Woolies\" OR simpleDescription CONTAINS[cd] \"Woolies\" OR originalDescription CONTAINS[cd] \"Woolies\" OR memo CONTAINS[cd] \"Woolies\")")
        }
     
     func testTransactionFilters() {

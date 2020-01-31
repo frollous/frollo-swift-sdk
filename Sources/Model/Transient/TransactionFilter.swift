@@ -160,12 +160,12 @@ public struct TransactionFilter {
         
         // Filter by transaction Included
         if let transactionIncluded = transactionIncluded {
-            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.included) + " == %@", argumentArray: [transactionIncluded ? "TRUE" : "FALSE"]))
+            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.included) + " == %@", argumentArray: [transactionIncluded]))
         }
         
         // Filter by account Included
         if let accountIncluded = accountIncluded {
-            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.account.included) + " == %@", argumentArray: [accountIncluded ? "TRUE" : "FALSE"]))
+            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.account.included) + " == %@", argumentArray: [accountIncluded]))
         }
         
         // Filter by search term
