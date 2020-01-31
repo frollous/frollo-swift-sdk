@@ -176,7 +176,7 @@ class AggregationTests: BaseTestCase {
                         do {
                             let fetchedProviders = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedProviders.count, 311)
+                            XCTAssertEqual(fetchedProviders.count, 50)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -265,13 +265,13 @@ class AggregationTests: BaseTestCase {
             do {
                 let fetchedTotalProviders = try context.fetch(totalFetchRequest)
                 
-                XCTAssertEqual(fetchedTotalProviders.count, 311)
+                XCTAssertEqual(fetchedTotalProviders.count, 50)
             } catch {
                 XCTFail(error.localizedDescription)
             }
             
             let individualFetchRequest: NSFetchRequest<Provider> = Provider.fetchRequest()
-            individualFetchRequest.predicate = NSPredicate(format: "providerID == %ld", argumentArray: [15441])
+            individualFetchRequest.predicate = NSPredicate(format: "providerID == %ld", argumentArray: [586])
             
             do {
                 let fetchedIndividualProviders = try context.fetch(individualFetchRequest)
@@ -279,7 +279,7 @@ class AggregationTests: BaseTestCase {
                 XCTAssertEqual(fetchedIndividualProviders.count, 1)
                 
                 if let provider = fetchedIndividualProviders.first {
-                    XCTAssertEqual(provider.providerID, 15441)
+                    XCTAssertEqual(provider.providerID, 586)
                 } else {
                     XCTFail("Provider not found")
                 }
@@ -317,7 +317,7 @@ class AggregationTests: BaseTestCase {
             do {
                 let fetchedTotalProviders = try context.fetch(totalFetchRequest)
                 
-                XCTAssertEqual(fetchedTotalProviders.count, 313)
+                XCTAssertEqual(fetchedTotalProviders.count, 50)
             } catch {
                 XCTFail(error.localizedDescription)
             }
@@ -396,7 +396,7 @@ class AggregationTests: BaseTestCase {
                         do {
                             let fetchedProviders = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedProviders.count, 311)
+                            XCTAssertEqual(fetchedProviders.count, 50)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }

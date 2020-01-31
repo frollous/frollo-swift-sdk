@@ -49,7 +49,7 @@ class AggregationRequestTests: BaseTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success(let response):
-                    XCTAssertEqual(response.count, 311)
+                    XCTAssertEqual(response.count, 50)
                     
                     if let firstProvider = response.first {
                         XCTAssertEqual(firstProvider.id, 447)
@@ -86,10 +86,10 @@ class AggregationRequestTests: BaseTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success(let response):
-                    XCTAssertEqual(response.count, 309)
+                    XCTAssertEqual(response.count, 48)
                     
                     if let firstProvider = response.first {
-                        XCTAssertEqual(firstProvider.id, 447)
+                        XCTAssertEqual(firstProvider.id, 591)
                     }
             }
             

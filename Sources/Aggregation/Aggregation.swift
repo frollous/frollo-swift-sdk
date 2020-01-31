@@ -239,6 +239,24 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Submits consent form for a specific provider
+     
+     - parameters:
+        - consent: The form that will be submitted
+        - completion: The block that will be executed when the submit request is complete
+     */
+    public func submitCDRConsent(consent: CDRConsentForm, completion: ((Result<CDRConsent, Error>) -> Void)?) {
+        service.submitCDRConsent(request: consent.apiRequest) { result in
+            switch result {
+                case .success(let response):
+                    completion?(.success(response.consent))
+                case .failure(let error):
+                    completion?(.failure(error))
+            }
+        }
+    }
+    
     // MARK: - Provider Accounts
     
     /**

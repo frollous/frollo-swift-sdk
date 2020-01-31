@@ -6,7 +6,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "credit_card"],
-	"login_url": "https://www.paypal.com/signin/"
+	"login_url": "https://www.paypal.com/signin/",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 198888881,
 	"name": "PayPal",
@@ -15,7 +16,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "credit_card"],
-	"login_url": "https://www.paypal.com/signin/"
+	"login_url": "https://www.paypal.com/signin/",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 198888882,
 	"name": "PayPal",
@@ -24,7 +26,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "credit_card"],
-	"login_url": "https://www.paypal.com/signin/"
+	"login_url": "https://www.paypal.com/signin/",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 586,
 	"name": "Nationwide Building Society",
@@ -33,7 +36,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://onlinebanking.nationwide.co.uk/AccessManagement/Login"
+	"login_url": "https://onlinebanking.nationwide.co.uk/AccessManagement/Login",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 591,
 	"name": "Commonwealth Bank CBA",
@@ -42,7 +46,8 @@
 	"status": "supported",
 	"popular": true,
 	"container_names": ["bank", "credit_card", "investment", "loan"],
-	"login_url": "https://www.my.commbank.com.au/netbank/Logon/Logon.aspx"
+	"login_url": "https://www.my.commbank.com.au/netbank/Logon/Logon.aspx",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 595,
 	"name": "ING",
@@ -51,7 +56,8 @@
 	"status": "supported",
 	"popular": true,
 	"container_names": ["bank", "credit_card", "investment", "loan"],
-	"login_url": "https://www.ing.com.au/securebanking/"
+	"login_url": "https://www.ing.com.au/securebanking/",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 597,
 	"name": "Suncorp",
@@ -60,7 +66,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://internetbanking.suncorpbank.com.au/"
+	"login_url": "https://internetbanking.suncorpbank.com.au/",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 600,
 	"name": "BT Online Investor",
@@ -69,7 +76,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["investment"],
-	"login_url": "https://online.btfunds.com.au/retailinvestor/investor"
+	"login_url": "https://online.btfunds.com.au/retailinvestor/investor",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 601,
 	"name": "Westpac",
@@ -78,7 +86,8 @@
 	"status": "supported",
 	"popular": true,
 	"container_names": ["bank", "credit_card", "investment", "loan"],
-	"login_url": "https://online.westpac.com.au/esis/Login/SrvPage"
+	"login_url": "https://online.westpac.com.au/esis/Login/SrvPage",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 603,
 	"name": "Westpac Online Investing",
@@ -87,7 +96,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["investment"],
-	"login_url": "https://onlineinvesting.westpac.com.au/"
+	"login_url": "https://onlineinvesting.westpac.com.au/",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 607,
 	"name": "Sanford Securities",
@@ -96,7 +106,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["investment", "reward"],
-	"login_url": "https://www.sanford.com.au/sanford/Public/Home/Login.asp"
+	"login_url": "https://www.sanford.com.au/sanford/Public/Home/Login.asp",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 614,
 	"name": "ANZ Share Investing",
@@ -105,7 +116,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["investment", "loan"],
-	"login_url": "https://shareinvesting.anz.com/Home.aspx?user=anzvis"
+	"login_url": "https://shareinvesting.anz.com/Home.aspx?user=anzvis",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 616,
 	"name": "MLC",
@@ -114,7 +126,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["investment"],
-	"login_url": "https://www.mlc.com.au/common/auth/login?"
+	"login_url": "https://www.mlc.com.au/common/auth/login?",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 632,
 	"name": "ANZ",
@@ -123,7 +136,8 @@
 	"status": "supported",
 	"popular": true,
 	"container_names": ["bank", "credit_card", "investment", "loan", "reward"],
-	"login_url": "https://www.anz.com/INETBANK/login.asp"
+	"login_url": "https://www.anz.com/INETBANK/login.asp",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 643,
 	"name": "Investor Online",
@@ -132,7 +146,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["investment"],
-	"login_url": "https://www.investoronline.info/"
+	"login_url": "https://www.investoronline.info/",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 644,
 	"name": "CommSec",
@@ -141,7 +156,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["investment"],
-	"login_url": "https://www2.commsec.com.au/Public/HomePage/Login.aspx"
+	"login_url": "https://www2.commsec.com.au/Public/HomePage/Login.aspx",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 645,
 	"name": "HSBC Bank (UK)",
@@ -150,7 +166,8 @@
 	"status": "supported",
 	"popular": true,
 	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://www.hsbc.co.uk/1/2/welcome-gsp?initialAccess=true\u0026IDV_URL=hsbc.MyHSBC_pib"
+	"login_url": "https://www.hsbc.co.uk/1/2/welcome-gsp?initialAccess=true\u0026IDV_URL=hsbc.MyHSBC_pib",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 684,
 	"name": "Barclays",
@@ -159,7 +176,8 @@
 	"status": "supported",
 	"popular": true,
 	"container_names": ["bank", "loan"],
-	"login_url": "https://bank.barclays.co.uk/olb/auth/LoginLink.action"
+	"login_url": "https://bank.barclays.co.uk/olb/auth/LoginLink.action",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 713,
 	"name": "AMP",
@@ -168,7 +186,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "investment", "loan", "insurance"],
-	"login_url": "https://secure.ampbanking.com/au/Logon"
+	"login_url": "https://secure.ampbanking.com/au/Logon",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 725,
 	"name": "Colonial First State Investment",
@@ -177,7 +196,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["investment"],
-	"login_url": "https://www.colonialfirststate.com.au/FirstNet/login.asp?type=investor"
+	"login_url": "https://www.colonialfirststate.com.au/FirstNet/login.asp?type=investor",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 782,
 	"name": "Bendigo Bank",
@@ -186,7 +206,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://www.bendigobank.com.au/banking/BBLIBanking/"
+	"login_url": "https://www.bendigobank.com.au/banking/BBLIBanking/",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 793,
 	"name": "BankWest",
@@ -195,7 +216,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://ibs.bankwest.com.au/BWLogin/rib.aspx"
+	"login_url": "https://ibs.bankwest.com.au/BWLogin/rib.aspx",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 794,
 	"name": "Defence Bank",
@@ -204,7 +226,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://secure.defencebank.com.au/daib/logon/cu3205/logon.asp"
+	"login_url": "https://secure.defencebank.com.au/daib/logon/cu3205/logon.asp",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 796,
 	"name": "Heritage Bank",
@@ -213,7 +236,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://online.hbs.net.au/hbsv47/ntv471.asp?wci=entry"
+	"login_url": "https://online.hbs.net.au/hbsv47/ntv471.asp?wci=entry",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 809,
 	"name": "Woolworths Ezy Banking",
@@ -222,7 +246,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "credit_card"],
-	"login_url": "http://www.netbank.commbank.com.au/ezybanking/"
+	"login_url": "http://www.netbank.commbank.com.au/ezybanking/",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 810,
 	"name": "HSBC Bank",
@@ -231,7 +256,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://www.hsbc.com.au/1/2/!ut/p/c5/04_SB8K8xLLM9MSSzPy8xBz9CP0os3gDd-NQv1BDg2AXA1-PEE9zR39DAwjQD07Niw8N1i_IdlQEAAU0804!/?__Destination=HUB_IDV_CUSTOMER_MIGRATION\u0026__IWLang=en\u0026__IWCountry=US\u0026__registrationType=PIB-Registration"
+	"login_url": "https://www.hsbc.com.au/1/2/!ut/p/c5/04_SB8K8xLLM9MSSzPy8xBz9CP0os3gDd-NQv1BDg2AXA1-PEE9zR39DAwjQD07Niw8N1i_IdlQEAAU0804!/?__Destination=HUB_IDV_CUSTOMER_MIGRATION\u0026__IWLang=en\u0026__IWCountry=US\u0026__registrationType=PIB-Registration",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 813,
 	"name": "Qudos Bank",
@@ -240,7 +266,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://digital.qudosbank.com.au"
+	"login_url": "https://digital.qudosbank.com.au",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 814,
 	"name": "Rock Building Society",
@@ -249,7 +276,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "loan"],
-	"login_url": "https://online.therock.com.au/banking/personal/servletcontroller"
+	"login_url": "https://online.therock.com.au/banking/personal/servletcontroller",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 1430,
 	"name": "NAB Internet",
@@ -258,7 +286,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "credit_card", "loan", "insurance"],
-	"login_url": "https://ib.nab.com.au/nabib/index.jsp"
+	"login_url": "https://ib.nab.com.au/nabib/index.jsp",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 2755,
 	"name": "Teachers Mutual Bank",
@@ -267,7 +296,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://ib.tmbank.com.au/ib/signon/Login.aspx"
+	"login_url": "https://ib.tmbank.com.au/ib/signon/Login.aspx",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 2757,
 	"name": "Beyond Bank",
@@ -276,7 +306,8 @@
 	"status": "beta",
 	"popular": false,
 	"container_names": ["bank", "credit_card", "reward"],
-	"login_url": "https://banking.beyondbank.com.au/daib/logon/cu5022/logon.asp"
+	"login_url": "https://banking.beyondbank.com.au/daib/logon/cu5022/logon.asp",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 2785,
 	"name": "NAB Trade",
@@ -285,7 +316,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["investment"],
-	"login_url": "https://nabtrade.com.au/home"
+	"login_url": "https://nabtrade.com.au/home",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 3577,
 	"name": "NatWest Bank",
@@ -294,7 +326,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "credit_card"],
-	"login_url": "https://www.nwolb.com/"
+	"login_url": "https://www.nwolb.com/",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 4078,
 	"name": "DagBank",
@@ -303,7 +336,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank"],
-	"login_url": "http://dag2.yodlee.com/dag/index.do"
+	"login_url": "http://dag2.yodlee.com/dag/index.do",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 4785,
 	"name": "Citibank",
@@ -312,7 +346,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://www.citibank.com.au/AUGCB/JSO/signon/DisplayUsernameSignon.do"
+	"login_url": "https://www.citibank.com.au/AUGCB/JSO/signon/DisplayUsernameSignon.do",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 4849,
 	"name": "MyState Bank",
@@ -321,7 +356,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank"],
-	"login_url": "https://online.mystate.com.au/banking/personal/servletcontroller"
+	"login_url": "https://online.mystate.com.au/banking/personal/servletcontroller",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 4951,
 	"name": "Tesco Bank",
@@ -330,7 +366,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["bank", "credit_card"],
-	"login_url": "https://www.tescobank.com/sss/authcc"
+	"login_url": "https://www.tescobank.com/sss/authcc",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5821,
 	"name": "Computershare Investor Centre",
@@ -339,7 +376,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["investment"],
-	"login_url": "https://www-au.computershare.com/Investor/"
+	"login_url": "https://www-au.computershare.com/Investor/",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5822,
 	"name": "St George Bank",
@@ -348,7 +386,8 @@
 	"status": "beta",
 	"popular": true,
 	"container_names": ["bank", "credit_card", "loan", "insurance"],
-	"login_url": "https://ibanking.stgeorge.com.au/ibank/loginPage.action"
+	"login_url": "https://ibanking.stgeorge.com.au/ibank/loginPage.action",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5904,
 	"name": "Computershare - Issuer Online",
@@ -357,7 +396,8 @@
 	"status": "beta",
 	"popular": false,
 	"container_names": ["investment"],
-	"login_url": "https://www-au.computershare.com/Issuer/Login.asp?"
+	"login_url": "https://www-au.computershare.com/Issuer/Login.asp?",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5906,
 	"name": "Computershare (Employee) Plan Members",
@@ -366,7 +406,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["investment"],
-	"login_url": "https://www-au.computershare.com/employee/login/selectcompany.aspx?"
+	"login_url": "https://www-au.computershare.com/employee/login/selectcompany.aspx?",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5934,
 	"name": "Latitude Low Rate MasterCard",
@@ -375,7 +416,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["credit_card"],
-	"login_url": "https://lowrate-online.gemoney.com.au/access/login"
+	"login_url": "https://lowrate-online.gemoney.com.au/access/login",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5935,
 	"name": "Latitude MasterCard",
@@ -384,7 +426,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["credit_card"],
-	"login_url": "https://gemastercard-online.gemoney.com.au/access/login"
+	"login_url": "https://gemastercard-online.gemoney.com.au/access/login",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5941,
 	"name": "OnePath (ANZ) (Customer)",
@@ -393,7 +436,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["investment"],
-	"login_url": "https://www.onepath.com.au/personal/myOnePath/customer-login.aspx"
+	"login_url": "https://www.onepath.com.au/personal/myOnePath/customer-login.aspx",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5942,
 	"name": "OnePath (ANZ) (Advisors)",
@@ -402,7 +446,8 @@
 	"status": "beta",
 	"popular": false,
 	"container_names": ["investment"],
-	"login_url": "https://www.ing.com.au/adviser/AdviserAdvantage/adviser-login.aspx"
+	"login_url": "https://www.ing.com.au/adviser/AdviserAdvantage/adviser-login.aspx",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5945,
 	"name": "Newcastle Permanent",
@@ -411,7 +456,8 @@
 	"status": "beta",
 	"popular": false,
 	"container_names": ["bank", "credit_card", "investment", "loan", "insurance"],
-	"login_url": "https://online.newcastlepermanent.com.au/corp/AuthenticationController?FORMSGROUP_ID__=AuthenticationFG\u0026__START_TRAN_FLAG__=Y\u0026FG_BUTTONS__=LOAD\u0026ACTION.LOAD=Y\u0026AuthenticationFG.LOGIN_FLAG=1\u0026BANK_ID=NPBS"
+	"login_url": "https://online.newcastlepermanent.com.au/corp/AuthenticationController?FORMSGROUP_ID__=AuthenticationFG\u0026__START_TRAN_FLAG__=Y\u0026FG_BUTTONS__=LOAD\u0026ACTION.LOAD=Y\u0026AuthenticationFG.LOGIN_FLAG=1\u0026BANK_ID=NPBS",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5946,
 	"name": "Latitude Eco MasterCard",
@@ -420,7 +466,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["credit_card"],
-	"login_url": "https://eco-online.gemoney.com.au/access/login"
+	"login_url": "https://eco-online.gemoney.com.au/access/login",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5948,
 	"name": "GE Home Loan",
@@ -429,7 +476,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["loan"],
-	"login_url": "https://www.lsn.com.au/scripts/cgiclnt.dll/LSN/ND000_?EWF_SYS_0=e95654f1-2565-11d4-8fa4-00b0d0302a92\u0026EWF_FORM_NAME=0000201\u0026EWF_BUTTON_Submit=Submit"
+	"login_url": "https://www.lsn.com.au/scripts/cgiclnt.dll/LSN/ND000_?EWF_SYS_0=e95654f1-2565-11d4-8fa4-00b0d0302a92\u0026EWF_FORM_NAME=0000201\u0026EWF_BUTTON_Submit=Submit",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5949,
 	"name": "Virgin Money (Super)",
@@ -438,7 +486,8 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["investment"],
-	"login_url": "https://secure.superfacts.com/public/virginmoney/Home.tpz"
+	"login_url": "https://secure.superfacts.com/public/virginmoney/Home.tpz",
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5951,
 	"name": "CreditLine card",
@@ -447,2372 +496,6 @@
 	"status": "supported",
 	"popular": false,
 	"container_names": ["credit_card"],
-	"login_url": "https://online.interestfree.com.au/access/login"
-}, {
-	"id": 5952,
-	"name": "Myer Card",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_12263.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://myercard-online.myer.com.au/access/login"
-}, {
-	"id": 5953,
-	"name": "Buyer's edge",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_12264.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://online.buyersedge.com.au/access/login"
-}, {
-	"id": 5954,
-	"name": "Macquarie Bank (Advisers GearUp)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/5954/small/Screen_Shot_2017-03-03_at_11.54.40_am.png?1519087375",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.macquarie.com.au/sepas/serve?TAM_OP=token_login\u0026USERNAME=unauthenticated\u0026ERROR_CODE=0x00000000\u0026URL=%2Fpkmscdsso%3Fhttps%3A%2F%2Fadvisers.macquarie.com.au%2Fgearup\u0026HOSTNAME=secure.macquarie.com.au\u0026PROTOCOL=https"
-}, {
-	"id": 5955,
-	"name": "Newcastle Permanent Business Banking",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/5955/small/Screen_Shot_2016-12-06_at_11.35.23_am.png?1519087379",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://online.newcastlepermanent.com.au/corp/AuthenticationController?FORMSGROUP_ID__=AuthenticationFG\u0026__START_TRAN_FLAG__=Y\u0026FG_BUTTONS__=LOAD\u0026ACTION.LOAD=Y\u0026AuthenticationFG.LOGIN_FLAG=1\u0026BANK_ID=NPBS"
-}, {
-	"id": 5956,
-	"name": "HSBC Credit Cards Online",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/5956/small/HSBC_logo.png?1519087383",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://credit.hsbc.com.au/ccol/#/login/1"
-}, {
-	"id": 5957,
-	"name": "HSBC Online Share Trading",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/5957/small/HSBC_logo.png?1520332864",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.sharetrading.hsbc.com.au/"
-}, {
-	"id": 5958,
-	"name": "Latitude Finance GO MasterCard",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/5958/small/Screen_Shot_2016-12-06_at_10.45.02_am.png?1519087387",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://gomastercard-online.gomastercard.com.au/access/login"
-}, {
-	"id": 5959,
-	"name": "Latitude GO Business MasterCard",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/5959/small/General_Electric_logo.svg.png?1519087392",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://gobusiness-online.gomastercard.com.au/access/login"
-}, {
-	"id": 5960,
-	"name": "HSBC Bank Business Banking",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/5960/small/HSBC_logo.png?1519087892",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://www.hsbc.com.au/1/2/!ut/p/c5/04_SB8K8xLLM9MSSzPy8xBz9CP0os3gDd-NQv1BDg2AXA1-PEE9zR39DAwjQD07Niw8N1i_IdlQEAAU0804!/?__Destination=HUB_IDV_CUSTOMER_MIGRATION\u0026__IWLang=en\u0026__IWCountry=US\u0026__registrationType=PIB-Registration"
-}, {
-	"id": 5961,
-	"name": "Coles MasterCard",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/5961/small/Coles-logo-for-website1.png?1519087395",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://online.colesmastercard.com.au/access/login"
-}, {
-	"id": 5965,
-	"name": "St. George Bank (Margin Lending)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/5965/small/stgeorge-logo_4cb50d90db2aa.png?1519087401",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://marginlending.stgeorge.com.au"
-}, {
-	"id": 5974,
-	"name": "DagBankSeCUrityQA",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_Default.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "http://dag2.yodlee.com/dag/index.do"
-}, {
-	"id": 5978,
-	"name": "Bank of Queensland",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/5978/small/BOQ_logo_portrait_1181x1332pixels.png?1519087405",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "investment", "loan", "insurance", "reward"],
-	"login_url": "https://www.ib.boq.com.au/boqws/boqbl"
-}, {
-	"id": 5987,
-	"name": "CardServices Online",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/5987/small/2018-03-05_17-59-59.png?1520233303",
-	"small_logo_revision": 2,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://www.cardservicesdirect.com.au/AUCRD/JSO/signon/DisplayUsernameSignon.do#"
-}, {
-	"id": 5988,
-	"name": "CUA",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/5988/small/CUA-_Release_of_Mortgage_-_Conveyancing_Gold_Coast_copy.png?1519087412",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan", "insurance"],
-	"login_url": "https://webbanker.cua.com.au/webbanker/CUA"
-}, {
-	"id": 5990,
-	"name": "BankSA",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/5990/small/3ed2439e2a2b9eb3ca345082a2709b56_cec29c526ce2f9365c3ce94bd21e2a75dfb9659be9c434bad3f71142a0c8ccc1.png?1520163164",
-	"small_logo_revision": 2,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan", "insurance"],
-	"login_url": "https://ibanking.banksa.com.au/ibank/loginPage.action"
-}, {
-	"id": 5993,
-	"name": "BankSA (Directshares)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/5993/small/3ed2439e2a2b9eb3ca345082a2709b56_cec29c526ce2f9365c3ce94bd21e2a75dfb9659be9c434bad3f71142a0c8ccc1.png?1520163223",
-	"small_logo_revision": 2,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://invest.directshares.com.au/home.aspx?user=STGEORGEVIS"
-}, {
-	"id": 6031,
-	"name": "Virgin Money",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_12371.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card"],
-	"login_url": "https://my.virginmoney.com.au/AUVMA/JSO/signon/DisplayUsernameSignon.do"
-}, {
-	"id": 6072,
-	"name": "St. George Bank (DirectShares)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/6072/small/stgeorge-logo_4cb50d90db2aa.png?1519087431",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://invest.directshares.com.au/Login.aspx"
-}, {
-	"id": 6073,
-	"name": "28 Degrees MasterCard",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/6073/small/Screen_Shot_2017-02-17_at_2.51.25_pm.png?1519087435",
-	"small_logo_revision": 3,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://28degrees-online.latitudefinancial.com.au/access/login"
-}, {
-	"id": 6075,
-	"name": "Wizard Home Loans",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_12419.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "\thttps://www.lsn.com.au/LsnWeb/faces/LsnLogin.jsp?EWF_SYS_0=e95654f1-2565-11d4-8fa4-00b0d0302a92\u0026EWF_FORM_NAME=0000912\u0026EWF_BUTTON_Sumbit=Submit"
-}, {
-	"id": 6293,
-	"name": "DagBankFormField4",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_Default.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "http://dag2.yodlee.com/dag/index.do"
-}, {
-	"id": 6397,
-	"name": "DagbankPNC",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_Default.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "http://dag2.yodlee.com/dag/index.do"
-}, {
-	"id": 6450,
-	"name": "Link Market Services (Employee Service Centre)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/6450/small/link-market-services-logo.png?1519087439",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.linkmarketservices.com.au/public/investors/login.html?employee=1"
-}, {
-	"id": 6460,
-	"name": "Host Plus",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/6460/small/5uGTKeGJ.png?1519087444",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://member.aas.com.au/Login/HC?hp-sc-tracking={BBCD7621-9AB8-4953-8D8C-941B26290EA2}"
-}, {
-	"id": 6510,
-	"name": "One Direct - Mortgages",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_13102.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://www.anz.com/wholesale/bankmain.asp?affid=01035"
-}, {
-	"id": 6511,
-	"name": "Aussie Credit Card",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/6511/small/download.png?1520161616",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://www.anz.com/wholesale/bankmain.asp?AFFID=01701"
-}, {
-	"id": 6512,
-	"name": "Diners Club",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/6512/small/Screen_Shot_2016-11-24_at_12.34.21_pm.png?1520248757",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["credit_card", "reward"],
-	"login_url": "https://www.mydinersclub.com/caclogon/action/LandingPage"
-}, {
-	"id": 6520,
-	"name": "Macquarie Bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/6520/small/mac_730.png?1519087452",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "investment"],
-	"login_url": "https://secure.macquarie.com.au/sepas/serve?TAM_OP=login\u0026USERNAME=unauthenticated\u0026ERROR_CODE=0x00000000\u0026URL=%2Fpkmscdsso%3Fhttps%3A%2F%2Fonline.macquarie.com.au%2Fpersonal\u0026HOSTNAME=secure.macquarie.com.au\u0026PROTOCOL=https"
-}, {
-	"id": 6551,
-	"name": "DagBankTokenFMPA",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/6551/small/download_(3)_copy.png?1520329321",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "http://dag2.yodlee.com/dag/index.do"
-}, {
-	"id": 6667,
-	"name": "Members Equity Bank (ME Bank)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/6667/small/ME-logo-600px-white.png?1519087456",
-	"small_logo_revision": 2,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://ib.mebank.com.au/auth/ib/login.html"
-}, {
-	"id": 6681,
-	"name": "ANZ (Investor Access)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/6681/small/ANZ-logo.png?1519087459",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.onepath.com.au/anz/logon.aspx"
-}, {
-	"id": 6685,
-	"name": "ANZ Prepaid Cards",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/6685/small/ANZ-logo.png?1519087464",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://your.prepaidcardsupport.net/anzportal/index.do"
-}, {
-	"id": 6777,
-	"name": "ANZ My Portfolio",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/6777/small/ANZ-logo.png?1519087468",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://myportfolio.anz.com/login.cfm"
-}, {
-	"id": 7050,
-	"name": "Adelaide Bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/7050/small/Screen_Shot_2016-11-24_at_11.24.42_am.png?1519087482",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan", "bill"],
-	"login_url": "https://inetbnkp.adelaidebank.com.au/OnlineBanking/AdBank?xid=84G5WJ"
-}, {
-	"id": 7588,
-	"name": "Peoples Choice CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/7588/small/People's_Choice_Credit_Union_logo.png?1519087491",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://digitalonline.peopleschoicecu.com.au/"
-}, {
-	"id": 7590,
-	"name": "Bank Australia",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/7590/small/images.png?1520162753",
-	"small_logo_revision": 3,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://digital.bankaust.com.au/"
-}, {
-	"id": 7591,
-	"name": "ANZ Super Staff Superannuation Scheme",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/7591/small/ANZ-logo.png?1519087500",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.superfacts.com/web/anzsuper/home.tpz"
-}, {
-	"id": 7725,
-	"name": "Plum",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/7725/small/Screen_Shot_2017-03-03_at_1.22.20_pm.png?1519087504",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.plumfs.com.au/login.asp"
-}, {
-	"id": 7745,
-	"name": "Easy Street",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_15149.PNG",
-	"small_logo_revision": 0,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://ebranch.easystreet.com.au/es-ibanking/Signon/Login.aspx"
-}, {
-	"id": 7795,
-	"name": "BankWest Business Banking",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/7795/small/bank-west-logo-e1413358615979.png?1519087507",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://ibs.bankwest.com.au/BWLogin/bib.aspx"
-}, {
-	"id": 7797,
-	"name": "BankSA Business Banking",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/7797/small/3ed2439e2a2b9eb3ca345082a2709b56_cec29c526ce2f9365c3ce94bd21e2a75dfb9659be9c434bad3f71142a0c8ccc1.png?1520163263",
-	"small_logo_revision": 2,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://bbonline.banksa.com.au/html/cbindex.aspx?bhcp=1"
-}, {
-	"id": 8069,
-	"name": "AustralianSuper",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8069/small/australian-super-tile.png?1519087524",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment", "insurance"],
-	"login_url": "https://www.australiansuper.com/login.aspx"
-}, {
-	"id": 8144,
-	"name": "Bell Direct",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8144/small/256x256bb.png?1519087550",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.belldirect.com.au/"
-}, {
-	"id": 8302,
-	"name": "ANZ Travel Card (Multiple Currencies)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8302/small/ANZ-logo.png?1519087562",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://www.anz.com/INETBANK/bankmain.asp"
-}, {
-	"id": 8347,
-	"name": "Orange CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8347/small/iMlwBzLy.png?1519087566",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://is2.cuviewpoint.net/mvporange/SignOn/Login.aspx"
-}, {
-	"id": 8512,
-	"name": "American Express Cards",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_16941.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://global.americanexpress.com/myca/logon/japa/action?request_type=LogonHandler\u0026DestPage=https%3A%2F%2Fglobal.americanexpress.com%2Fmyca%2Fintl%2Facctsumm%2Fjapa%2FaccountSummary.do%3Frequest_type%3D%26Face%3Den_AU\u0026Face=en_AU"
-}, {
-	"id": 8663,
-	"name": "Bank of Melbourne",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8663/small/bank-of-melbourne-squarelogo-1460456609810.png?1519087574",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://ibanking.bankofmelbourne.com.au/ibank/loginPage.action"
-}, {
-	"id": 8666,
-	"name": "BT Investor wrap",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8666/small/BT_Financial_logo.png?1519087578",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.investorwrap.com.au/wrap/investor"
-}, {
-	"id": 8672,
-	"name": "Gem Visa",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8672/small/Screen_Shot_2017-02-17_at_2.11.32_pm.png?1519087582",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://online.gemvisa.com.au"
-}, {
-	"id": 8675,
-	"name": "Australian Military Bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8675/small/logo_copy.png?1524103174",
-	"small_logo_revision": 2,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan", "insurance"],
-	"login_url": "https://ib.australianmilitarybank.com.au/AMBOnlineBanking/apps/services/www/AMBBankingApp/desktopbrowser/default/AMBAppIndex.html#/navigation/login/resources/login/login-register/UserLoginRegister"
-}, {
-	"id": 8676,
-	"name": "RAMS",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8676/small/3615304_1_O.png?1519087586",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "investment", "loan"],
-	"login_url": "https://www2.myrams.com.au/internet/login.aspx"
-}, {
-	"id": 8679,
-	"name": "IMB Building Society",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8679/small/Screen_Shot_2017-02-17_at_2.20.03_pm.png?1519087591",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "loan"],
-	"login_url": "https://internetbanking.imb.com.au/IB/personal"
-}, {
-	"id": 8685,
-	"name": "FlexiPurchase",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8685/small/Untitled-12.png?1519087897",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://www.flexipurchase.com/account/login"
-}, {
-	"id": 8700,
-	"name": "Auswide bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8700/small/Unknown.png?1519087596",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "loan"],
-	"login_url": "https://www.auswidebank.com.au/webbank/WBA"
-}, {
-	"id": 8701,
-	"name": "Queensland Country CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8701/small/Screen_Shot_2016-12-15_at_2.49.26_pm.png?1519087601",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://online.qccu.com.au/"
-}, {
-	"id": 8711,
-	"name": "Rest Industry Super",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8711/small/photo.png?1519087605",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment", "insurance"],
-	"login_url": "https://member.aas.com.au/Login/RS?isExternalLogin=False\u0026isRegLogin=False"
-}, {
-	"id": 8716,
-	"name": "Advanced Share Registry Services",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8716/small/Screen_Shot_2017-03-03_at_10.08.01_am.png?1519087609",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "http://www.advancedshare.com.au/Investors.aspx"
-}, {
-	"id": 8797,
-	"name": "Twusuper",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8797/small/Layer_0.png?1519087902",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://member.aas.com.au/Login/TW"
-}, {
-	"id": 8811,
-	"name": "CommSec Adviser Services-Investor",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8811/small/Screen_Shot_2017-03-03_at_11.00.15_am.png?1519087907",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.commsecadviserservices.com.au/"
-}, {
-	"id": 8912,
-	"name": "CommSec Adviser Services -Trading \u0026 Cash",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/8912/small/Screen_Shot_2017-03-03_at_11.00.15_am.png?1519087613",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.commsecadviserservices.com.au/"
-}, {
-	"id": 9039,
-	"name": "StarNet",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_17906.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://mortgage.advantedge.com.au/StarNet/"
-}, {
-	"id": 9067,
-	"name": "Praemium",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/9067/small/Screen_Shot_2017-03-03_at_1.25.44_pm.png?1519087614",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://members.praemium.biz/praemium/genericmain.aspx?gid=praemium"
-}, {
-	"id": 9087,
-	"name": "Police Bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/9087/small/Screen_Shot_2016-12-06_at_11.55.23_am.png?1519087619",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://ebanking.policebank.com.au/ibank/SignOn/Login.aspx"
-}, {
-	"id": 9116,
-	"name": "State Custodians",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/9116/small/Screen_Shot_2016-12-06_at_12.23.42_pm.png?1519087625",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "loan"],
-	"login_url": "https://myhomeloan.statecustodians.com.au"
-}, {
-	"id": 9145,
-	"name": "Maritime Mining Power CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/9145/small/Screen_Shot_2016-12-06_at_11.20.34_am.png?1519087634",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://is2.cuviewpoint.net/mvpmaritime/login.asp"
-}, {
-	"id": 9146,
-	"name": "Maritime Super",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/9146/small/maritime_super.png?1519087639",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://online.maritimesuper.com.au/maritime/index.html#Login"
-}, {
-	"id": 9167,
-	"name": "Bank First",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/9167/small/Screen_Shot_2016-12-06_at_12.34.29_pm.png?1519087644",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://ibank.bankfirst.com.au/desktop/signon/login.aspx"
-}, {
-	"id": 9192,
-	"name": "PN Bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/9192/small/Screen_Shot_2016-12-06_at_11.52.50_am.png?1519087647",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://digital.pnbank.com.au/"
-}, {
-	"id": 9193,
-	"name": "QSuper",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/9193/small/apple-touch-icon.png?1519087652",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://memberonline.qsuper.qld.gov.au/"
-}, {
-	"id": 10118,
-	"name": "UniSuper",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/10118/small/Untitled-1.png?1519087695",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://auth.unisuper.com.au/authenticationendpoint/login.do?commonAuthCallerPath=%252Fpassivests\u0026forceAuth=false\u0026relyingParty=https%3A%2F%2Fauth.unisuper.com.au%2Fmol\u0026type=passivests\u0026usmsite=mol\u0026wa=wsignin1.0\u0026wct=2017-01-04T10%3A22%3A01Z\u0026wctx=rm%3D0%26id%3Dc49c4f71-9a9c-4a06-86ac-6e04675bdb0e%26ru%3D%252f\u0026wreply=https%3A%2F%2Fmemberonline.unisuper.com.au%2Flogged-in\u0026wtrealm=https%3A%2F%2Fauth.unisuper.com.au%2Fmol\u0026sessionDataKey=993bd9b5-d26d-4b18-9ee9-ed24430b1631\u0026relyingParty=https://auth.unisuper.com.au/mol\u0026type=passivests\u0026sp=UniSuperSP_MOL\u0026isSaaSApp=false\u0026authenticators=MOLAuthenticator%3ALOCAL"
-}, {
-	"id": 10213,
-	"name": "Kinetic Superannuation",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/10213/small/XEbxyfc-.png?1519087699",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.sunsuper.com.au/kinetic-super"
-}, {
-	"id": 10214,
-	"name": "CareSuper",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/10214/small/Screen_Shot_2017-03-03_at_10.38.53_am.png?1519087704",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://member.aas.com.au/Login/CR"
-}, {
-	"id": 10219,
-	"name": "club plus SUPERANNUATION",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/10219/small/Screen_Shot_2017-03-03_at_10.53.37_am.png?1519087708",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://member.aas.com.au/Login/CP"
-}, {
-	"id": 10220,
-	"name": "EISS",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/10220/small/photo.png?1519087711",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://member.aas.com.au/Login/EI?isExternalLogin=False\u0026isRegLogin=False"
-}, {
-	"id": 10227,
-	"name": "Cuscal",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/10227/small/Untitled-1.png?1519087918",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "loan"],
-	"login_url": "https://www.cuscal.com.au/opensso/UI/Login?goto=https://www.cuscal.com.au/c/portal/login%3fredirect%3d%252fc"
-}, {
-	"id": 10229,
-	"name": "Maitland Mutual Building Society",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/10229/small/maitr.png?1519087716",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "investment", "loan"],
-	"login_url": "https://ibank.themutual.com.au/Banking/Signon/Login.aspx"
-}, {
-	"id": 10231,
-	"name": "Boardroom (InvestorServe)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/10231/small/LOGO_19213_3_1.PNG2.png?1519087920",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.investorserve.com.au/"
-}, {
-	"id": 10242,
-	"name": "First State Super",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/10242/small/first_state_super.png?1519087720",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://services.pillar.com.au/FSSMembers/static/Login.aspx"
-}, {
-	"id": 10291,
-	"name": "G \u0026 C Mutual Bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/10291/small/Screen_Shot_2017-02-17_at_2.30.54_pm.png?1519087724",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://ibank.gcmutualbank.com.au/mvpgcm/SignOn/Login.aspx?ReturnUrl=%2fmvpgcm%2fSignOn%2fSignOn%2fLogin.aspx"
-}, {
-	"id": 10352,
-	"name": "VicSuper",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/10352/small/Screen_Shot_2017-03-03_at_1.44.33_pm.png?1519087730",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://online.vicsuper.com.au/iip/servlet/PageRouter?handler=HMemberLogin"
-}, {
-	"id": 10368,
-	"name": "StatewideSuper",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/10368/small/cc-TS1n3.png?1519087926",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.statewidesuperonline.com.au/aol/index.html#Login"
-}, {
-	"id": 10425,
-	"name": "SunSuper",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/10425/small/Screen_Shot_2017-03-03_at_1.40.57_pm.png?1519087734",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://signon.sunsuper.com.au/adfs/ls/?wa=wsignin1.0\u0026wtrealm=https%3a%2f%2fsecure.sunsuper.com.au%2fMemberOnline%2f\u0026wctx=rm%3d0%26id%3dpassive%26ru%3d%252fMemberOnline%252f\u0026wct=2013-09-19T17%3a34%3a00Z\u0026whr=http%3a%2f%2fsignon.sunsuper.com.au%2fadfs%2fservices%2ftrust"
-}, {
-	"id": 11005,
-	"name": "Westpac Corporate",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11005/small/Westpac_square.png?1519087755",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://online.corp.westpac.com.au/"
-}, {
-	"id": 11006,
-	"name": "NAB Connect",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11006/small/Screen_Shot_2016-12-15_at_2.13.44_pm.png?1519087759",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://nabconnect2.nab.com.au/auth/nabclogin/login.do?TAM_OP=login"
-}, {
-	"id": 11117,
-	"name": "Goldman Sachs",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11117/small/1200px-Goldman_Sachs.svg.png?1519087934",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.superfacts.com/public/gsandjbwere/Home.tpz"
-}, {
-	"id": 11133,
-	"name": "HostPlus Executive",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11133/small/5uGTKeGJ.png?1519087938",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://supersitenewmss.superpartners.com.au/Login.aspx?FundCode=HOST"
-}, {
-	"id": 11173,
-	"name": "CU SA",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11173/small/Screen_Shot_2016-12-15_at_12.42.10_pm.png?1519087763",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan", "insurance"],
-	"login_url": "https://digital.creditunionsa.com.au/"
-}, {
-	"id": 11188,
-	"name": "AMP North Super Personal",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11188/small/Screen_Shot_2016-11-24_at_11.22.18_am.png?1519087769",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://portal.northonline.com.au/WealthNET.PortalClient/public.aspx"
-}, {
-	"id": 11193,
-	"name": "Baillieu Holst",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11193/small/baillieu-holst-logo.png?1519087942",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.baillieuholst.com.au/"
-}, {
-	"id": 11232,
-	"name": "Commonwealth Bank (CommBiz)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11232/small/Screen_Shot_2017-03-03_at_11.00.15_am.png?1519087771",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://www1.my.commbiz.commbank.com.au/logon/usermaintenance/login.aspx"
-}, {
-	"id": 11262,
-	"name": "ANZ Salary Packaging Cards(Bank)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11262/small/ANZ-logo.png?1519087776",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://commcardsupport.anz.com/anzsalportal/cardholder.do?type=cardholder"
-}, {
-	"id": 11271,
-	"name": "CMC Markets",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11271/small/unnamed.png?1520246955",
-	"small_logo_revision": 2,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.cmcmarketsstockbroking.com.au/logon.aspx"
-}, {
-	"id": 11290,
-	"name": "Intrust Super",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_20384.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://member.aas.com.au/Login/HP"
-}, {
-	"id": 11371,
-	"name": "Asteron Life",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11371/small/asteron_life_logo.png?1519087784",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://wealth.asteron.com.au/indexOA.html"
-}, {
-	"id": 11374,
-	"name": "Westpac Business",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11374/small/Westpac_square.png?1519087788",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://businessonline.westpac.com.au/esis/Login/SrvPage"
-}, {
-	"id": 11429,
-	"name": "Loans.Com.AU",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_20544.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "loan"],
-	"login_url": "https://money.loans.com.au/Account/Login"
-}, {
-	"id": 11498,
-	"name": "BOQ Specialist",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11498/small/Screen_Shot_2016-11-24_at_11.45.43_am.png?1519087792",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://secure.boqspecialist.com.au/BOQ/BOQSpecialist"
-}, {
-	"id": 11511,
-	"name": "RACQ Bank",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_20664.PNG",
-	"small_logo_revision": 0,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://securebanking-auth.racq.com.au/Account/Login?ReturnUrl=%2Foauth%2Fauthorize%3Fclient_id%3DWeb%26redirect_uri%3Dhttps%253A%252F%252Fsecurebanking-api.racq.com.au%252Fsignin-localauth%26response_type%3Dcode%26scope%3Dopenid%2520profile%26response_mode%3Dform_post%26nonce%3D636516932097909059.ODQ5Yjk5OWYtMWM2Ni00ZjRiLWEwNWYtZWZjY2FmNGRlMDI3MzFkNzIwMTYtMzg3NS00ZDcwLTg5NDItMTFiMDZjZWZjMjll%26state%3DCfDJ8FdYDEyClIBAi-A0RsceHCFG9tFqd4fEHonl-IBP8r-5qQkTfcKRzIeKv-Cc0S3Su8DtE-JzA-bJWL7xkldRFBwCPngPJUTOo091qbDVmFujEctF7Mxl93HfbMBE7hsXItwSnEe5y5peyWg3LaHCYw11Lyz5P34EBUmLdfRZkA2kFPVsvKLhm3pbPyAef1cWFHGJF3VeYTFDSxSEvgEOYGk5y0CsMs0CSNZDKVhq_Gq0OdWu0DGeaq0ZR_FGoPi14qFAyNtntZZ6tuqf0pXOTSXoBVyvI380vF9EaTQdsOeO6NQ7ZF_tRU-e-Mb9CViioFsAnfbYecvMAUx82tztcn3cAa-3bJHuYzgDdR5gH4s5tHVg-5cGpGghxndBi40GrxeiJnkx3nD7t7GfqBF3x3agPwdgaxAiAreIGKOiShDh%26backUrl%3Dhttps%253A%252F%252Fsecurebanking.racq.com.au%252F\u0026client_id=Web"
-}, {
-	"id": 11520,
-	"name": "QBank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11520/small/qpculogo.jog_.png?1519087795",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://banking.qbank.com.au/home/SignOn/Login.aspx?ReturnUrl=%2fhome"
-}, {
-	"id": 11547,
-	"name": "Bank of us",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11547/small/Untitled-1.png?1519087800",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://secureonline.bankofus.com.au/ibank/SignOn/Login.aspx"
-}, {
-	"id": 11549,
-	"name": "SWSCU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11549/small/1200x630bf.png?1519087804",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://online.swscu.com.au/mvpswscu/SignOn/Login.aspx"
-}, {
-	"id": 11551,
-	"name": "Queenslanders CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11551/small/Screen_Shot_2016-12-06_at_12.15.46_pm.png?1519087809",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan", "insurance"],
-	"login_url": "https://netteller.tsw.com.au/804059V47/ntv47.asp?WCI=entry"
-}, {
-	"id": 11553,
-	"name": "myMOVE Banking",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11553/small/1200x630bf.png?1519087812",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://banking.mymove.com.au/myMOVE/SignOn/Login.aspx"
-}, {
-	"id": 11554,
-	"name": "LGIA super",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11554/small/Screen_Shot_2017-03-03_at_11.49.21_am.png?1519087816",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://lgonline.lgsuper.org/lgsuper/members/login"
-}, {
-	"id": 11557,
-	"name": "Morgan Stanley",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_20719.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.morganstanley.com.au/public/mssbauweb/webapp/MSSBAuWebPublic.html#Home"
-}, {
-	"id": 11560,
-	"name": "Cash Management - nabtrade",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11560/small/download_(1).png?1520233759",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.nabtrade.com.au/features/products/cash-management"
-}, {
-	"id": 11563,
-	"name": "Perpetual Investments",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11563/small/Perpetual-Profile2.png?1519087946",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://auth.perpetual.com.au/signon/UI/Login?realm=SecureSite\u0026module=SecureSite\u0026goto=https%3A%2F%2Fsecure.perpetual.com.au%3A443%2F"
-}, {
-	"id": 11564,
-	"name": "ANZ goMoney Australia",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11564/small/ANZ-logo.png?1519087823",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://www.anz.com/inetbank/bankmain.asp"
-}, {
-	"id": 11565,
-	"name": "Vision Super",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11565/small/Screen_Shot_2017-03-03_at_1.47.51_pm.png?1519087827",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://visiononline.visionsuper.com.au/aol/index.html#MemberLogin"
-}, {
-	"id": 11566,
-	"name": "REI Super",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11566/small/rei-super-logo2.png?1519087950",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.superfacts.com/public/reisuper/home.tpz"
-}, {
-	"id": 11567,
-	"name": "Commonwealth Bank CBA Mobile",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11567/small/Screen_Shot_2017-03-03_at_11.00.15_am.png?1519088063",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card"],
-	"login_url": "https://www.my.commbank.com.au/netbank/Logon/Logon.aspx"
-}, {
-	"id": 11568,
-	"name": "HUB24",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11568/small/cropped-favicon-192x192.png?1519087829",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://my.hub24.com.au/Hub24/Login.aspx"
-}, {
-	"id": 11569,
-	"name": "SCU More Generous Banking",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11569/small/scu-home-loans2.png?1519087952",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://internetbanking.scu.net.au/mvpscu/signon/login.aspx"
-}, {
-	"id": 11570,
-	"name": "WAW Smart Banking",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11570/small/WAW2.png?1519087957",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://is2.cuviewpoint.net/mvpwaw/signon/login.aspx"
-}, {
-	"id": 11571,
-	"name": "Homeloans.com",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_21173.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://online.originmms.com.au/coralib/homeloans/Security/Login?ReturnUrl=%2fcoralib%2fhomeloans"
-}, {
-	"id": 11572,
-	"name": "Yellow Brick Road",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_21222.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://www.access-online.com.au/sepas/serve?TAM_OP=login\u0026USERNAME=unauthenticated\u0026ERROR_CODE=0x00000000\u0026URL=%2Fybr-home%2F\u0026HOSTNAME=www.access-online.com.au\u0026PROTOCOL=https"
-}, {
-	"id": 11573,
-	"name": "Holiday Coast CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11573/small/index.png?1519087834",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://netteller2.tsw.com.au/802214V47/ntv47.ASP?wci=entry"
-}, {
-	"id": 11574,
-	"name": "Commonwealth Superannuation Corporation - Pensioner Login",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/11574/small/GetImage.png?1520247626",
-	"small_logo_revision": 2,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://member.comsuper.gov.au/login/generic/caloglfn.fcc?TYPE=33554433\u0026REALMOID=06-000aac4f-aa76-1de5-a663-1462ac1840f5\u0026GUID=\u0026SMAUTHREASON=0\u0026METHOD=GET\u0026SMAGENTNAME=-SM-boFynyFE9jczy7ra1lzqLmXPeVc9xLptAWQSI9ksks1Hx%2foGQmJxQA7Fy25%2fXt9X\u0026TARGET=-SM-http%3a%2f%2fmember%2ecomsuper%2egov%2eau%2fcomsuper_mil%2fmembers"
-}, {
-	"id": 12338,
-	"name": "UBank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/12338/small/Unknown.png?1519087470",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "investment", "loan"],
-	"login_url": "https://www.ubank.com.au"
-}, {
-	"id": 12354,
-	"name": "CommSec Cash Management",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/12354/small/commbank-logo.png?1519087474",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://www.comsec.com.au/default.aspx"
-}, {
-	"id": 12430,
-	"name": "Aussie Home Loans",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_14028.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://online.aussie.com.au/AHL"
-}, {
-	"id": 12436,
-	"name": "Myer VISA Card",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_14040.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://myervisacard-online.myer.com.au/access/login"
-}, {
-	"id": 12480,
-	"name": "Virgin Money Home Loans",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_14152.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://myaccount.virginhomeloans.com.au/mortgageinfo/VirginServlet"
-}, {
-	"id": 12522,
-	"name": "Vanguard Investments (Investor)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/12522/small/photo.png?1519087487",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.vanguardinvestments.com.au/vlmnesc/nesc/LoginPage?TYPE=33554433\u0026REALMOID=06-a5255770-9e41-4a0d-8f57-ed6f43df7195\u0026GUID=\u0026SMAUTHREASON=0\u0026METHOD=GET\u0026SMAGENTNAME=vlmprd01\u0026TARGET=$SM$%2fvanguard_online%2finvestor%2finvestmentsummary"
-}, {
-	"id": 12625,
-	"name": "Big Sky",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/12625/small/246x0w.png?1520199166",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://mvp.bigsky.net.au/mvpbscu/Login.asp"
-}, {
-	"id": 12630,
-	"name": "David Jones (American Express Card)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/12630/small/2000px-American_Express_logo.svg.png?1519087516",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://davidjones.americanexpress.com/myca/logon/japa/action?request_type=LogonHandler\u0026DestPage=https%3A%2F%2Fglobal.americanexpress.com%2Fmyca%2Fintl%2Facctsumm%2Fjapa%2FaccountSummary.do%3Frequest_type%3D%26Face%3Den_AU_dj\u0026Face=en_AU_dj"
-}, {
-	"id": 12655,
-	"name": "Woolworths Everyday Money Credit Card",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/12655/small/unnamed.png?1519087520",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://login.woolworthsmoney.com.au/"
-}, {
-	"id": 12751,
-	"name": "DagBankCaptcha",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_Default.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "http://dag2.yodlee.com/dag/index.do"
-}, {
-	"id": 12755,
-	"name": "Cbus (Member SuperSite)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/12755/small/unnamed.png?1519087528",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://member.aas.com.au/Login/CD?isExternalLogin=False\u0026isRegLogin=False"
-}, {
-	"id": 12756,
-	"name": "AustSafe Super (Member Online)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/12756/small/Screen_Shot_2017-03-03_at_10.17.08_am.png?1519087532",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://member.aas.com.au/Login/BB"
-}, {
-	"id": 12757,
-	"name": "Hesta Super Fund (Member Online)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/12757/small/Screen_Shot_2017-03-03_at_11.33.41_am.png?1519087536",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://member.aas.com.au/Login/HS"
-}, {
-	"id": 12758,
-	"name": "MTAA Super Fund (Member Online)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/12758/small/Screen_Shot_2017-03-03_at_1.04.38_pm.png?1519087541",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://member.aas.com.au/Login/MA"
-}, {
-	"id": 12777,
-	"name": "Toyota Financial Services",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_16062.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://tfsonline.toyotafinance.com.au/Login/TFSLogin.aspx"
-}, {
-	"id": 12779,
-	"name": "Police CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/12779/small/Screen_Shot_2016-12-15_at_2.40.55_pm.png?1519087546",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "loan"],
-	"login_url": "https://www.pcunet1.com.au/internet-banking/signon/login.aspx"
-}, {
-	"id": 12824,
-	"name": "Link Market Services - Investor Login",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/12824/small/link-market-services-logo.png?1519087554",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://investorcentre.linkmarketservices.com.au/Login.aspx/Login"
-}, {
-	"id": 12865,
-	"name": "Virgin Money Loan(Reward me Home loans)",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_16377.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://hub.virginmoney.com.au/hub"
-}, {
-	"id": 12869,
-	"name": "Jetstar Mastercard",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/12869/small/Screen_Shot_2017-02-17_at_2.16.40_pm.png?1519087557",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://www.access-online.com.au/sepas/serve?TAM_OP=login\u0026USERNAME=unauthenticated\u0026ERROR_CODE=0x00000000\u0026URL=%2Fjetstar-online%3Fv%3D1479895218957\u0026HOSTNAME=www.access-online.com.au\u0026PROTOCOL=https"
-}, {
-	"id": 12941,
-	"name": "DEFT Payment Systems",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/12941/small/2018-03-05_22-16-11.png?1520248596",
-	"small_logo_revision": 2,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "bill"],
-	"login_url": "https://www.deft.com.au"
-}, {
-	"id": 12982,
-	"name": "Equity Trustees",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/12982/small/AAEAAQAAAAAAAAauAAAAJDA0YzdiZjJhLWVkYTUtNGExMi04M2M0LTZhNzVjNzg4NTZiYw.png?1519087910",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment", "insurance"],
-	"login_url": "https://www.wealthpac.com/eqtsuper/EquitySuperLogin.aspx"
-}, {
-	"id": 13109,
-	"name": "Rabobank",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_18282.PNG",
-	"small_logo_revision": 0,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://ribs.rabobank.com.au/RIBSAU/AU"
-}, {
-	"id": 13149,
-	"name": "Greater Bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/13149/small/download_(4).png?1520332382",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://ib.greater.com.au/OnlineBanking/Login.aspx"
-}, {
-	"id": 13160,
-	"name": "SUMMERLAND CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/13160/small/ImageProxy.mvc-3-300x148_copy.png?1519087661",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://pcaccess.summerland.com.au/daib/logon/cu2222/logon.asp"
-}, {
-	"id": 13161,
-	"name": "Macarthur CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/13161/small/1200x630bf.png?1519087665",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://onlinebanking.themaccu.com.au/mvpmacu/signon/login.aspx"
-}, {
-	"id": 13162,
-	"name": "Central West CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/13162/small/Screen_Shot_2016-12-15_at_3.52.31_pm.png?1519087667",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "http://www.cwcu.com.au/"
-}, {
-	"id": 13203,
-	"name": "Hume Bank",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_18390.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://ibank.humebank.com.au/mvp/signon/login.aspx"
-}, {
-	"id": 13251,
-	"name": "Southern Cross CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/13251/small/Screen_Shot_2016-12-15_at_3.13.14_pm.png?1519087672",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "loan"],
-	"login_url": "https://mvp1.sccu.com.au/mvpsccu/SignOn/Login.aspx"
-}, {
-	"id": 13253,
-	"name": "Illawarra CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/13253/small/icu.png?1519087914",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://onlineteller.cu.com.au/mvpicu/signon/login.aspx"
-}, {
-	"id": 13254,
-	"name": "Bankstown City Unity Bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/13254/small/1200x630bb.png?1520197844",
-	"small_logo_revision": 2,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://ibanking.bcub.com.au/mvpbankstown/signon/login.aspx"
-}, {
-	"id": 13259,
-	"name": "Select Encompass CU",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_18453.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://netbank.secul.com.au/mvpesb/signon/login.aspx"
-}, {
-	"id": 13269,
-	"name": "Warwick CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/13269/small/Unknown.png?1519087677",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://ibanking.wcu.com.au/mvpwcu/SignOn/Login.aspx"
-}, {
-	"id": 13275,
-	"name": "RaboDirect",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_18470.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://secure.rabodirect.com.au/exp/policyenforcer/pages/loginB2CDGPEN.jsf?login"
-}, {
-	"id": 13287,
-	"name": "bcu",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/13287/small/2018-03-05_08-25-19.png?1520198774",
-	"small_logo_revision": 2,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "http://www.bcu.com.au/"
-}, {
-	"id": 13299,
-	"name": "BankVic",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/13299/small/Screen_Shot_2016-11-24_at_11.31.26_am.png?1519087690",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "http://bankvic.com.au/"
-}, {
-	"id": 13468,
-	"name": "Link Market Services (Plan Participant Access)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/13468/small/link-market-services-logo.png?1519087738",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://eps.linkms.com.au/eps-pwi/"
-}, {
-	"id": 13637,
-	"name": "IOOF",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/13637/small/ioof-logo.png?1519087742",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.portfolioonline.com.au/homePage.s"
-}, {
-	"id": 13638,
-	"name": "Northern Beaches CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/13638/small/Untitled-1.png?1519087930",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "loan", "insurance"],
-	"login_url": "https://netbank.communityfirst.com.au/cf-ibanking/Signon/Login.aspx"
-}, {
-	"id": 13687,
-	"name": "netwealth (ShareTrading)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/13687/small/netwealth.png?1519087746",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.sharetrading.netwealth.com.au/"
-}, {
-	"id": 13691,
-	"name": "netwealth (Superannuation)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/13691/small/netwealth.png?1519087750",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.netwealth.com.au/nw"
-}, {
-	"id": 15239,
-	"name": "DagBillsTokenPMPS",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_Default.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bill"],
-	"login_url": "http://dag2.yodlee.com/dag/index.do"
-}, {
-	"id": 15423,
-	"name": "Rural Bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15423/small/Untitled-1.png?1519088059",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "loan"],
-	"login_url": "https://bank.ruralbank.com.au/banking/RBLIBanking/"
-}, {
-	"id": 15424,
-	"name": "eway",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15424/small/Untitled-1.png?1519087876",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://au.myeway.com/Login.aspx"
-}, {
-	"id": 15425,
-	"name": "Colonial First State Wrap",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15425/small/CFS_GEN_RGB_300px.png?1519087839",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://firstwrap.com.au/cgi-bin/frameset.exe"
-}, {
-	"id": 15426,
-	"name": "Origin MMS",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15426/small/LOGO_21329_3_1.png?1519087961",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://online.originmms.com.au/coralib/origin/Security/Login"
-}, {
-	"id": 15427,
-	"name": "Catholic Development Fund",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15427/small/Untitled-1.png?1519087965",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://u4.cdfonline.org.au/sydney/SignOn/Login.aspx"
-}, {
-	"id": 15428,
-	"name": "Service One Mutual Limited",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15428/small/Alliance_ServiceOne_stacked_CMYK.png?1519087970",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://online.soalliancebank.com.au/elink/default.aspx"
-}, {
-	"id": 15429,
-	"name": "South West CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15429/small/Background2.png?1519087974",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://internetbanking.swcredit.com.au/MVPSWC/SignOn/Login.aspx"
-}, {
-	"id": 15430,
-	"name": "Community First CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15430/small/Community_First_Credit_Union_Logo.png?1520247896",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://netbank.communityfirst.com.au/cf-ibanking/Signon/Login.aspx"
-}, {
-	"id": 15431,
-	"name": "Pepper money Home loan",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_21445.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "loan"],
-	"login_url": "https://www.lsn.com.au/LsnWeb/faces/LsnrLogin.jsp?EWF_SYS_0=e95654f1-2565-11d4-8fa4-00b0d0302a92\u0026EWF_FORM_NAME=0000201\u0026EWF_BUTTON_Submit=Submit"
-}, {
-	"id": 15432,
-	"name": "Pepper money personal loan",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_21449.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://www.myloanportal.com/loginpage"
-}, {
-	"id": 15433,
-	"name": "FSP portfolio services",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15433/small/Untitled-1.png?1519087978",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://online.moneyone.com.au/fsp/"
-}, {
-	"id": 15434,
-	"name": "Christian super memberlogin",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15434/small/2018-03-05_21-42-50.png?1520246719",
-	"small_logo_revision": 3,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://member.aas.com.au/Login/CH?isExternalLogin=False\u0026isRegLogin=False"
-}, {
-	"id": 15435,
-	"name": "MyState Bank card",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15435/small/MyState_logo.png?1519087841",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://www.cardservicesdirect.com.au/AUCRD/JSO/signon/DisplayUsernameSignon.do"
-}, {
-	"id": 15436,
-	"name": "Bank of sydney Personal Bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15436/small/apple-touch-icon-180x180.png?1520163072",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://ib.banksyd.com.au/"
-}, {
-	"id": 15437,
-	"name": "Mercer investment",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15437/small/AAEAAQAAAAAAAAaYAAAAJDdlODJmYTcwLTY5NWQtNDkwMi05YWYwLWM1MDQ3YTUwZjVjMg.png?1519087981",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.superfacts.com/web/mst/home.tpz"
-}, {
-	"id": 15438,
-	"name": "Bell Potter",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15438/small/Untitled-2.png?1519087984",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "http://www.bellpotter.com.au/ca4/access/Default.aspx"
-}, {
-	"id": 15439,
-	"name": "JB Were",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15439/small/14878062742532.png?1519087988",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://my.jbwere.com.au/jbwere/portal/login"
-}, {
-	"id": 15440,
-	"name": "Regional Australia bank",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_21586.PNG",
-	"small_logo_revision": 0,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://secure.regionalaustraliabank.com.au/banking/SignOn/Login.aspx?ReturnUrl=%2fbanking"
-}, {
-	"id": 15442,
-	"name": "AFG Home Loans Retro/Direct",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15442/small/AFG-Home-Loans-20152.png?1520160741",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://digital.afghomeloans.com.au/"
-}, {
-	"id": 15443,
-	"name": "Morgan Stanley Australia Portfolio",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_21640.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://members.praemium.biz/praemium/genericmain.aspx?gid=morganstanley"
-}, {
-	"id": 15444,
-	"name": "Qantas Cash",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15444/small/Qantas_Cash_Logo_RegMark_RGB.png?1519087997",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card"],
-	"login_url": "https://myaccount.qantascash.com/login/"
-}, {
-	"id": 15445,
-	"name": "Government Super - PSSap",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15445/small/Untitled-2.png?1519088001",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.pssap.gov.au/aol/index.html#Login"
-}, {
-	"id": 15446,
-	"name": "Ord Minnet",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15446/small/ords-logo2.png?1519088005",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://client.ords.com.au/private/#/login"
-}, {
-	"id": 15447,
-	"name": "La Trobe Financial investments",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15447/small/LaTrobeFinancialLogo2.png?1519088009",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment", "loan", "insurance"],
-	"login_url": "https://www.latrobedirect.com/latrobe"
-}, {
-	"id": 15448,
-	"name": "Australian Catholic Super",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15448/small/Untitled-1.png?1519088014",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://online.catholicsuper.com.au/portalclient/"
-}, {
-	"id": 15449,
-	"name": "NGS super",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_21761.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.superfacts.com/public/ngssuper/home.tpz"
-}, {
-	"id": 15450,
-	"name": "Choiceland",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_21765.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://mortgage.advantedge.com.au/Starnet/UserAccount/Login"
-}, {
-	"id": 15451,
-	"name": "Lombard",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_21769.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://www.lombardfinance.com.au/OnlineAccess/login.aspx"
-}, {
-	"id": 15452,
-	"name": "Goulburn Murray bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15452/small/goulburn-murray-credit-union-co-op-ltd-logo.png?1520330934",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "loan"],
-	"login_url": "https://secure.gmcu.com.au/MVPGM/Signon/Login.aspx"
-}, {
-	"id": 15453,
-	"name": "Goulburn Murray Amigo Card",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15453/small/goulburn-murray-credit-union-co-op-ltd-logo.png?1520330851",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://netbank.yourmutual.com.au/ym-ibanking/Login.asp"
-}, {
-	"id": 15454,
-	"name": "Super SA",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_21865.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://prod.supersa.sa.gov.au/member/login/"
-}, {
-	"id": 15456,
-	"name": "Raiz",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15456/small/acorns2.png?1519087871",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://app.raizinvest.com.au/auth/login"
-}, {
-	"id": 15457,
-	"name": "Qbank",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_21974.PNG",
-	"small_logo_revision": 0,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://banking.qbank.com.au/home/SignOn/Login.aspx?ReturnUrl=%2fhome"
-}, {
-	"id": 15458,
-	"name": "Heritage Isle CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15458/small/Heritage-Isle-20152.png?1519087880",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://bankwithfriends.hicu.com.au/mvpheritageisle/Login.asp"
-}, {
-	"id": 15459,
-	"name": "Woolworth Employees CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15459/small/Background.png?1519088016",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://is2.cuviewpoint.net/mvpwecu/SignOn/Login.aspx"
-}, {
-	"id": 15460,
-	"name": "BrokenHill community CU bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15460/small/246x0w_(1).png?1520232715",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "investment", "loan", "insurance"],
-	"login_url": "https://digital.bhccu.com.au/"
-}, {
-	"id": 15461,
-	"name": "BT panorama",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15461/small/BT_Financial_logo.png?1519088019",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.panoramainvestor.com.au/ng/public/page/logon?TAM_OP=login\u0026URL=/"
-}, {
-	"id": 15462,
-	"name": "Sandhurst Trustees smart options",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15462/small/Untitled-1.png?1519088023",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://smartoptions.portfolioonline.com.au/#/login"
-}, {
-	"id": 15463,
-	"name": "Capricornian bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15463/small/Untitled-1.png?1519088025",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://onlinebanking.capricornian.com.au/mvpTCL/SignOn/Login.aspx"
-}, {
-	"id": 15464,
-	"name": "Velocity Global Wallet",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_22002.PNG",
-	"small_logo_revision": 0,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.velocityglobalwallet.com/login"
-}, {
-	"id": 15465,
-	"name": "RESIMAC HOME LOANS",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_22038.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://www.loanenquiry.com.au/"
-}, {
-	"id": 15466,
-	"name": "Traditional CU bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15466/small/LOGO_22048_3_1.png?1519088027",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "loan"],
-	"login_url": "https://ebanking.tcu.com.au/tcumvp/signon/login.aspx"
-}, {
-	"id": 15467,
-	"name": "GESB",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15467/small/Background2.png?1519088030",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://mol.gesb.wa.gov.au/Login/GESB"
-}, {
-	"id": 15468,
-	"name": "ANZ corporate bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15468/small/ANZ-logo.png?1519088034",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://transtasman.online.anz.com/client/"
-}, {
-	"id": 15469,
-	"name": "Mediasuper Investments",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15469/small/MediaSuper.png?1519088039",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.superfacts.com/public/mediasuper/home.tpz"
-}, {
-	"id": 15470,
-	"name": "Desktop Broker",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15470/small/sm_defaultthumb_600_300_300.png?1519088041",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.desktopbroker.com.au/adviser/"
-}, {
-	"id": 15471,
-	"name": "Gateway Bank",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_22176.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "loan"],
-	"login_url": "https://digital.gatewaycu.com.au/"
-}, {
-	"id": 15472,
-	"name": "Wa Super Investment",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15472/small/Layer_0.png?1519088046",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://online.wasuper.com.au/aol/index.html#Login"
-}, {
-	"id": 15473,
-	"name": "Mortgage Choice Investment",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15473/small/Qk4kx5q8.png?1519088051",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://mcfp.mortgagechoice.com.au/sepas/serve?TAM_OP=login\u0026USERNAME=unauthenticated\u0026ERROR_CODE=0x00000000\u0026URL=%2Fwrapsolutions%2Fmpmmc\u0026HOSTNAME=mcfp.mortgagechoice.com.au\u0026PROTOCOL=https"
-}, {
-	"id": 15474,
-	"name": "Coastline CU Bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15474/small/coastline-credit-union.png?1520247432",
-	"small_logo_revision": 2,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://digital.coastline.com.au/"
-}, {
-	"id": 15475,
-	"name": "Mine Wealth",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15475/small/Untitled-1.png?1519088065",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.mine.com.au/portalclient/public.aspx"
-}, {
-	"id": 15476,
-	"name": "VMAPS",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15476/small/Untitled-12.png?1519088069",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://login.onpraemium.com/vMAPs/"
-}, {
-	"id": 15477,
-	"name": "YourLease",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_22447.PNG",
-	"small_logo_revision": 0,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://www.yourlease.com.au/sepas/serve?TAM_OP=login\u0026USERNAME=unauthenticated\u0026ERROR_CODE=0x00000000\u0026URL=%2Fyourlease\u0026HOSTNAME=www.yourlease.com.au\u0026PROTOCOL=https"
-}, {
-	"id": 15478,
-	"name": "RESIMAC Investors",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_22449.PNG",
-	"small_logo_revision": 0,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://www.resimac.com.au/en-au/login"
-}, {
-	"id": 15479,
-	"name": "Australian Unity LifePlan",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_22451.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.australianunity.com.au/wealth/investment-bonds/portal/Investor/Account/LogIn"
-}, {
-	"id": 15480,
-	"name": "Pulse CU",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_22453.PNG",
-	"small_logo_revision": 0,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://digital.pulsecredit.com.au/"
-}, {
-	"id": 15481,
-	"name": "Australian Ethical Super",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15481/small/Untitled-1.png?1519088073",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.superfacts.com/public/aes/home.tpz"
-}, {
-	"id": 15482,
-	"name": "Rate Setter",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_22460.PNG",
-	"small_logo_revision": 0,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "loan"],
-	"login_url": "https://members.ratesetter.com.au/login.aspx?returnUrl=%2fdefault.aspx"
-}, {
-	"id": 15483,
-	"name": "Fire Services CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15483/small/FireServicesCreditUnion_copy.png?1520329604",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://digital.fscu.com.au/"
-}, {
-	"id": 15484,
-	"name": "Medfin - Medical finance and Loan Service",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_22471.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://ibank.medfin.com.au"
-}, {
-	"id": 15485,
-	"name": "Liberty Finance bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15485/small/Untitled-1.png?1519088077",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "loan"],
-	"login_url": "https://online.liberty.com.au/Gateway/lf"
-}, {
-	"id": 15486,
-	"name": "Energy Super",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15486/small/Untitled-1.png?1519088082",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.energysuper.com.au/memberonline"
-}, {
-	"id": 15487,
-	"name": "Russell Investments Superannuation",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15487/small/Untitled-1.png?1519088087",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://russellinvestments.com/au/support/russell-superannuation-member/login"
-}, {
-	"id": 15488,
-	"name": "ESSSuper",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15488/small/ESSSuper-642162-full.png?1519088092",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.esssuper.com.au/home.aspx"
-}, {
-	"id": 15489,
-	"name": "Esso Employees CU Bank",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15489/small/AAEAAQAAAAAAAAjdAAAAJDY4OTU2NDVhLTI3OTYtNDQyOC1iNTJjLWUxOWEzNTk1Y2Q2NA.png?1520283514",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "investment", "loan"],
-	"login_url": "https://digital.nexusmutual.com.au/"
-}, {
-	"id": 15490,
-	"name": "Once Cards",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15490/small/Untitled-21.png?1519088094",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://oa.onceonline.com.au/"
-}, {
-	"id": 15491,
-	"name": "Commonwealth Bank staff superfund",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15491/small/Screen_Shot_2017-03-03_at_11.00.15_am.png?1519088098",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.osfsuper.com.au/Firstnet/Login.aspx?CompanyCode=003\u0026RD=1#"
-}, {
-	"id": 15492,
-	"name": "Mortgage Choice",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15492/small/Qk4kx5q8.png?1519088103",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://online.mortgagechoice.com.au/sepas/serve?TAM_OP=login\u0026USERNAME=unauthenticated\u0026ERROR_CODE=0x00000000\u0026URL=%2Fmortgagechoice-online\u0026HOSTNAME=online.mortgagechoice.com.au\u0026PROTOCOL=https"
-}, {
-	"id": 15493,
-	"name": "First Option CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15493/small/175x175bb.png?1519088106",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://internetbanking.firstoptioncu.com.au/mvptab/signon/login.aspx"
-}, {
-	"id": 15495,
-	"name": "APS Online",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15495/small/2018-03-04_21-59-55.png?1520161376",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "loan"],
-	"login_url": "https://online.apsbs.com.au/apsbsmvp/Login.asp"
-}, {
-	"id": 15496,
-	"name": "AFG Home Loans Icon",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15496/small/AFG-Home-Loans-20152.png?1519088109",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://www.access-online.com.au/afg"
-}, {
-	"id": 15497,
-	"name": "Laboratories CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15497/small/Background2.png?1519088114",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://internetbanking.lcu.com.au/mvplcu/SignOn/Login.aspx"
-}, {
-	"id": 15498,
-	"name": "Mortgage Ezy",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_22563.PNG",
-	"small_logo_revision": 0,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://www.mezy.com.au/existing-client/"
-}, {
-	"id": 15499,
-	"name": "PLAN Lending",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_22571.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://mortgage.advantedge.com.au/StarNet/UserAccount/Login?oid=1175"
-}, {
-	"id": 15500,
-	"name": "Morgans",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_22576.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.morgans.com.au/login"
-}, {
-	"id": 15501,
-	"name": "Primesuper",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15501/small/Untitled-1.png?1519088118",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://member.aas.com.au/login/PR"
-}, {
-	"id": 15502,
-	"name": "Equip Super",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15502/small/Untitled-1.png?1519088123",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.equipsuper.com.au/mercer-login"
-}, {
-	"id": 15503,
-	"name": "OC Funds",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15503/small/AAEAAQAAAAAAAAsfAAAAJDU1Y2U3NzcyLTU2NTgtNGRlOC1iMzExLTliZDlhMmVhYjY5MQ.png?1519088127",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.opis.com.au/"
-}, {
-	"id": 15504,
-	"name": "Grow Wrap",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15504/small/grow-wrap-logo-229x54.png?1519088129",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://wrapinvest.com.au/secauth/serve?TAM_OP=login\u0026USERNAME=unauthenticated\u0026ERROR_CODE=0x00000000\u0026URL=%2Fwrap\u0026HOSTNAME=wrapinvest.com.au\u0026PROTOCOL=https#"
-}, {
-	"id": 15505,
-	"name": "Platinum Asset Management",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15505/small/Untitled-1.png?1519088134",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.platinum.com.au/Authentication/Login?ReturnUrl=%2F"
-}, {
-	"id": 15506,
-	"name": "Implemented Portfolios",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15506/small/LOGO_22618_3_12.png?1519088136",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://ipportal.portfoliomanager.net/IanpmV5/responsive/Login/Login.aspx"
-}, {
-	"id": 15507,
-	"name": "Mason Stevens",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15507/small/Untitled-1.png?1519088138",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://masonstevensam.xplan.iress.com.au/clientaccess/dologin"
-}, {
-	"id": 15508,
-	"name": "Investment Exchange",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15508/small/LOGO_22639_3_12.png?1519088142",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.investmentexchange.com.au/cgi-bin/frameset.exe"
-}, {
-	"id": 15509,
-	"name": "Antares Capital Partners Ltd",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15509/small/Untitled-1.png?1519088147",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://online.antaresequities.com.au/#/login"
-}, {
-	"id": 15510,
-	"name": "Joseph Palmer \u0026 Sons",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15510/small/Logo_wEst_smal2.png?1519088151",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://login.onpraemium.com/jp"
-}, {
-	"id": 15511,
-	"name": "Smarter Money Investments",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_22669.PNG",
-	"small_logo_revision": 0,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://smitrust.fundbpo.com/login"
-}, {
-	"id": 15513,
-	"name": "NAB Equity Lending",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15513/small/Screen_Shot_2016-12-15_at_2.13.44_pm.png?1519088155",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment", "loan"],
-	"login_url": "https://equitylending.nab.com.au/login.aspx"
-}, {
-	"id": 15514,
-	"name": "Society One",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15514/small/large.png?1519088158",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://www.clearmatch.co/Account/SignIn?w=v6KWBLy7r3yL26MOQEAj+5eg8o//d13XcYU54ZpoHamjQJJado3TrEzHL9NI69IJEZuX56S4vdbf0U2s9l9bzXbXynE1gKtbctrcP2HqoNoNB61fzvjL7964HRKLay2FWIPHto+iZFzsmDaCa0KHFXKb0SD/7LAelheshyuCpa5pzUPC7C9Ow8l3+NEVw3TsRwbyjDB8uudWI5MgYjRr+xW9cRrGQW7ZoO03oTZtrqTxEG2RbCGNA+smuTzV/wjdTve+q3b84CojD1uTjUpA7A=="
-}, {
-	"id": 15515,
-	"name": "Catholic Super - CSF",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_22749.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.superfacts.com/public/csf/home.tpz"
-}, {
-	"id": 15516,
-	"name": "Qantas Money",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15516/small/LOGO_22758_3_1.png?1519088160",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://www.qantasmoney.com/account/login"
-}, {
-	"id": 15517,
-	"name": "Class",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15517/small/Untitled-1.png?1519088163",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://app.class.com.au/my/login"
-}, {
-	"id": 15518,
-	"name": "Public Sector Superannuation Scheme",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15518/small/PSS_Scheme_Block_Stacked_HEX.png?1519088167",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://member.comsuper.gov.au/login/generic/caloglfn.fcc?TYPE=33554433\u0026REALMOID=06-000aac4f-aa76-1de5-a663-1462ac1840f5\u0026GUID=\u0026SMAUTHREASON=0\u0026METHOD=GET\u0026SMAGENTNAME=-SM-boFynyFE9jczy7ra1lzqLmXPeVc9xLptAWQSI9ksks1Hx%2foGQmJxQA7Fy25%2fXt9X\u0026TARGET=-SM-http%3a%2f%2fmember%2ecomsuper%2egov%2eau%2fcomsuper_mil%2fmembers"
-}, {
-	"id": 15520,
-	"name": "Firstmac",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15520/small/logo-firstmac.png?1519088171",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "investment", "loan"],
-	"login_url": "https://money.firstmac.com.au"
-}, {
-	"id": 15521,
-	"name": "Horizon CU",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15521/small/Horizon-Credit-Union-250x1122.png?1520332680",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "loan"],
-	"login_url": "https://handynet.horizoncreditunion.com.au/mvphcu/SignOn/Login.aspx"
-}, {
-	"id": 15522,
-	"name": "First Super",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15522/small/Untitled-2.png?1519088180",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://firstonline.firstsuper.com.au/aol/index.html#MemberLogin"
-}, {
-	"id": 15523,
-	"name": "Connective Home Loans(Mortgage)",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_Default.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["loan"],
-	"login_url": "https://mortgage.advantedge.com.au/StarNet/UserAccount/Login?oid=932\u0026soid=ch7"
-}, {
-	"id": 15524,
-	"name": "Australian Executor Trustees",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15524/small/2018-03-04_22-10-22.png?1520161957",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://www.aetmyportfolio.com.au/login.jsp"
-}, {
-	"id": 15525,
-	"name": "Society One - Investments",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15525/small/4ba28978-b5d4-4d3b-8302-3dbac1197fa0.png?1519088184",
-	"small_logo_revision": 1,
-	"status": "beta",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://societyoneagrilending.force.com/investors/s/login/?startURL=%2Finvestors%2Fs%2F\u0026ec=302"
-}, {
-	"id": 15526,
-	"name": "Macquarie Bank (Advisers Wrap)",
-	"small_logo_url": "https://frollo-sandbox.s3.amazonaws.com/providers/15526/small/Screen_Shot_2017-03-03_at_11.54.40_am.png?1519088188",
-	"small_logo_revision": 1,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["investment"],
-	"login_url": "https://secure.macquarie.com.au/sepas/serve?TAM_OP=login\u0026USERNAME=unauthenticated\u0026ERROR_CODE=0x00000000\u0026URL=%2Fpkmscdsso%3Fhttps%3A%2F%2Fwww.macquarie.com.au%2Fwrapsolutions%2FPortfolioMgr\u0026HOSTNAME=secure.macquarie.com.au\u0026PROTOCOL=https"
-}, {
-	"id": 15549,
-	"name": "Westpac Mobile",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_20770.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card", "investment", "loan"],
-	"login_url": "https://online.westpac.com.au/gatekeeper/getintdata"
-}, {
-	"id": 15550,
-	"name": "Latitude Infinity",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_Default.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["credit_card"],
-	"login_url": "https://latitudeinfinity-online.latitudefinancial.com.au/access/login"
-}, {
-	"id": 15551,
-	"name": "BDCU Alliance Bank",
-	"small_logo_url": "https://yodlee-1.hs.llnwd.net/v1/FAVICON/FAV_25111.PNG",
-	"small_logo_revision": 0,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank"],
-	"login_url": "https://online.bdcualliancebank.com.au/mvpbdcu/SignOn/Login.aspx"
-}, {
-	"id": 198888883,
-	"name": "PayPal",
-	"small_logo_url": "https://example.com/small_logo.png",
-	"small_logo_revision": 2,
-	"status": "supported",
-	"popular": false,
-	"container_names": ["bank", "credit_card"],
-	"login_url": "https://www.paypal.com/signin/"
+	"login_url": "https://online.interestfree.com.au/access/login",
+    "aggregator_type": "yodlee"
 }]

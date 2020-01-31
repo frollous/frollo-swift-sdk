@@ -110,6 +110,43 @@ public class Provider: NSManagedObject, UniqueManagedObject {
         
     }
     
+    /**
+      Aggregator Type
+     
+     The aggregator used to authenticate and fetch transactions from provider
+     */
+    public enum AggregatorType: String, Codable {
+        
+        /// Yodlee aggregation platform
+        case yodlee
+        
+        /// Direct API connection via the Consumer Data Right (Open Banking) regime
+        case cdr
+        
+        /// Unknown aggregator
+        case unknown
+    }
+    
+    /**
+     Provider permissions
+     
+     The permission groups that are supported by this Provider. For now, this is only returned for cdr type Providers, and it will always contain the following three values (as mandated by the CDR spec)
+     */
+    public enum Permission: String, Codable {
+        
+        /// Customer's name, occupation and contact details
+        case customerDetails
+        
+        /// Account name, balance and details
+        case accountDetails
+        
+        /// Transaction details
+        case transactionDetails
+        
+        /// Unknown permission
+        case unknown
+    }
+    
     /// Core Data entity description name
     static let entityName = "Provider"
     
@@ -245,6 +282,32 @@ public class Provider: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    /// Aggregator type on the provider
+    public var aggregatorType: AggregatorType {
+        get {
+            return AggregatorType(rawValue: aggregatorTypeRawValue) ?? .yodlee
+        }
+        set {
+            aggregatorTypeRawValue = newValue.rawValue
+        }
+    }
+    
+    /// The aggregator permissions on the provider (This value will be set for cdr aggregator)
+    public var permissions: [Permission]? {
+        get {
+            let permissionStrings = permissionsRawValue?.components(separatedBy: "|")
+            return permissionStrings?.map { Permission(rawValue: $0) }.compactMap { $0 }
+        }
+        set {
+            if let newValue = newValue {
+                let newString = newValue.map { $0.rawValue }.joined(separator: "|")
+                permissionsRawValue = "|" + newString + "|"
+            } else {
+                permissionsRawValue = nil
+            }
+        }
+    }
+    
     // MARK: - Relationships
     
     internal func linkObject(object: NSManagedObject) {
@@ -265,6 +328,8 @@ public class Provider: NSManagedObject, UniqueManagedObject {
         popular = response.popular
         smallLogoURLString = response.smallLogoURLString
         status = response.status
+        aggregatorType = AggregatorType(rawValue: response.aggregatorType) ?? .unknown
+        permissions = response.permissions?.map { Permission(rawValue: $0) ?? .unknown }
         
         // Reset all containers
         containerBank = false
