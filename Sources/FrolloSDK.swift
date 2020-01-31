@@ -13,8 +13,8 @@ public typealias FrolloSDKCompletionHandler = (EmptyResult<Error>) -> Void
 /// Frollo SDK Completion Handler with pagination optional before and after cursors and optional error if an issue occurs
 public typealias FrolloSDKPaginatedCompletionHandler = (PaginatedResult<Error, Int64?, Int64?>) -> Void
 
-/// Result with informayion of Pagination cursors
-public typealias PaginationInfo = (before: String?, after: String?)
+/// Result with information of Pagination cursors and total count
+public typealias PaginationInfo = (before: String?, after: String?, total: Int?)
 
 /// Frollo SDK Completion Handler with pagination optional before and after cursors and optional error if an issue occurs
 public typealias TransactionPaginatedCompletionHandler = (Result<PaginationInfo, Error>) -> Void
