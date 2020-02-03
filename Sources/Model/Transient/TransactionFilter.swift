@@ -19,8 +19,30 @@ import Foundation
 // Repersents a model that contains all the filters to apply on transaction list
 public struct TransactionFilter {
     
-    // Initializer
-    public init(transactionIDs: [Int64]? = nil, accountIDs: [Int64]? = nil, budgetCategories: [BudgetCategory]? = nil, transactionCategoryIDs: [Int64]? = nil, merchantIDs: [Int64]? = nil, searchTerm: String? = nil, minimumAmount: String? = nil, maximumAmount: String? = nil, baseType: Transaction.BaseType? = nil, tags: [String]? = nil, status: Transaction.Status? = nil, fromDate: String? = nil, toDate: String? = nil, transactionIncluded: Bool? = nil, accountIncluded: Bool? = nil, after: String? = nil, before: String? = nil) {
+    /**
+    Initializer
+    
+    - parameters:
+        - transactionIDs: Array of `Transaction.transactionID` to filter transactions; Optional
+        - accountIDs: Array of `Transaction.accountID` to filter transactions; Optional
+        - budgetCategories: Array of `BudgetCategory` to filter transactions
+        - transactionCategoryIDs: Array of `Transaction.transactionCategoryID` to filter transactions
+        - merchantIDs: Array of `Transaction.mechantID` to filter transactions
+        - searchTerm: Search term to filter transactions
+        - minimumAmount: Amount to filter tramsactions from (inclusive)
+        - maximumAmount: Amount to filter transactions to (inclusive)
+        - baseType: `Transaction.BaseType` to filter transactions
+        - tags: Array of tags to filter transactions
+        - status: `Transaction.Status` to filter transactions
+        - fromDate: Date to filter transactions from (inclusive)
+        - toDate: Date to filter transactions to (inclusive)
+        - transactionIncluded:`Transaction.included` status of 'Transaction' to filter by
+        - accountIncluded: 'included' status of 'Account' to filter by
+        - after: after field to get next list in pagination. Format is "<epoch_date>_<transaction_id>"
+        - before: before field to get previous list in pagination. Format is "<epoch_date>_<transaction_id>"
+        - size: Count of objects to return in one call
+    */
+    public init(transactionIDs: [Int64]? = nil, accountIDs: [Int64]? = nil, budgetCategories: [BudgetCategory]? = nil, transactionCategoryIDs: [Int64]? = nil, merchantIDs: [Int64]? = nil, searchTerm: String? = nil, minimumAmount: String? = nil, maximumAmount: String? = nil, baseType: Transaction.BaseType? = nil, tags: [String]? = nil, status: Transaction.Status? = nil, fromDate: String? = nil, toDate: String? = nil, transactionIncluded: Bool? = nil, accountIncluded: Bool? = nil, after: String? = nil, before: String? = nil, size: Int? = nil) {
         
         self.transactionIDs = transactionIDs
         self.accountIDs = accountIDs
@@ -39,6 +61,7 @@ public struct TransactionFilter {
         self.accountIncluded = accountIncluded
         self.after = after
         self.before = before
+        self.size = size
     }
     
     // Array of `Transaction.transactionID` to filter transactions
@@ -65,13 +88,13 @@ public struct TransactionFilter {
     // Amount to filter transactions to (inclusive)
     public var maximumAmount: String?
     
-    // 'Transaction.BaseType' to filter transactions
+    // `Transaction.BaseType` to filter transactions
     public var baseType: Transaction.BaseType?
     
     // Array of tags to filter transactions
     public var tags: [String]?
     
-    // 'Transaction.Status' to filter transactions
+    // `Transaction.Status` to filter transactions
     public var status: Transaction.Status?
     
     // Date to filter transactions from (inclusive)
@@ -80,7 +103,7 @@ public struct TransactionFilter {
     // Date to filter transactions to (inclusive)
     public var toDate: String?
     
-    // 'included' status of 'Transaction' to filter by
+    // `Transaction.included` status of 'Transaction' to filter by
     public var transactionIncluded: Bool?
     
     // 'included' status of 'Account' to filter by
@@ -89,8 +112,11 @@ public struct TransactionFilter {
     // after field to get next list in pagination. Format is "<epoch_date>_<transaction_id>"
     public var after: String?
     
-    // after field to get previous list in pagination. Format is "<epoch_date>_<transaction_id>"
+    // before field to get previous list in pagination. Format is "<epoch_date>_<transaction_id>"
     public var before: String?
+    
+    // Count of objects to return in one call
+    public var size: Int?
     
     // predicates for `TransactionFilter`
     public var filterPredicates: [NSPredicate] {
@@ -112,6 +138,11 @@ public struct TransactionFilter {
         // Filter by transactionIDs
         if let transactionIDs = transactionIDs, !transactionIDs.isEmpty {
             filterPredicates.append(NSPredicate(format: #keyPath(Transaction.transactionID) + " IN %@ ", argumentArray: [transactionIDs]))
+        }
+        
+        // Filter by merchantIDs
+        if let merchantIDs = merchantIDs, !merchantIDs.isEmpty {
+            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.merchantID) + " IN %@ ", argumentArray: [merchantIDs]))
         }
         
         // Filter by accountIDs
@@ -160,12 +191,12 @@ public struct TransactionFilter {
         
         // Filter by transaction Included
         if let transactionIncluded = transactionIncluded {
-            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.included) + " == %@", argumentArray: [transactionIncluded ? "TRUE" : "FALSE"]))
+            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.included) + " == %@", argumentArray: [transactionIncluded]))
         }
         
         // Filter by account Included
         if let accountIncluded = accountIncluded {
-            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.account.included) + " == %@", argumentArray: [accountIncluded ? "TRUE" : "FALSE"]))
+            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.account.included) + " == %@", argumentArray: [accountIncluded]))
         }
         
         // Filter by search term
@@ -249,8 +280,16 @@ public struct TransactionFilter {
             queryItems.append(URLQueryItem(name: "tags", value: tags.joined(separator: ",")))
         }
         
+        if let before = before {
+            queryItems.append(URLQueryItem(name: "before", value: before))
+        }
+        
         if let after = after {
             queryItems.append(URLQueryItem(name: "after", value: after))
+        }
+        
+        if let size = size {
+            queryItems.append(URLQueryItem(name: "size", value: String(size)))
         }
         
         if !queryItems.isEmpty {

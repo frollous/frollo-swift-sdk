@@ -931,7 +931,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
-                        completion?(.success(PaginationInfo(before: response.paging?.cursors?.before, after: response.paging?.cursors?.after)))
+                        completion?(.success(PaginationInfo(before: response.paging?.cursors?.before, after: response.paging?.cursors?.after, total: response.paging?.total)))
                     }
             }
         }
@@ -1055,11 +1055,11 @@ public class Aggregation: CachedObjects, ResponseHandler {
                         completion?(.failure(error))
                     }
                     
-                case .success(let before, let after):
+                case .success(let before, let after, let total):
                     
                     if after == nil {
                         DispatchQueue.main.async {
-                            completion?(.success(PaginationInfo(before: before, after: after)))
+                            completion?(.success(PaginationInfo(before: before, after: after, total: total)))
                         }
                     } else {
                         var updatedTransactionFilter = transactionFilter
