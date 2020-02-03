@@ -3525,9 +3525,10 @@ class AggregationTests: BaseTestCase {
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
-                case .success(let before, let after):
-                    XCTAssertEqual(before, 10)
-                    XCTAssertEqual(after, 60)
+                case .success(let before, let after, let total):
+                    XCTAssertEqual(before, "10")
+                    XCTAssertEqual(after, "60")
+                    XCTAssertEqual(total, 100)
             }
             
             expectation2.fulfill()
@@ -3560,13 +3561,13 @@ class AggregationTests: BaseTestCase {
         
         connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchant_page_2")
         
-         aggregation.refreshMerchants(after: 51, size: 50) { result in
+         aggregation.refreshMerchants(after: "51", size: 50) { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
-                    case .success(let before, let after):
-                        XCTAssertEqual(before, 60)
-                        XCTAssertEqual(after, 110)
+                    case .success(let before, let after, _):
+                        XCTAssertEqual(before, "60")
+                        XCTAssertEqual(after, "110")
                 }
             
             XCTAssertNil(aggregation.merchant(context: self.context, merchantID: 78))
@@ -3990,10 +3991,11 @@ class AggregationTests: BaseTestCase {
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
-                case .success(let before, let after):
+                case .success(let before, let after, let total):
                     
-                    XCTAssertEqual(before, 60)
-                    XCTAssertEqual(after, 110)
+                    XCTAssertEqual(before, "60")
+                    XCTAssertEqual(after, "110")
+                    XCTAssertEqual(total, 100)
                     
                     let context = self.context
                     
@@ -4037,6 +4039,35 @@ class AggregationTests: BaseTestCase {
         }
         
         wait(for: [expectation1], timeout: 5.0)
+    }
+    
+    func testSearchMerchants() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_valid")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            aggregation.searchMerchants(keyword: "") { result in
+                switch result{
+                    case .success(let merchants):
+                        XCTAssertEqual(merchants.data.count, 1200)
+                        XCTAssertEqual(merchants.data.first?.merchantID, 1)
+                        XCTAssertEqual(merchants.data.first?.merchantName, "Unknown")
+                        XCTAssertEqual(merchants.data.first?.iconURL, "https://frollo-sandbox.s3.amazonaws.com/merchants/1/original/Untitled-1.png?1519084540")
+                        XCTAssertEqual(merchants.after, "20")
+                        XCTAssertEqual(merchants.before, "20")
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    }
+                
+                    expectation1.fulfill()
+                }
+            }
+        wait(for: [expectation1], timeout: 3.0)
     }
 }
 

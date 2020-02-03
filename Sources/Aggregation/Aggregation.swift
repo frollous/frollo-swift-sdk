@@ -910,7 +910,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
          - transactionFilter: `TransactionFilter` object to filter transactions
          - completion: Optional completion handler with optional error if the request fails
      */
-    public func refreshTransactions(transactionFilter: TransactionFilter? = nil, completion: TransactionPaginatedCompletionHandler? = nil) {
+    public func refreshTransactions(transactionFilter: TransactionFilter? = nil, completion: FrolloSDKPaginatedCompletionHandler? = nil) {
         service.fetchTransactions(transactionFilter: transactionFilter) { result in
             switch result {
                 case .failure(let error):
@@ -1044,7 +1044,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
-    private func refreshNextTransactions(transactionFilter: TransactionFilter, completion: TransactionPaginatedCompletionHandler? = nil) {
+    private func refreshNextTransactions(transactionFilter: TransactionFilter, completion: FrolloSDKPaginatedCompletionHandler? = nil) {
         
         refreshTransactions(transactionFilter: transactionFilter) { result in
             switch result {
@@ -1785,8 +1785,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - size: Batch size of merchants to returned by API (optional); defaults to 500
         - completion: Optional completion handler with optional error if the request fails
      */
-    internal func refreshMerchants(before: Int? = nil, after: Int? = nil, size: Int? = 500, completion: FrolloSDKPaginatedCompletionHandler? = nil) {
-        service.fetchMerchants(after: after, before: before, size: size) { result in
+    internal func refreshMerchants(before: String? = nil, after: String? = nil, size: Int? = 500, completion: FrolloSDKPaginatedCompletionHandler? = nil) {
+        service.fetchMerchants(before: before, after: after, size: size) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -1797,14 +1797,14 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleMerchantsResponse(response.data.elements, before: response.paging.cursors.before, after: response.paging.cursors.after, managedObjectContext: managedObjectContext)
+                    self.handleMerchantsResponse(response.data.elements, before: response.paging?.cursors?.before, after: response.paging?.cursors?.after, managedObjectContext: managedObjectContext)
                     
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.merchantsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
-                        completion?(.success(response.paging.cursors.before, response.paging.cursors.after))
+                        completion?(.success(PaginationInfo(response.paging?.cursors?.before, response.paging?.cursors?.after, response.paging?.total)))
                     }
             }
         }
@@ -1839,7 +1839,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     NotificationCenter.default.post(name: Aggregation.merchantsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
-                        completion?(.success(response.paging.cursors.before, response.paging.cursors.after))
+                        completion?(.success(PaginationInfo(response.paging?.cursors?.before, response.paging?.cursors?.after, response.paging?.total)))
                     }
             }
         }
@@ -1874,12 +1874,12 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     
                     NotificationCenter.default.post(name: Aggregation.merchantsUpdatedNotification, object: self)
                     
-                    if let nextMerchantID = response.paging.cursors.after {
+                    if let nextCursor = response.paging?.cursors?.after, let nextMerchantID = Int64(nextCursor) {
                         after = nextMerchantID
                         self.refreshMerchants(batchSize: batchSize, merchantIDs: merchantIDs, completion: completion)
                     } else {
                         DispatchQueue.main.async {
-                            completion?(.success(response.paging.cursors.before, response.paging.cursors.after))
+                            completion?(.success(PaginationInfo(response.paging?.cursors?.before, response.paging?.cursors?.after, response.paging?.total)))
                         }
                     }
             }
@@ -1962,6 +1962,39 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 Log.error(error.localizedDescription)
             }
         }
+    }
+    
+    /**
+     Search Merchants by keyword
+     
+     - parameters:
+        - keyword: Search term
+        - before: MerchantID for previous page (in string); Optional
+        - after: MerchantID for next page (in string); Optional
+        - size: Size of the page; Optional
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func searchMerchants(keyword: String, before: String? = nil, after: String? = nil, size: Int? = nil, completion: @escaping (Result<MerchantSearchResult, Error>) -> Void) {
+        
+        service.fetchMerchants(keyword: keyword, before: before, after: after, size: size) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    
+                    var searchedMerchants = [MerchantSearch]()
+                    response.data.elements.forEach { apiMerchant in
+                        searchedMerchants.append(MerchantSearch(merchantID: apiMerchant.id, merchantName: apiMerchant.name, iconURL: apiMerchant.smallLogoURL))
+                    }
+                    
+                    completion(.success(MerchantSearchResult(searchedMerchants, response.paging?.cursors?.before, response.paging?.cursors?.after)))
+            }
+        }
+        
     }
     
     // MARK: - Linking Objects
@@ -2365,7 +2398,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         
     }
     
-    private func handleTransactionsResponse(transactionsResponse: APITransactionPaginatedResponse, transactionFilter: TransactionFilter?, managedObjectContext: NSManagedObjectContext) {
+    private func handleTransactionsResponse(transactionsResponse: APIPaginatedResponse<APITransactionResponse>, transactionFilter: TransactionFilter?, managedObjectContext: NSManagedObjectContext) {
         
         var filterPredicates = [NSPredicate]()
         
@@ -2489,15 +2522,15 @@ public class Aggregation: CachedObjects, ResponseHandler {
         handleMerchantsResponse(merchantsResponse, predicate: predicate, managedObjectContext: managedObjectContext)
     }
     
-    private func handleMerchantsResponse(_ merchantsResponse: [APIMerchantResponse], before: Int64?, after: Int64?, managedObjectContext: NSManagedObjectContext) {
+    private func handleMerchantsResponse(_ merchantsResponse: [APIMerchantResponse], before: String?, after: String?, managedObjectContext: NSManagedObjectContext) {
         
         var predicates = [NSPredicate]()
         
-        if let beforeID = before {
+        if let beforeID = Int64(before ?? "") {
             predicates.append(NSPredicate(format: #keyPath(Merchant.merchantID) + " > %ld", argumentArray: [beforeID]))
         }
         
-        if let afterID = after {
+        if let afterID = Int64(after ?? "") {
             predicates.append(NSPredicate(format: #keyPath(Merchant.merchantID) + " <= %ld", argumentArray: [afterID]))
         }
         

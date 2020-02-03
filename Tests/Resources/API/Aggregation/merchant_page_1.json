@@ -286,9 +286,10 @@
         }
     ],
     "paging": {
+        "total": 100,
         "cursors": {
-            "before": 10,
-            "after": 60
+            "before": "10",
+            "after": "60"
         },
         "previous": "https://api-sandbox.frollo.us/api/v2/aggregation/merchants/?before=10&size=50",
         "next": "https://api-sandbox.frollo.us/api/v2/aggregation/merchants/?after=60&size=50"
