@@ -126,33 +126,33 @@ public struct TransactionFilter {
         // Filter by from Date
         if let fromDate = fromDate, let date = Transaction.transactionDateFormatter.date(from: fromDate) {
             let fromDateString = Transaction.transactionDateFormatter.string(from: date)
-            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.transactionDateString) + " >= %@ ", argumentArray: [fromDateString]))
+            filterPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.transactionDateString)) >= %@ ", argumentArray: [fromDateString]))
         }
         
         // Filter by to Date
         if let toDate = toDate, let date = Transaction.transactionDateFormatter.date(from: toDate) {
             let toDateString = Transaction.transactionDateFormatter.string(from: date)
-            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.transactionDateString) + " <= %@ ", argumentArray: [toDateString]))
+            filterPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.transactionDateString)) <= %@ ", argumentArray: [toDateString]))
         }
         
         // Filter by transactionIDs
         if let transactionIDs = transactionIDs, !transactionIDs.isEmpty {
-            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.transactionID) + " IN %@ ", argumentArray: [transactionIDs]))
+            filterPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.transactionID)) IN %@ ", argumentArray: [transactionIDs]))
         }
         
         // Filter by merchantIDs
         if let merchantIDs = merchantIDs, !merchantIDs.isEmpty {
-            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.merchantID) + " IN %@ ", argumentArray: [merchantIDs]))
+            filterPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.merchantID)) IN %@ ", argumentArray: [merchantIDs]))
         }
         
         // Filter by accountIDs
         if let accountIDs = accountIDs, !accountIDs.isEmpty {
-            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.accountID) + " IN %@ ", argumentArray: [accountIDs]))
+            filterPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.accountID)) IN %@ ", argumentArray: [accountIDs]))
         }
         
         // Filter by transaction categoryIDs
         if let transactionCategoryIDs = transactionCategoryIDs, !transactionCategoryIDs.isEmpty {
-            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.transactionCategoryID) + " IN %@ ", argumentArray: [transactionCategoryIDs]))
+            filterPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.transactionCategoryID)) IN %@ ", argumentArray: [transactionCategoryIDs]))
         }
         
         // Filter by budget categories
@@ -162,7 +162,7 @@ public struct TransactionFilter {
         
         // Filter by basetype
         if let baseType = baseType {
-            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.baseTypeRawValue) + " == %@", argumentArray: [baseType.rawValue]))
+            filterPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.baseTypeRawValue)) == %@", argumentArray: [baseType.rawValue]))
         }
         
         // Filter by amounts
@@ -171,9 +171,9 @@ public struct TransactionFilter {
             let minimumDecimalValue = NSDecimalNumber(string: minimumAmount)
             let maximumDecimalValue = NSDecimalNumber(string: maximumAmount)
             
-            let positivePredicate = NSPredicate(format: #keyPath(Transaction.amount) + " >= %@ && " + #keyPath(Transaction.amount) + " <= %@", argumentArray: [minimumDecimalValue, maximumDecimalValue])
+            let positivePredicate = NSPredicate(format: "\(#keyPath(Transaction.amount)) >= %@ && \(#keyPath(Transaction.amount)) <= %@", argumentArray: [minimumDecimalValue, maximumDecimalValue])
             
-            let negativePredicate = NSPredicate(format: #keyPath(Transaction.amount) + " <= %@ && " + #keyPath(Transaction.amount) + " >= %@", argumentArray: [minimumDecimalValue.negativeValue, maximumDecimalValue.negativeValue])
+            let negativePredicate = NSPredicate(format: "\(#keyPath(Transaction.amount)) <= %@ && \(#keyPath(Transaction.amount)) >= %@", argumentArray: [minimumDecimalValue.negativeValue, maximumDecimalValue.negativeValue])
             
             filterPredicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [positivePredicate, negativePredicate]))
             
@@ -181,15 +181,15 @@ public struct TransactionFilter {
             
             let minimumDecimalValue = NSDecimalNumber(string: minimumAmount)
             
-            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.amount) + " >= %@ || " + #keyPath(Transaction.amount) + " <= %@", argumentArray: [minimumDecimalValue, minimumDecimalValue.negativeValue]))
+            filterPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.amount)) >= %@ || \(#keyPath(Transaction.amount)) <= %@", argumentArray: [minimumDecimalValue, minimumDecimalValue.negativeValue]))
             
         } else if let maximumAmount = maximumAmount {
             
             let maximumDecimalValue = NSDecimalNumber(string: maximumAmount)
             
-            let positivePredicate = NSPredicate(format: #keyPath(Transaction.amount) + " >= 0 && " + #keyPath(Transaction.amount) + " <= %@", argumentArray: [maximumDecimalValue])
+            let positivePredicate = NSPredicate(format: "\(#keyPath(Transaction.amount)) >= 0 && \(#keyPath(Transaction.amount)) <= %@", argumentArray: [maximumDecimalValue])
             
-            let negativePredicate = NSPredicate(format: #keyPath(Transaction.amount) + " >= %@ && " + #keyPath(Transaction.amount) + " <= 0", argumentArray: [maximumDecimalValue.negativeValue])
+            let negativePredicate = NSPredicate(format: "\(#keyPath(Transaction.amount)) >= %@ && \(#keyPath(Transaction.amount)) <= 0", argumentArray: [maximumDecimalValue.negativeValue])
             
             filterPredicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [positivePredicate, negativePredicate]))
             
@@ -197,39 +197,39 @@ public struct TransactionFilter {
         
         // Filter by status
         if let status = status {
-            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.statusRawValue) + " == %@ ", argumentArray: [status.rawValue]))
+            filterPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.statusRawValue)) == %@ ", argumentArray: [status.rawValue]))
         }
         
         // Filter by tag
         if let tags = tags, !tags.isEmpty {
             var tagsPredicate = [NSPredicate]()
             tags.forEach { tagName in
-                tagsPredicate.append(NSPredicate(format: #keyPath(Transaction.userTagsRawValue) + " CONTAINS[cd] %@", argumentArray: [tagName]))
+                tagsPredicate.append(NSPredicate(format: "\(#keyPath(Transaction.userTagsRawValue)) CONTAINS[cd] %@", argumentArray: [tagName]))
             }
             filterPredicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: tagsPredicate))
         }
         
         // Filter by transaction Included
         if let transactionIncluded = transactionIncluded {
-            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.included) + " == %@", argumentArray: [transactionIncluded]))
+            filterPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.included)) == %@", argumentArray: [transactionIncluded]))
         }
         
         // Filter by account Included
         if let accountIncluded = accountIncluded {
-            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.account.included) + " == %@", argumentArray: [accountIncluded]))
+            filterPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.account.included)) == %@", argumentArray: [accountIncluded]))
         }
         
         // Filter by search term
         if let searchTerm = searchTerm, !searchTerm.isEmpty {
             var searchTermPredicates: [NSPredicate] = []
             
-            searchTermPredicates.append(NSPredicate(format: #keyPath(Transaction.userDescription) + " CONTAINS[cd] %@ ", argumentArray: [searchTerm]))
+            searchTermPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.userDescription)) CONTAINS[cd] %@ ", argumentArray: [searchTerm]))
             
-            searchTermPredicates.append(NSPredicate(format: #keyPath(Transaction.simpleDescription) + " CONTAINS[cd] %@ ", argumentArray: [searchTerm]))
+            searchTermPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.simpleDescription)) CONTAINS[cd] %@ ", argumentArray: [searchTerm]))
             
-            searchTermPredicates.append(NSPredicate(format: #keyPath(Transaction.originalDescription) + " CONTAINS[cd] %@ ", argumentArray: [searchTerm]))
+            searchTermPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.originalDescription)) CONTAINS[cd] %@ ", argumentArray: [searchTerm]))
             
-            searchTermPredicates.append(NSPredicate(format: #keyPath(Transaction.memo) + " CONTAINS[cd] %@ ", argumentArray: [searchTerm]))
+            searchTermPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.memo)) CONTAINS[cd] %@ ", argumentArray: [searchTerm]))
             
             filterPredicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: searchTermPredicates))
         }
