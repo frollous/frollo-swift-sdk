@@ -82,7 +82,7 @@ public struct TransactionFilter {
     // Search term to filter transactions
     public var searchTerm: String?
     
-    // Amount(absolute value) to filter tramsactions from (inclusive)
+    // Amount(absolute value) to filter transactions from (inclusive)
     public var minimumAmount: String?
     
     // Amount(absolute value) to filter transactions to (inclusive)
@@ -165,14 +165,34 @@ public struct TransactionFilter {
             filterPredicates.append(NSPredicate(format: #keyPath(Transaction.baseTypeRawValue) + " == %@", argumentArray: [baseType.rawValue]))
         }
         
-        // Filter by minimum amount
-        if let minimumAmount = minimumAmount, let floatAmount = Float(minimumAmount) {
-            filterPredicates.append(NSPredicate(format: "abs(" + #keyPath(Transaction.amount) + ") >= %@ ", argumentArray: [floatAmount]))
-        }
-        
-        // Filter by maximum amount
-        if let maximumAmount = maximumAmount, let floatAmount = Float(maximumAmount) {
-            filterPredicates.append(NSPredicate(format: "abs(" + #keyPath(Transaction.amount) + ") <= %@ ", argumentArray: [floatAmount]))
+        // Filter by amounts
+        if let minimumAmount = minimumAmount, let maximumAmount = maximumAmount {
+            
+            let minimumDecimalValue = NSDecimalNumber(string: minimumAmount)
+            let maximumDecimalValue = NSDecimalNumber(string: maximumAmount)
+            
+            let positivePredicate = NSPredicate(format: #keyPath(Transaction.amount) + " >= %@ && " + #keyPath(Transaction.amount) + " <= %@", argumentArray: [minimumDecimalValue, maximumDecimalValue])
+            
+            let negativePredicate = NSPredicate(format: #keyPath(Transaction.amount) + " <= %@ && " + #keyPath(Transaction.amount) + " >= %@", argumentArray: [minimumDecimalValue.negativeValue, maximumDecimalValue.negativeValue])
+            
+            filterPredicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [positivePredicate, negativePredicate]))
+            
+        } else if let minimumAmount = minimumAmount {
+            
+            let minimumDecimalValue = NSDecimalNumber(string: minimumAmount)
+            
+            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.amount) + " >= %@ || " + #keyPath(Transaction.amount) + " <= %@", argumentArray: [minimumDecimalValue, minimumDecimalValue.negativeValue]))
+            
+        } else if let maximumAmount = maximumAmount {
+            
+            let maximumDecimalValue = NSDecimalNumber(string: maximumAmount)
+            
+            let positivePredicate = NSPredicate(format: #keyPath(Transaction.amount) + " >= 0 && " + #keyPath(Transaction.amount) + " <= %@", argumentArray: [maximumDecimalValue])
+            
+            let negativePredicate = NSPredicate(format: #keyPath(Transaction.amount) + " >= %@ && " + #keyPath(Transaction.amount) + " <= 0", argumentArray: [maximumDecimalValue.negativeValue])
+            
+            filterPredicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [positivePredicate, negativePredicate]))
+            
         }
         
         // Filter by status

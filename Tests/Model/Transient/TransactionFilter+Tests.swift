@@ -45,7 +45,7 @@ class TransactionFilterTests: BaseTestCase {
         transactionFilter.populateTestData()
         let predicates = transactionFilter.filterPredicates
            
-        XCTAssertEqual(NSCompoundPredicate(andPredicateWithSubpredicates: predicates).predicateFormat, "transactionDateString >= \"2019-11-11\" AND transactionDateString <= \"2020-01-29\" AND transactionID IN {66, 77, 88, 99} AND merchantID IN {23, 45, 67, 78} AND accountID IN {11, 22, 33} AND transactionCategoryID IN {4546, 5767, 6883} AND budgetCategoryRawValue IN {\"lifestyle\", \"goals\"} AND baseTypeRawValue == \"credit\" AND amount >= 22.44 AND amount <= 66 AND (userTagsRawValue CONTAINS[cd] \"Frollo&Volt\" OR userTagsRawValue CONTAINS[cd] \"Groceries Aldi\") AND included == 0 AND account.included == 1 AND (userDescription CONTAINS[cd] \"Woolies\" OR simpleDescription CONTAINS[cd] \"Woolies\" OR originalDescription CONTAINS[cd] \"Woolies\" OR memo CONTAINS[cd] \"Woolies\")")
+        XCTAssertEqual(NSCompoundPredicate(andPredicateWithSubpredicates: predicates).predicateFormat, "transactionDateString >= \"2019-11-11\" AND transactionDateString <= \"2020-01-29\" AND transactionID IN {66, 77, 88, 99} AND merchantID IN {23, 45, 67, 78} AND accountID IN {11, 22, 33} AND transactionCategoryID IN {4546, 5767, 6883} AND budgetCategoryRawValue IN {\"lifestyle\", \"goals\"} AND baseTypeRawValue == \"credit\" AND ((amount >= 22.44 AND amount <= 66) OR (amount <= -22.44 AND amount >= -66)) AND (userTagsRawValue CONTAINS[cd] \"Frollo&Volt\" OR userTagsRawValue CONTAINS[cd] \"Groceries Aldi\") AND included == 0 AND account.included == 1 AND (userDescription CONTAINS[cd] \"Woolies\" OR simpleDescription CONTAINS[cd] \"Woolies\" OR originalDescription CONTAINS[cd] \"Woolies\" OR memo CONTAINS[cd] \"Woolies\")")
        }
     
     func testTransactionFilters() {
@@ -91,21 +91,24 @@ class TransactionFilterTests: BaseTestCase {
                         transactionFilter = TransactionFilter(merchantIDs: [1603])
                         fetchedTransactions = aggregation.transactions(context: context, transactionFilter: transactionFilter)
                         XCTAssertEqual(fetchedTransactions?.count, 8)
-                    
-                        transactionFilter = TransactionFilter(minimumAmount: "2.10", maximumAmount: "3.95")
+
+                        transactionFilter = TransactionFilter(minimumAmount: "18.98", maximumAmount: "33.95")
                         fetchedTransactions = aggregation.transactions(context: context, transactionFilter: transactionFilter)
-                        XCTAssertEqual(fetchedTransactions?.count, 1)
+                        XCTAssertEqual(fetchedTransactions?.count, 9)
+                        print(fetchedTransactions!.map({$0.amount}))
                     
-                        transactionFilter = TransactionFilter(fromDate: "2020-01-03", toDate: "2020-01-15")
+                        transactionFilter = TransactionFilter(minimumAmount: "55.10")
+                        transactionFilter.baseType = .credit
                         fetchedTransactions = aggregation.transactions(context: context, transactionFilter: transactionFilter)
-                        XCTAssertEqual(fetchedTransactions?.count, 17)
+                        XCTAssertEqual(fetchedTransactions?.count, 6)
+
                 }
                 
                 expectation1.fulfill()
             }
         }
         
-        wait(for: [expectation1, notificationExpectation], timeout: 10.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 1000.0)
         
     }
     

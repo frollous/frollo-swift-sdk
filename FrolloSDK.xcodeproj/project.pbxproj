@@ -1278,6 +1278,8 @@
 		13CFDAA523989C1A00559476 /* APIBudgetUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CFDAA323989C1A00559476 /* APIBudgetUpdateRequest+Test.swift */; };
 		13CFDAA623989C1A00559476 /* APIBudgetUpdateRequest+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CFDAA323989C1A00559476 /* APIBudgetUpdateRequest+Test.swift */; };
 		13D44A33238B5E2400AF74EC /* PaginatedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D44A32238B5E2400AF74EC /* PaginatedResponse.swift */; };
+		13F5F5A323E7DB3000EC8734 /* NSDecimalNumber+NegativeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F5F5A223E7DB3000EC8734 /* NSDecimalNumber+NegativeValue.swift */; };
+		13F5F5A423E7DB3000EC8734 /* NSDecimalNumber+NegativeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F5F5A223E7DB3000EC8734 /* NSDecimalNumber+NegativeValue.swift */; };
 		2F04B8A923E27028008354BF /* TransactionFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0B461A23DFF56B00D16143 /* TransactionFilter.swift */; };
 		2F04B8AC23E2704C008354BF /* TransactionFilter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F04B8AA23E2703B008354BF /* TransactionFilter+Tests.swift */; };
 		2F04B8AD23E2704D008354BF /* TransactionFilter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F04B8AA23E2703B008354BF /* TransactionFilter+Tests.swift */; };
@@ -1920,6 +1922,7 @@
 		13CFDAA02398990E00559476 /* APIBudgetUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIBudgetUpdateRequest.swift; sourceTree = "<group>"; };
 		13CFDAA323989C1A00559476 /* APIBudgetUpdateRequest+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIBudgetUpdateRequest+Test.swift"; sourceTree = "<group>"; };
 		13D44A32238B5E2400AF74EC /* PaginatedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginatedResponse.swift; sourceTree = "<group>"; };
+		13F5F5A223E7DB3000EC8734 /* NSDecimalNumber+NegativeValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDecimalNumber+NegativeValue.swift"; sourceTree = "<group>"; };
 		2F04B8AA23E2703B008354BF /* TransactionFilter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TransactionFilter+Tests.swift"; sourceTree = "<group>"; };
 		2F0B461A23DFF56B00D16143 /* TransactionFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionFilter.swift; sourceTree = "<group>"; };
 		2F0B461C23E0E3BF00D16143 /* APITransactionPaginatedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionPaginatedResponse.swift; sourceTree = "<group>"; };
@@ -3254,6 +3257,7 @@
 				012606CE219BBD75005D8377 /* String+Random.swift */,
 				016097E9210EA0D60034E857 /* XCTestCase+TempFolder.swift */,
 				03ADF877227937A9001B5E20 /* XCTestCaseExtensions.swift */,
+				13F5F5A223E7DB3000EC8734 /* NSDecimalNumber+NegativeValue.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -4608,6 +4612,7 @@
 				034BD7F52399F54600142B7A /* Reports+Helpers.swift in Sources */,
 				01405E5721DDCD65009356CC /* BillPayment+CoreDataClass.swift in Sources */,
 				69E7DED52397692E00291937 /* ReportResponse.swift in Sources */,
+				13F5F5A323E7DB3000EC8734 /* NSDecimalNumber+NegativeValue.swift in Sources */,
 				032F10C023DA88E100F3BF01 /* CDRConsent.swift in Sources */,
 				01236D0E21EBFA34008DD61A /* ReportsEndpoint.swift in Sources */,
 				2FE180082248892800B87AAB /* OAuth2ErrorResponse.swift in Sources */,
@@ -5242,6 +5247,7 @@
 				01E5BF172227A475003D85FD /* UniqueManagedObject.swift in Sources */,
 				69E7DED62397692E00291937 /* ReportResponse.swift in Sources */,
 				032F10C123DA88E100F3BF01 /* CDRConsent.swift in Sources */,
+				13F5F5A423E7DB3000EC8734 /* NSDecimalNumber+NegativeValue.swift in Sources */,
 				01E5BF182227A475003D85FD /* Localization.swift in Sources */,
 				01E5BF192227A475003D85FD /* NetworkError.swift in Sources */,
 				01E5BF1A2227A475003D85FD /* APIMessageUpdateRequest.swift in Sources */,
