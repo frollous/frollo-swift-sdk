@@ -93,7 +93,7 @@ public struct TransactionFilter {
     // after field to get previous list in pagination. Format is "<epoch_date>_<transaction_id>"
     public var before: String?
     
-    // Count of pojects to retuen in one call
+    // Count of objects to return in one call
     public var size: Int?
     
     // predicates for `TransactionFilter`
