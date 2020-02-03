@@ -82,10 +82,10 @@ public struct TransactionFilter {
     // Search term to filter transactions
     public var searchTerm: String?
     
-    // Amount to filter tramsactions from (inclusive)
+    // Amount(absolute value) to filter tramsactions from (inclusive)
     public var minimumAmount: String?
     
-    // Amount to filter transactions to (inclusive)
+    // Amount(absolute value) to filter transactions to (inclusive)
     public var maximumAmount: String?
     
     // `Transaction.BaseType` to filter transactions
@@ -166,13 +166,13 @@ public struct TransactionFilter {
         }
         
         // Filter by minimum amount
-        if let minimumAmount = minimumAmount {
-            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.amount) + " >= %@ ", argumentArray: [NSDecimalNumber(string: minimumAmount)]))
+        if let minimumAmount = minimumAmount, let floatAmount = Float(minimumAmount) {
+            filterPredicates.append(NSPredicate(format: "abs(" + #keyPath(Transaction.amount) + ") >= %@ ", argumentArray: [floatAmount]))
         }
         
         // Filter by maximum amount
-        if let maximumAmount = maximumAmount {
-            filterPredicates.append(NSPredicate(format: #keyPath(Transaction.amount) + " <= %@ ", argumentArray: [NSDecimalNumber(string: maximumAmount)]))
+        if let maximumAmount = maximumAmount, let floatAmount = Float(maximumAmount) {
+            filterPredicates.append(NSPredicate(format: "abs(" + #keyPath(Transaction.amount) + ") <= %@ ", argumentArray: [floatAmount]))
         }
         
         // Filter by status

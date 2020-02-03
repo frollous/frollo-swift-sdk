@@ -71,7 +71,7 @@ class TransactionFilterTests: BaseTestCase {
                         transactionFilter.budgetCategories = [.living, .lifestyle]
                         var fetchedTransactions = aggregation.transactions(context: context, transactionFilter: transactionFilter)
                         XCTAssertEqual(fetchedTransactions?.count, 33)
-                    
+
                         transactionFilter = TransactionFilter(budgetCategories: [.income])
                         fetchedTransactions = aggregation.transactions(context: context, transactionFilter: transactionFilter)
                         XCTAssertEqual(fetchedTransactions?.count, 1)
@@ -92,9 +92,9 @@ class TransactionFilterTests: BaseTestCase {
                         fetchedTransactions = aggregation.transactions(context: context, transactionFilter: transactionFilter)
                         XCTAssertEqual(fetchedTransactions?.count, 8)
                     
-                        transactionFilter = TransactionFilter(minimumAmount: "-22.00", maximumAmount: "55.00")
+                        transactionFilter = TransactionFilter(minimumAmount: "2.10", maximumAmount: "3.95")
                         fetchedTransactions = aggregation.transactions(context: context, transactionFilter: transactionFilter)
-                        XCTAssertEqual(fetchedTransactions?.count, 18)
+                        XCTAssertEqual(fetchedTransactions?.count, 1)
                     
                         transactionFilter = TransactionFilter(fromDate: "2020-01-03", toDate: "2020-01-15")
                         fetchedTransactions = aggregation.transactions(context: context, transactionFilter: transactionFilter)
