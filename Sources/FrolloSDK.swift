@@ -16,9 +16,6 @@ public typealias FrolloSDKPaginatedCompletionHandler = (Result<PaginationInfo, E
 /// Result with information of Pagination cursors and total count
 public typealias PaginationInfo = (before: String?, after: String?, total: Int?)
 
-/// Merchant search response
-public typealias MerchantSearchResult = (data: [MerchantSearch], before: String?, after: String?)
-
 /// Frollo SDK manager and main instantiation. Responsible for managing the lifecycle and coordination of the SDK
 public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     

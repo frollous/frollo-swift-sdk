@@ -40,6 +40,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
         case relevance
     }
     
+    /// Merchant search response
+    public typealias MerchantSearchResponse = (data: [MerchantSearchResult], before: String?, after: String?)
+    
     /**
      Tuple of tagname (String) and apply to all similar transactions (Bool)
      */
@@ -1974,7 +1977,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - size: Size of the page; Optional
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func searchMerchants(keyword: String, before: String? = nil, after: String? = nil, size: Int? = nil, completion: @escaping (Result<MerchantSearchResult, Error>) -> Void) {
+    public func searchMerchants(keyword: String, before: String? = nil, after: String? = nil, size: Int? = nil, completion: @escaping (Result<MerchantSearchResponse, Error>) -> Void) {
         
         service.fetchMerchants(keyword: keyword, before: before, after: after, size: size) { result in
             switch result {
@@ -1986,12 +1989,12 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     }
                 case .success(let response):
                     
-                    var searchedMerchants = [MerchantSearch]()
+                    var searchedMerchants = [MerchantSearchResult]()
                     response.data.elements.forEach { apiMerchant in
-                        searchedMerchants.append(MerchantSearch(merchantID: apiMerchant.id, merchantName: apiMerchant.name, iconURL: apiMerchant.smallLogoURL))
+                        searchedMerchants.append(MerchantSearchResult(merchantID: apiMerchant.id, merchantName: apiMerchant.name, iconURL: apiMerchant.smallLogoURL))
                     }
                     
-                    completion(.success(MerchantSearchResult(searchedMerchants, response.paging?.cursors?.before, response.paging?.cursors?.after)))
+                    completion(.success(MerchantSearchResponse(searchedMerchants, response.paging?.cursors?.before, response.paging?.cursors?.after)))
             }
         }
         

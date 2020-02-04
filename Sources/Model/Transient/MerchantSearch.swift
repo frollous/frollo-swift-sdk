@@ -16,8 +16,8 @@
 
 import Foundation
 
-/// Transient Model that holds merchantID, merchantName and MerchantIconURL for search Merchants API ressponse
-public struct MerchantSearch {
+/// Transient Model for Merchant Search
+public struct MerchantSearchResult {
     
     /// ID of `Merchant`
     var merchantID: Int64?
