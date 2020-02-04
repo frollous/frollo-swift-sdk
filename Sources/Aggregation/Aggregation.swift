@@ -43,6 +43,12 @@ public class Aggregation: CachedObjects, ResponseHandler {
     /// Merchant search response
     public typealias MerchantSearchResponse = (data: [MerchantSearchResult], before: String?, after: String?)
     
+    /// Result with information of transaction Pagination cursors and total count, ids and dates
+    public typealias TransactionPaginationInfo = (before: String?, after: String?, total: Int?, beforeID: Int64?, afterID: Int64?, beforeDate: String?, afterDate: String?)
+    
+    /// Transaction Completion Handler with TransactionPaginationInfo and optional error if an issue occurs
+    public typealias TransactionPaginatedCompletionHandler = (Result<TransactionPaginationInfo, Error>) -> Void
+    
     /**
      Tuple of tagname (String) and apply to all similar transactions (Bool)
      */
@@ -913,7 +919,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
          - transactionFilter: `TransactionFilter` object to filter transactions
          - completion: Optional completion handler with optional error if the request fails
      */
-    public func refreshTransactions(transactionFilter: TransactionFilter? = nil, completion: FrolloSDKPaginatedCompletionHandler? = nil) {
+    public func refreshTransactions(transactionFilter: TransactionFilter? = nil, completion: TransactionPaginatedCompletionHandler? = nil) {
         service.fetchTransactions(transactionFilter: transactionFilter) { result in
             switch result {
                 case .failure(let error):
@@ -933,8 +939,11 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     
                     NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                     
+                    let firstTransaction = response.data.elements.first
+                    let lastTransaction = response.data.elements.last
+                    
                     DispatchQueue.main.async {
-                        completion?(.success(PaginationInfo(before: response.paging?.cursors?.before, after: response.paging?.cursors?.after, total: response.paging?.total)))
+                        completion?(.success(TransactionPaginationInfo(before: response.paging?.cursors?.before, after: response.paging?.cursors?.after, total: response.paging?.total, beforeID: firstTransaction?.id, afterID: lastTransaction?.id, beforeDate: firstTransaction?.transactionDate, afterDate: lastTransaction?.transactionDate)))
                     }
             }
         }
@@ -1058,7 +1067,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                         completion?(.failure(error))
                     }
                     
-                case .success(let before, let after, let total):
+                case .success(let before, let after, let total, _, _, _, _):
                     
                     if after == nil {
                         DispatchQueue.main.async {

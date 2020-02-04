@@ -1899,6 +1899,8 @@ class AggregationTests: BaseTestCase {
                 case .success(let paginationSuccess):
                     XCTAssertEqual(paginationSuccess.before, nil)
                     XCTAssertEqual(paginationSuccess.after, "1564138032_160746")
+                    XCTAssertEqual(paginationSuccess.afterID, 160808)
+                    XCTAssertEqual(paginationSuccess.afterDate, "2019-10-31")
                     transactionFilter.after = paginationSuccess.after
             }
             
@@ -1940,6 +1942,8 @@ class AggregationTests: BaseTestCase {
                     XCTFail(error.localizedDescription)
                 case .success(let paginationSuccess):
                     XCTAssertEqual(paginationSuccess.before, "1564051625_160540")
+                    XCTAssertEqual(paginationSuccess.beforeID, 160540)
+                    XCTAssertEqual(paginationSuccess.beforeDate, "2019-07-25")
                     XCTAssertEqual(paginationSuccess.after, nil)
                     transactionFilter.after = paginationSuccess.after
             }
