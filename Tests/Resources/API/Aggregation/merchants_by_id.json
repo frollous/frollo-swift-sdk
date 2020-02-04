@@ -13,8 +13,9 @@
         "small_logo_revision": 0
     }],
     "paging": {
+        "total": 100,
         "cursors": {
-            "before": 237,
+            "before": "237",
             "after": null
         },
         "previous": "https://api-sandbox.frollo.us/api/v2/aggregation/merchants/?before=10&size=50",

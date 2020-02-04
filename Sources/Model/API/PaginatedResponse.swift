@@ -19,16 +19,17 @@ import Foundation
 internal struct APIPaginatedResponse<T: Decodable>: Decodable {
     
     var data: FailableCodableArray<T>
-    var paging: Paging
+    var paging: Paging?
     
     struct Paging: Codable {
-        var cursors: Cursors
+        var cursors: Cursors?
         var previous: String?
         var next: String?
+        var total: Int?
         
         struct Cursors: Codable {
-            var before: Int64?
-            var after: Int64?
+            var before: String?
+            var after: String?
         }
     }
 }

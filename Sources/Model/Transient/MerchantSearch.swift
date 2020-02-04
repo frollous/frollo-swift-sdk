@@ -16,20 +16,29 @@
 
 import Foundation
 
-internal struct APITransactionPaginatedResponse: Decodable {
+/// Transient Model for Merchant Search
+public struct MerchantSearchResult {
     
-    var data: FailableCodableArray<APITransactionResponse>
-    var paging: Paging?
+    /// ID of `Merchant`
+    var merchantID: Int64?
     
-    struct Paging: Codable {
-        var total: Int
-        var cursors: Cursors?
-        var previous: String?
-        var next: String?
-        
-        struct Cursors: Codable {
-            var before: String?
-            var after: String?
-        }
+    /// name of `Merchant`
+    var merchantName: String?
+    
+    /// iconURL of `Merchant`
+    var iconURL: String?
+    
+    /**
+     Initilizer
+     
+     - parameters:
+        - merchantID: ID of `Merchant`
+        - merchantName: name of `Merchant`
+        - iconURL: iconURL of `Merchant`
+     */
+    public init(merchantID: Int64?, merchantName: String? = nil, iconURL: String? = nil) {
+        self.merchantID = merchantID
+        self.merchantName = merchantName
+        self.iconURL = iconURL
     }
 }

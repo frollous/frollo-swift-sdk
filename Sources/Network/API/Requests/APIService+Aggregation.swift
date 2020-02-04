@@ -181,12 +181,12 @@ extension APIService {
         }
     }
     
-    internal func fetchTransactions(transactionFilter: TransactionFilter?, completion: @escaping RequestCompletion<APITransactionPaginatedResponse>) {
+    internal func fetchTransactions(transactionFilter: TransactionFilter?, completion: @escaping RequestCompletion<APIPaginatedResponse<APITransactionResponse>>) {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.transactions(transactionFilter: transactionFilter).path, relativeTo: self.serverURL)!
             
             self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handlePaginatedTransactionArrayResponse(errorType: APIError.self, response: response, dateDecodingStrategy: .formatted(Transaction.transactionDateFormatter), completion: completion)
+                self.network.handlePaginatedArrayResponse(type: APITransactionResponse.self, errorType: APIError.self, response: response, dateDecodingStrategy: .formatted(Transaction.transactionDateFormatter), completion: completion)
             }
         }
     }
@@ -387,16 +387,19 @@ extension APIService {
         }
     }
     
-    internal func fetchMerchants(after: Int? = nil, before: Int? = nil, size: Int? = nil, completion: @escaping RequestCompletion<APIPaginatedResponse<APIMerchantResponse>>) {
+    internal func fetchMerchants(keyword: String? = nil, before: String? = nil, after: String? = nil, size: Int? = nil, completion: @escaping RequestCompletion<APIPaginatedResponse<APIMerchantResponse>>) {
         requestQueue.async {
             let url = URL(string: AggregationEndpoint.merchants.path, relativeTo: self.serverURL)!
             
             var parameters = [String: String]()
+            if let keyword = keyword {
+                parameters[AggregationEndpoint.QueryParameters.searchTerm.rawValue] = keyword
+            }
             if let before = before {
-                parameters[AggregationEndpoint.QueryParameters.before.rawValue] = String(before)
+                parameters[AggregationEndpoint.QueryParameters.before.rawValue] = before
             }
             if let after = after {
-                parameters[AggregationEndpoint.QueryParameters.after.rawValue] = String(after)
+                parameters[AggregationEndpoint.QueryParameters.after.rawValue] = after
             }
             if let size = size {
                 parameters[AggregationEndpoint.QueryParameters.size.rawValue] = String(size)
