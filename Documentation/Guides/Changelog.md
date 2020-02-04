@@ -1,5 +1,20 @@
 # Changelog
 
+## 4.4
+
+- Transaction and Merchant Enhancements
+
+### Features
+
+- Transactions advanced filtering and searching
+- Merchants searching
+- Submit Consent
+
+### Changes
+
+- Transaction pagination improvements
+- Goal and Budget Period tracking status renamed for clarity
+
 ## 4.3
 
 - Budgeting and Reports Enhancements
