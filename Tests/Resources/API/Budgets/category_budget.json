@@ -6,7 +6,7 @@
     "user_id": 374,
     "target": "cycle_target",
     "status": "active",
-    "tracking_status": "ahead",
+    "tracking_status": "above",
     "frequency": "four_weekly",
     "currency": "AUD",
     "current_amount": "3880.00",
@@ -23,7 +23,7 @@
         "target_amount": "15.62",
         "current_amount": "0.00",
         "required_amount": "0.00",
-        "tracking_status": "behind",
+        "tracking_status": "below",
         "index": 61
     }
 }

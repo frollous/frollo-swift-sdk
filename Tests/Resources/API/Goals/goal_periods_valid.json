@@ -7,7 +7,7 @@
     "target_amount": "150",
     "current_amount": "111.42",
     "required_amount": "173.5",
-    "tracking_status": "behind",
+    "tracking_status": "below",
     "index": 0
   },
   {
@@ -18,7 +18,7 @@
     "target_amount": "150",
     "current_amount": "0",
     "required_amount": "173.5",
-    "tracking_status": "on_track",
+    "tracking_status": "equal",
     "index": 1
   },
   {
@@ -29,7 +29,7 @@
     "target_amount": "150",
     "current_amount": "0",
     "required_amount": "173.5",
-    "tracking_status": "on_track",
+    "tracking_status": "equal",
     "index": 2
   }
 ]

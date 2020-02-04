@@ -7,7 +7,7 @@
         "target_amount": "15.62",
         "current_amount": "111.42",
         "required_amount": "173.5",
-        "tracking_status": "behind",
+        "tracking_status": "below",
         "index": 50
     },
     {
@@ -18,7 +18,7 @@
         "target_amount": "15.62",
         "current_amount": "0.00",
         "required_amount": "0.00",
-        "tracking_status": "behind",
+        "tracking_status": "below",
         "index": 51
     },
     {
@@ -29,7 +29,7 @@
         "target_amount": "15.62",
         "current_amount": "0.00",
         "required_amount": "0.00",
-        "tracking_status": "behind",
+        "tracking_status": "below",
         "index": 52
     },
     {
@@ -40,7 +40,7 @@
         "target_amount": "15.62",
         "current_amount": "0.00",
         "required_amount": "0.00",
-        "tracking_status": "behind",
+        "tracking_status": "below",
         "index": 53
     },
     {
@@ -51,7 +51,7 @@
         "target_amount": "15.62",
         "current_amount": "0.00",
         "required_amount": "0.00",
-        "tracking_status": "behind",
+        "tracking_status": "below",
         "index": 54
     },
     {
@@ -62,7 +62,7 @@
         "target_amount": "15.62",
         "current_amount": "0.00",
         "required_amount": "0.00",
-        "tracking_status": "behind",
+        "tracking_status": "below",
         "index": 55
     },
     {
@@ -73,7 +73,7 @@
         "target_amount": "15.62",
         "current_amount": "0.00",
         "required_amount": "0.00",
-        "tracking_status": "behind",
+        "tracking_status": "below",
         "index": 56
     },
     {
@@ -84,7 +84,7 @@
         "target_amount": "15.62",
         "current_amount": "0.00",
         "required_amount": "0.00",
-        "tracking_status": "behind",
+        "tracking_status": "below",
         "index": 57
     },
     {
@@ -95,7 +95,7 @@
         "target_amount": "15.62",
         "current_amount": "0.00",
         "required_amount": "0.00",
-        "tracking_status": "behind",
+        "tracking_status": "below",
         "index": 58
     },
     {
@@ -106,7 +106,7 @@
         "target_amount": "15.62",
         "current_amount": "0.00",
         "required_amount": "0.00",
-        "tracking_status": "behind",
+        "tracking_status": "below",
         "index": 59
     },
     {
@@ -117,7 +117,7 @@
         "target_amount": "15.62",
         "current_amount": "0.00",
         "required_amount": "0.00",
-        "tracking_status": "behind",
+        "tracking_status": "below",
         "index": 60
     },
     {
@@ -128,7 +128,7 @@
         "target_amount": "15.62",
         "current_amount": "0.00",
         "required_amount": "0.00",
-        "tracking_status": "behind",
+        "tracking_status": "below",
         "index": 61
     },
     {
@@ -139,7 +139,7 @@
         "target_amount": "15.62",
         "current_amount": "0.00",
         "required_amount": "0.00",
-        "tracking_status": "behind",
+        "tracking_status": "below",
         "index": 62
     },
     {
@@ -150,7 +150,7 @@
         "target_amount": "15.62",
         "current_amount": "0.00",
         "required_amount": "0.00",
-        "tracking_status": "behind",
+        "tracking_status": "below",
         "index": 63
     },
     {
@@ -161,7 +161,7 @@
         "target_amount": "15.38",
         "current_amount": "0.00",
         "required_amount": "0.00",
-        "tracking_status": "behind",
+        "tracking_status": "below",
         "index": 0
     }
 ]
