@@ -22,10 +22,10 @@ public struct MerchantSearchResult {
     /// ID of `Merchant`
     public var merchantID: Int64
     
-    /// name of `Merchant`
+    /// Name of `Merchant`
     public var merchantName: String?
     
-    /// iconURL of `Merchant`
+    /// Icon URL of `Merchant`
     public var iconURL: String?
     
     /**
@@ -33,8 +33,8 @@ public struct MerchantSearchResult {
      
      - parameters:
         - merchantID: ID of `Merchant`
-        - merchantName: name of `Merchant`
-        - iconURL: iconURL of `Merchant`
+        - merchantName: Name of `Merchant`
+        - iconURL: Icon URL of `Merchant`
      */
     public init(merchantID: Int64, merchantName: String? = nil, iconURL: String? = nil) {
         self.merchantID = merchantID
