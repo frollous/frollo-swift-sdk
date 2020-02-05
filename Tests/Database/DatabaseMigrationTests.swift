@@ -394,6 +394,24 @@ class DatabaseMigrationTests: XCTestCase {
         wait(for: [expectation1], timeout: 15.0)
     }
     
+    func testMigrationFrom160() {
+        let expectation1 = XCTestExpectation(description: "Migration Completion")
+        
+        let path = populateTestDataNamed(name: "FrolloSDKDataModel-1.6.0")
+        
+        let database = Database(path: path)
+        
+        XCTAssertTrue(database.needsMigration())
+        
+        database.migrate { (error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 15.0)
+    }
+    
     func testMigrationProgress() {
         let expectation1 = XCTestExpectation(description: "Migration Completion")
         

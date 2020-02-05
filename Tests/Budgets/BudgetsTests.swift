@@ -136,7 +136,7 @@ class BudgetsTests: BaseTestCase {
                 testBudget1.frequency = .weekly
                 testBudget1.status = .failed
                 testBudget1.budgetType = .merchant
-                testBudget1.trackingStatus = .ahead
+                testBudget1.trackingStatus = .above
                 testBudget1.isCurrent = true
                 
                 let testBudget2 = Budget(context: managedObjectContext)
@@ -144,7 +144,7 @@ class BudgetsTests: BaseTestCase {
                 testBudget2.frequency = .monthly
                 testBudget2.status = .active
                 testBudget2.budgetType = .category
-                testBudget2.trackingStatus = .behind
+                testBudget2.trackingStatus = .below
                 testBudget2.isCurrent = false
                 
                 let testBudget3 = Budget(context: managedObjectContext)
@@ -152,13 +152,13 @@ class BudgetsTests: BaseTestCase {
                 testBudget3.frequency = .weekly
                 testBudget3.status = .failed
                 testBudget3.budgetType = .budgetCategory
-                testBudget3.trackingStatus = .ahead
+                testBudget3.trackingStatus = .above
                 testBudget3.isCurrent = true
                 
                 try! managedObjectContext.save()
             }
             
-            let fetchedBudgets = self.budgets.budgets(context: self.database.viewContext, current: false, budgetType: .category, frequency: .monthly, status: .active, trackingStatus: .behind)
+            let fetchedBudgets = self.budgets.budgets(context: self.database.viewContext, current: false, budgetType: .category, frequency: .monthly, status: .active, trackingStatus: .below)
             
             XCTAssertNotNil(fetchedBudgets)
             XCTAssertEqual(fetchedBudgets?.count, 1)
@@ -229,7 +229,7 @@ class BudgetsTests: BaseTestCase {
                 testBudget1.isCurrent = true
                 testBudget1.frequency = .monthly
                 testBudget1.status = .active
-                testBudget1.trackingStatus = .onTrack
+                testBudget1.trackingStatus = .equal
                 testBudget1.budgetType = .category
                 
                 let testBudget2 = Budget(context: managedObjectContext)
@@ -237,7 +237,7 @@ class BudgetsTests: BaseTestCase {
                 testBudget2.isCurrent = true
                 testBudget2.frequency = .monthly
                 testBudget2.status = .active
-                testBudget2.trackingStatus = .onTrack
+                testBudget2.trackingStatus = .equal
                 testBudget2.budgetType = .category
                 
                 let testBudget3 = Budget(context: managedObjectContext)
@@ -245,13 +245,13 @@ class BudgetsTests: BaseTestCase {
                 testBudget3.isCurrent = true
                 testBudget3.frequency = .annually
                 testBudget3.status = .completed
-                testBudget3.trackingStatus = .ahead
+                testBudget3.trackingStatus = .above
                 testBudget3.budgetType = .category
                 
                 try! managedObjectContext.save()
             }
             
-            let fetchedResultsController = self.budgets.budgetsFetchedResultsController(context: self.database.viewContext, current: true, budgetType: .category, frequency: .annually, status: .completed, trackingStatus: .ahead)
+            let fetchedResultsController = self.budgets.budgetsFetchedResultsController(context: self.database.viewContext, current: true, budgetType: .category, frequency: .annually, status: .completed, trackingStatus: .above)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -345,7 +345,7 @@ class BudgetsTests: BaseTestCase {
                             XCTAssertEqual(budget.status, .active)
                             XCTAssertEqual(budget.typeValue, "lifestyle")
                             XCTAssertEqual(budget.imageURLString, "http://www.example.com/image/image_1.png")
-                            XCTAssertEqual(budget.trackingStatus, .ahead)
+                            XCTAssertEqual(budget.trackingStatus, .above)
                             XCTAssertEqual(budget.budgetType, .category)
                         } catch {
                             XCTFail(error.localizedDescription)
@@ -589,21 +589,21 @@ class BudgetsTests: BaseTestCase {
             managedObjectContext.performAndWait {
                 let testBudgetPeriod1 = BudgetPeriod(context: managedObjectContext)
                 testBudgetPeriod1.populateTestData()
-                testBudgetPeriod1.trackingStatus = .behind
+                testBudgetPeriod1.trackingStatus = .below
                 
                 let testBudgetPeriod2 = BudgetPeriod(context: managedObjectContext)
                 testBudgetPeriod2.populateTestData()
-                testBudgetPeriod2.trackingStatus = .ahead
+                testBudgetPeriod2.trackingStatus = .above
                 
                 let testBudgetPeriod3 = BudgetPeriod(context: managedObjectContext)
                 testBudgetPeriod3.populateTestData()
-                testBudgetPeriod3.trackingStatus = .behind
+                testBudgetPeriod3.trackingStatus = .below
                 
                 try! managedObjectContext.save()
             }
             
             
-            let predicate = NSPredicate(format: #keyPath(BudgetPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Budget.TrackingStatus.behind.rawValue])
+            let predicate = NSPredicate(format: #keyPath(BudgetPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Budget.TrackingStatus.below.rawValue])
             let fetchedBudgetPeriods = self.budgets.budgetPeriods(context: self.database.viewContext, filteredBy: predicate)
             
             XCTAssertNotNil(fetchedBudgetPeriods)
@@ -626,20 +626,20 @@ class BudgetsTests: BaseTestCase {
             managedObjectContext.performAndWait {
                 let testBudgetPeriod1 = BudgetPeriod(context: managedObjectContext)
                 testBudgetPeriod1.populateTestData()
-                testBudgetPeriod1.trackingStatus = .ahead
+                testBudgetPeriod1.trackingStatus = .above
                 
                 let testBudgetPeriod2 = BudgetPeriod(context: managedObjectContext)
                 testBudgetPeriod2.populateTestData()
-                testBudgetPeriod2.trackingStatus = .onTrack
+                testBudgetPeriod2.trackingStatus = .equal
                 
                 let testBudgetPeriod3 = BudgetPeriod(context: managedObjectContext)
                 testBudgetPeriod3.populateTestData()
-                testBudgetPeriod3.trackingStatus = .onTrack
+                testBudgetPeriod3.trackingStatus = .equal
                 
                 try! managedObjectContext.save()
             }
             
-            let predicate = NSPredicate(format: #keyPath(BudgetPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Budget.TrackingStatus.onTrack.rawValue])
+            let predicate = NSPredicate(format: #keyPath(BudgetPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Budget.TrackingStatus.equal.rawValue])
             let fetchedResultsController = self.budgets.budgetPeriodsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
             
             do {
@@ -693,7 +693,7 @@ class BudgetsTests: BaseTestCase {
                                 XCTAssertEqual(budgetPeriod.requiredAmount, 173.5)
                                 XCTAssertEqual(budgetPeriod.startDateString, "2019-11-21")
                                 XCTAssertEqual(budgetPeriod.targetAmount, 15.62)
-                                XCTAssertEqual(budgetPeriod.trackingStatus, .behind)
+                                XCTAssertEqual(budgetPeriod.trackingStatus, .below)
                                 XCTAssertEqual(budgetPeriod.index, 50)
                             } else {
                                 XCTFail("Budget Period missing")

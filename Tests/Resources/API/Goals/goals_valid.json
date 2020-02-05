@@ -5,7 +5,7 @@
     "description": "New York",
     "image_url": "https://example.com/image.png",
     "account_id": 45,
-    "tracking_status": "ahead",
+    "tracking_status": "above",
     "tracking_type": "debit",
     "status": "active",
     "frequency": "weekly",
@@ -31,7 +31,7 @@
       "target_amount": "400",
       "current_amount": "200",
       "required_amount": "347.54",
-      "tracking_status": "ahead",
+      "tracking_status": "above",
       "index": 2
     }
   }, {
@@ -39,7 +39,7 @@
     "name": "Renovations",
     "image_url": "https://example.com/image.png",
     "account_id": 542,
-    "tracking_status": "behind",
+    "tracking_status": "below",
     "tracking_type": "debit_credit",
     "status": "active",
     "frequency": "weekly",
@@ -70,7 +70,7 @@
       "target_amount": "100",
       "current_amount": "0",
       "required_amount": "147.33",
-      "tracking_status": "behind",
+      "tracking_status": "below",
       "index": 4
     }
   }, {
@@ -79,7 +79,7 @@
     "description": "Getting married!",
     "image_url": "https://example.com/image.png",
     "account_id": 47,
-    "tracking_status": "on_track",
+    "tracking_status": "equal",
     "tracking_type": "debit",
     "status": "unstarted",
     "frequency": "monthly",
@@ -102,7 +102,7 @@
       "target_amount": "250",
       "current_amount": "250",
       "required_amount": "250",
-      "tracking_status": "on_track",
+      "tracking_status": "equal",
       "index": 0
     }
   }

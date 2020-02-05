@@ -132,7 +132,7 @@ class GoalsTests: BaseTestCase {
                 testGoal1.frequency = .weekly
                 testGoal1.status = .failed
                 testGoal1.trackingType = .credit
-                testGoal1.trackingStatus = .ahead
+                testGoal1.trackingStatus = .above
                 
                 let testGoal2 = Goal(context: managedObjectContext)
                 testGoal2.populateTestData()
@@ -140,7 +140,7 @@ class GoalsTests: BaseTestCase {
                 testGoal2.frequency = .monthly
                 testGoal2.status = .active
                 testGoal2.trackingType = .debitCredit
-                testGoal2.trackingStatus = .behind
+                testGoal2.trackingStatus = .below
                 
                 let testGoal3 = Goal(context: managedObjectContext)
                 testGoal3.populateTestData()
@@ -148,12 +148,12 @@ class GoalsTests: BaseTestCase {
                 testGoal3.frequency = .weekly
                 testGoal3.status = .failed
                 testGoal3.trackingType = .credit
-                testGoal3.trackingStatus = .ahead
+                testGoal3.trackingStatus = .above
                 
                 try! managedObjectContext.save()
             }
             
-            let fetchedGoals = self.goals.goals(context: self.database.viewContext, frequency: .monthly, status: .active, target: .amount, trackingStatus: .behind, trackingType: .debitCredit)
+            let fetchedGoals = self.goals.goals(context: self.database.viewContext, frequency: .monthly, status: .active, target: .amount, trackingStatus: .below, trackingType: .debitCredit)
             
             XCTAssertNotNil(fetchedGoals)
             XCTAssertEqual(fetchedGoals?.count, 1)
@@ -223,7 +223,7 @@ class GoalsTests: BaseTestCase {
                 testGoal1.target = .date
                 testGoal1.frequency = .monthly
                 testGoal1.status = .active
-                testGoal1.trackingStatus = .onTrack
+                testGoal1.trackingStatus = .equal
                 testGoal1.trackingType = .credit
                 
                 let testGoal2 = Goal(context: managedObjectContext)
@@ -231,7 +231,7 @@ class GoalsTests: BaseTestCase {
                 testGoal2.target = .amount
                 testGoal2.frequency = .monthly
                 testGoal2.status = .active
-                testGoal2.trackingStatus = .onTrack
+                testGoal2.trackingStatus = .equal
                 testGoal2.trackingType = .credit
                 
                 let testGoal3 = Goal(context: managedObjectContext)
@@ -239,13 +239,13 @@ class GoalsTests: BaseTestCase {
                 testGoal3.target = .date
                 testGoal3.frequency = .annually
                 testGoal3.status = .completed
-                testGoal3.trackingStatus = .ahead
+                testGoal3.trackingStatus = .above
                 testGoal3.trackingType = .debit
                 
                 try! managedObjectContext.save()
             }
             
-            let fetchedResultsController = self.goals.goalsFetchedResultsController(context: self.database.viewContext, frequency: .annually, status: .completed, target: .date, trackingStatus: .ahead, trackingType: .debit)
+            let fetchedResultsController = self.goals.goalsFetchedResultsController(context: self.database.viewContext, frequency: .annually, status: .completed, target: .date, trackingStatus: .above, trackingType: .debit)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -344,7 +344,7 @@ class GoalsTests: BaseTestCase {
                             XCTAssertEqual(goal.status, .active)
                             XCTAssertEqual(goal.target, .amount)
                             XCTAssertEqual(goal.targetAmount, 5000)
-                            XCTAssertEqual(goal.trackingStatus, .ahead)
+                            XCTAssertEqual(goal.trackingStatus, .above)
                             XCTAssertEqual(goal.trackingType, .debit)
                         } catch {
                             XCTFail(error.localizedDescription)
@@ -361,7 +361,7 @@ class GoalsTests: BaseTestCase {
     func testRefreshGoalsFiltered() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goals_filtered_cancelled_ontrack")
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goals_filtered_cancelled_equal")
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -373,12 +373,12 @@ class GoalsTests: BaseTestCase {
                 goal.populateTestData()
                 goal.goalID = 3211
                 goal.status = .active
-                goal.trackingStatus = .behind
+                goal.trackingStatus = .below
                 
                 try? context.save()
             }
             
-            self.goals.refreshGoals(status: .cancelled, trackingStatus: .onTrack) { (result) in
+            self.goals.refreshGoals(status: .cancelled, trackingStatus: .equal) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -399,7 +399,7 @@ class GoalsTests: BaseTestCase {
                     
                         // Check new goals added
                         let fetchFilteredRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
-                        fetchFilteredRequest.predicate = NSPredicate(format: #keyPath(Goal.statusRawValue) + " == %@ &&" + #keyPath(Goal.trackingStatusRawValue) + " == %@", argumentArray: [Goal.Status.cancelled.rawValue, Goal.TrackingStatus.onTrack.rawValue])
+                        fetchFilteredRequest.predicate = NSPredicate(format: #keyPath(Goal.statusRawValue) + " == %@ &&" + #keyPath(Goal.trackingStatusRawValue) + " == %@", argumentArray: [Goal.Status.cancelled.rawValue, Goal.TrackingStatus.equal.rawValue])
                         
                         do {
                             let fetchedFilteredGoals = try context.fetch(fetchFilteredRequest)
@@ -693,21 +693,21 @@ class GoalsTests: BaseTestCase {
             managedObjectContext.performAndWait {
                 let testGoalPeriod1 = GoalPeriod(context: managedObjectContext)
                 testGoalPeriod1.populateTestData()
-                testGoalPeriod1.trackingStatus = .behind
+                testGoalPeriod1.trackingStatus = .below
                 
                 let testGoalPeriod2 = GoalPeriod(context: managedObjectContext)
                 testGoalPeriod2.populateTestData()
-                testGoalPeriod2.trackingStatus = .ahead
+                testGoalPeriod2.trackingStatus = .above
                 
                 let testGoalPeriod3 = GoalPeriod(context: managedObjectContext)
                 testGoalPeriod3.populateTestData()
-                testGoalPeriod3.trackingStatus = .behind
+                testGoalPeriod3.trackingStatus = .below
                 
                 try! managedObjectContext.save()
             }
             
             
-            let predicate = NSPredicate(format: #keyPath(GoalPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Goal.TrackingStatus.behind.rawValue])
+            let predicate = NSPredicate(format: #keyPath(GoalPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Goal.TrackingStatus.below.rawValue])
             let fetchedGoalPeriods = self.goals.goalPeriods(context: self.database.viewContext, filteredBy: predicate)
             
             XCTAssertNotNil(fetchedGoalPeriods)
@@ -730,21 +730,21 @@ class GoalsTests: BaseTestCase {
             managedObjectContext.performAndWait {
                 let testGoalPeriod1 = GoalPeriod(context: managedObjectContext)
                 testGoalPeriod1.populateTestData()
-                testGoalPeriod1.trackingStatus = .ahead
+                testGoalPeriod1.trackingStatus = .above
                 
                 let testGoalPeriod2 = GoalPeriod(context: managedObjectContext)
                 testGoalPeriod2.populateTestData()
-                testGoalPeriod2.trackingStatus = .onTrack
+                testGoalPeriod2.trackingStatus = .equal
                 
                 let testGoalPeriod3 = GoalPeriod(context: managedObjectContext)
                 testGoalPeriod3.populateTestData()
-                testGoalPeriod3.trackingStatus = .onTrack
+                testGoalPeriod3.trackingStatus = .equal
                 
                 try! managedObjectContext.save()
             }
             
             
-            let predicate = NSPredicate(format: #keyPath(GoalPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Goal.TrackingStatus.onTrack.rawValue])
+            let predicate = NSPredicate(format: #keyPath(GoalPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Goal.TrackingStatus.equal.rawValue])
             let fetchedResultsController = self.goals.goalPeriodsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
             
             do {
@@ -795,7 +795,7 @@ class GoalsTests: BaseTestCase {
                                 XCTAssertEqual(goalPeriod.requiredAmount, 173.5)
                                 XCTAssertEqual(goalPeriod.startDateString, "2019-07-18")
                                 XCTAssertEqual(goalPeriod.targetAmount, 150)
-                                XCTAssertEqual(goalPeriod.trackingStatus, .behind)
+                                XCTAssertEqual(goalPeriod.trackingStatus, .below)
                                 XCTAssertEqual(goalPeriod.index, 0)
                             } else {
                                 XCTFail("Goal Period missing")

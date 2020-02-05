@@ -95,14 +95,14 @@ public class Budget: NSManagedObject, UniqueManagedObject {
      */
     public enum TrackingStatus: String, Codable, CaseIterable {
         
-        /// Ahead - user is ahead on budget
-        case ahead
+        /// Above - user is above their target budget amount
+        case above
         
-        /// Behind - user is behind the budget
-        case behind
+        /// Below - user is below their target budget amount
+        case below
         
-        /// On Track - user in on track of the budget
-        case onTrack = "on_track"
+        /// Equal - user is on track with their budgeted amount
+        case equal
         
     }
     

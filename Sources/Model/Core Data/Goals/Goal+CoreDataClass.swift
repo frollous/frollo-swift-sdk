@@ -114,14 +114,14 @@ public class Goal: NSManagedObject, UniqueManagedObject {
      */
     public enum TrackingStatus: String, Codable, CaseIterable {
         
-        /// Ahead - user is ahead on contributions
-        case ahead
+        /// Above - user is above their target on contributions
+        case above
         
-        /// Behind - user is behind on contributions
-        case behind
+        /// Below - user is below their target on contributions
+        case below
         
-        /// On Track - user in on track on contributions
-        case onTrack = "on_track"
+        /// equal - user in on track on contributions
+        case equal
         
     }
     
