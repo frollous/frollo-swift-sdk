@@ -25,6 +25,7 @@
         "FrolloSDKConfiguration",
         "FrolloSDKCompletionHandler",
         "FrolloSDKPaginatedCompletionHandler",
+        "PaginationInfo",
         "LogLevel",
         "EmptyResult"
       ]
@@ -55,16 +56,20 @@
       "Account",
       "Transaction",
       "TransactionCategory",
+      "TransactionFilter",
       "Tag",
       "SuggestedTag",
       "Merchant",
+      "MerchantSearchResult",
       "AccountBalanceTier",
       "AccountRefreshStatus",
       "AccountRefreshSubStatus",
       "AccountRefreshAdditionalStatus",
       "BudgetCategory",
       "ProviderLoginForm",
-      "ProviderLoginFormViewModel"
+      "ProviderLoginFormViewModel",
+      "CDRConsent",
+      "CDRConsentForm"
     ]
   },
   {

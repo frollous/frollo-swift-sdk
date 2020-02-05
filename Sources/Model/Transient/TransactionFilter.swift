@@ -16,11 +16,11 @@
 
 import Foundation
 
-// Repersents a model that contains all the filters to apply on transaction list
+/// Repersents a model that contains all the filters to apply on transaction list
 public struct TransactionFilter {
     
     /**
-     Initializer
+     Initializer for transaction filter
      
      - parameters:
          - transactionIDs: Array of `Transaction.transactionID` to filter transactions; Optional
@@ -41,6 +41,8 @@ public struct TransactionFilter {
          - after: after field to get next list in pagination. Format is "<epoch_date>_<transaction_id>"
          - before: before field to get previous list in pagination. Format is "<epoch_date>_<transaction_id>"
          - size: Count of objects to return in one call
+     
+        - returns: Transaction filter ready to be used
      */
     public init(transactionIDs: [Int64]? = nil, accountIDs: [Int64]? = nil, budgetCategories: [BudgetCategory]? = nil, transactionCategoryIDs: [Int64]? = nil, merchantIDs: [Int64]? = nil, searchTerm: String? = nil, minimumAmount: String? = nil, maximumAmount: String? = nil, baseType: Transaction.BaseType? = nil, tags: [String]? = nil, status: Transaction.Status? = nil, fromDate: String? = nil, toDate: String? = nil, transactionIncluded: Bool? = nil, accountIncluded: Bool? = nil, after: String? = nil, before: String? = nil, size: Int? = nil) {
         
@@ -64,61 +66,61 @@ public struct TransactionFilter {
         self.size = size
     }
     
-    // Array of `Transaction.transactionID` to filter transactions
+    /// Array of `Transaction.transactionID` to filter transactions
     public var transactionIDs: [Int64]?
     
-    // Array of `Transaction.accountID` to filter transactions
+    /// Array of `Transaction.accountID` to filter transactions
     public var accountIDs: [Int64]?
     
-    // Array of `BudgetCategory` to filter transactions
+    /// Array of `BudgetCategory` to filter transactions
     public var budgetCategories: [BudgetCategory]?
     
-    // Array of `Transaction.transactionCategoryID` to filter transactions
+    /// Array of `Transaction.transactionCategoryID` to filter transactions
     public var transactionCategoryIDs: [Int64]?
     
-    // Array of `Transaction.mechantID` to filter transactions
+    /// Array of `Transaction.mechantID` to filter transactions
     public var merchantIDs: [Int64]?
     
-    // Search term to filter transactions
+    /// Search term to filter transactions
     public var searchTerm: String?
     
-    // Amount(absolute value) to filter transactions from (inclusive)
+    /// Amount (absolute value) to filter transactions from (inclusive)
     public var minimumAmount: String?
     
-    // Amount(absolute value) to filter transactions to (inclusive)
+    /// Amount (absolute value) to filter transactions to (inclusive)
     public var maximumAmount: String?
     
-    // `Transaction.BaseType` to filter transactions
+    /// `Transaction.BaseType` to filter transactions
     public var baseType: Transaction.BaseType?
     
-    // Array of tags to filter transactions
+    /// Array of tags to filter transactions
     public var tags: [String]?
     
-    // `Transaction.Status` to filter transactions
+    /// `Transaction.Status` to filter transactions
     public var status: Transaction.Status?
     
-    // Date to filter transactions from (inclusive)
+    /// Date to filter transactions from (inclusive)
     public var fromDate: String?
     
-    // Date to filter transactions to (inclusive)
+    /// Date to filter transactions to (inclusive)
     public var toDate: String?
     
-    // `Transaction.included` status of 'Transaction' to filter by
+    /// `Transaction.included` status of 'Transaction' to filter by
     public var transactionIncluded: Bool?
     
-    // 'included' status of 'Account' to filter by
+    /// 'included' status of 'Account' to filter by
     public var accountIncluded: Bool?
     
-    // after field to get next list in pagination. Format is "<epoch_date>_<transaction_id>"
+    /// after field to get next list in pagination. Format is "<epoch_date>_<transaction_id>"
     public var after: String?
     
-    // before field to get previous list in pagination. Format is "<epoch_date>_<transaction_id>"
+    /// before field to get previous list in pagination. Format is "<epoch_date>_<transaction_id>"
     public var before: String?
     
-    // Count of objects to return in one call
+    /// Count of objects to returned from the API (page size)
     public var size: Int?
     
-    // predicates for `TransactionFilter`
+    /// Filter predicates for `TransactionFilter`
     public var filterPredicates: [NSPredicate] {
         
         var filterPredicates = [NSPredicate]()

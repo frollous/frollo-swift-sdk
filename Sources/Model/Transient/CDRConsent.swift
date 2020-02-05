@@ -20,6 +20,7 @@ import Foundation
  Consent form that can be submit to create a consent with a provider
  */
 public struct CDRConsentForm: Codable {
+    
     enum CodingKeys: String, CodingKey {
         case providerID = "provider_id"
         case sharingDuration = "sharing_duration"
@@ -28,7 +29,7 @@ public struct CDRConsentForm: Codable {
         case deleteRedundantData = "delete_redundant_data"
     }
     
-    /// The id for the provider
+    /// The ID for the provider
     public let providerID: Int64
     
     /// The duration (in seconds) for the consent
@@ -37,12 +38,23 @@ public struct CDRConsentForm: Codable {
     /// The permissions requested for the consent
     public let permissions: [Provider.Permission]
     
-    /// Additional permissions (meta-data) that can be set
+    /// Additional permissions (metadata) that can be set
     public let additionalPermissions: [String: Bool]
     
     /// Specifies whether the data should be deleted after the consent is done
     public let deleteRedundantData: Bool
     
+    /** Initialize a CDR Consent form to send to the host
+     
+     - parameters:
+         - provider: ID of the provider to submit consent for
+         - sharingDuration: The duration (in seconds) for the consent
+         - permissions: The permissions requested for the consent
+         - additionalPermissions: Additional permissions (metadata) that can be set
+         - deleteRedundantData: Specifies whether the data should be deleted after the consent is done
+     
+     - returns: A CDR Consent form ready to send to the host
+     */
     public init(providerID: Int64, sharingDuration: TimeInterval, permissions: [Provider.Permission], additionalPermissions: [String: Bool] = [:], deleteRedundantData: Bool) {
         self.providerID = providerID
         self.sharingDuration = sharingDuration
