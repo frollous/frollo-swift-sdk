@@ -20,23 +20,23 @@ import Foundation
 public struct MerchantSearchResult {
     
     /// ID of `Merchant`
-    var merchantID: Int64?
+    public var merchantID: Int64
     
-    /// name of `Merchant`
-    var merchantName: String?
+    /// Name of `Merchant`
+    public var merchantName: String?
     
-    /// iconURL of `Merchant`
-    var iconURL: String?
+    /// Icon URL of `Merchant`
+    public var iconURL: String?
     
     /**
      Initilizer
      
      - parameters:
         - merchantID: ID of `Merchant`
-        - merchantName: name of `Merchant`
-        - iconURL: iconURL of `Merchant`
+        - merchantName: Name of `Merchant`
+        - iconURL: Icon URL of `Merchant`
      */
-    public init(merchantID: Int64?, merchantName: String? = nil, iconURL: String? = nil) {
+    public init(merchantID: Int64, merchantName: String? = nil, iconURL: String? = nil) {
         self.merchantID = merchantID
         self.merchantName = merchantName
         self.iconURL = iconURL
