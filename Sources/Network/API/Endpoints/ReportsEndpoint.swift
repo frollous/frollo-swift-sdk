@@ -42,7 +42,7 @@ internal enum ReportsEndpoint: Endpoint {
                 return "reports/accounts/history/balances"
             case .transactionsHistory(let entity, let id):
                 var idFilter: String = ""
-                if let id = id?.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+                if let id = id?.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
                     idFilter = "/\(id)"
                 }
                 

@@ -89,7 +89,7 @@ class ReportsRequestTests: XCTestCase {
         XCTAssertNotNil(url1)
         
         let testPath2 = ReportsEndpoint.transactionsHistory(entity: "tag", id: "groceries @ sydney").path
-        XCTAssertEqual(testPath2, "reports/transactions/tag/groceries%20%40%20sydney")
+        XCTAssertEqual(testPath2, "reports/transactions/tag/groceries%20@%20sydney")
         let url2 = URL(string: testPath2, relativeTo: config.serverEndpoint)!
         XCTAssertNotNil(url2)
         
