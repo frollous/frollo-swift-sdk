@@ -97,18 +97,11 @@ public struct CDRConsent: Codable {
         case expired
     }
     
-    enum CodingKeys: String, CodingKey {
-        case providerID = "provider_id"
-        case sharingDuration = "sharing_duration"
-        case permissions
-        case additionalPermissions = "additional_permissions"
-        case deleteRedundantData = "delete_redundant_data"
-        case status
-        case authorisationRequestURL = "authorisation_request_url"
-    }
-    
     /// The id for the provider
     public let providerID: Int64
+    
+    /// Start date of the sharing window. This date is the date when the consent officially starts on the Data Holder's end.
+    public let sharingStartedAt: Date?
     
     /// The duration (in seconds) for the consent
     public let sharingDuration: Int32
@@ -126,19 +119,30 @@ public struct CDRConsent: Codable {
     public let status: Status
     
     /// The authorization URL that should be used to initiate a login with the provider
-    public let authorisationRequestURL: URL
+    public let authorisationRequestURL: URL?
+    
+    /// URL of the Consent Confirmation PDF.
+    public let confirmationPDFURL: URL
+    
+    /// URL of the Consent Withdrawal PDF.
+    public let withdrawalPDFURL: URL?
 }
 
 extension APICDRConsentResponse {
     
     /// Creates a public consent object from the API response
     var consent: CDRConsent {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         return .init(providerID: providerID,
+                     sharingStartedAt: dateFormatter.date(from: sharingStartedAt ?? ""),
                      sharingDuration: sharingDuration,
                      permissions: permissions.map { Provider.Permission(rawValue: $0) }.compactMap { $0 },
                      additionalPermissions: additionalPermissions,
                      deleteRedundantData: deleteRedundantData,
                      status: CDRConsent.Status(rawValue: status) ?? .pending,
-                     authorisationRequestURL: URL(string: authorisationRequestURL)!)
+                     authorisationRequestURL: URL(string: authorisationRequestURL ?? ""),
+                     confirmationPDFURL: URL(string: confirmationPDFURL)!,
+                     withdrawalPDFURL: URL(string: withdrawalPDFURL ?? ""))
     }
 }
