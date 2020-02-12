@@ -25,10 +25,16 @@ struct APICDRConsentResponse: Codable {
         case deleteRedundantData = "delete_redundant_data"
         case status
         case authorisationRequestURL = "authorisation_request_url"
+        case confirmationPDFURL = "confirmation_pdf_url"
+        case withdrawalPDFURL = "withdrawal_pdf_url"
+        case sharingStartedAt = "sharing_started_at"
     }
     
     /// The id for the provider
     let providerID: Int64
+    
+    /// Start date of the sharing window. This date is the date when the consent officially starts on the DH's end.
+    let sharingStartedAt: String?
     
     /// The duration (in seconds) for the consent
     let sharingDuration: Int32
@@ -46,5 +52,11 @@ struct APICDRConsentResponse: Codable {
     let status: String
     
     /// The authorization URL that should be used to initiate a login with the provider
-    let authorisationRequestURL: String
+    let authorisationRequestURL: String?
+    
+    /// URL of the Consent Confirmation PDF.
+    public let confirmationPDFURL: String
+    
+    /// URL of the Consent Withdrawal PDF.
+    public let withdrawalPDFURL: String?
 }

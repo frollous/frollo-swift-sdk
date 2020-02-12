@@ -22,12 +22,16 @@ enum CDREndpoint: Endpoint {
         return urlPath()
     }
     
-    case consents
+    case consents(id: Int64?)
     
     private func urlPath() -> String {
         switch self {
-            case .consents:
-                return "cdr/consents"
+            case .consents(let id):
+                if let id = id {
+                    return "cdr/consents/\(id)"
+                } else {
+                    return "cdr/consents"
+                }
         }
     }
     

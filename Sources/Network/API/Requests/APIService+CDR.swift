@@ -22,7 +22,7 @@ extension APIService {
     
     func submitCDRConsent(request: APICDRConsentRequest, completion: @escaping RequestCompletion<APICDRConsentResponse>) {
         requestQueue.async {
-            let url = URL(string: CDREndpoint.consents.path, relativeTo: self.serverURL)!
+            let url = URL(string: CDREndpoint.consents(id: nil).path, relativeTo: self.serverURL)!
             
             guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
             else {
@@ -33,6 +33,16 @@ extension APIService {
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APICDRConsentResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    func fetchCDRConsent(id: Int64, completion: @escaping RequestCompletion<APICDRConsentResponse>) {
+        requestQueue.async {
+            let url = URL(string: CDREndpoint.consents(id: id).path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APICDRConsentResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
