@@ -3671,7 +3671,7 @@ class AggregationTests: BaseTestCase {
                         do {
                             let fetchedMerchants = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedMerchants.count, 1200)
+                            XCTAssertEqual(fetchedMerchants.count, 1199)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -3876,7 +3876,7 @@ class AggregationTests: BaseTestCase {
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Fetch Request 1")
 
-        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_by_id")
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_valid")
 
         database.setup { (error) in
             XCTAssertNil(error)
@@ -3900,7 +3900,7 @@ class AggregationTests: BaseTestCase {
 
             let cachedMerchant3 = Merchant(context: managedObjectContext)
             cachedMerchant3.populateTestData()
-            cachedMerchant3.merchantID = 268
+            cachedMerchant3.merchantID = 1257
 
             try! managedObjectContext.save()
         }
@@ -3930,11 +3930,11 @@ class AggregationTests: BaseTestCase {
             do {
                 let fetchedMerchants = try context.fetch(fetchRequest)
 
-                XCTAssertEqual(fetchedMerchants.count, 2)
+                XCTAssertEqual(fetchedMerchants.count, 1199)
 
                 if let merchant = fetchedMerchants.last {
-                    XCTAssertEqual(merchant.merchantID, 686)
-                    XCTAssertEqual(merchant.name, "Rent")
+                    XCTAssertEqual(merchant.merchantID, 1258)
+                    XCTAssertEqual(merchant.name, "Sushi 8")
                     XCTAssertEqual(merchant.merchantType, .retailer)
                 } else {
                     XCTFail("No merchants")
@@ -3943,7 +3943,7 @@ class AggregationTests: BaseTestCase {
                 let updatedMerchant = aggregation.merchant(context: context, merchantID: 238)
                 XCTAssertEqual(updatedMerchant?.name, "The Occidental Hotel")
 
-                let deletedMerchant = aggregation.merchant(context: context, merchantID: 239)
+                let deletedMerchant = aggregation.merchant(context: context, merchantID: 1257)
                 XCTAssertNil(deletedMerchant)
 
             } catch {
@@ -4058,12 +4058,12 @@ class AggregationTests: BaseTestCase {
             aggregation.searchMerchants(keyword: "") { result in
                 switch result{
                     case .success(let merchants):
-                        XCTAssertEqual(merchants.data.count, 1200)
+                        XCTAssertEqual(merchants.data.count, 1199)
                         XCTAssertEqual(merchants.data.first?.merchantID, 1)
                         XCTAssertEqual(merchants.data.first?.merchantName, "Unknown")
                         XCTAssertEqual(merchants.data.first?.iconURL, "https://frollo-sandbox.s3.amazonaws.com/merchants/1/original/Untitled-1.png?1519084540")
-                        XCTAssertEqual(merchants.after, "20")
-                        XCTAssertEqual(merchants.before, "20")
+                        XCTAssertEqual(merchants.after, "1258")
+                        XCTAssertEqual(merchants.before, "1")
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     }
