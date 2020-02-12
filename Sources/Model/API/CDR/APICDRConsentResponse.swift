@@ -33,7 +33,7 @@ struct APICDRConsentResponse: Codable {
     /// The id for the provider
     let providerID: Int64
     
-    /// Start date of the sharing window. This date is the date when the consent officially starts on the DH's end.
+    /// Start date of the sharing window. This date is the date when the consent officially starts on the Data Holder's end.
     let sharingStartedAt: String?
     
     /// The duration (in seconds) for the consent

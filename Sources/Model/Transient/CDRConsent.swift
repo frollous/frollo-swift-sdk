@@ -100,7 +100,7 @@ public struct CDRConsent: Codable {
     /// The id for the provider
     public let providerID: Int64
     
-    /// Start date of the sharing window. This date is the date when the consent officially starts on the DH's end.
+    /// Start date of the sharing window. This date is the date when the consent officially starts on the Data Holder's end.
     public let sharingStartedAt: Date?
     
     /// The duration (in seconds) for the consent
