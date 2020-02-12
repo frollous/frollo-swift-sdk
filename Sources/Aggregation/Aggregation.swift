@@ -267,12 +267,12 @@ public class Aggregation: CachedObjects, ResponseHandler {
     }
     
     /**
-    Fetch Open banking consent by ID from the backend
-    
-    - parameters:
-       - id: The ID of the consent
-       - completion: The block that will be executed when the fetch request is complete
-    */
+     Fetch Open banking consent by ID from the backend
+     
+     - parameters:
+        - id: The ID of the consent
+        - completion: The block that will be executed when the fetch request is complete
+     */
     public func fetchCDRConsent(id: Int64, completion: ((Result<CDRConsent, Error>) -> Void)?) {
         service.fetchCDRConsent(id: id) { result in
             switch result {
