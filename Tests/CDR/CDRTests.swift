@@ -44,7 +44,7 @@ class CDRTests: BaseTestCase {
     func testSubmitConsent_ShouldSubmitProperly() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: CDREndpoint.consents.path.prefixedWithSlash, toResourceWithName: "consent_submit")
+        connect(endpoint: CDREndpoint.consents(id: nil).path.prefixedWithSlash, toResourceWithName: "post_consent")
         
         database.setup { error in
             XCTAssertNil(error)
@@ -63,7 +63,29 @@ class CDRTests: BaseTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testGetConsentByID_ShouldGetProperly() {
+        let expectation1 = expectation(description: "Network Request 1")
         
+        connect(endpoint: CDREndpoint.consents(id: 1).path.prefixedWithSlash, toResourceWithName: "get_consent")
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let aggregation = self.aggregation(loggedIn: true)
+            aggregation.fetchCDRConsent(id: 1) { (result) in
+                switch result {
+                case .success:
+                    expectation1.fulfill()
+                    break
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
     }
 }
 

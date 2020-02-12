@@ -1111,9 +1111,9 @@
 		032F10C123DA88E100F3BF01 /* CDRConsent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10BF23DA88E100F3BF01 /* CDRConsent.swift */; };
 		032F10C323DA8A2B00F3BF01 /* APICDRConsentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10C223DA8A2B00F3BF01 /* APICDRConsentResponse.swift */; };
 		032F10C423DA8A2B00F3BF01 /* APICDRConsentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10C223DA8A2B00F3BF01 /* APICDRConsentResponse.swift */; };
-		032F10C623DA8CF700F3BF01 /* consent_submit.json in Resources */ = {isa = PBXBuildFile; fileRef = 032F10C523DA8CF700F3BF01 /* consent_submit.json */; };
-		032F10C723DA8CF700F3BF01 /* consent_submit.json in Resources */ = {isa = PBXBuildFile; fileRef = 032F10C523DA8CF700F3BF01 /* consent_submit.json */; };
-		032F10C823DA8CF700F3BF01 /* consent_submit.json in Resources */ = {isa = PBXBuildFile; fileRef = 032F10C523DA8CF700F3BF01 /* consent_submit.json */; };
+		032F10C623DA8CF700F3BF01 /* post_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 032F10C523DA8CF700F3BF01 /* post_consent.json */; };
+		032F10C723DA8CF700F3BF01 /* post_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 032F10C523DA8CF700F3BF01 /* post_consent.json */; };
+		032F10C823DA8CF700F3BF01 /* post_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 032F10C523DA8CF700F3BF01 /* post_consent.json */; };
 		033D46C92272856500E0C6D6 /* APITransactionTagsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46C82272856500E0C6D6 /* APITransactionTagsResponse.swift */; };
 		033D46D02272C7D800E0C6D6 /* Tag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46CF2272C7D800E0C6D6 /* Tag+CoreDataClass.swift */; };
 		033D46D22272C83800E0C6D6 /* Tag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D46D12272C83800E0C6D6 /* Tag+CoreDataProperties.swift */; };
@@ -1133,6 +1133,9 @@
 		034BD7F32399D8AF00142B7A /* transaction_reports_merchant_monthly_2019_01_01_2019_12_31.json in Resources */ = {isa = PBXBuildFile; fileRef = 034BD7F02399D8AF00142B7A /* transaction_reports_merchant_monthly_2019_01_01_2019_12_31.json */; };
 		034BD7F52399F54600142B7A /* Reports+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034BD7F42399F54600142B7A /* Reports+Helpers.swift */; };
 		034BD7F62399F54600142B7A /* Reports+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034BD7F42399F54600142B7A /* Reports+Helpers.swift */; };
+		039C07A523F3B2C4002F7979 /* get_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 039C07A423F3B2C4002F7979 /* get_consent.json */; };
+		039C07A623F3B2C4002F7979 /* get_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 039C07A423F3B2C4002F7979 /* get_consent.json */; };
+		039C07A723F3B2C4002F7979 /* get_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 039C07A423F3B2C4002F7979 /* get_consent.json */; };
 		03ADF878227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ADF877227937A9001B5E20 /* XCTestCaseExtensions.swift */; };
 		03ADF879227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ADF877227937A9001B5E20 /* XCTestCaseExtensions.swift */; };
 		03ADF87A227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ADF877227937A9001B5E20 /* XCTestCaseExtensions.swift */; };
@@ -1859,7 +1862,7 @@
 		032F10BA23DA850D00F3BF01 /* CDRTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDRTests.swift; sourceTree = "<group>"; };
 		032F10BF23DA88E100F3BF01 /* CDRConsent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDRConsent.swift; sourceTree = "<group>"; };
 		032F10C223DA8A2B00F3BF01 /* APICDRConsentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICDRConsentResponse.swift; sourceTree = "<group>"; };
-		032F10C523DA8CF700F3BF01 /* consent_submit.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = consent_submit.json; sourceTree = "<group>"; };
+		032F10C523DA8CF700F3BF01 /* post_consent.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = post_consent.json; sourceTree = "<group>"; };
 		033D46C82272856500E0C6D6 /* APITransactionTagsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionTagsResponse.swift; sourceTree = "<group>"; };
 		033D46CF2272C7D800E0C6D6 /* Tag+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataClass.swift"; sourceTree = "<group>"; };
 		033D46D12272C83800E0C6D6 /* Tag+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -1870,6 +1873,7 @@
 		034BD7EC2399D88000142B7A /* transaction_reports_txn_budget_category_monthly_2019_01_01_2019_12_31.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_reports_txn_budget_category_monthly_2019_01_01_2019_12_31.json; sourceTree = "<group>"; };
 		034BD7F02399D8AF00142B7A /* transaction_reports_merchant_monthly_2019_01_01_2019_12_31.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_reports_merchant_monthly_2019_01_01_2019_12_31.json; sourceTree = "<group>"; };
 		034BD7F42399F54600142B7A /* Reports+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reports+Helpers.swift"; sourceTree = "<group>"; };
+		039C07A423F3B2C4002F7979 /* get_consent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_consent.json; sourceTree = "<group>"; };
 		03ADF877227937A9001B5E20 /* XCTestCaseExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestCaseExtensions.swift; sourceTree = "<group>"; };
 		03B17C5422780FE500182511 /* FrolloSDKDataModel-1.3.2.sqlite-wal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FrolloSDKDataModel-1.3.2.sqlite-wal"; sourceTree = "<group>"; };
 		03B17C5522780FE500182511 /* FrolloSDKDataModel-1.3.2.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.3.2.sqlite"; sourceTree = "<group>"; };
@@ -2598,7 +2602,8 @@
 				033D46D32272DFC000E0C6D6 /* transactions_suggested_tags.json */,
 				01773AC0235D1DC8009DAFC4 /* transactions_user_tags_expanded.json */,
 				03D965B22276DFD2009BC283 /* transactions_user_tags.json */,
-				032F10C523DA8CF700F3BF01 /* consent_submit.json */,
+				039C07A423F3B2C4002F7979 /* get_consent.json */,
+				032F10C523DA8CF700F3BF01 /* post_consent.json */,
 			);
 			path = Aggregation;
 			sourceTree = "<group>";
@@ -3952,6 +3957,7 @@
 				017F0FD722DEA87500ACE7BB /* goal_id_3213.json in Resources */,
 				017B48EB21082DCF00447E65 /* user_details_invalid.json in Resources */,
 				2F9F199F22A4ABD200A416EA /* transaction_update_tag.json in Resources */,
+				039C07A523F3B2C4002F7979 /* get_consent.json in Resources */,
 				0101949B20F5815800334482 /* FrolloSDKDataModel-1.0.0.sqlite-wal in Resources */,
 				0135D30D21A2628F00318142 /* notification_message.json in Resources */,
 				01A1F5962148D646002B9A93 /* provider-public-key.pem in Resources */,
@@ -3971,7 +3977,7 @@
 				01483BB02119564600D0DA87 /* transaction_categories_valid.json in Resources */,
 				01743B14212BC3280082DA00 /* provider_login_form_options.json in Resources */,
 				018501DB2203A6E100069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json in Resources */,
-				032F10C623DA8CF700F3BF01 /* consent_submit.json in Resources */,
+				032F10C623DA8CF700F3BF01 /* post_consent.json in Resources */,
 				01E5BF7E2228B032003D85FD /* transaction_summary.json in Resources */,
 				01ED8FE0211A868F00ACE691 /* transaction_id_194630.json in Resources */,
 				01236D5121EEBE30008DD61A /* transaction_reports_history_txn_category_weekly_2018-01-01_2018-12-31.json in Resources */,
@@ -4134,6 +4140,7 @@
 				017B48EC21082DD000447E65 /* user_details_incomplete.json in Resources */,
 				13CFDA9E23988DDD00559476 /* FrolloSDKDataModel-1.6.0.sqlite-wal in Resources */,
 				017F0FD822DEA87500ACE7BB /* goal_id_3213.json in Resources */,
+				039C07A623F3B2C4002F7979 /* get_consent.json in Resources */,
 				017B48ED21082DD000447E65 /* user_details_invalid.json in Resources */,
 				2F9F19A022A4ABD300A416EA /* transaction_update_tag.json in Resources */,
 				017B485C2101B4FE00447E65 /* FrolloSDKDataModel-1.0.0.sqlite-wal in Resources */,
@@ -4153,7 +4160,7 @@
 				01405E4221DC2618009356CC /* FrolloSDKDataModel-1.2.0.sqlite-wal in Resources */,
 				013230BD22602179008C1ADC /* FrolloSDKDataModel-1.3.1.sqlite-shm in Resources */,
 				01483BB12119564600D0DA87 /* transaction_categories_valid.json in Resources */,
-				032F10C723DA8CF700F3BF01 /* consent_submit.json in Resources */,
+				032F10C723DA8CF700F3BF01 /* post_consent.json in Resources */,
 				01743B15212BC3280082DA00 /* provider_login_form_options.json in Resources */,
 				018501DC2203A6E100069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json in Resources */,
 				01E5BF7F2228B032003D85FD /* transaction_summary.json in Resources */,
@@ -4325,6 +4332,7 @@
 				13CFDA9F23988DDD00559476 /* FrolloSDKDataModel-1.6.0.sqlite-wal in Resources */,
 				017F0FD922DEA87500ACE7BB /* goal_id_3213.json in Resources */,
 				017B48EF21082DD000447E65 /* user_details_invalid.json in Resources */,
+				039C07A723F3B2C4002F7979 /* get_consent.json in Resources */,
 				2F9F19A122A4ABD300A416EA /* transaction_update_tag.json in Resources */,
 				017B48B92105958100447E65 /* FrolloSDKDataModel-1.0.0.sqlite-wal in Resources */,
 				0135D30F21A2628F00318142 /* notification_message.json in Resources */,
@@ -4344,7 +4352,7 @@
 				01405E4321DC2618009356CC /* FrolloSDKDataModel-1.2.0.sqlite-wal in Resources */,
 				013230BE22602179008C1ADC /* FrolloSDKDataModel-1.3.1.sqlite-shm in Resources */,
 				01483BB22119564600D0DA87 /* transaction_categories_valid.json in Resources */,
-				032F10C823DA8CF700F3BF01 /* consent_submit.json in Resources */,
+				032F10C823DA8CF700F3BF01 /* post_consent.json in Resources */,
 				01743B16212BC3280082DA00 /* provider_login_form_options.json in Resources */,
 				018501DD2203A6E100069D87 /* account_balance_reports_by_month_2018-11-01_2019-02-01.json in Resources */,
 				01E5BF802228B032003D85FD /* transaction_summary.json in Resources */,
