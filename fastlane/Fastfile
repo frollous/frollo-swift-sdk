@@ -69,12 +69,12 @@ platform :ios do
           clean: true,
           build: true)
 
-   	  run_tests(scheme: "FrolloSDK macOS Tests",
-      		  clean: true,
-      		  code_coverage: true,
-      		  destination: "platform=macOS,arch=x86_64",
-      		  output_directory: "fastlane/mac_test_output",
-      		  slack_message: "Frollo SDK: macOS Tests")
+   	  # run_tests(scheme: "FrolloSDK macOS Tests",
+      # 		  clean: true,
+      # 		  code_coverage: true,
+      # 		  destination: "platform=macOS,arch=x86_64",
+      # 		  output_directory: "fastlane/mac_test_output",
+      # 		  slack_message: "Frollo SDK: macOS Tests")
 
    	  run_tests(scheme: "FrolloSDK tvOS Tests",
       		  clean: true,
