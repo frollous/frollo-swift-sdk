@@ -255,8 +255,27 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - consent: The form that will be submitted
         - completion: The block that will be executed when the submit request is complete
      */
-    public func submitCDRConsent(consent: CDRConsentForm, completion: ((Result<CDRConsent, Error>) -> Void)?) {
+    public func submitCDRConsent(consent: CDRConsentForm.Post, completion: ((Result<CDRConsent, Error>) -> Void)?) {
         service.submitCDRConsent(request: consent.apiRequest) { result in
+            switch result {
+                case .success(let response):
+                    completion?(.success(response.consent))
+                case .failure(let error):
+                    completion?(.failure(error))
+            }
+        }
+    }
+    
+    /**
+     Withdraws a consent deleting all its data
+     
+     - parameters:
+        - consent: The form that will be submitted
+        - completion: The block that will be executed when the submit request is complete
+     */
+    public func withdrawCDRConsent(id: Int64, completion: ((Result<CDRConsent, Error>) -> Void)?) {
+        let request = APICDRConsentUpdateRequest(status: .withdrawn, deleteRedundantData: true)
+        service.updateCDRConsent(id: id, request: request) { result in
             switch result {
                 case .success(let response):
                     completion?(.success(response.consent))

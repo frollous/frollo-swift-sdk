@@ -1133,6 +1133,9 @@
 		034BD7F32399D8AF00142B7A /* transaction_reports_merchant_monthly_2019_01_01_2019_12_31.json in Resources */ = {isa = PBXBuildFile; fileRef = 034BD7F02399D8AF00142B7A /* transaction_reports_merchant_monthly_2019_01_01_2019_12_31.json */; };
 		034BD7F52399F54600142B7A /* Reports+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034BD7F42399F54600142B7A /* Reports+Helpers.swift */; };
 		034BD7F62399F54600142B7A /* Reports+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034BD7F42399F54600142B7A /* Reports+Helpers.swift */; };
+		03778B7C23F3BEC9008C856B /* put_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 03778B7B23F3BEC9008C856B /* put_consent.json */; };
+		03778B7D23F3BEC9008C856B /* put_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 03778B7B23F3BEC9008C856B /* put_consent.json */; };
+		03778B7E23F3BEC9008C856B /* put_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 03778B7B23F3BEC9008C856B /* put_consent.json */; };
 		039C07A523F3B2C4002F7979 /* get_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 039C07A423F3B2C4002F7979 /* get_consent.json */; };
 		039C07A623F3B2C4002F7979 /* get_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 039C07A423F3B2C4002F7979 /* get_consent.json */; };
 		039C07A723F3B2C4002F7979 /* get_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 039C07A423F3B2C4002F7979 /* get_consent.json */; };
@@ -1873,6 +1876,7 @@
 		034BD7EC2399D88000142B7A /* transaction_reports_txn_budget_category_monthly_2019_01_01_2019_12_31.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_reports_txn_budget_category_monthly_2019_01_01_2019_12_31.json; sourceTree = "<group>"; };
 		034BD7F02399D8AF00142B7A /* transaction_reports_merchant_monthly_2019_01_01_2019_12_31.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_reports_merchant_monthly_2019_01_01_2019_12_31.json; sourceTree = "<group>"; };
 		034BD7F42399F54600142B7A /* Reports+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reports+Helpers.swift"; sourceTree = "<group>"; };
+		03778B7B23F3BEC9008C856B /* put_consent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = put_consent.json; sourceTree = "<group>"; };
 		039C07A423F3B2C4002F7979 /* get_consent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_consent.json; sourceTree = "<group>"; };
 		03ADF877227937A9001B5E20 /* XCTestCaseExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestCaseExtensions.swift; sourceTree = "<group>"; };
 		03B17C5422780FE500182511 /* FrolloSDKDataModel-1.3.2.sqlite-wal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FrolloSDKDataModel-1.3.2.sqlite-wal"; sourceTree = "<group>"; };
@@ -2604,6 +2608,7 @@
 				03D965B22276DFD2009BC283 /* transactions_user_tags.json */,
 				039C07A423F3B2C4002F7979 /* get_consent.json */,
 				032F10C523DA8CF700F3BF01 /* post_consent.json */,
+				03778B7B23F3BEC9008C856B /* put_consent.json */,
 			);
 			path = Aggregation;
 			sourceTree = "<group>";
@@ -3967,6 +3972,7 @@
 				1318C1EB237BAB0600ABFC51 /* FrolloSDKDataModel-1.5.2.sqlite in Resources */,
 				01F220EA20FECA9100C70B00 /* refresh_token_invalid.json in Resources */,
 				012606BA219A8393005D8377 /* messages_invalid.json in Resources */,
+				03778B7C23F3BEC9008C856B /* put_consent.json in Resources */,
 				0128DB5421F819A700DB3E62 /* FrolloSDKDataModel-1.3.0.sqlite-wal in Resources */,
 				01236D3C21EEBE30008DD61A /* transaction_reports_history_txn_category_daily_2018-01-01_2018-12-31.json in Resources */,
 				018501D421FFC56F00069D87 /* account_balance_reports_by_month_2018-10-29_2019-01-29.json in Resources */,
@@ -4150,6 +4156,7 @@
 				034BD7F22399D8AF00142B7A /* transaction_reports_merchant_monthly_2019_01_01_2019_12_31.json in Resources */,
 				018501CC21FFC56F00069D87 /* account_balance_reports_by_day_account_id_937_2018-10-29_2019-01-29.json in Resources */,
 				1318C1EC237BAB0600ABFC51 /* FrolloSDKDataModel-1.5.2.sqlite in Resources */,
+				03778B7D23F3BEC9008C856B /* put_consent.json in Resources */,
 				017B485D2101B4FE00447E65 /* refresh_token_invalid.json in Resources */,
 				012606BB219A8393005D8377 /* messages_invalid.json in Resources */,
 				0128DB5521F819A800DB3E62 /* FrolloSDKDataModel-1.3.0.sqlite-wal in Resources */,
@@ -4342,6 +4349,7 @@
 				018501CD21FFC56F00069D87 /* account_balance_reports_by_day_account_id_937_2018-10-29_2019-01-29.json in Resources */,
 				1318C1ED237BAB0600ABFC51 /* FrolloSDKDataModel-1.5.2.sqlite in Resources */,
 				017B48BA2105958100447E65 /* refresh_token_invalid.json in Resources */,
+				03778B7E23F3BEC9008C856B /* put_consent.json in Resources */,
 				012606BC219A8393005D8377 /* messages_invalid.json in Resources */,
 				0128DB5621F819A800DB3E62 /* FrolloSDKDataModel-1.3.0.sqlite-wal in Resources */,
 				01236D3E21EEBE30008DD61A /* transaction_reports_history_txn_category_daily_2018-01-01_2018-12-31.json in Resources */,

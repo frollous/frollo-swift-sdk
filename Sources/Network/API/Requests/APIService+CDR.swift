@@ -20,11 +20,29 @@ import Alamofire
 
 extension APIService {
     
-    func submitCDRConsent(request: APICDRConsentRequest, completion: @escaping RequestCompletion<APICDRConsentResponse>) {
+    func submitCDRConsent(request: APICDRConsentCreateRequest, completion: @escaping RequestCompletion<APICDRConsentResponse>) {
         requestQueue.async {
             let url = URL(string: CDREndpoint.consents(id: nil).path, relativeTo: self.serverURL)!
             
             guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APICDRConsentResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    func updateCDRConsent(id: Int64, request: APICDRConsentUpdateRequest, completion: @escaping RequestCompletion<APICDRConsentResponse>) {
+        requestQueue.async {
+            let url = URL(string: CDREndpoint.consents(id: id).path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: request)
             else {
                 let dataError = DataError(type: .api, subType: .invalidData)
                 
@@ -47,5 +65,4 @@ extension APIService {
             }
         }
     }
-    
 }

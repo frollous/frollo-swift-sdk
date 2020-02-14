@@ -50,7 +50,7 @@ class CDRTests: BaseTestCase {
             XCTAssertNil(error)
             
             let aggregation = self.aggregation(loggedIn: true)
-            let consent = CDRConsentForm(providerID: 1, sharingDuration: 100, permissions: [], deleteRedundantData: true)
+            let consent = CDRConsentForm.Post(providerID: 1, sharingDuration: 100, permissions: [], deleteRedundantData: true)
             aggregation.submitCDRConsent(consent: consent) { (result) in
                 switch result {
                 case .success:
@@ -75,6 +75,29 @@ class CDRTests: BaseTestCase {
             
             let aggregation = self.aggregation(loggedIn: true)
             aggregation.fetchCDRConsent(id: 1) { (result) in
+                switch result {
+                case .success:
+                    expectation1.fulfill()
+                    break
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testWithdrawConsent_ShouldWithdrawProperly() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: CDREndpoint.consents(id: 1).path.prefixedWithSlash, toResourceWithName: "put_consent")
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let aggregation = self.aggregation(loggedIn: true)
+            aggregation.withdrawCDRConsent(id: 1) { (result) in
                 switch result {
                 case .success:
                     expectation1.fulfill()

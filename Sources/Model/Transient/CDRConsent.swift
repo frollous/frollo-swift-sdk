@@ -21,54 +21,69 @@ import Foundation
  */
 public struct CDRConsentForm: Codable {
     
-    enum CodingKeys: String, CodingKey {
-        case providerID = "provider_id"
-        case sharingDuration = "sharing_duration"
-        case permissions
-        case additionalPermissions = "additional_permissions"
-        case deleteRedundantData = "delete_redundant_data"
+    public struct Post {
+        
+        /// The ID for the provider
+        public let providerID: Int64
+        
+        /// The duration (in seconds) for the consent
+        public let sharingDuration: TimeInterval
+        
+        /// The permissions requested for the consent
+        public let permissions: [Provider.Permission]
+        
+        /// Additional permissions (metadata) that can be set
+        public let additionalPermissions: [String: Bool]
+        
+        /// Specifies whether the data should be deleted after the consent is done
+        public let deleteRedundantData: Bool
+        
+        /** Initialize a CDR Consent form to send to the host
+         
+         - parameters:
+             - provider: ID of the provider to submit consent for
+             - sharingDuration: The duration (in seconds) for the consent
+             - permissions: The permissions requested for the consent
+             - additionalPermissions: Additional permissions (metadata) that can be set
+             - deleteRedundantData: Specifies whether the data should be deleted after the consent is done
+         
+         - returns: A CDR Consent form ready to send to the host
+         */
+        public init(providerID: Int64, sharingDuration: TimeInterval, permissions: [Provider.Permission], additionalPermissions: [String: Bool] = [:], deleteRedundantData: Bool) {
+            self.providerID = providerID
+            self.sharingDuration = sharingDuration
+            self.permissions = permissions
+            self.additionalPermissions = additionalPermissions
+            self.deleteRedundantData = deleteRedundantData
+        }
     }
     
-    /// The ID for the provider
-    public let providerID: Int64
-    
-    /// The duration (in seconds) for the consent
-    public let sharingDuration: TimeInterval
-    
-    /// The permissions requested for the consent
-    public let permissions: [Provider.Permission]
-    
-    /// Additional permissions (metadata) that can be set
-    public let additionalPermissions: [String: Bool]
-    
-    /// Specifies whether the data should be deleted after the consent is done
-    public let deleteRedundantData: Bool
-    
-    /** Initialize a CDR Consent form to send to the host
-     
-     - parameters:
-         - provider: ID of the provider to submit consent for
-         - sharingDuration: The duration (in seconds) for the consent
-         - permissions: The permissions requested for the consent
-         - additionalPermissions: Additional permissions (metadata) that can be set
-         - deleteRedundantData: Specifies whether the data should be deleted after the consent is done
-     
-     - returns: A CDR Consent form ready to send to the host
-     */
-    public init(providerID: Int64, sharingDuration: TimeInterval, permissions: [Provider.Permission], additionalPermissions: [String: Bool] = [:], deleteRedundantData: Bool) {
-        self.providerID = providerID
-        self.sharingDuration = sharingDuration
-        self.permissions = permissions
-        self.additionalPermissions = additionalPermissions
-        self.deleteRedundantData = deleteRedundantData
+    public struct Put {
+        
+        /// The new status for the consent
+        public let status: CDRConsent.Status
+        
+        /// The new value for the delete redundant data
+        public let deleteRedundantData: Bool
+        
+        /** Initialize a CDR Consent form to send to the host
+         
+         - parameters:
+             - status: The new status for the consent
+             - deleteRedundantData: The new value for the delete redundant data
+         */
+        public init(status: CDRConsent.Status, deleteRedundantData: Bool) {
+            self.status = status
+            self.deleteRedundantData = deleteRedundantData
+        }
     }
 }
 
-extension CDRConsentForm {
+extension CDRConsentForm.Post {
     
     /// Creates an APICDRConsentRequest from the form
-    var apiRequest: APICDRConsentRequest {
-        return APICDRConsentRequest(providerID: providerID, sharingDuration: sharingDuration, permissions: permissions.map { $0.rawValue }, additionalPermissions: additionalPermissions, deleteRedundantData: deleteRedundantData)
+    var apiRequest: APICDRConsentCreateRequest {
+        return APICDRConsentCreateRequest(providerID: providerID, sharingDuration: sharingDuration, permissions: permissions.map { $0.rawValue }, additionalPermissions: additionalPermissions, deleteRedundantData: deleteRedundantData)
     }
 }
 
