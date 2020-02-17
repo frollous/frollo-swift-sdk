@@ -72,8 +72,11 @@ public class Aggregation: CachedObjects, ResponseHandler {
     /// Notification fired when transaction categories cache has been updated
     public static let transactionCategoriesUpdatedNotification = Notification.Name("FrolloSDK.aggregation.transactionCategoriesUpdatedNotification")
     
+    /// Notification fired when silent push notification recieved to update transactions 
+     public static let refreshTransactionsNotification = Notification.Name("FrolloSDK.aggregation.refreshTransactionsNotification")
+    
     internal static let refreshTransactionIDsKey = "FrolloSDKKey.Aggregation.transactionIDs"
-    internal static let refreshTransactionsNotification = Notification.Name("FrolloSDK.aggregation.refreshTransactionsNotification")
+   
     
     internal let accountLock = NSLock()
     internal let merchantLock = NSLock()
