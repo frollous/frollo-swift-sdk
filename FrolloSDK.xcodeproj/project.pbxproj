@@ -2020,9 +2020,9 @@
 			isa = PBXGroup;
 			children = (
 				01E0819220FDB6F30036133F /* NetworkAuthenticatorTests.swift */,
-				01BB5A6B221F5484000C03F0 /* OAuth */,
-				01874B7920F834BD005A7D0C /* API */,
 				0101949D20F595F300334482 /* NetworkTests.swift */,
+				01874B7920F834BD005A7D0C /* API */,
+				01BB5A6B221F5484000C03F0 /* OAuth */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -2437,9 +2437,9 @@
 		013D2D87210A8AE200EEDEC5 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				13CFDA6E2397401200559476 /* Budgets */,
 				015EEDE0210FDA570081AD76 /* Aggregation */,
 				0101A8EA21CC4F6B00DCFCEB /* Bills */,
+				13CFDA6E2397401200559476 /* Budgets */,
 				017F0FA122DC349A00ACE7BB /* Goals */,
 				012606D2219BC2A2005D8377 /* Messages */,
 				0125879B234456260077D8B4 /* PayDay */,
@@ -2493,7 +2493,6 @@
 		01527CC120E1B5C300B5042A /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				1364E7842394828B009C82CD /* Budgets */,
 				01527CC220E1B5C300B5042A /* FrolloSDK.h */,
 				01527CD820E1C5A600B5042A /* FrolloSDK.swift */,
 				01BB5A54221CD2AE000C03F0 /* FrolloSDKConfiguration.swift */,
@@ -2503,6 +2502,7 @@
 				01EED85D20E5A7EA00F4516B /* Aggregation */,
 				01EED85B20E5A7EA00F4516B /* Authentication */,
 				0101A8F921CC647700DCFCEB /* Bills */,
+				1364E7842394828B009C82CD /* Budgets */,
 				01EED86C20E5AA8B00F4516B /* Database */,
 				01C824FB20EDD64E0093400E /* Error */,
 				011F8148219D31AB00A1495F /* Events */,
@@ -2528,8 +2528,6 @@
 		01527CCC20E1B5C300B5042A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				032F10B923DA84E800F3BF01 /* CDR */,
-				1364E7882394A569009C82CD /* Budgets */,
 				03E157B9227BBFD90083F0D8 /* BaseTestCase.swift */,
 				01BB5A56221CDDA1000C03F0 /* FrolloSDKConfiguration+Test.swift */,
 				01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */,
@@ -2537,6 +2535,8 @@
 				0181914A21117B42000E0F80 /* Aggregation */,
 				017B48FA21084B8D00447E65 /* Authentication */,
 				0101A90221CC8AA500DCFCEB /* Bills */,
+				1364E7882394A569009C82CD /* Budgets */,
+				032F10B923DA84E800F3BF01 /* CDR */,
 				01EEDB1920EAE2A900F4516B /* Database */,
 				016DD0A220EF356D00F41919 /* Error */,
 				011F8147219D317900A1495F /* Events */,
@@ -2868,17 +2868,17 @@
 		017391EB20EEFFEA00C0BB32 /* Transient */ = {
 			isa = PBXGroup;
 			children = (
-				2F0B461A23DFF56B00D16143 /* TransactionFilter.swift */,
 				01483B9D21192F1600D0DA87 /* BudgetCategory.swift */,
+				032F10BF23DA88E100F3BF01 /* CDRConsent.swift */,
 				013D2D93210AA38800EEDEC5 /* DeviceInfo.swift */,
+				13DB95A923E5210400555338 /* MerchantSearch.swift */,
 				0135D2FC21A2202400318142 /* NotificationPayload.swift */,
 				012C4509212A775D00799A0A /* ProviderLoginForm.swift */,
 				0104E03221E8588300D98EE7 /* ReportGrouping.swift */,
-				2F657DA2223B26B300471B85 /* Survey.swift */,
-				03D965AF22768C92009BC283 /* SuggestedTag.swift */,
 				69E7DED42397692E00291937 /* ReportResponse.swift */,
-				032F10BF23DA88E100F3BF01 /* CDRConsent.swift */,
-				13DB95A923E5210400555338 /* MerchantSearch.swift */,
+				03D965AF22768C92009BC283 /* SuggestedTag.swift */,
+				2F657DA2223B26B300471B85 /* Survey.swift */,
+				2F0B461A23DFF56B00D16143 /* TransactionFilter.swift */,
 			);
 			path = Transient;
 			sourceTree = "<group>";
@@ -2886,9 +2886,9 @@
 		017391EC20EEFFEA00C0BB32 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				132154582390B743001495A2 /* Budgets */,
 				016097F3210EE2820034E857 /* Aggregation */,
 				018240DA21C8B7F5005705F9 /* Bills */,
+				132154582390B743001495A2 /* Budgets */,
 				017F0F8D22DBF8D900ACE7BB /* Goals */,
 				0126068421990397005D8377 /* Messages */,
 				01C88BEA2321F05D0027D01B /* PayDay */,
@@ -2936,9 +2936,9 @@
 		017B48D42106D48200447E65 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				132154652390EBFD001495A2 /* Budget */,
 				015EEDFA210FE5440081AD76 /* Aggregation */,
 				0101A8F421CC54DA00DCFCEB /* Bills */,
+				132154652390EBFD001495A2 /* Budget */,
 				017F0F9822DC314200ACE7BB /* Goals */,
 				012606C5219BA998005D8377 /* Messages */,
 				01F832FC23275944004520D0 /* PayDay */,
@@ -3266,11 +3266,11 @@
 				01C824E820EB2F570093400E /* Data+Random.swift */,
 				017E58D1217FF86F00DC56FF /* DateExtensionsTests.swift */,
 				016097ED210EA27E0034E857 /* Keychain+Test.swift */,
+				13F5F5A223E7DB3000EC8734 /* NSDecimalNumber+NegativeValue.swift */,
 				011E87D1213767F00026E047 /* SecKeyPEMTests.swift */,
 				012606CE219BBD75005D8377 /* String+Random.swift */,
 				016097E9210EA0D60034E857 /* XCTestCase+TempFolder.swift */,
 				03ADF877227937A9001B5E20 /* XCTestCaseExtensions.swift */,
-				13F5F5A223E7DB3000EC8734 /* NSDecimalNumber+NegativeValue.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3344,11 +3344,11 @@
 				01A1F5992148DBC9002B9A93 /* Data.swift */,
 				018B0425216EC785008C34D7 /* Date.swift */,
 				013A32C02112AF4E00B0590B /* DateFormatter.swift */,
+				034BD7D523988D9D00142B7A /* Decimal.swift */,
 				015EEDDD210FD7710081AD76 /* FailableCodable.swift */,
 				01C8251320EDF6200093400E /* Localization.swift */,
 				017B83A6221A4CBF0022884E /* Result.swift */,
 				011E87CF213766550026E047 /* SecKeyPEM.swift */,
-				034BD7D523988D9D00142B7A /* Decimal.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3374,9 +3374,9 @@
 		01EED85A20E5A7EA00F4516B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				1318C1C5237B95CD00ABFC51 /* Migrations */,
 				013D2D81210A885F00EEDEC5 /* API */,
 				017391EC20EEFFEA00C0BB32 /* Core Data */,
+				1318C1C5237B95CD00ABFC51 /* Migrations */,
 				01BB5A5A221D19F4000C03F0 /* OAuth2 */,
 				017391EB20EEFFEA00C0BB32 /* Transient */,
 				013BC1DC218A690F005A2714 /* View Model */,
@@ -3448,10 +3448,10 @@
 		01EEDB1920EAE2A900F4516B /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				1318C1F2237D180B00ABFC51 /* CustomMessageMigrationTest.swift */,
 				01EEDB1C20EAEA2000F4516B /* DatabaseMigrationTests.swift */,
 				01BB5A50221CC727000C03F0 /* DatabaseResetTests.swift */,
 				01EEDB1A20EAE2CE00F4516B /* DatabaseTests.swift */,
-				1318C1F2237D180B00ABFC51 /* CustomMessageMigrationTest.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
