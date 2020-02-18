@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.4.1
+
+### Fixes
+
+- Fixed issue with refreshing cached merchants
+
 ## 4.4
 
 - Transaction and Merchant Enhancements

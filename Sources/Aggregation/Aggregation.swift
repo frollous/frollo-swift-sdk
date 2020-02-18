@@ -1942,12 +1942,11 @@ public class Aggregation: CachedObjects, ResponseHandler {
      Refresh merchant data for all cached merchants from the host
      
       - parameters:
+        - count: Total number of cached merchants (if already known)
+        - offset: Offset to fetch from (if already known)
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func refreshCachedMerchants(completion: FrolloSDKCompletionHandler? = nil) {
-        
-        var count: Int?
-        var offset: Int = 0
+    public func refreshCachedMerchants(count: Int? = nil, offset: Int = 0, completion: FrolloSDKCompletionHandler? = nil) {
         
         let managedObjectContext = database.newBackgroundContext()
         
@@ -1980,7 +1979,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 let fetchedMerchantIDs = try managedObjectContext.fetch(fetchRequest)
                 let cachedMerchantIDs = fetchedMerchantIDs.compactMap { $0.merchantID }
                 
-                service.fetchMerchants(merchantIDs: cachedMerchantIDs) { result in
+                service.fetchMerchants(merchantIDs: cachedMerchantIDs, size: merchantBatchSize) { result in
                     switch result {
                         
                         case .failure(let error):
@@ -2003,9 +2002,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                             if nextOffset >= merchantCount {
                                 completion?(.success)
                             } else {
-                                count = merchantCount
-                                offset = nextOffset
-                                self.refreshCachedMerchants(completion: completion)
+                                self.refreshCachedMerchants(count: merchantCount, offset: nextOffset, completion: completion)
                             }
                     }
                 }

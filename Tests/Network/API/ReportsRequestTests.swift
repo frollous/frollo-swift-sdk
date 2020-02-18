@@ -81,5 +81,24 @@ class ReportsRequestTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 5.0)
     }
+    
+    func testReportsEndpoint() {
+        let testPath1 = ReportsEndpoint.transactionsHistory(entity: "tag", id: "groceries world").path
+        XCTAssertEqual(testPath1, "reports/transactions/tag/groceries%20world")
+        let url1 = URL(string: testPath1, relativeTo: config.serverEndpoint)!
+        XCTAssertNotNil(url1)
+        
+        let testPath2 = ReportsEndpoint.transactionsHistory(entity: "tag", id: "groceries @ sydney").path
+        XCTAssertEqual(testPath2, "reports/transactions/tag/groceries%20@%20sydney")
+        let url2 = URL(string: testPath2, relativeTo: config.serverEndpoint)!
+        XCTAssertNotNil(url2)
+        
+        let testPath3 = ReportsEndpoint.transactionsHistory(entity: "tag", id: "groceries 😀 sydney").path
+        XCTAssertEqual(testPath3, "reports/transactions/tag/groceries%20%F0%9F%98%80%20sydney")
+        let url3 = URL(string: testPath3, relativeTo: config.serverEndpoint)!
+        XCTAssertNotNil(url3)
+        
+        
+    }
 
 }
