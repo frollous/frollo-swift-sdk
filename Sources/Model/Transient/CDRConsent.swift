@@ -125,7 +125,7 @@ public struct CDRConsent: Codable {
     public let permissions: [Provider.Permission]
     
     /// Additional permissions (meta-data) that can be set
-    public let additionalPermissions: [String: Bool]
+    public let additionalPermissions: [String: Bool]?
     
     /// Specifies whether the data should be deleted after the consent is done
     public let deleteRedundantData: Bool

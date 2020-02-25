@@ -43,7 +43,7 @@ struct APICDRConsentResponse: Codable {
     let permissions: [String]
     
     /// Additional permissions (meta-data) that can be set
-    let additionalPermissions: [String: Bool]
+    let additionalPermissions: [String: Bool]?
     
     /// Specifies whether the data should be deleted after the consent is done
     let deleteRedundantData: Bool
