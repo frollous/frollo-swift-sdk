@@ -763,6 +763,53 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testMarkMessageReadFromHandlePushNotification() {
+        
+        let path = tempFolderPath()
+        let database = Database(path: path)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let messages = Messages(database: database, service: service)
+        let context = database.viewContext
+        
+        let managedObjectContext = database.newBackgroundContext()
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+                        
+            managedObjectContext.performAndWait {
+                let message = Message(context: managedObjectContext)
+                message.populateTestData()
+                message.messageID = 98765
+                message.read = false
+                message.interacted = false
+                
+                try? managedObjectContext.save()
+
+            }
+        }
+        
+        let notificationPayload = NotificationPayload.testMessageData()
+        messages.handleMessageNotification(notificationPayload)
+        
+        let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "messageID == %ld", argumentArray: [98765])
+        
+        do {
+            let fetchedMessages = try context.fetch(fetchRequest)
+            XCTAssertTrue(fetchedMessages.first!.read)
+            XCTAssertTrue(fetchedMessages.first!.interacted)
+            XCTAssertEqual(fetchedMessages.first?.messageID, 98765)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
+    }
+    
     // MARK: - Delegate
     
     func messageReceived(_ messageID: Int64) {
