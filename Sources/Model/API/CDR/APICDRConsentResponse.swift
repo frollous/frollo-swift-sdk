@@ -37,7 +37,7 @@ struct APICDRConsentResponse: Codable {
     let sharingStartedAt: String?
     
     /// The duration (in seconds) for the consent
-    let sharingDuration: Int32
+    let sharingDuration: Int64?
     
     /// The permissions requested for the consent
     let permissions: [String]

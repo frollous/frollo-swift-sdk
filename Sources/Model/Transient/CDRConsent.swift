@@ -119,7 +119,7 @@ public struct CDRConsent: Codable {
     public let sharingStartedAt: Date?
     
     /// The duration (in seconds) for the consent
-    public let sharingDuration: Int32
+    public let sharingDuration: Int64?
     
     /// The permissions requested for the consent
     public let permissions: [Provider.Permission]
