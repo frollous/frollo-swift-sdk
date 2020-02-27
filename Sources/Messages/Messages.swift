@@ -282,6 +282,43 @@ public class Messages: CachedObjects, ResponseHandler {
     }
     
     /**
+     Update read and interacted status of a message on the host
+     
+     - parameters:
+        - messageID: ID of the message to be updated
+        - read: Optional read status of the message; false by default
+        - interacted: Optional interacted status of the message; false by default
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func updateMessage(messageID: Int64, read: Bool? = false, interacted: Bool? = false, completion: FrolloSDKCompletionHandler? = nil) {
+        
+        guard let read = read, let interacted = interacted else {
+            return
+        }
+        
+        let request = APIMessageUpdateRequest(interacted: interacted, read: read)
+        
+        service.updateMessage(messageID: messageID, request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleMessageResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
      Refresh all unread messages from the host.
      
      - parameters:
@@ -318,8 +355,9 @@ public class Messages: CachedObjects, ResponseHandler {
         
         let managedObjectContext = database.newBackgroundContext()
         
-        if message(context: managedObjectContext, messageID: messageID) == nil {
-            refreshMessage(messageID: messageID) { result in
+        guard let cachedMessage = message(context: managedObjectContext, messageID: messageID) else {
+            
+            updateMessage(messageID: messageID, read: true, interacted: true) { result in
                 switch result {
                     case .failure(let error):
                         Log.error(error.localizedDescription)
@@ -329,11 +367,28 @@ public class Messages: CachedObjects, ResponseHandler {
                         }
                 }
             }
-        } else {
-            DispatchQueue.main.async {
-                self.delegate?.messageReceived(messageID)
+            
+            return
+        }
+        
+        managedObjectContext.performAndWait {
+            
+            cachedMessage.read = true
+            cachedMessage.interacted = true
+            
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
             }
         }
+        
+        updateMessage(messageID: cachedMessage.messageID)
+        
+        DispatchQueue.main.async {
+            self.delegate?.messageReceived(messageID)
+        }
+        
     }
     
     // MARK: - Response Handling
