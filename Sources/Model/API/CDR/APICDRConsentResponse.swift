@@ -17,6 +17,7 @@
 import Foundation
 
 struct APICDRConsentResponse: Codable {
+    
     enum CodingKeys: String, CodingKey {
         case providerID = "provider_id"
         case sharingDuration = "sharing_duration"
@@ -55,8 +56,25 @@ struct APICDRConsentResponse: Codable {
     let authorisationRequestURL: String?
     
     /// URL of the Consent Confirmation PDF.
-    public let confirmationPDFURL: String
+    let confirmationPDFURL: String
     
     /// URL of the Consent Withdrawal PDF.
-    public let withdrawalPDFURL: String?
+    let withdrawalPDFURL: String?
+    
+    /// Creates a public consent object from the API response
+    var consent: CDRConsent {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return .init(providerID: providerID,
+                     sharingStartedAt: dateFormatter.date(from: sharingStartedAt ?? ""),
+                     sharingDuration: sharingDuration,
+                     permissions: permissions.map { Provider.Permission(rawValue: $0) }.compactMap { $0 },
+                     additionalPermissions: additionalPermissions,
+                     deleteRedundantData: deleteRedundantData,
+                     status: CDRConsent.Status(rawValue: status) ?? .pending,
+                     authorisationRequestURL: URL(string: authorisationRequestURL ?? ""),
+                     confirmationPDFURL: URL(string: confirmationPDFURL)!,
+                     withdrawalPDFURL: URL(string: withdrawalPDFURL ?? ""))
+    }
+    
 }

@@ -1,5 +1,18 @@
 # Changelog
 
+## 4.5.0
+
+- Open Banking support
+
+### Features
+
+- CDR Consent support
+- Automatically mark push notifications as read
+
+### Changes
+
+- Upgrade Alamofire to 5.0
+
 ## 4.4.1
 
 ### Fixes

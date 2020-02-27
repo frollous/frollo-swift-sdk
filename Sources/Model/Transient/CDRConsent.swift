@@ -21,6 +21,7 @@ import Foundation
  */
 public struct CDRConsentForm: Codable {
     
+    /// Represents the create request structure of the consent form
     public struct Post {
         
         /// The ID for the provider
@@ -58,6 +59,7 @@ public struct CDRConsentForm: Codable {
         }
     }
     
+    /// Represents the update request structure of the consent form
     public struct Put {
         
         /// The new status for the consent
@@ -141,23 +143,5 @@ public struct CDRConsent: Codable {
     
     /// URL of the Consent Withdrawal PDF.
     public let withdrawalPDFURL: URL?
-}
-
-extension APICDRConsentResponse {
     
-    /// Creates a public consent object from the API response
-    var consent: CDRConsent {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        return .init(providerID: providerID,
-                     sharingStartedAt: dateFormatter.date(from: sharingStartedAt ?? ""),
-                     sharingDuration: sharingDuration,
-                     permissions: permissions.map { Provider.Permission(rawValue: $0) }.compactMap { $0 },
-                     additionalPermissions: additionalPermissions,
-                     deleteRedundantData: deleteRedundantData,
-                     status: CDRConsent.Status(rawValue: status) ?? .pending,
-                     authorisationRequestURL: URL(string: authorisationRequestURL ?? ""),
-                     confirmationPDFURL: URL(string: confirmationPDFURL)!,
-                     withdrawalPDFURL: URL(string: withdrawalPDFURL ?? ""))
-    }
 }
