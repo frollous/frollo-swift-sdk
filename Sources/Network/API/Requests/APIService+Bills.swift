@@ -82,7 +82,7 @@ extension APIService {
                 return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { (response: DataResponse<Data>) in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { (response: AFDataResponse<Data>) in
                 self.network.handleResponse(type: APIBillResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -145,7 +145,7 @@ extension APIService {
     
     // MARK: - Response Handling
     
-    private func handleBillsReponse(response: DataResponse<Data>, completion: RequestCompletion<[APIBillResponse]>) {
+    private func handleBillsReponse(response: AFDataResponse<Data>, completion: RequestCompletion<[APIBillResponse]>) {
         switch response.result {
             case .success(let value):
                 let dateFormatter = DateFormatter()

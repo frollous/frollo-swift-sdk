@@ -141,6 +141,29 @@ public class Authentication: RequestAdapter, RequestRetrier {
         return urlRequest
     }
     
+    public func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
+        
+        guard let url = urlRequest.url, url.host == serverURL.host
+        else {
+            completion(.success(urlRequest))
+            return
+        }
+        
+        let request = urlRequest
+        
+        if let relativePath = request.url?.relativePath, !(relativePath.contains(UserEndpoint.register.path) || relativePath.contains(UserEndpoint.resetPassword.path) || relativePath.contains(UserEndpoint.migrate.path)) {
+            do {
+                let adaptedRequest = try validateAndAppendAccessToken(request: request)
+                completion(.success(adaptedRequest))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        
+        completion(.success(urlRequest))
+        
+    }
+    
     // MARK: - Retry Requests
     
     /**
@@ -156,11 +179,12 @@ public class Authentication: RequestAdapter, RequestRetrier {
        - error:      `Error` encountered while executing the `Request`.
        - completion: Completion closure to be executed when a retry decision has been determined.
      */
-    public func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
+    
+    public func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
+        
         guard let responseError = error as? AFError
         else {
-            completion(false, 0)
-            return
+            return completion(.doNotRetryWithError(error))
         }
         
         lock.lock(); defer { lock.unlock() }
@@ -169,7 +193,8 @@ public class Authentication: RequestAdapter, RequestRetrier {
             case .responseValidationFailed(reason: .unacceptableStatusCode(let code)):
                 switch code {
                     case 401:
-                        if let data = request.delegate.data {
+                        
+                        if let data = request.response?.statusCode {
                             let apiError = APIError(statusCode: code, response: data)
                             switch apiError.type {
                                 case .invalidAccessToken:
@@ -179,24 +204,24 @@ public class Authentication: RequestAdapter, RequestRetrier {
                                         
                                         refreshTokens()
                                     } else {
-                                        completion(false, 0)
+                                        completion(.doNotRetryWithError(error))
                                     }
                                 default:
-                                    completion(false, 0)
+                                    completion(.doNotRetryWithError(error))
                             }
                         } else {
-                            completion(false, 0)
+                            completion(.doNotRetryWithError(error))
                         }
                     case 429:
                         rateLimitCount = min(rateLimitCount + 1, maxRateLimitCount)
-                        
-                        completion(true, rateLimitCount * 3)
+                        completion(.retryWithDelay(rateLimitCount))
                     default:
-                        completion(false, 0)
+                        completion(.doNotRetryWithError(error))
                 }
             default:
-                completion(false, 0)
+                completion(.doNotRetryWithError(error))
         }
+        
     }
     
     private func cancelRetryRequests() {
@@ -254,7 +279,7 @@ public class Authentication: RequestAdapter, RequestRetrier {
             return
         }
         
-        delegate.accessTokenExpired { success in
+        delegate.accessTokenExpired { _ in
             if success {
                 self.requestsToRetry.forEach { $0(true, 0.0) }
                 self.requestsToRetry.removeAll()
