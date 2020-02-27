@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.5.0
+
+- Open Banking support
+
+### Features
+
+- CDR Consent support
+- Automatically mark push notifications as read
+
 ## 4.4.1
 
 ### Fixes
