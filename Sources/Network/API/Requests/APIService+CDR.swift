@@ -66,14 +66,14 @@ extension APIService {
         }
     }
     
-    func fetchProducts(accountID: Int64, completion: @escaping RequestCompletion<[Product]>) {
+    func fetchProducts(accountID: Int64, completion: @escaping RequestCompletion<[CDRProduct]>) {
         requestQueue.async {
             let url = URL(string: CDREndpoint.products.path, relativeTo: self.serverURL)!
             
             let parameters = [CDREndpoint.QueryParameters.accountID.rawValue: accountID]
             
             self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleArrayResponse(type: Product.self, errorType: APIError.self, response: response, completion: completion)
+                self.network.handleArrayResponse(type: CDRProduct.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }

@@ -127,7 +127,7 @@ class CDRTests: BaseTestCase {
                     XCTAssertEqual(products.count, 131)
                     XCTAssertEqual(products.first?.id, 1)
                     XCTAssertEqual(products.first?.providerID, 22580)
-                    XCTAssertEqual(products.first?.providerCategory, Product.ProductCategory.residentialMortgages)
+                    XCTAssertEqual(products.first?.providerCategory, CDRProduct.CDRProductCategory.residentialMortgages)
                     XCTAssertEqual(products.first?.productName, "Fixed Rate Investment Property Loan Interest Only")
             }
             

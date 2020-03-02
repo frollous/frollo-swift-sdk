@@ -17,9 +17,9 @@
 import Foundation
 
 /**
-Represents the Product that belongs to a Provider
-*/
-public struct Product: Codable {
+ Represents the CDRProduct that belongs to a Provider
+ */
+public struct CDRProduct: Codable {
     
     enum CodingKeys: String, CodingKey {
         case brand
@@ -35,9 +35,9 @@ public struct Product: Codable {
     }
     
     /**
-    Represents the category of a Product
-    */
-    public enum ProductCategory: String, Codable {
+     Represents the category of a CDRProduct
+     */
+    public enum CDRProductCategory: String, Codable {
         
         /// Transaction and saving accounts
         case transactionAndSavingAccounts = "TRANS_AND_SAVINGS_ACCOUNTS"
@@ -102,7 +102,7 @@ public struct Product: Codable {
     public let productName: String?
     
     /// Product Category of the product
-    public let providerCategory: ProductCategory?
+    public let providerCategory: CDRProductCategory?
     
     /// ProviderID that product belongs to
     public let providerID: Int64
