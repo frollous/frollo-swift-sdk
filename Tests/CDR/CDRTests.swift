@@ -110,6 +110,32 @@ class CDRTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testFetchProductsByAccountID() {
+
+        let expectation1 = expectation(description: "Network Request 1")
+               
+        connect(endpoint: CDREndpoint.products.path.prefixedWithSlash, toResourceWithName: "products_account_id_542")
+               
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        aggregation.fetchProducts(accountID: 542) { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail("Fetching products failed with error \(error)")
+                case .success(let products):
+                    XCTAssertEqual(products.count, 131)
+                    XCTAssertEqual(products.first?.id, 1)
+                    XCTAssertEqual(products.first?.providerID, 22580)
+                    XCTAssertEqual(products.first?.providerCategory, Product.ProductCategory.residentialMortgages)
+                    XCTAssertEqual(products.first?.productName, "Fixed Rate Investment Property Loan Interest Only")
+            }
+            
+            expectation1.fulfill()
+        }
+               
+        wait(for: [expectation1], timeout: 3.0)
+    }
 }
 
 

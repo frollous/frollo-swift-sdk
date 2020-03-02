@@ -22,7 +22,12 @@ enum CDREndpoint: Endpoint {
         return urlPath()
     }
     
+    enum QueryParameters: String, Codable {
+        case accountID = "account_id"
+    }
+    
     case consents(id: Int64?)
+    case products
     
     private func urlPath() -> String {
         switch self {
@@ -32,6 +37,8 @@ enum CDREndpoint: Endpoint {
                 } else {
                     return "cdr/consents"
                 }
+            case .products:
+                return "cdr/products"
         }
     }
     

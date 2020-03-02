@@ -835,6 +835,26 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Fetches products list form for a specific account
+     
+     - parameters:
+        - accountID: Account ID of the Account to fetch products
+        - completion: The block that will be executed when the submit request is complete
+     */
+    public func fetchProducts(accountID: Int64, completion: ((Result<[Product], Error>) -> Void)?) {
+        
+        service.fetchProducts(accountID: accountID) { result in
+            switch result {
+                case .success(let response):
+                    completion?(.success(response))
+                case .failure(let error):
+                    completion?(.failure(error))
+            }
+        }
+        
+    }
+    
     // MARK: - Transactions
     
     /**
