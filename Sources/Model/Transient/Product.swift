@@ -78,33 +78,33 @@ public struct Product: Codable {
     }
     
     /// Brand of the product
-    let brand: String?
+    public let brand: String?
     
     /// Brand name of the product
-    let brandName: String?
+    public let brandName: String?
     
     /// Externam ID of the product
-    let externalID: Int64?
+    public let externalID: Int64?
     
     /// Fees URI of the product
-    let feesURI: String?
+    public let feesURI: String?
     
     /// Terms URI of the product
-    let termsURI: String?
+    public let termsURI: String?
     
     /// ID of the product
-    let id: Int64
+    public let id: Int64
     
     /// Product Description of the product
-    let productDescription: String?
+    public let productDescription: String?
     
     /// Product Name of the product
-    let productName: String?
+    public let productName: String?
     
     /// Product Category of the product
-    let providerCategory: ProductCategory?
+    public let providerCategory: ProductCategory?
     
     /// ProviderID that product belongs to
-    let providerID: Int64
+    public let providerID: Int64
     
 }
