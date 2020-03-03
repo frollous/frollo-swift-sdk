@@ -257,7 +257,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  carthage_cache
   fastlane
   fastlane-plugin-carthage_cache
   jazzy
