@@ -1188,6 +1188,11 @@
 		1318C1F4237D180B00ABFC51 /* CustomMessageMigrationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1318C1F2237D180B00ABFC51 /* CustomMessageMigrationTest.swift */; };
 		1318C1F5237D180B00ABFC51 /* CustomMessageMigrationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1318C1F2237D180B00ABFC51 /* CustomMessageMigrationTest.swift */; };
 		1318C1F7237E631600ABFC51 /* MessageMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1318C1C6237B95E200ABFC51 /* MessageMigration.swift */; };
+		131EC63C240C7B7D0004F7CB /* CDRProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131EC63B240C7B7D0004F7CB /* CDRProduct.swift */; };
+		131EC63D240C7B7D0004F7CB /* CDRProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131EC63B240C7B7D0004F7CB /* CDRProduct.swift */; };
+		131EC63F240C870E0004F7CB /* products_account_id_542.json in Resources */ = {isa = PBXBuildFile; fileRef = 131EC63E240C870E0004F7CB /* products_account_id_542.json */; };
+		131EC640240C870E0004F7CB /* products_account_id_542.json in Resources */ = {isa = PBXBuildFile; fileRef = 131EC63E240C870E0004F7CB /* products_account_id_542.json */; };
+		131EC641240C870E0004F7CB /* products_account_id_542.json in Resources */ = {isa = PBXBuildFile; fileRef = 131EC63E240C870E0004F7CB /* products_account_id_542.json */; };
 		1321545A2390B763001495A2 /* Budget+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132154592390B763001495A2 /* Budget+CoreDataClass.swift */; };
 		1321545B2390B763001495A2 /* Budget+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132154592390B763001495A2 /* Budget+CoreDataClass.swift */; };
 		1321545D2390B867001495A2 /* Budget+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1321545C2390B867001495A2 /* Budget+CoreDataProperties.swift */; };
@@ -1895,6 +1900,8 @@
 		1318C1E3237BAB0500ABFC51 /* FrolloSDKDataModel-1.5.2.sqlite-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.5.2.sqlite-wal"; sourceTree = "<group>"; };
 		1318C1E4237BAB0500ABFC51 /* FrolloSDKDataModel-1.5.2.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.5.2.sqlite"; sourceTree = "<group>"; };
 		1318C1F2237D180B00ABFC51 /* CustomMessageMigrationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessageMigrationTest.swift; sourceTree = "<group>"; };
+		131EC63B240C7B7D0004F7CB /* CDRProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDRProduct.swift; sourceTree = "<group>"; };
+		131EC63E240C870E0004F7CB /* products_account_id_542.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = products_account_id_542.json; sourceTree = "<group>"; };
 		1321545623909450001495A2 /* FrolloSDKDataModel-1.6.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.6.0.xcdatamodel"; sourceTree = "<group>"; };
 		132154592390B763001495A2 /* Budget+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Budget+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1321545C2390B867001495A2 /* Budget+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Budget+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -2609,6 +2616,7 @@
 				039C07A423F3B2C4002F7979 /* get_consent.json */,
 				032F10C523DA8CF700F3BF01 /* post_consent.json */,
 				03778B7B23F3BEC9008C856B /* put_consent.json */,
+				131EC63E240C870E0004F7CB /* products_account_id_542.json */,
 			);
 			path = Aggregation;
 			sourceTree = "<group>";
@@ -2868,6 +2876,7 @@
 		017391EB20EEFFEA00C0BB32 /* Transient */ = {
 			isa = PBXGroup;
 			children = (
+				131EC63B240C7B7D0004F7CB /* CDRProduct.swift */,
 				01483B9D21192F1600D0DA87 /* BudgetCategory.swift */,
 				032F10BF23DA88E100F3BF01 /* CDRConsent.swift */,
 				013D2D93210AA38800EEDEC5 /* DeviceInfo.swift */,
@@ -3916,6 +3925,7 @@
 				2FE1802822498A2200B87AAB /* error_oauth2_invalid_scope.json in Resources */,
 				01236D6321EED5F7008DD61A /* transaction_reports_current_txn_category_3_days.json in Resources */,
 				2F657DAF223B467000471B85 /* survey_response.json in Resources */,
+				131EC63F240C870E0004F7CB /* products_account_id_542.json in Resources */,
 				017F0FC722DD780D00ACE7BB /* goal_id_3211.json in Resources */,
 				018501EE2209161900069D87 /* providers_updated.json in Resources */,
 				2F0B462023E1333000D16143 /* transactions_single_page.json in Resources */,
@@ -4100,6 +4110,7 @@
 				017B48512101B4FE00447E65 /* error_missing_code.json in Resources */,
 				2FE1802F22498A2200B87AAB /* error_oauth2_unauthorized_client.json in Resources */,
 				1387A9AE23A3142B002E0483 /* invalid_data.json in Resources */,
+				131EC640240C870E0004F7CB /* products_account_id_542.json in Resources */,
 				2FE1802922498A2200B87AAB /* error_oauth2_invalid_scope.json in Resources */,
 				01236D6421EED5F7008DD61A /* transaction_reports_current_txn_category_3_days.json in Resources */,
 				2F0B462123E1333000D16143 /* transactions_single_page.json in Resources */,
@@ -4293,6 +4304,7 @@
 				017B48AE2105958100447E65 /* error_missing_code.json in Resources */,
 				2FE1803022498A2200B87AAB /* error_oauth2_unauthorized_client.json in Resources */,
 				2FE1802A22498A2200B87AAB /* error_oauth2_invalid_scope.json in Resources */,
+				131EC641240C870E0004F7CB /* products_account_id_542.json in Resources */,
 				01236D6521EED5F7008DD61A /* transaction_reports_current_txn_category_3_days.json in Resources */,
 				2F657DB1223B467000471B85 /* survey_response.json in Resources */,
 				2F0B462223E1333000D16143 /* transactions_single_page.json in Resources */,
@@ -4654,6 +4666,7 @@
 				01483B6C2117C70600D0DA87 /* Account+CoreDataClass.swift in Sources */,
 				013D2D94210AA38800EEDEC5 /* DeviceInfo.swift in Sources */,
 				1321545D2390B867001495A2 /* Budget+CoreDataProperties.swift in Sources */,
+				131EC63C240C7B7D0004F7CB /* CDRProduct.swift in Sources */,
 				017F0FEF22DEE82900ACE7BB /* APIGoalPeriodResponse.swift in Sources */,
 				0159E4822193CBAD002CC3BB /* Merchant+CoreDataProperties.swift in Sources */,
 				0160953720F33EB10060791B /* Version.swift in Sources */,
@@ -5290,6 +5303,7 @@
 				01E5BF292227A475003D85FD /* APIProviderAccountResponse.swift in Sources */,
 				1321545E2390B867001495A2 /* Budget+CoreDataProperties.swift in Sources */,
 				01E5BF2A2227A475003D85FD /* FileLogger.swift in Sources */,
+				131EC63D240C7B7D0004F7CB /* CDRProduct.swift in Sources */,
 				017F0FF022DEE82900ACE7BB /* APIGoalPeriodResponse.swift in Sources */,
 				01E5BF2B2227A475003D85FD /* Account+CoreDataClass.swift in Sources */,
 				01E5BF2C2227A475003D85FD /* DeviceInfo.swift in Sources */,
