@@ -314,15 +314,15 @@ extension Account {
     @objc(addProductInformationsObject:)
     @NSManaged public func addToProductInformations(_ value: CDRProductInformation)
     
-    /// Remove an cdr product information relationship
+    /// Remove an CDR product information relationship
     @objc(removeProductInformationsObject:)
     @NSManaged public func removeFromProductInformations(_ value: CDRProductInformation)
     
-    /// Add cdr product information relationships
+    /// Add CDR product information relationships
     @objc(addProductInformations:)
     @NSManaged public func addToProductInformations(_ values: Set<CDRProductInformation>)
     
-    /// Remove cdr product information relationships
+    /// Remove CDR product information relationships
     @objc(removeProductInformations:)
     @NSManaged public func removeFromProductInformations(_ values: Set<CDRProductInformation>)
     
