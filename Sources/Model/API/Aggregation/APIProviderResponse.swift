@@ -34,6 +34,7 @@ struct APIProviderResponse: APIUniqueResponse, Codable {
         case name
         case oAuthSite = "o_auth_site"
         case popular
+        case productsAvailable = "products_available"
         case smallLogoURLString = "small_logo_url"
         case status
         case permissions
@@ -87,5 +88,6 @@ struct APIProviderResponse: APIUniqueResponse, Codable {
     var smallLogoURLString: String?
     var aggregatorType: String
     var permissions: [String]?
+    let productsAvailable: Bool?
     
 }

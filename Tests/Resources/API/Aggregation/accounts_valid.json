@@ -1,67 +1,67 @@
 [{
-	"id": 542,
-	"provider_account_id": 867,
-	"external_id": "AF79E472-4137-44DD-9E96-166E1862A6D2",
-	"provider_name": "ME Bank (demo)",
-	"account_name": "Personal Account",
-	"account_status": "active",
-	"account_attributes": {
-		"container": "bank",
-		"account_type": "bank_account",
-		"group": "bank",
-		"classification": "personal"
-	},
-	"holder_profile": {
-		"name": "Jacob"
-	},
-	"included": true,
-	"favourite": true,
-	"hidden": false,
-	"current_balance": {
-		"amount": "1823.85",
-		"currency": "AUD"
-	},
-	"total_cash_limit": {
-		"amount": "1823.85",
-		"currency": "AUD"
-	},
-	"total_credit_line": {
-		"amount": "1823.85",
-		"currency": "AUD"
-	},
-	"available_credit": {
-		"amount": "1823.85",
-		"currency": "AUD"
-	},
-	"available_balance": {
-		"amount": "1823.85",
-		"currency": "AUD"
-	},
-	"amount_due": {
-		"amount": "1823.85",
-		"currency": "AUD"
-	},
-	"minimum_amount_due": {
-		"amount": "1823.85",
-		"currency": "AUD"
-	},
-	"last_payment_amount": {
-		"amount": "1823.85",
-		"currency": "AUD"
-	},
-	"available_cash": {
-		"amount": "1823.85",
-		"currency": "AUD"
-	},
-	"refresh_status": {
-		"status": "success",
-		"sub_status": "success",
-		"last_refreshed": "2018-08-02T01:40:26.000+00:00"
-	},
-	"apr": "18.99",
-	"interest_rate": "3.01",
-	"goal_ids": [98, 785, 22222091],
-	"balance_details": {
+    "id": 542,
+    "provider_account_id": 867,
+    "external_id": "AF79E472-4137-44DD-9E96-166E1862A6D2",
+    "provider_name": "ME Bank (demo)",
+    "account_name": "Personal Account",
+    "account_status": "active",
+    "account_attributes": {
+        "container": "bank",
+        "account_type": "bank_account",
+        "group": "bank",
+        "classification": "personal"
+    },
+    "holder_profile": {
+        "name": "Jacob"
+    },
+    "included": true,
+    "favourite": true,
+    "hidden": false,
+    "current_balance": {
+        "amount": "1823.85",
+        "currency": "AUD"
+    },
+    "total_cash_limit": {
+        "amount": "1823.85",
+        "currency": "AUD"
+    },
+    "total_credit_line": {
+        "amount": "1823.85",
+        "currency": "AUD"
+    },
+    "available_credit": {
+        "amount": "1823.85",
+        "currency": "AUD"
+    },
+    "available_balance": {
+        "amount": "1823.85",
+        "currency": "AUD"
+    },
+    "amount_due": {
+        "amount": "1823.85",
+        "currency": "AUD"
+    },
+    "minimum_amount_due": {
+        "amount": "1823.85",
+        "currency": "AUD"
+    },
+    "last_payment_amount": {
+        "amount": "1823.85",
+        "currency": "AUD"
+    },
+    "available_cash": {
+        "amount": "1823.85",
+        "currency": "AUD"
+    },
+    "refresh_status": {
+        "status": "success",
+        "sub_status": "success",
+        "last_refreshed": "2018-08-02T01:40:26.000+00:00"
+    },
+    "apr": "18.99",
+    "interest_rate": "3.01",
+    "goal_ids": [98, 785, 22222091],
+    "balance_details": {
       "current_description": "Below average",
       "tiers": [
         {
@@ -75,242 +75,279 @@
           "max": 700
         }
       ]
+    },
+  "products_available": true,
+  "product": {
+  "id": 1,
+  "name": "Everyday Saver",
+  "product_details_page_url": "www.example.com/product_details",
+  "key_information": [
+    {
+      "name": "Benefits",
+      "value": "Free ATMs"
+    }
+  ]
+  }
+}, {
+    "id": 543,
+    "aggregator": "demo",
+    "aggregator_id": 543,
+    "provider_account_id": 623,
+    "external_id": "AF70E472-4137-44DD-9E96-166E1862A6D2",
+    "provider_name": "ME Bank (demo)",
+    "account_name": "Savings Account",
+    "account_status": "active",
+    "account_attributes": {
+        "container": "bank",
+        "account_type": "savings",
+        "group": "savings"
+    },
+    "included": true,
+    "favourite": true,
+    "hidden": false,
+    "current_balance": {
+        "amount": "2309.12",
+        "currency": "AUD"
+    },
+    "available_balance": {
+        "amount": "2309.12",
+        "currency": "AUD"
+    },
+    "holder_profile": {
+        "name": "Jacob"
+    },
+    "refresh_status": {
+        "status": "success",
+        "sub_status": "success",
+        "last_refreshed": "2019-04-12T07:11:17.863+10:00"
     }
 }, {
-	"id": 543,
-	"aggregator": "demo",
-	"aggregator_id": 543,
-	"provider_account_id": 623,
-	"external_id": "AF70E472-4137-44DD-9E96-166E1862A6D2",
-	"provider_name": "ME Bank (demo)",
-	"account_name": "Savings Account",
-	"account_status": "active",
-	"account_attributes": {
-		"container": "bank",
-		"account_type": "savings",
-		"group": "savings"
-	},
-	"included": true,
-	"favourite": true,
-	"hidden": false,
-	"current_balance": {
-		"amount": "2309.12",
-		"currency": "AUD"
-	},
-	"available_balance": {
-		"amount": "2309.12",
-		"currency": "AUD"
-	},
-	"holder_profile": {
-		"name": "Jacob"
-	},
-	"refresh_status": {
-		"status": "success",
-		"sub_status": "success",
-		"last_refreshed": "2019-04-12T07:11:17.863+10:00"
-	}
+    "id": 545,
+    "aggregator": "demo",
+    "aggregator_id": 545,
+    "provider_account_id": 625,
+    "external_id": "AF79E472-4137-55DD-9E96-166E1862A6D2",
+    "provider_name": "AustralianSuper (demo)",
+    "account_name": "Super investment",
+    "account_status": "active",
+    "account_attributes": {
+        "container": "investment",
+        "account_type": "super_annuation",
+        "group": "super_annuation"
+    },
+    "included": false,
+    "favourite": false,
+    "hidden": true,
+    "current_balance": {
+        "amount": "14083.59",
+        "currency": "AUD"
+    },
+    "available_balance": {
+        "amount": "14083.59",
+        "currency": "AUD"
+    },
+    "holder_profile": {
+        "name": "Jacob"
+    },
+    "refresh_status": {
+        "status": "success",
+        "sub_status": "success",
+        "last_refreshed": "2019-04-12T07:11:17.863+10:00"
+    },
+    "products_available": false,
+    "product": {}
 }, {
-	"id": 545,
-	"aggregator": "demo",
-	"aggregator_id": 545,
-	"provider_account_id": 625,
-	"external_id": "AF79E472-4137-55DD-9E96-166E1862A6D2",
-	"provider_name": "AustralianSuper (demo)",
-	"account_name": "Super investment",
-	"account_status": "active",
-	"account_attributes": {
-		"container": "investment",
-		"account_type": "super_annuation",
-		"group": "super_annuation"
-	},
-	"included": false,
-	"favourite": false,
-	"hidden": true,
-	"current_balance": {
-		"amount": "14083.59",
-		"currency": "AUD"
-	},
-	"available_balance": {
-		"amount": "14083.59",
-		"currency": "AUD"
-	},
-	"holder_profile": {
-		"name": "Jacob"
-	},
-	"refresh_status": {
-		"status": "success",
-		"sub_status": "success",
-		"last_refreshed": "2019-04-12T07:11:17.863+10:00"
-	}
+    "id": 937,
+    "aggregator": "demo",
+    "aggregator_id": 879,
+    "provider_account_id": 975,
+    "external_id": "AF79E472-4237-44DD-9E96-166E1862A6D2",
+    "provider_name": "Auswide bank (demo)",
+    "account_name": "Personal Account",
+    "account_status": "active",
+    "account_attributes": {
+        "container": "bank",
+        "account_type": "bank_account",
+        "group": "bank"
+    },
+    "included": false,
+    "favourite": false,
+    "hidden": true,
+    "current_balance": {
+        "amount": "1823.85",
+        "currency": "AUD"
+    },
+    "holder_profile": {
+        "name": "Jacob"
+    },
+    "refresh_status": {
+        "status": "success",
+        "sub_status": "success",
+        "last_refreshed": "2019-04-12T07:11:17.863+10:00"
+    }
 }, {
-	"id": 937,
-	"aggregator": "demo",
-	"aggregator_id": 879,
-	"provider_account_id": 975,
-	"external_id": "AF79E472-4237-44DD-9E96-166E1862A6D2",
-	"provider_name": "Auswide bank (demo)",
-	"account_name": "Personal Account",
-	"account_status": "active",
-	"account_attributes": {
-		"container": "bank",
-		"account_type": "bank_account",
-		"group": "bank"
-	},
-	"included": false,
-	"favourite": false,
-	"hidden": true,
-	"current_balance": {
-		"amount": "1823.85",
-		"currency": "AUD"
-	},
-	"holder_profile": {
-		"name": "Jacob"
-	},
-	"refresh_status": {
-		"status": "success",
-		"sub_status": "success",
-		"last_refreshed": "2019-04-12T07:11:17.863+10:00"
-	}
+    "id": 938,
+    "aggregator": "demo",
+    "aggregator_id": 880,
+    "provider_account_id": 975,
+    "external_id": "AF79E472-4137-44DD-9E97-166E1862A6D2",
+    "provider_name": "Auswide bank (demo)",
+    "account_name": "Savings Account",
+    "account_status": "active",
+    "account_attributes": {
+        "container": "bank",
+        "account_type": "savings",
+        "group": "savings"
+    },
+    "included": false,
+    "favourite": false,
+    "hidden": true,
+    "current_balance": {
+        "amount": "42000.00",
+        "currency": "AUD"
+    },
+    "holder_profile": {
+        "name": "Jacob"
+    },
+    "refresh_status": {
+        "status": "success",
+        "sub_status": "success",
+        "last_refreshed": "2019-04-12T07:11:17.863+10:00"
+    }
 }, {
-	"id": 938,
-	"aggregator": "demo",
-	"aggregator_id": 880,
-	"provider_account_id": 975,
-	"external_id": "AF79E472-4137-44DD-9E97-166E1862A6D2",
-	"provider_name": "Auswide bank (demo)",
-	"account_name": "Savings Account",
-	"account_status": "active",
-	"account_attributes": {
-		"container": "bank",
-		"account_type": "savings",
-		"group": "savings"
-	},
-	"included": false,
-	"favourite": false,
-	"hidden": true,
-	"current_balance": {
-		"amount": "42000.00",
-		"currency": "AUD"
-	},
-	"holder_profile": {
-		"name": "Jacob"
-	},
-	"refresh_status": {
-		"status": "success",
-		"sub_status": "success",
-		"last_refreshed": "2019-04-12T07:11:17.863+10:00"
-	}
+    "id": 939,
+    "aggregator": "demo",
+    "aggregator_id": 881,
+    "provider_account_id": 624,
+    "external_id": "AF79E472-4137-44DD-9E96-166E1861A6D2",
+    "provider_name": "ANZ (demo)",
+    "account_name": "Credit Card",
+    "account_status": "active",
+    "account_attributes": {
+        "container": "credit_card",
+        "account_type": "rewards_card",
+        "group": "credit_card"
+    },
+    "included": true,
+    "favourite": false,
+    "hidden": false,
+    "current_balance": {
+        "amount": "0.00",
+        "currency": "AUD"
+    },
+    "apr": "20.24",
+    "holder_profile": {
+        "name": "Jacob"
+    },
+    "refresh_status": {
+        "status": "success",
+        "sub_status": "success",
+        "last_refreshed": "2019-04-12T07:11:17.863+10:00"
+    }
 }, {
-	"id": 939,
-	"aggregator": "demo",
-	"aggregator_id": 881,
-	"provider_account_id": 624,
-	"external_id": "AF79E472-4137-44DD-9E96-166E1861A6D2",
-	"provider_name": "ANZ (demo)",
-	"account_name": "Credit Card",
-	"account_status": "active",
-	"account_attributes": {
-		"container": "credit_card",
-		"account_type": "rewards_card",
-		"group": "credit_card"
-	},
-	"included": true,
-	"favourite": false,
-	"hidden": false,
-	"current_balance": {
-		"amount": "0.00",
-		"currency": "AUD"
-	},
-	"apr": "20.24",
-	"holder_profile": {
-		"name": "Jacob"
-	},
-	"refresh_status": {
-		"status": "success",
-		"sub_status": "success",
-		"last_refreshed": "2019-04-12T07:11:17.863+10:00"
-	}
+    "id": 940,
+    "aggregator": "demo",
+    "aggregator_id": 882,
+    "provider_account_id": 976,
+    "external_id": "AF79E472-4137-44DD-9E96-166E2862A6D2",
+    "provider_name": "SuperEd (demo)",
+    "account_name": "Retirement Income",
+    "account_status": "active",
+    "account_attributes": {
+        "container": "investment",
+        "account_type": "other",
+        "group": "investment"
+    },
+    "included": false,
+    "favourite": false,
+    "hidden": true,
+    "current_balance": {
+        "amount": "37000.00",
+        "currency": "AUD"
+    },
+    "holder_profile": {
+        "name": "Jacob"
+    },
+    "refresh_status": {
+        "status": "success",
+        "sub_status": "success",
+        "last_refreshed": "2019-04-12T07:11:17.863+10:00"
+    }
 }, {
-	"id": 940,
-	"aggregator": "demo",
-	"aggregator_id": 882,
-	"provider_account_id": 976,
-	"external_id": "AF79E472-4137-44DD-9E96-166E2862A6D2",
-	"provider_name": "SuperEd (demo)",
-	"account_name": "Retirement Income",
-	"account_status": "active",
-	"account_attributes": {
-		"container": "investment",
-		"account_type": "other",
-		"group": "investment"
-	},
-	"included": false,
-	"favourite": false,
-	"hidden": true,
-	"current_balance": {
-		"amount": "37000.00",
-		"currency": "AUD"
-	},
-	"holder_profile": {
-		"name": "Jacob"
-	},
-	"refresh_status": {
-		"status": "success",
-		"sub_status": "success",
-		"last_refreshed": "2019-04-12T07:11:17.863+10:00"
-	}
-}, {
-	"id": 1157,
-	"aggregator": "demo",
-	"aggregator_id": 941,
-	"provider_account_id": 1118,
-	"external_id": "AF79E472-4137-44DD-9E96-166E2062A6D2",
-	"provider_name": "Pioneer Credit Score",
-	"account_name": "Credit Score",
-	"account_status": "active",
-	"account_attributes": {
-		"container": "credit_score",
-		"account_type": "credit_score",
-		"group": "score"
-	},
-	"included": true,
-	"favourite": false,
-	"hidden": false,
-	"current_balance": {
-		"amount": "724.00",
-		"currency": "PNT"
-	},
-	"balance_details": {
-		"current_description": "Very good",
-		"tiers": [{
-			"description": "Below average",
-			"min": 0,
-			"max": 549
-		}, {
-			"description": "Okay",
-			"min": 550,
-			"max": 624
-		}, {
-			"description": "Good",
-			"min": 625,
-			"max": 699
-		}, {
-			"description": "Very good",
-			"min": 700,
-			"max": 799
-		}, {
-			"description": "Excellent",
-			"min": 800,
-			"max": 1000
-		}]
-	},
-	"holder_profile": {
-		"name": "Jacob"
-	},
-	"refresh_status": {
-		"status": "success",
-		"sub_status": "success",
-		"last_refreshed": "2018-12-17T11:41:07.809+11:00",
-		"next_refresh": "2019-01-01T00:00:00.000+11:00"
-	}
+    "id": 1157,
+    "aggregator": "demo",
+    "aggregator_id": 941,
+    "provider_account_id": 1118,
+    "external_id": "AF79E472-4137-44DD-9E96-166E2062A6D2",
+    "provider_name": "Pioneer Credit Score",
+    "account_name": "Credit Score",
+    "account_status": "active",
+    "account_attributes": {
+        "container": "credit_score",
+        "account_type": "credit_score",
+        "group": "score"
+    },
+    "included": true,
+    "favourite": false,
+    "hidden": false,
+    "current_balance": {
+        "amount": "724.00",
+        "currency": "PNT"
+    },
+    "balance_details": {
+        "current_description": "Very good",
+        "tiers": [{
+            "description": "Below average",
+            "min": 0,
+            "max": 549
+        }, {
+            "description": "Okay",
+            "min": 550,
+            "max": 624
+        }, {
+            "description": "Good",
+            "min": 625,
+            "max": 699
+        }, {
+            "description": "Very good",
+            "min": 700,
+            "max": 799
+        }, {
+            "description": "Excellent",
+            "min": 800,
+            "max": 1000
+        }]
+    },
+    "holder_profile": {
+        "name": "Jacob"
+    },
+    "refresh_status": {
+        "status": "success",
+        "sub_status": "success",
+        "last_refreshed": "2018-12-17T11:41:07.809+11:00",
+        "next_refresh": "2019-01-01T00:00:00.000+11:00"
+    },
+    "products_available": true,
+  "product": {
+  "id": 1,
+  "name": "Everyday Saver",
+  "key_information": [
+    {
+      "name": "Benefits",
+      "value": "Free ATMs"
+    },
+    {
+      "name": "Benefits",
+      "value": "Free ATMs"
+    },
+    {
+      "name": "Benefits",
+      "value": "Free ATMs"
+    },
+    {
+      "name": "Benefits",
+      "value": "Free ATMs"
+    }
+  ]
+  }
 }]

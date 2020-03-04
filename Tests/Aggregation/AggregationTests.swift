@@ -1414,8 +1414,15 @@ class AggregationTests: BaseTestCase {
             
             if let account = fetchedAccounts.first {
                 XCTAssertNotNil(account.providerAccount)
-                
                 XCTAssertEqual(account.providerAccountID, account.providerAccount?.providerAccountID)
+                XCTAssertEqual(account.providerName, "ME Bank (demo)")
+                XCTAssertEqual(account.productsAvailable, true)
+                XCTAssertEqual(account.productDetailsPageURL, "www.example.com/product_details")
+                XCTAssertEqual(account.productName, "Everyday Saver")
+                XCTAssertEqual(account.productID, 1)
+                XCTAssertEqual(account.productInformations?.count, 1)
+                XCTAssertEqual(account.productInformations?.first?.name, "Benefits")
+                XCTAssertEqual(account.productInformations?.first?.value, "Free ATMs")
             }
         } catch {
             XCTFail(error.localizedDescription)
