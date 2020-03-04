@@ -20,15 +20,15 @@ import Foundation
 extension CDRProductInformation {
     
     /**
-    Fetch Request
-    
-    - returns: Fetch request for `CDRProductInformation` type
-    */
+     Fetch Request
+     
+     - returns: Fetch request for `CDRProductInformation` type
+     */
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CDRProductInformation> {
         return NSFetchRequest<CDRProductInformation>(entityName: "CDRProductInformation")
     }
     
-    /// name of the product Information
+    /// name of the product information
     @NSManaged public var name: String?
     
     /// value of the product information

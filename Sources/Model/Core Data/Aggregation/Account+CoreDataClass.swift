@@ -510,7 +510,7 @@ public class Account: NSManagedObject, UniqueManagedObject {
         productID = response.cdrProduct?.id ?? -1
         productName = response.cdrProduct?.name
         productDetailsPageURL = response.cdrProduct?.productDetailsPageURL
-        productsAvailable = response.productsAvailable ?? false
+        productsAvailable = response.productsAvailable
         
         if let updatedAPR = response.apr {
             apr = NSDecimalNumber(string: updatedAPR)

@@ -310,7 +310,7 @@ extension Account {
 
 extension Account {
     
-    /// Add an cdr product information relationship
+    /// Add an CDR product information relationship
     @objc(addProductInformationsObject:)
     @NSManaged public func addToProductInformations(_ value: CDRProductInformation)
     

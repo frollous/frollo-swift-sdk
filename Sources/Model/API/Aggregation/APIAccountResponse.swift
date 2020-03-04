@@ -165,7 +165,7 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
     let favourite: Bool
     let hidden: Bool
     let included: Bool
-    let productsAvailable: Bool?
+    let productsAvailable: Bool
     let providerAccountID: Int64
     let providerName: String
     let refreshStatus: RefreshStatus
