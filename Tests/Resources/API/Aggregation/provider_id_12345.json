@@ -58,5 +58,6 @@
       }
     ]
   },
-  "aggregator_type": "yodlee"
+  "aggregator_type": "yodlee",
+  "products_available" : false
 }

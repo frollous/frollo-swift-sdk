@@ -120,7 +120,8 @@
         "status": "success",
         "sub_status": "success",
         "last_refreshed": "2019-04-12T07:11:17.863+10:00"
-    }
+    },
+    "products_available" : false
 }, {
     "id": 545,
     "aggregator": "demo",
@@ -184,7 +185,8 @@
         "status": "success",
         "sub_status": "success",
         "last_refreshed": "2019-04-12T07:11:17.863+10:00"
-    }
+    },
+    "products_available" : false
 }, {
     "id": 938,
     "aggregator": "demo",
@@ -213,7 +215,8 @@
         "status": "success",
         "sub_status": "success",
         "last_refreshed": "2019-04-12T07:11:17.863+10:00"
-    }
+    },
+    "products_available" : false
 }, {
     "id": 939,
     "aggregator": "demo",
@@ -243,7 +246,8 @@
         "status": "success",
         "sub_status": "success",
         "last_refreshed": "2019-04-12T07:11:17.863+10:00"
-    }
+    },
+    "products_available" : false
 }, {
     "id": 940,
     "aggregator": "demo",
@@ -272,7 +276,8 @@
         "status": "success",
         "sub_status": "success",
         "last_refreshed": "2019-04-12T07:11:17.863+10:00"
-    }
+    },
+    "products_available" : false
 }, {
     "id": 1157,
     "aggregator": "demo",
@@ -349,5 +354,6 @@
       "value": "Free ATMs"
     }
   ]
-  }
+  },
+  "products_available" : false
 }]
