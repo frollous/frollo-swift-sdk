@@ -66,9 +66,9 @@ struct APICDRConsentResponse: Codable {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
-        let startDate: Date? = nil
+        var startDate: Date?
         if let startedAt = sharingStartedAt {
-            dateFormatter.date(from: startedAt)
+            startDate = dateFormatter.date(from: startedAt)
         }
         
         return .init(providerID: providerID,
