@@ -198,6 +198,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     internal var _messages: Messages!
     internal var _notifications: Notifications!
     internal var network: Network!
+    internal var service: APIService!
     internal var _payDays: PayDays!
     internal var preferences: Preferences!
     internal var refreshTimer: Timer?
@@ -315,7 +316,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
                 _authentication.delegate = oAuth2Authentication
         }
         
-        let service = APIService(serverEndpoint: configuration.serverEndpoint, network: network)
+        service = APIService(serverEndpoint: configuration.serverEndpoint, network: network)
         
         Log.manager.service = service
         
@@ -553,6 +554,10 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         authentication.reset()
         
         internalReset()
+    }
+    
+    public func downloadData(url: URL, completion: ((Swift.Result<Data, Error>) -> Void)?) {
+        service.downloadData(url: url, completion: completion)
     }
     
 }
