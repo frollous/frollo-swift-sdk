@@ -12,6 +12,7 @@
     "current_amount": "3880.00",
     "period_amount": "15.38",
     "image_url": "http://www.example.com/image/image_1.png",
+    "tracking_type": "debit_credit",
     "metadata": {},
     "start_date": "2019-10-02",
     "periods_count": 75,

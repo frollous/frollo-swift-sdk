@@ -124,6 +124,24 @@ public class Budget: NSManagedObject, UniqueManagedObject {
         
     }
     
+    /**
+     Tracking Type
+     
+     How the budget is being tracked
+     */
+    public enum TrackingType: String, Codable, CaseIterable {
+        
+        /// Credit - only credits are considered in the budget
+        case credit
+        
+        /// Debit - only debits are considered in the budget
+        case debit
+        
+        /// Debit and Credit - Both debits and credits will affect the budget.
+        case debitCredit = "debit_credit"
+        
+    }
+    
     // Core Data entity description name
     static var entityName = "Budget"
     
@@ -224,6 +242,16 @@ public class Budget: NSManagedObject, UniqueManagedObject {
         }
         set {
             typeRawValue = newValue.rawValue
+        }
+    }
+    
+    /// Tracking Type
+    public var trackingType: TrackingType {
+        get {
+            return TrackingType(rawValue: trackingTypeRawValue)!
+        }
+        set {
+            trackingTypeRawValue = newValue.rawValue
         }
     }
     
