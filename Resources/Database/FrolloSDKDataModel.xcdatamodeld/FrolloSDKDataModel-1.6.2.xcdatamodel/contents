@@ -129,20 +129,21 @@
     </entity>
     <entity name="Budget" representedClassName=".Budget" syncable="YES">
         <attribute name="budgetID" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="currency" optional="YES" attributeType="String"/>
-        <attribute name="currentAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
-        <attribute name="frequencyRawValue" optional="YES" attributeType="String"/>
+        <attribute name="currency" attributeType="String"/>
+        <attribute name="currentAmount" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="frequencyRawValue" attributeType="String"/>
         <attribute name="imageURLString" optional="YES" attributeType="String"/>
-        <attribute name="isCurrent" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isCurrent" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="metadataRawValue" optional="YES" attributeType="Binary"/>
-        <attribute name="periodAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
-        <attribute name="periodsCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="periodAmount" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="periodsCount" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="startDateString" optional="YES" attributeType="String"/>
         <attribute name="statusRawValue" optional="YES" attributeType="String"/>
-        <attribute name="trackingStatusRawValue" optional="YES" attributeType="String"/>
-        <attribute name="typeRawValue" optional="YES" attributeType="String"/>
-        <attribute name="typeValue" optional="YES" attributeType="String"/>
-        <attribute name="userID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="trackingStatusRawValue" attributeType="String"/>
+        <attribute name="trackingTypeRawValue" attributeType="String" defaultValueString="debit_credit"/>
+        <attribute name="typeRawValue" attributeType="String"/>
+        <attribute name="typeValue" attributeType="String"/>
+        <attribute name="userID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="periods" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BudgetPeriod" inverseName="budget" inverseEntity="BudgetPeriod"/>
         <fetchIndex name="byBudgetID">
             <fetchIndexElement property="budgetID" type="Binary" order="ascending"/>

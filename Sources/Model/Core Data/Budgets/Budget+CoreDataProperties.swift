@@ -46,6 +46,9 @@ extension Budget {
     /// Raw value of tracking status. Only use in predicates
     @NSManaged public var trackingStatusRawValue: String
     
+    /// Raw value of the tracking type. Use only in predicates
+    @NSManaged public var trackingTypeRawValue: String
+    
     /// Raw value of status. Only use in predicates
     @NSManaged public var statusRawValue: String
     

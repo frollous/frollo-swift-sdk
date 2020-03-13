@@ -139,7 +139,7 @@ public struct CDRConsent: Codable {
     public let authorisationRequestURL: URL?
     
     /// URL of the Consent Confirmation PDF.
-    public let confirmationPDFURL: URL
+    public let confirmationPDFURL: URL?
     
     /// URL of the Consent Withdrawal PDF.
     public let withdrawalPDFURL: URL?
