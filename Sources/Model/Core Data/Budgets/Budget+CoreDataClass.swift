@@ -113,6 +113,9 @@ public class Budget: NSManagedObject, UniqueManagedObject {
      */
     public enum BudgetType: String, Codable, CaseIterable {
         
+        /// Account
+        case account
+        
         /// BudgetCategory
         case budgetCategory = "budget_category"
         

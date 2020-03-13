@@ -235,6 +235,32 @@ public class Budgets: CachedObjects, ResponseHandler {
     }
     
     /**
+     Create a new budget by account on the host
+     
+     - parameters:
+         - accountID: accountID of an `Account` to create a budget
+         - frequency: Frequency of  the budget
+         - periodAmount: Budget amount for one budget period
+         - imageURL: Image Url of the budget (Optional)
+         - startDate: start date of the budget (Optional)
+         - trackingType: `Budget.TrackingType` of the budget
+         - metadata: Optional JSON metadata accociated withf the budget
+         - completion: Optional completion handler with optional error if the request fails
+     */
+    public func createAccountBudget(accountID: Int64,
+                                    frequency: Budget.Frequency,
+                                    periodAmount: Decimal,
+                                    imageURL: String? = nil,
+                                    startDate: String? = nil,
+                                    trackingType: Budget.TrackingType,
+                                    metadata: JSON = [:],
+                                    completion: FrolloSDKCompletionHandler? = nil) {
+        
+        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .account, typeValue: "\(accountID)", imageURL: imageURL, startDate: startDate, trackingType: trackingType, metadata: metadata, completion: completion)
+        
+    }
+    
+    /**
      Create a new budget by budget category on the host
      
      - parameters:

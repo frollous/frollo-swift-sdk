@@ -361,6 +361,42 @@ class BudgetsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testCreateAccountBudget() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "account_budget", addingStatusCode: 201)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.budgets.createBudgetCategoryBudget(budgetCategory: .lifestyle, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png", trackingType: .debitCredit) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = self.database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Budget> = Budget.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [4])
+                        
+                        do {
+                            let fetchedBudgets = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedBudgets.first?.budgetID, 4)
+                            XCTAssertEqual(fetchedBudgets.first?.typeValue, "223")
+                            XCTAssertEqual(fetchedBudgets.first?.budgetType, .account)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testCreateBudgetCategoryBudget() {
         let expectation1 = expectation(description: "Network Request 1")
         
