@@ -56,7 +56,7 @@ struct APICDRConsentResponse: Codable {
     let authorisationRequestURL: String?
     
     /// URL of the Consent Confirmation PDF.
-    let confirmationPDFURL: String
+    let confirmationPDFURL: String?
     
     /// URL of the Consent Withdrawal PDF.
     let withdrawalPDFURL: String?
@@ -65,16 +65,22 @@ struct APICDRConsentResponse: Codable {
     var consent: CDRConsent {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        var startDate: Date?
+        if let startedAt = sharingStartedAt {
+            startDate = dateFormatter.date(from: startedAt)
+        }
+        
         return .init(providerID: providerID,
-                     sharingStartedAt: dateFormatter.date(from: sharingStartedAt ?? ""),
+                     sharingStartedAt: startDate,
                      sharingDuration: sharingDuration,
                      permissions: permissions.map { Provider.Permission(rawValue: $0) }.compactMap { $0 },
                      additionalPermissions: additionalPermissions,
                      deleteRedundantData: deleteRedundantData,
                      status: CDRConsent.Status(rawValue: status) ?? .pending,
-                     authorisationRequestURL: URL(string: authorisationRequestURL ?? ""),
-                     confirmationPDFURL: URL(string: confirmationPDFURL)!,
-                     withdrawalPDFURL: URL(string: withdrawalPDFURL ?? ""))
+                     authorisationRequestURL: authorisationRequestURL?.url,
+                     confirmationPDFURL: confirmationPDFURL?.url,
+                     withdrawalPDFURL: withdrawalPDFURL?.url)
     }
     
 }

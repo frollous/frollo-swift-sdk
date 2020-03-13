@@ -22,6 +22,8 @@ extension APIAccountResponse {
     static func testCompleteData() -> APIAccountResponse {
         let balanceDetails = BalanceDetails(currentDescription: UUID().uuidString, tiers: [BalanceTier(description: UUID().uuidString, min: Int64(arc4random()), max: Int64(arc4random()))])
         
+        let cdrProduct = CDRProduct(id: 1, name: "Everyday Saver", productDetailsPageURL: "www.example.com/product_details", cdrProductInformations: [CDRProductInformation(name: "Benefits", value: "Free ATMs"),CDRProductInformation(name: "Benefits", value: "Free ATMs"),CDRProductInformation(name: "Benefits", value: "Free ATMs")])
+        
         let holderProfile = HolderProfile(name: "Jacob Frollo")
         
         let refreshStatus = RefreshStatus(status: .needsAction,
@@ -43,6 +45,7 @@ extension APIAccountResponse {
                                   favourite: true,
                                   hidden: false,
                                   included: true,
+                                  productsAvailable: false,
                                   providerAccountID: 76251,
                                   providerName: "Detailed Test Provider",
                                   refreshStatus: refreshStatus,
@@ -52,6 +55,7 @@ extension APIAccountResponse {
                                   availableCash: Balance(amount: String(Int64.random(in: Int64.min...Int64.max)), currency: "AUD"),
                                   availableCredit: Balance(amount: String(Int64.random(in: Int64.min...Int64.max)), currency: "AUD"),
                                   balanceDetails: balanceDetails,
+                                  cdrProduct: cdrProduct,
                                   currentBalance: Balance(amount: String(Int64.random(in: Int64.min...Int64.max)), currency: "AUD"),
                                   dueDate: Date(timeIntervalSinceNow: 10000),
                                   goalIDs: [Int64.random(in: 1...Int64.max), Int64.random(in: 1...Int64.max)],

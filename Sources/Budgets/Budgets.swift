@@ -217,6 +217,14 @@ public class Budgets: CachedObjects, ResponseHandler {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleBudgetsResponse(response, current: current, budgetType: budgetType, managedObjectContext: managedObjectContext)
+                    
+                    // Handle Current Period of budgets
+                    let currentPeriods = response.compactMap { $0.currentPeriod }
+                    for currentPeriod in currentPeriods {
+                        
+                        self.handleBudgetPeriodResponse(currentPeriod, managedObjectContext: managedObjectContext)
+                    }
+                    
                     self.linkBudgetPeriodsToBudgets(managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
@@ -224,6 +232,32 @@ public class Budgets: CachedObjects, ResponseHandler {
                     }
             }
         }
+    }
+    
+    /**
+     Create a new budget by account on the host
+     
+     - parameters:
+         - accountID: accountID of an `Account` to create a budget
+         - frequency: Frequency of  the budget
+         - periodAmount: Budget amount for one budget period
+         - imageURL: Image Url of the budget (Optional)
+         - startDate: start date of the budget (Optional)
+         - trackingType: `Budget.TrackingType` of the budget
+         - metadata: Optional JSON metadata accociated withf the budget
+         - completion: Optional completion handler with optional error if the request fails
+     */
+    public func createAccountBudget(accountID: Int64,
+                                    frequency: Budget.Frequency,
+                                    periodAmount: Decimal,
+                                    imageURL: String? = nil,
+                                    startDate: String? = nil,
+                                    trackingType: Budget.TrackingType,
+                                    metadata: JSON = [:],
+                                    completion: FrolloSDKCompletionHandler? = nil) {
+        
+        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .account, typeValue: "\(accountID)", imageURL: imageURL, startDate: startDate, trackingType: trackingType, metadata: metadata, completion: completion)
+        
     }
     
     /**
@@ -235,6 +269,7 @@ public class Budgets: CachedObjects, ResponseHandler {
          - periodAmount: Budget amount for one budget period
          - imageURL: Image Url of the budget (Optional)
          - startDate: start date of the budget (Optional)
+         - trackingType: `Budget.TrackingType` of the budget
          - metadata: Optional JSON metadata accociated withf the budget
          - completion: Optional completion handler with optional error if the request fails
      */
@@ -243,10 +278,11 @@ public class Budgets: CachedObjects, ResponseHandler {
                                            periodAmount: Decimal,
                                            imageURL: String? = nil,
                                            startDate: String? = nil,
+                                           trackingType: Budget.TrackingType,
                                            metadata: JSON = [:],
                                            completion: FrolloSDKCompletionHandler? = nil) {
         
-        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .budgetCategory, typeValue: budgetCategory.rawValue, imageURL: imageURL, startDate: startDate, metadata: metadata, completion: completion)
+        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .budgetCategory, typeValue: budgetCategory.rawValue, imageURL: imageURL, startDate: startDate, trackingType: trackingType, metadata: metadata, completion: completion)
         
     }
     
@@ -259,6 +295,7 @@ public class Budgets: CachedObjects, ResponseHandler {
          - periodAmount: Budget amount for one budget period
          - imageURL: Image Url of the budget (Optional)
          - startDate: start date of the budget (Optional)
+         - trackingType: `Budget.TrackingType` of the budget
          - metadata: Optional JSON metadata accociated withf the budget
          - completion: Optional completion handler with optional error if the request fails
      */
@@ -267,10 +304,11 @@ public class Budgets: CachedObjects, ResponseHandler {
                                      periodAmount: Decimal,
                                      imageURL: String? = nil,
                                      startDate: String? = nil,
+                                     trackingType: Budget.TrackingType,
                                      metadata: JSON = [:],
                                      completion: FrolloSDKCompletionHandler? = nil) {
         
-        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .category, typeValue: "\(categoryID)", imageURL: imageURL, startDate: startDate, metadata: metadata, completion: completion)
+        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .category, typeValue: "\(categoryID)", imageURL: imageURL, startDate: startDate, trackingType: trackingType, metadata: metadata, completion: completion)
         
     }
     
@@ -283,6 +321,7 @@ public class Budgets: CachedObjects, ResponseHandler {
          - periodAmount: Budget amount for one budget period
          - imageURL: Image Url of the budget (Optional)
          - startDate: start date of the budget (Optional)
+         - trackingType: `Budget.TrackingType` of the budget
          - metadata: Optional JSON metadata accociated withf the budget
          - completion: Optional completion handler with optional error if the request fails
      */
@@ -291,10 +330,11 @@ public class Budgets: CachedObjects, ResponseHandler {
                                      periodAmount: Decimal,
                                      imageURL: String? = nil,
                                      startDate: String? = nil,
+                                     trackingType: Budget.TrackingType,
                                      metadata: JSON = [:],
                                      completion: FrolloSDKCompletionHandler? = nil) {
         
-        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .merchant, typeValue: "\(merchantID)", imageURL: imageURL, startDate: startDate, metadata: metadata, completion: completion)
+        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .merchant, typeValue: "\(merchantID)", imageURL: imageURL, startDate: startDate, trackingType: trackingType, metadata: metadata, completion: completion)
         
     }
     
@@ -304,10 +344,11 @@ public class Budgets: CachedObjects, ResponseHandler {
                               typeValue: String,
                               imageURL: String? = nil,
                               startDate: String? = nil,
+                              trackingType: Budget.TrackingType,
                               metadata: JSON = [:],
                               completion: FrolloSDKCompletionHandler? = nil) {
         
-        let request = APIBudgetCreateRequest(frequency: frequency, periodAmount: String(decimal: periodAmount), type: budgetType, typeValue: typeValue, imageURL: imageURL, startDate: startDate, metadata: metadata)
+        let request = APIBudgetCreateRequest(frequency: frequency, periodAmount: String(decimal: periodAmount), type: budgetType, typeValue: typeValue, imageURL: imageURL, startDate: startDate, trackingType: trackingType, metadata: metadata)
         
         guard request.valid()
         else {
@@ -636,6 +677,7 @@ public class Budgets: CachedObjects, ResponseHandler {
                 Log.error(error.localizedDescription)
             }
         }
+        
     }
     
     private func handleBudgetPeriodResponse(_ budgetPeriodResponse: APIBudgetPeriodResponse, managedObjectContext: NSManagedObjectContext) {

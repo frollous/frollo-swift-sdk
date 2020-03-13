@@ -507,6 +507,10 @@ public class Account: NSManagedObject, UniqueManagedObject {
         refreshStatus = response.refreshStatus.status
         refreshSubStatus = response.refreshStatus.subStatus
         nickName = response.nickName
+        productID = response.cdrProduct?.id ?? -1
+        productName = response.cdrProduct?.name
+        productDetailsPageURL = response.cdrProduct?.productDetailsPageURL
+        productsAvailable = response.productsAvailable
         
         if let updatedAPR = response.apr {
             apr = NSDecimalNumber(string: updatedAPR)
@@ -536,6 +540,25 @@ public class Account: NSManagedObject, UniqueManagedObject {
                 addToBalanceTiers(accountBalanceTier)
             }
         }
+        
+        // CDR Product Informations
+        if let productInformations = productInformations {
+            
+            removeFromProductInformations(productInformations)
+            
+            for productInformation in productInformations {
+                managedObjectContext?.delete(productInformation)
+            }
+        }
+        
+        if let productInformations = response.cdrProduct?.cdrProductInformations {
+            for productInformation in productInformations {
+                let accountProductInformation = CDRProductInformation(context: context)
+                accountProductInformation.update(response: productInformation)
+                
+                addToProductInformations(accountProductInformation)
+            }
+        }
     }
     
     internal func updateRequest() -> APIAccountUpdateRequest {
@@ -543,7 +566,8 @@ public class Account: NSManagedObject, UniqueManagedObject {
                                        favourite: favourite,
                                        hidden: hidden,
                                        included: included,
-                                       nickName: nickName)
+                                       nickName: nickName,
+                                       productID: productID)
     }
     
 }

@@ -107,6 +107,9 @@ extension Provider {
     /// Unique ID of the provider
     @NSManaged public var providerID: Int64
     
+    /// ProductsAvailable. True if CDR Products are available for this Provider
+    @NSManaged public var productsAvailable: Bool
+    
     /// Raw value of the small logo URL. Use only in predicates (optional)
     @NSManaged public var smallLogoURLString: String?
     

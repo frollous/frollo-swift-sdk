@@ -134,6 +134,18 @@ extension Account {
     /// Nickname given to the account for display and identification purposes (optional)
     @NSManaged public var nickName: String?
     
+    /// URL of product details page (optional); Nil if product not selected
+    @NSManaged public var productDetailsPageURL: String?
+    
+    /// ID of selected Product for this Account (optional, -1 is not selected)
+    @NSManaged public var productID: Int64
+    
+    /// Name of selected Product for this Account (optional); Nil if product not selected
+    @NSManaged public var productName: String?
+    
+    /// ProductsAvailable. True if CDR Products are available for this Account
+    @NSManaged public var productsAvailable: Bool
+    
     /// Parent provider account ID
     @NSManaged public var providerAccountID: Int64
     
@@ -169,6 +181,9 @@ extension Account {
     
     /// Associated goals (optional)
     @NSManaged public var goals: Set<Goal>?
+    
+    /// CDR Product Informations  (optional)
+    @NSManaged public var productInformations: Set<CDRProductInformation>?
     
     /// Parent provider account
     @NSManaged public var providerAccount: ProviderAccount?
@@ -288,5 +303,27 @@ extension Account {
     /// Remove transaction relationships
     @objc(removeTransactions:)
     @NSManaged public func removeFromTransactions(_ values: Set<Transaction>)
+    
+}
+
+// MARK: Generated accessors for productInformations
+
+extension Account {
+    
+    /// Add an CDR product information relationship
+    @objc(addProductInformationsObject:)
+    @NSManaged public func addToProductInformations(_ value: CDRProductInformation)
+    
+    /// Remove an CDR product information relationship
+    @objc(removeProductInformationsObject:)
+    @NSManaged public func removeFromProductInformations(_ value: CDRProductInformation)
+    
+    /// Add CDR product information relationships
+    @objc(addProductInformations:)
+    @NSManaged public func addToProductInformations(_ values: Set<CDRProductInformation>)
+    
+    /// Remove CDR product information relationships
+    @objc(removeProductInformations:)
+    @NSManaged public func removeFromProductInformations(_ values: Set<CDRProductInformation>)
     
 }

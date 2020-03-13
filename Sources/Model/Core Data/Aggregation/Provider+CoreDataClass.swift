@@ -330,6 +330,7 @@ public class Provider: NSManagedObject, UniqueManagedObject {
         status = response.status
         aggregatorType = AggregatorType(rawValue: response.aggregatorType) ?? .unknown
         permissions = response.permissions?.map { Permission(rawValue: $0) ?? .unknown }
+        productsAvailable = response.productsAvailable
         
         // Reset all containers
         containerBank = false
