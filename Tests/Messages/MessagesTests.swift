@@ -765,6 +765,8 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
     
     func testMarkMessageReadFromHandlePushNotification() {
         
+        let expectation1 = expectation(description: "Network Request")
+        
         let path = tempFolderPath()
         let database = Database(path: path)
         let mockAuthentication = MockAuthentication()
@@ -791,22 +793,28 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
                 try? managedObjectContext.save()
 
             }
+            
+            
+            let notificationPayload = NotificationPayload.testMessageData()
+            messages.handleMessageNotification(notificationPayload)
+            
+            let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "messageID == %ld", argumentArray: [98765])
+            
+            do {
+                let fetchedMessages = try context.fetch(fetchRequest)
+                XCTAssertTrue(fetchedMessages.first!.read)
+                XCTAssertTrue(fetchedMessages.first!.interacted)
+                XCTAssertEqual(fetchedMessages.first?.messageID, 98765)
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation1.fulfill()
         }
         
-        let notificationPayload = NotificationPayload.testMessageData()
-        messages.handleMessageNotification(notificationPayload)
-        
-        let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "messageID == %ld", argumentArray: [98765])
-        
-        do {
-            let fetchedMessages = try context.fetch(fetchRequest)
-            XCTAssertTrue(fetchedMessages.first!.read)
-            XCTAssertTrue(fetchedMessages.first!.interacted)
-            XCTAssertEqual(fetchedMessages.first?.messageID, 98765)
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
+        wait(for: [expectation1], timeout: 3.0)
         
     }
     
