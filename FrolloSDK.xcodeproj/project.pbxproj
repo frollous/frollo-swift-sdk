@@ -1306,6 +1306,7 @@
 		13D44A33238B5E2400AF74EC /* PaginatedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D44A32238B5E2400AF74EC /* PaginatedResponse.swift */; };
 		13DB95AA23E5210400555338 /* MerchantSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DB95A923E5210400555338 /* MerchantSearch.swift */; };
 		13DB95AB23E5210400555338 /* MerchantSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DB95A923E5210400555338 /* MerchantSearch.swift */; };
+		13EB10B6241EE5F000970086 /* FakeDatabaseModel.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 135B2AEE241B3B44001B73BB /* FakeDatabaseModel.sqlite-wal */; };
 		13F3CA6C240F1CA20031D072 /* CDRProductInformation+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F3CA6B240F1CA20031D072 /* CDRProductInformation+CoreDataClass.swift */; };
 		13F3CA6D240F1CA20031D072 /* CDRProductInformation+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F3CA6B240F1CA20031D072 /* CDRProductInformation+CoreDataClass.swift */; };
 		13F3CA6F240F1E130031D072 /* CDRProductInformation+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F3CA6E240F1E130031D072 /* CDRProductInformation+CoreDataProperties.swift */; };
@@ -4484,6 +4485,7 @@
 				135B2B0F241B4BE2001B73BB /* FrolloSDKDataModel-1.6.2.sqlite in Resources */,
 				2FE1802D22498A2200B87AAB /* error_oauth2_invalid_grant.json in Resources */,
 				01236D5C21EED5F7008DD61A /* transaction_reports_current_txn_category_living.json in Resources */,
+				13EB10B6241EE5F000970086 /* FakeDatabaseModel.sqlite-wal in Resources */,
 				013A32B52112994C00B0590B /* provider_accounts_valid.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
