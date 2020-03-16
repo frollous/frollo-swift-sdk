@@ -458,8 +458,7 @@
 	"popular": false,
 	"container_names": ["investment"],
 	"login_url": "https://www.onepath.com.au/personal/myOnePath/customer-login.aspx",
-    "aggregator_type": "yodlee",
-    "products_available" : false
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5942,
 	"name": "OnePath (ANZ) (Advisors)",
@@ -469,8 +468,7 @@
 	"popular": false,
 	"container_names": ["investment"],
 	"login_url": "https://www.ing.com.au/adviser/AdviserAdvantage/adviser-login.aspx",
-    "aggregator_type": "yodlee",
-    "products_available" : false
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5945,
 	"name": "Newcastle Permanent",
@@ -480,8 +478,7 @@
 	"popular": false,
 	"container_names": ["bank", "credit_card", "investment", "loan", "insurance"],
 	"login_url": "https://online.newcastlepermanent.com.au/corp/AuthenticationController?FORMSGROUP_ID__=AuthenticationFG\u0026__START_TRAN_FLAG__=Y\u0026FG_BUTTONS__=LOAD\u0026ACTION.LOAD=Y\u0026AuthenticationFG.LOGIN_FLAG=1\u0026BANK_ID=NPBS",
-    "aggregator_type": "yodlee",
-    "products_available" : false
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5946,
 	"name": "Latitude Eco MasterCard",
@@ -491,8 +488,7 @@
 	"popular": false,
 	"container_names": ["credit_card"],
 	"login_url": "https://eco-online.gemoney.com.au/access/login",
-    "aggregator_type": "yodlee",
-    "products_available" : false
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5948,
 	"name": "GE Home Loan",
@@ -502,8 +498,7 @@
 	"popular": false,
 	"container_names": ["loan"],
 	"login_url": "https://www.lsn.com.au/scripts/cgiclnt.dll/LSN/ND000_?EWF_SYS_0=e95654f1-2565-11d4-8fa4-00b0d0302a92\u0026EWF_FORM_NAME=0000201\u0026EWF_BUTTON_Submit=Submit",
-    "aggregator_type": "yodlee",
-    "products_available" : false
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5949,
 	"name": "Virgin Money (Super)",
@@ -513,8 +508,7 @@
 	"popular": false,
 	"container_names": ["investment"],
 	"login_url": "https://secure.superfacts.com/public/virginmoney/Home.tpz",
-    "aggregator_type": "yodlee",
-    "products_available" : false
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5951,
 	"name": "CreditLine card",
@@ -524,8 +518,7 @@
 	"popular": false,
 	"container_names": ["credit_card"],
 	"login_url": "https://online.interestfree.com.au/access/login",
-    "aggregator_type": "yodlee",
-    "products_available" : false
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5952,
 	"name": "Myer Card",
@@ -535,8 +528,7 @@
 	"popular": false,
 	"container_names": ["credit_card"],
 	"login_url": "https://myercard-online.myer.com.au/access/login",
-    "aggregator_type": "yodlee",
-    "products_available" : false
+    "aggregator_type": "yodlee"
 }, {
 	"id": 5953,
 	"name": "Buyer's edge",
@@ -546,6 +538,5 @@
 	"popular": false,
 	"container_names": ["credit_card"],
 	"login_url": "https://online.buyersedge.com.au/access/login",
-    "aggregator_type": "yodlee",
-    "products_available" : false
+    "aggregator_type": "yodlee"
 }]
