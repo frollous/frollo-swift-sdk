@@ -88,6 +88,6 @@ struct APIProviderResponse: APIUniqueResponse, Codable {
     var smallLogoURLString: String?
     var aggregatorType: String
     var permissions: [String]?
-    let productsAvailable: Bool
+    let productsAvailable: Bool?
     
 }

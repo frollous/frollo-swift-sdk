@@ -814,7 +814,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
             expectation1.fulfill()
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1], timeout: 10.0)
         
     }
     
