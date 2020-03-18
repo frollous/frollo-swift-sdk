@@ -129,6 +129,7 @@ public class Budgets: CachedObjects, ResponseHandler {
                                                 frequency: Budget.Frequency? = nil,
                                                 status: Budget.Status? = nil,
                                                 trackingStatus: Budget.TrackingStatus? = nil,
+                                                trackingType: Budget.TrackingType,
                                                 filteredBy predicate: NSPredicate? = nil,
                                                 sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Budget.budgetID), ascending: true)],
                                                 limit: Int? = nil) -> NSFetchedResultsController<Budget>? {

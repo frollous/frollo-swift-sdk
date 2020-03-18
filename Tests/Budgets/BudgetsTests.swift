@@ -197,7 +197,7 @@ class BudgetsTests: BaseTestCase {
             }
             
             let predicate = NSPredicate(format: #keyPath(Budget.frequencyRawValue) + " == %@", argumentArray: [Budget.Frequency.daily.rawValue])
-            let fetchedResultsController = self.budgets.budgetsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
+            let fetchedResultsController = self.budgets.budgetsFetchedResultsController(context: managedObjectContext, trackingType: .debitCredit, filteredBy: predicate)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -251,7 +251,7 @@ class BudgetsTests: BaseTestCase {
                 try! managedObjectContext.save()
             }
             
-            let fetchedResultsController = self.budgets.budgetsFetchedResultsController(context: self.database.viewContext, current: true, budgetType: .category, frequency: .annually, status: .completed, trackingStatus: .above)
+            let fetchedResultsController = self.budgets.budgetsFetchedResultsController(context: self.database.viewContext, current: true, budgetType: .category, frequency: .annually, status: .completed, trackingStatus: .above, trackingType: .debitCredit)
             
             do {
                 try fetchedResultsController?.performFetch()
