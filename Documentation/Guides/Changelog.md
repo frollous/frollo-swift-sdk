@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.5.1
+
+### Fixes
+
+- Fixed various issues in CDR response
+- Fixed an issue in budgets API creation
+
 ## 4.5.0
 
 - Open Banking support
