@@ -14,10 +14,19 @@
 //  limitations under the License.
 //
 
+import CoreData
 import Foundation
 
-extension String {
-    var url: URL? {
-        return URL(string: self)
+/**
+ CDR Product Information
+ 
+ Represents key information of CDR Product
+ */
+public class CDRProductInformation: NSManagedObject {
+    
+    internal func update(response: APIAccountResponse.CDRProductInformation) {
+        name = response.name
+        value = response.value
     }
+    
 }

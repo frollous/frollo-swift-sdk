@@ -24,7 +24,8 @@ extension APIAccountUpdateRequest {
                                        favourite: Bool.random(),
                                        hidden: false,
                                        included: false,
-                                       nickName: String.randomString(range: 2...50))
+                                       nickName: String.randomString(range: 2...50),
+                                       productID: -1)
     }
     
     static func testUpdateDataInvalid() -> APIAccountUpdateRequest {
@@ -32,7 +33,8 @@ extension APIAccountUpdateRequest {
                                        favourite: false,
                                        hidden: true,
                                        included: true,
-                                       nickName: "My Invalid Account")
+                                       nickName: "My Invalid Account",
+                                       productID: nil)
     }
     
 }

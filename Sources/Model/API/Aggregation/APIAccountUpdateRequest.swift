@@ -24,6 +24,7 @@ struct APIAccountUpdateRequest: Codable {
         case hidden
         case included
         case nickName = "nick_name"
+        case productID = "product_id"
     }
     
     let accountType: Account.AccountSubType?
@@ -31,6 +32,7 @@ struct APIAccountUpdateRequest: Codable {
     let hidden: Bool
     let included: Bool
     let nickName: String?
+    let productID: Int64?
     
     var valid: Bool {
         return !(hidden && included)

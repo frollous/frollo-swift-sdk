@@ -347,7 +347,7 @@ public class Messages: CachedObjects, ResponseHandler {
     
     // MARK: - Push Notification Handling
     
-    internal func handleMessageNotification(_ notification: NotificationPayload) {
+    internal func handleMessageNotification(_ notification: NotificationPayload, completion: FrolloSDKCompletionHandler? = nil) {
         guard let messageID = notification.userMessageID
         else {
             return
@@ -361,9 +361,11 @@ public class Messages: CachedObjects, ResponseHandler {
                 switch result {
                     case .failure(let error):
                         Log.error(error.localizedDescription)
+                        completion?(.failure(error))
                     case .success:
                         DispatchQueue.main.async { [weak self] in
                             self?.delegate?.messageReceived(messageID)
+                            completion?(.success)
                         }
                 }
             }
@@ -380,10 +382,11 @@ public class Messages: CachedObjects, ResponseHandler {
                 try managedObjectContext.save()
             } catch {
                 Log.error(error.localizedDescription)
+                completion?(.failure(error))
             }
         }
         
-        updateMessage(messageID: cachedMessage.messageID)
+        updateMessage(messageID: cachedMessage.messageID, completion: completion)
         
         DispatchQueue.main.async {
             self.delegate?.messageReceived(messageID)

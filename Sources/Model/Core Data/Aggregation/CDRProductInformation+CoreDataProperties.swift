@@ -14,10 +14,27 @@
 //  limitations under the License.
 //
 
+import CoreData
 import Foundation
 
-extension String {
-    var url: URL? {
-        return URL(string: self)
+extension CDRProductInformation {
+    
+    /**
+     Fetch Request
+     
+     - returns: Fetch request for `CDRProductInformation` type
+     */
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<CDRProductInformation> {
+        return NSFetchRequest<CDRProductInformation>(entityName: "CDRProductInformation")
     }
+    
+    /// name of the product information
+    @NSManaged public var name: String?
+    
+    /// value of the product information
+    @NSManaged public var value: String?
+    
+    /// parent account
+    @NSManaged public var account: Account?
+    
 }

@@ -1,0 +1,919 @@
+[
+    {
+        "id": 1,
+        "provider_id": 22580,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Fixed Rate Investment Property Loan Interest Only",
+        "description": ""
+    },
+    {
+        "id": 2,
+        "provider_id": 22580,
+        "product_category": "PERS_LOANS",
+        "name": "Unsecured Personal Loan",
+        "description": "Turn great thinking into great doing. And right now, existing customers get 1% p.a. off the rate when you are approved via online banking.^"
+    },
+    {
+        "id": 3,
+        "provider_id": 22580,
+        "product_category": "PERS_LOANS",
+        "name": "Personal Overdraft",
+        "description": "Please note this product is currently not for sale."
+    },
+    {
+        "id": 4,
+        "provider_id": 22580,
+        "product_category": "PERS_LOANS",
+        "name": "Temporary Overdraft",
+        "description": "Extra cash for the short term. A Temporary Overdraft lets you access extra funds through your bank account for up to 45 days. Helps cover short-term financial shortfalls."
+    },
+    {
+        "id": 5,
+        "provider_id": 22580,
+        "product_category": "PERS_LOANS",
+        "name": "Car Loan",
+        "description": "Your dream car could be closer than you think with a Westpac Car Loan."
+    },
+    {
+        "id": 6,
+        "provider_id": 22580,
+        "product_category": "PERS_LOANS",
+        "name": "Flexi Loan",
+        "description": "An ongoing line of credit facility you can access when you need to, without having to reapply."
+    },
+    {
+        "id": 7,
+        "provider_id": 22580,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Variable Investor Home Loan with Offset Principal & Interest",
+        "description": "Own your property sooner with our Rocket Investment Loan and optional linked offset account."
+    },
+    {
+        "id": 8,
+        "provider_id": 22580,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Variable Home Loan with Offset Principal & Interest",
+        "description": "Own your home sooner with our Rocket Repay Home Loan and optional linked offset account."
+    },
+    {
+        "id": 9,
+        "provider_id": 22580,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Variable Investor Home Loan with Offset Interest Only",
+        "description": "Own your property sooner with our Rocket Investment Loan and optional linked offset account."
+    },
+    {
+        "id": 10,
+        "provider_id": 22580,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Variable Home Loan with Offset Interest Only",
+        "description": "Own your home sooner with our Rocket Repay Home Loan and optional linked offset account."
+    },
+    {
+        "id": 11,
+        "provider_id": 22580,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Flexi First Option Home Loan Principal & Interest",
+        "description": ""
+    },
+    {
+        "id": 12,
+        "provider_id": 22580,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Flexi First Option Home Loan Interest Only",
+        "description": ""
+    },
+    {
+        "id": 13,
+        "provider_id": 22580,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Flexi First Option Investment Loan Interest Only",
+        "description": ""
+    },
+    {
+        "id": 14,
+        "provider_id": 22580,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Flexi First Option Investment Loan Principal & Interest",
+        "description": ""
+    },
+    {
+        "id": 15,
+        "provider_id": 22580,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Fixed Rate Investment Property Loan Principal & Interest",
+        "description": ""
+    },
+    {
+        "id": 16,
+        "provider_id": 22580,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Fixed Options Home Loan Interest Only",
+        "description": "Enjoy the certainty of knowing what your repayments will be."
+    },
+    {
+        "id": 17,
+        "provider_id": 22580,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Fixed Options Home Loan Principal & Interest",
+        "description": "Enjoy the certainty of knowing what your repayments will be."
+    },
+    {
+        "id": 18,
+        "provider_id": 22580,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Bridging Home Loan",
+        "description": "Apart from buying an existing property, bridging loans are also an option if you want to stay in your current property while you build a new property. It saves you the hassle of selling your property and renting somewhere short-term, not to mention having to pay for the costs of moving twice."
+    },
+    {
+        "id": 19,
+        "provider_id": 22580,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Westpac Business Cash Reserve",
+        "description": "Earn interest on your collected GST and access your funds anytime you need them with our most popular business online savings account"
+    },
+    {
+        "id": 20,
+        "provider_id": 22580,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Westpac Business Cash Reserve Bonus",
+        "description": "Earn interest on your collected GST with a bonus interest rate when no withdrawals are made in a month."
+    },
+    {
+        "id": 21,
+        "provider_id": 22580,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Community Solutions Cash Reserve Bonus",
+        "description": "An online-only savings account that rewards community groups and NFPs with a bonus interest rate when no withdrawals are made in a month"
+    },
+    {
+        "id": 22,
+        "provider_id": 22580,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Community Solutions Cash Reserve",
+        "description": "Earn interest on your surplus funds and access your funds anytime you need them."
+    },
+    {
+        "id": 23,
+        "provider_id": 22580,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "The American Express Westpac Altitude Black Card",
+        "description": "Westpac's co-branded Black Card offering you a choice of three great rewards programs with our highest points earn rate, premium travel and lifestyle services."
+    },
+    {
+        "id": 24,
+        "provider_id": 22580,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "American Express Westpac Altitude Platinum Card",
+        "description": "Westpac's co-branded Platinum Card with complimentary insurance covers, bonus rewards points offers and no cap on the points you earn."
+    },
+    {
+        "id": 25,
+        "provider_id": 22580,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Altitude Black Card",
+        "description": "Westpac's most rewarding card offering you a choice of three great rewards programs with our highest points earn rate, premium travel and lifestyle services."
+    },
+    {
+        "id": 26,
+        "provider_id": 22580,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Altitude Platinum Card",
+        "description": "A platinum rewards credit card with complimentary insurance covers, bonus rewards points offers and no cap on the points you earn."
+    },
+    {
+        "id": 27,
+        "provider_id": 22580,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "BusinessChoice Rewards Platinum Mastercard",
+        "description": "Use your Qantas Points to reward yourself, your staff or your family."
+    },
+    {
+        "id": 28,
+        "provider_id": 22580,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Altitude Business Gold Mastercard",
+        "description": "A wealth of reward point options & purchase protections."
+    },
+    {
+        "id": 29,
+        "provider_id": 22580,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Low Fee Card",
+        "description": "A straightforward credit card with no annual card fee in the first year and up to 55 days interest free on purchases."
+    },
+    {
+        "id": 30,
+        "provider_id": 22580,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Low Fee Platinum",
+        "description": "Enjoy platinum concierge, extended complimentary insurance and up to 55 days interest free on purchases."
+    },
+    {
+        "id": 31,
+        "provider_id": 22580,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Altitude Business Platinum Mastercard",
+        "description": "Uncapped rewards points & complimentary platinum insurance covers"
+    },
+    {
+        "id": 32,
+        "provider_id": 22580,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Westpac 55+ and Retired",
+        "description": "Our Westpac 55+ and Retired account is a flexible everyday account designed for selected pensioners and retirees."
+    },
+    {
+        "id": 33,
+        "provider_id": 22580,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Business One - Flexi ",
+        "description": "A pay as you go account with no monthly service fee, for businesses that make a low number of transactions"
+    },
+    {
+        "id": 34,
+        "provider_id": 22580,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Business One - High Plan",
+        "description": "Ideal for businesses that transact frequently "
+    },
+    {
+        "id": 35,
+        "provider_id": 22580,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Community Solutions One",
+        "description": "Everyday transaction account specially designed for not-for-profit organisations, with no monthly service fee"
+    },
+    {
+        "id": 36,
+        "provider_id": 22580,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Bump Savings",
+        "description": "An account designed to help children kick start their savings. Available for under 18s."
+    },
+    {
+        "id": 37,
+        "provider_id": 22580,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Westpac eSaver",
+        "description": "Earn great interest with our eSaver account, an online savings account with 24/7 access to funds."
+    },
+    {
+        "id": 38,
+        "provider_id": 22580,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Westpac Life",
+        "description": "An award-winning savings account that supports your savings goals."
+    },
+    {
+        "id": 39,
+        "provider_id": 22580,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Westpac Choice for concession holders",
+        "description": "This basic low-cost transaction account is designed for if you're receiving Australian social security benefits."
+    },
+    {
+        "id": 40,
+        "provider_id": 22580,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Student bank account & debit card",
+        "description": "Westpac Choice for students is a simple to use everyday account packed full of features to help you bank with ease"
+    },
+    {
+        "id": 41,
+        "provider_id": 22580,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Westpac Choice for migrants",
+        "description": "An everyday bank account with features designed for people moving to Australia or who have recently arrived."
+    },
+    {
+        "id": 42,
+        "provider_id": 22580,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Westpac Choice",
+        "description": "Westpac Choice is a simple to use everyday account packed full of features to help you bank with ease"
+    },
+    {
+        "id": 43,
+        "provider_id": 22580,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Westpac Choice for Under 21s",
+        "description": "Westpac Choice is packed full of features to help under 21s bank with ease"
+    },
+    {
+        "id": 44,
+        "provider_id": 22580,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "BusinessChoice Everyday Mastercard",
+        "description": "A low interest rate on all your everyday business purchases."
+    },
+    {
+        "id": 45,
+        "provider_id": 22580,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Business One - Low Plan",
+        "description": "Our most popular everyday business banking transaction account"
+    },
+    {
+        "id": 46,
+        "provider_id": 22580,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Low Rate Card",
+        "description": "A low-cost credit card with a repayment planner, spending controls, SMS reminders and 0% p.a. on balances transferred from other cards."
+    },
+    {
+        "id": 47,
+        "provider_id": 22580,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Westpac Lite Card",
+        "description": "Shopping online or travelling overseas? Pay no foreign transaction fees and get our lowest purchase rate with the Westpac Lite Card."
+    },
+    {
+        "id": 48,
+        "provider_id": 22580,
+        "product_category": "TERM_DEPOSITS",
+        "name": "Business Term Deposit",
+        "description": "A Westpac Business Term Deposit lets you invest your money with the certainty of a fixed interest rate and a choice of terms."
+    },
+    {
+        "id": 49,
+        "provider_id": 22580,
+        "product_category": "TERM_DEPOSITS",
+        "name": "Term Deposit",
+        "description": "A Westpac Term Deposit lets you invest your money with the certainty of a fixed interest rate and a choice of terms."
+    },
+    {
+        "id": 50,
+        "provider_id": 22581,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "ANZ Fixed Loan (without Breakfree Package)",
+        "description": "The certainty of fixed repayments"
+    },
+    {
+        "id": 51,
+        "provider_id": 22581,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "ANZ Fixed Loan (with Breakfree Package)",
+        "description": "The certainty of fixed repayments. Bundle your home loan, everyday account and credit card into an ANZ Breakfree package with ongoing benefits and discounts"
+    },
+    {
+        "id": 52,
+        "provider_id": 22581,
+        "product_category": "TERM_DEPOSITS",
+        "name": "ANZ Advance Notice Term Deposit",
+        "description": "Enjoy the certainty of fixed returns over the investment term of your choice"
+    },
+    {
+        "id": 53,
+        "provider_id": 22581,
+        "product_category": "PERS_LOANS",
+        "name": "ANZ Variable Rate Personal Loan",
+        "description": "Whether you're looking to buy a new car, take a holiday, renovate your home or you want to consolidate debt, we could help you with an ANZ Variable Rate Personal Loan"
+    },
+    {
+        "id": 54,
+        "provider_id": 22581,
+        "product_category": "PERS_LOANS",
+        "name": "ANZ Fixed Rate Personal Loan",
+        "description": "Get what you want with the certainty of fixed repayments"
+    },
+    {
+        "id": 55,
+        "provider_id": 22581,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "ANZ Standard Variable Loan (without Breakfree Package)",
+        "description": "The flexibility you need. Bundle your home loan, everyday account and credit card into an ANZ Breakfree package with ongoing benefits and discounts."
+    },
+    {
+        "id": 56,
+        "provider_id": 22581,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "ANZ Standard Variable Loan (with Breakfree Package)",
+        "description": "The flexibility you need. Bundle your home loan, everyday account and credit card into an ANZ Breakfree package with ongoing benefits and discounts."
+    },
+    {
+        "id": 57,
+        "provider_id": 22581,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "ANZ Simplicity PLUS Loan",
+        "description": "If you want a competitive variable rate loan and you only need basic features, consider ANZ Simplicity PLUS. It's a simple loan with no monthly fee that still gives you the flexibility to make extra repayments to pay it off sooner."
+    },
+    {
+        "id": 58,
+        "provider_id": 22581,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "ANZ Equity Manager (without Breakfree Package)",
+        "description": "Line of credit that helps you turn the equity in your home into money you can actually use. You'll be able to access it any time, just like an everyday banking account."
+    },
+    {
+        "id": 59,
+        "provider_id": 22581,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "ANZ Equity Manager (with Breakfree Package)",
+        "description": "Line of credit secured by your property. Bundle your home loan, everyday account and credit card into an ANZ Breakfree package with ongoing benefits and discounts."
+    },
+    {
+        "id": 60,
+        "provider_id": 22581,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "ANZ One Offset Account",
+        "description": "Reduce interest charges and pay your loan off sooner."
+    },
+    {
+        "id": 61,
+        "provider_id": 22581,
+        "product_category": "TERM_DEPOSITS",
+        "name": "ANZ Term Deposit",
+        "description": "Enjoy the security of a fixed rate of interest over the investment term of your choice."
+    },
+    {
+        "id": 62,
+        "provider_id": 22581,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "ANZ Online Saver",
+        "description": "An online savings account"
+    },
+    {
+        "id": 63,
+        "provider_id": 22581,
+        "product_category": "TERM_DEPOSITS",
+        "name": "ANZ Business Notice Term Deposit",
+        "description": "Business term deposit with flexible terms requiring 31 days notice of withdrawal (fees apply)"
+    },
+    {
+        "id": 64,
+        "provider_id": 22581,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "ANZ Progress Saver",
+        "description": "Savings account where can earn bonus interest for saving regularly"
+    },
+    {
+        "id": 65,
+        "provider_id": 22581,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "ANZ Premium Cash Management Account",
+        "description": "An interest bearing product that offers flexible transactional capabilities"
+    },
+    {
+        "id": 66,
+        "provider_id": 22581,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "ANZ Pensioner Advantage Account",
+        "description": "Basic account for recipients of eligible Centrelink or Veterans' Affairs pension or allowance"
+    },
+    {
+        "id": 67,
+        "provider_id": 22581,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "ANZ Access Basic",
+        "description": "Offers affordable and convenient banking for Concession and Health Care card holders."
+    },
+    {
+        "id": 68,
+        "provider_id": 22581,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "ANZ Access Advantage",
+        "description": "An everyday account with easy and secure banking, unlimited ANZ Transactions and Visa Debit card"
+    },
+    {
+        "id": 69,
+        "provider_id": 22581,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "ANZ Rewards Travel Adventures",
+        "description": "Get ready for your next adventure with the credit card that gets you travelling"
+    },
+    {
+        "id": 70,
+        "provider_id": 22581,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "ANZ Rewards Platinum",
+        "description": "Be rewarded for your everyday purchases and access a flexible Rewards program with complimentary insurances (conditions and exclusions apply) and Personal Concierge"
+    },
+    {
+        "id": 71,
+        "provider_id": 22581,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "ANZ Rewards Black",
+        "description": "Our highest Reward Points earning potential"
+    },
+    {
+        "id": 72,
+        "provider_id": 22581,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "ANZ Rewards",
+        "description": "Be rewarded for your everyday purchases and have the flexibility to redeem points for rewards ranging from gift cards to cashback and travel"
+    },
+    {
+        "id": 73,
+        "provider_id": 22581,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "ANZ Platinum",
+        "description": "A simple everyday credit card with $0 annual fee in the first year and complimentary insurances (conditions and exclusions apply)"
+    },
+    {
+        "id": 74,
+        "provider_id": 22581,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "ANZ Low Rate",
+        "description": "A credit card with a low ongoing interest rate for your everyday purchases"
+    },
+    {
+        "id": 75,
+        "provider_id": 22581,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "ANZ Frequent Flyer Platinum",
+        "description": "Earn Qantas Points on everyday purchases with complimentary insurances (conditions and exclusions apply) and Personal Concierge"
+    },
+    {
+        "id": 76,
+        "provider_id": 22581,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "ANZ Frequent Flyer Black",
+        "description": "Our most rewarding Qantas experience"
+    },
+    {
+        "id": 77,
+        "provider_id": 22581,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "ANZ Frequent Flyer",
+        "description": "Earn Qantas Points on your everyday purchases"
+    },
+    {
+        "id": 78,
+        "provider_id": 22581,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "ANZ First",
+        "description": "A simple everyday credit card with a low ongoing annual fee"
+    },
+    {
+        "id": 79,
+        "provider_id": 22581,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "ANZ Visa Purchasing & Corporate Cards",
+        "description": "Credit cards to manage business purchases and expenses"
+    },
+    {
+        "id": 80,
+        "provider_id": 22581,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "ANZ Business Rewards Options",
+        "description": "A credit card facility for businesses where you can earn rewards on eligible transactions"
+    },
+    {
+        "id": 81,
+        "provider_id": 22581,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "ANZ Business Low Rate",
+        "description": "A credit card facility for businesses with a low interest ongoing interest rate"
+    },
+    {
+        "id": 82,
+        "provider_id": 22581,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "ANZ Business Black",
+        "description": "A credit card facility for businesses where you can earn rewards on eligible transactions and receive overseas travel and medical insurance"
+    },
+    {
+        "id": 83,
+        "provider_id": 22581,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "ANZ Business 55 Interest Free Days",
+        "description": "A credit card facility for businesses with up to 55 days interest free on purchases (if you pay your closing balance in full by the due date each month)"
+    },
+    {
+        "id": 84,
+        "provider_id": 22581,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "ANZ Business Extra",
+        "description": "An everyday business account offering greater flexibility and control through ANZ Internet Banking for Business"
+    },
+    {
+        "id": 85,
+        "provider_id": 22581,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "ANZ Business Advantage",
+        "description": "A simple, low-cost business account that gives you easy access to your money via ANZ Internet banking, ATMs and branches."
+    },
+    {
+        "id": 86,
+        "provider_id": 22581,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "ANZ Business Premium Saver",
+        "description": "Business account with competitive interest on business savings"
+    },
+    {
+        "id": 87,
+        "provider_id": 22581,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "ANZ Business Online Saver",
+        "description": "Online business investment account that's linked to your everyday account"
+    },
+    {
+        "id": 88,
+        "provider_id": 22582,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "NetBank Saver",
+        "description": "An online savings account with the flexibility to move money in and out of your linked CommBank transaction account using NetBank or the CommBank app."
+    },
+    {
+        "id": 89,
+        "provider_id": 22582,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Youthsaver Account",
+        "description": "Designed to help teach saving skills to under 18s, our Youthsaver account offers bonus interest for reaching saving goals."
+    },
+    {
+        "id": 90,
+        "provider_id": 22582,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "GoalSaver",
+        "description": "Be rewarded with a variable bonus rate for saving regularly each month."
+    },
+    {
+        "id": 91,
+        "provider_id": 22582,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Pensioner Security",
+        "description": "A flexible account that keeps your retirement savings or pension income safe and working for you."
+    },
+    {
+        "id": 92,
+        "provider_id": 22582,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Smart Access",
+        "description": "An everyday bank account, giving you access to unlimited electronic transactions and features to help your spending and bills stay on track. Plus if you meet certain criteria, we'll waive your $4 monthly account fee."
+    },
+    {
+        "id": 93,
+        "provider_id": 22582,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Streamline Basic",
+        "description": "An everyday bank account for health care or pensioner concession card holders."
+    },
+    {
+        "id": 95,
+        "provider_id": 22582,
+        "product_category": "TERM_DEPOSITS",
+        "name": "Standard Term Deposit",
+        "description": "Feel confident knowing exactly how much your money will earn. Lock-in a competitive interest rate from as short as 1 month to as long as 5 years."
+    },
+    {
+        "id": 96,
+        "provider_id": 22582,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Business Transaction Account",
+        "description": "An everyday business bank account that you can open online, which provides unlimited electronic transactions and 20 assisted transactions on a monthly basis. Fees and charges will apply if you exceed this amount. Please note Access, CommBiz and NetBank Service Fees may apply and are excluded from the unlimited electronic transactions."
+    },
+    {
+        "id": 97,
+        "provider_id": 22582,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Business Online Saver",
+        "description": "A business savings account that can help you manage cash flow and set aside money for tax payments."
+    },
+    {
+        "id": 98,
+        "provider_id": 22582,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Standard Business Cheque Account - Interest Bearing Option",
+        "description": "Transaction accounts that pays interest above minimum balances"
+    },
+    {
+        "id": 99,
+        "provider_id": 22582,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Corporate Low Rate card",
+        "description": "Designed for medium businesses wishing to manage their cash flow by paying down larger items over time. Options to monitor employee expenses, set limits and access expense reports in order to minimise costs."
+    },
+    {
+        "id": 100,
+        "provider_id": 22582,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Corporate Interest Free Days card",
+        "description": "Designed for medium to large businesses wanting to maximise cash flow with interest free days on purchases, monitor employee expenses, set transaction limits and access expense reports in order to track, analyse and forecast expenses."
+    },
+    {
+        "id": 101,
+        "provider_id": 22582,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Corporate charge card",
+        "description": "Ideal for large organisations with significant expenses. You can set spending limits and access expense reports to monitor spending and forecast costs."
+    },
+    {
+        "id": 102,
+        "provider_id": 22582,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Diamond Awards credit card",
+        "description": "Our credit card with the highest rewards earning potential. For customers willing to pay a higher annual fee for our ultimate Awards experience."
+    },
+    {
+        "id": 103,
+        "provider_id": 22582,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Low Rate credit card",
+        "description": "With a low interest rate on purchases, our Low Rate credit card makes it easier to pay off purchases over time."
+    },
+    {
+        "id": 104,
+        "provider_id": 22582,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Low Rate Gold credit card",
+        "description": "Stay in control of your finances with our low purchase interest rate, plus handy extras like international travel insurance."
+    },
+    {
+        "id": 105,
+        "provider_id": 22582,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Low Fee Gold",
+        "description": "Enjoy the flexibility and convenience of a credit card with no annual fee in the first year and included international travel insurance (restrictions, exclusions (including for pre-existing medical conditions and persons aged 80 years or over), limits, sub-limits and excesses apply)."
+    },
+    {
+        "id": 106,
+        "provider_id": 22582,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Awards credit card",
+        "description": "For customers who want a lower annual fee and credit limit, but still like to earn Awards points."
+    },
+    {
+        "id": 107,
+        "provider_id": 22582,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Platinum Awards credit card",
+        "description": "A credit card with the opportunity to earn Awards points and take advantage of extras like international travel insurance."
+    },
+    {
+        "id": 108,
+        "provider_id": 22582,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Low Rate credit card",
+        "description": "Ideal for small business owners looking for a line of credit with a competitive interest rate and no annual fee. Note, this product does not include an interest free day period."
+    },
+    {
+        "id": 109,
+        "provider_id": 22582,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Interest-Free Days credit card",
+        "description": "Designed for those looking for a card with a competitive interest-free period to help with business cash flow."
+    },
+    {
+        "id": 110,
+        "provider_id": 22582,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Business Awards credit card",
+        "description": "Perfect for those looking for a competitive interest-free period on purchases and to reward themselves for business purchases."
+    },
+    {
+        "id": 111,
+        "provider_id": 22582,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Business Platinum Awards credit card",
+        "description": "Earn 1 Awards point for every dollar you spend on your business expenses."
+    },
+    {
+        "id": 112,
+        "provider_id": 22582,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "CommBank Essentials credit card",
+        "description": "A simple card with our lowest rate on purchases, helping you stay in control."
+    },
+    {
+        "id": 113,
+        "provider_id": 22582,
+        "product_category": "CRED_AND_CHRG_CARDS",
+        "name": "Ultimate Awards credit card",
+        "description": "Our most rewarding credit card with uncapped points earning potential, exclusive travel benefits and no monthly fee for eligible customers."
+    },
+    {
+        "id": 114,
+        "provider_id": 22582,
+        "product_category": "PERS_LOANS",
+        "name": "Secured Car Loan",
+        "description": "Unlock the value of your car for a reduced interest rate."
+    },
+    {
+        "id": 115,
+        "provider_id": 22582,
+        "product_category": "PERS_LOANS",
+        "name": "Fixed Rate Personal Loan",
+        "description": "Get a competitive rate and stay in control with a fixed interest rate"
+    },
+    {
+        "id": 116,
+        "provider_id": 22582,
+        "product_category": "PERS_LOANS",
+        "name": "Variable Rate Personal Loan",
+        "description": "Get a competitive rate and have the flexibility to make additional repayments at any time without a fee."
+    },
+    {
+        "id": 118,
+        "provider_id": 22582,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Extra Home Loan",
+        "description": "A home loan with a low interest rate, low fees and flexible features"
+    },
+    {
+        "id": 119,
+        "provider_id": 22582,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Investment Extra Home Loan",
+        "description": "A home loan with a low interest rate, low fees and flexible features"
+    },
+    {
+        "id": 120,
+        "provider_id": 22582,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Standard Variable Rate Home Loan",
+        "description": "Our Standard Variable Rate Home Loan is a flexible loan with a full range of features."
+    },
+    {
+        "id": 121,
+        "provider_id": 22582,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Investment Standard Variable Rate Home Loan",
+        "description": "Our Standard Variable Rate Home Loan is a flexible loan with a full range of features."
+    },
+    {
+        "id": 122,
+        "provider_id": 22582,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "1 year fixed rate Home Loan",
+        "description": "Keep your budget on track with competitive fixed rates and a range of repayment options."
+    },
+    {
+        "id": 123,
+        "provider_id": 22582,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Investment - 1 year fixed rate Home Loan",
+        "description": "Keep your budget on track with competitive fixed rates and a range of repayment options."
+    },
+    {
+        "id": 124,
+        "provider_id": 22582,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "2 year fixed rate Home Loan",
+        "description": "Keep your budget on track with competitive fixed rates and a range of repayment options."
+    },
+    {
+        "id": 125,
+        "provider_id": 22582,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "3 year fixed rate Home Loan",
+        "description": "Keep your budget on track with competitive fixed rates and a range of repayment options."
+    },
+    {
+        "id": 126,
+        "provider_id": 22582,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "4 year fixed rate Home Loan",
+        "description": "Keep your budget on track with competitive fixed rates and a range of repayment options."
+    },
+    {
+        "id": 127,
+        "provider_id": 22582,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "5 year fixed rate Home Loan",
+        "description": "Keep your budget on track with competitive fixed rates and a range of repayment options."
+    },
+    {
+        "id": 128,
+        "provider_id": 22582,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Investment - 2 year fixed rate Home Loan",
+        "description": "Keep your budget on track with competitive fixed rates and a range of repayment options."
+    },
+    {
+        "id": 129,
+        "provider_id": 22582,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Investment - 3 year fixed rate Home Loan",
+        "description": "Keep your budget on track with competitive fixed rates and a range of repayment options."
+    },
+    {
+        "id": 130,
+        "provider_id": 22582,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Investment - 4 year fixed rate Home Loan",
+        "description": "Keep your budget on track with competitive fixed rates and a range of repayment options."
+    },
+    {
+        "id": 131,
+        "provider_id": 22582,
+        "product_category": "RESIDENTIAL_MORTGAGES",
+        "name": "Investment - 5 year fixed rate Home Loan",
+        "description": "Keep your budget on track with competitive fixed rates and a range of repayment options."
+    },
+    {
+        "id": 117,
+        "provider_id": 22582,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Everyday Offset",
+        "description": "Everyday Offset is a feature of our Complete Access Transaction account which is linked to an eligible home loan, and accountholder(s) must also be accountholders of the linked home loan. Interest is not charged on the part of the Home Loan balance equal to the Transaction account. Full terms and conditions for transaction and savings accounts are available at CommBank.com.au or from any branch of the Commonwealth Bank. Fees and charges apply."
+    },
+    {
+        "id": 94,
+        "provider_id": 22582,
+        "product_category": "TRANS_AND_SAVINGS_ACCOUNTS",
+        "name": "Private Bank Account",
+        "description": "The Commonwealth Private Bank Account is an exclusive transaction account for Commonwealth Private clients."
+    }
+]

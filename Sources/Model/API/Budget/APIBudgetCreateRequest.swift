@@ -24,6 +24,7 @@ struct APIBudgetCreateRequest: Codable {
         case imageURL = "image_url"
         case metadata
         case periodAmount = "period_amount"
+        case trackingType = "tracking_type"
         case type
         case typeValue = "type_value"
         case startDate = "start_date"
@@ -35,6 +36,7 @@ struct APIBudgetCreateRequest: Codable {
     let typeValue: String
     let imageURL: String?
     let startDate: String?
+    let trackingType: Budget.TrackingType
     let metadata: JSON?
     
     internal func valid() -> Bool {
