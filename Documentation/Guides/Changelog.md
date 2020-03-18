@@ -2,6 +2,12 @@
 
 ## 4.5.1
 
+### Features
+
+- CDR Products List API
+- Added CDR Product Object in Account
+- Budget By Account
+
 ### Fixes
 
 - Fixed various issues in CDR response
