@@ -560,7 +560,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
      Download data from and endpoint requiring authorization
      
      - parameters:
-        - url: The enpoint url to be authorized and from which data is to be downloaded
+        - url: The endpoint url to be authorized and from which data is to be downloaded
         - completion: The block that will be executed when the data download is complete(Optional)
      */
     public func downloadData(url: URL, completion: ((Swift.Result<Data, Error>) -> Void)?) {
