@@ -556,6 +556,9 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         internalReset()
     }
     
+    /**
+     Download data from and endpoint requiring authorization
+     */
     public func downloadData(url: URL, completion: ((Swift.Result<Data, Error>) -> Void)?) {
         service.downloadData(url: url, completion: completion)
     }
