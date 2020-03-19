@@ -1,5 +1,18 @@
 # Changelog
 
+## 4.5.1
+
+### Features
+
+- CDR Products List API
+- Added CDR Product Object in Account
+- Budget By Account
+
+### Fixes
+
+- Fixed various issues in CDR response
+- Fixed an issue in budgets API creation
+
 ## 4.5.0
 
 - Open Banking support

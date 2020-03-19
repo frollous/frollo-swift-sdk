@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+import Alamofire
 import Foundation
 
 class APIService {
@@ -30,6 +31,21 @@ class APIService {
     init(serverEndpoint: URL, network: Network) {
         self.network = network
         self.serverURL = serverEndpoint
+    }
+    
+    internal func downloadData(url: URL, completion: ((Swift.Result<Data, Error>) -> Void)?) {
+        requestQueue.async { [weak self] in
+            self?.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self?.responseQueue) { response in
+                switch response.result {
+                    case .success(let value):
+                        completion?(.success(value))
+                    case .failure(let error):
+                        self?.network.handleFailure(type: APIError.self, response: response, error: error) { processedError in
+                            completion?(.failure(processedError))
+                        }
+                }
+            }
+        }
     }
     
 }

@@ -1091,6 +1091,15 @@
 		031A7A45239877A200A9F882 /* ReportResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031A7A42239877A200A9F882 /* ReportResponseTests.swift */; };
 		031DC9ED240F864D005CCC71 /* String+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031DC9EC240F864D005CCC71 /* String+URL.swift */; };
 		031DC9EE240F864D005CCC71 /* String+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031DC9EC240F864D005CCC71 /* String+URL.swift */; };
+		032F10A323DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A023DA6F1000F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite */; };
+		032F10A423DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A023DA6F1000F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite */; };
+		032F10A523DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A023DA6F1000F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite */; };
+		032F10A623DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A123DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-shm */; };
+		032F10A723DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A123DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-shm */; };
+		032F10A823DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A123DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-shm */; };
+		032F10A923DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A223DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-wal */; };
+		032F10AA23DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A223DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-wal */; };
+		032F10AB23DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 032F10A223DA6F1100F3BF01 /* FrolloSDKDataModel-1.6.1.sqlite-wal */; };
 		032F10B023DA781900F3BF01 /* APIService+CDR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10AC23DA781400F3BF01 /* APIService+CDR.swift */; };
 		032F10B123DA781900F3BF01 /* APIService+CDR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10AC23DA781400F3BF01 /* APIService+CDR.swift */; };
 		032F10B323DA7A5000F3BF01 /* CDREndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032F10B223DA7A5000F3BF01 /* CDREndpoint.swift */; };
@@ -5712,7 +5721,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 451;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -5725,7 +5734,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = YES;
-				SDK_VERSION = 4.5.0;
+				SDK_VERSION = 4.5.1;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
@@ -5756,7 +5765,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 451;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -5767,7 +5776,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				SDK_VERSION = 4.5.0;
+				SDK_VERSION = 4.5.1;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
