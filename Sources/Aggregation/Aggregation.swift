@@ -2221,7 +2221,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             providerLock.unlock()
         }
         
-        let filterPredicate = NSPredicate(format: #keyPath(Provider.statusRawValue) + " IN %@", argumentArray: [[Provider.Status.supported.rawValue, Provider.Status.beta.rawValue]])
+        let filterPredicate = NSPredicate(format: #keyPath(Provider.statusRawValue) + " IN %@", argumentArray: [[Provider.Status.supported.rawValue, Provider.Status.beta.rawValue,  Provider.Status.comingSoon.rawValue]])
         
         updateObjectsWithResponse(type: Provider.self, objectsResponse: providersResponse, primaryKey: #keyPath(Provider.providerID), linkedKeys: [], filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
         
