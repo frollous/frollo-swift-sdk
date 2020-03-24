@@ -212,6 +212,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     private let frolloHost = "frollo.us"
     
     private var deviceLastUpdated: Date?
+    private var notificationToken: Data?
     
     // MARK: - Setup
     
@@ -353,6 +354,8 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
                         } else {
                             self._setup = true
                             
+                            self.delayedProcessing()
+                            
                             completion(.success)
                         }
                     }
@@ -368,12 +371,23 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
                 } else {
                     self._setup = true
                     
+                    self.delayedProcessing()
+                    
                     completion(.success)
                 }
             }
         }
         
         return nil
+    }
+    
+    /// Process outstanding data
+    private func delayedProcessing() {
+        if let token = notificationToken {
+            notifications.handlePushNotificationToken(token)
+            
+            notificationToken = nil
+        }
     }
     
     // MARK: - Reset
@@ -454,6 +468,25 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
             
             userManagement.updateDevice()
         }
+    }
+    
+    // MARK: - Push Notifications
+    
+    /**
+     Register Push Notification Token
+     
+     Registers the device token received from APNS to the host to allow for push notifications to be sent
+     
+     - parameters:
+        - token: Raw token data received from APNS to be sent to the host
+     */
+    public func registerPushNotificationToken(_ token: Data) {
+        guard setup else {
+            notificationToken = token
+            return
+        }
+        
+        notifications.handlePushNotificationToken(token)
     }
     
     // MARK: - Refresh
