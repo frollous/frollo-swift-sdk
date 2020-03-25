@@ -31,21 +31,6 @@ class NotificationsTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
-    
-    func dataWithHexString(hex: String) -> Data {
-        var hex = hex
-        var data = Data()
-        while(hex.count > 0) {
-            let subIndex = hex.index(hex.startIndex, offsetBy: 2)
-            let c = String(hex[..<subIndex])
-            hex = String(hex[subIndex...])
-            var ch: UInt32 = 0
-            Scanner(string: c).scanHexInt32(&ch)
-            var char = UInt8(ch)
-            data.append(&char, count: 1)
-        }
-        return data
-    }
 
     func testRegisteringPushNotificationToken() {
         let expectation1 = expectation(description: "Network Request")
@@ -75,9 +60,9 @@ class NotificationsTests: XCTestCase {
         let notifications = Notifications(events: events, messages: messages, userManagement: userManagement)
         
         let tokenString = "740f4707bebcf74f9b7c25d48e3358945f6aa01da5ddb387462c7eaf61bb78ad"
-        let tokenData = dataWithHexString(hex: tokenString)
+        let tokenData = Data.dataWithHexString(hex: tokenString)
         
-        notifications.registerPushNotificationToken(tokenData)
+        notifications.handlePushNotificationToken(tokenData)
         
         wait(for: [expectation1], timeout: 5.0)
     }
