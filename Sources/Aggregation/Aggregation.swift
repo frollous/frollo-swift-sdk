@@ -184,7 +184,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
     /**
      Refresh all available providers from the host.
      
-     Includes beta and supported providers. Unsupported and Disabled providers must be fetched by ID.
+     Includes beta, supported, coming soon and outage providers. Unsupported and Disabled providers must be fetched by ID.
      
      - parameters:
         - completion: Optional completion handler with optional error if the request fails
@@ -2221,7 +2221,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             providerLock.unlock()
         }
         
-        let filterPredicate = NSPredicate(format: #keyPath(Provider.statusRawValue) + " IN %@", argumentArray: [[Provider.Status.supported.rawValue, Provider.Status.beta.rawValue,  Provider.Status.comingSoon.rawValue]])
+        let filterPredicate = NSPredicate(format: #keyPath(Provider.statusRawValue) + " IN %@", argumentArray: [[Provider.Status.supported.rawValue, Provider.Status.beta.rawValue,  Provider.Status.comingSoon.rawValue, Provider.Status.outage.rawValue]])
         
         updateObjectsWithResponse(type: Provider.self, objectsResponse: providersResponse, primaryKey: #keyPath(Provider.providerID), linkedKeys: [], filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
         
