@@ -220,7 +220,7 @@ class AggregationRequestTests: BaseTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let filledForm = ProviderLoginForm.loginFormFilledData()
-        let request = APIProviderAccountCreateRequest(loginForm: filledForm, providerID: 4078)
+        let request = APIProviderAccountCreateRequest(loginForm: filledForm, providerID: 4078, consentID: nil)
         
         service.createProviderAccount(request: request) { (result) in
             switch result {

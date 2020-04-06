@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="18G95" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.6.3">
+    <entity name="Account" representedClassName=".Account" syncable="YES">
+        <attribute name="accountHolderName" optional="YES" attributeType="String"/>
+        <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="accountName" optional="YES" attributeType="String"/>
+        <attribute name="accountStatusRawValue" attributeType="String"/>
+        <attribute name="accountSubTypeRawValue" attributeType="String"/>
+        <attribute name="accountTypeRawValue" attributeType="String"/>
+        <attribute name="amountDue" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="amountDueCurrency" optional="YES" attributeType="String"/>
+        <attribute name="apr" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="availableBalance" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="availableBalanceCurrency" optional="YES" attributeType="String"/>
+        <attribute name="availableCash" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="availableCashCurrency" optional="YES" attributeType="String"/>
+        <attribute name="availableCredit" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="availableCreditCurrency" optional="YES" attributeType="String"/>
+        <attribute name="balanceDescription" optional="YES" attributeType="String"/>
+        <attribute name="classificationRawValue" optional="YES" attributeType="String"/>
+        <attribute name="currentBalance" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="currentBalanceCurrency" optional="YES" attributeType="String"/>
+        <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="externalID" optional="YES" attributeType="String"/>
+        <attribute name="favourite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="goalIDsRawValue" optional="YES" attributeType="Binary"/>
+        <attribute name="groupRawValue" optional="YES" attributeType="String"/>
+        <attribute name="hidden" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="included" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="interestRate" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="lastPaymentAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="lastPaymentAmountCurrency" optional="YES" attributeType="String"/>
+        <attribute name="lastPaymentDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="lastRefreshed" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="minimumAmountDue" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="minimumAmountDueCurrency" optional="YES" attributeType="String"/>
+        <attribute name="nextRefresh" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="nickName" optional="YES" attributeType="String"/>
+        <attribute name="productDetailsPageURL" optional="YES" attributeType="String"/>
+        <attribute name="productID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="productName" optional="YES" attributeType="String"/>
+        <attribute name="productsAvailable" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="providerAccountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="providerName" optional="YES" attributeType="String"/>
+        <attribute name="refreshAdditionalStatusRawValue" optional="YES" attributeType="String"/>
+        <attribute name="refreshStatusRawValue" optional="YES" attributeType="String"/>
+        <attribute name="refreshSubStatusRawValue" optional="YES" attributeType="String"/>
+        <attribute name="totalCashLimit" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="totalCashLimitCurrency" optional="YES" attributeType="String"/>
+        <attribute name="totalCreditLine" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="totalCreditLineCurrency" optional="YES" attributeType="String"/>
+        <relationship name="balanceTiers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AccountBalanceTier" inverseName="account" inverseEntity="AccountBalanceTier"/>
+        <relationship name="bills" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Bill" inverseName="account" inverseEntity="Bill"/>
+        <relationship name="goals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Goal" inverseName="account" inverseEntity="Goal"/>
+        <relationship name="productInformations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDRProductInformation" inverseName="account" inverseEntity="CDRProductInformation"/>
+        <relationship name="providerAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProviderAccount" inverseName="accounts" inverseEntity="ProviderAccount"/>
+        <relationship name="reports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReportAccountBalance" inverseName="account" inverseEntity="ReportAccountBalance"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Transaction" inverseName="account" inverseEntity="Transaction"/>
+        <fetchIndex name="byAccountIDIndex">
+            <fetchIndexElement property="accountID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byProviderAccountIDIndex">
+            <fetchIndexElement property="providerAccountID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byAccountTypeIndex">
+            <fetchIndexElement property="accountTypeRawValue" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="accountID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="AccountBalanceTier" representedClassName=".AccountBalanceTier" syncable="YES">
+        <attribute name="maximum" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="minimum" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="balanceTiers" inverseEntity="Account"/>
+    </entity>
+    <entity name="Bill" representedClassName=".Bill" syncable="YES">
+        <attribute name="accountID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="averageAmount" attributeType="Decimal" defaultValueString="0"/>
+        <attribute name="billID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="billTypeRawValue" attributeType="String"/>
+        <attribute name="details" optional="YES" attributeType="String"/>
+        <attribute name="dueAmount" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="endDateString" optional="YES" attributeType="String"/>
+        <attribute name="frequencyRawValue" attributeType="String"/>
+        <attribute name="lastAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="lastPaymentDateString" optional="YES" attributeType="String"/>
+        <attribute name="merchantID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="nextPaymentDateString" attributeType="String"/>
+        <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="paymentStatusRawValue" attributeType="String"/>
+        <attribute name="statusRawValue" attributeType="String"/>
+        <attribute name="transactionCategoryID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="bills" inverseEntity="Account"/>
+        <relationship name="merchant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Merchant" inverseName="bills" inverseEntity="Merchant"/>
+        <relationship name="payments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BillPayment" inverseName="bill" inverseEntity="BillPayment"/>
+        <relationship name="transactionCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TransactionCategory" inverseName="bills" inverseEntity="TransactionCategory"/>
+        <fetchIndex name="byBillIDIndex">
+            <fetchIndexElement property="billID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byStatusIndex">
+            <fetchIndexElement property="statusRawValue" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="billID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="BillPayment" representedClassName=".BillPayment" syncable="YES">
+        <attribute name="amount" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="billID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="billPaymentID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="dateString" attributeType="String"/>
+        <attribute name="frequencyRawValue" attributeType="String"/>
+        <attribute name="merchantID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="paymentStatusRawValue" attributeType="String"/>
+        <relationship name="bill" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Bill" inverseName="payments" inverseEntity="Bill"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="billPaymentID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="Budget" representedClassName=".Budget" syncable="YES">
+        <attribute name="budgetID" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="currency" attributeType="String"/>
+        <attribute name="currentAmount" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="frequencyRawValue" attributeType="String"/>
+        <attribute name="imageURLString" optional="YES" attributeType="String"/>
+        <attribute name="isCurrent" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="metadataRawValue" optional="YES" attributeType="Binary"/>
+        <attribute name="periodAmount" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="periodsCount" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="startDateString" optional="YES" attributeType="String"/>
+        <attribute name="statusRawValue" optional="YES" attributeType="String"/>
+        <attribute name="trackingStatusRawValue" attributeType="String"/>
+        <attribute name="trackingTypeRawValue" attributeType="String" defaultValueString="debit_credit"/>
+        <attribute name="typeRawValue" attributeType="String"/>
+        <attribute name="typeValue" attributeType="String"/>
+        <attribute name="userID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="periods" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BudgetPeriod" inverseName="budget" inverseEntity="BudgetPeriod"/>
+        <fetchIndex name="byBudgetID">
+            <fetchIndexElement property="budgetID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="budgetID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="BudgetPeriod" representedClassName=".BudgetPeriod" syncable="YES">
+        <attribute name="budgetID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="budgetPeriodID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="currentAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="endDateString" optional="YES" attributeType="String"/>
+        <attribute name="index" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="requiredAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="startDateString" optional="YES" attributeType="String"/>
+        <attribute name="targetAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="trackingStatusRawValue" optional="YES" attributeType="String"/>
+        <relationship name="budget" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Budget" inverseName="periods" inverseEntity="Budget"/>
+        <fetchIndex name="byBudgetPeriodID">
+            <fetchIndexElement property="budgetPeriodID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byBudgetID">
+            <fetchIndexElement property="budgetID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="budgetPeriodID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="CDRProductInformation" representedClassName=".CDRProductInformation" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="value" optional="YES" attributeType="String"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="productInformations" inverseEntity="Account"/>
+    </entity>
+    <entity name="Consent" representedClassName=".Consent" syncable="YES">
+        <attribute name="additionalPermissionsRawValue" optional="YES" attributeType="Binary"/>
+        <attribute name="authorizationURLString" optional="YES" attributeType="String"/>
+        <attribute name="confirmationPDFURLString" optional="YES" attributeType="String"/>
+        <attribute name="consentID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="permissionsRawValue" attributeType="String"/>
+        <attribute name="providerAccountID" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="providerID" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="sharingDurationRawValue" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sharingStartedAtRawValue" optional="YES" attributeType="String"/>
+        <attribute name="statusRawValue" attributeType="String"/>
+        <attribute name="withdrawalPDFURLString" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Goal" representedClassName=".Goal" syncable="YES">
+        <attribute name="accountID" optional="YES" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="currency" attributeType="String"/>
+        <attribute name="currentAmount" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="details" optional="YES" attributeType="String"/>
+        <attribute name="endDateString" attributeType="String"/>
+        <attribute name="estimatedEndDateString" optional="YES" attributeType="String"/>
+        <attribute name="estimatedTargetAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="frequencyRawValue" attributeType="String"/>
+        <attribute name="goalID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="imageURLString" optional="YES" attributeType="String"/>
+        <attribute name="metadataRawValue" optional="YES" attributeType="Binary"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="periodAmount" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="periodCount" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="startAmount" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="startDateString" attributeType="String"/>
+        <attribute name="statusRawValue" attributeType="String"/>
+        <attribute name="targetAmount" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="targetRawValue" attributeType="String"/>
+        <attribute name="trackingStatusRawValue" attributeType="String"/>
+        <attribute name="trackingTypeRawValue" attributeType="String"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="goals" inverseEntity="Account"/>
+        <relationship name="periods" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GoalPeriod" inverseName="goal" inverseEntity="GoalPeriod"/>
+        <fetchIndex name="byGoalIDIndex">
+            <fetchIndexElement property="goalID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byAccountIDIndex">
+            <fetchIndexElement property="accountID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="goalID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="GoalPeriod" representedClassName=".GoalPeriod" syncable="YES">
+        <attribute name="currentAmount" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="endDateString" attributeType="String"/>
+        <attribute name="goalID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="goalPeriodID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="index" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="requiredAmount" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="startDateString" attributeType="String"/>
+        <attribute name="targetAmount" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="trackingStatusRawValue" optional="YES" attributeType="String"/>
+        <relationship name="goal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Goal" inverseName="periods" inverseEntity="Goal"/>
+        <fetchIndex name="byGoalPeriodID">
+            <fetchIndexElement property="goalPeriodID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byGoalID">
+            <fetchIndexElement property="goalID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="goalPeriodID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="Merchant" representedClassName=".Merchant" syncable="YES">
+        <attribute name="merchantID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="merchantTypeRawValue" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="smallLogoURLString" optional="YES" attributeType="String"/>
+        <relationship name="bills" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Bill" inverseName="merchant" inverseEntity="Bill"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="merchant" inverseEntity="Transaction"/>
+        <fetchIndex name="byMerchantIDIndex">
+            <fetchIndexElement property="merchantID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="merchantID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="Message" representedClassName=".Message" syncable="YES">
+        <attribute name="actionTitle" optional="YES" attributeType="String"/>
+        <attribute name="actionURLString" optional="YES" attributeType="String"/>
+        <attribute name="autoDismiss" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="contentTypeRawValue" optional="YES" attributeType="String"/>
+        <attribute name="event" attributeType="String"/>
+        <attribute name="interacted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="messageID" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="metaDataRawValue" optional="YES" attributeType="Binary"/>
+        <attribute name="openModeRawValue" optional="YES" attributeType="String"/>
+        <attribute name="persists" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="placement" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="read" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="typesRawValue" optional="YES" attributeType="String"/>
+        <attribute name="userEventID" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
+        <fetchIndex name="byMessageIDIndex">
+            <fetchIndexElement property="messageID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byReadIndex">
+            <fetchIndexElement property="read" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="messageID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="MessageHTML" representedClassName=".MessageHTML" parentEntity="Message" syncable="YES">
+        <attribute name="footer" optional="YES" attributeType="String"/>
+        <attribute name="header" optional="YES" attributeType="String"/>
+        <attribute name="main" attributeType="String"/>
+    </entity>
+    <entity name="MessageImage" representedClassName=".MessageImage" parentEntity="Message" syncable="YES">
+        <attribute name="height" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="urlString" attributeType="String"/>
+        <attribute name="width" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="MessageText" representedClassName=".MessageText" parentEntity="Message" syncable="YES">
+        <attribute name="designType" optional="YES" attributeType="String"/>
+        <attribute name="footer" optional="YES" attributeType="String"/>
+        <attribute name="header" optional="YES" attributeType="String"/>
+        <attribute name="imageURLString" optional="YES" attributeType="String"/>
+        <attribute name="text" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="MessageVideo" representedClassName=".MessageVideo" parentEntity="Message" syncable="YES">
+        <attribute name="autoplay" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="autoplayCellular" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="height" optional="YES" attributeType="Double" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="iconURLString" optional="YES" attributeType="String"/>
+        <attribute name="muted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="urlString" attributeType="String"/>
+        <attribute name="width" optional="YES" attributeType="Double" defaultValueString="-1" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="PayDay" representedClassName=".PayDay" syncable="YES">
+        <attribute name="lastDateString" optional="YES" attributeType="String"/>
+        <attribute name="nextDateString" optional="YES" attributeType="String"/>
+        <attribute name="periodRawValue" attributeType="String"/>
+        <attribute name="statusRawValue" attributeType="String"/>
+    </entity>
+    <entity name="Provider" representedClassName=".Provider" syncable="YES">
+        <attribute name="aggregatorTypeRawValue" optional="YES" attributeType="String"/>
+        <attribute name="authTypeRawValue" optional="YES" attributeType="String"/>
+        <attribute name="baseURLString" optional="YES" attributeType="String"/>
+        <attribute name="containerBank" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="containerBill" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="containerCreditCard" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="containerCreditScore" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="containerInsurance" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="containerInvestment" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="containerLoan" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="containerRealEstate" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="containerReward" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="containerUnknown" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="encryptionAlias" optional="YES" attributeType="String"/>
+        <attribute name="encryptionPublicKey" optional="YES" attributeType="String"/>
+        <attribute name="encryptionTypeRawValue" optional="YES" attributeType="String"/>
+        <attribute name="forgotPasswordURLString" optional="YES" attributeType="String"/>
+        <attribute name="helpMessage" optional="YES" attributeType="String"/>
+        <attribute name="largeLogoURLString" optional="YES" attributeType="String"/>
+        <attribute name="loginFormRawValue" optional="YES" attributeType="Binary"/>
+        <attribute name="loginHelpMessage" optional="YES" attributeType="String"/>
+        <attribute name="loginURLString" optional="YES" attributeType="String"/>
+        <attribute name="mfaTypeRawValue" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="oAuthSite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="permissionsRawValue" optional="YES" attributeType="String"/>
+        <attribute name="popular" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="productsAvailable" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="providerID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="smallLogoURLString" optional="YES" attributeType="String"/>
+        <attribute name="statusRawValue" attributeType="String" defaultValueString="supported"/>
+        <relationship name="providerAccounts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ProviderAccount" inverseName="provider" inverseEntity="ProviderAccount"/>
+        <fetchIndex name="byProviderIDAndStatusIndex">
+            <fetchIndexElement property="statusRawValue" type="Binary" order="ascending"/>
+            <fetchIndexElement property="providerID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byPopularIndex">
+            <fetchIndexElement property="popular" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byProviderIDIndex">
+            <fetchIndexElement property="providerID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byContainerCreditScoreIndex">
+            <fetchIndexElement property="containerCreditScore" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="providerID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="ProviderAccount" representedClassName=".ProviderAccount" syncable="YES">
+        <attribute name="editable" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="externalID" optional="YES" attributeType="String"/>
+        <attribute name="lastRefreshed" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="loginFormRawValue" optional="YES" attributeType="Binary"/>
+        <attribute name="nextRefresh" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="providerAccountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="providerID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="refreshAdditionalStatusRawValue" optional="YES" attributeType="String"/>
+        <attribute name="refreshStatusRawValue" attributeType="String"/>
+        <attribute name="refreshSubStatusRawValue" optional="YES" attributeType="String"/>
+        <relationship name="accounts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Account" inverseName="providerAccount" inverseEntity="Account"/>
+        <relationship name="provider" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Provider" inverseName="providerAccounts" inverseEntity="Provider"/>
+        <fetchIndex name="byProviderAccountID">
+            <fetchIndexElement property="providerAccountID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byProviderID">
+            <fetchIndexElement property="providerID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="providerAccountID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="ReportAccountBalance" representedClassName=".ReportAccountBalance" syncable="YES">
+        <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="currency" attributeType="String"/>
+        <attribute name="dateString" attributeType="String"/>
+        <attribute name="periodRawValue" attributeType="String"/>
+        <attribute name="value" attributeType="Decimal" defaultValueString="0.0"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="reports" inverseEntity="Account"/>
+    </entity>
+    <entity name="Tag" representedClassName=".Tag" syncable="YES">
+        <attribute name="count" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="lastUsedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Transaction" representedClassName=".Transaction" syncable="YES">
+        <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="addressLine1" optional="YES" attributeType="String"/>
+        <attribute name="addressLine2" optional="YES" attributeType="String"/>
+        <attribute name="addressLine3" optional="YES" attributeType="String"/>
+        <attribute name="amount" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="baseTypeRawValue" attributeType="String"/>
+        <attribute name="budgetCategoryRawValue" attributeType="String"/>
+        <attribute name="country" optional="YES" attributeType="String"/>
+        <attribute name="currency" attributeType="String"/>
+        <attribute name="externalID" optional="YES" attributeType="String"/>
+        <attribute name="formattedAddress" optional="YES" attributeType="String"/>
+        <attribute name="included" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="memo" optional="YES" attributeType="String"/>
+        <attribute name="merchantID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="originalDescription" attributeType="String"/>
+        <attribute name="phone" optional="YES" attributeType="String"/>
+        <attribute name="postcode" optional="YES" attributeType="String"/>
+        <attribute name="postDateString" optional="YES" attributeType="String"/>
+        <attribute name="searchAmount" optional="YES" attributeType="String"/>
+        <attribute name="simpleDescription" optional="YES" attributeType="String"/>
+        <attribute name="state" optional="YES" attributeType="String"/>
+        <attribute name="statusRawValue" attributeType="String"/>
+        <attribute name="suburb" optional="YES" attributeType="String"/>
+        <attribute name="transactionCategoryID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="transactionDateString" attributeType="String"/>
+        <attribute name="transactionID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="userDescription" optional="YES" attributeType="String"/>
+        <attribute name="userTagsRawValue" optional="YES" attributeType="String"/>
+        <attribute name="website" optional="YES" attributeType="String"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="transactions" inverseEntity="Account"/>
+        <relationship name="merchant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Merchant" inverseName="transactions" inverseEntity="Merchant"/>
+        <relationship name="transactionCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TransactionCategory" inverseName="transactions" inverseEntity="TransactionCategory"/>
+        <fetchIndex name="byAccountIDIndex">
+            <fetchIndexElement property="accountID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byTransactionCategoryIDIndex">
+            <fetchIndexElement property="transactionCategoryID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byMerchantIDIndex">
+            <fetchIndexElement property="merchantID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byBudgetCategoryIndex">
+            <fetchIndexElement property="budgetCategoryRawValue" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byTransactionIDIndex">
+            <fetchIndexElement property="transactionID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="transactionID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="TransactionCategory" representedClassName=".TransactionCategory" syncable="YES">
+        <attribute name="categoryTypeRawValue" attributeType="String"/>
+        <attribute name="defaultBudgetCategoryRawValue" attributeType="String"/>
+        <attribute name="iconURLString" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="placement" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="transactionCategoryID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="userDefined" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <relationship name="bills" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Bill" inverseName="transactionCategory" inverseEntity="Bill"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="transactionCategory" inverseEntity="Transaction"/>
+        <fetchIndex name="byTransactionCategoryIndex">
+            <fetchIndexElement property="transactionCategoryID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="transactionCategoryID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="User" representedClassName=".User" syncable="YES">
+        <attribute name="addressLine1" optional="YES" attributeType="String"/>
+        <attribute name="addressLine2" optional="YES" attributeType="String"/>
+        <attribute name="attributionAdGroup" optional="YES" attributeType="String"/>
+        <attribute name="attributionCampaign" optional="YES" attributeType="String"/>
+        <attribute name="attributionCreative" optional="YES" attributeType="String"/>
+        <attribute name="attributionNetwork" optional="YES" attributeType="String"/>
+        <attribute name="dateOfBirth" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="email" attributeType="String"/>
+        <attribute name="emailVerified" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="facebookID" optional="YES" attributeType="String"/>
+        <attribute name="featuresRawValue" optional="YES" attributeType="Binary"/>
+        <attribute name="firstName" optional="YES" attributeType="String"/>
+        <attribute name="genderRawValue" optional="YES" attributeType="String"/>
+        <attribute name="householdSize" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="householdTypeRawValue" optional="YES" attributeType="String"/>
+        <attribute name="industryRawValue" optional="YES" attributeType="String"/>
+        <attribute name="lastName" optional="YES" attributeType="String"/>
+        <attribute name="mobileNumber" optional="YES" attributeType="String"/>
+        <attribute name="occupationRawValue" optional="YES" attributeType="String"/>
+        <attribute name="postcode" optional="YES" attributeType="String"/>
+        <attribute name="primaryCurrency" attributeType="String"/>
+        <attribute name="registerComplete" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="statusRawValue" attributeType="String" defaultValueString="registered"/>
+        <attribute name="suburb" optional="YES" attributeType="String"/>
+        <attribute name="userID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="validPassword" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="userID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <elements>
+        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="868"/>
+        <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
+        <element name="Bill" positionX="-378" positionY="162" width="128" height="360"/>
+        <element name="BillPayment" positionX="-378" positionY="162" width="128" height="178"/>
+        <element name="Budget" positionX="-378" positionY="162" width="128" height="283"/>
+        <element name="BudgetPeriod" positionX="-369" positionY="171" width="128" height="193"/>
+        <element name="CDRProductInformation" positionX="-378" positionY="162" width="128" height="88"/>
+        <element name="Consent" positionX="-378" positionY="162" width="128" height="208"/>
+        <element name="Goal" positionX="-378" positionY="162" width="128" height="388"/>
+        <element name="GoalPeriod" positionX="-360" positionY="180" width="128" height="193"/>
+        <element name="Merchant" positionX="498.47265625" positionY="19.75" width="128" height="133"/>
+        <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="268"/>
+        <element name="MessageHTML" positionX="-317.359375" positionY="757.66015625" width="128" height="90"/>
+        <element name="MessageImage" positionX="-319.14453125" positionY="879.53515625" width="128" height="28"/>
+        <element name="MessageText" positionX="-319.734375" positionY="990.58203125" width="128" height="120"/>
+        <element name="MessageVideo" positionX="-317.34375" positionY="1145.10546875" width="128" height="30"/>
+        <element name="PayDay" positionX="-378" positionY="162" width="128" height="103"/>
+        <element name="Provider" positionX="-385.3984375" positionY="11.875" width="128" height="523"/>
+        <element name="ProviderAccount" positionX="-164.078125" positionY="13.7109375" width="128" height="225"/>
+        <element name="ReportAccountBalance" positionX="-360" positionY="180" width="128" height="135"/>
+        <element name="Tag" positionX="283.4609375" positionY="696.9375" width="128" height="105"/>
+        <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="553"/>
+        <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="178"/>
+        <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>
+    </elements>
+</model>

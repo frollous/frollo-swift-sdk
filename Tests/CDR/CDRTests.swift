@@ -44,37 +44,15 @@ class CDRTests: BaseTestCase {
     func testSubmitConsent_ShouldSubmitProperly() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: CDREndpoint.consents(id: nil).path.prefixedWithSlash, toResourceWithName: "post_consent")
+        connect(endpoint: CDREndpoint.consents.path.prefixedWithSlash, method: .post, toResourceWithName: "post_consent")
+        connect(endpoint: CDREndpoint.consents(id: 410).path.prefixedWithSlash, method: .get, toResourceWithName: "get_consent")
         
         database.setup { error in
             XCTAssertNil(error)
             
             let aggregation = self.aggregation(loggedIn: true)
-            let consent = CDRConsentForm.Post(providerID: 1, sharingDuration: 100, permissions: [], deleteRedundantData: true)
+            let consent = CDRConsentForm.Post(providerID: 1, sharingDuration: 100, permissions: [])
             aggregation.submitCDRConsent(consent: consent) { (result) in
-                switch result {
-                case .success:
-                    expectation1.fulfill()
-                    break
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
-                }
-            }
-        }
-        
-        wait(for: [expectation1], timeout: 3.0)
-    }
-    
-    func testGetConsentByID_ShouldGetProperly() {
-        let expectation1 = expectation(description: "Network Request 1")
-        
-        connect(endpoint: CDREndpoint.consents(id: 1).path.prefixedWithSlash, toResourceWithName: "get_consent")
-        
-        database.setup { error in
-            XCTAssertNil(error)
-            
-            let aggregation = self.aggregation(loggedIn: true)
-            aggregation.fetchCDRConsent(id: 1) { (result) in
                 switch result {
                 case .success:
                     expectation1.fulfill()
@@ -91,7 +69,8 @@ class CDRTests: BaseTestCase {
     func testWithdrawConsent_ShouldWithdrawProperly() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: CDREndpoint.consents(id: 1).path.prefixedWithSlash, toResourceWithName: "put_consent")
+        connect(endpoint: CDREndpoint.consents(id: 1).path.prefixedWithSlash, method: .put, toResourceWithName: "put_consent")
+        connect(endpoint: CDREndpoint.consents(id: 1).path.prefixedWithSlash, method: .get, toResourceWithName: "get_consent")
         
         database.setup { error in
             XCTAssertNil(error)

@@ -15,10 +15,12 @@
 //
 
 import Foundation
+import SwiftyJSON
 
-struct APICDRConsentResponse: Codable {
+struct APICDRConsentResponse: Codable, APIUniqueResponse {
     
     enum CodingKeys: String, CodingKey {
+        case id
         case providerID = "provider_id"
         case sharingDuration = "sharing_duration"
         case permissions
@@ -30,6 +32,9 @@ struct APICDRConsentResponse: Codable {
         case withdrawalPDFURL = "withdrawal_pdf_url"
         case sharingStartedAt = "sharing_started_at"
     }
+    
+    /// The id of the consent
+    var id: Int64
     
     /// The id for the provider
     let providerID: Int64
@@ -43,7 +48,7 @@ struct APICDRConsentResponse: Codable {
     /// The permissions requested for the consent
     let permissions: [String]
     
-    /// Additional permissions (meta-data) that can be set
+    /// Additional permissions that can be set
     let additionalPermissions: [String: Bool]?
     
     /// Specifies whether the data should be deleted after the consent is done
@@ -60,27 +65,5 @@ struct APICDRConsentResponse: Codable {
     
     /// URL of the Consent Withdrawal PDF.
     let withdrawalPDFURL: String?
-    
-    /// Creates a public consent object from the API response
-    var consent: CDRConsent {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        var startDate: Date?
-        if let startedAt = sharingStartedAt {
-            startDate = dateFormatter.date(from: startedAt)
-        }
-        
-        return .init(providerID: providerID,
-                     sharingStartedAt: startDate,
-                     sharingDuration: sharingDuration,
-                     permissions: permissions.map { Provider.Permission(rawValue: $0) }.compactMap { $0 },
-                     additionalPermissions: additionalPermissions,
-                     deleteRedundantData: deleteRedundantData,
-                     status: CDRConsent.Status(rawValue: status) ?? .pending,
-                     authorisationRequestURL: authorisationRequestURL?.url,
-                     confirmationPDFURL: confirmationPDFURL?.url,
-                     withdrawalPDFURL: withdrawalPDFURL?.url)
-    }
     
 }

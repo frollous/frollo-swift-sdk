@@ -520,6 +520,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         aggregation.refreshProviderAccounts()
         aggregation.refreshAccounts()
         aggregation.refreshTransactions()
+        aggregation.refreshConsents()
         userManagement.refreshUser()
         messages.refreshUnreadMessages()
         budgets.refreshBudgets(current: true)

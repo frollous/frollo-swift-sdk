@@ -26,6 +26,10 @@ enum CDREndpoint: Endpoint {
         case accountID = "account_id"
     }
     
+    static var consents: CDREndpoint {
+        return CDREndpoint.consents(id: nil)
+    }
+    
     case consents(id: Int64?)
     case products
     

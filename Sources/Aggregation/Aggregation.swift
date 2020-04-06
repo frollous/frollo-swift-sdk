@@ -72,6 +72,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
     /// Notification fired when transaction categories cache has been updated
     public static let transactionCategoriesUpdatedNotification = Notification.Name("FrolloSDK.aggregation.transactionCategoriesUpdatedNotification")
     
+    /// Notification fired when consent cache has been updated
+    public static let consentsUpdatedNotification = Notification.Name("FrolloSDK.aggregation.consentsUpdatedNotification")
+    
     /// Notification fired when silent push notification recieved to update transactions
     public static let refreshTransactionsNotification = Notification.Name("FrolloSDK.aggregation.refreshTransactionsNotification")
     
@@ -80,6 +83,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
     internal let accountLock = NSLock()
     internal let merchantLock = NSLock()
     internal let providerLock = NSLock()
+    internal let consentLock = NSLock()
     internal let providerAccountLock = NSLock()
     internal let transactionLock = NSLock()
     internal let transactionCategoryLock = NSLock()
@@ -250,6 +254,103 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
+    // MARK: - Consents
+    
+    /**
+     Fetch consent by ID from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - consentID: Unique consent ID to fetch
+     */
+    public func consent(context: NSManagedObjectContext, consentID: Int64) -> Consent? {
+        return cachedObject(type: Consent.self, context: context, objectID: consentID, objectKey: #keyPath(Consent.consentID))
+    }
+    
+    /**
+     Fetch consents from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `Consent` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to consentID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func consents(context: NSManagedObjectContext,
+                         filteredBy predicate: NSPredicate? = nil,
+                         sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Consent.consentID), ascending: true)],
+                         limit: Int? = nil) -> [Consent]? {
+        
+        return cachedObjects(type: Consent.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Fetched results controller of Consents from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `Consent` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to consentID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func consentsFetchedResultsController(context: NSManagedObjectContext,
+                                                 filteredBy predicate: NSPredicate? = nil,
+                                                 sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Consent.consentID), ascending: true)],
+                                                 limit: Int? = nil) -> NSFetchedResultsController<Consent>? {
+        
+        return fetchedResultsController(type: Consent.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Refresh all available consents from the host.
+     
+     - parameters:
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshConsents(completion: FrolloSDKCompletionHandler? = nil) {
+        service.fetchConsents { result in
+            DispatchQueue.main.async {
+                switch result {
+                    case .failure(let error):
+                        Log.error(error.localizedDescription)
+                        completion?(.failure(error))
+                    case .success(let response):
+                        let managedObjectContext = self.database.newBackgroundContext()
+                        self.handleConsentsResponse(response, managedObjectContext: managedObjectContext)
+                        completion?(.success)
+                }
+            }
+        }
+    }
+    
+    /**
+     Refresh a specific consent by ID from the host
+     
+     - parameters:
+        - consentID: ID of the consent to fetch
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshConsent(consentID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        service.fetchConsent(consentID: consentID) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleConsentResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
     /**
      Submits consent form for a specific provider
      
@@ -257,13 +358,20 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - consent: The form that will be submitted
         - completion: The block that will be executed when the submit request is complete
      */
-    public func submitCDRConsent(consent: CDRConsentForm.Post, completion: ((Result<CDRConsent, Error>) -> Void)?) {
+    public func submitCDRConsent(consent: CDRConsentForm.Post, completion: ((Result<Consent?, Error>) -> Void)?) {
         service.submitCDRConsent(request: consent.apiRequest) { result in
             switch result {
                 case .success(let response):
-                    completion?(.success(response.consent))
+                    let context = self.database.newBackgroundContext()
+                    self.handleConsentResponse(response, managedObjectContext: context)
+                    let consent = self.consent(context: context, consentID: response.id)
+                    DispatchQueue.main.async {
+                        completion?(.success(consent))
+                    }
                 case .failure(let error):
-                    completion?(.failure(error))
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
             }
         }
     }
@@ -275,32 +383,21 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - consent: The form that will be submitted
         - completion: The block that will be executed when the submit request is complete
      */
-    public func withdrawCDRConsent(id: Int64, completion: ((Result<CDRConsent, Error>) -> Void)?) {
-        let request = APICDRConsentUpdateRequest(status: .withdrawn, deleteRedundantData: true)
+    public func withdrawCDRConsent(id: Int64, completion: ((Result<Consent?, Error>) -> Void)?) {
+        let request = APICDRConsentUpdateRequest(status: .withdrawn)
         service.updateCDRConsent(id: id, request: request) { result in
             switch result {
                 case .success(let response):
-                    completion?(.success(response.consent))
+                    let context = self.database.newBackgroundContext()
+                    self.handleConsentResponse(response, managedObjectContext: context)
+                    let consent = self.consent(context: context, consentID: response.id)
+                    DispatchQueue.main.async {
+                        completion?(.success(consent))
+                    }
                 case .failure(let error):
-                    completion?(.failure(error))
-            }
-        }
-    }
-    
-    /**
-     Fetch Open banking consent by ID from the backend
-     
-     - parameters:
-        - id: The ID of the consent
-        - completion: The block that will be executed when the fetch request is complete
-     */
-    public func fetchCDRConsent(id: Int64, completion: ((Result<CDRConsent, Error>) -> Void)?) {
-        service.fetchCDRConsent(id: id) { result in
-            switch result {
-                case .success(let response):
-                    completion?(.success(response.consent))
-                case .failure(let error):
-                    completion?(.failure(error))
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
             }
         }
     }
@@ -446,8 +543,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - loginForm: Provider login form with validated and encrypted values with the user's details
         - completion: Optional completion handler which returns the provider account id that was created if it was successful, or and error if it was a failure
      */
-    public func createProviderAccount(providerID: Int64, loginForm: ProviderLoginForm, completion: ((Result<Int64, Error>) -> Void)? = nil) {
-        let request = APIProviderAccountCreateRequest(loginForm: loginForm, providerID: providerID)
+    public func createProviderAccount(providerID: Int64, consentID: Int64? = nil, loginForm: ProviderLoginForm, completion: ((Result<Int64, Error>) -> Void)? = nil) {
+        let request = APIProviderAccountCreateRequest(loginForm: loginForm, providerID: providerID, consentID: consentID)
         
         service.createProviderAccount(request: request) { result in
             switch result {
@@ -2195,6 +2292,44 @@ public class Aggregation: CachedObjects, ResponseHandler {
     }
     
     // MARK: - Response Handling
+    
+    private func handleConsentResponse(_ consentResponse: APICDRConsentResponse, managedObjectContext: NSManagedObjectContext) {
+        consentLock.lock()
+        
+        defer {
+            consentLock.unlock()
+        }
+        
+        updateObjectWithResponse(type: Consent.self, objectResponse: consentResponse, primaryKey: #keyPath(Consent.consentID), managedObjectContext: managedObjectContext)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+                NotificationCenter.default.post(name: Aggregation.consentsUpdatedNotification, object: self)
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleConsentsResponse(_ consentsResponse: [APICDRConsentResponse], managedObjectContext: NSManagedObjectContext) {
+        consentLock.lock()
+        
+        defer {
+            consentLock.unlock()
+        }
+        
+        updateObjectsWithResponse(type: Consent.self, objectsResponse: consentsResponse, primaryKey: #keyPath(Consent.consentID), linkedKeys: [], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+                NotificationCenter.default.post(name: Aggregation.consentsUpdatedNotification, object: self)
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
     
     private func handleProviderResponse(_ providerResponse: APIProviderResponse, managedObjectContext: NSManagedObjectContext) {
         providerLock.lock()

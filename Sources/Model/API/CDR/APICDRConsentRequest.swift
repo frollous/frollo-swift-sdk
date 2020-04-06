@@ -43,7 +43,7 @@ struct APICDRConsentCreateRequest: Codable {
 
 struct APICDRConsentUpdateRequest: Codable {
     /// The new status for the consent
-    public let status: CDRConsent.Status
+    public let status: Consent.Status
     
     /// The new value for the delete redundant data
     public let deleteRedundantData: Bool
@@ -52,10 +52,9 @@ struct APICDRConsentUpdateRequest: Codable {
      
      - parameters:
          - status: The new status for the consent
-         - deleteRedundantData: The new value for the delete redundant data
      */
-    public init(status: CDRConsent.Status, deleteRedundantData: Bool) {
+    public init(status: Consent.Status) {
         self.status = status
-        self.deleteRedundantData = deleteRedundantData
+        self.deleteRedundantData = true
     }
 }

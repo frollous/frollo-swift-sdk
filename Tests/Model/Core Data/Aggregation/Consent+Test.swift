@@ -15,17 +15,25 @@
 //
 
 import Foundation
+@testable import FrolloSDK
 
-struct APIProviderAccountCreateRequest: Codable {
+extension Consent: TestableCoreData {
     
-    enum CodingKeys: String, CodingKey {
-        case loginForm = "login_form"
-        case providerID = "provider_id"
-        case consentID = "consent_id"
+    func populateTestData() {
+        consentID = Int64.random(in: 1...Int64.max)
+        additionalPermissions = nil
+        permissions = [.accountDetails, .transactionDetails]
+        status = .active
+        sharingDuration = Int64.random(in: 1...Int64.max)
+        authorizationURL = nil
+        confirmationPDFURL = nil
+        withdrawalPDFURL = nil
     }
     
-    let loginForm: ProviderLoginForm
-    let providerID: Int64
-    let consentID: Int64?
+    func populateTestData(withID id: Int64) {
+        populateTestData()
+        
+        consentID = id
+    }
     
 }
