@@ -358,15 +358,14 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - consent: The form that will be submitted
         - completion: The block that will be executed when the submit request is complete
      */
-    public func submitCDRConsent(consent: CDRConsentForm.Post, completion: ((Result<Consent?, Error>) -> Void)?) {
+    public func submitCDRConsent(consent: CDRConsentForm.Post, completion: ((Result<Int64, Error>) -> Void)?) {
         service.submitCDRConsent(request: consent.apiRequest) { result in
             switch result {
                 case .success(let response):
                     let context = self.database.newBackgroundContext()
                     self.handleConsentResponse(response, managedObjectContext: context)
-                    let consent = self.consent(context: context, consentID: response.id)
                     DispatchQueue.main.async {
-                        completion?(.success(consent))
+                        completion?(.success(response.id))
                     }
                 case .failure(let error):
                     DispatchQueue.main.async {
@@ -383,16 +382,15 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - consent: The form that will be submitted
         - completion: The block that will be executed when the submit request is complete
      */
-    public func withdrawCDRConsent(id: Int64, completion: ((Result<Consent?, Error>) -> Void)?) {
+    public func withdrawCDRConsent(id: Int64, completion: FrolloSDKCompletionHandler?) {
         let request = APICDRConsentUpdateRequest(status: .withdrawn)
         service.updateCDRConsent(id: id, request: request) { result in
             switch result {
                 case .success(let response):
                     let context = self.database.newBackgroundContext()
                     self.handleConsentResponse(response, managedObjectContext: context)
-                    let consent = self.consent(context: context, consentID: response.id)
                     DispatchQueue.main.async {
-                        completion?(.success(consent))
+                        completion?(.success)
                     }
                 case .failure(let error):
                     DispatchQueue.main.async {
