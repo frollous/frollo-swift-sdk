@@ -108,6 +108,12 @@ public class Provider: NSManagedObject, UniqueManagedObject {
         /// Unsupported. Provider is no longer supported
         case unsupported
         
+        /// Outage. The Provider is currently experiencing an outage.
+        case outage
+        
+        /// Coming Soon. The Provider is coming soon, but cannot be linked when they are in this status.
+        case comingSoon = "coming_soon"
+        
     }
     
     /**
