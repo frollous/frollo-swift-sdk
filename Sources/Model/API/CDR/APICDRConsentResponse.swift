@@ -22,6 +22,7 @@ struct APICDRConsentResponse: Codable, APIUniqueResponse {
     enum CodingKeys: String, CodingKey {
         case id
         case providerID = "provider_id"
+        case providerAccountID = "provider_account_id"
         case sharingDuration = "sharing_duration"
         case permissions
         case additionalPermissions = "additional_permissions"
@@ -38,6 +39,9 @@ struct APICDRConsentResponse: Codable, APIUniqueResponse {
     
     /// The id for the provider
     let providerID: Int64
+    
+    /// The provider id for the consent
+    let providerAccountID: Int64
     
     /// Start date of the sharing window. This date is the date when the consent officially starts on the Data Holder's end.
     let sharingStartedAt: String?
