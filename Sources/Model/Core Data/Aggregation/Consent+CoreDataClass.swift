@@ -204,7 +204,7 @@ public class Consent: NSManagedObject, UniqueManagedObject {
     internal func update(response: APICDRConsentResponse, context: NSManagedObjectContext) {
         consentID = response.id
         providerID = response.providerID
-        providerAccountID = response.providerAccountID
+        providerAccountID = response.providerAccountID ?? -1
         if let sharingStartedAt = response.sharingStartedAt {
             self.sharingStartedAt = Consent.consentDateFormatter.date(from: sharingStartedAt)
         } else {
