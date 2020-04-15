@@ -103,6 +103,9 @@ public class ProviderAccount: NSManagedObject, UniqueManagedObject {
         if let account = object as? Account {
             addToAccounts(account)
         }
+        if let consent = object as? Consent {
+            addToConsents(consent)
+        }
     }
     
     // MARK: - Update from response

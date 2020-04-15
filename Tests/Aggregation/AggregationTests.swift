@@ -4415,6 +4415,134 @@ class AggregationTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
         
     }
+    
+    func testConsentsLinkToProvider() {
+        let expectation1 = expectation(description: "Database Request")
+        let expectation2 = expectation(description: "Network Request 1")
+        let expectation3 = expectation(description: "Network Request 2")
+        
+        connect(endpoint: AggregationEndpoint.providers.path.prefixedWithSlash, toResourceWithName: "providers_valid")
+        connect(endpoint: CDREndpoint.consents.path.prefixedWithSlash, toResourceWithName: "consents_valid")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        aggregation.refreshProviders { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+        
+        aggregation.refreshConsents { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+        
+        let context = database.viewContext
+        
+        let fetchRequest: NSFetchRequest<Consent> = Consent.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "consentID == %ld", argumentArray: [353])
+        
+        do {
+            let fetchedConsents = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedConsents.count, 1)
+            
+            if let consent = fetchedConsents.first {
+                XCTAssertNotNil(consent.provider)
+                XCTAssertEqual(consent.providerID, consent.provider?.providerID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
+    }
+    
+    func testConsentsLinkToProviderAccount() {
+        let expectation1 = expectation(description: "Database Request")
+        let expectation2 = expectation(description: "Network Request 1")
+        let expectation3 = expectation(description: "Network Request 2")
+        
+        connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "provider_accounts_valid")
+        connect(endpoint: CDREndpoint.consents.path.prefixedWithSlash, toResourceWithName: "consents_valid")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        aggregation.refreshConsents { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+        
+        aggregation.refreshProviderAccounts { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+        
+        let context = database.viewContext
+        
+        let fetchRequest: NSFetchRequest<Consent> = Consent.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "consentID == %ld", argumentArray: [351])
+        
+        do {
+            let fetchedConsents = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedConsents.count, 1)
+            
+            if let consent = fetchedConsents.first {
+                XCTAssertNotNil(consent.providerAccount)
+                XCTAssertEqual(consent.providerAccountID, consent.providerAccount?.providerAccountID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
+    }
 }
 
 

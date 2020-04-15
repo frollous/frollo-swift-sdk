@@ -101,6 +101,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
     private var linkingTransactionCategoryIDs = Set<Int64>()
     private var refreshingMerchantIDs = Set<Int64>()
     private var refreshingProviderIDs = Set<Int64>()
+    private var linkingConsentProviderIDs = Set<Int64>()
+    private var linkingConsentProviderAccountIDs = Set<Int64>()
     
     internal init(database: Database, service: APIService) {
         self.database = database
@@ -208,6 +210,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.handleProvidersResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
+                    self.linkConsentsToProviders(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.providersUpdatedNotification, object: self)
                     
@@ -317,6 +320,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     case .success(let response):
                         let managedObjectContext = self.database.newBackgroundContext()
                         self.handleConsentsResponse(response, managedObjectContext: managedObjectContext)
+                        self.linkConsentsToProviders(managedObjectContext: managedObjectContext)
+                        self.linkConsentsToProviderAccounts(managedObjectContext: managedObjectContext)
                         completion?(.success)
                 }
             }
@@ -343,7 +348,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleConsentResponse(response, managedObjectContext: managedObjectContext)
-                    
+                    self.linkConsentsToProviders(managedObjectContext: managedObjectContext)
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -364,6 +369,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 case .success(let response):
                     let context = self.database.newBackgroundContext()
                     self.handleConsentResponse(response, managedObjectContext: context)
+                    self.linkConsentsToProviders(managedObjectContext: context)
                     DispatchQueue.main.async {
                         completion?(.success(response.id))
                     }
@@ -389,6 +395,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 case .success(let response):
                     let context = self.database.newBackgroundContext()
                     self.handleConsentResponse(response, managedObjectContext: context)
+                    self.linkConsentsToProviders(managedObjectContext: context)
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -517,6 +524,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
                     
+                    self.linkConsentsToProviderAccounts(managedObjectContext: managedObjectContext)
+                    
                     NotificationCenter.default.post(name: Aggregation.providerAccountsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
@@ -549,6 +558,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.handleProviderAccountResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
+                    
+                    self.linkConsentsToProviderAccounts(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.providerAccountsUpdatedNotification, object: self)
                     
@@ -584,6 +595,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.handleProviderAccountResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
+                    
+                    self.linkConsentsToProviderAccounts(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.providerAccountsUpdatedNotification, object: self)
                     
@@ -2315,6 +2328,48 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
+    private func linkConsentsToProviders(managedObjectContext: NSManagedObjectContext) {
+        providerLock.lock()
+        consentLock.lock()
+        
+        defer {
+            providerLock.unlock()
+            consentLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: Consent.self, parentType: Provider.self, managedObjectContext: managedObjectContext, linkedIDs: linkingConsentProviderIDs, linkedKey: \Consent.providerID, linkedKeyName: #keyPath(Consent.providerID))
+        
+        linkingConsentProviderIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func linkConsentsToProviderAccounts(managedObjectContext: NSManagedObjectContext) {
+        providerAccountLock.lock()
+        consentLock.lock()
+        
+        defer {
+            providerAccountLock.unlock()
+            consentLock.unlock()
+        }
+        
+        linkingConsentProviderAccountIDs = linkObjectToParentObject(type: Consent.self, parentType: ProviderAccount.self, managedObjectContext: managedObjectContext, linkedIDs: linkingConsentProviderAccountIDs, linkedKey: \Consent.providerAccountID, linkedKeyName: #keyPath(Consent.providerAccountID))
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
     // MARK: - Response Handling
     
     private func handleConsentResponse(_ consentResponse: APICDRConsentResponse, managedObjectContext: NSManagedObjectContext) {
@@ -2325,6 +2380,11 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
         
         updateObjectWithResponse(type: Consent.self, objectResponse: consentResponse, primaryKey: #keyPath(Consent.consentID), managedObjectContext: managedObjectContext)
+        
+        linkingConsentProviderIDs.insert(consentResponse.providerID)
+        if let providerAccountID = consentResponse.providerAccountID {
+            linkingConsentProviderAccountIDs.insert(providerAccountID)
+        }
         
         managedObjectContext.performAndWait {
             do {
@@ -2343,7 +2403,15 @@ public class Aggregation: CachedObjects, ResponseHandler {
             consentLock.unlock()
         }
         
-        updateObjectsWithResponse(type: Consent.self, objectsResponse: consentsResponse, primaryKey: #keyPath(Consent.consentID), linkedKeys: [], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        let updatedLinkedIDs = updateObjectsWithResponse(type: Consent.self, objectsResponse: consentsResponse, primaryKey: #keyPath(Consent.consentID), linkedKeys: [\Consent.providerID], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        
+        if let providerIDs = updatedLinkedIDs[\Consent.providerID] {
+            linkingConsentProviderIDs = linkingConsentProviderIDs.union(providerIDs)
+        }
+        
+        if let providerAccountIDs = updatedLinkedIDs[\Consent.providerAccountID] {
+            linkingConsentProviderAccountIDs = linkingConsentProviderAccountIDs.union(providerAccountIDs)
+        }
         
         managedObjectContext.performAndWait {
             do {
@@ -2431,6 +2499,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         if let providerIDs = updatedLinkedIDs[\ProviderAccount.providerID] {
             linkingProviderIDs = linkingProviderIDs.union(providerIDs)
         }
+        
+        linkingConsentProviderAccountIDs = Set(providerAccountsResponse.map { $0.id })
         
         managedObjectContext.performAndWait {
             do {
