@@ -379,11 +379,37 @@ public class Aggregation: CachedObjects, ResponseHandler {
      Withdraws a consent deleting all its data
      
      - parameters:
-        - consent: The form that will be submitted
+        - id: ID of `Consent` to be withdrawn
         - completion: The block that will be executed when the submit request is complete
      */
     public func withdrawCDRConsent(id: Int64, completion: FrolloSDKCompletionHandler?) {
         let request = APICDRConsentUpdateRequest(status: .withdrawn)
+        service.updateCDRConsent(id: id, request: request) { result in
+            switch result {
+                case .success(let response):
+                    let context = self.database.newBackgroundContext()
+                    self.handleConsentResponse(response, managedObjectContext: context)
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Updates a consent sharing period
+     
+     - parameters:
+        - id: ID of `Consent` to be updated
+        - sharingDuration: sharingDuration (in seconds) of the consent that will be updated. This duration will be       added to the existing value by host.
+        - completion: The block that will be executed when the submit request is complete
+     */
+    public func updateCDRConsentSharingPeriod(id: Int64, sharingDuration: TimeInterval, completion: FrolloSDKCompletionHandler?) {
+        let request = APICDRConsentUpdateRequest(sharingDuration: sharingDuration)
         service.updateCDRConsent(id: id, request: request) { result in
             switch result {
                 case .success(let response):
