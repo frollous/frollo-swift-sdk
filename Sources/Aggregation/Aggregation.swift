@@ -405,7 +405,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - id: ID of `Consent` to be updated
-        - sharingDuration: sharingDuration (in seconds) of the consent that will be updated
+        - sharingDuration: sharingDuration (in seconds) of the consent that will be updated. This duration will be       added to the existing value by host.
         - completion: The block that will be executed when the submit request is complete
      */
     public func updateCDRConsentSharingPeriod(id: Int64, sharingDuration: TimeInterval, completion: FrolloSDKCompletionHandler?) {
