@@ -68,7 +68,7 @@
       "BudgetCategory",
       "ProviderLoginForm",
       "ProviderLoginFormViewModel",
-      "CDRConsent",
+      "Consent",
       "CDRConsentForm"
     ]
   },
