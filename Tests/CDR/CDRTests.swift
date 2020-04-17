@@ -109,7 +109,7 @@ class CDRTests: BaseTestCase {
             }
             
             let aggregation = self.aggregation(loggedIn: true)
-            aggregation.updateCDRConsentTimeInterval(id: 1, sharingDuration: 15778476) { (result) in
+            aggregation.updateCDRConsentSharingPeriod(id: 1, sharingDuration: 15778476) { (result) in
                 switch result {
                 case .success:
                     

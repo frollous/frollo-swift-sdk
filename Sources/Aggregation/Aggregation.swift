@@ -367,12 +367,21 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.submitCDRConsent(request: consent.apiRequest) { result in
             switch result {
                 case .success(let response):
-                    let context = self.database.newBackgroundContext()
-                    self.handleConsentResponse(response, managedObjectContext: context)
-                    self.linkConsentsToProviders(managedObjectContext: context)
-                    DispatchQueue.main.async {
-                        completion?(.success(response.id))
+                    
+                    // Since submitting a consent might affect other consents for the user, we need to refresh all of them
+                    self.refreshConsents { result in
+                        switch result {
+                            case .success:
+                                DispatchQueue.main.async {
+                                    completion?(.success(response.id))
+                                }
+                            case .failure(let error):
+                                DispatchQueue.main.async {
+                                    completion?(.failure(error))
+                                }
+                        }
                     }
+                    
                 case .failure(let error):
                     DispatchQueue.main.async {
                         completion?(.failure(error))
