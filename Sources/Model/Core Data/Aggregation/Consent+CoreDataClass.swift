@@ -35,9 +35,7 @@ public class Consent: NSManagedObject, UniqueManagedObject {
     }()
     
     /**
-     Provider permissions
-     
-     The permission groups that are supported by this Provider. For now, this is only returned for cdr type Providers, and it will always contain the following three values (as mandated by the CDR spec)
+     Defines all the possible cases of a permission attached to the consent
      */
     public enum Permission: String, Codable {
         
@@ -54,6 +52,9 @@ public class Consent: NSManagedObject, UniqueManagedObject {
         case unknown
     }
     
+    /**
+     Defines all the possible cases of the status of a consent
+     */
     public enum Status: String, Codable {
         
         /// Consent is still pending
@@ -149,6 +150,7 @@ public class Consent: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    /// The url used to login with the provider
     public var authorizationURL: URL? {
         get {
             guard let url = authorizationURLString else { return nil }
@@ -159,6 +161,7 @@ public class Consent: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    /// The URL of the confirmation PDF that shows the details of the consent
     public var confirmationPDFURL: URL? {
         get {
             guard let url = confirmationPDFURLString else { return nil }
@@ -169,6 +172,7 @@ public class Consent: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    /// The URL of the withdrawal PDF that shows the details of the withdrawal
     public var withdrawalPDFURL: URL? {
         get {
             guard let url = withdrawalPDFURLString else { return nil }
@@ -179,6 +183,7 @@ public class Consent: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    /// The start date of the consent sharing
     public var sharingStartedAt: Date? {
         get {
             guard let startedAt = sharingStartedAtRawValue else { return nil }

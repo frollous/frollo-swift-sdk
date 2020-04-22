@@ -101,6 +101,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
     private var linkingTransactionCategoryIDs = Set<Int64>()
     private var refreshingMerchantIDs = Set<Int64>()
     private var refreshingProviderIDs = Set<Int64>()
+    private var linkingConsentProviderIDs = Set<Int64>()
+    private var linkingConsentProviderAccountIDs = Set<Int64>()
     
     internal init(database: Database, service: APIService) {
         self.database = database
@@ -208,6 +210,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.handleProvidersResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
+                    self.linkConsentsToProviders(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.providersUpdatedNotification, object: self)
                     
@@ -317,6 +320,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     case .success(let response):
                         let managedObjectContext = self.database.newBackgroundContext()
                         self.handleConsentsResponse(response, managedObjectContext: managedObjectContext)
+                        self.linkConsentsToProviders(managedObjectContext: managedObjectContext)
+                        self.linkConsentsToProviderAccounts(managedObjectContext: managedObjectContext)
                         completion?(.success)
                 }
             }
@@ -343,7 +348,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleConsentResponse(response, managedObjectContext: managedObjectContext)
-                    
+                    self.linkConsentsToProviders(managedObjectContext: managedObjectContext)
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -362,11 +367,21 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.submitCDRConsent(request: consent.apiRequest) { result in
             switch result {
                 case .success(let response):
-                    let context = self.database.newBackgroundContext()
-                    self.handleConsentResponse(response, managedObjectContext: context)
-                    DispatchQueue.main.async {
-                        completion?(.success(response.id))
+                    
+                    // Since submitting a consent might affect other consents for the user, we need to refresh all of them
+                    self.refreshConsents { result in
+                        switch result {
+                            case .success:
+                                DispatchQueue.main.async {
+                                    completion?(.success(response.id))
+                                }
+                            case .failure(let error):
+                                DispatchQueue.main.async {
+                                    completion?(.failure(error))
+                                }
+                        }
                     }
+                    
                 case .failure(let error):
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -379,11 +394,38 @@ public class Aggregation: CachedObjects, ResponseHandler {
      Withdraws a consent deleting all its data
      
      - parameters:
-        - consent: The form that will be submitted
+        - id: ID of `Consent` to be withdrawn
         - completion: The block that will be executed when the submit request is complete
      */
     public func withdrawCDRConsent(id: Int64, completion: FrolloSDKCompletionHandler?) {
         let request = APICDRConsentUpdateRequest(status: .withdrawn)
+        service.updateCDRConsent(id: id, request: request) { result in
+            switch result {
+                case .success(let response):
+                    let context = self.database.newBackgroundContext()
+                    self.handleConsentResponse(response, managedObjectContext: context)
+                    self.linkConsentsToProviders(managedObjectContext: context)
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Updates a consent sharing period
+     
+     - parameters:
+        - id: ID of `Consent` to be updated
+        - sharingDuration: sharingDuration (in seconds) of the consent that will be updated. This duration will be       added to the existing value by host.
+        - completion: The block that will be executed when the submit request is complete
+     */
+    public func updateCDRConsentSharingPeriod(id: Int64, sharingDuration: TimeInterval, completion: FrolloSDKCompletionHandler?) {
+        let request = APICDRConsentUpdateRequest(sharingDuration: sharingDuration)
         service.updateCDRConsent(id: id, request: request) { result in
             switch result {
                 case .success(let response):
@@ -491,6 +533,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
                     
+                    self.linkConsentsToProviderAccounts(managedObjectContext: managedObjectContext)
+                    
                     NotificationCenter.default.post(name: Aggregation.providerAccountsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
@@ -523,6 +567,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.handleProviderAccountResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
+                    
+                    self.linkConsentsToProviderAccounts(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.providerAccountsUpdatedNotification, object: self)
                     
@@ -558,6 +604,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.handleProviderAccountResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
+                    
+                    self.linkConsentsToProviderAccounts(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.providerAccountsUpdatedNotification, object: self)
                     
@@ -2289,6 +2337,48 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
+    private func linkConsentsToProviders(managedObjectContext: NSManagedObjectContext) {
+        providerLock.lock()
+        consentLock.lock()
+        
+        defer {
+            providerLock.unlock()
+            consentLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: Consent.self, parentType: Provider.self, managedObjectContext: managedObjectContext, linkedIDs: linkingConsentProviderIDs, linkedKey: \Consent.providerID, linkedKeyName: #keyPath(Consent.providerID))
+        
+        linkingConsentProviderIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func linkConsentsToProviderAccounts(managedObjectContext: NSManagedObjectContext) {
+        providerAccountLock.lock()
+        consentLock.lock()
+        
+        defer {
+            providerAccountLock.unlock()
+            consentLock.unlock()
+        }
+        
+        linkingConsentProviderAccountIDs = linkObjectToParentObject(type: Consent.self, parentType: ProviderAccount.self, managedObjectContext: managedObjectContext, linkedIDs: linkingConsentProviderAccountIDs, linkedKey: \Consent.providerAccountID, linkedKeyName: #keyPath(Consent.providerAccountID))
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
     // MARK: - Response Handling
     
     private func handleConsentResponse(_ consentResponse: APICDRConsentResponse, managedObjectContext: NSManagedObjectContext) {
@@ -2299,6 +2389,11 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
         
         updateObjectWithResponse(type: Consent.self, objectResponse: consentResponse, primaryKey: #keyPath(Consent.consentID), managedObjectContext: managedObjectContext)
+        
+        linkingConsentProviderIDs.insert(consentResponse.providerID)
+        if let providerAccountID = consentResponse.providerAccountID {
+            linkingConsentProviderAccountIDs.insert(providerAccountID)
+        }
         
         managedObjectContext.performAndWait {
             do {
@@ -2317,7 +2412,15 @@ public class Aggregation: CachedObjects, ResponseHandler {
             consentLock.unlock()
         }
         
-        updateObjectsWithResponse(type: Consent.self, objectsResponse: consentsResponse, primaryKey: #keyPath(Consent.consentID), linkedKeys: [], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        let updatedLinkedIDs = updateObjectsWithResponse(type: Consent.self, objectsResponse: consentsResponse, primaryKey: #keyPath(Consent.consentID), linkedKeys: [\Consent.providerID], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        
+        if let providerIDs = updatedLinkedIDs[\Consent.providerID] {
+            linkingConsentProviderIDs = linkingConsentProviderIDs.union(providerIDs)
+        }
+        
+        if let providerAccountIDs = updatedLinkedIDs[\Consent.providerAccountID] {
+            linkingConsentProviderAccountIDs = linkingConsentProviderAccountIDs.union(providerAccountIDs)
+        }
         
         managedObjectContext.performAndWait {
             do {
@@ -2405,6 +2508,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         if let providerIDs = updatedLinkedIDs[\ProviderAccount.providerID] {
             linkingProviderIDs = linkingProviderIDs.union(providerIDs)
         }
+        
+        linkingConsentProviderAccountIDs = Set(providerAccountsResponse.map { $0.id })
         
         managedObjectContext.performAndWait {
             do {

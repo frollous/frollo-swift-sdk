@@ -90,6 +90,52 @@ class CDRTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testUpdateConsent_ShouldWUpdateSharingPeriod() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: CDREndpoint.consents(id: 1).path.prefixedWithSlash, method: .put, toResourceWithName: "consent_update_period_response")
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let consent1 = Consent(context: managedObjectContext)
+                consent1.populateTestData()
+                consent1.consentID = 39
+                consent1.sharingDuration = 15778476
+                try! managedObjectContext.save()
+            }
+            
+            let aggregation = self.aggregation(loggedIn: true)
+            aggregation.updateCDRConsentSharingPeriod(id: 1, sharingDuration: 15778476) { (result) in
+                switch result {
+                case .success:
+                    
+                    let context = self.context
+                                           
+                     let fetchRequest: NSFetchRequest<Consent> = Consent.fetchRequest()
+                                           
+                    do {
+                        let fetchedConsent = try context.fetch(fetchRequest).first
+                        XCTAssertEqual(fetchedConsent?.consentID, 39)
+                        XCTAssertEqual(fetchedConsent?.sharingDuration, 31556952)
+                    } catch {
+                        XCTFail(error.localizedDescription)
+                    }
+                    
+                    expectation1.fulfill()
+                    break
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testFetchProductsByAccountID() {
 
         let expectation1 = expectation(description: "Network Request 1")

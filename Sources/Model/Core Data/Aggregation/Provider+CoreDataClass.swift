@@ -300,6 +300,9 @@ public class Provider: NSManagedObject, UniqueManagedObject {
         if let providerAccount = object as? ProviderAccount {
             addToProviderAccounts(providerAccount)
         }
+        if let consent = object as? Consent {
+            addToConsents(consent)
+        }
     }
     
     internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {

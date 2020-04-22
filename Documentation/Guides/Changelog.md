@@ -1,5 +1,16 @@
 # Changelog
 
+## 4.6.0
+
+### Features
+
+- Included provider availability status
+- Added consent object caching
+
+### Fixes
+
+- Fix for sending a push notification sent to SDK before setup has completed
+
 ## 4.5.1
 
 ### Features

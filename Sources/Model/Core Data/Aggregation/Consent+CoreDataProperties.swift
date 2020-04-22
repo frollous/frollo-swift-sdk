@@ -62,4 +62,10 @@ extension Consent {
     /// The PDF url that contains the withdrawal information
     @NSManaged public var withdrawalPDFURLString: String?
     
+    /// The provider associated with the consent
+    @NSManaged public var provider: Provider?
+    
+    /// The provider account associated with the consent
+    @NSManaged public var providerAccount: ProviderAccount?
+    
 }

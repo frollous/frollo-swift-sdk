@@ -65,6 +65,9 @@ extension ProviderAccount {
     /// Parent provider
     @NSManaged public var provider: Provider?
     
+    /// Child associated consents
+    @NSManaged public var consents: Set<Consent>?
+    
 }
 
 // MARK: Generated accessors for accounts
@@ -86,5 +89,27 @@ extension ProviderAccount {
     /// Remove account relationships
     @objc(removeAccounts:)
     @NSManaged public func removeFromAccounts(_ values: Set<Account>)
+    
+}
+
+// MARK: Generated accessors for consents
+
+extension ProviderAccount {
+    
+    /// Add a consent relationship
+    @objc(addConsentsObject:)
+    @NSManaged public func addToConsents(_ value: Consent)
+    
+    /// Remove a consent relationship
+    @objc(removeConsentsObject:)
+    @NSManaged public func removeFromConsents(_ value: Consent)
+    
+    /// Add consent relationships
+    @objc(addConsents:)
+    @NSManaged public func addToConsents(_ values: Set<Consent>)
+    
+    /// Remove consent relationships
+    @objc(removeConsents:)
+    @NSManaged public func removeFromConsents(_ values: Set<Consent>)
     
 }

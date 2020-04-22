@@ -1,8 +1,8 @@
 [
     {
         "id": 351,
-        "provider_id": 22580,
-        "provider_account_id": 1707,
+        "provider_id": 11582,
+        "provider_account_id": 623,
         "status": "withdrawn",
         "sharing_duration": 15814800,
         "permissions": [
@@ -16,7 +16,7 @@
     },
     {
         "id": 286,
-        "provider_id": 22580,
+        "provider_id": 447,
         "provider_account_id": 1597,
         "status": "withdrawn",
         "sharing_duration": 15814800,
@@ -31,7 +31,7 @@
     },
     {
         "id": 353,
-        "provider_id": 632,
+        "provider_id": 447,
         "provider_account_id": 1709,
         "status": "active",
         "sharing_started_at": "2020-03-23",
@@ -43,7 +43,7 @@
     },
     {
         "id": 401,
-        "provider_id": 4078,
+        "provider_id": 447,
         "provider_account_id": 1574,
         "status": "active",
         "sharing_started_at": "2020-04-01",
@@ -55,7 +55,7 @@
     },
     {
         "id": 332,
-        "provider_id": 22766,
+        "provider_id": 447,
         "provider_account_id": 1654,
         "status": "withdrawn",
         "sharing_started_at": "2020-03-10",
@@ -70,23 +70,18 @@
         "withdrawal_pdf_url": "/api/v2/cdr/consents/332/pdfs/withdrawal"
     },
     {
-        "id": 369,
-        "provider_id": 22580,
-        "provider_account_id": 1738,
-        "status": "withdrawn",
-        "sharing_duration": 15814800,
-        "permissions": [
-            "account_details",
-            "transaction_details"
-        ],
+        "id": 705,
+        "provider_id": 447,
+        "provider_account_id": 2382,
+        "status": "pending",
+        "sharing_duration": 15721200,
+        "permissions": ["account_details", "transaction_details"],
         "additional_permissions": {},
-        "delete_redundant_data": true,
-        "confirmation_pdf_url": "/api/v2/cdr/consents/369/pdfs/confirmation",
-        "withdrawal_pdf_url": "/api/v2/cdr/consents/369/pdfs/withdrawal"
+        "delete_redundant_data": true
     },
     {
         "id": 370,
-        "provider_id": 22580,
+        "provider_id": 447,
         "provider_account_id": 1740,
         "status": "pending",
         "sharing_duration": 15814800,
@@ -100,7 +95,7 @@
     },
     {
         "id": 371,
-        "provider_id": 22766,
+        "provider_id": 447,
         "provider_account_id": 1742,
         "status": "active",
         "sharing_started_at": "2020-03-25",

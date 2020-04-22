@@ -67,9 +67,17 @@
       "AccountRefreshAdditionalStatus",
       "BudgetCategory",
       "ProviderLoginForm",
-      "ProviderLoginFormViewModel",
-      "CDRConsent",
-      "CDRConsentForm"
+      "ProviderLoginFormViewModel"
+    ]
+  },
+  {
+    "name": "Open Banking",
+    "children": [
+      "Consent",
+      "CDRConsentForm",
+      "CDRProduct",
+      "CDRProductCategory",
+      "CDRProductInformation"
     ]
   },
   {

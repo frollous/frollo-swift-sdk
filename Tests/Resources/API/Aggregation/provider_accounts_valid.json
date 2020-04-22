@@ -7,7 +7,11 @@
 		"status": "success",
 		"sub_status": "success",
 		"last_refreshed": "2018-08-02T01:40:26.000+00:00"
-	}
+	},
+    "consent": {
+        "id": 351,
+        "status": "withdrawn",
+    }
 }, {
 	"id": 624,
 	"provider_id": 11583,
@@ -19,15 +23,19 @@
 		"last_refreshed": "2018-08-02T07:12:49.696+10:00"
 	}
 }, {
-	"id": 625,
-	"provider_id": 11584,
-	"external_id": "AEC25309-27E6-4CD4-8272-F6C4F61F2DB5",
-	"editable": true,
-	"refresh_status": {
-		"status": "success",
-		"sub_status": "success",
-		"last_refreshed": "2018-08-02T07:12:49.696+10:00"
-	}
+    "id": 2382,
+    "external_id": "22255358",
+    "provider_id": 595,
+    "editable": true,
+    "refresh_status": {
+        "status": "needs_action",
+        "sub_status": "relogin_required",
+        "additional_status": "invalid_credentials"
+    },
+    "consent": {
+        "id": 705,
+        "status": "pending"
+    }
 }, {
 	"id": 867,
 	"provider_id": 12345,
