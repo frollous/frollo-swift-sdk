@@ -45,7 +45,7 @@ class CDRTests: BaseTestCase {
         let expectation1 = expectation(description: "Network Request 1")
         
         connect(endpoint: CDREndpoint.consents.path.prefixedWithSlash, method: .post, toResourceWithName: "post_consent")
-        connect(endpoint: CDREndpoint.consents(id: 410).path.prefixedWithSlash, method: .get, toResourceWithName: "get_consent")
+        connect(endpoint: CDREndpoint.consents.path.prefixedWithSlash, method: .get, toResourceWithName: "consents_valid")
         
         database.setup { error in
             XCTAssertNil(error)
@@ -54,12 +54,13 @@ class CDRTests: BaseTestCase {
             let consent = CDRConsentForm.Post(providerID: 1, sharingDuration: 100, permissions: [])
             aggregation.submitCDRConsent(consent: consent) { (result) in
                 switch result {
-                case .success:
-                    expectation1.fulfill()
-                    break
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
+                    case .success:
+                        break
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
                 }
+                
+                expectation1.fulfill()
             }
         }
         
@@ -78,12 +79,13 @@ class CDRTests: BaseTestCase {
             let aggregation = self.aggregation(loggedIn: true)
             aggregation.withdrawCDRConsent(id: 1) { (result) in
                 switch result {
-                case .success:
-                    expectation1.fulfill()
-                    break
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
+                    case .success:
+                        break
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
                 }
+                
+                expectation1.fulfill()
             }
         }
         
