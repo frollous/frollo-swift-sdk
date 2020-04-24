@@ -32,16 +32,6 @@ public class Tag: NSManagedObject {
     
     // MARK: - Updating Object
     
-    internal func linkObject(object: NSManagedObject) {
-        // Not used
-    }
-    
-    internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
-        if let tagResponse = response as? APITransactionTagResponse {
-            update(response: tagResponse, context: context)
-        }
-    }
-    
     internal func update(response: APITransactionTagResponse, context: NSManagedObjectContext) {
         name = response.name
         count = response.count ?? -1

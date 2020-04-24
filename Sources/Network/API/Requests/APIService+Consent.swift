@@ -20,7 +20,27 @@ import Alamofire
 
 extension APIService {
     
-    func submitCDRConsent(request: APICDRConsentCreateRequest, completion: @escaping RequestCompletion<APICDRConsentResponse>) {
+    internal func fetchConsents(completion: @escaping RequestCompletion<[APICDRConsentResponse]>) {
+        requestQueue.async {
+            let url = URL(string: CDREndpoint.consents.path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleArrayResponse(type: APICDRConsentResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func fetchConsent(consentID: Int64, completion: @escaping RequestCompletion<APICDRConsentResponse>) {
+        requestQueue.async {
+            let url = URL(string: CDREndpoint.consents(id: consentID).path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APICDRConsentResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func submitConsent(request: APICDRConsentCreateRequest, completion: @escaping RequestCompletion<APICDRConsentResponse>) {
         requestQueue.async {
             let url = URL(string: CDREndpoint.consents(id: nil).path, relativeTo: self.serverURL)!
             
@@ -38,9 +58,9 @@ extension APIService {
         }
     }
     
-    func updateCDRConsent(id: Int64, request: APICDRConsentUpdateRequest, completion: @escaping RequestCompletion<APICDRConsentResponse>) {
+    internal func updateConsent(consentID: Int64, request: APICDRConsentUpdateRequest, completion: @escaping RequestCompletion<APICDRConsentResponse>) {
         requestQueue.async {
-            let url = URL(string: CDREndpoint.consents(id: id).path, relativeTo: self.serverURL)!
+            let url = URL(string: CDREndpoint.consents(id: consentID).path, relativeTo: self.serverURL)!
             
             guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: request)
             else {
@@ -56,17 +76,7 @@ extension APIService {
         }
     }
     
-    func fetchCDRConsent(id: Int64, completion: @escaping RequestCompletion<APICDRConsentResponse>) {
-        requestQueue.async {
-            let url = URL(string: CDREndpoint.consents(id: id).path, relativeTo: self.serverURL)!
-            
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: APICDRConsentResponse.self, errorType: APIError.self, response: response, completion: completion)
-            }
-        }
-    }
-    
-    func fetchProducts(accountID: Int64, completion: @escaping RequestCompletion<[CDRProduct]>) {
+    internal func fetchProducts(accountID: Int64, completion: @escaping RequestCompletion<[CDRProduct]>) {
         requestQueue.async {
             let url = URL(string: CDREndpoint.products.path, relativeTo: self.serverURL)!
             
