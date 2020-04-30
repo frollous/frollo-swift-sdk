@@ -364,7 +364,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: The block that will be executed when the submit request is complete
      */
     public func submitCDRConsent(consent: CDRConsentForm.Post, completion: ((Result<Int64, Error>) -> Void)?) {
-        service.submitCDRConsent(request: consent.apiRequest) { result in
+        service.submitConsent(request: consent.apiRequest) { result in
             switch result {
                 case .success(let response):
                     
@@ -399,7 +399,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
      */
     public func withdrawCDRConsent(id: Int64, completion: FrolloSDKCompletionHandler?) {
         let request = APICDRConsentUpdateRequest(status: .withdrawn)
-        service.updateCDRConsent(id: id, request: request) { result in
+        service.updateConsent(consentID: id, request: request) { result in
             switch result {
                 case .success(let response):
                     let context = self.database.newBackgroundContext()
@@ -426,7 +426,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
      */
     public func updateCDRConsentSharingPeriod(id: Int64, sharingDuration: TimeInterval, completion: FrolloSDKCompletionHandler?) {
         let request = APICDRConsentUpdateRequest(sharingDuration: sharingDuration)
-        service.updateCDRConsent(id: id, request: request) { result in
+        service.updateConsent(consentID: id, request: request) { result in
             switch result {
                 case .success(let response):
                     let context = self.database.newBackgroundContext()
@@ -1269,7 +1269,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                         completion?(.failure(error))
                     }
                     
-                case .success(let before, let after, let total, _, _, _, _):
+                case .success(let (before, after, total, _, _, _, _)):
                     
                     if after == nil {
                         DispatchQueue.main.async {

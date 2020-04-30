@@ -3536,7 +3536,7 @@ class AggregationTests: BaseTestCase {
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
-                case .success(let before, let after, let total):
+                case .success(let (before, after, total)):
                     XCTAssertEqual(before, "10")
                     XCTAssertEqual(after, "60")
                     XCTAssertEqual(total, 100)
@@ -3576,7 +3576,7 @@ class AggregationTests: BaseTestCase {
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
-                    case .success(let before, let after, _):
+                    case .success(let (before, after, _)):
                         XCTAssertEqual(before, "60")
                         XCTAssertEqual(after, "110")
                 }
@@ -4002,7 +4002,7 @@ class AggregationTests: BaseTestCase {
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
-                case .success(let before, let after, let total):
+                case .success(let (before, after, total)):
                     
                     XCTAssertEqual(before, "60")
                     XCTAssertEqual(after, "110")
