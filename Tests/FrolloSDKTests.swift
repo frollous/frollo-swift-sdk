@@ -688,8 +688,14 @@ class FrolloSDKTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
+        var firedOnce = false
+        
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.device.path)) { (request) -> OHHTTPStubsResponse in
-            expectation1.fulfill()
+            if !firedOnce {
+                expectation1.fulfill()
+                
+            firedOnce = true
+            }
             
             return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
