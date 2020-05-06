@@ -41,7 +41,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     }()
     
     /// Delegate to get callbacks from certain events within the SDK such as messages being received
-    public weak var delegate: FrolloSDKDelegate?{
+    public weak var delegate: FrolloSDKDelegate? {
         didSet {
             _events?.delegate = delegate
             _messages?.delegate = delegate
