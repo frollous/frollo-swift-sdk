@@ -25,9 +25,11 @@ extension Consent: TestableCoreData {
         permissions = [.accountDetails, .transactionDetails]
         status = .active
         sharingDuration = Int64.random(in: 1...Int64.max)
-        authorizationURL = nil
-        confirmationPDFURL = nil
-        withdrawalPDFURL = nil
+        sharingStartedAtRawValue = "2020-01-03"
+        sharingStoppedAtRawValue = "2020-05-03"
+        authorizationURLString = "https://example.com/authorize"
+        confirmationPDFURLString = "https://example.com/confirmation.pdf"
+        withdrawalPDFURLString = "https://example.com/withdraw"
     }
     
     func populateTestData(withID id: Int64) {

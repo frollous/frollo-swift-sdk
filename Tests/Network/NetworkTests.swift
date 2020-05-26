@@ -169,9 +169,9 @@ class NetworkTests: BaseTestCase {
             XCTAssertTrue(request.allHTTPHeaderFields?["X-Device-Version"]?.contains(ProcessInfo.processInfo.operatingSystemVersionString) == true)
             
             if Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleVersion) != nil && Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) != nil {
-                XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "SDK4.6.0-B460|APP1.0-B1")
+                XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "SDK4.6.1-B461|APP1.0-B1")
             } else {
-                XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "SDK4.6.0-B460")
+                XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "SDK4.6.1-B461")
             }
             
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])

@@ -632,7 +632,7 @@ class FrolloSDKTests: XCTestCase {
         
         let sdk = Frollo()
         
-        populateTestDataNamed(name: "FrolloSDKDataModel-1.2.0", atPath: Frollo.defaultDataFolderURL)
+        populateTestDataNamed(name: "FrolloSDKDataModel-1.7.0", atPath: Frollo.defaultDataFolderURL)
         
         sdk.setup(configuration: config) { (result) in
             switch result {

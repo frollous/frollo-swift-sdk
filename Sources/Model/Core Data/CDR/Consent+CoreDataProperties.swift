@@ -32,40 +32,43 @@ extension Consent {
     /// Unique ID of the consent
     @NSManaged public var consentID: Int64
     
-    /// Raw value for the additional permissions. Use only in predicates
+    /// Raw value for the additional permissions. Use only in predicates (Optional)
     @NSManaged public var additionalPermissionsRawValue: Data?
     
-    /// The url used to login with the provider
+    /// The url used to login with the provider (Optional)
     @NSManaged public var authorizationURLString: String?
     
-    /// The confirmation PDF generated after the consent becomes active
+    /// The confirmation PDF generated after the consent becomes active (Optional)
     @NSManaged public var confirmationPDFURLString: String?
     
     /// Raw value for the permissions. Use only in predicates
     @NSManaged public var permissionsRawValue: String
     
-    /// The provider account id related to the consent
+    /// The provider account ID related to the consent
     @NSManaged public var providerAccountID: Int64
     
-    /// The provider id related to the consent
+    /// The provider ID related to the consent
     @NSManaged public var providerID: Int64
     
     /// The duration (in seconds) of the sharing
     @NSManaged public var sharingDurationRawValue: Int64
     
-    /// The start date of the consent sharing
+    /// Raw value of the consent started at date. Use only in predicates (Optional)
     @NSManaged public var sharingStartedAtRawValue: String?
+    
+    /// Raw value of the consent stopped at date. Use only in predicates (Optional)
+    @NSManaged public var sharingStoppedAtRawValue: String?
     
     /// Raw value for the status. Use only in predicates
     @NSManaged public var statusRawValue: String
     
-    /// The PDF url that contains the withdrawal information
+    /// The PDF URL string that contains the withdrawal information (Optional)
     @NSManaged public var withdrawalPDFURLString: String?
     
-    /// The provider associated with the consent
+    /// The provider associated with the consent (Optional)
     @NSManaged public var provider: Provider?
     
-    /// The provider account associated with the consent
+    /// The provider account associated with the consent (Optional)
     @NSManaged public var providerAccount: ProviderAccount?
     
 }

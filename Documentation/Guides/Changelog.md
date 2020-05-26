@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.6.1
+
+### Features
+
+- Added support for Sharing Stopped At field on Consents
+
 ## 4.6.0
 
 ### Features

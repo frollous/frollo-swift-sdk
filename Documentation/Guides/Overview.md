@@ -120,8 +120,6 @@ The following features are part of budgets and pay day:
 See [Budgets](budgets.html) for more details.
 See [PayDays](paydays.html) for more details.
 
-*Coming Soon to SDK*
-
 ## Reports
 
 Reports give a breakdown of a user's spending or an account balance history. Reports can be used to show the user spending in various periods or allow the user to drill down and explore their spend in a variety of ways. Reports data is also suitable for driving graphs.

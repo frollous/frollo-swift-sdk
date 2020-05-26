@@ -110,46 +110,6 @@ public class Consent: NSManagedObject, UniqueManagedObject {
         }
     }
     
-    /// The permissions on the consent
-    public var permissions: [Permission] {
-        get {
-            let permissionStrings = permissionsRawValue.components(separatedBy: "|")
-            return permissionStrings.map { Consent.Permission(rawValue: $0) }.compactMap { $0 }
-        }
-        set {
-            let newString = newValue.map { $0.rawValue }.joined(separator: "|")
-            permissionsRawValue = "|" + newString + "|"
-        }
-    }
-    
-    /// The status of the consent
-    public var status: Status {
-        get {
-            return Status(rawValue: statusRawValue) ?? .unknown
-        }
-        set {
-            statusRawValue = newValue.rawValue
-        }
-    }
-    
-    /// The sharing duration (in seconds) of the consent
-    public var sharingDuration: Int64? {
-        get {
-            if sharingDurationRawValue == -1 {
-                return nil
-            } else {
-                return sharingDurationRawValue
-            }
-        }
-        set {
-            if let newValue = newValue {
-                sharingDurationRawValue = newValue
-            } else {
-                sharingDurationRawValue = -1
-            }
-        }
-    }
-    
     /// The url used to login with the provider
     public var authorizationURL: URL? {
         get {
@@ -172,14 +132,33 @@ public class Consent: NSManagedObject, UniqueManagedObject {
         }
     }
     
-    /// The URL of the withdrawal PDF that shows the details of the withdrawal
-    public var withdrawalPDFURL: URL? {
+    /// The permissions on the consent
+    public var permissions: [Permission] {
         get {
-            guard let url = withdrawalPDFURLString else { return nil }
-            return URL(string: url)
+            let permissionStrings = permissionsRawValue.components(separatedBy: "|")
+            return permissionStrings.map { Consent.Permission(rawValue: $0) }.compactMap { $0 }
         }
         set {
-            withdrawalPDFURLString = newValue?.absoluteString
+            let newString = newValue.map { $0.rawValue }.joined(separator: "|")
+            permissionsRawValue = "|" + newString + "|"
+        }
+    }
+    
+    /// The sharing duration (in seconds) of the consent
+    public var sharingDuration: Int64? {
+        get {
+            if sharingDurationRawValue == -1 {
+                return nil
+            } else {
+                return sharingDurationRawValue
+            }
+        }
+        set {
+            if let newValue = newValue {
+                sharingDurationRawValue = newValue
+            } else {
+                sharingDurationRawValue = -1
+            }
         }
     }
     
@@ -198,6 +177,42 @@ public class Consent: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    /// The date the consent expired or was withdrawn
+    public var sharingStoppedAt: Date? {
+        get {
+            guard let stoppedAt = sharingStoppedAtRawValue else { return nil }
+            return Consent.consentDateFormatter.date(from: stoppedAt)
+        }
+        set {
+            if let newValue = newValue {
+                sharingStoppedAtRawValue = Consent.consentDateFormatter.string(from: newValue)
+            } else {
+                sharingStoppedAtRawValue = nil
+            }
+        }
+    }
+    
+    /// The status of the consent
+    public var status: Status {
+        get {
+            return Status(rawValue: statusRawValue) ?? .unknown
+        }
+        set {
+            statusRawValue = newValue.rawValue
+        }
+    }
+    
+    /// The URL of the withdrawal PDF that shows the details of the withdrawal
+    public var withdrawalPDFURL: URL? {
+        get {
+            guard let url = withdrawalPDFURLString else { return nil }
+            return URL(string: url)
+        }
+        set {
+            withdrawalPDFURLString = newValue?.absoluteString
+        }
+    }
+    
     internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
         if let accountResponse = response as? APICDRConsentResponse {
             update(response: accountResponse, context: context)
@@ -210,11 +225,6 @@ public class Consent: NSManagedObject, UniqueManagedObject {
         consentID = response.id
         providerID = response.providerID
         providerAccountID = response.providerAccountID ?? -1
-        if let sharingStartedAt = response.sharingStartedAt {
-            self.sharingStartedAt = Consent.consentDateFormatter.date(from: sharingStartedAt)
-        } else {
-            sharingStartedAt = nil
-        }
         sharingDuration = response.sharingDuration
         permissions = response.permissions.map { Consent.Permission(rawValue: $0) }.compactMap { $0 }
         additionalPermissions = response.additionalPermissions
@@ -222,5 +232,17 @@ public class Consent: NSManagedObject, UniqueManagedObject {
         authorizationURL = response.authorisationRequestURL?.url
         confirmationPDFURL = response.confirmationPDFURL?.url
         withdrawalPDFURL = response.withdrawalPDFURL?.url
+        
+        if let startedAt = response.sharingStartedAt {
+            sharingStartedAt = Consent.consentDateFormatter.date(from: startedAt)
+        } else {
+            sharingStartedAt = nil
+        }
+        
+        if let stoppedAt = response.sharingStoppedAt {
+            sharingStoppedAt = Consent.consentDateFormatter.date(from: stoppedAt)
+        } else {
+            sharingStoppedAt = nil
+        }
     }
 }
