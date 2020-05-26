@@ -1744,6 +1744,34 @@ public class Aggregation: CachedObjects, ResponseHandler {
     }
     
     /**
+     Gets all cached user tags for transactions.
+     - parameters:
+     - context: Managed object context to fetch these from; background or main thread
+     - including: Names of tags to filter results by
+     - sortedBy: Array of sort descriptors to sort the results by (Optional). By default sorts by tag name; ascending.
+     - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func transactionUserTags(context: NSManagedObjectContext, including names: [String], sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)], limit: Int? = nil) -> [Tag]? {
+        let predicate = NSPredicate(format: Tag.primaryKey + " IN %@", argumentArray: [names])
+        
+        return transactionUserTags(context: context, filteredBy: predicate, sortedBy: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Gets all cached user tags for transactions.
+     - parameters:
+     - context: Managed object context to fetch these from; background or main thread
+     - excluding: Names of tags to be excluded from the results
+     - sortedBy: Array of sort descriptors to sort the results by (Optional). By default sorts by tag name; ascending.
+     - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func transactionUserTags(context: NSManagedObjectContext, excluding names: [String], sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)], limit: Int? = nil) -> [Tag]? {
+        let predicate = NSPredicate(format: "NOT " + Tag.primaryKey + " IN %@", argumentArray: [names])
+        
+        return transactionUserTags(context: context, filteredBy: predicate, sortedBy: sortDescriptors, limit: limit)
+    }
+    
+    /**
      Refreshes the transactions in the database.
      - parameter completion: The completion block that will be executed after the response from the server. The result will be empty with either success, or failure with an error.
      */

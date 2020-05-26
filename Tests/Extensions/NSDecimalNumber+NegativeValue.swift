@@ -17,7 +17,9 @@
 import Foundation
 
 extension NSDecimalNumber {
-    var negativeValue: NSDecimalNumber {
+    
+    internal var negativeValue: NSDecimalNumber {
         return multiplying(by: NSDecimalNumber(mantissa: 1, exponent: 0, isNegative: true))
     }
+    
 }

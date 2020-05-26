@@ -302,7 +302,7 @@ extension Budget {
         
     }
     
-    func linkObject(object: NSManagedObject) {
+    internal func linkObject(object: NSManagedObject) {
         if let budgetPeriod = object as? BudgetPeriod {
             addToPeriods(budgetPeriod)
         }

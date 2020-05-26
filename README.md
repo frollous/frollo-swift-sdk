@@ -2,7 +2,7 @@
 
 # Frollo Swift SDK
 
-**V4.6.0**
+**V4.6.1**
 
 - [Features](#features)
 - [Requirements](#requirements)
@@ -16,6 +16,8 @@
 - Custom Authentication
 - Aggregation
 - Bills
+- Budgets
+- Consent
 - Events
 - Goals
 - Messages

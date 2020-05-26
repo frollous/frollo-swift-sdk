@@ -17,7 +17,9 @@
 import Foundation
 
 extension String {
-    var url: URL? {
+    
+    internal var url: URL? {
         return URL(string: self)
     }
+    
 }

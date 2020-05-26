@@ -40,7 +40,7 @@ extension Date {
         return interval.end
     }
     
-    func withAddingValue(_ value: Int, to component: Calendar.Component, usingCalendar calendar: Calendar = Calendar.current) -> Date? {
+    internal func withAddingValue(_ value: Int, to component: Calendar.Component, usingCalendar calendar: Calendar = Calendar.current) -> Date? {
         var components = DateComponents()
         components.setValue(value, for: component)
         return calendar.date(byAdding: components, to: self)

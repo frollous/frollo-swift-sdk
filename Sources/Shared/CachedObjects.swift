@@ -46,7 +46,7 @@ extension CachedObjects {
         return fetchedObject
     }
     
-    func cachedObjects<T: NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, limit: Int?) -> [T]? {
+    internal func cachedObjects<T: NSManagedObject>(type: T.Type, context: NSManagedObjectContext, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, limit: Int?) -> [T]? {
         var fetchedObjects: [T]?
         
         context.performAndWait {
