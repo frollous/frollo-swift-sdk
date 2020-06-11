@@ -149,7 +149,7 @@ class Network: SessionDelegate {
     
     // MARK: - Response Handling
     
-    internal func handleFailure<T: ResponseError>(type: T.Type, response: DataResponse<Data>, error: Error, completion: (_: FrolloSDKError) -> Void) {
+    internal func handleFailure<T: ResponseError>(type: T.Type, response: DataResponse<Data, AFError>, error: Error, completion: (_: FrolloSDKError) -> Void) {
         if let parsedError = error as? DataError, parsedError.type == .authentication, parsedError.subType == .missingRefreshToken {
             authentication.tokenInvalidated()
             
@@ -187,7 +187,7 @@ class Network: SessionDelegate {
         }
     }
     
-    internal func handleResponse<T: Codable, U: ResponseError>(type: T.Type, errorType: U.Type, response: DataResponse<Data>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<T>) {
+    internal func handleResponse<T: Codable, U: ResponseError>(type: T.Type, errorType: U.Type, response: DataResponse<Data, AFError>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<T>) {
         switch response.result {
             case .success(let value):
                 let decoder = JSONDecoder()
@@ -211,7 +211,7 @@ class Network: SessionDelegate {
         }
     }
     
-    internal func handleArrayResponse<T: Codable, U: ResponseError>(type: T.Type, errorType: U.Type, response: DataResponse<Data>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<[T]>) {
+    internal func handleArrayResponse<T: Codable, U: ResponseError>(type: T.Type, errorType: U.Type, response: DataResponse<Data, AFError>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<[T]>) {
         switch response.result {
             case .success(let value):
                 let decoder = JSONDecoder()
@@ -235,7 +235,7 @@ class Network: SessionDelegate {
         }
     }
     
-    internal func handlePaginatedArrayResponse<T: Codable, U: ResponseError>(type: T.Type, errorType: U.Type, response: DataResponse<Data>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<APIPaginatedResponse<T>>) {
+    internal func handlePaginatedArrayResponse<T: Codable, U: ResponseError>(type: T.Type, errorType: U.Type, response: DataResponse<Data, AFError>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<APIPaginatedResponse<T>>) {
         switch response.result {
             case .success(let value):
                 let decoder = JSONDecoder()
@@ -258,7 +258,7 @@ class Network: SessionDelegate {
         }
     }
     
-    internal func handleEmptyResponse<T: ResponseError>(errorType: T.Type, response: DataResponse<Data>, completion: NetworkCompletion) {
+    internal func handleEmptyResponse<T: ResponseError>(errorType: T.Type, response: DataResponse<Data, AFError>, completion: NetworkCompletion) {
         switch response.result {
             case .success:
                 completion(.success(Data()))

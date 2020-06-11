@@ -163,7 +163,7 @@ extension APIService {
                 return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { (response: DataResponse<Data>) in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { (response: DataResponse<Data, AFError>) in
                 self.network.handleResponse(type: APIAccountResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -203,7 +203,7 @@ extension APIService {
                 return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { (response: DataResponse<Data>) in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { (response: DataResponse<Data, AFError>) in
                 self.network.handleResponse(type: APITransactionResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }

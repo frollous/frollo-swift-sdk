@@ -144,7 +144,7 @@ extension APIService {
     
     // MARK: - Response Handling
     
-    private func handleUserResponse(response: DataResponse<Data>, completion: UserRequestCompletion) {
+    private func handleUserResponse(response: DataResponse<Data, AFError>, completion: UserRequestCompletion) {
         switch response.result {
             case .success(let value):
                 let dateFormatter = DateFormatter()
