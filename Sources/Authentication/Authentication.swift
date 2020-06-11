@@ -81,7 +81,7 @@ public protocol AuthenticationDelegate: AnyObject {
  
  Manages authentication within the SDK
  */
-public class Authentication: RequestAdapter, RequestRetrier {
+public class Authentication: RequestInterceptor {
     
     internal var dataSource: AuthenticationDataSource?
     internal var delegate: AuthenticationDelegate?

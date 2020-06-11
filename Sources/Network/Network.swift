@@ -31,7 +31,7 @@ class Network: SessionDelegate {
     internal let serverURL: URL
     
     internal var authentication: Authentication
-    internal var sessionManager: SessionManager!
+    internal var sessionManager: Session!
     
     private let APIVersion = "2.9"
     
@@ -85,26 +85,24 @@ class Network: SessionDelegate {
                                                HTTPHeader.deviceVersion.rawValue: osVersion + systemVersion,
                                                HTTPHeader.softwareVersion.rawValue: versionString]
         
-        var serverTrustManager: ServerTrustPolicyManager?
+        var serverTrustManager: ServerTrustManager?
         
         // Public key pinning
         if let pinnedKeys = pinnedPublicKeys, !pinnedKeys.isEmpty {
-            var serverTrustPolicies: [String: ServerTrustPolicy] = [:]
+            var serverTrustPolicies: [String: ServerTrustEvaluating] = [:]
             
             pinnedKeys.forEach { item in
                 if let host = item.key.host {
-                    serverTrustPolicies[host] = ServerTrustPolicy.pinPublicKeys(publicKeys: item.value, validateCertificateChain: true, validateHost: true)
+                    serverTrustPolicies[host] = PublicKeysTrustEvaluator(keys: item.value, validateHost: true)
                 }
             }
             
-            serverTrustManager = ServerTrustPolicyManager(policies: serverTrustPolicies)
+            serverTrustManager = ServerTrustManager(evaluators: serverTrustPolicies)
         }
         
         super.init()
         
-        self.sessionManager = SessionManager(configuration: configuration, delegate: self, serverTrustPolicyManager: serverTrustManager)
-        sessionManager.adapter = authentication
-        sessionManager.retrier = authentication
+        self.sessionManager = Session(configuration: configuration, delegate: self, interceptor: authentication, serverTrustManager: serverTrustManager)
     }
     
     // MARK: - Reset
