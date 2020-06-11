@@ -11,7 +11,7 @@ let package = Package(
             targets: ["FrolloSDK"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "4.7.2"))
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "4.9.1"))
     ],
     targets: [
         .target(
