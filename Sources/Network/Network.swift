@@ -148,13 +148,14 @@ class Network: SessionDelegate {
     // MARK: - Response Handling
     
     internal func handleFailure<T: ResponseError>(type: T.Type, response: DataResponse<Data, AFError>, error: Error, completion: (_: FrolloSDKError) -> Void) {
-        if let parsedError = error as? DataError, parsedError.type == .authentication, parsedError.subType == .missingRefreshToken {
+        let dataError = error as? AFError
+        if let parsedError = dataError?.underlyingError as? DataError, parsedError.type == .authentication, parsedError.subType == .missingRefreshToken {
             authentication.tokenInvalidated()
             
             reset()
             
             completion(parsedError)
-        } else if let parsedError = error as? FrolloSDKError {
+        } else if let parsedError = dataError?.underlyingError as? FrolloSDKError {
             completion(parsedError)
         } else if let statusCode = response.response?.statusCode {
             let responseError = T(statusCode: statusCode, response: response.data)

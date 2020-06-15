@@ -14,7 +14,14 @@
 // limitations under the License.
 //
 
+import Alamofire
 import Foundation
+
+extension Error {
+    var domain: String {
+        return (self as NSError).domain
+    }
+}
 
 /**
  Network Error

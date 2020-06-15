@@ -424,15 +424,22 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let userURL = URL(string: UserEndpoint.register.path, relativeTo: config.serverEndpoint)!
         let request = network.sessionManager.request(userURL, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
-        do {
-            let adaptedRequest = try service.network.authentication.adapt(request.request!)
-            
-            if adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue) != nil {
-                XCTFail("Authorization Header found")
+
+        let exp = expectation(description: "Adapt")
+        service.network.authentication.adapt(request.request!, for: Session.default, completion: {
+            result in
+            switch result {
+            case .success(let adaptedRequest):
+                if adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue) != nil {
+                    XCTFail("Authorization Header found")
+                }
+                exp.fulfill()
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
             }
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
+        })
+
+        wait(for: [exp], timeout: 3)
     }
     
     func testNoHeaderAppendedToResetPasswordRequest() {
@@ -447,15 +454,22 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let userURL = URL(string: UserEndpoint.resetPassword.path, relativeTo: config.serverEndpoint)!
         let request = network.sessionManager.request(userURL, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
-        do {
-            let adaptedRequest = try service.network.authentication.adapt(request.request!)
-            
-            if adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue) != nil {
-                XCTFail("Authorization Header found")
+
+        let exp = expectation(description: "Adapt")
+        service.network.authentication.adapt(request.request!, for: Session.default, completion: {
+            result in
+            switch result {
+            case .success(let adaptedRequest):
+                if adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue) != nil {
+                    XCTFail("Authorization Header found")
+                }
+                exp.fulfill()
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
             }
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
+        })
+
+        wait(for: [exp], timeout: 3)
     }
     
     func testHeaderRemainsIntactMigrateUserRequest() {
@@ -477,40 +491,52 @@ class NetworkAuthenticatorTests: XCTestCase {
         urlRequest?.setValue(bearer, forHTTPHeaderField: HTTPHeader.authorization.rawValue)
         
         let request = network.sessionManager.request(urlRequest!)
-        
-        do {
-            let adaptedRequest = try service.network.authentication.adapt(request.request!)
-            
-            XCTAssertEqual(adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue), bearer)
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
+
+        let exp = expectation(description: "Adapt")
+        service.network.authentication.adapt(request.request!, for: Session.default, completion: {
+            result in
+            switch result {
+            case .success(let adaptedRequest):
+                XCTAssertEqual(adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue), bearer)
+                exp.fulfill()
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+        })
+
+        wait(for: [exp], timeout: 3)
     }
     
     func testAccessTokenHeaderAppendedToHostRequests() {
         let config = FrolloSDKConfiguration.testConfig()
         
-        let mockAuthentication = MockAuthentication(token: "AnExistingAccessToken")
+        let mockAuthenticationData = MockAuthentication(token: "AnExistingAccessToken")
         let authentication = Authentication(serverEndpoint: config.serverEndpoint)
-        authentication.dataSource = mockAuthentication
-        authentication.delegate = mockAuthentication
+        authentication.dataSource = mockAuthenticationData
+        authentication.delegate = mockAuthenticationData
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let userURL = URL(string: UserEndpoint.details.path, relativeTo: config.serverEndpoint)!
-        let request = network.sessionManager.request(userURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil)
-        do {
-            let adaptedRequest = try service.network.authentication.adapt(request.request!)
-            
-            if let authorizationHeader = adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue) {
-                XCTAssertEqual(authorizationHeader, "Bearer AnExistingAccessToken")
-            } else {
-                XCTFail("No auth header")
+        let request = network.sessionManager.request(userURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil, interceptor: authentication)
+
+        let exp = expectation(description: "Adapt")
+        service.network.authentication.adapt(request.request!, for: network.sessionManager, completion: {
+            result in
+            switch result {
+            case .success(let adaptedRequest):
+                if let authorizationHeader = adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue) {
+                    XCTAssertEqual(authorizationHeader, "Bearer AnExistingAccessToken")
+                } else {
+                    XCTFail("No auth header")
+                }
+                exp.fulfill()
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
             }
-            
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
+        })
+
+        wait(for: [exp], timeout: 3)
     }
     
     func testNoHeaderAppendedToTokenRequest() {
@@ -524,13 +550,20 @@ class NetworkAuthenticatorTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let request = network.sessionManager.request(FrolloSDKConfiguration.tokenEndpoint, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
-        do {
-            let adaptedRequest = try service.network.authentication.adapt(request.request!)
-            
-            XCTAssertNil(adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue))
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
+
+        let exp = expectation(description: "Adapt")
+        service.network.authentication.adapt(request.request!, for: Session.default, completion: {
+            result in
+            switch result {
+            case .success(let adaptedRequest):
+                XCTAssertNil(adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue))
+                exp.fulfill()
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+        })
+
+        wait(for: [exp], timeout: 3)
     }
     
     func testNoHeaderAppendedToExternalHostRequests() {
@@ -545,13 +578,20 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let userURL = URL(string: "https://google.com.au")!
         let request = network.sessionManager.request(userURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil)
-        do {
-            let adaptedRequest = try service.network.authentication.adapt(request.request!)
-            
-            XCTAssertNil(adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue))
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
+
+        let exp = expectation(description: "Adapt")
+        service.network.authentication.adapt(request.request!, for: Session.default, completion: {
+            result in
+            switch result {
+            case .success(let adaptedRequest):
+                XCTAssertNil(adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue))
+                exp.fulfill()
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+        })
+
+        wait(for: [exp], timeout: 3)
     }
     
 }
