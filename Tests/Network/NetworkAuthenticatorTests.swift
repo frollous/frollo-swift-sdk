@@ -423,10 +423,10 @@ class NetworkAuthenticatorTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let userURL = URL(string: UserEndpoint.register.path, relativeTo: config.serverEndpoint)!
-        let request = network.sessionManager.request(userURL, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
+        let request = network.sessionManager.request(userURL, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil, interceptor: authentication)
 
         let exp = expectation(description: "Adapt")
-        service.network.authentication.adapt(request.request!, for: Session.default, completion: {
+        service.network.authentication.adapt(request.convertible.urlRequest!, for: network.sessionManager, completion: {
             result in
             switch result {
             case .success(let adaptedRequest):
@@ -453,10 +453,10 @@ class NetworkAuthenticatorTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let userURL = URL(string: UserEndpoint.resetPassword.path, relativeTo: config.serverEndpoint)!
-        let request = network.sessionManager.request(userURL, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
+        let request = network.sessionManager.request(userURL, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil, interceptor: authentication)
 
         let exp = expectation(description: "Adapt")
-        service.network.authentication.adapt(request.request!, for: Session.default, completion: {
+        service.network.authentication.adapt(request.convertible.urlRequest!, for: network.sessionManager, completion: {
             result in
             switch result {
             case .success(let adaptedRequest):
@@ -493,7 +493,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let request = network.sessionManager.request(urlRequest!)
 
         let exp = expectation(description: "Adapt")
-        service.network.authentication.adapt(request.request!, for: Session.default, completion: {
+        service.network.authentication.adapt(request.convertible.urlRequest!, for: network.sessionManager, completion: {
             result in
             switch result {
             case .success(let adaptedRequest):
@@ -521,7 +521,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let request = network.sessionManager.request(userURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil, interceptor: authentication)
 
         let exp = expectation(description: "Adapt")
-        service.network.authentication.adapt(request.request!, for: network.sessionManager, completion: {
+        service.network.authentication.adapt(request.convertible.urlRequest!, for: network.sessionManager, completion: {
             result in
             switch result {
             case .success(let adaptedRequest):
@@ -549,10 +549,10 @@ class NetworkAuthenticatorTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        let request = network.sessionManager.request(FrolloSDKConfiguration.tokenEndpoint, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil)
+        let request = network.sessionManager.request(FrolloSDKConfiguration.tokenEndpoint, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil, interceptor: authentication)
 
         let exp = expectation(description: "Adapt")
-        service.network.authentication.adapt(request.request!, for: Session.default, completion: {
+        service.network.authentication.adapt(request.convertible.urlRequest!, for: network.sessionManager, completion: {
             result in
             switch result {
             case .success(let adaptedRequest):
@@ -577,10 +577,10 @@ class NetworkAuthenticatorTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let userURL = URL(string: "https://google.com.au")!
-        let request = network.sessionManager.request(userURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil)
+        let request = network.sessionManager.request(userURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil, interceptor: authentication)
 
         let exp = expectation(description: "Adapt")
-        service.network.authentication.adapt(request.request!, for: Session.default, completion: {
+        service.network.authentication.adapt(request.convertible.urlRequest!, for: network.sessionManager, completion: {
             result in
             switch result {
             case .success(let adaptedRequest):

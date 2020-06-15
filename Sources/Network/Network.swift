@@ -180,8 +180,9 @@ class Network: SessionDelegate {
             
             completion(responseError)
         } else {
-            let systemError = error as NSError
-            let networkError = NetworkError(error: systemError)
+            let afError = error.asAFError
+            let systemError = afError?.underlyingError
+            let networkError = NetworkError(error: systemError as NSError?)
             completion(networkError)
         }
     }

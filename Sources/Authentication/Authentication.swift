@@ -137,6 +137,8 @@ public class Authentication: RequestInterceptor {
             } catch {
                 completion(.failure(error))
             }
+        } else {
+            completion(.success(request))
         }
     }
     
