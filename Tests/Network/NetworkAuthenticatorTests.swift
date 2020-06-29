@@ -557,10 +557,10 @@ class NetworkAuthenticatorTests: XCTestCase {
             switch result {
             case .success(let adaptedRequest):
                 XCTAssertNil(adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue))
-                exp.fulfill()
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            exp.fulfill()
         })
 
         wait(for: [exp], timeout: 3)
@@ -585,10 +585,10 @@ class NetworkAuthenticatorTests: XCTestCase {
             switch result {
             case .success(let adaptedRequest):
                 XCTAssertNil(adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue))
-                exp.fulfill()
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            exp.fulfill()
         })
 
         wait(for: [exp], timeout: 3)
