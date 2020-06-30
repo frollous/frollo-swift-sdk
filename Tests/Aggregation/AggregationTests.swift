@@ -17,6 +17,7 @@
 import CoreData
 @testable import FrolloSDK
 import XCTest
+import Alamofire
 
 import OHHTTPStubs
 

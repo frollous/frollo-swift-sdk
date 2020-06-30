@@ -25,7 +25,7 @@ class ConsentRequestTests: BaseTestCase {
     var keychain: Keychain!
     var service: APIService!
 
-    override func setUpWithError() throws {
+    override func setUp() {
         testsKeychainService = "ConsentRequestTests"
         
         super.setUp()
@@ -34,7 +34,7 @@ class ConsentRequestTests: BaseTestCase {
         service = defaultService(keychain: keychain)
     }
 
-    override func tearDownWithError() throws {
+    override func tearDown() {
         Keychain(service: keychainService).removeAll()
         OHHTTPStubs.removeAllStubs()
         super.tearDown()

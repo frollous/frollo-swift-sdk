@@ -81,7 +81,7 @@ public protocol AuthenticationDelegate: AnyObject {
  
  Manages authentication within the SDK
  */
-public class Authentication: RequestAdapter, RequestRetrier {
+public class Authentication: RequestInterceptor {
     
     internal var dataSource: AuthenticationDataSource?
     internal var delegate: AuthenticationDelegate?
@@ -95,7 +95,7 @@ public class Authentication: RequestAdapter, RequestRetrier {
     
     private var rateLimitCount: Double = 0
     private var refreshing = false
-    private var requestsToRetry: [RequestRetryCompletion] = []
+    private var requestsToRetry: [(RetryResult) -> Void] = []
     
     init(serverEndpoint: URL) {
         self.serverURL = serverEndpoint
@@ -121,10 +121,11 @@ public class Authentication: RequestAdapter, RequestRetrier {
      - parameters:
         - urlRequest: The request to be authorized
      */
-    public func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
+    public func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
         guard let url = urlRequest.url, url.host == serverURL.host
         else {
-            return urlRequest
+            completion(.success(urlRequest))
+            return
         }
         
         let request = urlRequest
@@ -132,13 +133,13 @@ public class Authentication: RequestAdapter, RequestRetrier {
         if let relativePath = request.url?.relativePath, !(relativePath.contains(UserEndpoint.register.path) || relativePath.contains(UserEndpoint.resetPassword.path) || relativePath.contains(UserEndpoint.migrate.path)) {
             do {
                 let adaptedRequest = try validateAndAppendAccessToken(request: request)
-                return adaptedRequest
+                completion(.success(adaptedRequest))
             } catch {
-                throw error
+                completion(.failure(error))
             }
+        } else {
+            completion(.success(request))
         }
-        
-        return urlRequest
     }
     
     // MARK: - Retry Requests
@@ -156,10 +157,10 @@ public class Authentication: RequestAdapter, RequestRetrier {
        - error:      `Error` encountered while executing the `Request`.
        - completion: Completion closure to be executed when a retry decision has been determined.
      */
-    public func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
+    public func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
         guard let responseError = error as? AFError
         else {
-            completion(false, 0)
+            completion(.doNotRetry)
             return
         }
         
@@ -169,7 +170,7 @@ public class Authentication: RequestAdapter, RequestRetrier {
             case .responseValidationFailed(reason: .unacceptableStatusCode(let code)):
                 switch code {
                     case 401:
-                        if let data = request.delegate.data {
+                        if let data = (request as? DataRequest)?.data {
                             let apiError = APIError(statusCode: code, response: data)
                             switch apiError.type {
                                 case .invalidAccessToken:
@@ -179,28 +180,28 @@ public class Authentication: RequestAdapter, RequestRetrier {
                                         
                                         refreshTokens()
                                     } else {
-                                        completion(false, 0)
+                                        completion(.doNotRetry)
                                     }
                                 default:
-                                    completion(false, 0)
+                                    completion(.doNotRetry)
                             }
                         } else {
-                            completion(false, 0)
+                            completion(.doNotRetry)
                         }
                     case 429:
                         rateLimitCount = min(rateLimitCount + 1, maxRateLimitCount)
                         
-                        completion(true, rateLimitCount * 3)
+                        completion(.retryWithDelay(rateLimitCount * 3))
                     default:
-                        completion(false, 0)
+                        completion(.doNotRetry)
                 }
             default:
-                completion(false, 0)
+                completion(.doNotRetry)
         }
     }
     
     private func cancelRetryRequests() {
-        requestsToRetry.forEach { $0(false, 0.0) }
+        requestsToRetry.forEach { $0(.doNotRetry) }
         requestsToRetry.removeAll()
     }
     
@@ -212,7 +213,7 @@ public class Authentication: RequestAdapter, RequestRetrier {
             
             let semaphore = DispatchSemaphore(value: 0)
             
-            requestsToRetry.append { (_: Bool, _: TimeInterval) in
+            requestsToRetry.append { _ in
                 // Unblock once token has updated
                 semaphore.signal()
             }
@@ -256,10 +257,10 @@ public class Authentication: RequestAdapter, RequestRetrier {
         
         delegate.accessTokenExpired { success in
             if success {
-                self.requestsToRetry.forEach { $0(true, 0.0) }
+                self.requestsToRetry.forEach { $0(.retry) }
                 self.requestsToRetry.removeAll()
             } else {
-                self.requestsToRetry.forEach { $0(false, 0.0) }
+                self.requestsToRetry.forEach { $0(.doNotRetry) }
                 self.requestsToRetry.removeAll()
             }
             

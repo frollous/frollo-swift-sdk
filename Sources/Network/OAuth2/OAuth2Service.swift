@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+import Alamofire
 import Foundation
 
 class OAuth2Service {
@@ -23,6 +24,7 @@ class OAuth2Service {
     internal let redirectURL: URL
     internal let revokeURL: URL?
     internal let tokenURL: URL
+    internal let sessionManager: Session
     
     /// Asynchronous queue all network requests are executed from
     internal let requestQueue = DispatchQueue(label: "FrolloSDK.APIRequestQueue", qos: .userInitiated, attributes: .concurrent)
@@ -36,6 +38,13 @@ class OAuth2Service {
         self.redirectURL = redirectURL
         self.revokeURL = revokeURL
         self.tokenURL = tokenEndpoint
+        
+        let configuration = self.network.sessionManager.sessionConfiguration
+        let trustManager = self.network.sessionManager.serverTrustManager
+        let interceptor = self.network.sessionManager.interceptor
+        
+        // Create a new session without the session delegate because it's causing dispatch queue issues in Alamofire
+        self.sessionManager = Session(configuration: configuration, interceptor: interceptor, serverTrustManager: trustManager)
     }
     
     internal func refreshTokens(request: OAuth2TokenRequest, completion: @escaping RequestCompletion<OAuth2TokenResponse>) {
@@ -56,7 +65,7 @@ class OAuth2Service {
                 return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+            self.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: OAuth2TokenResponse.self, errorType: OAuth2Error.self, response: response, dateDecodingStrategy: .secondsSince1970, completion: completion)
             }
         }
@@ -81,7 +90,7 @@ class OAuth2Service {
                 return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+            self.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleEmptyResponse(errorType: OAuth2Error.self, response: response, completion: completion)
             }
         }

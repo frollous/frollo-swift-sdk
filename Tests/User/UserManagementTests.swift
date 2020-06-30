@@ -18,6 +18,7 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+import Alamofire
 
 class UserManagementTests: BaseTestCase {
 
@@ -625,7 +626,7 @@ class UserManagementTests: BaseTestCase {
     func testResetPassword() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(endpoint: UserEndpoint.resetPassword.path.prefixedWithSlash, addingData: Data(), addingStatusCode: 202)
+        connect(endpoint: UserEndpoint.resetPassword.path.prefixedWithSlash, addingData: "{}".data(using: .utf8)!, addingStatusCode: 202)
         
         let keychain = validKeychain()
         let user = defaultUser(keychain: keychain)
@@ -750,24 +751,31 @@ class UserManagementTests: BaseTestCase {
     // MARK: - Web view
     
     func testAuthenticatingRequestManually() {
+        let exp = expectation(description: "Adapt")
         let keychain = validKeychain()
         let authentication = defaultAuthentication(keychain: keychain)
         
         let requestURL = URL(string: "https://api.example.com/somewhere")!
         let request = URLRequest(url: requestURL)
-        do {
-            let adaptedRequest = try authentication.adapt(request)
-            
-            guard let authHeader = adaptedRequest.allHTTPHeaderFields?["Authorization"]
-                else {
-                    XCTFail("No auth header")
-                    return
+
+        authentication.adapt(request, for: Session.default, completion: {
+            result in
+            switch result {
+            case .success(let adaptedRequest):
+                guard let authHeader = adaptedRequest.allHTTPHeaderFields?["Authorization"]
+                    else {
+                        XCTFail("No auth header")
+                        return
+                }
+
+                XCTAssertTrue(authHeader.contains("Bearer"))
+                exp.fulfill()
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
             }
-            
-            XCTAssertTrue(authHeader.contains("Bearer"))
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
+        })
+
+        wait(for: [exp], timeout: 3)
     }
 
 }
