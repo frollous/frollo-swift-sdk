@@ -1,4 +1,9 @@
 # Changelog
+## 4.6.2
+
+### Features
+
+- Updated Alamofire dependency to 5.2.1
 
 ## 4.6.1
 
