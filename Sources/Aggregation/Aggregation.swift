@@ -2753,14 +2753,27 @@ public class Aggregation: CachedObjects, ResponseHandler {
             afterDate = Transaction.transactionDateFormatter.date(from: lastTransaction.transactionDate)
         }
         
+        /**
+          Following code creates a filter predicate that will be applied to cached transactions to update
+          Predicate 1: Considers all transactions after first day of the transaction list (first day + 1)
+          Predicate 2: Considers all transactions of first day and after first ID of transaction list
+          Predicate 3: Considers all transactions before last day of the transaction list (last day - 1)
+          Predicate 4: Considers all transactions of last day and before last ID of transaction list
+          Predicate 5: Predicate 1 OR Predicate 2 (Upper limit Predicate)
+          Predicate 6: Predicate 2 OR Predicate 4 (Lower limit Predicate)
+          Predicate 7: Predicate 5 AND Predicate 6 (Satisfy both upper and lower limit) (Final filter predicate to apply in core data)
+         */
+        
         // Filter by before cursor in paginated response
         if let beforeDate = beforeDate, let beforeID = beforeID, let dayAfterFirstDate = beforeDate.withAddingValue(1, to: .day) {
             
             let fromDateString = Transaction.transactionDateFormatter.string(from: beforeDate)
             let dayAfterFirstDateString = Transaction.transactionDateFormatter.string(from: dayAfterFirstDate)
             
+            // Filter for other days except first day of transaction list. All transactions will be considered after beforeDate (one day after first day). This means we dont need to consider transactionIDs here.
             let filterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " <= %@ ", argumentArray: [dayAfterFirstDateString])
             
+            // First day filter. For the first date in transaction list, the day should be equal to first day and transactionID should be after first transaction ID (beforeID).
             let firstDayFilterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " == %@ && " + #keyPath(Transaction.transactionID) + " <= %@ ", argumentArray: [fromDateString, beforeID])
             
             filterPredicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [filterPredicate, firstDayFilterPredicate]))
@@ -2772,8 +2785,10 @@ public class Aggregation: CachedObjects, ResponseHandler {
             let toDateString = Transaction.transactionDateFormatter.string(from: afterDate)
             let dayBeforeLastDateString = Transaction.transactionDateFormatter.string(from: dayBeforeLastDate)
             
+            // Filter for other days except last day. All transactions can be considered before afterDate (one day before last day). This means we dont need to consider transactionIDs here.
             let filterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " >= %@ ", argumentArray: [dayBeforeLastDateString])
             
+            // Last day filter. For the last date in transaction list, the day should be equal to last day and transactionID should be before last transaction ID (afterID).
             let lastDayFilterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " == %@ && " + #keyPath(Transaction.transactionID) + " >= %@ ", argumentArray: [toDateString, afterID])
             
             filterPredicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [filterPredicate, lastDayFilterPredicate]))
