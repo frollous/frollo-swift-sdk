@@ -25,6 +25,7 @@
         <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="externalID" optional="YES" attributeType="String"/>
         <attribute name="favourite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="featuresRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="goalIDsRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="groupRawValue" optional="YES" attributeType="String"/>
         <attribute name="hidden" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -537,7 +538,7 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="898"/>
+        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="913"/>
         <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
         <element name="Bill" positionX="-378" positionY="162" width="128" height="360"/>
         <element name="BillPayment" positionX="-378" positionY="162" width="128" height="178"/>

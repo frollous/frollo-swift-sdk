@@ -101,6 +101,9 @@ extension Account {
     /// Favourited
     @NSManaged public var favourite: Bool
     
+    /// Raw value for the account features
+    @NSManaged public var featuresRawValue: Data?
+    
     /// Raw value for the associated goal IDs
     @NSManaged public var goalIDsRawValue: Data?
     

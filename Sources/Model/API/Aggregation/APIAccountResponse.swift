@@ -34,6 +34,7 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
         case dueDate = "due_date"
         case externalID = "external_id"
         case favourite
+        case features
         case goalIDs = "goal_ids"
         case hidden
         case holderProfile = "holder_profile"
@@ -167,6 +168,7 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
     let bsb: String?
     let externalID: String?
     let favourite: Bool
+    let features: [Account.AccountFeature]?
     let hidden: Bool
     let included: Bool
     let productsAvailable: Bool

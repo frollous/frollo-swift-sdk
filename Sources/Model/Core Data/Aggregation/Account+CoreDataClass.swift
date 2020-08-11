@@ -30,6 +30,56 @@ public class Account: NSManagedObject, UniqueManagedObject {
     }
     
     /**
+     Account Feature
+     
+     Represents features which are available in this account
+     */
+    public struct AccountFeature: Codable {
+        
+        enum CodingKeys: String, CodingKey {
+            case id
+            case name
+            case imageURL = "image_url"
+            case details
+        }
+        
+        /// Feature ID
+        let id: String
+        
+        /// Feature name (optional)
+        let name: String?
+        
+        /// Feature image url (optional)
+        let imageURL: String?
+        
+        /// Array of `AccountFeatureDetail`
+        let details: [AccountFeatureDetail]?
+    }
+    
+    /**
+     Account Feature Detail
+     
+     Represents details of the `AccountFeature`
+     */
+    public struct AccountFeatureDetail: Codable {
+        
+        enum CodingKeys: String, CodingKey {
+            case id
+            case name
+            case imageURL = "image_url"
+        }
+        
+        /// Feature detail ID
+        let id: String
+        
+        /// Feature detail name (optional)
+        let name: String?
+        
+        /// Feature detail image url (optional)
+        let imageURL: String?
+    }
+    
+    /**
      Account Status
      
      Status of the account according to the `Provider`
@@ -323,6 +373,27 @@ public class Account: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    /// An array of `AccountFeature` decoded from a json array stored in the database. (Optional)
+    public var features: [AccountFeature]? {
+        get {
+            if let featuresRawValue = featuresRawValue {
+                let decoder = JSONDecoder()
+                
+                do {
+                    let features = try decoder.decode([AccountFeature].self, from: featuresRawValue)
+                    return features
+                } catch {
+                    Log.error(error.localizedDescription)
+                }
+            }
+            return nil
+        }
+        set {
+            let encoder = JSONEncoder()
+            featuresRawValue = try? encoder.encode(newValue)
+        }
+    }
+    
     /// An array of Goal IDs decoded from a json array stored in the database. (Optional)
     public var goalIDs: [Int64]? {
         get {
@@ -499,6 +570,7 @@ public class Account: NSManagedObject, UniqueManagedObject {
         balanceDescription = response.balanceDetails?.currentDescription
         bsb = response.bsb
         classification = response.accountAttributes.classification
+        features = response.features
         group = response.accountAttributes.group
         dueDate = response.dueDate
         goalIDs = response.goalIDs

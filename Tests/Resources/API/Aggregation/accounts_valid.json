@@ -89,7 +89,37 @@
       "value": "Free ATMs"
     }
   ]
-  }
+  },
+  "features": [{
+          "id": "payments",
+          "name": "Payments",
+          "image_url": "https://image.png",
+          "details": [{
+              "id": "bpay",
+              "name": "BPAY",
+          },
+          {
+              "id": "npp",
+              "name": "PayID",
+          },
+          {
+              "id": "pay_anyone",
+              "name": "Pay Anyone",
+          }]
+      },
+      {
+          "id": "transfers",
+          "name": "Transfers",
+          "details": [{
+              "id": "internal_transfer",
+              "name": "Transfer",
+          }]
+      },
+      {
+          "id": "statements",
+          "name": "Transfers"
+      }
+  ]
 }, {
     "id": 543,
     "aggregator": "demo",

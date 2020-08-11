@@ -45,6 +45,7 @@ extension APIAccountResponse {
                                   bsb: "062-181",
                                   externalID: UUID().uuidString,
                                   favourite: true,
+                                  features: [],
                                   hidden: false,
                                   included: true,
                                   productsAvailable: false,

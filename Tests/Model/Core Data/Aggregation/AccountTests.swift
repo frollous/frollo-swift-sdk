@@ -62,6 +62,8 @@ class AccountTests: XCTestCase {
             XCTAssertEqual(account.currentBalanceCurrency, accountResponse.currentBalance?.currency)
             XCTAssertEqual(account.dueDate, accountResponse.dueDate)
             XCTAssertEqual(account.favourite, accountResponse.favourite)
+            XCTAssertEqual(account.features?.first?.name, accountResponse.features?.first?.name)
+            XCTAssertEqual(account.features?.first?.details?.first?.id, accountResponse.features?.first?.details?.first?.id)
             XCTAssertEqual(account.group, accountResponse.accountAttributes.group)
             XCTAssertEqual(account.hidden, accountResponse.hidden)
             XCTAssertEqual(account.included, accountResponse.included)
