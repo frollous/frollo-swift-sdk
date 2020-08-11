@@ -494,8 +494,10 @@ public class Account: NSManagedObject, UniqueManagedObject {
         
         // Optionals
         
+        accountNumber = response.accountNumber
         accountHolderName = response.holderProfile?.name
         balanceDescription = response.balanceDetails?.currentDescription
+        bsb = response.bsb
         classification = response.accountAttributes.classification
         group = response.accountAttributes.group
         dueDate = response.dueDate

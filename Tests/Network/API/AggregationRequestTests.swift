@@ -273,6 +273,8 @@ class AggregationRequestTests: BaseTestCase {
                     if let firstAccount = response.first {
                         XCTAssertEqual(firstAccount.id, 542)
                         XCTAssertEqual(firstAccount.providerAccountID, 867)
+                        XCTAssertEqual(firstAccount.accountNumber, "31014562")
+                        XCTAssertEqual(firstAccount.bsb, "062-181")
                         XCTAssertEqual(firstAccount.refreshStatus.status, .success)
                         XCTAssertEqual(firstAccount.refreshStatus.subStatus, .success)
                         XCTAssertEqual(firstAccount.refreshStatus.lastRefreshed, Date(timeIntervalSince1970: 1533174026))

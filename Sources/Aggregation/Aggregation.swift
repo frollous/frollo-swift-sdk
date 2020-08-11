@@ -2754,14 +2754,14 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
         
         /**
-          Following code creates a filter predicate that will be applied to cached transactions to update
-          Predicate 1: Considers all transactions after first day of the transaction list (first day + 1)
-          Predicate 2: Considers all transactions of first day and after first ID of transaction list
-          Predicate 3: Considers all transactions before last day of the transaction list (last day - 1)
-          Predicate 4: Considers all transactions of last day and before last ID of transaction list
-          Predicate 5: Predicate 1 OR Predicate 2 (Upper limit Predicate)
-          Predicate 6: Predicate 2 OR Predicate 4 (Lower limit Predicate)
-          Predicate 7: Predicate 5 AND Predicate 6 (Satisfy both upper and lower limit) (Final filter predicate to apply in core data)
+         Following code creates a filter predicate that will be applied to cached transactions to update
+         Predicate 1: Considers all transactions after first day of the transaction list (first day + 1)
+         Predicate 2: Considers all transactions of first day and after first ID of transaction list
+         Predicate 3: Considers all transactions before last day of the transaction list (last day - 1)
+         Predicate 4: Considers all transactions of last day and before last ID of transaction list
+         Predicate 5: Predicate 1 OR Predicate 2 (Upper limit Predicate)
+         Predicate 6: Predicate 2 OR Predicate 4 (Lower limit Predicate)
+         Predicate 7: Predicate 5 AND Predicate 6 (Satisfy both upper and lower limit) (Final filter predicate to apply in core data)
          */
         
         // Filter by before cursor in paginated response
