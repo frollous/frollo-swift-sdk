@@ -111,7 +111,7 @@
           "id": "transfers",
           "name": "Transfers",
           "details": [{
-              "id": "internal_transfer",
+              "id": "internal",
               "name": "Transfer",
           }]
       },

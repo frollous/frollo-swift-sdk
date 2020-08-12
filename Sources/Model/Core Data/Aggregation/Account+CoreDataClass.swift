@@ -44,7 +44,7 @@ public class Account: NSManagedObject, UniqueManagedObject {
         }
         
         /// Feature ID
-        let id: String
+        let id: AccountFeatureType
         
         /// Feature name (optional)
         let name: String?
@@ -54,6 +54,24 @@ public class Account: NSManagedObject, UniqueManagedObject {
         
         /// Array of `AccountFeatureDetail`
         let details: [AccountFeatureDetail]?
+    }
+    
+    /**
+     AccountFeatureType
+     
+     Type of `AccountFeature`
+     */
+    public enum AccountFeatureType: String, Codable, CaseIterable {
+        
+        /// Payment feature
+        case payments
+        
+        /// Transfers feature
+        case transfers
+        
+        /// Statements feature
+        case statements
+        
     }
     
     /**
@@ -70,13 +88,34 @@ public class Account: NSManagedObject, UniqueManagedObject {
         }
         
         /// Feature detail ID
-        let id: String
+        let id: AccountFeatureSubType
         
         /// Feature detail name (optional)
         let name: String?
         
         /// Feature detail image url (optional)
         let imageURL: String?
+    }
+    
+    /**
+     AccountFeatureSubType
+     
+     Subtype of `AccountFeatureType`
+     */
+    public enum AccountFeatureSubType: String, Codable, CaseIterable {
+        
+        /// bpay Payment feature subtype
+        case bpay
+        
+        /// npp Payment feature subtype
+        case npp
+        
+        /// payAnyone Payment feature subtype
+        case payAnyone = "pay_anyone"
+        
+        /// internal Transfer feature subtype
+        case internalTransfer = "internal"
+        
     }
     
     /**
