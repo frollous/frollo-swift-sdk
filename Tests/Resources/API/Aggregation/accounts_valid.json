@@ -4,6 +4,8 @@
     "external_id": "AF79E472-4137-44DD-9E96-166E1862A6D2",
     "provider_name": "ME Bank (demo)",
     "account_name": "Personal Account",
+    "account_number": "31014562",
+    "bsb": "062-181",
     "account_status": "active",
     "account_attributes": {
         "container": "bank",
@@ -87,7 +89,37 @@
       "value": "Free ATMs"
     }
   ]
-  }
+  },
+  "features": [{
+          "id": "payments",
+          "name": "Payments",
+          "image_url": "https://image.png",
+          "details": [{
+              "id": "bpay",
+              "name": "BPAY",
+          },
+          {
+              "id": "npp",
+              "name": "PayID",
+          },
+          {
+              "id": "pay_anyone",
+              "name": "Pay Anyone",
+          }]
+      },
+      {
+          "id": "transfers",
+          "name": "Transfers",
+          "details": [{
+              "id": "internal",
+              "name": "Transfer",
+          }]
+      },
+      {
+          "id": "statements",
+          "name": "Transfers"
+      }
+  ]
 }, {
     "id": 543,
     "aggregator": "demo",

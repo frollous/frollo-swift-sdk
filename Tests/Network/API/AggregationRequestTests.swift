@@ -18,6 +18,7 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+import SwiftyJSON
 
 class AggregationRequestTests: BaseTestCase {
     
@@ -271,8 +272,17 @@ class AggregationRequestTests: BaseTestCase {
                     XCTAssertEqual(response.count, 8)
                     
                     if let firstAccount = response.first {
+                                                
                         XCTAssertEqual(firstAccount.id, 542)
                         XCTAssertEqual(firstAccount.providerAccountID, 867)
+                        XCTAssertEqual(firstAccount.accountNumber, "31014562")
+                        XCTAssertEqual(firstAccount.bsb, "062-181")
+                        XCTAssertEqual(firstAccount.features?.first?.id, .payments)
+                        XCTAssertEqual(firstAccount.features?[1].id, .transfers)
+                        XCTAssertEqual(firstAccount.features?[2].id, .statements)
+                        XCTAssertEqual(firstAccount.features?.first?.details?.first?.id, .bpay)
+                        XCTAssertEqual(firstAccount.features?.first?.details?[1].id, .npp)
+                        XCTAssertEqual(firstAccount.features?.first?.details?[2].id, .payAnyone)
                         XCTAssertEqual(firstAccount.refreshStatus.status, .success)
                         XCTAssertEqual(firstAccount.refreshStatus.subStatus, .success)
                         XCTAssertEqual(firstAccount.refreshStatus.lastRefreshed, Date(timeIntervalSince1970: 1533174026))

@@ -21,6 +21,7 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
     enum CodingKeys: String, CodingKey {
         case accountAttributes = "account_attributes"
         case accountName = "account_name"
+        case accountNumber = "account_number"
         case accountStatus = "account_status"
         case amountDue = "amount_due"
         case availableBalance = "available_balance"
@@ -28,10 +29,12 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
         case availableCredit = "available_credit"
         case apr
         case balanceDetails = "balance_details"
+        case bsb
         case currentBalance = "current_balance"
         case dueDate = "due_date"
         case externalID = "external_id"
         case favourite
+        case features
         case goalIDs = "goal_ids"
         case hidden
         case holderProfile = "holder_profile"
@@ -160,9 +163,12 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
     var id: Int64
     let accountAttributes: Attributes
     let accountName: String
+    let accountNumber: String?
     let accountStatus: Account.AccountStatus
+    let bsb: String?
     let externalID: String?
     let favourite: Bool
+    let features: [Account.AccountFeature]?
     let hidden: Bool
     let included: Bool
     let productsAvailable: Bool

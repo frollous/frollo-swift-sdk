@@ -38,6 +38,9 @@ extension Account {
     /// Name of the account (optional)
     @NSManaged public var accountName: String?
     
+    /// Account number of the account (optional)
+    @NSManaged public var accountNumber: String?
+    
     /// Raw value for the account status. Use only in predicates
     @NSManaged public var accountStatusRawValue: String
     
@@ -77,6 +80,9 @@ extension Account {
     /// Description of the current account balance tier (optional)
     @NSManaged public var balanceDescription: String?
     
+    /// BSB of the account (optional)
+    @NSManaged public var bsb: String?
+    
     /// Raw value of the account classification. Use only in predicates (optional)
     @NSManaged public var classificationRawValue: String?
     
@@ -94,6 +100,9 @@ extension Account {
     
     /// Favourited
     @NSManaged public var favourite: Bool
+    
+    /// Raw value for the account features
+    @NSManaged public var featuresRawValue: Data?
     
     /// Raw value for the associated goal IDs
     @NSManaged public var goalIDsRawValue: Data?

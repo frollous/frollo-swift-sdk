@@ -177,6 +177,9 @@ public class Message: NSManagedObject, UniqueManagedObject {
         actionURLString = response.action?.link
         messageOpenMode = response.action?.openMode
         actionTitle = response.action?.title
+        if let meta = response.metadata {
+            metadata = meta
+        }
     }
     
     internal func updateRequest() -> APIMessageUpdateRequest {
