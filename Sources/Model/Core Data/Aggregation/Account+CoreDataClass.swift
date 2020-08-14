@@ -44,16 +44,16 @@ public class Account: NSManagedObject, UniqueManagedObject {
         }
         
         /// Feature ID
-        let id: AccountFeatureType
+        public let id: AccountFeatureType
         
         /// Feature name (optional)
-        let name: String?
+        public let name: String?
         
         /// Feature image url (optional)
-        let imageURL: String?
+        public let imageURL: String?
         
         /// Array of `AccountFeatureDetail`
-        let details: [AccountFeatureDetail]?
+        public let details: [AccountFeatureDetail]?
     }
     
     /**
@@ -88,13 +88,13 @@ public class Account: NSManagedObject, UniqueManagedObject {
         }
         
         /// Feature detail ID
-        let id: AccountFeatureSubType
+        public let id: AccountFeatureSubType
         
         /// Feature detail name (optional)
-        let name: String?
+        public let name: String?
         
         /// Feature detail image url (optional)
-        let imageURL: String?
+        public let imageURL: String?
     }
     
     /**
