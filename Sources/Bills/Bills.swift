@@ -419,7 +419,8 @@ public class Bills: CachedObjects, ResponseHandler {
                                                      status: Bill.PaymentStatus? = nil,
                                                      filteredBy predicate: NSPredicate? = nil,
                                                      sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(BillPayment.billPaymentID), ascending: true)],
-                                                     limit: Int? = nil) -> NSFetchedResultsController<BillPayment>? {
+                                                     limit: Int? = nil,
+                                                     sectionNameKeypath: String? = nil) -> NSFetchedResultsController<BillPayment>? {
         var predicates = [NSPredicate]()
         
         if let filterFrequency = frequency {
@@ -433,7 +434,7 @@ public class Bills: CachedObjects, ResponseHandler {
             predicates.append(filterPredicate)
         }
         
-        return fetchedResultsController(type: BillPayment.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
+        return fetchedResultsController(type: BillPayment.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit, sectionNameKeypath: sectionNameKeypath)
     }
     
     /**
