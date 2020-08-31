@@ -47,6 +47,12 @@ extension Transaction {
     /// Raw value of the transaction base type. Only use in predicates
     @NSManaged public var baseTypeRawValue: String?
     
+    /// Associated bill ID
+    @NSManaged public var billID: Int64
+    
+    /// Associated bill payment ID
+    @NSManaged public var billPaymentID: Int64
+    
     /// Raw value of the budget category. Only use in predicates
     @NSManaged public var budgetCategoryRawValue: String?
     
@@ -130,5 +136,8 @@ extension Transaction {
     
     /// Amount in string to support search by amount
     @NSManaged public var searchAmount: String?
+    
+    /// Associated bill (Optional)
+    @NSManaged public var bill: Bill?
     
 }

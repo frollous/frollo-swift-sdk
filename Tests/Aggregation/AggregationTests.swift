@@ -2275,6 +2275,74 @@ class AggregationTests: BaseTestCase {
         
     }
     
+    func testTransactionsLinkToBills() {
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Bills Request")
+        let expectation3 = expectation(description: "Network Transaction Request")
+        
+        connect(endpoint: BillsEndpoint.bills.path.prefixedWithSlash, toResourceWithName: "bills_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: defaultAuthentication(keychain: defaultKeychain(isNetwork: true)))
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        bills.refreshBills() { (result) in
+            switch result {
+               case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+                
+        aggregation.refreshTransactions() { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+        
+        let context = self.context
+        
+        let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [164525])
+        
+        do {
+            let fetchedTransactions = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedTransactions.count, 1)
+            
+            if let transaction = fetchedTransactions.first {
+                XCTAssertNotNil(transaction)
+                XCTAssertEqual(transaction.billID, transaction.bill?.billID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
+        
+    }
+    
     func testExcludeTransaction() {
         let expectation1 = expectation(description: "Network Request 1")
         let notificationExpectation = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil, handler: nil)

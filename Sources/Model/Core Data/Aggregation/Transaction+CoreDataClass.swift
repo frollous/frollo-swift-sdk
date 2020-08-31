@@ -189,6 +189,8 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
         userDescription = response.description.user
         userTags = response.userTags
         searchAmount = response.amount.amount
+        billID = response.billID ?? -1
+        billPaymentID = response.billPaymentID ?? -1
         
         // Only update info if present to avoid losing information when fetching on different APIs
         if let merchantPhone = response.merchant.phone {
