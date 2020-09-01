@@ -88,6 +88,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
     internal let transactionLock = NSLock()
     internal let transactionCategoryLock = NSLock()
     internal let userTagsLock = NSLock()
+    internal let billLock = NSLock()
     
     private let database: Database
     private let service: APIService
@@ -103,6 +104,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
     private var refreshingProviderIDs = Set<Int64>()
     private var linkingConsentProviderIDs = Set<Int64>()
     private var linkingConsentProviderAccountIDs = Set<Int64>()
+    private var linkingBillIDs = Set<Int64>()
     
     internal init(database: Database, service: APIService) {
         self.database = database
@@ -1138,6 +1140,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToBills(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                     
@@ -1175,6 +1178,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToBills(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                     
@@ -1338,6 +1342,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToBills(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                     
@@ -1404,6 +1409,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToBills(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                     
@@ -1463,6 +1469,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToBills(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                     
@@ -1540,6 +1547,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToBills(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                     
@@ -2365,6 +2373,28 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
+    private func linkTransactionsToBills(managedObjectContext: NSManagedObjectContext) {
+        billLock.lock()
+        transactionLock.lock()
+        
+        defer {
+            billLock.unlock()
+            transactionLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: Transaction.self, parentType: Bill.self, managedObjectContext: managedObjectContext, linkedIDs: linkingBillIDs, linkedKey: \Transaction.billID, linkedKeyName: #keyPath(Transaction.billID))
+        
+        linkingBillIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
     private func linkConsentsToProviders(managedObjectContext: NSManagedObjectContext) {
         providerLock.lock()
         consentLock.lock()
@@ -2603,6 +2633,10 @@ public class Aggregation: CachedObjects, ResponseHandler {
         linkingMerchantIDs.insert(transactionResponse.merchant.id)
         linkingTransactionCategoryIDs.insert(transactionResponse.categoryID)
         
+        if let billID = transactionResponse.billID {
+            linkingBillIDs.insert(billID)
+        }
+        
         managedObjectContext.performAndWait {
             do {
                 try managedObjectContext.save()
@@ -2804,12 +2838,16 @@ public class Aggregation: CachedObjects, ResponseHandler {
             transactionLock.unlock()
         }
         
-        let updatedLinkedIDs = updateObjectsWithResponse(type: Transaction.self, objectsResponse: transactionsResponse.data.elements, primaryKey: #keyPath(Transaction.transactionID), linkedKeys: [\Transaction.accountID, \Transaction.merchantID, \Transaction.transactionCategoryID], filterPredicate: NSCompoundPredicate(andPredicateWithSubpredicates: filterPredicates), managedObjectContext: managedObjectContext)
+        let updatedLinkedIDs = updateObjectsWithResponse(type: Transaction.self, objectsResponse: transactionsResponse.data.elements, primaryKey: #keyPath(Transaction.transactionID), linkedKeys: [\Transaction.accountID, \Transaction.merchantID, \Transaction.transactionCategoryID, \Transaction.billID], filterPredicate: NSCompoundPredicate(andPredicateWithSubpredicates: filterPredicates), managedObjectContext: managedObjectContext)
         
         if let updatedAccountIDs = updatedLinkedIDs[\Transaction.accountID], let updatedMerchantIDs = updatedLinkedIDs[\Transaction.merchantID], let updatedTransactionCategoryIDs = updatedLinkedIDs[\Transaction.transactionCategoryID] {
             linkingAccountIDs = linkingAccountIDs.union(updatedAccountIDs)
             linkingMerchantIDs = linkingMerchantIDs.union(updatedMerchantIDs)
             linkingTransactionCategoryIDs = linkingTransactionCategoryIDs.union(updatedTransactionCategoryIDs)
+        }
+        
+        if let updatedBillIDs = updatedLinkedIDs[\Transaction.billID] {
+            linkingBillIDs = linkingBillIDs.union(updatedBillIDs)
         }
         
         managedObjectContext.performAndWait {
@@ -2836,6 +2874,10 @@ public class Aggregation: CachedObjects, ResponseHandler {
             linkingAccountIDs = linkingAccountIDs.union(updatedAccountIDs)
             linkingMerchantIDs = linkingMerchantIDs.union(updatedMerchantIDs)
             linkingTransactionCategoryIDs = linkingTransactionCategoryIDs.union(updatedTransactionCategoryIDs)
+        }
+        
+        if let updatedBillIDs = updatedLinkedIDs[\Transaction.billID] {
+            linkingBillIDs = linkingBillIDs.union(updatedBillIDs)
         }
         
         managedObjectContext.performAndWait {

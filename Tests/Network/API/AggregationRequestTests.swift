@@ -430,6 +430,8 @@ class AggregationRequestTests: BaseTestCase {
                     if let firstTransaction = response.data.elements.first {
                         XCTAssertEqual(firstTransaction.id, 168476)
                         XCTAssertEqual(firstTransaction.accountID, 2150)
+                        XCTAssertEqual(firstTransaction.billID, 1024)
+                        XCTAssertEqual(firstTransaction.billPaymentID, 1025)
                         XCTAssertEqual(firstTransaction.amount.amount, "-10.24")
                         XCTAssertEqual(firstTransaction.amount.currency, "AUD")
                         XCTAssertEqual(firstTransaction.baseType, .debit)

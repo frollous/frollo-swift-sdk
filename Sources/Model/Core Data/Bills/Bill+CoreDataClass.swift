@@ -225,6 +225,9 @@ public class Bill: NSManagedObject, UniqueManagedObject {
         if let billPayment = object as? BillPayment {
             addToPayments(billPayment)
         }
+        if let transaction = object as? Transaction {
+            addToTransactions(transaction)
+        }
     }
     
     internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
