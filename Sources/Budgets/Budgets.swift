@@ -34,6 +34,9 @@ public class Budgets: CachedObjects, ResponseHandler {
         self.service = service
     }
     
+    /// Notification fired when silent push notification recieved when current budget period is ready
+    public static let currentBudgetPeriodreadyNotification = Notification.Name("FrolloSDK.budgets.currentBudgetPeriodreadyNotification")
+    
     // MARK: - Budgets
     
     /**
