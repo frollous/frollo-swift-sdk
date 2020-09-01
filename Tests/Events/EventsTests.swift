@@ -211,7 +211,7 @@ class EventsTests: XCTestCase {
         
         let events = Events(service: service)
                 
-        events.handleEvent("B_CURRENT_PERIOD_READ") { (handled, error) in
+        events.handleEvent("B_CURRENT_PERIOD_READY") { (handled, error) in
             XCTAssertTrue(handled)
             XCTAssertNil(error)
             expectation1.fulfill()
