@@ -196,7 +196,7 @@ class EventsTests: XCTestCase {
     
     func testHandlebudgetPeriodReadyEvent() {
         let expectation1 = expectation(description: "Network Request 1")
-        let notificationExpectation = expectation(forNotification: Budgets.currentBudgetPeriodreadyNotification, object: nil) { (notification) -> Bool in
+        let notificationExpectation = expectation(forNotification: Budgets.currentBudgetPeriodReadyNotification, object: nil) { (notification) -> Bool in
             return true
         }
         
