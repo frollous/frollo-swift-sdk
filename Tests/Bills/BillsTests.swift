@@ -214,7 +214,7 @@ class BillsTests: BaseTestCase {
             XCTAssertNil(error)
             
             
-            bills.createBill(transactionID: 987, frequency: .monthly, nextPaymentDate: Date(timeIntervalSinceNow: 20000), name: nil, notes: nil) { (result) in
+            bills.createBill(transactionID: 987, dueAmount: 11.99, frequency: .monthly, nextPaymentDate: Date(timeIntervalSinceNow: 20000), name: nil, notes: nil) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
