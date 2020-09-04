@@ -150,7 +150,7 @@ public class Bills: CachedObjects, ResponseHandler {
         - notes: Notes attached to the bill (Optional)
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func createBill(transactionID: Int64, dueAmount: Decimal?, frequency: Bill.Frequency, nextPaymentDate: Date, name: String? = nil, notes: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+    public func createBill(transactionID: Int64, dueAmount: Decimal? = nil, frequency: Bill.Frequency, nextPaymentDate: Date, name: String? = nil, notes: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         let date = Bill.billDateFormatter.string(from: nextPaymentDate)
         let amount = dueAmount as NSDecimalNumber?
         
