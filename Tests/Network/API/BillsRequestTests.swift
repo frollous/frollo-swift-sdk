@@ -52,6 +52,7 @@ class BillsRequestTests: BaseTestCase {
                 case .success(let response):
                     XCTAssertEqual(response.id, 12345)
                     XCTAssertEqual(response.name, "Netflix")
+                    XCTAssertEqual(response.dueAmount, "11.99")
             }
             
             expectation1.fulfill()

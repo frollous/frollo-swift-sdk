@@ -143,17 +143,19 @@ public class Bills: CachedObjects, ResponseHandler {
      
      - parameters:
         - transactionID: ID of the transaction representing a bill payment
+        - dueAmount: Amount the bill charges, recurring (Optional)
         - frequency: How often the bill recurrs
         - nextPaymentDate: Date of the next payment is due
         - name: Custom name for the bill (Optional: defaults to the transaction name)
         - notes: Notes attached to the bill (Optional)
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func createBill(transactionID: Int64, frequency: Bill.Frequency, nextPaymentDate: Date, name: String? = nil, notes: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+    public func createBill(transactionID: Int64, dueAmount: Decimal?, frequency: Bill.Frequency, nextPaymentDate: Date, name: String? = nil, notes: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         let date = Bill.billDateFormatter.string(from: nextPaymentDate)
+        let amount = dueAmount as NSDecimalNumber?
         
         let request = APIBillCreateRequest(accountID: nil,
-                                           dueAmount: nil,
+                                           dueAmount: amount?.stringValue,
                                            frequency: frequency,
                                            name: name,
                                            nextPaymentDate: date,
