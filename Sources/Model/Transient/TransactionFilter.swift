@@ -243,7 +243,7 @@ public struct TransactionFilter {
         
         // Filter by billID
         if let billID = billID, billID != -1 {
-            filterPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.billID)) == %@ ", argumentArray: [billID]))
+            filterPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.billID)) == %@", argumentArray: [billID]))
         }
         
         return filterPredicates
