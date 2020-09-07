@@ -40,11 +40,12 @@ public struct TransactionFilter {
          - accountIncluded: 'included' status of 'Account' to filter by
          - after: after field to get next list in pagination. Format is "<epoch_date>_<transaction_id>"
          - before: before field to get previous list in pagination. Format is "<epoch_date>_<transaction_id>"
+         - billID: billID to filter the associated transactions; Optional
          - size: Count of objects to return in one call
      
         - returns: Transaction filter ready to be used
      */
-    public init(transactionIDs: [Int64]? = nil, accountIDs: [Int64]? = nil, budgetCategories: [BudgetCategory]? = nil, transactionCategoryIDs: [Int64]? = nil, merchantIDs: [Int64]? = nil, searchTerm: String? = nil, minimumAmount: String? = nil, maximumAmount: String? = nil, baseType: Transaction.BaseType? = nil, tags: [String]? = nil, status: Transaction.Status? = nil, fromDate: String? = nil, toDate: String? = nil, transactionIncluded: Bool? = nil, accountIncluded: Bool? = nil, after: String? = nil, before: String? = nil, size: Int? = nil) {
+    public init(transactionIDs: [Int64]? = nil, accountIDs: [Int64]? = nil, budgetCategories: [BudgetCategory]? = nil, transactionCategoryIDs: [Int64]? = nil, merchantIDs: [Int64]? = nil, searchTerm: String? = nil, minimumAmount: String? = nil, maximumAmount: String? = nil, baseType: Transaction.BaseType? = nil, tags: [String]? = nil, status: Transaction.Status? = nil, fromDate: String? = nil, toDate: String? = nil, transactionIncluded: Bool? = nil, accountIncluded: Bool? = nil, after: String? = nil, before: String? = nil, billID: Int64? = nil, size: Int? = nil) {
         
         self.transactionIDs = transactionIDs
         self.accountIDs = accountIDs
@@ -63,6 +64,7 @@ public struct TransactionFilter {
         self.accountIncluded = accountIncluded
         self.after = after
         self.before = before
+        self.billID = billID
         self.size = size
     }
     
@@ -116,6 +118,9 @@ public struct TransactionFilter {
     
     /// before field to get previous list in pagination. Format is "<epoch_date>_<transaction_id>"
     public var before: String?
+    
+    /// billID to filter transactions
+    public var billID: Int64?
     
     /// Count of objects to returned from the API (page size)
     public var size: Int?
@@ -236,6 +241,11 @@ public struct TransactionFilter {
             filterPredicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: searchTermPredicates))
         }
         
+        // Filter by billID
+        if let billID = billID, billID != -1 {
+            filterPredicates.append(NSPredicate(format: "\(#keyPath(Transaction.billID)) == %@", argumentArray: [billID]))
+        }
+        
         return filterPredicates
         
     }
@@ -312,6 +322,10 @@ public struct TransactionFilter {
         
         if let size = size {
             queryItems.append(URLQueryItem(name: "size", value: String(size)))
+        }
+        
+        if let billID = billID {
+            queryItems.append(URLQueryItem(name: "bill_id", value: String(billID)))
         }
         
         if !queryItems.isEmpty {
