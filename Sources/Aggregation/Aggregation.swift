@@ -2799,13 +2799,13 @@ public class Aggregation: CachedObjects, ResponseHandler {
          */
         
         // Filter by before cursor in paginated response
-        if let beforeDate = beforeDate, let beforeID = beforeID, let dayAfterFirstDate = beforeDate.withAddingValue(1, to: .day) {
+        if let beforeDate = beforeDate, let beforeID = beforeID, let dayBeforeFirstDate = beforeDate.withAddingValue(-1, to: .day) {
             
             let fromDateString = Transaction.transactionDateFormatter.string(from: beforeDate)
-            let dayAfterFirstDateString = Transaction.transactionDateFormatter.string(from: dayAfterFirstDate)
+            let dayBeforeFirstDateString = Transaction.transactionDateFormatter.string(from: dayBeforeFirstDate)
             
-            // Filter for other days except first day of transaction list. All transactions will be considered after beforeDate (one day after first day). This means we dont need to consider transactionIDs here.
-            let filterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " <= %@ ", argumentArray: [dayAfterFirstDateString])
+            // Filter for other days except first day of transaction list. All transactions will be considered before beforeDate (one day before first day). This means we dont need to consider transactionIDs here.
+            let filterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " <= %@ ", argumentArray: [dayBeforeFirstDateString])
             
             // First day filter. For the first date in transaction list, the day should be equal to first day and transactionID should be after first transaction ID (beforeID).
             let firstDayFilterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " == %@ && " + #keyPath(Transaction.transactionID) + " <= %@ ", argumentArray: [fromDateString, beforeID])
@@ -2814,13 +2814,13 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
         
         // Filter by after cursor in paginated response
-        if let afterDate = afterDate, let afterID = afterID, let dayBeforeLastDate = afterDate.withAddingValue(-1, to: .day) {
+        if let afterDate = afterDate, let afterID = afterID, let dayAfterLastDate = afterDate.withAddingValue(1, to: .day) {
             
             let toDateString = Transaction.transactionDateFormatter.string(from: afterDate)
-            let dayBeforeLastDateString = Transaction.transactionDateFormatter.string(from: dayBeforeLastDate)
+            let dayAfterLastDateString = Transaction.transactionDateFormatter.string(from: dayAfterLastDate)
             
-            // Filter for other days except last day. All transactions can be considered before afterDate (one day before last day). This means we dont need to consider transactionIDs here.
-            let filterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " >= %@ ", argumentArray: [dayBeforeLastDateString])
+            // Filter for other days except last day. All transactions can be considered after afterDate (one day after last day). This means we dont need to consider transactionIDs here.
+            let filterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " >= %@ ", argumentArray: [dayAfterLastDateString])
             
             // Last day filter. For the last date in transaction list, the day should be equal to last day and transactionID should be before last transaction ID (afterID).
             let lastDayFilterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " == %@ && " + #keyPath(Transaction.transactionID) + " >= %@ ", argumentArray: [toDateString, afterID])
