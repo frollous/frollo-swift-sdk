@@ -1148,6 +1148,12 @@
 		034EDC8A250F22FE00C48A57 /* Image+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC7A250F20C600C48A57 /* Image+CoreDataProperties.swift */; };
 		034EDC8C250F24DD00C48A57 /* APIImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC8B250F24DD00C48A57 /* APIImageResponse.swift */; };
 		034EDC8D250F24DD00C48A57 /* APIImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC8B250F24DD00C48A57 /* APIImageResponse.swift */; };
+		034EDC91250F2DFD00C48A57 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC90250F2DFD00C48A57 /* Images.swift */; };
+		034EDC92250F2DFD00C48A57 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC90250F2DFD00C48A57 /* Images.swift */; };
+		034EDC94250F2EF200C48A57 /* APIService+Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC93250F2EF200C48A57 /* APIService+Images.swift */; };
+		034EDC95250F2EF200C48A57 /* APIService+Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC93250F2EF200C48A57 /* APIService+Images.swift */; };
+		034EDC97250F2FE100C48A57 /* ImagesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC96250F2FE100C48A57 /* ImagesEndpoint.swift */; };
+		034EDC98250F2FE100C48A57 /* ImagesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC96250F2FE100C48A57 /* ImagesEndpoint.swift */; };
 		03778B7C23F3BEC9008C856B /* put_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 03778B7B23F3BEC9008C856B /* put_consent.json */; };
 		03778B7D23F3BEC9008C856B /* put_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 03778B7B23F3BEC9008C856B /* put_consent.json */; };
 		03778B7E23F3BEC9008C856B /* put_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 03778B7B23F3BEC9008C856B /* put_consent.json */; };
@@ -1970,6 +1976,9 @@
 		034EDC7A250F20C600C48A57 /* Image+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		034EDC7D250F20EA00C48A57 /* Image+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+CoreDataClass.swift"; sourceTree = "<group>"; };
 		034EDC8B250F24DD00C48A57 /* APIImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIImageResponse.swift; sourceTree = "<group>"; };
+		034EDC90250F2DFD00C48A57 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		034EDC93250F2EF200C48A57 /* APIService+Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+Images.swift"; sourceTree = "<group>"; };
+		034EDC96250F2FE100C48A57 /* ImagesEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesEndpoint.swift; sourceTree = "<group>"; };
 		03778B7B23F3BEC9008C856B /* put_consent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = put_consent.json; sourceTree = "<group>"; };
 		039C07A423F3B2C4002F7979 /* get_consent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_consent.json; sourceTree = "<group>"; };
 		03A3A71E2432F15600D46BB0 /* Consent+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Consent+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -2634,6 +2643,7 @@
 				011F8148219D31AB00A1495F /* Events */,
 				01C8251020EDF56E0093400E /* Extensions */,
 				017F0FB822DC541F00ACE7BB /* Goals */,
+				034EDC8F250F2DE800C48A57 /* Images */,
 				0136D223210011D90062EAEA /* Keychain */,
 				01C824EA20EC32DE0093400E /* Logging */,
 				0126068121990158005D8377 /* Messages */,
@@ -3258,6 +3268,7 @@
 				01236D0D21EBFA34008DD61A /* ReportsEndpoint.swift */,
 				2F657DA8223B323A00471B85 /* SurveysEndpoint.swift */,
 				01874B7320F81EA8005A7D0C /* UserEndpoint.swift */,
+				034EDC96250F2FE100C48A57 /* ImagesEndpoint.swift */,
 			);
 			path = Endpoints;
 			sourceTree = "<group>";
@@ -3277,6 +3288,7 @@
 				01236D0F21EC02CC008DD61A /* APIService+Reports.swift */,
 				2F657DA6223B314100471B85 /* APIService+Surveys.swift */,
 				01874B7C20FD6FB9005A7D0C /* APIService+User.swift */,
+				034EDC93250F2EF200C48A57 /* APIService+Images.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -3690,6 +3702,14 @@
 			isa = PBXGroup;
 			children = (
 				034EDC8B250F24DD00C48A57 /* APIImageResponse.swift */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		034EDC8F250F2DE800C48A57 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				034EDC90250F2DFD00C48A57 /* Images.swift */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -4823,6 +4843,7 @@
 				01226E3A22A774DE00A443EF /* OAuth2TokenRevokeRequest.swift in Sources */,
 				01226E2E22A5070000A443EF /* APIUserMigrationRequest.swift in Sources */,
 				0159E4842193CBAD002CC3BB /* TransactionCategory+CoreDataProperties.swift in Sources */,
+				034EDC91250F2DFD00C48A57 /* Images.swift in Sources */,
 				01C824FD20EDD6630093400E /* FrolloSDKError.swift in Sources */,
 				012606B2219A784D005D8377 /* MessageText+CoreDataProperties.swift in Sources */,
 				01527CD920E1C5A600B5042A /* FrolloSDK.swift in Sources */,
@@ -4865,6 +4886,7 @@
 				0159E48A2193CBAD002CC3BB /* AccountBalanceTier+CoreDataProperties.swift in Sources */,
 				018240DE21C8B80B005705F9 /* Bill+CoreDataProperties.swift in Sources */,
 				0101A8E021C9BDEF00DCFCEB /* APIService+Bills.swift in Sources */,
+				034EDC97250F2FE100C48A57 /* ImagesEndpoint.swift in Sources */,
 				0125879923442FAB0077D8B4 /* PayDayEndpoint.swift in Sources */,
 				032F10B123DA781900F3BF01 /* APIService+Consent.swift in Sources */,
 				01C824EE20EC40FD0093400E /* ConsoleLogger.swift in Sources */,
@@ -4929,6 +4951,7 @@
 				0176862C235E54FC00F66D17 /* FrolloSDKDataModel.xcdatamodeld in Sources */,
 				015EEDDE210FD7710081AD76 /* FailableCodable.swift in Sources */,
 				013BC1DF218A6998005A2714 /* ProviderLoginFormViewModel.swift in Sources */,
+				034EDC94250F2EF200C48A57 /* APIService+Images.swift in Sources */,
 				011F1A60216B289B00119474 /* APIUserResetPasswordRequest.swift in Sources */,
 				01EAAEE1214F351D003D1EAC /* APIProviderAccountUpdateRequest.swift in Sources */,
 				03D965B022768C92009BC283 /* SuggestedTag.swift in Sources */,
@@ -5480,6 +5503,7 @@
 				03ADF87C22795C78001B5E20 /* Tag+CoreDataProperties.swift in Sources */,
 				01226E3B22A774DE00A443EF /* OAuth2TokenRevokeRequest.swift in Sources */,
 				01226E2F22A5070000A443EF /* APIUserMigrationRequest.swift in Sources */,
+				034EDC92250F2DFD00C48A57 /* Images.swift in Sources */,
 				01E5BEF02227A475003D85FD /* Transaction+CoreDataProperties.swift in Sources */,
 				01E5BEF12227A475003D85FD /* TransactionCategory+CoreDataProperties.swift in Sources */,
 				01E5BEF22227A475003D85FD /* FrolloSDKError.swift in Sources */,
@@ -5522,6 +5546,7 @@
 				01E5BF092227A475003D85FD /* BillPayment+CoreDataProperties.swift in Sources */,
 				01E5BF0A2227A475003D85FD /* ProviderAccount+CoreDataClass.swift in Sources */,
 				0125879A23442FAB0077D8B4 /* PayDayEndpoint.swift in Sources */,
+				034EDC98250F2FE100C48A57 /* ImagesEndpoint.swift in Sources */,
 				032F10B023DA781900F3BF01 /* APIService+Consent.swift in Sources */,
 				01456B7522433D060077FC56 /* Survey.swift in Sources */,
 				01E5BF0B2227A475003D85FD /* AccountBalanceTier+CoreDataProperties.swift in Sources */,
@@ -5586,6 +5611,7 @@
 				01E5BF352227A475003D85FD /* FailableCodable.swift in Sources */,
 				01E5BF362227A475003D85FD /* ProviderLoginFormViewModel.swift in Sources */,
 				01E5BF372227A475003D85FD /* APIUserResetPasswordRequest.swift in Sources */,
+				034EDC95250F2EF200C48A57 /* APIService+Images.swift in Sources */,
 				01E5BF382227A475003D85FD /* APIProviderAccountUpdateRequest.swift in Sources */,
 				01E5BF3A2227A475003D85FD /* MessagesEndpoint.swift in Sources */,
 				133B024D23A9A1A00067D6FA /* PaginatedResponse.swift in Sources */,

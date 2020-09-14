@@ -16,22 +16,19 @@
 
 import Foundation
 
-struct APIImageResponse: APIUniqueResponse, Codable {
+internal enum ImagesEndpoint: Endpoint {
     
-    enum CodingKeys: String, CodingKey {
-        
-        case id
-        case name
-        case imageTypes = "image_type"
-        case smallImageURL = "small_image_url"
-        case largeImageURL = "large_image_url"
-        
+    internal var path: String {
+        return urlPath()
     }
     
-    var id: Int64
-    let name: String
-    let imageTypes: [String]
-    let smallImageURL: String
-    let largeImageURL: String
+    case images
+    
+    private func urlPath() -> String {
+        switch self {
+            case .images:
+                return "images"
+        }
+    }
     
 }
