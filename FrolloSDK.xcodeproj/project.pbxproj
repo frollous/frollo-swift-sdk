@@ -1154,6 +1154,15 @@
 		034EDC95250F2EF200C48A57 /* APIService+Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC93250F2EF200C48A57 /* APIService+Images.swift */; };
 		034EDC97250F2FE100C48A57 /* ImagesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC96250F2FE100C48A57 /* ImagesEndpoint.swift */; };
 		034EDC98250F2FE100C48A57 /* ImagesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC96250F2FE100C48A57 /* ImagesEndpoint.swift */; };
+		034EDC9B250F395F00C48A57 /* ImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC9A250F395F00C48A57 /* ImagesTests.swift */; };
+		034EDC9C250F396500C48A57 /* ImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC9A250F395F00C48A57 /* ImagesTests.swift */; };
+		034EDC9D250F396500C48A57 /* ImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC9A250F395F00C48A57 /* ImagesTests.swift */; };
+		034EDCA0250F3B6800C48A57 /* Images+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC9F250F3B6800C48A57 /* Images+Test.swift */; };
+		034EDCA1250F3B6800C48A57 /* Images+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC9F250F3B6800C48A57 /* Images+Test.swift */; };
+		034EDCA2250F3B6800C48A57 /* Images+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034EDC9F250F3B6800C48A57 /* Images+Test.swift */; };
+		034EDCA5250F445600C48A57 /* images_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 034EDCA4250F445600C48A57 /* images_valid.json */; };
+		034EDCA6250F445600C48A57 /* images_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 034EDCA4250F445600C48A57 /* images_valid.json */; };
+		034EDCA7250F445600C48A57 /* images_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 034EDCA4250F445600C48A57 /* images_valid.json */; };
 		03778B7C23F3BEC9008C856B /* put_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 03778B7B23F3BEC9008C856B /* put_consent.json */; };
 		03778B7D23F3BEC9008C856B /* put_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 03778B7B23F3BEC9008C856B /* put_consent.json */; };
 		03778B7E23F3BEC9008C856B /* put_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 03778B7B23F3BEC9008C856B /* put_consent.json */; };
@@ -1979,6 +1988,9 @@
 		034EDC90250F2DFD00C48A57 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		034EDC93250F2EF200C48A57 /* APIService+Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+Images.swift"; sourceTree = "<group>"; };
 		034EDC96250F2FE100C48A57 /* ImagesEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesEndpoint.swift; sourceTree = "<group>"; };
+		034EDC9A250F395F00C48A57 /* ImagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesTests.swift; sourceTree = "<group>"; };
+		034EDC9F250F3B6800C48A57 /* Images+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+Test.swift"; sourceTree = "<group>"; };
+		034EDCA4250F445600C48A57 /* images_valid.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = images_valid.json; sourceTree = "<group>"; };
 		03778B7B23F3BEC9008C856B /* put_consent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = put_consent.json; sourceTree = "<group>"; };
 		039C07A423F3B2C4002F7979 /* get_consent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_consent.json; sourceTree = "<group>"; };
 		03A3A71E2432F15600D46BB0 /* Consent+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Consent+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -2680,6 +2692,7 @@
 				017F0FBC22DC566A00ACE7BB /* Goals */,
 				0161395B228BEC28001A62E8 /* Helpers */,
 				015EEDED210FDF1A0081AD76 /* Hosts */,
+				034EDC99250F392300C48A57 /* Images */,
 				0136D2262100679A0062EAEA /* Keychain */,
 				01C824F120EC4CD90093400E /* Logging */,
 				01260697219949EA005D8377 /* Messages */,
@@ -3097,6 +3110,7 @@
 				132154652390EBFD001495A2 /* Budget */,
 				01D7A4A5247C9974000339D9 /* Consent */,
 				017F0F9822DC314200ACE7BB /* Goals */,
+				034EDC9E250F3B4800C48A57 /* Images */,
 				012606C5219BA998005D8377 /* Messages */,
 				01F832FC23275944004520D0 /* PayDay */,
 				01236D1A21EC2FA2008DD61A /* Reports */,
@@ -3314,6 +3328,7 @@
 		01B896A120F2EDA30068069A /* API */ = {
 			isa = PBXGroup;
 			children = (
+				034EDCA3250F444700C48A57 /* Images */,
 				13AC078E239604D900982FB1 /* Budgets */,
 				015EEDDF210FDA4D0081AD76 /* Aggregation */,
 				0101A8E121C9C24700DCFCEB /* Bills */,
@@ -3714,6 +3729,30 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		034EDC99250F392300C48A57 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				034EDC9A250F395F00C48A57 /* ImagesTests.swift */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		034EDC9E250F3B4800C48A57 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				034EDC9F250F3B6800C48A57 /* Images+Test.swift */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		034EDCA3250F444700C48A57 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				034EDCA4250F445600C48A57 /* images_valid.json */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		1318C1C5237B95CD00ABFC51 /* Migrations */ = {
 			isa = PBXGroup;
 			children = (
@@ -4075,6 +4114,7 @@
 				01ED8FD9211A846500ACE691 /* transactions_2018-08-01_invalid.json in Resources */,
 				01A7228F22E7F6A6006136D8 /* FrolloSDKDataModel-1.3.3.sqlite in Resources */,
 				017B48E721082DCA00447E65 /* user_details_complete.json in Resources */,
+				034EDCA5250F445600C48A57 /* images_valid.json in Resources */,
 				01F806072344620800A4FCA9 /* pay_day.json in Resources */,
 				1318C1E5237BAB0600ABFC51 /* FrolloSDKDataModel-1.5.2.sqlite-shm in Resources */,
 				033D46D42272DFC100E0C6D6 /* transactions_suggested_tags.json in Resources */,
@@ -4278,6 +4318,7 @@
 				01ED8FDA211A846500ACE691 /* transactions_2018-08-01_invalid.json in Resources */,
 				01A7229022E7F6A6006136D8 /* FrolloSDKDataModel-1.3.3.sqlite in Resources */,
 				017B48E821082DCA00447E65 /* user_details_complete.json in Resources */,
+				034EDCA6250F445600C48A57 /* images_valid.json in Resources */,
 				01F806082344620800A4FCA9 /* pay_day.json in Resources */,
 				135B2B16241B4BEF001B73BB /* FrolloSDKDataModel-1.6.0.sqlite-shm in Resources */,
 				1318C1E6237BAB0600ABFC51 /* FrolloSDKDataModel-1.5.2.sqlite-shm in Resources */,
@@ -4490,6 +4531,7 @@
 				01236D5021EEBE30008DD61A /* transaction_reports_history_txn_category_monthly_lifestyle_2018-01-01_2018-12-31.json in Resources */,
 				01ED8FDB211A846500ACE691 /* transactions_2018-08-01_invalid.json in Resources */,
 				01A7229122E7F6A6006136D8 /* FrolloSDKDataModel-1.3.3.sqlite in Resources */,
+				034EDCA7250F445600C48A57 /* images_valid.json in Resources */,
 				017B48E921082DCB00447E65 /* user_details_complete.json in Resources */,
 				01F806092344620800A4FCA9 /* pay_day.json in Resources */,
 				1318C1E7237BAB0600ABFC51 /* FrolloSDKDataModel-1.5.2.sqlite-shm in Resources */,
@@ -5081,6 +5123,7 @@
 				016139512288E03A001A62E8 /* UserManagementTests.swift in Sources */,
 				03E00A63243432F300D989CB /* Consent+Test.swift in Sources */,
 				017B48FC21084BA200447E65 /* AuthenticationTests.swift in Sources */,
+				034EDCA0250F3B6800C48A57 /* Images+Test.swift in Sources */,
 				01333D42216AB115005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */,
 				017F0FF622DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift in Sources */,
 				13CFDA78239747A300559476 /* BudgetPeriodTests.swift in Sources */,
@@ -5139,6 +5182,7 @@
 				0101A8EE21CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
 				01D4927022D4645D0074C7EC /* MockAuthentication.swift in Sources */,
 				2F04B8AC23E2704C008354BF /* TransactionFilter+Tests.swift in Sources */,
+				034EDC9B250F395F00C48A57 /* ImagesTests.swift in Sources */,
 				017F0FE122DEB70500ACE7BB /* APIGoalUpdateRequest+Test.swift in Sources */,
 				13CFDA8223975B0700559476 /* BudgetsRequestTests.swift in Sources */,
 				01B71A2C23149C4D0040D5A5 /* MockFrolloDelegate.swift in Sources */,
@@ -5228,6 +5272,7 @@
 				016139522288E03A001A62E8 /* UserManagementTests.swift in Sources */,
 				03E00A64243432F300D989CB /* Consent+Test.swift in Sources */,
 				017B48FD21084BA200447E65 /* AuthenticationTests.swift in Sources */,
+				034EDCA1250F3B6800C48A57 /* Images+Test.swift in Sources */,
 				01333D43216AB115005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */,
 				017F0FF722DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift in Sources */,
 				13CFDA79239747A300559476 /* BudgetPeriodTests.swift in Sources */,
@@ -5286,6 +5331,7 @@
 				0101A8EF21CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
 				01D4927122D4645D0074C7EC /* MockAuthentication.swift in Sources */,
 				2F04B8AD23E2704D008354BF /* TransactionFilter+Tests.swift in Sources */,
+				034EDC9C250F396500C48A57 /* ImagesTests.swift in Sources */,
 				017F0FE222DEB70500ACE7BB /* APIGoalUpdateRequest+Test.swift in Sources */,
 				13CFDA8323975B0700559476 /* BudgetsRequestTests.swift in Sources */,
 				01B71A2D23149C4D0040D5A5 /* MockFrolloDelegate.swift in Sources */,
@@ -5384,6 +5430,7 @@
 				016139532288E03A001A62E8 /* UserManagementTests.swift in Sources */,
 				03E00A65243432F400D989CB /* Consent+Test.swift in Sources */,
 				013A32D52112C40500B0590B /* CoreData+Test.swift in Sources */,
+				034EDCA2250F3B6800C48A57 /* Images+Test.swift in Sources */,
 				01333D44216AB116005764A4 /* APIUserChangePasswordRequest+Test.swift in Sources */,
 				017F0FF822DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift in Sources */,
 				13CFDA7A239747A300559476 /* BudgetPeriodTests.swift in Sources */,
@@ -5442,6 +5489,7 @@
 				0101A8F021CC4FBD00DCFCEB /* APIBillResponse+Test.swift in Sources */,
 				01D4927222D4645D0074C7EC /* MockAuthentication.swift in Sources */,
 				2F04B8AE23E2704D008354BF /* TransactionFilter+Tests.swift in Sources */,
+				034EDC9D250F396500C48A57 /* ImagesTests.swift in Sources */,
 				017F0FE322DEB70500ACE7BB /* APIGoalUpdateRequest+Test.swift in Sources */,
 				13CFDA8423975B0700559476 /* BudgetsRequestTests.swift in Sources */,
 				01B71A2E23149C4D0040D5A5 /* MockFrolloDelegate.swift in Sources */,
