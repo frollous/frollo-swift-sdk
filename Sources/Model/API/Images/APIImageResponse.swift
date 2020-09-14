@@ -22,7 +22,7 @@ struct APIImageResponse: APIUniqueResponse, Codable {
         
         case id
         case name
-        case imageTypes = "image_type"
+        case imageTypes = "image_types"
         case smallImageURL = "small_image_url"
         case largeImageURL = "large_image_url"
         

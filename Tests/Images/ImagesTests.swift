@@ -188,7 +188,7 @@ class ImagesTests: XCTestCase {
                         do {
                             let fetchedImages = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedImages.count, 39)
+                            XCTAssertEqual(fetchedImages.count, 3)
                             
                         } catch {
                             XCTFail(error.localizedDescription)
