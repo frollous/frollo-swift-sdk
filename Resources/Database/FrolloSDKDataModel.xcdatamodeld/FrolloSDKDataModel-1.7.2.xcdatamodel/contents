@@ -261,6 +261,13 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
+    <entity name="Image" representedClassName=".Image" syncable="YES">
+        <attribute name="imageID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="largeURLString" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="smallURLString" optional="YES" attributeType="String"/>
+        <attribute name="typesRawValue" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="Merchant" representedClassName=".Merchant" syncable="YES">
         <attribute name="merchantID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
         <attribute name="merchantTypeRawValue" optional="YES" attributeType="String"/>
@@ -552,6 +559,7 @@
         <element name="Consent" positionX="-378" positionY="162" width="128" height="253"/>
         <element name="Goal" positionX="-378" positionY="162" width="128" height="388"/>
         <element name="GoalPeriod" positionX="-360" positionY="180" width="128" height="193"/>
+        <element name="Image" positionX="-369" positionY="171" width="128" height="118"/>
         <element name="Merchant" positionX="498.47265625" positionY="19.75" width="128" height="133"/>
         <element name="Message" positionX="-579.37109375" positionY="813.0234375" width="128" height="268"/>
         <element name="MessageHTML" positionX="-317.359375" positionY="757.66015625" width="128" height="90"/>
