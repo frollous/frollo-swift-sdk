@@ -451,6 +451,7 @@
         <attribute name="currency" attributeType="String"/>
         <attribute name="externalID" optional="YES" attributeType="String"/>
         <attribute name="formattedAddress" optional="YES" attributeType="String"/>
+        <attribute name="goalID" optional="YES" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
         <attribute name="included" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -571,7 +572,7 @@
         <element name="ProviderAccount" positionX="-164.078125" positionY="13.7109375" width="128" height="238"/>
         <element name="ReportAccountBalance" positionX="-360" positionY="180" width="128" height="135"/>
         <element name="Tag" positionX="283.4609375" positionY="696.9375" width="128" height="105"/>
-        <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="598"/>
+        <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="613"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="178"/>
         <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>
     </elements>

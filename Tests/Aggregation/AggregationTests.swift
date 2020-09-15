@@ -1731,6 +1731,8 @@ class AggregationTests: BaseTestCase {
                             let fetchedTransactions = try context.fetch(fetchRequest)
                             
                             XCTAssertEqual(fetchedTransactions.count, 34)
+                            let goalID = fetchedTransactions.first(where: { $0.transactionID == 168475 })?.goalID
+                            XCTAssertEqual(goalID, 2048)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
