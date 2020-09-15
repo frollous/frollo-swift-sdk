@@ -18,6 +18,8 @@ import Alamofire
 import Foundation
 
 extension Error {
+    
+    /// The domain of the error
     var domain: String {
         return (self as NSError).domain
     }

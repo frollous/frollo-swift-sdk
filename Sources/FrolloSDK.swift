@@ -121,6 +121,16 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         return _goals
     }
     
+    /// Images - All images management. See `Images` for details
+    public var images: Images {
+        guard _setup
+        else {
+            fatalError("SDK not setup.")
+        }
+        
+        return _images
+    }
+    
     /// Messages - All messages management. See `Messages` for details
     public var messages: Messages {
         guard _setup
@@ -195,6 +205,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     internal var _database: Database!
     internal var _events: Events!
     internal var _goals: Goals!
+    internal var _images: Images!
     internal var _messages: Messages!
     internal var _notifications: Notifications!
     internal var network: Network!
@@ -326,6 +337,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         _budgets = Budgets(database: _database, service: service)
         _events = Events(service: service)
         _goals = Goals(database: _database, service: service, aggregation: _aggregation)
+        _images = Images(database: _database, service: service)
         _messages = Messages(database: _database, service: service)
         _payDays = PayDays(database: _database, service: service)
         _reports = Reports(database: _database, service: service, aggregation: _aggregation)
