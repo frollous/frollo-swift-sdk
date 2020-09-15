@@ -58,7 +58,6 @@ public class Images: CachedObjects, ResponseHandler {
      */
     public func images(context: NSManagedObjectContext,
                        imageTypes: [String]? = nil,
-                       unread: Bool? = nil,
                        filteredBy predicate: NSPredicate? = nil,
                        sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Image.imageID), ascending: true)],
                        limit: Int? = nil) -> [Image]? {
@@ -91,7 +90,6 @@ public class Images: CachedObjects, ResponseHandler {
      */
     public func imagesFetchedResultsController(context: NSManagedObjectContext,
                                                imageTypes: [String]? = nil,
-                                               unread: Bool? = nil,
                                                filteredBy predicate: NSPredicate? = nil,
                                                sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Image.imageID), ascending: true)],
                                                limit: Int? = nil) -> NSFetchedResultsController<Image>? {
@@ -117,10 +115,11 @@ public class Images: CachedObjects, ResponseHandler {
      Refresh all available images from the host.
      
      - parameters:
+        - imageType: Optional image type to filter by
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func refreshImages(completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchImages { result in
+    public func refreshImages(imageType: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        service.fetchImages(imageType: imageType) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -167,79 +166,13 @@ public class Images: CachedObjects, ResponseHandler {
             imageLock.unlock()
         }
         
-        updateImageObjectsWithResponse(imagesResponse, filterPredicate: nil, managedObjectContext: managedObjectContext)
+        updateObjectsWithResponse(type: Image.self, objectsResponse: imagesResponse, primaryKey: #keyPath(Image.imageID), linkedKeys: [], filterPredicate: nil, managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
             do {
                 try managedObjectContext.save()
             } catch {
                 Log.error(error.localizedDescription)
-            }
-        }
-    }
-    
-    private func updateImageObjectsWithResponse(_ imagesResponse: [APIImageResponse], filterPredicate: NSPredicate?, managedObjectContext: NSManagedObjectContext) {
-        // Sort by ID
-        let sortedObjectResponses = imagesResponse.sorted(by: { (responseA: APIImageResponse, responseB: APIImageResponse) -> Bool in
-            responseB.id > responseA.id
-        })
-        
-        // Build id list predicate
-        let objectIDs = sortedObjectResponses.map { $0.id }
-        
-        managedObjectContext.performAndWait {
-            // Fetch existing providers for updating
-            let fetchRequest: NSFetchRequest<Image> = Image.fetchRequest()
-            
-            var predicates = [NSPredicate(format: #keyPath(Image.imageID) + " IN %@", argumentArray: [objectIDs])]
-            
-            if let filter = filterPredicate {
-                predicates.append(filter)
-            }
-            
-            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Image.imageID), ascending: true)]
-            
-            do {
-                let existingObjects = try managedObjectContext.fetch(fetchRequest)
-                
-                var index = 0
-                
-                for objectResponse in sortedObjectResponses {
-                    var object: Image
-                    
-                    if index < existingObjects.count, existingObjects[index].primaryID == objectResponse.id {
-                        object = existingObjects[index]
-                        index += 1
-                    } else {
-                        object = Image(context: managedObjectContext)
-                    }
-                    
-                    object.update(response: objectResponse, context: managedObjectContext)
-                }
-                
-                // Fetch and delete any leftovers
-                let deleteRequest: NSFetchRequest<Image> = Image.fetchRequest()
-                
-                var deletePredicates = [NSPredicate(format: "NOT " + #keyPath(Image.imageID) + " IN %@", argumentArray: [objectIDs])]
-                
-                if let filter = filterPredicate {
-                    deletePredicates.append(filter)
-                }
-                
-                deleteRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: deletePredicates)
-                
-                do {
-                    let deleteObjects = try managedObjectContext.fetch(deleteRequest)
-                    
-                    for deleteObject in deleteObjects {
-                        managedObjectContext.delete(deleteObject)
-                    }
-                } catch let fetchError {
-                    Log.error(fetchError.localizedDescription)
-                }
-            } catch let fetchError {
-                Log.error(fetchError.localizedDescription)
             }
         }
     }

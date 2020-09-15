@@ -18,6 +18,10 @@ import Foundation
 
 internal enum ImagesEndpoint: Endpoint {
     
+    enum QueryParameters: String, Codable {
+        case imageType = "image_type"
+    }
+    
     internal var path: String {
         return urlPath()
     }

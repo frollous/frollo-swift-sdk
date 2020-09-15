@@ -20,11 +20,16 @@ import Alamofire
 
 extension APIService {
     
-    internal func fetchImages(completion: @escaping RequestCompletion<[APIImageResponse]>) {
+    internal func fetchImages(imageType: String?, completion: @escaping RequestCompletion<[APIImageResponse]>) {
         requestQueue.async {
             let url = URL(string: ImagesEndpoint.images.path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+            var parameters: [String: String] = [:]
+            if let imageType = imageType {
+                parameters[ImagesEndpoint.QueryParameters.imageType.rawValue] = imageType
+            }
+            
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleArrayResponse(type: APIImageResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }

@@ -119,7 +119,7 @@ class ImagesTests: XCTestCase {
             
             let images = Images(database: database, service: service)
             
-            let fetchedResultsController = images.imagesFetchedResultsController(context: database.viewContext, imageTypes: ["hello"], unread: true)
+            let fetchedResultsController = images.imagesFetchedResultsController(context: database.viewContext, imageTypes: ["hello"])
             
             do {
                 try fetchedResultsController?.performFetch()
