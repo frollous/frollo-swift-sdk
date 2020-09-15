@@ -50,6 +50,9 @@ extension Transaction {
     /// Associated bill ID
     @NSManaged public var billID: Int64
     
+    /// Associated goal ID
+    @NSManaged public var goalID: Int64
+    
     /// Associated bill payment ID
     @NSManaged public var billPaymentID: Int64
     
