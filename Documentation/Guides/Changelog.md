@@ -3,7 +3,7 @@
 
 ### Features
 
-- Added metadata to messages
+- Fixed crash in metadata for messages
 
 ## 4.6.2
 
