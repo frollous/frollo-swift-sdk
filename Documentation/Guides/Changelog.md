@@ -1,4 +1,10 @@
 # Changelog
+## 4.6.3
+
+### Features
+
+- Added metadata to messages
+
 ## 4.6.2
 
 ### Features
