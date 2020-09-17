@@ -1,4 +1,10 @@
 # Changelog
+## 4.6.3
+
+### Features
+
+- Fixed crash in metadata for messages
+
 ## 4.6.2
 
 ### Features

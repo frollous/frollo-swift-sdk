@@ -72,6 +72,6 @@ extension Message {
     @NSManaged public var autoDismiss: Bool
     
     /// Raw value for the metadata JSON associated with the message (Optional)
-    @NSManaged public var metadataRawValue: Data?
+    @NSManaged public var metaDataRawValue: Data?
     
 }
