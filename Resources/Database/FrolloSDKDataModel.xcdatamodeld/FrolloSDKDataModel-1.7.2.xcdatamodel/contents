@@ -292,7 +292,7 @@
         <attribute name="event" attributeType="String"/>
         <attribute name="interacted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="messageID" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
-        <attribute name="metadataRawValue" optional="YES" attributeType="Binary"/>
+        <attribute name="metaDataRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="openModeRawValue" optional="YES" attributeType="String"/>
         <attribute name="persists" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="placement" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
