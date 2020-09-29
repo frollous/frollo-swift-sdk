@@ -51,7 +51,7 @@ class CDRTests: BaseTestCase {
             XCTAssertNil(error)
             
             let aggregation = self.aggregation(loggedIn: true)
-            let consent = CDRConsentForm.Post(providerID: 1, sharingDuration: 100, permissions: [])
+            let consent = CDRConsentForm.Post(providerID: 1, sharingDuration: 100, permissions: [], existingConsentID: 1)
             aggregation.submitCDRConsent(consent: consent) { (result) in
                 switch result {
                     case .success:
