@@ -393,15 +393,14 @@ public class Aggregation: CachedObjects, ResponseHandler {
     }
     
     /**
-     Withdraws a consent deleting all its data
+     Updates a consent using the consent form
      
      - parameters:
-        - id: ID of `Consent` to be withdrawn
+        - consent: The form that will be submitted
         - completion: The block that will be executed when the submit request is complete
      */
-    public func withdrawCDRConsent(id: Int64, completion: FrolloSDKCompletionHandler?) {
-        let request = APICDRConsentUpdateRequest(status: .withdrawn)
-        service.updateConsent(consentID: id, request: request) { result in
+    public func updateCDRConsent(id: Int64, consent: CDRConsentForm.Put, completion: FrolloSDKCompletionHandler?) {
+        service.updateConsent(consentID: id, request: consent.apiRequest) { result in
             switch result {
                 case .success(let response):
                     let context = self.database.newBackgroundContext()
@@ -419,6 +418,17 @@ public class Aggregation: CachedObjects, ResponseHandler {
     }
     
     /**
+     Withdraws a consent deleting all its data
+     
+     - parameters:
+        - id: ID of `Consent` to be withdrawn
+        - completion: The block that will be executed when the submit request is complete
+     */
+    public func withdrawCDRConsent(id: Int64, completion: FrolloSDKCompletionHandler?) {
+        updateCDRConsent(id: id, consent: .init(status: .withdrawn), completion: completion)
+    }
+    
+    /**
      Updates a consent sharing period
      
      - parameters:
@@ -427,21 +437,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - completion: The block that will be executed when the submit request is complete
      */
     public func updateCDRConsentSharingPeriod(id: Int64, sharingDuration: TimeInterval, completion: FrolloSDKCompletionHandler?) {
-        let request = APICDRConsentUpdateRequest(sharingDuration: sharingDuration)
-        service.updateConsent(consentID: id, request: request) { result in
-            switch result {
-                case .success(let response):
-                    let context = self.database.newBackgroundContext()
-                    self.handleConsentResponse(response, managedObjectContext: context)
-                    DispatchQueue.main.async {
-                        completion?(.success)
-                    }
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        completion?(.failure(error))
-                    }
-            }
-        }
+        updateCDRConsent(id: id, consent: .init(sharingDuration: sharingDuration), completion: completion)
     }
     
     // MARK: - Provider Accounts
