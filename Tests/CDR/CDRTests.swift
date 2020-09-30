@@ -163,6 +163,30 @@ class CDRTests: BaseTestCase {
                
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testFetchConfiguration() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: CDREndpoint.configuration.path.prefixedWithSlash, method: .get, toResourceWithName: "get_configuration")
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let aggregation = self.aggregation(loggedIn: true)
+            aggregation.refreshCDRConfiguration() { (result) in
+                switch result {
+                    case .success:
+                        break
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
 }
 
 

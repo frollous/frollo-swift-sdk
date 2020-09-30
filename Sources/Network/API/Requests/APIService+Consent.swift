@@ -87,4 +87,14 @@ extension APIService {
             }
         }
     }
+    
+    internal func fetchCDRConfiguration(completion: @escaping RequestCompletion<APICDRConfigurationResponse>) {
+        requestQueue.async {
+            let url = URL(string: CDREndpoint.configuration.path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APICDRConfigurationResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
 }

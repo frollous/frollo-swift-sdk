@@ -32,6 +32,7 @@ enum CDREndpoint: Endpoint {
     
     case consents(id: Int64?)
     case products
+    case configuration
     
     private func urlPath() -> String {
         switch self {
@@ -43,6 +44,8 @@ enum CDREndpoint: Endpoint {
                 }
             case .products:
                 return "cdr/products"
+            case .configuration:
+                return "cdr/configuration"
         }
     }
     

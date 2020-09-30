@@ -84,6 +84,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
     internal let merchantLock = NSLock()
     internal let providerLock = NSLock()
     internal let consentLock = NSLock()
+    internal let configurationLock = NSLock()
     internal let providerAccountLock = NSLock()
     internal let transactionLock = NSLock()
     internal let transactionCategoryLock = NSLock()
@@ -441,6 +442,50 @@ public class Aggregation: CachedObjects, ResponseHandler {
                         completion?(.failure(error))
                     }
             }
+        }
+    }
+    
+    /**
+     Refresh the CDR configuration with the host
+     
+     - parameters:
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshCDRConfiguration(completion: FrolloSDKCompletionHandler? = nil) {
+        service.fetchCDRConfiguration { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleConfigurationResponse(response, managedObjectContext: managedObjectContext)
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
+     Fetch consents from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+     */
+    public func cdrConfiguration(context: NSManagedObjectContext) -> CDRConfiguration? {
+        
+        let fetch: NSFetchRequest<CDRConfiguration> = CDRConfiguration.fetchRequest()
+        do {
+            let configurations = try context.fetch(fetch)
+            return configurations.first
+        } catch {
+            Log.error(error.localizedDescription)
+            return nil
         }
     }
     
@@ -2487,6 +2532,32 @@ public class Aggregation: CachedObjects, ResponseHandler {
             } catch {
                 Log.error(error.localizedDescription)
             }
+        }
+    }
+    
+    private func deleteAllConfiguration(managedObjectContext: NSManagedObjectContext) {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = CDRConfiguration.fetchRequest()
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        
+        do {
+            try managedObjectContext.execute(deleteRequest)
+        } catch let error as NSError {
+            Log.error(error.localizedDescription)
+        }
+    }
+    
+    private func handleConfigurationResponse(_ response: APICDRConfigurationResponse, managedObjectContext: NSManagedObjectContext) {
+        configurationLock.lock()
+        defer {
+            configurationLock.unlock()
+        }
+        deleteAllConfiguration(managedObjectContext: managedObjectContext)
+        let newConfiguration = CDRConfiguration(context: managedObjectContext)
+        newConfiguration.update(response: response)
+        do {
+            try managedObjectContext.save()
+        } catch {
+            Log.error(error.localizedDescription)
         }
     }
     

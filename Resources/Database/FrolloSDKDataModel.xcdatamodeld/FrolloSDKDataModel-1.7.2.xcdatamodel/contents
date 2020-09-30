@@ -181,6 +181,12 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
+    <entity name="CDRConfiguration" representedClassName="CDRConfiguration" syncable="YES">
+        <attribute name="adrID" attributeType="String"/>
+        <attribute name="adrName" attributeType="String"/>
+        <attribute name="sharingDurationRawValue" attributeType="Binary"/>
+        <attribute name="supportEmail" attributeType="String"/>
+    </entity>
     <entity name="CDRProductInformation" representedClassName=".CDRProductInformation" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="value" optional="YES" attributeType="String"/>
@@ -575,5 +581,6 @@
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="613"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="178"/>
         <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>
+        <element name="CDRConfiguration" positionX="-378" positionY="162" width="128" height="103"/>
     </elements>
 </model>
