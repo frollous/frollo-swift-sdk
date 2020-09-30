@@ -22,7 +22,6 @@ extension Consent: TestableCoreData {
     func populateTestData() {
         consentID = Int64.random(in: 1...Int64.max)
         additionalPermissions = nil
-        permissions = [.accountDetails, .transactionDetails]
         status = .active
         sharingDuration = Int64.random(in: 1...Int64.max)
         sharingStartedAtRawValue = "2020-01-03"

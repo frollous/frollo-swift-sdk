@@ -1163,6 +1163,8 @@
 		034EDCA5250F445600C48A57 /* images_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 034EDCA4250F445600C48A57 /* images_valid.json */; };
 		034EDCA6250F445600C48A57 /* images_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 034EDCA4250F445600C48A57 /* images_valid.json */; };
 		034EDCA7250F445600C48A57 /* images_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 034EDCA4250F445600C48A57 /* images_valid.json */; };
+		03651DB325232EAB00011732 /* CDRPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03651DB225232EAB00011732 /* CDRPermission.swift */; };
+		03651DB425232EB200011732 /* CDRPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03651DB225232EAB00011732 /* CDRPermission.swift */; };
 		03778B7C23F3BEC9008C856B /* put_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 03778B7B23F3BEC9008C856B /* put_consent.json */; };
 		03778B7D23F3BEC9008C856B /* put_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 03778B7B23F3BEC9008C856B /* put_consent.json */; };
 		03778B7E23F3BEC9008C856B /* put_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 03778B7B23F3BEC9008C856B /* put_consent.json */; };
@@ -1991,6 +1993,7 @@
 		034EDC9A250F395F00C48A57 /* ImagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesTests.swift; sourceTree = "<group>"; };
 		034EDC9F250F3B6800C48A57 /* Images+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+Test.swift"; sourceTree = "<group>"; };
 		034EDCA4250F445600C48A57 /* images_valid.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = images_valid.json; sourceTree = "<group>"; };
+		03651DB225232EAB00011732 /* CDRPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDRPermission.swift; sourceTree = "<group>"; };
 		03778B7B23F3BEC9008C856B /* put_consent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = put_consent.json; sourceTree = "<group>"; };
 		039C07A423F3B2C4002F7979 /* get_consent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_consent.json; sourceTree = "<group>"; };
 		03A3A71E2432F15600D46BB0 /* Consent+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Consent+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -3046,6 +3049,7 @@
 				03D965AF22768C92009BC283 /* SuggestedTag.swift */,
 				2F657DA2223B26B300471B85 /* Survey.swift */,
 				2F0B461A23DFF56B00D16143 /* TransactionFilter.swift */,
+				03651DB225232EAB00011732 /* CDRPermission.swift */,
 			);
 			path = Transient;
 			sourceTree = "<group>";
@@ -5028,6 +5032,7 @@
 				0159E4862193CBAD002CC3BB /* User+CoreDataProperties.swift in Sources */,
 				0104E03321E8588300D98EE7 /* ReportGrouping.swift in Sources */,
 				01C824F020EC410B0093400E /* NetworkLogger.swift in Sources */,
+				03651DB325232EAB00011732 /* CDRPermission.swift in Sources */,
 				015EEDDC210FC9C60081AD76 /* AggregationEndpoint.swift in Sources */,
 				2F2F0C9F22A0D29800F05961 /* APITagUpdateResponse.swift in Sources */,
 				012DDD5E222615A300497E22 /* OAuth2Error.swift in Sources */,
@@ -5694,6 +5699,7 @@
 				017F0F8522D5678900ACE7BB /* APITagUpdateResponse.swift in Sources */,
 				01E5BF4D2227A475003D85FD /* User+CoreDataProperties.swift in Sources */,
 				01E5BF4E2227A475003D85FD /* ReportGrouping.swift in Sources */,
+				03651DB425232EB200011732 /* CDRPermission.swift in Sources */,
 				01E5BF4F2227A475003D85FD /* NetworkLogger.swift in Sources */,
 				01E5BF502227A475003D85FD /* AggregationEndpoint.swift in Sources */,
 				13818BF1238200150057A9F3 /* FrolloSDKDataModelMapping-1.5.1-1.5.2.xcmappingmodel in Sources */,

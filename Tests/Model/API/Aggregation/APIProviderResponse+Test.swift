@@ -42,7 +42,6 @@ extension APIProviderResponse {
                                    oAuthSite: false,
                                    smallLogoURLString: "https://example.com/small_logo.png",
                                    aggregatorType: "yodlee",
-                                   permissions: nil,
                                    productsAvailable: false)
     }
     
@@ -65,7 +64,6 @@ extension APIProviderResponse {
                                    oAuthSite: nil,
                                    smallLogoURLString: "https://example.com/small_logo.png",
                                    aggregatorType: "yodlee",
-                                   permissions: nil,
                                    productsAvailable: false)
     }
     
@@ -105,7 +103,6 @@ extension APIProviderResponse {
                                    oAuthSite: false,
                                    smallLogoURLString: "https://example.com/small_logo.png",
                                    aggregatorType: "yodlee",
-                                   permissions: nil,
                                    productsAvailable: false)
     }
     

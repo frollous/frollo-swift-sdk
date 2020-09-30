@@ -43,11 +43,6 @@ class ConsentTests: XCTestCase {
             XCTAssertEqual(consent.providerID, consentResponse.providerID)
             XCTAssertEqual(consent.providerAccountID, consentResponse.providerAccountID)
             XCTAssertEqual(consent.sharingDuration, consentResponse.sharingDuration)
-            XCTAssertEqual(consent.permissions.first(where: { (permission) -> Bool in
-                permission == .transactionDetails
-            })?.rawValue, consentResponse.permissions.first(where: { (permissionRawValue) -> Bool in
-                permissionRawValue == "transaction_details"
-            }))
             XCTAssertEqual(consent.additionalPermissions, consentResponse.additionalPermissions)
             XCTAssertEqual(consent.status, Consent.Status(rawValue: consentResponse.status))
             XCTAssertEqual(consent.authorizationURLString, consentResponse.authorisationRequestURL)

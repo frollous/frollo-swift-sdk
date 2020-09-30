@@ -42,7 +42,7 @@ extension Consent {
     @NSManaged public var confirmationPDFURLString: String?
     
     /// Raw value for the permissions. Use only in predicates
-    @NSManaged public var permissionsRawValue: String
+    @NSManaged public var permissionObjectsRawValue: String?
     
     /// The provider account ID related to the consent
     @NSManaged public var providerAccountID: Int64

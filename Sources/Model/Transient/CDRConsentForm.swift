@@ -31,7 +31,7 @@ public struct CDRConsentForm: Codable {
         public let sharingDuration: TimeInterval
         
         /// The permissions requested for the consent
-        public let permissions: [Consent.Permission]
+        public let permissions: [String]
         
         /// Additional permissions (metadata) that can be set
         public let additionalPermissions: [String: Bool]
@@ -47,7 +47,7 @@ public struct CDRConsentForm: Codable {
          
          - returns: A CDR Consent form ready to send to the host
          */
-        public init(providerID: Int64, sharingDuration: TimeInterval, permissions: [Consent.Permission], additionalPermissions: [String: Bool] = [:]) {
+        public init(providerID: Int64, sharingDuration: TimeInterval, permissions: [String], additionalPermissions: [String: Bool] = [:]) {
             self.providerID = providerID
             self.sharingDuration = sharingDuration
             self.permissions = permissions
@@ -77,6 +77,6 @@ extension CDRConsentForm.Post {
     
     /// Creates an APICDRConsentRequest from the form
     var apiRequest: APICDRConsentCreateRequest {
-        return APICDRConsentCreateRequest(providerID: providerID, sharingDuration: sharingDuration, permissions: permissions.map { $0.rawValue }, additionalPermissions: additionalPermissions, deleteRedundantData: true)
+        return APICDRConsentCreateRequest(providerID: providerID, sharingDuration: sharingDuration, permissions: permissions, additionalPermissions: additionalPermissions, deleteRedundantData: true)
     }
 }

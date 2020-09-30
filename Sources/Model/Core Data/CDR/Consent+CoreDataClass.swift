@@ -35,24 +35,6 @@ public class Consent: NSManagedObject, UniqueManagedObject {
     }()
     
     /**
-     Defines all the possible cases of a permission attached to the consent
-     */
-    public enum Permission: String, Codable {
-        
-        /// Customer's name, occupation and contact details
-        case customerDetails = "customer_details"
-        
-        /// Account name, balance and details
-        case accountDetails = "account_details"
-        
-        /// Transaction details
-        case transactionDetails = "transaction_details"
-        
-        /// Unknown permission
-        case unknown
-    }
-    
-    /**
      Defines all the possible cases of the status of a consent
      */
     public enum Status: String, Codable {
@@ -133,14 +115,18 @@ public class Consent: NSManagedObject, UniqueManagedObject {
     }
     
     /// The permissions on the consent
-    public var permissions: [Permission] {
+    public var permissions: [CDRPermission]? {
         get {
-            let permissionStrings = permissionsRawValue.components(separatedBy: "|")
-            return permissionStrings.map { Consent.Permission(rawValue: $0) }.compactMap { $0 }
+            guard let permissionObjectsRawValue = permissionObjectsRawValue else { return nil }
+            return try! JSONDecoder().decode([CDRPermission].self, from: permissionObjectsRawValue.data(using: .utf8)!)
         }
         set {
-            let newString = newValue.map { $0.rawValue }.joined(separator: "|")
-            permissionsRawValue = "|" + newString + "|"
+            if let newValue = newValue {
+                permissionObjectsRawValue = String(data: try! JSONEncoder().encode(newValue), encoding: .utf8)!
+            } else {
+                permissionObjectsRawValue = nil
+            }
+            
         }
     }
     
@@ -226,7 +212,7 @@ public class Consent: NSManagedObject, UniqueManagedObject {
         providerID = response.providerID
         providerAccountID = response.providerAccountID ?? -1
         sharingDuration = response.sharingDuration
-        permissions = response.permissions.map { Consent.Permission(rawValue: $0) }.compactMap { $0 }
+        permissions = response.permissions
         additionalPermissions = response.additionalPermissions
         status = Consent.Status(rawValue: response.status) ?? .unknown
         authorizationURL = response.authorisationRequestURL?.url

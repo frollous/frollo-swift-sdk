@@ -60,7 +60,6 @@ class ConsentRequestTests: BaseTestCase {
                         XCTAssertEqual(firstConsent.sharingDuration, 15814800)
                         XCTAssertNil(firstConsent.sharingStartedAt)
                         XCTAssertEqual(firstConsent.sharingStoppedAt, "2020-05-26")
-                        XCTAssertEqual(firstConsent.permissions, ["account_details", "transaction_details"])
                         XCTAssertEqual(firstConsent.additionalPermissions, [:])
                         XCTAssertEqual(firstConsent.deleteRedundantData, true)
                         XCTAssertEqual(firstConsent.authorisationRequestURL, nil)

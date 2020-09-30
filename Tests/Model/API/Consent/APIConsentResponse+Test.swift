@@ -26,7 +26,6 @@ extension APICDRConsentResponse {
                                      confirmationPDFURL: "https://example.com/api/v2/cdr/consents/351/pdfs/confirmation",
                                      deleteRedundantData: Bool.random(),
                                      id: Int64.random(in: 1...Int64.max),
-                                     permissions: ["account_details", "transaction_details"],
                                      providerAccountID: Int64.random(in: 1...Int64.max),
                                      providerID: Int64.random(in: 1...Int64.max),
                                      sharingStartedAt: "2020-01-02",
