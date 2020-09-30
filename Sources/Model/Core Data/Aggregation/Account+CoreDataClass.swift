@@ -680,7 +680,7 @@ public class Account: NSManagedObject, UniqueManagedObject {
                                        hidden: hidden,
                                        included: included,
                                        nickName: nickName,
-                                       productID: productID)
+                                       productID: productID != -1 ? productID : nil)
     }
     
 }

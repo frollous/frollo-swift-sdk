@@ -128,7 +128,7 @@ public class Provider: NSManagedObject, UniqueManagedObject {
         
         /// Direct API connection via the Consumer Data Right (Open Banking) regime
         case cdr
-
+        
         /// Demo providers used for testing and demos
         case demo
         
