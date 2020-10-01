@@ -25,12 +25,12 @@ import Foundation
 public class CDRConfiguration: NSManagedObject {
     
     public struct SharingDuration: Codable {
-        public let duration: Decimal
+        public let duration: Int
         public let description: String
         public let imageURL: String
     }
     
-    var sharingDurations: [SharingDuration] {
+    public var sharingDurations: [SharingDuration] {
         get {
             return try! JSONDecoder().decode([SharingDuration].self, from: sharingDurationRawValue)
         }

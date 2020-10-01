@@ -26,7 +26,7 @@ struct APICDRConfigurationResponse: Codable {
             case imageURL = "image_url"
         }
         
-        var duration: Decimal
+        var duration: Int
         var description: String
         var imageURL: String
     }
