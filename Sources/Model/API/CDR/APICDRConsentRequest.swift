@@ -23,6 +23,7 @@ struct APICDRConsentCreateRequest: Codable {
         case permissions
         case additionalPermissions = "additional_permissions"
         case deleteRedundantData = "delete_redundant_data"
+        case existingConsentID = "existing_consent_id"
     }
     
     /// The id for the provider
@@ -39,6 +40,9 @@ struct APICDRConsentCreateRequest: Codable {
     
     /// Specifies whether the data should be deleted after the consent is done
     let deleteRedundantData: Bool
+    
+    // ID of the consent being updated
+    let existingConsentID: Int64?
 }
 
 struct APICDRConsentUpdateRequest: Codable {
@@ -50,13 +54,13 @@ struct APICDRConsentUpdateRequest: Codable {
     }
     
     /// The new status for the consent
-    public let status: Consent.Status?
+    let status: CDRConsentForm.Put.Status?
     
     /// The new value for the delete redundant data (Optional)
-    public let deleteRedundantData: Bool?
+    let deleteRedundantData: Bool?
     
     /// The new value for duration (in seconds) for the consent (Optional)
-    public let sharingDuration: TimeInterval?
+    let sharingDuration: TimeInterval?
     
     /** Initialize a CDR Consent form to send to the host
      
@@ -64,9 +68,9 @@ struct APICDRConsentUpdateRequest: Codable {
          - status: The new status for the consent
          - sharingDuration: The new sharingDuration for the consent
      */
-    public init(status: Consent.Status? = nil, sharingDuration: TimeInterval? = nil) {
+    public init(status: CDRConsentForm.Put.Status? = nil, deleteRedundantData: Bool? = true, sharingDuration: TimeInterval? = nil) {
         self.status = status
-        self.deleteRedundantData = true
+        self.deleteRedundantData = deleteRedundantData
         self.sharingDuration = sharingDuration
     }
     
