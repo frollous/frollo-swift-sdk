@@ -176,6 +176,11 @@ class CDRTests: BaseTestCase {
             aggregation.refreshCDRConfiguration() { (result) in
                 switch result {
                     case .success:
+                        let configuration = aggregation.cdrConfiguration(context: self.database.viewContext)
+                        XCTAssertEqual(configuration?.adrID, "ADBK0001")
+                        XCTAssertEqual(configuration?.adrName, "ACME")
+                        XCTAssertEqual(configuration?.supportEmail, "suppert@acme.com")
+                        XCTAssertEqual(configuration?.sharingDurations.count, 1)
                         break
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
