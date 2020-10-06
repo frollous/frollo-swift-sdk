@@ -4,7 +4,7 @@
 version: 2.1
 
 jobs:
-  build-and-test:
+  build-test:
 
     macos:
       xcode: 11.7.0
@@ -24,6 +24,6 @@ jobs:
           path: output/scan
 
 workflows:
-  build-test-adhoc:
+  build-test:
     jobs:
-      - build-and-test
+      - build-test
