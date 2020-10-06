@@ -28,7 +28,7 @@ public struct CDRConsentForm: Codable {
         public let providerID: Int64
         
         /// The duration (in seconds) for the consent
-        public let sharingDuration: TimeInterval
+        public let sharingDuration: Int64
         
         /// The permissions requested for the consent
         public let permissions: [String]
@@ -51,7 +51,7 @@ public struct CDRConsentForm: Codable {
          
          - returns: A CDR Consent form ready to send to the host
          */
-        public init(providerID: Int64, sharingDuration: TimeInterval, permissions: [String], additionalPermissions: [String: Bool] = [:], existingConsentID: Int64?) {
+        public init(providerID: Int64, sharingDuration: Int64, permissions: [String], additionalPermissions: [String: Bool] = [:], existingConsentID: Int64?) {
             self.providerID = providerID
             self.sharingDuration = sharingDuration
             self.permissions = permissions
@@ -74,7 +74,7 @@ public struct CDRConsentForm: Codable {
         let deleteRedundantData: Bool?
         
         /// The new value for duration (in seconds) for the consent (Optional)
-        let sharingDuration: TimeInterval?
+        let sharingDuration: Int64?
         
         /** Initialize a CDR Consent form to send to the host
          
@@ -83,7 +83,7 @@ public struct CDRConsentForm: Codable {
               - deleteRedundantData: The new value for the delete redundant data
               - sharingDuration: The new value for duration (in seconds) for the consent
          */
-        public init(status: CDRConsentForm.Put.Status? = nil, deleteRedundantData: Bool? = true, sharingDuration: TimeInterval? = nil) {
+        public init(status: CDRConsentForm.Put.Status? = nil, deleteRedundantData: Bool? = true, sharingDuration: Int64? = nil) {
             self.status = status
             self.deleteRedundantData = deleteRedundantData
             self.sharingDuration = sharingDuration

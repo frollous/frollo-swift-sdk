@@ -50,6 +50,7 @@ class ConsentTests: XCTestCase {
             XCTAssertEqual(consent.withdrawalPDFURLString, consentResponse.withdrawalPDFURL)
             XCTAssertEqual(consent.sharingStartedAtRawValue, consentResponse.sharingStartedAt)
             XCTAssertEqual(consent.sharingStoppedAtRawValue, consentResponse.sharingStoppedAt)
+            XCTAssertEqual(consent.permissions.count, consentResponse.permissions.count)
         }
     }
 

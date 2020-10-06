@@ -89,7 +89,7 @@ struct APIProviderResponse: APIUniqueResponse, Codable {
     var aggregatorType: String
     let productsAvailable: Bool?
     
-    var permissions: [CDRPermission]? {
+    var permissions: [CDRPermission] {
         #warning("Remove mock when API is ready")
         let mockPermissionsJSON = """
         [{

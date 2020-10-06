@@ -115,18 +115,13 @@ public class Consent: NSManagedObject, UniqueManagedObject {
     }
     
     /// The permissions on the consent
-    public var permissions: [CDRPermission]? {
+    public var permissions: [CDRPermission] {
         get {
-            guard let permissionObjectsRawValue = permissionObjectsRawValue else { return nil }
-            return try! JSONDecoder().decode([CDRPermission].self, from: permissionObjectsRawValue.data(using: .utf8)!)
+            guard let permissionObjectsRawValue = permissionObjectsRawValue else { return [] }
+            return try! JSONDecoder().decode([CDRPermission].self, from: permissionObjectsRawValue)
         }
         set {
-            if let newValue = newValue {
-                permissionObjectsRawValue = String(data: try! JSONEncoder().encode(newValue), encoding: .utf8)!
-            } else {
-                permissionObjectsRawValue = nil
-            }
-            
+            permissionObjectsRawValue = try! JSONEncoder().encode(newValue)
         }
     }
     

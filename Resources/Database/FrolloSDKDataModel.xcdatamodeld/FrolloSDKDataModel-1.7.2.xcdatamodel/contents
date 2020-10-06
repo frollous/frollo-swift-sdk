@@ -197,7 +197,7 @@
         <attribute name="authorizationURLString" optional="YES" attributeType="String"/>
         <attribute name="confirmationPDFURLString" optional="YES" attributeType="String"/>
         <attribute name="consentID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="permissionObjectsRawValue" optional="YES" attributeType="String"/>
+        <attribute name="permissionObjectsRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="providerAccountID" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
         <attribute name="providerID" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
         <attribute name="sharingDurationRawValue" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -376,7 +376,7 @@
         <attribute name="mfaTypeRawValue" optional="YES" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="oAuthSite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="permissionObjectsRawValue" optional="YES" attributeType="String"/>
+        <attribute name="permissionObjectsRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="popular" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="productsAvailable" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="providerID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>

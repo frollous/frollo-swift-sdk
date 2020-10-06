@@ -6,8 +6,30 @@
         "status": "withdrawn",
         "sharing_duration": 15814800,
         "permissions": [
-            "account_details",
-            "transaction_details"
+            {
+                "id": "account_details",
+                "title": "Account balance and details",
+                "description": "We leverage...",
+                "required": true,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            },
+            {
+                "id": "transaction_details",
+                "title": "Transaction and details",
+                "description": "We leverage...",
+                "required": false,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            }
         ],
         "additional_permissions": {},
         "delete_redundant_data": true,
@@ -21,8 +43,30 @@
         "status": "withdrawn",
         "sharing_duration": 15814800,
         "permissions": [
-            "account_details",
-            "transaction_details"
+            {
+                "id": "account_details",
+                "title": "Account balance and details",
+                "description": "We leverage...",
+                "required": true,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            },
+            {
+                "id": "transaction_details",
+                "title": "Transaction and details",
+                "description": "We leverage...",
+                "required": false,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            }
         ],
         "additional_permissions": {},
         "delete_redundant_data": true,
@@ -36,8 +80,30 @@
         "status": "withdrawn",
         "sharing_started_at": "2020-03-23",
         "permissions": [
-            "account_details",
-            "transaction_details"
+            {
+                "id": "account_details",
+                "title": "Account balance and details",
+                "description": "We leverage...",
+                "required": true,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            },
+            {
+                "id": "transaction_details",
+                "title": "Transaction and details",
+                "description": "We leverage...",
+                "required": false,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            }
         ],
         "delete_redundant_data": true
     },
@@ -48,8 +114,30 @@
         "status": "active",
         "sharing_started_at": "2020-04-01",
         "permissions": [
-            "account_details",
-            "transaction_details"
+            {
+                "id": "account_details",
+                "title": "Account balance and details",
+                "description": "We leverage...",
+                "required": true,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            },
+            {
+                "id": "transaction_details",
+                "title": "Transaction and details",
+                "description": "We leverage...",
+                "required": false,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            }
         ],
         "delete_redundant_data": true
     },
@@ -61,8 +149,30 @@
         "sharing_started_at": "2020-03-10",
         "sharing_duration": 15814800,
         "permissions": [
-            "account_details",
-            "transaction_details"
+            {
+                "id": "account_details",
+                "title": "Account balance and details",
+                "description": "We leverage...",
+                "required": true,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            },
+            {
+                "id": "transaction_details",
+                "title": "Transaction and details",
+                "description": "We leverage...",
+                "required": false,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            }
         ],
         "additional_permissions": {},
         "delete_redundant_data": true,
@@ -76,8 +186,30 @@
         "status": "withdrawn",
         "sharing_duration": 15814800,
         "permissions": [
-            "account_details",
-            "transaction_details"
+            {
+                "id": "account_details",
+                "title": "Account balance and details",
+                "description": "We leverage...",
+                "required": true,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            },
+            {
+                "id": "transaction_details",
+                "title": "Transaction and details",
+                "description": "We leverage...",
+                "required": false,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            }
         ],
         "additional_permissions": {},
         "delete_redundant_data": true,
@@ -91,8 +223,30 @@
         "status": "pending",
         "sharing_duration": 15814800,
         "permissions": [
-            "account_details",
-            "transaction_details"
+            {
+                "id": "account_details",
+                "title": "Account balance and details",
+                "description": "We leverage...",
+                "required": true,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            },
+            {
+                "id": "transaction_details",
+                "title": "Transaction and details",
+                "description": "We leverage...",
+                "required": false,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            }
         ],
         "additional_permissions": {},
         "delete_redundant_data": true,
@@ -106,8 +260,30 @@
         "sharing_started_at": "2020-03-25",
         "sharing_duration": 15814800,
         "permissions": [
-            "account_details",
-            "transaction_details"
+            {
+                "id": "account_details",
+                "title": "Account balance and details",
+                "description": "We leverage...",
+                "required": true,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            },
+            {
+                "id": "transaction_details",
+                "title": "Transaction and details",
+                "description": "We leverage...",
+                "required": false,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            }
         ],
         "additional_permissions": {},
         "delete_redundant_data": true,

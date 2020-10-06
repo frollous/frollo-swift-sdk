@@ -30,7 +30,7 @@ struct APICDRConsentCreateRequest: Codable {
     let providerID: Int64
     
     /// The duration (in seconds) for the consent
-    let sharingDuration: TimeInterval
+    let sharingDuration: Int64
     
     /// The permissions requested for the consent
     let permissions: [String]
@@ -60,7 +60,7 @@ struct APICDRConsentUpdateRequest: Codable {
     let deleteRedundantData: Bool?
     
     /// The new value for duration (in seconds) for the consent (Optional)
-    let sharingDuration: TimeInterval?
+    let sharingDuration: Int64?
     
     /** Initialize a CDR Consent form to send to the host
      
@@ -68,7 +68,7 @@ struct APICDRConsentUpdateRequest: Codable {
          - status: The new status for the consent
          - sharingDuration: The new sharingDuration for the consent
      */
-    public init(status: CDRConsentForm.Put.Status? = nil, deleteRedundantData: Bool? = true, sharingDuration: TimeInterval? = nil) {
+    public init(status: CDRConsentForm.Put.Status? = nil, deleteRedundantData: Bool? = true, sharingDuration: Int64? = nil) {
         self.status = status
         self.deleteRedundantData = deleteRedundantData
         self.sharingDuration = sharingDuration

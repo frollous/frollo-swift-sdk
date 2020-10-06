@@ -437,7 +437,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - sharingDuration: sharingDuration (in seconds) of the consent that will be updated. This duration will be       added to the existing value by host.
         - completion: The block that will be executed when the submit request is complete
      */
-    public func updateCDRConsentSharingPeriod(id: Int64, sharingDuration: TimeInterval, completion: FrolloSDKCompletionHandler?) {
+    public func updateCDRConsentSharingPeriod(id: Int64, sharingDuration: Int64, completion: FrolloSDKCompletionHandler?) {
         updateCDRConsent(id: id, consent: .init(sharingDuration: sharingDuration), completion: completion)
     }
     
@@ -2532,6 +2532,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
     }
     
     private func deleteAllConfiguration(managedObjectContext: NSManagedObjectContext) {
+        
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = CDRConfiguration.fetchRequest()
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         
@@ -2547,13 +2548,15 @@ public class Aggregation: CachedObjects, ResponseHandler {
         defer {
             configurationLock.unlock()
         }
-        deleteAllConfiguration(managedObjectContext: managedObjectContext)
-        let newConfiguration = CDRConfiguration(context: managedObjectContext)
-        newConfiguration.update(response: response)
-        do {
-            try managedObjectContext.save()
-        } catch {
-            Log.error(error.localizedDescription)
+        managedObjectContext.performAndWait {
+            deleteAllConfiguration(managedObjectContext: managedObjectContext)
+            let newConfiguration = CDRConfiguration(context: managedObjectContext)
+            newConfiguration.update(response: response)
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
         }
     }
     

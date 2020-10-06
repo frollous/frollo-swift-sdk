@@ -283,17 +283,13 @@ public class Provider: NSManagedObject, UniqueManagedObject {
     }
     
     /// The aggregator permissions on the provider (This value will be set for cdr aggregator)
-    public var permissions: [CDRPermission]? {
+    public var permissions: [CDRPermission] {
         get {
-            guard let permissionsData = permissionObjectsRawValue?.data(using: .utf8) else { return nil }
-            return try! JSONDecoder().decode([CDRPermission].self, from: permissionsData)
+            guard let permissionObjectsRawValue = permissionObjectsRawValue else { return [] }
+            return try! JSONDecoder().decode([CDRPermission].self, from: permissionObjectsRawValue)
         }
         set {
-            if let newValue = newValue {
-                permissionObjectsRawValue = String(data: try! JSONEncoder().encode(newValue), encoding: .utf8)
-            } else {
-                permissionObjectsRawValue = nil
-            }
+            permissionObjectsRawValue = try! JSONEncoder().encode(newValue)
         }
     }
     

@@ -25,7 +25,7 @@ import Foundation
 public class CDRConfiguration: NSManagedObject {
     
     public struct SharingDuration: Codable {
-        public let duration: Int
+        public let duration: Int64
         public let description: String
         public let imageURL: String
     }

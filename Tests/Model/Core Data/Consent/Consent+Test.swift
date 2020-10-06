@@ -29,6 +29,7 @@ extension Consent: TestableCoreData {
         authorizationURLString = "https://example.com/authorize"
         confirmationPDFURLString = "https://example.com/confirmation.pdf"
         withdrawalPDFURLString = "https://example.com/withdraw"
+        permissions = [.testCompleteData(), .testCompleteData()]
     }
     
     func populateTestData(withID id: Int64) {
