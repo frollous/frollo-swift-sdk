@@ -27,3 +27,5 @@ workflows:
   build-test:
     jobs:
       - build-test
+        context:
+          - ios-context
