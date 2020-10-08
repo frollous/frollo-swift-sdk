@@ -113,7 +113,7 @@ class PaymentsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.payAnyone.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.transfers.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "payment_transfer_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -125,7 +125,7 @@ class PaymentsTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let payments = Payments(service: service)
-        payments.transferPayment(amount: 542.37, description: "Visible to both sides", destinationAccountID: 43, paymentDate: Date() ,sourceAccountId: 42) { result in
+        payments.transferPayment(amount: 542.37, description: "Visible to both sides", destinationAccountID: 43, paymentDate: Date() ,sourceAccountID: 42) { result in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -137,6 +137,46 @@ class PaymentsTests: XCTestCase {
                     XCTAssertEqual(response.transactionReference, "XXX")
                     XCTAssertEqual(response.status, "scheduled")
                     XCTAssertEqual(response.paymentDate, "2020-12-25")
+                    expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testBpayPayment() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.bpay.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bpay_payment_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let payments = Payments(service: service)
+        payments.bpayPayment(amount: 542.37, billerCode: "123456", crn: "98765432122232", paymentDate: Date(), reference: "Visible to customer", sourceAccountID: 42) { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.amount, "542.37")
+                    XCTAssertEqual(response.crn, "98765432122232")
+                    XCTAssertEqual(response.billerCode, "123456")
+                    XCTAssertEqual(response.billerName, "ACME Inc.")
+                    XCTAssertEqual(response.transactionID, 34)
+                    XCTAssertEqual(response.transactionReference, "XXX")
+                    XCTAssertEqual(response.status, "pending")
+                    XCTAssertEqual(response.paymentDate, "2020-12-25")
+                    XCTAssertEqual(response.reference, "Visible to customer")
+                    XCTAssertEqual(response.sourceAccountName, "Everyday Txn")                    
                     expectation1.fulfill()
             }
         }

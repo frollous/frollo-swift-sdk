@@ -16,20 +16,22 @@
 
 import Foundation
 
-struct APIPaymentTransferRequest: Codable {
+struct APIBpayPaymentRequest: Codable {
     
     enum CodingKeys: String, CodingKey {
         case amount
-        case description
-        case destinationAccountID = "destination_account_id"
+        case billerCode = "biller_code"
+        case crn
         case paymentDate = "payment_date"
+        case reference
         case sourceAccountID = "source_account_id"
     }
     
     let amount: String
-    let description: String?
-    let destinationAccountID: Int64
+    let billerCode: String
+    let crn: String
     let paymentDate: String?
+    let reference: String?
     let sourceAccountID: Int64
     
 }

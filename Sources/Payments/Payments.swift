@@ -84,10 +84,10 @@ public class Payments: ResponseHandler {
          - description: desctiption of the transfer (Optional)
          - destinationAccountID: Account ID of destination account of the transfer
          - paymentDate: Date of the payment transfer (Optional)
-         - sourceAccountId: Account ID of source account of the transfer
+         - sourceAccountID: Account ID of source account of the transfer
          - completion: Optional completion handler with `PaymentTransferResponse` result if succeeds and error if the request fails
      */
-    public func transferPayment(amount: Decimal, description: String? = nil, destinationAccountID: Int64, paymentDate: Date? = nil, sourceAccountId: Int64, completion: @escaping (Result<PaymentTransferResponse, Error>) -> Void) {
+    public func transferPayment(amount: Decimal, description: String? = nil, destinationAccountID: Int64, paymentDate: Date? = nil, sourceAccountID: Int64, completion: @escaping (Result<PaymentTransferResponse, Error>) -> Void) {
         
         let paymentAmount = amount as NSDecimalNumber
         var date: String?
@@ -95,9 +95,48 @@ public class Payments: ResponseHandler {
             date = Payments.paymentDateFormatter.string(from: paymentDate)
         }
         
-        let request = APIPaymentTransferRequest(amount: paymentAmount.stringValue, description: description, destinationAccountId: destinationAccountID, paymentDate: date, sourceAccountId: sourceAccountId)
+        let request = APIPaymentTransferRequest(amount: paymentAmount.stringValue, description: description, destinationAccountID: destinationAccountID, paymentDate: date, sourceAccountID: sourceAccountID)
         
         service.transfer(request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Bpay Payment
+     
+     - parameters:
+         - amount: Amount of the transfer
+         - billerCode: biller code of the Biller
+         - crn: CRN
+         - paymentDate: Date of the payment (Optional)
+         - reference: reference of the payment (Optional)
+         - sourceAccountID: Account ID of source account of the payment
+         - completion: Optional completion handler with `PaymentTransferResponse` result if succeeds and error if the request fails
+     */
+    public func bpayPayment(amount: Decimal, billerCode: String, crn: String, paymentDate: Date? = nil, reference: String? = nil, sourceAccountID: Int64, completion: @escaping (Result<BpayPaymentResponse, Error>) -> Void) {
+        
+        let paymentAmount = amount as NSDecimalNumber
+        var date: String?
+        if let paymentDate = paymentDate {
+            date = Payments.paymentDateFormatter.string(from: paymentDate)
+        }
+        
+        let request = APIBpayPaymentRequest(amount: paymentAmount.stringValue, billerCode: billerCode, crn: crn, paymentDate: date, reference: reference, sourceAccountID: sourceAccountID)
+        
+        service.bpayPayment(request: request) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)

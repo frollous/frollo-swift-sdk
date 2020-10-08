@@ -1,0 +1,13 @@
+{
+  "transaction_id": 34,
+  "transaction_reference": "XXX",
+  "amount": "542.37",
+  "payment_date": "2020-12-25",
+  "biller_code": "123456",
+  "biller_name": "ACME Inc.",
+  "crn": "98765432122232",
+  "source_account_id": 42,
+  "source_account_name": "Everyday Txn",
+  "reference": "Visible to customer",
+  "status": "pending"
+}
