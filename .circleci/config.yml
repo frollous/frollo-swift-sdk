@@ -3,6 +3,12 @@
 
 version: 2.1
 
+dependencies:
+  override:
+    - bin/bootstrap-if-needed
+  cache_directories:
+    - "Carthage"
+
 aliases:
   - &restore_gem_cache
       name: Restore gem cache
