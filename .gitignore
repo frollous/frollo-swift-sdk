@@ -73,4 +73,5 @@ fastlane/xcov_report
 
 docs
 gems
+.bundle
 
