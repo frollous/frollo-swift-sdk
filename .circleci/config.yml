@@ -5,20 +5,20 @@ version: 2.1
 
 aliases:
   - &restore_gem_cache
-    name: Restore gem cache
-    keys:
-    - gem-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-    - gem-cache-v1-{{ arch }}-{{ .Branch }}
-    # Fall back to using the latest cache if no exact match is found.
-    - gem-cache-v1
-- &save_gem_cache
-    name: Save gem cache
-    key: gem-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-    paths:
-      - gems
-- &bundle_install
-    name: Install Gems via Bundler
-    command: bundle install --path gems
+      name: Restore gem cache
+      keys:
+        - gem-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+        - gem-cache-v1-{{ arch }}-{{ .Branch }}
+        # Fall back to using the latest cache if no exact match is found.
+        - gem-cache-v1
+  - &save_gem_cache
+      name: Save gem cache
+      key: gem-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+      paths:
+        - gems
+  - &bundle_install
+      name: Install Gems via Bundler
+      command: bundle install --path gems
 
 jobs:
   build-test:
