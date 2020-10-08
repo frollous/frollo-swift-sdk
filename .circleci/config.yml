@@ -14,8 +14,6 @@ jobs:
 
     steps:
       - checkout
-      - run: rvm use .
-#      - run: bundle clean --force
       - restore_cache:
           keys:
             # when lock file changes, use increasingly general patterns to restore cache
