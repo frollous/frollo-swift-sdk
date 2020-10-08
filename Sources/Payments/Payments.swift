@@ -76,4 +76,42 @@ public class Payments: ResponseHandler {
         }
     }
     
+    /**
+     Payment Transfer
+     
+     - parameters:
+         - amount: Amount of the transfer
+         - description: desctiption of the transfer (Optional)
+         - destinationAccountID: Account ID of destination account of the transfer
+         - paymentDate: Date of the payment transfer (Optional)
+         - sourceAccountId: Account ID of source account of the transfer
+         - completion: Optional completion handler with `PaymentTransferResponse` result if succeeds and error if the request fails
+     */
+    public func transferPayment(amount: Decimal, description: String? = nil, destinationAccountID: Int64, paymentDate: Date? = nil, sourceAccountId: Int64, completion: @escaping (Result<PaymentTransferResponse, Error>) -> Void) {
+        
+        let paymentAmount = amount as NSDecimalNumber
+        var date: String?
+        if let paymentDate = paymentDate {
+            date = Payments.paymentDateFormatter.string(from: paymentDate)
+        }
+        
+        let request = APIPaymentTransferRequest(amount: paymentAmount.stringValue, description: description, destinationAccountId: destinationAccountID, paymentDate: date, sourceAccountId: sourceAccountId)
+        
+        service.transfer(request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+            }
+        }
+    }
+    
 }

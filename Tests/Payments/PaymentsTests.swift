@@ -108,4 +108,40 @@ class PaymentsTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
+    func testPaymentTransfer() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.payAnyone.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "payment_transfer_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let payments = Payments(service: service)
+        payments.transferPayment(amount: 542.37, description: "Visible to both sides", destinationAccountID: 43, paymentDate: Date() ,sourceAccountId: 42) { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.amount, "542.37")
+                    XCTAssertEqual(response.destinationAccountID, 43)
+                    XCTAssertEqual(response.destinationAccountName, "Everyday Txn")
+                    XCTAssertEqual(response.transactionID, 34)
+                    XCTAssertEqual(response.transactionReference, "XXX")
+                    XCTAssertEqual(response.status, "scheduled")
+                    XCTAssertEqual(response.paymentDate, "2020-12-25")
+                    expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
 }
