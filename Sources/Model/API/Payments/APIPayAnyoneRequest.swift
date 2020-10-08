@@ -26,7 +26,7 @@ struct APIPayAnyoneRequest: Codable {
         case description
         case paymentDate = "payment_date"
         case reference
-        case sourceAccountId = "source_account_id"
+        case sourceAccountID = "source_account_id"
     }
     
     let accountHolder: String
@@ -36,6 +36,6 @@ struct APIPayAnyoneRequest: Codable {
     let description: String?
     let paymentDate: String?
     let reference: String?
-    let sourceAccountId: Int64
+    let sourceAccountID: Int64
     
 }
