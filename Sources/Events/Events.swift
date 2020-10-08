@@ -26,6 +26,7 @@ public class Events {
     internal struct EventNames {
         static let test = "TEST_EVENT"
         static let transactionsUpdated = "T_UPDATED"
+        static let currentBudgetPeriodReady = "B_CURRENT_PERIOD_READY"
     }
     
     internal weak var delegate: FrolloSDKDelegate?
@@ -91,6 +92,13 @@ public class Events {
                 if let transactionIDs = notification?.transactionIDs, !transactionIDs.isEmpty {
                     NotificationCenter.default.post(name: Aggregation.refreshTransactionsNotification, object: self, userInfo: [Aggregation.refreshTransactionIDsKey: transactionIDs])
                 }
+                
+                completion?(true, nil)
+                
+            case EventNames.currentBudgetPeriodReady:
+                Log.debug("Current budget period ready event received")
+                
+                NotificationCenter.default.post(name: Budgets.currentBudgetPeriodReadyNotification, object: self, userInfo: nil)
                 
                 completion?(true, nil)
                 

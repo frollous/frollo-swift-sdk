@@ -24,5 +24,6 @@
 		"status": "success",
 		"sub_status": "success",
 		"last_refreshed": "2018-08-06T07:10:42.651+10:00"
-	}
+	},
+    "products_available" : false
 }

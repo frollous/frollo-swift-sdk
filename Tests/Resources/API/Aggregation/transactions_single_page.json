@@ -2,6 +2,8 @@
     "data": [{
         "id": 168476,
         "account_id": 2150,
+        "bill_id": 1024,
+        "bill_payment_id": 1025,
         "base_type": "debit",
         "status": "posted",
         "included": true,
@@ -30,6 +32,7 @@
         "base_type": "debit",
         "status": "posted",
         "included": true,
+        "goal_id": 2048,
         "transaction_date": "2020-01-25",
         "post_date": "2020-01-25",
         "amount": {
@@ -791,6 +794,7 @@
         "account_id": 2149,
         "base_type": "credit",
         "status": "posted",
+        "bill_id": 1059,
         "included": true,
         "transaction_date": "2020-01-01",
         "post_date": "2020-01-01",

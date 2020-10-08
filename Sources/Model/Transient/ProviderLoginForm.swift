@@ -274,7 +274,7 @@ public struct ProviderLoginForm: Codable {
                 
                 SecKeyEncrypt(publicKey, .PKCS1, decryptedDataAsArray, decryptedDataAsArray.count, &encryptedDataBuffer, &encryptedDataLength)
                 
-                encryptedData = Data(bytes: UnsafePointer<UInt8>(encryptedDataBuffer), count: encryptedDataLength)
+                encryptedData = Data(bytes: encryptedDataBuffer, count: encryptedDataLength)
                 #endif
                 
                 guard let rowData = encryptedData else {

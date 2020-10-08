@@ -1,0 +1,13 @@
+{
+    "id": 39,
+    "provider_id": 22580,
+    "provider_account_id": 1502,
+    "status": "pending",
+    "sharing_duration": 15642000,
+    "permissions": ["transaction_details", "account_details"],
+    "additional_permissions": {},
+    "delete_redundant_data": true,
+    "confirmation_pdf_url": "https://content.frollo.us/pdf/consent_confirmation.pdf",
+    "withdrawal_pdf_url": "https://content.frollo.us/pdf/consent_withdrawal.pdf",
+    "authorisation_request_url": "https://admin-sandbox.frollo.us/api/pages/mock_cdr_redirect?redirect_url=https%3A%2F%2Fapi-sandbox.frollo.us%2Fopenbanking%2Fredirect\u0026client_id=6EGX4dIMwjh247LfBKMh4RRSXS\u0026state=ba5fc3d6-47b9-4455-857c-c7d8e7deaa45\u0026nonce=cb5d01db-d379-4a62-974b-ad8c17b44006\u0026scope=openid+bank%3Atransactions%3Aread+bank%3Aaccounts.basic%3Aread\u0026response_type=code+id_token\u0026request=eyJ0eXAiOiJKV1QiLCJraWQiOiJ4WFRXdFRVdDlHcEZqWUp3QWZyUFJkQTVZR1J3T0UxSC0zRlJMd282S2g4IiwiYWxnIjoiUFMyNTYifQ.eyJzY29wZSI6Im9wZW5pZCBiYW5rOnRyYW5zYWN0aW9uczpyZWFkIGJhbms6YWNjb3VudHMuYmFzaWM6cmVhZCIsInJlc3BvbnNlX3R5cGUiOiJjb2RlIGlkX3Rva2VuIiwicmVkaXJlY3RfdXJpIjoiaHR0cHM6Ly9hcGktc2FuZGJveC5mcm9sbG8udXMvb3BlbmJhbmtpbmcvcmVkaXJlY3QiLCJub25jZSI6IjNkZmRkMjQ0LTY5NmMtNDVhOS05MDJhLTAxY2E2MTRlYjk3NiIsInN0YXRlIjoiYmE1ZmMzZDYtNDdiOS00NDU1LTg1N2MtYzdkOGU3ZGVhYTQ1IiwiY2xpZW50X2lkIjoiNkVHWDRkSU13amgyNDdMZkJLTWg0UlJTWFMiLCJhdWQiOiJodHRwczovL3Rlc3QuaWRwLndlc3RwYWMuY29tLmF1L2lkZW50aXR5IiwiY2xhaW1zIjp7InNoYXJpbmdfZHVyYXRpb24iOiIxNTY0MjAwMCIsImlkX3Rva2VuIjp7ImFjciI6eyJ2YWx1ZXMiOlsidXJuOmNkcy5hdTpjZHI6MyJdLCJlc3NlbnRpYWwiOnRydWV9fX19.tq7f09XnwR3ZRV80pBdd91lGcOq3-Akli-nE3cm6TndEHCnbYSjnmG8QERFXN856hn7Z5KGXpRiW1ahl3Hy-eSeiyy1EeL3i0-d-lswxOgBPEVEJJdryXlWHa5jDoncjQQpZtE7tEyEYF9TRZjXLFoM4xTWNJtAIm5Ts8RQxO0oPusHX6CcDOZLa3Z-PHA1aLzQS_8R1PfZTRTkEal4JRu6o4aqg38gSHatvKaI8k7ER0ipgP9hA9AKwRqL8xw7Wcem9WRKAbfJFOHbODaQ1gUjNCi183UQgtx0kP2MQ7CJ4SlgJThZEmFQld9V4Pl5F-E2UXTTtMPhicVz_t3rDEg"
+}

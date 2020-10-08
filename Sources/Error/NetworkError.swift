@@ -14,7 +14,16 @@
 // limitations under the License.
 //
 
+import Alamofire
 import Foundation
+
+extension Error {
+    
+    /// The domain of the error
+    var domain: String {
+        return (self as NSError).domain
+    }
+}
 
 /**
  Network Error
@@ -52,15 +61,15 @@ public class NetworkError: FrolloSDKError {
     }
     
     /// Underlying system error that triggered this error
-    public var systemError: NSError
+    public var systemError: NSError?
     
     /// Type of error for common scenarios
     public var type: NetworkErrorType
     
-    internal init(error: NSError) {
+    internal init(error: NSError?) {
         self.systemError = error
         
-        switch error.domain {
+        switch error?.domain {
             case NSStreamSocketSSLErrorDomain:
                 self.type = .invalidSSL
             case NSURLErrorDomain:

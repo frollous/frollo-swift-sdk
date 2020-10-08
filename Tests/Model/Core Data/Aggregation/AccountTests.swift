@@ -62,6 +62,8 @@ class AccountTests: XCTestCase {
             XCTAssertEqual(account.currentBalanceCurrency, accountResponse.currentBalance?.currency)
             XCTAssertEqual(account.dueDate, accountResponse.dueDate)
             XCTAssertEqual(account.favourite, accountResponse.favourite)
+            XCTAssertEqual(account.features?.first?.name, accountResponse.features?.first?.name)
+            XCTAssertEqual(account.features?.first?.details?.first?.id, accountResponse.features?.first?.details?.first?.id)
             XCTAssertEqual(account.group, accountResponse.accountAttributes.group)
             XCTAssertEqual(account.hidden, accountResponse.hidden)
             XCTAssertEqual(account.included, accountResponse.included)
@@ -92,6 +94,17 @@ class AccountTests: XCTestCase {
             } else {
                 XCTFail("No balance tiers found")
             }
+            
+            XCTAssertEqual(account.productID, accountResponse.cdrProduct?.id)
+            XCTAssertEqual(account.productName, accountResponse.cdrProduct?.name)
+            XCTAssertEqual(account.productDetailsPageURL, accountResponse.cdrProduct?.productDetailsPageURL)
+            
+            if let productInformations = account.productInformations {
+                XCTAssertEqual(productInformations.first?.name, accountResponse.cdrProduct?.cdrProductInformations?.first?.name)
+                XCTAssertEqual(productInformations.first?.value, accountResponse.cdrProduct?.cdrProductInformations?.first?.value)
+            } else {
+                XCTFail("No Product informations found")
+            }
         }
     }
     
@@ -111,6 +124,7 @@ class AccountTests: XCTestCase {
             XCTAssertEqual(account.included, updateRequest.included)
             XCTAssertEqual(account.hidden, updateRequest.hidden)
             XCTAssertEqual(account.nickName, updateRequest.nickName)
+            XCTAssertEqual(account.productID, updateRequest.productID)
         }
     }
     

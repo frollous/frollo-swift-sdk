@@ -108,6 +108,12 @@ public class Provider: NSManagedObject, UniqueManagedObject {
         /// Unsupported. Provider is no longer supported
         case unsupported
         
+        /// Outage. The Provider is currently experiencing an outage.
+        case outage
+        
+        /// Coming Soon. The Provider is coming soon, but cannot be linked when they are in this status.
+        case comingSoon = "coming_soon"
+        
     }
     
     /**
@@ -123,27 +129,10 @@ public class Provider: NSManagedObject, UniqueManagedObject {
         /// Direct API connection via the Consumer Data Right (Open Banking) regime
         case cdr
         
+        /// Demo providers used for testing and demos
+        case demo
+        
         /// Unknown aggregator
-        case unknown
-    }
-    
-    /**
-     Provider permissions
-     
-     The permission groups that are supported by this Provider. For now, this is only returned for cdr type Providers, and it will always contain the following three values (as mandated by the CDR spec)
-     */
-    public enum Permission: String, Codable {
-        
-        /// Customer's name, occupation and contact details
-        case customerDetails = "customer_details"
-        
-        /// Account name, balance and details
-        case accountDetails = "account_details"
-        
-        /// Transaction details
-        case transactionDetails = "transaction_details"
-        
-        /// Unknown permission
         case unknown
     }
     
@@ -293,10 +282,10 @@ public class Provider: NSManagedObject, UniqueManagedObject {
     }
     
     /// The aggregator permissions on the provider (This value will be set for cdr aggregator)
-    public var permissions: [Permission]? {
+    public var permissions: [Consent.Permission]? {
         get {
             let permissionStrings = permissionsRawValue?.components(separatedBy: "|")
-            return permissionStrings?.map { Permission(rawValue: $0) }.compactMap { $0 }
+            return permissionStrings?.map { Consent.Permission(rawValue: $0) }.compactMap { $0 }
         }
         set {
             if let newValue = newValue {
@@ -314,6 +303,9 @@ public class Provider: NSManagedObject, UniqueManagedObject {
         if let providerAccount = object as? ProviderAccount {
             addToProviderAccounts(providerAccount)
         }
+        if let consent = object as? Consent {
+            addToConsents(consent)
+        }
     }
     
     internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
@@ -329,7 +321,8 @@ public class Provider: NSManagedObject, UniqueManagedObject {
         smallLogoURLString = response.smallLogoURLString
         status = response.status
         aggregatorType = AggregatorType(rawValue: response.aggregatorType) ?? .unknown
-        permissions = response.permissions?.map { Permission(rawValue: $0) ?? .unknown }
+        permissions = response.permissions?.map { Consent.Permission(rawValue: $0) ?? .unknown }
+        productsAvailable = response.productsAvailable ?? false
         
         // Reset all containers
         containerBank = false

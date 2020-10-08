@@ -96,6 +96,6 @@ extension BudgetPeriod {
         trackingStatus = response.trackingStatus
     }
     
-    func linkObject(object: NSManagedObject) {}
+    internal func linkObject(object: NSManagedObject) {}
     
 }

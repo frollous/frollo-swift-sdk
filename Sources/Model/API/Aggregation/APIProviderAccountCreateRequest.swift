@@ -21,9 +21,11 @@ struct APIProviderAccountCreateRequest: Codable {
     enum CodingKeys: String, CodingKey {
         case loginForm = "login_form"
         case providerID = "provider_id"
+        case consentID = "consent_id"
     }
     
     let loginForm: ProviderLoginForm
     let providerID: Int64
+    let consentID: Int64?
     
 }

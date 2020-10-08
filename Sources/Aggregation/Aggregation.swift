@@ -72,16 +72,23 @@ public class Aggregation: CachedObjects, ResponseHandler {
     /// Notification fired when transaction categories cache has been updated
     public static let transactionCategoriesUpdatedNotification = Notification.Name("FrolloSDK.aggregation.transactionCategoriesUpdatedNotification")
     
+    /// Notification fired when consent cache has been updated
+    public static let consentsUpdatedNotification = Notification.Name("FrolloSDK.aggregation.consentsUpdatedNotification")
+    
+    /// Notification fired when silent push notification recieved to update transactions
+    public static let refreshTransactionsNotification = Notification.Name("FrolloSDK.aggregation.refreshTransactionsNotification")
+    
     internal static let refreshTransactionIDsKey = "FrolloSDKKey.Aggregation.transactionIDs"
-    internal static let refreshTransactionsNotification = Notification.Name("FrolloSDK.aggregation.refreshTransactionsNotification")
     
     internal let accountLock = NSLock()
     internal let merchantLock = NSLock()
     internal let providerLock = NSLock()
+    internal let consentLock = NSLock()
     internal let providerAccountLock = NSLock()
     internal let transactionLock = NSLock()
     internal let transactionCategoryLock = NSLock()
     internal let userTagsLock = NSLock()
+    internal let billLock = NSLock()
     
     private let database: Database
     private let service: APIService
@@ -95,6 +102,9 @@ public class Aggregation: CachedObjects, ResponseHandler {
     private var linkingTransactionCategoryIDs = Set<Int64>()
     private var refreshingMerchantIDs = Set<Int64>()
     private var refreshingProviderIDs = Set<Int64>()
+    private var linkingConsentProviderIDs = Set<Int64>()
+    private var linkingConsentProviderAccountIDs = Set<Int64>()
+    private var linkingBillIDs = Set<Int64>()
     
     internal init(database: Database, service: APIService) {
         self.database = database
@@ -182,7 +192,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
     /**
      Refresh all available providers from the host.
      
-     Includes beta and supported providers. Unsupported and Disabled providers must be fetched by ID.
+     Includes beta, supported, coming soon and outage providers. Unsupported and Disabled providers must be fetched by ID.
      
      - parameters:
         - completion: Optional completion handler with optional error if the request fails
@@ -202,6 +212,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.handleProvidersResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
+                    self.linkConsentsToProviders(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.providersUpdatedNotification, object: self)
                     
@@ -248,6 +259,105 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
+    // MARK: - Consents
+    
+    /**
+     Fetch consent by ID from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - consentID: Unique consent ID to fetch
+     */
+    public func consent(context: NSManagedObjectContext, consentID: Int64) -> Consent? {
+        return cachedObject(type: Consent.self, context: context, objectID: consentID, objectKey: #keyPath(Consent.consentID))
+    }
+    
+    /**
+     Fetch consents from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `Consent` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to consentID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func consents(context: NSManagedObjectContext,
+                         filteredBy predicate: NSPredicate? = nil,
+                         sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Consent.consentID), ascending: true)],
+                         limit: Int? = nil) -> [Consent]? {
+        
+        return cachedObjects(type: Consent.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Fetched results controller of Consents from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - filteredBy: Predicate of properties to match for fetching. See `Consent` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to consentID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func consentsFetchedResultsController(context: NSManagedObjectContext,
+                                                 filteredBy predicate: NSPredicate? = nil,
+                                                 sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Consent.consentID), ascending: true)],
+                                                 limit: Int? = nil) -> NSFetchedResultsController<Consent>? {
+        
+        return fetchedResultsController(type: Consent.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Refresh all available consents from the host.
+     
+     - parameters:
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshConsents(completion: FrolloSDKCompletionHandler? = nil) {
+        service.fetchConsents { result in
+            DispatchQueue.main.async {
+                switch result {
+                    case .failure(let error):
+                        Log.error(error.localizedDescription)
+                        completion?(.failure(error))
+                    case .success(let response):
+                        let managedObjectContext = self.database.newBackgroundContext()
+                        self.handleConsentsResponse(response, managedObjectContext: managedObjectContext)
+                        self.linkConsentsToProviders(managedObjectContext: managedObjectContext)
+                        self.linkConsentsToProviderAccounts(managedObjectContext: managedObjectContext)
+                        completion?(.success)
+                }
+            }
+        }
+    }
+    
+    /**
+     Refresh a specific consent by ID from the host
+     
+     - parameters:
+        - consentID: ID of the consent to fetch
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshConsent(consentID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        service.fetchConsent(consentID: consentID) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleConsentResponse(response, managedObjectContext: managedObjectContext)
+                    self.linkConsentsToProviders(managedObjectContext: managedObjectContext)
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
     /**
      Submits consent form for a specific provider
      
@@ -255,13 +365,81 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - consent: The form that will be submitted
         - completion: The block that will be executed when the submit request is complete
      */
-    public func submitCDRConsent(consent: CDRConsentForm, completion: ((Result<CDRConsent, Error>) -> Void)?) {
-        service.submitCDRConsent(request: consent.apiRequest) { result in
+    public func submitCDRConsent(consent: CDRConsentForm.Post, completion: ((Result<Int64, Error>) -> Void)?) {
+        service.submitConsent(request: consent.apiRequest) { result in
             switch result {
                 case .success(let response):
-                    completion?(.success(response.consent))
+                    
+                    // Since submitting a consent might affect other consents for the user, we need to refresh all of them
+                    self.refreshConsents { result in
+                        switch result {
+                            case .success:
+                                DispatchQueue.main.async {
+                                    completion?(.success(response.id))
+                                }
+                            case .failure(let error):
+                                DispatchQueue.main.async {
+                                    completion?(.failure(error))
+                                }
+                        }
+                    }
+                    
                 case .failure(let error):
-                    completion?(.failure(error))
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Withdraws a consent deleting all its data
+     
+     - parameters:
+        - id: ID of `Consent` to be withdrawn
+        - completion: The block that will be executed when the submit request is complete
+     */
+    public func withdrawCDRConsent(id: Int64, completion: FrolloSDKCompletionHandler?) {
+        let request = APICDRConsentUpdateRequest(status: .withdrawn)
+        service.updateConsent(consentID: id, request: request) { result in
+            switch result {
+                case .success(let response):
+                    let context = self.database.newBackgroundContext()
+                    self.handleConsentResponse(response, managedObjectContext: context)
+                    self.linkConsentsToProviders(managedObjectContext: context)
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Updates a consent sharing period
+     
+     - parameters:
+        - id: ID of `Consent` to be updated
+        - sharingDuration: sharingDuration (in seconds) of the consent that will be updated. This duration will be       added to the existing value by host.
+        - completion: The block that will be executed when the submit request is complete
+     */
+    public func updateCDRConsentSharingPeriod(id: Int64, sharingDuration: TimeInterval, completion: FrolloSDKCompletionHandler?) {
+        let request = APICDRConsentUpdateRequest(sharingDuration: sharingDuration)
+        service.updateConsent(consentID: id, request: request) { result in
+            switch result {
+                case .success(let response):
+                    let context = self.database.newBackgroundContext()
+                    self.handleConsentResponse(response, managedObjectContext: context)
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
             }
         }
     }
@@ -357,6 +535,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
                     
+                    self.linkConsentsToProviderAccounts(managedObjectContext: managedObjectContext)
+                    
                     NotificationCenter.default.post(name: Aggregation.providerAccountsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
@@ -390,6 +570,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
                     
+                    self.linkConsentsToProviderAccounts(managedObjectContext: managedObjectContext)
+                    
                     NotificationCenter.default.post(name: Aggregation.providerAccountsUpdatedNotification, object: self)
                     
                     DispatchQueue.main.async {
@@ -407,8 +589,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         - loginForm: Provider login form with validated and encrypted values with the user's details
         - completion: Optional completion handler which returns the provider account id that was created if it was successful, or and error if it was a failure
      */
-    public func createProviderAccount(providerID: Int64, loginForm: ProviderLoginForm, completion: ((Result<Int64, Error>) -> Void)? = nil) {
-        let request = APIProviderAccountCreateRequest(loginForm: loginForm, providerID: providerID)
+    public func createProviderAccount(providerID: Int64, consentID: Int64? = nil, loginForm: ProviderLoginForm, completion: ((Result<Int64, Error>) -> Void)? = nil) {
+        let request = APIProviderAccountCreateRequest(loginForm: loginForm, providerID: providerID, consentID: consentID)
         
         service.createProviderAccount(request: request) { result in
             switch result {
@@ -424,6 +606,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.handleProviderAccountResponse(response, managedObjectContext: managedObjectContext)
                     
                     self.linkProviderAccountsToProviders(managedObjectContext: managedObjectContext)
+                    
+                    self.linkConsentsToProviderAccounts(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.providerAccountsUpdatedNotification, object: self)
                     
@@ -796,6 +980,26 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Fetches products list form for a specific account
+     
+     - parameters:
+        - accountID: Account ID of the Account to fetch products
+        - completion: The block that will be executed when the submit request is complete
+     */
+    public func fetchProducts(accountID: Int64, completion: ((Result<[CDRProduct], Error>) -> Void)?) {
+        
+        service.fetchProducts(accountID: accountID) { result in
+            switch result {
+                case .success(let response):
+                    completion?(.success(response))
+                case .failure(let error):
+                    completion?(.failure(error))
+            }
+        }
+        
+    }
+    
     // MARK: - Transactions
     
     /**
@@ -936,6 +1140,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToBills(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                     
@@ -973,6 +1178,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToBills(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                     
@@ -1067,7 +1273,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                         completion?(.failure(error))
                     }
                     
-                case .success(let before, let after, let total, _, _, _, _):
+                case .success(let (before, after, total, _, _, _, _)):
                     
                     if after == nil {
                         DispatchQueue.main.async {
@@ -1136,6 +1342,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToBills(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                     
@@ -1202,6 +1409,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToBills(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                     
@@ -1261,6 +1469,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToBills(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                     
@@ -1338,6 +1547,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     self.linkTransactionsToAccounts(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToMerchants(managedObjectContext: managedObjectContext)
                     self.linkTransactionsToTransactionCategories(managedObjectContext: managedObjectContext)
+                    self.linkTransactionsToBills(managedObjectContext: managedObjectContext)
                     
                     NotificationCenter.default.post(name: Aggregation.transactionsUpdatedNotification, object: self)
                     
@@ -1539,6 +1749,34 @@ public class Aggregation: CachedObjects, ResponseHandler {
                                     sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)], limit: Int? = nil) -> [Tag]? {
         
         return cachedObjects(type: Tag.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Gets all cached user tags for transactions.
+     - parameters:
+     - context: Managed object context to fetch these from; background or main thread
+     - including: Names of tags to filter results by
+     - sortedBy: Array of sort descriptors to sort the results by (Optional). By default sorts by tag name; ascending.
+     - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func transactionUserTags(context: NSManagedObjectContext, including names: [String], sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)], limit: Int? = nil) -> [Tag]? {
+        let predicate = NSPredicate(format: Tag.primaryKey + " IN %@", argumentArray: [names])
+        
+        return transactionUserTags(context: context, filteredBy: predicate, sortedBy: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Gets all cached user tags for transactions.
+     - parameters:
+     - context: Managed object context to fetch these from; background or main thread
+     - excluding: Names of tags to be excluded from the results
+     - sortedBy: Array of sort descriptors to sort the results by (Optional). By default sorts by tag name; ascending.
+     - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func transactionUserTags(context: NSManagedObjectContext, excluding names: [String], sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)], limit: Int? = nil) -> [Tag]? {
+        let predicate = NSPredicate(format: "NOT " + Tag.primaryKey + " IN %@", argumentArray: [names])
+        
+        return transactionUserTags(context: context, filteredBy: predicate, sortedBy: sortDescriptors, limit: limit)
     }
     
     /**
@@ -2135,7 +2373,122 @@ public class Aggregation: CachedObjects, ResponseHandler {
         }
     }
     
+    private func linkTransactionsToBills(managedObjectContext: NSManagedObjectContext) {
+        billLock.lock()
+        transactionLock.lock()
+        
+        defer {
+            billLock.unlock()
+            transactionLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: Transaction.self, parentType: Bill.self, managedObjectContext: managedObjectContext, linkedIDs: linkingBillIDs, linkedKey: \Transaction.billID, linkedKeyName: #keyPath(Transaction.billID))
+        
+        linkingBillIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func linkConsentsToProviders(managedObjectContext: NSManagedObjectContext) {
+        providerLock.lock()
+        consentLock.lock()
+        
+        defer {
+            providerLock.unlock()
+            consentLock.unlock()
+        }
+        
+        linkObjectToParentObject(type: Consent.self, parentType: Provider.self, managedObjectContext: managedObjectContext, linkedIDs: linkingConsentProviderIDs, linkedKey: \Consent.providerID, linkedKeyName: #keyPath(Consent.providerID))
+        
+        linkingConsentProviderIDs = Set()
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func linkConsentsToProviderAccounts(managedObjectContext: NSManagedObjectContext) {
+        providerAccountLock.lock()
+        consentLock.lock()
+        
+        defer {
+            providerAccountLock.unlock()
+            consentLock.unlock()
+        }
+        
+        linkingConsentProviderAccountIDs = linkObjectToParentObject(type: Consent.self, parentType: ProviderAccount.self, managedObjectContext: managedObjectContext, linkedIDs: linkingConsentProviderAccountIDs, linkedKey: \Consent.providerAccountID, linkedKeyName: #keyPath(Consent.providerAccountID))
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
     // MARK: - Response Handling
+    
+    private func handleConsentResponse(_ consentResponse: APICDRConsentResponse, managedObjectContext: NSManagedObjectContext) {
+        consentLock.lock()
+        
+        defer {
+            consentLock.unlock()
+        }
+        
+        updateObjectWithResponse(type: Consent.self, objectResponse: consentResponse, primaryKey: #keyPath(Consent.consentID), managedObjectContext: managedObjectContext)
+        
+        linkingConsentProviderIDs.insert(consentResponse.providerID)
+        if let providerAccountID = consentResponse.providerAccountID {
+            linkingConsentProviderAccountIDs.insert(providerAccountID)
+        }
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+                NotificationCenter.default.post(name: Aggregation.consentsUpdatedNotification, object: self)
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleConsentsResponse(_ consentsResponse: [APICDRConsentResponse], managedObjectContext: NSManagedObjectContext) {
+        consentLock.lock()
+        
+        defer {
+            consentLock.unlock()
+        }
+        
+        let updatedLinkedIDs = updateObjectsWithResponse(type: Consent.self, objectsResponse: consentsResponse, primaryKey: #keyPath(Consent.consentID), linkedKeys: [\Consent.providerID], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        
+        if let providerIDs = updatedLinkedIDs[\Consent.providerID] {
+            linkingConsentProviderIDs = linkingConsentProviderIDs.union(providerIDs)
+        }
+        
+        if let providerAccountIDs = updatedLinkedIDs[\Consent.providerAccountID] {
+            linkingConsentProviderAccountIDs = linkingConsentProviderAccountIDs.union(providerAccountIDs)
+        }
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+                NotificationCenter.default.post(name: Aggregation.consentsUpdatedNotification, object: self)
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
     
     private func handleProviderResponse(_ providerResponse: APIProviderResponse, managedObjectContext: NSManagedObjectContext) {
         providerLock.lock()
@@ -2162,7 +2515,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             providerLock.unlock()
         }
         
-        let filterPredicate = NSPredicate(format: #keyPath(Provider.statusRawValue) + " IN %@", argumentArray: [[Provider.Status.supported.rawValue, Provider.Status.beta.rawValue]])
+        let filterPredicate = NSPredicate(format: #keyPath(Provider.statusRawValue) + " IN %@", argumentArray: [[Provider.Status.supported.rawValue, Provider.Status.beta.rawValue, Provider.Status.comingSoon.rawValue, Provider.Status.outage.rawValue]])
         
         updateObjectsWithResponse(type: Provider.self, objectsResponse: providersResponse, primaryKey: #keyPath(Provider.providerID), linkedKeys: [], filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
         
@@ -2213,6 +2566,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
         if let providerIDs = updatedLinkedIDs[\ProviderAccount.providerID] {
             linkingProviderIDs = linkingProviderIDs.union(providerIDs)
         }
+        
+        linkingConsentProviderAccountIDs = Set(providerAccountsResponse.map { $0.id })
         
         managedObjectContext.performAndWait {
             do {
@@ -2277,6 +2632,10 @@ public class Aggregation: CachedObjects, ResponseHandler {
         linkingAccountIDs.insert(transactionResponse.accountID)
         linkingMerchantIDs.insert(transactionResponse.merchant.id)
         linkingTransactionCategoryIDs.insert(transactionResponse.categoryID)
+        
+        if let billID = transactionResponse.billID {
+            linkingBillIDs.insert(billID)
+        }
         
         managedObjectContext.performAndWait {
             do {
@@ -2428,27 +2787,42 @@ public class Aggregation: CachedObjects, ResponseHandler {
             afterDate = Transaction.transactionDateFormatter.date(from: lastTransaction.transactionDate)
         }
         
+        /**
+         Following code creates a filter predicate that will be applied to cached transactions to update
+         Predicate 1: Considers all transactions after first day of the transaction list (first day + 1)
+         Predicate 2: Considers all transactions of first day and after first ID of transaction list
+         Predicate 3: Considers all transactions before last day of the transaction list (last day - 1)
+         Predicate 4: Considers all transactions of last day and before last ID of transaction list
+         Predicate 5: Predicate 1 OR Predicate 2 (Upper limit Predicate)
+         Predicate 6: Predicate 2 OR Predicate 4 (Lower limit Predicate)
+         Predicate 7: Predicate 5 AND Predicate 6 (Satisfy both upper and lower limit) (Final filter predicate to apply in core data)
+         */
+        
         // Filter by before cursor in paginated response
-        if let beforeDate = beforeDate, let beforeID = beforeID, let dayAfterFirstDate = beforeDate.withAddingValue(1, to: .day) {
+        if let beforeDate = beforeDate, let beforeID = beforeID, let dayBeforeFirstDate = beforeDate.withAddingValue(-1, to: .day) {
             
             let fromDateString = Transaction.transactionDateFormatter.string(from: beforeDate)
-            let dayAfterFirstDateString = Transaction.transactionDateFormatter.string(from: dayAfterFirstDate)
+            let dayBeforeFirstDateString = Transaction.transactionDateFormatter.string(from: dayBeforeFirstDate)
             
-            let filterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " <= %@ ", argumentArray: [dayAfterFirstDateString])
+            // Filter for other days except first day of transaction list. All transactions will be considered before beforeDate (one day before first day). This means we dont need to consider transactionIDs here.
+            let filterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " <= %@ ", argumentArray: [dayBeforeFirstDateString])
             
+            // First day filter. For the first date in transaction list, the day should be equal to first day and transactionID should be after first transaction ID (beforeID).
             let firstDayFilterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " == %@ && " + #keyPath(Transaction.transactionID) + " <= %@ ", argumentArray: [fromDateString, beforeID])
             
             filterPredicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [filterPredicate, firstDayFilterPredicate]))
         }
         
         // Filter by after cursor in paginated response
-        if let afterDate = afterDate, let afterID = afterID, let dayBeforeLastDate = afterDate.withAddingValue(-1, to: .day) {
+        if let afterDate = afterDate, let afterID = afterID, let dayAfterLastDate = afterDate.withAddingValue(1, to: .day) {
             
             let toDateString = Transaction.transactionDateFormatter.string(from: afterDate)
-            let dayBeforeLastDateString = Transaction.transactionDateFormatter.string(from: dayBeforeLastDate)
+            let dayAfterLastDateString = Transaction.transactionDateFormatter.string(from: dayAfterLastDate)
             
-            let filterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " >= %@ ", argumentArray: [dayBeforeLastDateString])
+            // Filter for other days except last day. All transactions can be considered after afterDate (one day after last day). This means we dont need to consider transactionIDs here.
+            let filterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " >= %@ ", argumentArray: [dayAfterLastDateString])
             
+            // Last day filter. For the last date in transaction list, the day should be equal to last day and transactionID should be before last transaction ID (afterID).
             let lastDayFilterPredicate = NSPredicate(format: #keyPath(Transaction.transactionDateString) + " == %@ && " + #keyPath(Transaction.transactionID) + " >= %@ ", argumentArray: [toDateString, afterID])
             
             filterPredicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [filterPredicate, lastDayFilterPredicate]))
@@ -2464,12 +2838,16 @@ public class Aggregation: CachedObjects, ResponseHandler {
             transactionLock.unlock()
         }
         
-        let updatedLinkedIDs = updateObjectsWithResponse(type: Transaction.self, objectsResponse: transactionsResponse.data.elements, primaryKey: #keyPath(Transaction.transactionID), linkedKeys: [\Transaction.accountID, \Transaction.merchantID, \Transaction.transactionCategoryID], filterPredicate: NSCompoundPredicate(andPredicateWithSubpredicates: filterPredicates), managedObjectContext: managedObjectContext)
+        let updatedLinkedIDs = updateObjectsWithResponse(type: Transaction.self, objectsResponse: transactionsResponse.data.elements, primaryKey: #keyPath(Transaction.transactionID), linkedKeys: [\Transaction.accountID, \Transaction.merchantID, \Transaction.transactionCategoryID, \Transaction.billID], filterPredicate: NSCompoundPredicate(andPredicateWithSubpredicates: filterPredicates), managedObjectContext: managedObjectContext)
         
         if let updatedAccountIDs = updatedLinkedIDs[\Transaction.accountID], let updatedMerchantIDs = updatedLinkedIDs[\Transaction.merchantID], let updatedTransactionCategoryIDs = updatedLinkedIDs[\Transaction.transactionCategoryID] {
             linkingAccountIDs = linkingAccountIDs.union(updatedAccountIDs)
             linkingMerchantIDs = linkingMerchantIDs.union(updatedMerchantIDs)
             linkingTransactionCategoryIDs = linkingTransactionCategoryIDs.union(updatedTransactionCategoryIDs)
+        }
+        
+        if let updatedBillIDs = updatedLinkedIDs[\Transaction.billID] {
+            linkingBillIDs = linkingBillIDs.union(updatedBillIDs)
         }
         
         managedObjectContext.performAndWait {
@@ -2496,6 +2874,10 @@ public class Aggregation: CachedObjects, ResponseHandler {
             linkingAccountIDs = linkingAccountIDs.union(updatedAccountIDs)
             linkingMerchantIDs = linkingMerchantIDs.union(updatedMerchantIDs)
             linkingTransactionCategoryIDs = linkingTransactionCategoryIDs.union(updatedTransactionCategoryIDs)
+        }
+        
+        if let updatedBillIDs = updatedLinkedIDs[\Transaction.billID] {
+            linkingBillIDs = linkingBillIDs.union(updatedBillIDs)
         }
         
         managedObjectContext.performAndWait {

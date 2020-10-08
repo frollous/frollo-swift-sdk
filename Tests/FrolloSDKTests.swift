@@ -632,7 +632,7 @@ class FrolloSDKTests: XCTestCase {
         
         let sdk = Frollo()
         
-        populateTestDataNamed(name: "FrolloSDKDataModel-1.2.0", atPath: Frollo.defaultDataFolderURL)
+        populateTestDataNamed(name: "FrolloSDKDataModel-1.7.0", atPath: Frollo.defaultDataFolderURL)
         
         sdk.setup(configuration: config) { (result) in
             switch result {
@@ -678,6 +678,43 @@ class FrolloSDKTests: XCTestCase {
             }
             
             expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testRegisterPushNotificationTokenBeforeSetup() {
+        let expectation1 = expectation(description: "Setup")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        var firedOnce = false
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.device.path)) { (request) -> OHHTTPStubsResponse in
+            if !firedOnce {
+                expectation1.fulfill()
+                
+            firedOnce = true
+            }
+            
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+        
+        let sdk = Frollo()
+        
+        let tokenString = "740f4707bebcf74f9b7c25d48e3358945f6aa01da5ddb387462c7eaf61bb78ad"
+        let tokenData = Data.dataWithHexString(hex: tokenString)
+        sdk.registerPushNotificationToken(tokenData)
+        
+        sdk.setup(configuration: config) { (result) in
+            sdk.authentication.dataSource = MockAuthentication(token: "abc123", valid: true)
+            
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    XCTAssertTrue(sdk.setup)
+            }
         }
         
         wait(for: [expectation1], timeout: 3.0)

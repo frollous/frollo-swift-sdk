@@ -197,7 +197,7 @@ class BudgetsTests: BaseTestCase {
             }
             
             let predicate = NSPredicate(format: #keyPath(Budget.frequencyRawValue) + " == %@", argumentArray: [Budget.Frequency.daily.rawValue])
-            let fetchedResultsController = self.budgets.budgetsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
+            let fetchedResultsController = self.budgets.budgetsFetchedResultsController(context: managedObjectContext, trackingType: .debitCredit, filteredBy: predicate)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -251,7 +251,7 @@ class BudgetsTests: BaseTestCase {
                 try! managedObjectContext.save()
             }
             
-            let fetchedResultsController = self.budgets.budgetsFetchedResultsController(context: self.database.viewContext, current: true, budgetType: .category, frequency: .annually, status: .completed, trackingStatus: .above)
+            let fetchedResultsController = self.budgets.budgetsFetchedResultsController(context: self.database.viewContext, current: true, budgetType: .category, frequency: .annually, status: .completed, trackingStatus: .above, trackingType: .debitCredit)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -347,6 +347,44 @@ class BudgetsTests: BaseTestCase {
                             XCTAssertEqual(budget.imageURLString, "http://www.example.com/image/image_1.png")
                             XCTAssertEqual(budget.trackingStatus, .above)
                             XCTAssertEqual(budget.budgetType, .category)
+                            XCTAssertEqual(budget.periods?.first?.budgetPeriodID, 94)
+                                                        
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testCreateAccountBudget() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "account_budget", addingStatusCode: 201)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.budgets.createBudgetCategoryBudget(budgetCategory: .lifestyle, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png", trackingType: .debitCredit) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = self.database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Budget> = Budget.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [4])
+                        
+                        do {
+                            let fetchedBudgets = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedBudgets.first?.budgetID, 4)
+                            XCTAssertEqual(fetchedBudgets.first?.typeValue, "223")
+                            XCTAssertEqual(fetchedBudgets.first?.budgetType, .account)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -367,7 +405,7 @@ class BudgetsTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            self.budgets.createBudgetCategoryBudget(budgetCategory: .lifestyle, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png") { (result) in
+            self.budgets.createBudgetCategoryBudget(budgetCategory: .lifestyle, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png", trackingType: .debitCredit) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -403,7 +441,7 @@ class BudgetsTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            self.budgets.createCategoryBudget(categoryID: 11, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png") { (result) in
+            self.budgets.createCategoryBudget(categoryID: 11, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png", trackingType: .debitCredit) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -439,7 +477,7 @@ class BudgetsTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            self.budgets.createMerchantBudget(merchantID: 11, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png") { (result) in
+            self.budgets.createMerchantBudget(merchantID: 11, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png", trackingType: .debitCredit) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -789,10 +827,11 @@ class BudgetsTests: BaseTestCase {
         let context = database.viewContext
         
         let fetchRequest: NSFetchRequest<BudgetPeriod> = BudgetPeriod.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "budgetPeriodID == %ld", argumentArray: [85])
+        fetchRequest.predicate = NSPredicate(format: "budgetPeriodID == %ld", argumentArray: [94])
         
         do {
             let fetchedBudgetPeriods = try context.fetch(fetchRequest)
+            
             
             XCTAssertEqual(fetchedBudgetPeriods.count, 1)
             

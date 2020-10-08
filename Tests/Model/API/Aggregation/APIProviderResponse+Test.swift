@@ -42,7 +42,8 @@ extension APIProviderResponse {
                                    oAuthSite: false,
                                    smallLogoURLString: "https://example.com/small_logo.png",
                                    aggregatorType: "yodlee",
-                                   permissions: nil)
+                                   permissions: nil,
+                                   productsAvailable: false)
     }
     
     static func testIncompleteData() -> APIProviderResponse {
@@ -64,7 +65,8 @@ extension APIProviderResponse {
                                    oAuthSite: nil,
                                    smallLogoURLString: "https://example.com/small_logo.png",
                                    aggregatorType: "yodlee",
-                                   permissions: nil)
+                                   permissions: nil,
+                                   productsAvailable: false)
     }
     
     static func testDetailsCompleteData() -> APIProviderResponse {
@@ -103,7 +105,8 @@ extension APIProviderResponse {
                                    oAuthSite: false,
                                    smallLogoURLString: "https://example.com/small_logo.png",
                                    aggregatorType: "yodlee",
-                                   permissions: nil)
+                                   permissions: nil,
+                                   productsAvailable: false)
     }
     
 }

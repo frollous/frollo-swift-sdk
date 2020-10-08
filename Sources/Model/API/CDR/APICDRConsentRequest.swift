@@ -16,7 +16,7 @@
 
 import Foundation
 
-struct APICDRConsentRequest: Codable {
+struct APICDRConsentCreateRequest: Codable {
     enum CodingKeys: String, CodingKey {
         case providerID = "provider_id"
         case sharingDuration = "sharing_duration"
@@ -39,4 +39,35 @@ struct APICDRConsentRequest: Codable {
     
     /// Specifies whether the data should be deleted after the consent is done
     let deleteRedundantData: Bool
+}
+
+struct APICDRConsentUpdateRequest: Codable {
+    
+    enum CodingKeys: String, CodingKey {
+        case deleteRedundantData = "delete_redundant_data"
+        case sharingDuration = "sharing_duration"
+        case status
+    }
+    
+    /// The new status for the consent
+    public let status: Consent.Status?
+    
+    /// The new value for the delete redundant data (Optional)
+    public let deleteRedundantData: Bool?
+    
+    /// The new value for duration (in seconds) for the consent (Optional)
+    public let sharingDuration: TimeInterval?
+    
+    /** Initialize a CDR Consent form to send to the host
+     
+     - parameters:
+         - status: The new status for the consent
+         - sharingDuration: The new sharingDuration for the consent
+     */
+    public init(status: Consent.Status? = nil, sharingDuration: TimeInterval? = nil) {
+        self.status = status
+        self.deleteRedundantData = true
+        self.sharingDuration = sharingDuration
+    }
+    
 }

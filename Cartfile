@@ -1,5 +1,5 @@
 # Alamofire - Networking
-github "Alamofire/Alamofire" ~> 4.9.0
+github "Alamofire/Alamofire" ~> 5.2.1
 
 # AppAuth - OAuth2
 github "openid/AppAuth-iOS" ~> 1.2.0

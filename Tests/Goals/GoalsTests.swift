@@ -346,6 +346,7 @@ class GoalsTests: BaseTestCase {
                             XCTAssertEqual(goal.targetAmount, 5000)
                             XCTAssertEqual(goal.trackingStatus, .above)
                             XCTAssertEqual(goal.trackingType, .debit)
+                            XCTAssertEqual(goal.periods?.count, 1)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }

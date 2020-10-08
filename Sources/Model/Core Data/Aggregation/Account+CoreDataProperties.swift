@@ -38,6 +38,9 @@ extension Account {
     /// Name of the account (optional)
     @NSManaged public var accountName: String?
     
+    /// Account number of the account (optional)
+    @NSManaged public var accountNumber: String?
+    
     /// Raw value for the account status. Use only in predicates
     @NSManaged public var accountStatusRawValue: String
     
@@ -77,6 +80,9 @@ extension Account {
     /// Description of the current account balance tier (optional)
     @NSManaged public var balanceDescription: String?
     
+    /// BSB of the account (optional)
+    @NSManaged public var bsb: String?
+    
     /// Raw value of the account classification. Use only in predicates (optional)
     @NSManaged public var classificationRawValue: String?
     
@@ -94,6 +100,9 @@ extension Account {
     
     /// Favourited
     @NSManaged public var favourite: Bool
+    
+    /// Raw value for the account features
+    @NSManaged public var featuresRawValue: Data?
     
     /// Raw value for the associated goal IDs
     @NSManaged public var goalIDsRawValue: Data?
@@ -134,6 +143,18 @@ extension Account {
     /// Nickname given to the account for display and identification purposes (optional)
     @NSManaged public var nickName: String?
     
+    /// URL of product details page (optional); Nil if product not selected
+    @NSManaged public var productDetailsPageURL: String?
+    
+    /// ID of selected Product for this Account (optional, -1 is not selected)
+    @NSManaged public var productID: Int64
+    
+    /// Name of selected Product for this Account (optional); Nil if product not selected
+    @NSManaged public var productName: String?
+    
+    /// ProductsAvailable. True if CDR Products are available for this Account
+    @NSManaged public var productsAvailable: Bool
+    
     /// Parent provider account ID
     @NSManaged public var providerAccountID: Int64
     
@@ -169,6 +190,9 @@ extension Account {
     
     /// Associated goals (optional)
     @NSManaged public var goals: Set<Goal>?
+    
+    /// CDR Product Informations  (optional)
+    @NSManaged public var productInformations: Set<CDRProductInformation>?
     
     /// Parent provider account
     @NSManaged public var providerAccount: ProviderAccount?
@@ -288,5 +312,27 @@ extension Account {
     /// Remove transaction relationships
     @objc(removeTransactions:)
     @NSManaged public func removeFromTransactions(_ values: Set<Transaction>)
+    
+}
+
+// MARK: Generated accessors for productInformations
+
+extension Account {
+    
+    /// Add an CDR product information relationship
+    @objc(addProductInformationsObject:)
+    @NSManaged public func addToProductInformations(_ value: CDRProductInformation)
+    
+    /// Remove an CDR product information relationship
+    @objc(removeProductInformationsObject:)
+    @NSManaged public func removeFromProductInformations(_ value: CDRProductInformation)
+    
+    /// Add CDR product information relationships
+    @objc(addProductInformations:)
+    @NSManaged public func addToProductInformations(_ values: Set<CDRProductInformation>)
+    
+    /// Remove CDR product information relationships
+    @objc(removeProductInformations:)
+    @NSManaged public func removeFromProductInformations(_ values: Set<CDRProductInformation>)
     
 }

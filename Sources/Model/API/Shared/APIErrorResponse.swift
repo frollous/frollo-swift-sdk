@@ -108,7 +108,7 @@ internal struct APIErrorResponse: Codable {
 
 extension APIErrorResponse.ErrorBody {
     
-    var errorCode: APIErrorCode? {
+    internal var errorCode: APIErrorCode? {
         if let rawValue = errorCodeRawValue {
             return APIErrorCode(rawValue: rawValue)
         }

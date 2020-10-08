@@ -17,13 +17,17 @@
 import Foundation
 
 extension Decimal {
-    init(string: String) {
+    
+    internal init(string: String) {
         self = NSDecimalNumber(string: string) as Decimal
     }
+    
 }
 
 extension String {
-    init(decimal: Decimal) {
+    
+    internal init(decimal: Decimal) {
         self = (decimal as NSDecimalNumber).stringValue
     }
+    
 }

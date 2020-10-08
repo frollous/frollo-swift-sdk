@@ -1,0 +1,19 @@
+[{
+    "id": 1,
+    "name": "Koala",
+    "image_types": ["type1", "type2"],
+    "small_image_url": "https://example.com/small/image1.png",
+    "large_image_url": "https://example.com/large/image1.png",
+},{
+    "id": 2,
+    "name": "Cockatoo",
+    "image_types": ["type2", "type3"],
+    "small_image_url": "https://example.com/small/image2.png",
+    "large_image_url": "https://example.com/large/image2.png",
+},{
+    "id": 3,
+    "name": "Kangaroo",
+    "image_types": ["type3", "type1"],
+    "small_image_url": "https://example.com/small/image3.png",
+    "large_image_url": "https://example.com/large/image3.png",
+}]

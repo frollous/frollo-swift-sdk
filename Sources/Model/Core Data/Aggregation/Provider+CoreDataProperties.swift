@@ -107,6 +107,9 @@ extension Provider {
     /// Unique ID of the provider
     @NSManaged public var providerID: Int64
     
+    /// ProductsAvailable. True if CDR Products are available for this Provider
+    @NSManaged public var productsAvailable: Bool
+    
     /// Raw value of the small logo URL. Use only in predicates (optional)
     @NSManaged public var smallLogoURLString: String?
     
@@ -121,6 +124,9 @@ extension Provider {
     
     /// Child provider accounts
     @NSManaged public var providerAccounts: Set<ProviderAccount>?
+    
+    /// Child associated consents
+    @NSManaged public var consents: Set<Consent>?
     
 }
 
@@ -143,5 +149,27 @@ extension Provider {
     /// Remove provider account relationships
     @objc(removeProviderAccounts:)
     @NSManaged public func removeFromProviderAccounts(_ values: Set<ProviderAccount>)
+    
+}
+
+// MARK: Generated accessors for consents
+
+extension Provider {
+    
+    /// Add a consent relationship
+    @objc(addConsentsObject:)
+    @NSManaged public func addToConsents(_ value: Consent)
+    
+    /// Remove a consent relationship
+    @objc(removeConsentsObject:)
+    @NSManaged public func removeFromConsents(_ value: Consent)
+    
+    /// Add consent relationships
+    @objc(addConsents:)
+    @NSManaged public func addToConsents(_ values: Set<Consent>)
+    
+    /// Remove consent relationships
+    @objc(removeConsents:)
+    @NSManaged public func removeFromConsents(_ values: Set<Consent>)
     
 }

@@ -38,7 +38,7 @@ class EventsTests: XCTestCase {
         let config = FrolloSDKConfiguration.testConfig()
         
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + EventsEndpoint.events.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
+            return OHHTTPStubsResponse(data: "{}".data(using: .utf8)!, statusCode: 201, headers: nil)
         }
         
         let mockAuthentication = MockAuthentication()
@@ -188,6 +188,32 @@ class EventsTests: XCTestCase {
             XCTAssertTrue(handled)
             XCTAssertNil(error)
             
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+    }
+    
+    func testHandlebudgetPeriodReadyEvent() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Budgets.currentBudgetPeriodReadyNotification, object: nil) { (notification) -> Bool in
+            return true
+        }
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let events = Events(service: service)
+                
+        events.handleEvent("B_CURRENT_PERIOD_READY") { (handled, error) in
+            XCTAssertTrue(handled)
+            XCTAssertNil(error)
             expectation1.fulfill()
         }
         

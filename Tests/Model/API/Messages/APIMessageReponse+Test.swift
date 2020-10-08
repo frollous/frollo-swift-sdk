@@ -51,7 +51,7 @@ extension APIMessageResponse {
                                   contentType: contentType,
                                   event: String.randomString(range: 1...30),
                                   interacted: Bool.random(),
-                                  metadata: [:],
+                                  metadata: ["field": 1],
                                   messageTypes: ["home_nudge"],
                                   persists: Bool.random(),
                                   placement: Int64.random(in: 1...1000),

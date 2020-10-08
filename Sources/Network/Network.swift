@@ -31,9 +31,9 @@ class Network: SessionDelegate {
     internal let serverURL: URL
     
     internal var authentication: Authentication
-    internal var sessionManager: SessionManager!
+    internal var sessionManager: Session!
     
-    private let APIVersion = "2.8"
+    private let APIVersion = "2.11"
     
     /**
      Initialise a network stack pointing to an API at a specific URL
@@ -85,26 +85,24 @@ class Network: SessionDelegate {
                                                HTTPHeader.deviceVersion.rawValue: osVersion + systemVersion,
                                                HTTPHeader.softwareVersion.rawValue: versionString]
         
-        var serverTrustManager: ServerTrustPolicyManager?
+        var serverTrustManager: ServerTrustManager?
         
         // Public key pinning
         if let pinnedKeys = pinnedPublicKeys, !pinnedKeys.isEmpty {
-            var serverTrustPolicies: [String: ServerTrustPolicy] = [:]
+            var serverTrustPolicies: [String: ServerTrustEvaluating] = [:]
             
             pinnedKeys.forEach { item in
                 if let host = item.key.host {
-                    serverTrustPolicies[host] = ServerTrustPolicy.pinPublicKeys(publicKeys: item.value, validateCertificateChain: true, validateHost: true)
+                    serverTrustPolicies[host] = PublicKeysTrustEvaluator(keys: item.value, validateHost: true)
                 }
             }
             
-            serverTrustManager = ServerTrustPolicyManager(policies: serverTrustPolicies)
+            serverTrustManager = ServerTrustManager(evaluators: serverTrustPolicies)
         }
         
         super.init()
         
-        self.sessionManager = SessionManager(configuration: configuration, delegate: self, serverTrustPolicyManager: serverTrustManager)
-        sessionManager.adapter = authentication
-        sessionManager.retrier = authentication
+        self.sessionManager = Session(configuration: configuration, delegate: self, interceptor: authentication, serverTrustManager: serverTrustManager)
     }
     
     // MARK: - Reset
@@ -149,14 +147,15 @@ class Network: SessionDelegate {
     
     // MARK: - Response Handling
     
-    internal func handleFailure<T: ResponseError>(type: T.Type, response: DataResponse<Data>, error: Error, completion: (_: FrolloSDKError) -> Void) {
-        if let parsedError = error as? DataError, parsedError.type == .authentication, parsedError.subType == .missingRefreshToken {
+    internal func handleFailure<T: ResponseError>(type: T.Type, response: DataResponse<Data, AFError>, error: Error, completion: (_: FrolloSDKError) -> Void) {
+        let dataError = error as? AFError
+        if let parsedError = dataError?.underlyingError as? DataError, parsedError.type == .authentication, parsedError.subType == .missingRefreshToken {
             authentication.tokenInvalidated()
             
             reset()
             
             completion(parsedError)
-        } else if let parsedError = error as? FrolloSDKError {
+        } else if let parsedError = dataError?.underlyingError as? FrolloSDKError {
             completion(parsedError)
         } else if let statusCode = response.response?.statusCode {
             let responseError = T(statusCode: statusCode, response: response.data)
@@ -181,13 +180,14 @@ class Network: SessionDelegate {
             
             completion(responseError)
         } else {
-            let systemError = error as NSError
-            let networkError = NetworkError(error: systemError)
+            let afError = error.asAFError
+            let systemError = afError?.underlyingError
+            let networkError = NetworkError(error: systemError as NSError?)
             completion(networkError)
         }
     }
     
-    internal func handleResponse<T: Codable, U: ResponseError>(type: T.Type, errorType: U.Type, response: DataResponse<Data>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<T>) {
+    internal func handleResponse<T: Codable, U: ResponseError>(type: T.Type, errorType: U.Type, response: DataResponse<Data, AFError>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<T>) {
         switch response.result {
             case .success(let value):
                 let decoder = JSONDecoder()
@@ -211,7 +211,7 @@ class Network: SessionDelegate {
         }
     }
     
-    internal func handleArrayResponse<T: Codable, U: ResponseError>(type: T.Type, errorType: U.Type, response: DataResponse<Data>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<[T]>) {
+    internal func handleArrayResponse<T: Codable, U: ResponseError>(type: T.Type, errorType: U.Type, response: DataResponse<Data, AFError>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<[T]>) {
         switch response.result {
             case .success(let value):
                 let decoder = JSONDecoder()
@@ -235,7 +235,7 @@ class Network: SessionDelegate {
         }
     }
     
-    internal func handlePaginatedArrayResponse<T: Codable, U: ResponseError>(type: T.Type, errorType: U.Type, response: DataResponse<Data>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<APIPaginatedResponse<T>>) {
+    internal func handlePaginatedArrayResponse<T: Codable, U: ResponseError>(type: T.Type, errorType: U.Type, response: DataResponse<Data, AFError>, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .formatted(DateFormatter.iso8601Milliseconds), completion: RequestCompletion<APIPaginatedResponse<T>>) {
         switch response.result {
             case .success(let value):
                 let decoder = JSONDecoder()
@@ -258,7 +258,7 @@ class Network: SessionDelegate {
         }
     }
     
-    internal func handleEmptyResponse<T: ResponseError>(errorType: T.Type, response: DataResponse<Data>, completion: NetworkCompletion) {
+    internal func handleEmptyResponse<T: ResponseError>(errorType: T.Type, response: DataResponse<Data, AFError>, completion: NetworkCompletion) {
         switch response.result {
             case .success:
                 completion(.success(Data()))

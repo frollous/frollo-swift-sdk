@@ -170,30 +170,55 @@ extension XCTestCase {
 
 extension XCTestCase {
     
-    @discardableResult
-    func connect(endpoint: String, toResourceWithName name: String, addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
-        return connect(host: serverEndpointHost, endpoint: endpoint, toResourceWithName: name, addingStatusCode: statusCode, addingHeaders: headers)
+    enum Method {
+        case post
+        case put
+        case get
+        
+        var condition: OHHTTPStubsTestBlock {
+            switch self {
+            case .post:
+                return isMethodPOST()
+            case .put:
+                return isMethodPUT()
+            case .get:
+                return isMethodGET()
+            }
+        }
     }
     
     @discardableResult
-    func connect(endpoint: String, addingData data: Data = Data(), addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
-        return connect(host: serverEndpointHost, endpoint: endpoint, addingData: data, addingStatusCode: statusCode, addingHeaders: headers)
+    func connect(endpoint: String, method: Method? = nil, toResourceWithName name: String, addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
+        return connect(host: serverEndpointHost, endpoint: endpoint, method: method, toResourceWithName: name, addingStatusCode: statusCode, addingHeaders: headers)
     }
     
     @discardableResult
-    func connect(host: String, endpoint: String, toResourceWithName name: String, addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
+    func connect(endpoint: String, method: Method? = nil, addingData data: Data = Data(), addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
+        return connect(host: serverEndpointHost, endpoint: endpoint, method: method, addingData: data, addingStatusCode: statusCode, addingHeaders: headers)
+    }
+    
+    @discardableResult
+    func connect(host: String, endpoint: String, method: Method? = nil, toResourceWithName name: String, addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
         var finalHeaders = headers ?? [:]
         finalHeaders[HTTPHeader.contentType.rawValue] = "application/json"
         let response: OHHTTPStubsResponseBlock = { _ in fixture(filePath: Bundle(for: type(of: self)).path(forResource: name, ofType: "json")!, status: Int32(statusCode), headers: finalHeaders) }
-        return stub(condition: isHost(host) && isPath(endpoint), response: response)
+        var condition = isHost(host) && isPath(endpoint)
+        if let method = method {
+            condition = condition && method.condition
+        }
+        return stub(condition: condition, response: response)
     }
     
     @discardableResult
-    func connect(host: String, endpoint: String, addingData data: Data = Data(), addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
+    func connect(host: String, endpoint: String, method: Method? = nil, addingData data: Data = Data(), addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
         var finalHeaders = headers ?? [:]
         finalHeaders[HTTPHeader.contentType.rawValue] = "application/json"
         let response: OHHTTPStubsResponseBlock = { _ in OHHTTPStubsResponse(data: data, statusCode: Int32(statusCode), headers: finalHeaders) }
-        return stub(condition: isHost(host) && isPath(endpoint), response: response)
+        var condition = isHost(host) && isPath(endpoint)
+        if let method = method {
+            condition = condition && method.condition
+        }
+        return stub(condition: condition, response: response)
     }
 }
 

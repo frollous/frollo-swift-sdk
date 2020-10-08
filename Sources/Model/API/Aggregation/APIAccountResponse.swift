@@ -21,6 +21,7 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
     enum CodingKeys: String, CodingKey {
         case accountAttributes = "account_attributes"
         case accountName = "account_name"
+        case accountNumber = "account_number"
         case accountStatus = "account_status"
         case amountDue = "amount_due"
         case availableBalance = "available_balance"
@@ -28,10 +29,12 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
         case availableCredit = "available_credit"
         case apr
         case balanceDetails = "balance_details"
+        case bsb
         case currentBalance = "current_balance"
         case dueDate = "due_date"
         case externalID = "external_id"
         case favourite
+        case features
         case goalIDs = "goal_ids"
         case hidden
         case holderProfile = "holder_profile"
@@ -42,6 +45,8 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
         case lastPaymentDate = "last_payment_date"
         case minimumAmountDue = "minimum_amount_due"
         case nickName = "nick_name"
+        case cdrProduct = "product"
+        case productsAvailable = "products_available"
         case providerAccountID = "provider_account_id"
         case providerName = "provider_name"
         case refreshStatus = "refresh_status"
@@ -129,14 +134,44 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
         var subStatus: AccountRefreshSubStatus?
     }
     
+    struct CDRProduct: Codable {
+        
+        enum CodingKeys: String, CodingKey {
+            case id
+            case name
+            case productDetailsPageURL = "product_details_page_url"
+            case cdrProductInformations = "key_information"
+        }
+        
+        let id: Int64?
+        let name: String?
+        let productDetailsPageURL: String?
+        let cdrProductInformations: [CDRProductInformation]?
+    }
+    
+    struct CDRProductInformation: Codable {
+        
+        enum CodingKeys: String, CodingKey {
+            case name
+            case value
+        }
+        
+        let name: String?
+        let value: String?
+    }
+    
     var id: Int64
     let accountAttributes: Attributes
     let accountName: String
+    let accountNumber: String?
     let accountStatus: Account.AccountStatus
+    let bsb: String?
     let externalID: String?
     let favourite: Bool
+    let features: [Account.AccountFeature]?
     let hidden: Bool
     let included: Bool
+    let productsAvailable: Bool
     let providerAccountID: Int64
     let providerName: String
     let refreshStatus: RefreshStatus
@@ -147,6 +182,7 @@ struct APIAccountResponse: APIUniqueResponse, Codable {
     var availableCash: Balance?
     var availableCredit: Balance?
     var balanceDetails: BalanceDetails?
+    var cdrProduct: CDRProduct?
     var currentBalance: Balance?
     var dueDate: Date?
     var goalIDs: [Int64]?

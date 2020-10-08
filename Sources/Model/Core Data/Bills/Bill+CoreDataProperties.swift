@@ -92,6 +92,9 @@ extension Bill {
     /// Child bill payments
     @NSManaged public var payments: Set<BillPayment>?
     
+    /// Associated transactions
+    @NSManaged public var transactions: Set<Transaction>?
+    
 }
 
 // MARK: Generated accessors for payments
@@ -113,5 +116,25 @@ extension Bill {
     /// Remove payment relationships
     @objc(removePayments:)
     @NSManaged public func removeFromPayments(_ values: Set<BillPayment>)
+    
+}
+
+extension Bill {
+    
+    /// Add a transaction relationship
+    @objc(addTransactionsObject:)
+    @NSManaged public func addToTransactions(_ value: Transaction)
+    
+    /// Remove a transaction relationship
+    @objc(removeTransactionsObject:)
+    @NSManaged public func removeFromTransactions(_ value: Transaction)
+    
+    /// Add transaction relationships
+    @objc(addTransactions:)
+    @NSManaged public func addToTransactions(_ values: Set<Transaction>)
+    
+    /// Remove transaction relationships
+    @objc(removeTransactions:)
+    @NSManaged public func removeFromTransactions(_ values: Set<Transaction>)
     
 }

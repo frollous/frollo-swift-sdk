@@ -38,7 +38,7 @@ class EventsRequestTests: XCTestCase {
         let config = FrolloSDKConfiguration.testConfig()
         
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + EventsEndpoint.events.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
+            return OHHTTPStubsResponse(data: "{}".data(using: .utf8)!, statusCode: 201, headers: nil)
         }
         
         let mockAuthentication = MockAuthentication()

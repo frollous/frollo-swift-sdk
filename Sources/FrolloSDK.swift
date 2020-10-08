@@ -121,6 +121,16 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         return _goals
     }
     
+    /// Images - All images management. See `Images` for details
+    public var images: Images {
+        guard _setup
+        else {
+            fatalError("SDK not setup.")
+        }
+        
+        return _images
+    }
+    
     /// Messages - All messages management. See `Messages` for details
     public var messages: Messages {
         guard _setup
@@ -195,9 +205,11 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     internal var _database: Database!
     internal var _events: Events!
     internal var _goals: Goals!
+    internal var _images: Images!
     internal var _messages: Messages!
     internal var _notifications: Notifications!
     internal var network: Network!
+    internal var service: APIService!
     internal var _payDays: PayDays!
     internal var preferences: Preferences!
     internal var refreshTimer: Timer?
@@ -211,6 +223,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     private let frolloHost = "frollo.us"
     
     private var deviceLastUpdated: Date?
+    private var notificationToken: Data?
     
     // MARK: - Setup
     
@@ -315,7 +328,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
                 _authentication.delegate = oAuth2Authentication
         }
         
-        let service = APIService(serverEndpoint: configuration.serverEndpoint, network: network)
+        service = APIService(serverEndpoint: configuration.serverEndpoint, network: network)
         
         Log.manager.service = service
         
@@ -324,6 +337,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         _budgets = Budgets(database: _database, service: service)
         _events = Events(service: service)
         _goals = Goals(database: _database, service: service, aggregation: _aggregation)
+        _images = Images(database: _database, service: service)
         _messages = Messages(database: _database, service: service)
         _payDays = PayDays(database: _database, service: service)
         _reports = Reports(database: _database, service: service, aggregation: _aggregation)
@@ -352,6 +366,8 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
                         } else {
                             self._setup = true
                             
+                            self.delayedProcessing()
+                            
                             completion(.success)
                         }
                     }
@@ -367,12 +383,23 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
                 } else {
                     self._setup = true
                     
+                    self.delayedProcessing()
+                    
                     completion(.success)
                 }
             }
         }
         
         return nil
+    }
+    
+    /// Process outstanding data
+    private func delayedProcessing() {
+        if let token = notificationToken {
+            notifications.handlePushNotificationToken(token)
+            
+            notificationToken = nil
+        }
     }
     
     // MARK: - Reset
@@ -455,6 +482,25 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         }
     }
     
+    // MARK: - Push Notifications
+    
+    /**
+     Register Push Notification Token
+     
+     Registers the device token received from APNS to the host to allow for push notifications to be sent
+     
+     - parameters:
+        - token: Raw token data received from APNS to be sent to the host
+     */
+    public func registerPushNotificationToken(_ token: Data) {
+        guard setup else {
+            notificationToken = token
+            return
+        }
+        
+        notifications.handlePushNotificationToken(token)
+    }
+    
     // MARK: - Refresh
     
     /**
@@ -486,6 +532,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         aggregation.refreshProviderAccounts()
         aggregation.refreshAccounts()
         aggregation.refreshTransactions()
+        aggregation.refreshConsents()
         userManagement.refreshUser()
         messages.refreshUnreadMessages()
         budgets.refreshBudgets(current: true)
@@ -553,6 +600,17 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         authentication.reset()
         
         internalReset()
+    }
+    
+    /**
+     Download data from and endpoint requiring authorization
+     
+     - parameters:
+        - url: The endpoint url to be authorized and from which data is to be downloaded
+        - completion: The block that will be executed when the data download is complete(Optional)
+     */
+    public func downloadData(url: URL, completion: ((Swift.Result<Data, Error>) -> Void)?) {
+        service.downloadData(url: url, completion: completion)
     }
     
 }

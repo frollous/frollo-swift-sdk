@@ -41,7 +41,12 @@ public class Notifications {
      - parameters:
         - token: Raw token data received from APNS to be sent to the host
      */
+    @available(*, deprecated, message: "Use `FrolloSDK.registerPushNotificationToken()` instead")
     public func registerPushNotificationToken(_ token: Data) {
+        handlePushNotificationToken(token)
+    }
+    
+    internal func handlePushNotificationToken(_ token: Data) {
         let notificationToken = token.hexEncodedString()
         
         userManagement.updateDevice(notificationToken: notificationToken)

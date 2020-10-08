@@ -614,6 +614,12 @@ public class Goals: CachedObjects, ResponseHandler {
         
         let updatedLinkedIDs = updateObjectsWithResponse(type: Goal.self, objectsResponse: goalsResponse, primaryKey: #keyPath(Goal.goalID), linkedKeys: [\Goal.accountID], filterPredicate: filterPredicate, managedObjectContext: managedObjectContext)
         
+        // Handle Current Period of goals
+        let currentPeriods = goalsResponse.compactMap { $0.currentPeriod }
+        for currentPeriod in currentPeriods {
+            handleGoalPeriodResponse(currentPeriod, managedObjectContext: managedObjectContext)
+        }
+        
         if let accountIDs = updatedLinkedIDs[\Goal.accountID] {
             linkingAccountIDs = linkingAccountIDs.union(accountIDs)
         }

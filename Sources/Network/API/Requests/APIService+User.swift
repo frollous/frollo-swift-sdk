@@ -20,7 +20,7 @@ import Alamofire
 
 extension APIService {
     
-    typealias UserRequestCompletion = (_: Swift.Result<APIUserResponse, Error>) -> Void
+    internal typealias UserRequestCompletion = (_: Swift.Result<APIUserResponse, Error>) -> Void
     
     internal func changePassword(request: APIUserChangePasswordRequest, completion: @escaping NetworkCompletion) {
         requestQueue.async {
@@ -144,7 +144,7 @@ extension APIService {
     
     // MARK: - Response Handling
     
-    private func handleUserResponse(response: DataResponse<Data>, completion: UserRequestCompletion) {
+    private func handleUserResponse(response: DataResponse<Data, AFError>, completion: UserRequestCompletion) {
         switch response.result {
             case .success(let value):
                 let dateFormatter = DateFormatter()

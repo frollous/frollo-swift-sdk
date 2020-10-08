@@ -1,0 +1,18 @@
+{
+    "id": 410,
+    "provider_id": 22580,
+    "provider_account_id": 1826,
+    "status": "pending",
+    "sharing_duration": 10368000,
+    "permissions": [
+        "account_details",
+        "transaction_details",
+        "customer_details"
+    ],
+    "additional_permissions": {
+        "suggest_ways_to_save_money": true,
+        "analyse_spending_behaviour": true
+    },
+    "delete_redundant_data": true,
+    "authorisation_request_url": "https://admin-sandbox.frollo.us/api/pages/mock_cdr_redirect?redirect_uri=https%3A%2F%2Fcdrtest-staging.frollo.us%2Fcdr%2Fauthorisation%2Fcallback&client_id=dcr-6ad6a187-f7a5-3101-8ca0-dc6e24e32bba&state=dfe8659d-bb85-4471-b84e-99bbafe0560f&nonce=27dd506a-3bff-411c-bd0e-649396871663&scope=openid+bank%3Aaccounts.basic%3Aread+bank%3Atransactions%3Aread+common%3Acustomer.basic%3Aread&response_type=code+id_token&request=eyJ0eXAiOiJKV1QiLCJraWQiOiJ4WFRXdFRVdDlHcEZqWUp3QWZyUFJkQTVZR1J3T0UxSC0zRlJMd282S2g4IiwiYWxnIjoiUFMyNTYifQ.eyJzY29wZSI6Im9wZW5pZCBiYW5rOmFjY291bnRzLmJhc2ljOnJlYWQgYmFuazp0cmFuc2FjdGlvbnM6cmVhZCBjb21tb246Y3VzdG9tZXIuYmFzaWM6cmVhZCIsInJlc3BvbnNlX3R5cGUiOiJjb2RlIGlkX3Rva2VuIiwicmVkaXJlY3RfdXJpIjoiaHR0cHM6Ly9jZHJ0ZXN0LXN0YWdpbmcuZnJvbGxvLnVzL2Nkci9hdXRob3Jpc2F0aW9uL2NhbGxiYWNrIiwibm9uY2UiOiI5YmU4YTI4OC1lZTI1LTQ2MTQtYjBhZS0wYjkxNDdhN2Y0MTYiLCJzdGF0ZSI6ImRmZTg2NTlkLWJiODUtNDQ3MS1iODRlLTk5YmJhZmUwNTYwZiIsImNsaWVudF9pZCI6ImRjci02YWQ2YTE4Ny1mN2E1LTMxMDEtOGNhMC1kYzZlMjRlMzJiYmEiLCJhdWQiOiJodHRwczovL3Rlc3QuaWRwLndlc3RwYWMuY29tLmF1L2lkZW50aXR5IiwiY2xhaW1zIjp7InNoYXJpbmdfZHVyYXRpb24iOiIxMDM2ODAwMCIsImlkX3Rva2VuIjp7ImFjciI6eyJ2YWx1ZXMiOlsidXJuOmNkcy5hdTpjZHI6MiJdLCJlc3NlbnRpYWwiOnRydWV9fX19.sV711L3suy74fKOSfHjVLB4PiVwPlLdkYk8dIfcf9FkHwYAXupDFUKplJCNdR-S8zO0KVyv1fI-84StbLMHui2T_FDg5a_yuhIPmO1xkFF05knADY46bzGWVSMMmhEyIPAuGm1U_cDMqKFnR1YEm6kBQwkqkI8oNZzwgTUvdAmws8Q_1rsSnsIMQ1zK0iFo5C0XexgRlJ7Cyd5uVM8SIDLW228PdZVysck23fNyzB73Ic3L3Zv_LITNkmq5QwULbitJsx70Ejk_-Pc0jdj2Clkxi6ISJwq5PeO8YQkfrINEv3mvQ2iVy0fGFSjcFXamomhTrJJlTGyXoV7RTkRE4dA"
+}

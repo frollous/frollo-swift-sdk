@@ -164,14 +164,14 @@ class NetworkTests: BaseTestCase {
         let config = FrolloSDKConfiguration.testConfig()
         
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
-            XCTAssertEqual(request.allHTTPHeaderFields?["X-Api-Version"], "2.8")
+            XCTAssertEqual(request.allHTTPHeaderFields?["X-Api-Version"], "2.11")
             XCTAssertEqual(request.allHTTPHeaderFields?["X-Bundle-Id"], "us.frollo.FrolloSDK")
             XCTAssertTrue(request.allHTTPHeaderFields?["X-Device-Version"]?.contains(ProcessInfo.processInfo.operatingSystemVersionString) == true)
             
             if Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleVersion) != nil && Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) != nil {
-                XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "SDK4.4.1-B441|APP1.0-B1")
+                XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "SDK4.6.3-B462|APP1.0-B1")
             } else {
-                XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "SDK4.4.1-B441")
+                XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "SDK4.6.3-B462")
             }
             
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])

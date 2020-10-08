@@ -763,6 +763,72 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    
+//    func testMarkMessageReadFromHandlePushNotification() {
+//
+//        let expectation1 = expectation(description: "Network Request 1")
+//
+//        let config = FrolloSDKConfiguration.testConfig()
+//
+//        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 98765).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+//            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_98765", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+//        }
+//
+//        let mockAuthentication = MockAuthentication()
+//        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+//        authentication.dataSource = mockAuthentication
+//        authentication.delegate = mockAuthentication
+//        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+//        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+//        let database = Database(path: tempFolderPath())
+//
+//        let notificationPayload = NotificationPayload.testMessageData()
+//
+//        database.setup { (error) in
+//            XCTAssertNil(error)
+//
+//            let managedObjectContext = database.newBackgroundContext()
+//
+//            managedObjectContext.performAndWait {
+//                let message = Message(context: managedObjectContext)
+//                message.populateTestData()
+//                message.read = false
+//                message.interacted = false
+//                message.messageID = 98765
+//
+//                try? managedObjectContext.save()
+//
+//                let messages = Messages(database: database, service: service)
+//                messages.handleMessageNotification(notificationPayload, completion: { (result) in
+//                    switch result {
+//                        case .failure(let error):
+//                            XCTFail(error.localizedDescription)
+//                        case .success:
+//                            let context = database.viewContext
+//
+//                            let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
+//                            fetchRequest.predicate = NSPredicate(format: "messageID == %ld", argumentArray: [98765])
+//
+//                            do {
+//                                let fetchedMessages = try context.fetch(fetchRequest)
+//                                XCTAssertTrue(fetchedMessages.first!.read)
+//                                XCTAssertTrue(fetchedMessages.first!.interacted)
+//                                XCTAssertEqual(fetchedMessages.first?.messageID, 98765)
+//                            } catch {
+//                                XCTFail(error.localizedDescription)
+//                            }
+//                    }
+//
+//                    expectation1.fulfill()
+//                })
+//
+//            }
+//        }
+//
+//        wait(for: [expectation1], timeout: 10.0)
+//    }
+    
+    
     // MARK: - Delegate
     
     func messageReceived(_ messageID: Int64) {

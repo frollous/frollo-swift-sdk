@@ -33,6 +33,7 @@ extension Budget: TestableCoreData {
         status = Status.allCases.randomElement()!
         imageURLString = "http://www.example.com/image/image_1.png"
         trackingStatus = TrackingStatus.allCases.randomElement()!
+        trackingType = .debitCredit
         typeValue = ""
     }
     

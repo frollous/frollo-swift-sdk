@@ -32,16 +32,6 @@ public class Tag: NSManagedObject {
     
     // MARK: - Updating Object
     
-    internal func linkObject(object: NSManagedObject) {
-        // Not used
-    }
-    
-    internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
-        if let tagResponse = response as? APITransactionTagResponse {
-            update(response: tagResponse, context: context)
-        }
-    }
-    
     internal func update(response: APITransactionTagResponse, context: NSManagedObjectContext) {
         name = response.name
         count = response.count ?? -1
@@ -49,24 +39,4 @@ public class Tag: NSManagedObject {
         createdAt = response.createdAt
     }
     
-}
-
-extension Tag {
-    
-    static func all(predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)], context: NSManagedObjectContext) throws -> [Tag] {
-        let fetchRequest = Tag.tagFetchRequest()
-        fetchRequest.predicate = predicate
-        fetchRequest.sortDescriptors = sortDescriptors
-        return try context.fetch(fetchRequest)
-    }
-    
-    static func all(including names: [String], context: NSManagedObjectContext) throws -> [Tag] {
-        let predicate = NSPredicate(format: primaryKey + " IN %@", argumentArray: [names])
-        return try Tag.all(predicate: predicate, context: context)
-    }
-    
-    static func all(excluding names: [String], context: NSManagedObjectContext) throws -> [Tag] {
-        let predicate = NSPredicate(format: "NOT " + primaryKey + " IN %@", argumentArray: [names])
-        return try Tag.all(predicate: predicate, context: context)
-    }
 }

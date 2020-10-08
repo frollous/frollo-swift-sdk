@@ -1,4 +1,54 @@
 # Changelog
+## 4.6.3
+
+### Features
+
+- Fixed crash in metadata for messages
+
+## 4.6.2
+
+### Features
+
+- Updated Alamofire dependency to 5.2.1
+
+## 4.6.1
+
+### Features
+
+- Added support for Sharing Stopped At field on Consents
+
+## 4.6.0
+
+### Features
+
+- Included provider availability status
+- Added consent object caching
+
+### Fixes
+
+- Fix for sending a push notification sent to SDK before setup has completed
+
+## 4.5.1
+
+### Features
+
+- CDR Products List API
+- Added CDR Product Object in Account
+- Budget By Account
+
+### Fixes
+
+- Fixed various issues in CDR response
+- Fixed an issue in budgets API creation
+
+## 4.5.0
+
+- Open Banking support
+
+### Features
+
+- CDR Consent support
+- Automatically mark push notifications as read
 
 ## 4.4.1
 
