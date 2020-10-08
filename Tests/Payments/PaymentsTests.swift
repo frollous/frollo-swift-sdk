@@ -50,7 +50,7 @@ class PaymentsTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let payments = Payments(service: service)
-        payments.payAnyone(accountHolder: "Joe Blow", accountNumber: "98765432", amount: 542.37, bsb: "123456", sourceAccountId: 42) { result in
+        payments.payAnyone(accountHolder: "Joe Blow", accountNumber: "98765432", amount: 542.37, bsb: "123456", sourceAccountID: 42) { result in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -87,7 +87,7 @@ class PaymentsTests: XCTestCase {
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let payments = Payments(service: service)
-        payments.payAnyone(accountHolder: "Joe Blow", accountNumber: "98765432", amount: 542.37, bsb: "123456", sourceAccountId: 42) { result in
+        payments.payAnyone(accountHolder: "Joe Blow", accountNumber: "98765432", amount: 542.37, bsb: "123456", sourceAccountID: 42) { result in
             switch result {
                 case .failure(let error):
                     XCTAssertNotNil(error)

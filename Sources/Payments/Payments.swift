@@ -46,10 +46,10 @@ public class Payments: ResponseHandler {
          - description: desctiption of the payment (Optional)
          - paymentDate: Date of the payment (Optional)
          - reference: reference of the payment (Optional)
-         - sourceAccountId: Account ID of the payment source account
+         - sourceAccountID: Account ID of the payment source account
          - completion: Optional completion handler with `APIPayAnyoneResponse` result if succeeds and error if the request fails
      */
-    public func payAnyone(accountHolder: String, accountNumber: String, amount: Decimal, bsb: String, description: String? = nil, paymentDate: Date? = nil, reference: String? = nil, sourceAccountId: Int64, completion: @escaping (Result<PayAnyoneResponse, Error>) -> Void) {
+    public func payAnyone(accountHolder: String, accountNumber: String, amount: Decimal, bsb: String, description: String? = nil, paymentDate: Date? = nil, reference: String? = nil, sourceAccountID: Int64, completion: @escaping (Result<PayAnyoneResponse, Error>) -> Void) {
         
         let paymentAmount = amount as NSDecimalNumber
         var date: String?
@@ -57,7 +57,7 @@ public class Payments: ResponseHandler {
             date = Payments.paymentDateFormatter.string(from: paymentDate)
         }
         
-        let request = APIPayAnyoneRequest(accountHolder: accountHolder, accountNumber: accountNumber, amount: paymentAmount.stringValue, bsb: bsb, description: description, paymentDate: date, reference: reference, sourceAccountId: sourceAccountId)
+        let request = APIPayAnyoneRequest(accountHolder: accountHolder, accountNumber: accountNumber, amount: paymentAmount.stringValue, bsb: bsb, description: description, paymentDate: date, reference: reference, sourceAccountID: sourceAccountID)
         
         service.payAnyone(request: request) { result in
             switch result {
