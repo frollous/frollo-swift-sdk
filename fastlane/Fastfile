@@ -18,8 +18,6 @@ fastlane_version "2.134.0"
 default_platform(:ios)
 
  private_lane :cisetup do
-    setup_jenkins
-
     ensure_git_status_clean
 
     xcode_select "/Applications/Xcode.app"
