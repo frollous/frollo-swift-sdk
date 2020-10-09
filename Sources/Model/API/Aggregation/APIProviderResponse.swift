@@ -39,6 +39,7 @@ struct APIProviderResponse: APIUniqueResponse, Codable {
         case smallLogoURLString = "small_logo_url"
         case status
         case aggregatorType = "aggregator_type"
+        case permissions
     }
     
     enum ContainerName: String, Codable {
@@ -88,52 +89,6 @@ struct APIProviderResponse: APIUniqueResponse, Codable {
     var smallLogoURLString: String?
     var aggregatorType: String
     let productsAvailable: Bool?
-    
-    var permissions: [CDRPermission] {
-        #warning("Remove mock when API is ready")
-        let mockPermissionsJSON = """
-        [{
-        
-                "id": "account_details",
-        
-                "title": "Account balance and details",
-        
-                "description": "We leverage...",
-        
-                "required": true,
-        
-                "details": [{
-        
-                    "id": "account_name",
-        
-                    "description": "Name of account",
-        
-                }]
-        
-            },
-        
-            {
-        
-                "id": "transaction_details",
-        
-                "title": "Transaction and details",
-        
-                "description": "We leverage...",
-        
-                "required": false,
-        
-                "details": [{
-        
-                    "id": "account_name",
-        
-                    "description": "Name of account",
-        
-                }]
-        
-            }
-        ]
-        """.data(using: .utf8)!
-        return try! JSONDecoder().decode([CDRPermission].self, from: mockPermissionsJSON)
-    }
+    var permissions: [CDRPermission]
     
 }
