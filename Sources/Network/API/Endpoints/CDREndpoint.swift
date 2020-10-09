@@ -45,7 +45,7 @@ enum CDREndpoint: Endpoint {
             case .products:
                 return "cdr/products"
             case .configuration:
-                return "cdr/configuration"
+                return "config/cdr"
         }
     }
     
