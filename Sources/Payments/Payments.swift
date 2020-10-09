@@ -124,7 +124,7 @@ public class Payments: ResponseHandler {
          - paymentDate: Date of the payment (Optional)
          - reference: reference of the payment (Optional)
          - sourceAccountID: Account ID of source account of the payment
-         - completion: Optional completion handler with `PaymentTransferResponse` result if succeeds and error if the request fails
+         - completion: Optional completion handler with `BpayPaymentResponse` result if succeeds and error if the request fails
      */
     public func bpayPayment(amount: Decimal, billerCode: String, crn: String, paymentDate: Date? = nil, reference: String? = nil, sourceAccountID: Int64, completion: @escaping (Result<BpayPaymentResponse, Error>) -> Void) {
         
@@ -137,6 +137,36 @@ public class Payments: ResponseHandler {
         let request = APIBpayPaymentRequest(amount: paymentAmount.stringValue, billerCode: billerCode, crn: crn, paymentDate: date, reference: reference, sourceAccountID: sourceAccountID)
         
         service.bpayPayment(request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Verify pay anyone
+     
+     - parameters:
+         - accountHolder: Name of the account holder to verify (Optional)
+         - accountNumber: Account number of the account  to verify (Optional)
+         - bsb: BSB number to verity
+         - completion: Optional completion handler with `VerifyPayAnyoneResponse` result if succeeds and error if the request fails
+     */
+    public func verifyPayAnyone(accountHolder: String?, accountNumber: String?, bsb: String, completion: @escaping (Result<VerifyPayAnyoneResponse, Error>) -> Void) {
+        
+        let request = APIVerifyPayAnyoneRequest(accountHolder: accountHolder, accountNumber: accountNumber, bsb: bsb)
+        
+        service.verifyPayAnyone(request: request) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)

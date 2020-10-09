@@ -23,9 +23,16 @@ import OHHTTPStubs
 class PaymentsTests: XCTestCase {
     
     let keychainService = "PaymentsTests"
+    var service: APIService!
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        service = APIService(serverEndpoint: config.serverEndpoint, network: network)
     }
     
     override func tearDown() {
@@ -42,12 +49,6 @@ class PaymentsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "pay_anyone_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
-        authentication.dataSource = mockAuthentication
-        authentication.delegate = mockAuthentication
-        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let payments = Payments(service: service)
         payments.payAnyone(accountHolder: "Joe Blow", accountNumber: "98765432", amount: 542.37, bsb: "123456", sourceAccountID: 42) { result in
@@ -75,16 +76,17 @@ class PaymentsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.payAnyone.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "pay_anyone_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
         let mockAuthentication = MockAuthentication(valid: false)
         let authentication = Authentication(serverEndpoint: config.serverEndpoint)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.payAnyone.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "pay_anyone_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
         
         let payments = Payments(service: service)
         payments.payAnyone(accountHolder: "Joe Blow", accountNumber: "98765432", amount: 542.37, bsb: "123456", sourceAccountID: 42) { result in
@@ -116,14 +118,7 @@ class PaymentsTests: XCTestCase {
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.transfers.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "payment_transfer_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
-        
-        let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
-        authentication.dataSource = mockAuthentication
-        authentication.delegate = mockAuthentication
-        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        
+                
         let payments = Payments(service: service)
         payments.transferPayment(amount: 542.37, description: "Visible to both sides", destinationAccountID: 43, paymentDate: Date() ,sourceAccountID: 42) { result in
             switch result {
@@ -154,12 +149,6 @@ class PaymentsTests: XCTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bpay_payment_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
-        authentication.dataSource = mockAuthentication
-        authentication.delegate = mockAuthentication
-        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
         let payments = Payments(service: service)
         payments.bpayPayment(amount: 542.37, billerCode: "123456", crn: "98765432122232", paymentDate: Date(), reference: "Visible to customer", sourceAccountID: 42) { result in
@@ -184,4 +173,60 @@ class PaymentsTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
         OHHTTPStubs.removeAllStubs()
     }
+    
+    func testVerifyValidPayAnyone() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.verifyPayAnyone.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "verify_payanyone_response_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let payments = Payments(service: service)
+        payments.verifyPayAnyone(accountHolder: "Joe Blow", accountNumber: "98765432", bsb: "123456") { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.bsb, "123456")
+                    XCTAssertEqual(response.accountNumber, "98765432")
+                    XCTAssertEqual(response.bsbName, "Westpac Manly Corso")
+                    XCTAssertEqual(response.valid, true)
+                    XCTAssertEqual(response.accountHolder, "Joe Blow")
+                    expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+    
+    func testVerifyInValidPayAnyone() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.verifyPayAnyone.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "verify_payanyone_response_invalid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let payments = Payments(service: service)
+        payments.verifyPayAnyone(accountHolder: "Joe Blow", accountNumber: "98765432", bsb: "123456") { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.bsb, nil)
+                    XCTAssertEqual(response.accountNumber, nil)
+                    XCTAssertEqual(response.bsbName, nil)
+                    XCTAssertEqual(response.valid, false)
+                    XCTAssertEqual(response.accountHolder, nil)
+                    expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }    
 }
