@@ -39,4 +39,64 @@ extension APIService {
             }
         }
     }
+    
+    // MARK: - Payment - Transfer
+    
+    internal func transfer(request: APIPaymentTransferRequest, completion: @escaping RequestCompletion<PaymentTransferResponse>) {
+        requestQueue.async {
+            let url = URL(string: PaymentsEndpoint.transfers.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: PaymentTransferResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    // MARK: - Payment - Bpay
+    
+    internal func bpayPayment(request: APIBpayPaymentRequest, completion: @escaping RequestCompletion<BpayPaymentResponse>) {
+        requestQueue.async {
+            let url = URL(string: PaymentsEndpoint.bpay.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: BpayPaymentResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    // MARK: - Verify - Pay Anyone
+    
+    internal func verifyPayAnyone(request: APIVerifyPayAnyoneRequest, completion: @escaping RequestCompletion<VerifyPayAnyoneResponse>) {
+        requestQueue.async {
+            let url = URL(string: PaymentsEndpoint.verifyPayAnyone.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: VerifyPayAnyoneResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
 }

@@ -16,28 +16,16 @@
 
 import Foundation
 
-internal enum PaymentsEndpoint: Endpoint {
+struct APIVerifyPayAnyoneRequest: Codable {
     
-    internal var path: String {
-        return urlPath()
+    enum CodingKeys: String, CodingKey {
+        case accountHolder = "account_holder"
+        case accountNumber = "account_number"
+        case bsb
     }
     
-    case bpay
-    case payAnyone
-    case transfers
-    case verifyPayAnyone
-    
-    private func urlPath() -> String {
-        switch self {
-            case .bpay:
-                return "payments/bpay"
-            case .payAnyone:
-                return "payments/payanyone"
-            case .transfers:
-                return "payments/transfer"
-            case .verifyPayAnyone:
-                return "payments/verify/payanyone"
-        }
-    }
+    let accountHolder: String?
+    let accountNumber: String?
+    let bsb: String
     
 }
