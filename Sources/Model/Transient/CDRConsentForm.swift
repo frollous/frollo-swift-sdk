@@ -36,7 +36,7 @@ public struct CDRConsentForm: Codable {
         /// Additional permissions (metadata) that can be set
         public let additionalPermissions: [String: Bool]
         
-        // ID of the consent being updated
+        /// ID of the consent being updated
         public let existingConsentID: Int64?
         
         /** Initialize a CDR Consent form to send to the host
@@ -63,7 +63,10 @@ public struct CDRConsentForm: Codable {
     /// Represents the update request structure of the consent form
     public struct Put {
         
+        /// The allowed status values for PUT consent request
         public enum Status: String, Codable {
+            
+            /// The consent is withdrawn
             case withdrawn
         }
         

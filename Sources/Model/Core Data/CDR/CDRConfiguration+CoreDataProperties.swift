@@ -28,12 +28,16 @@ extension CDRConfiguration {
         return NSFetchRequest<CDRConfiguration>(entityName: "CDRConfiguration")
     }
     
+    /// The email to contact for support
     @NSManaged public var supportEmail: String
     
+    /// The id of the ADR that handles CDR data
     @NSManaged public var adrID: String
     
+    /// The name of the ADR that handles CDR data
     @NSManaged public var adrName: String
     
+    /// The raw sharing durations JSON data
     @NSManaged public var sharingDurationRawValue: Data
     
 }

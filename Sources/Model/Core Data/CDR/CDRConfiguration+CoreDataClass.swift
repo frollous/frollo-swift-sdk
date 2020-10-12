@@ -24,12 +24,22 @@ import Foundation
  */
 public class CDRConfiguration: NSManagedObject {
     
+    /**
+     Represents the sharing duration of a consent
+     */
     public struct SharingDuration: Codable {
+        
+        /// The duration (in seconds) for the consent
         public let duration: Int64
+        
+        /// The display text of the sharing duration
         public let description: String
+        
+        /// The image URL for the sharing duration image
         public let imageURL: String
     }
     
+    /// The sharing durations for the CDR configuration
     public var sharingDurations: [SharingDuration] {
         get {
             return try! JSONDecoder().decode([SharingDuration].self, from: sharingDurationRawValue)

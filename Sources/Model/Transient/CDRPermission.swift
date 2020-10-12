@@ -16,16 +16,31 @@
 
 import Foundation
 
+/// Represent a CDR permission (Ex: Transaction Details)
 public struct CDRPermission: Codable {
     
+    /// Represents 1 detail for the permission (Ex: Description of transactions)
     public struct Detail: Codable {
+        
+        /// The ID of the detail
         public let id: String
+        
+        /// The description for the detail
         public let description: String
     }
     
+    /// The ID of the permission
     public let id: String
+    
+    /// The title of the permission
     public let title: String
+    
+    /// The description of the permission
     public let description: String
+    
+    /// Specifies whether this permission is required or not
     public let required: Bool
+    
+    /// The details of the permission
     public let details: [Detail]
 }
