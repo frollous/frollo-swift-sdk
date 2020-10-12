@@ -364,4 +364,76 @@ class APIErrorTests: XCTestCase {
         XCTAssertTrue(error.debugDescription.contains("F0112"))
     }
     
+    // MARK: - Payment Errors
+    
+    func testAPIErrorPaymentAccountRestricted() {
+        validatePaymentErrors(resourceFileName: "error_payment_account_restricted", errorCode: .paymentAccountRestricted)
+    }
+    
+    func testAPIErrorPaymentInsufficientFunds() {
+        validatePaymentErrors(resourceFileName: "error_payment_insufficient_funds", errorCode: .paymentInsufficientFunds)
+    }
+    
+    func testAPIErrorPaymentInvalidAccount() {
+        validatePaymentErrors(resourceFileName: "error_payment_invalid_account", errorCode: .paymentInvalidAccount)
+    }
+    
+    func testAPIErrorPaymentInvalidBillerCode() {
+        validatePaymentErrors(resourceFileName: "error_payment_invalid_biller_code", errorCode: .paymentInvalidBillerCode)
+    }
+    
+    func testAPIErrorPaymentInvalidBpay() {
+        validatePaymentErrors(resourceFileName: "error_payment_invalid_bpay", errorCode: .paymentInvalidBpay)
+    }
+    
+    func testAPIErrorPaymentInvalidBSB() {
+        validatePaymentErrors(resourceFileName: "error_payment_invalid_bsb", errorCode: .paymentInvalidBSB)
+    }
+    
+    func testAPIErrorPaymentInvalidCRN() {
+        validatePaymentErrors(resourceFileName: "error_payment_invalid_crn", errorCode: .paymentInvalidCRN)
+    }
+    
+    func testAPIErrorPaymentInvalidDate() {
+        validatePaymentErrors(resourceFileName: "error_payment_invalid_date", errorCode: .paymentInvalidDate)
+    }
+    
+    func testAPIErrorPaymentInvalidDestinationAccount() {
+        validatePaymentErrors(resourceFileName: "error_payment_invalid_destination_account", errorCode: .paymentInvalidDestinationAccount)
+    }
+    
+    func testAPIErrorPaymentInvalidPayAnyone() {
+        validatePaymentErrors(resourceFileName: "error_payment_invalid_pay_anyone", errorCode: .paymentInvalidPayAnyone)
+    }
+    
+    func testAPIErrorPaymentInvalidSourceAccount() {
+        validatePaymentErrors(resourceFileName: "error_payment_invalid_source_account", errorCode: .paymentInvalidSourceAccount)
+    }
+    
+    func testAPIErrorPaymentInvalidTransfer() {
+        validatePaymentErrors(resourceFileName: "error_payment_invalid_transfer", errorCode: .paymentInvalidTransfer)
+    }
+    
+    func testAPIErrorPaymentOther() {
+        validatePaymentErrors(resourceFileName: "error_payment_other", errorCode: .paymentOtherError)
+    }
+    
+    func testAPIErrorPaymentProcessorConnectivity() {
+        validatePaymentErrors(resourceFileName: "error_payment_processor_connectivity", errorCode: .paymentProcessorConnectivityError)
+    }
+    
+    func testAPIErrorPaymentProcessor() {
+        validatePaymentErrors(resourceFileName: "error_payment_processor", errorCode: .paymentProcessorError)
+    }
+    
+    func validatePaymentErrors(resourceFileName: String, errorCode: APIErrorCode) {
+        let errorJSON = errorJSONNamed(resourceFileName)
+        let error = APIError(statusCode: 400, response: errorJSON)
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.BadRequest"))
+        XCTAssertEqual(error.statusCode, 400)
+        XCTAssertEqual(error.type, .badRequest)
+        XCTAssertEqual(error.errorCode, errorCode)
+        XCTAssertNotNil(error.message)
+    }
+    
 }

@@ -77,6 +77,51 @@ public enum APIErrorCode: String, Codable {
     /// F0400 - Already Exists
     case alreadyExists = "F0400"
     
+    ///  Payment - Other error
+    case paymentOtherError = "F1000"
+    
+    ///  Payment - Payment processor error
+    case paymentProcessorError = "F1001"
+    
+    ///  Payment - Payment processor connectivity
+    case paymentProcessorConnectivityError = "F1002"
+    
+    ///  Payment validation - Insufficient funds
+    case paymentInsufficientFunds = "F1010"
+    
+    ///  Payment validation - Invalid date
+    case paymentInvalidDate = "F1011"
+    
+    ///  Payment validation - Invalid source account
+    case paymentInvalidSourceAccount = "F1012"
+    
+    ///  Payment validation - Invalid destination account
+    case paymentInvalidDestinationAccount = "F1013"
+    
+    ///  Payment validation - Account restricted
+    case paymentAccountRestricted = "F1014"
+    
+    ///  Payment validation - BPAY Other
+    case paymentInvalidBpay = "F1020"
+    
+    ///  Payment validation - BPAY Biller Code
+    case paymentInvalidBillerCode = "F1021"
+    
+    ///  Payment validation - BPAY CRN
+    case paymentInvalidCRN = "F1022"
+    
+    ///  Payment validation - Pay Anyone Other
+    case paymentInvalidPayAnyone = "F1030"
+    
+    ///  Payment validation - Pay Anyone BSB
+    case paymentInvalidBSB = "F1031"
+    
+    ///  Payment validation - Pay Anyone Account Name or Number
+    case paymentInvalidAccount = "F1032"
+    
+    ///  Transfer validation - Other
+    case paymentInvalidTransfer = "F1040"
+    
     /// F9000 - Aggregator Error
     case aggregatorError = "F9000"
     
