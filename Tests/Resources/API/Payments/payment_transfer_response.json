@@ -1,0 +1,12 @@
+{
+  "transaction_id": 34,
+  "transaction_reference": "XXX",
+  "amount": "542.37",
+  "payment_date": "2020-12-25",
+  "source_account_id": 42,
+  "source_account_name": "Everyday Txn",
+  "destination_account_id": 43,
+  "destination_account_name": "Everyday Txn",
+  "description": "Visible to both",
+  "status": "scheduled"
+}
