@@ -568,6 +568,27 @@ class FrolloSDKTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testPaymentsAfterSetup() {
+        let expectation1 = expectation(description: "Setup")
+        
+        var config = FrolloSDKConfiguration.testConfig()
+        config.publicKeyPinningEnabled = false
+        
+        let sdk = Frollo()
+        sdk.setup(configuration: config) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    _ = sdk.payments
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testReportsAfterSetup() {
         let expectation1 = expectation(description: "Setup")
         
