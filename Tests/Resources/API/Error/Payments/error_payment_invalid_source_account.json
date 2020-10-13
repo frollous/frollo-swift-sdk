@@ -1,0 +1,6 @@
+{
+    "error": {
+        "error_code": "F1012",
+        "error_message": "Payment validation - Invalid source account"
+    }
+}
