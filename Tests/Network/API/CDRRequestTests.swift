@@ -60,12 +60,13 @@ class ConsentRequestTests: BaseTestCase {
                         XCTAssertEqual(firstConsent.sharingDuration, 15814800)
                         XCTAssertNil(firstConsent.sharingStartedAt)
                         XCTAssertEqual(firstConsent.sharingStoppedAt, "2020-05-26")
-                        XCTAssertEqual(firstConsent.permissions, ["account_details", "transaction_details"])
                         XCTAssertEqual(firstConsent.additionalPermissions, [:])
                         XCTAssertEqual(firstConsent.deleteRedundantData, true)
                         XCTAssertEqual(firstConsent.authorisationRequestURL, nil)
                         XCTAssertEqual(firstConsent.confirmationPDFURL, "https://example.com/api/v2/cdr/consents/351/pdfs/confirmation")
                         XCTAssertEqual(firstConsent.withdrawalPDFURL, "https://example.com/api/v2/cdr/consents/351/pdfs/withdrawal")
+                        XCTAssertEqual(firstConsent.permissions.count, 2)
+                        XCTAssertEqual(firstConsent.permissions.first?.details.count, 1)
                     }
             }
             

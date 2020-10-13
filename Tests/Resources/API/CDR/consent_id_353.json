@@ -1,0 +1,34 @@
+{
+    "id": 353,
+    "provider_id": 632,
+    "provider_account_id": 1709,
+    "status": "active",
+    "sharing_started_at": "2020-03-23",
+    "permissions": [
+        {
+            "id": "account_details",
+            "title": "Account balance and details",
+            "description": "We leverage...",
+            "required": true,
+            "details": [
+                {
+                    "id": "account_name",
+                    "description": "Name of account"
+                }
+            ]
+        },
+        {
+            "id": "transaction_details",
+            "title": "Transaction and details",
+            "description": "We leverage...",
+            "required": false,
+            "details": [
+                {
+                    "id": "account_name",
+                    "description": "Name of account"
+                }
+            ]
+        }
+    ],
+    "delete_redundant_data": true
+}
