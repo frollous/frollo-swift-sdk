@@ -77,29 +77,6 @@ class AggregationRequestTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
-    func testFetchProvidersSkipsInvalid() {
-        let expectation1 = expectation(description: "Network Request")
-        
-        connect(endpoint: AggregationEndpoint.providers.path.prefixedWithSlash, toResourceWithName: "providers_invalid")
-        
-        service.fetchProviders { (result) in
-            switch result {
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
-                case .success(let response):
-                    XCTAssertEqual(response.count, 48)
-                    
-                    if let firstProvider = response.first {
-                        XCTAssertEqual(firstProvider.id, 591)
-                    }
-            }
-            
-            expectation1.fulfill()
-        }
-        
-        wait(for: [expectation1], timeout: 3.0)
-    }
-    
     func testFetchProviderByID() {
         let expectation1 = expectation(description: "Network Request")
         

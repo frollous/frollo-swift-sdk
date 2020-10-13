@@ -28,8 +28,7 @@ extension APIBillsResponse {
             bills.append(APIBillResponse.testCompleteData())
         }
         
-        return APIBillsResponse(bills: bills,
-                                budgetPeriod: period)
+        return APIBillsResponse(bills: bills)
     }
     
 }

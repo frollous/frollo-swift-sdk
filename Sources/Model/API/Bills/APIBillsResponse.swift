@@ -20,7 +20,6 @@ struct APIBillsResponse: Codable {
     
     enum CodingKeys: String, CodingKey {
         case bills
-        case budgetPeriod = "budget_period"
     }
     
     struct BudgetPeriod: Codable {
@@ -36,6 +35,5 @@ struct APIBillsResponse: Codable {
     }
     
     let bills: [APIBillResponse]
-    let budgetPeriod: BudgetPeriod
     
 }
