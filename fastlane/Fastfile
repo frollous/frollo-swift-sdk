@@ -99,7 +99,7 @@ platform :ios do
 
     # rescue => exception
     #   on_error(exception)
-    # end
+    end
   end
 end
 
