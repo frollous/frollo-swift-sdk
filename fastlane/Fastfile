@@ -97,9 +97,9 @@ platform :ios do
       slack(message: "Frollo Swift SDK Successfully Integrated!",
             success: true)
 
-    rescue => exception
-      on_error(exception)
-    end
+    # rescue => exception
+    #   on_error(exception)
+    # end
   end
 end
 
