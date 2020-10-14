@@ -2,7 +2,7 @@
     "support_email": "suppert@acme.com",
     "adr_id": "ADBK0001",
     "adr_name": "ACME",
-    "sharing_duration": [{
+    "sharing_durations": [{
         "duration": 86400,
         "description": "Instant",
         "image_url": "https://picsum.com/50"
