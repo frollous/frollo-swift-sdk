@@ -35,12 +35,12 @@ struct APICDRConfigurationResponse: Codable {
         case supportEmail = "support_email"
         case adrID = "adr_id"
         case adrName = "adr_name"
-        case sharingDuration = "sharing_duration"
+        case sharingDurations = "sharing_durations"
     }
     
     var supportEmail: String
     var adrID: String
     var adrName: String
-    var sharingDuration: [SharingDuration]
+    var sharingDurations: [SharingDuration]
     
 }

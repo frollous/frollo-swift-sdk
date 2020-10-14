@@ -53,7 +53,7 @@ public class CDRConfiguration: NSManagedObject {
         supportEmail = response.supportEmail
         adrID = response.adrID
         adrName = response.adrName
-        sharingDurations = response.sharingDuration.map { SharingDuration(duration: $0.duration, description: $0.description, imageURL: $0.imageURL) }
+        sharingDurations = response.sharingDurations.map { SharingDuration(duration: $0.duration, description: $0.description, imageURL: $0.imageURL) }
     }
     
 }
