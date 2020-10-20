@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -1108,6 +1108,9 @@
 		03051FD12524647700B25713 /* get_configuration.json in Resources */ = {isa = PBXBuildFile; fileRef = 03051FD02524647700B25713 /* get_configuration.json */; };
 		03051FD22524647700B25713 /* get_configuration.json in Resources */ = {isa = PBXBuildFile; fileRef = 03051FD02524647700B25713 /* get_configuration.json */; };
 		03051FD32524647700B25713 /* get_configuration.json in Resources */ = {isa = PBXBuildFile; fileRef = 03051FD02524647700B25713 /* get_configuration.json */; };
+		030AA702253E7C7000BE98B9 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 030AA701253E7C7000BE98B9 /* Alamofire */; };
+		030AA714253E7D0900BE98B9 /* AppAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 030AA713253E7D0900BE98B9 /* AppAuth */; };
+		030AA717253E7D1B00BE98B9 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 030AA716253E7D1B00BE98B9 /* SwiftyJSON */; };
 		031A7A43239877A200A9F882 /* ReportResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031A7A42239877A200A9F882 /* ReportResponseTests.swift */; };
 		031A7A44239877A200A9F882 /* ReportResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031A7A42239877A200A9F882 /* ReportResponseTests.swift */; };
 		031A7A45239877A200A9F882 /* ReportResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031A7A42239877A200A9F882 /* ReportResponseTests.swift */; };
@@ -1801,7 +1804,6 @@
 		01527CC820E1B5C300B5042A /* FrolloSDK iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FrolloSDK iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrolloSDKTests.swift; sourceTree = "<group>"; };
 		01527CCF20E1B5C300B5042A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		01527CD720E1C2D700B5042A /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		01527CD820E1C5A600B5042A /* FrolloSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrolloSDK.swift; sourceTree = "<group>"; };
 		01527CDA20E1CD1800B5042A /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		01527CDB20E1CD1800B5042A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -2273,6 +2275,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				030AA717253E7D1B00BE98B9 /* SwiftyJSON in Frameworks */,
+				030AA714253E7D0900BE98B9 /* AppAuth in Frameworks */,
+				030AA702253E7C7000BE98B9 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2773,12 +2778,12 @@
 				01527CDC20E1CD1800B5042A /* Carthage.xcconfig */,
 				018B042B216EFD95008C34D7 /* Gemfile */,
 				01527CDB20E1CD1800B5042A /* README.md */,
-				01527CD720E1C2D700B5042A /* Package.swift */,
 				017094E723823DCF008E9EEB /* Documentation */,
 				01C8250820EDEC630093400E /* Resources */,
 				01527CC120E1B5C300B5042A /* Sources */,
 				01527CCC20E1B5C300B5042A /* Tests */,
 				01527CC020E1B5C300B5042A /* Products */,
+				030AA712253E7D0900BE98B9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -3866,6 +3871,13 @@
 			path = CDR;
 			sourceTree = "<group>";
 		};
+		030AA712253E7D0900BE98B9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		032F10B923DA84E800F3BF01 /* CDR */ = {
 			isa = PBXGroup;
 			children = (
@@ -4181,6 +4193,11 @@
 			dependencies = (
 			);
 			name = FrolloSDK;
+			packageProductDependencies = (
+				030AA701253E7C7000BE98B9 /* Alamofire */,
+				030AA713253E7D0900BE98B9 /* AppAuth */,
+				030AA716253E7D1B00BE98B9 /* SwiftyJSON */,
+			);
 			productName = FrolloSDK;
 			productReference = 01527CBF20E1B5C300B5042A /* FrolloSDK.framework */;
 			productType = "com.apple.product-type.framework";
@@ -4336,6 +4353,11 @@
 				Base,
 			);
 			mainGroup = 01527CB320E1B49800B5042A;
+			packageReferences = (
+				030AA700253E7C7000BE98B9 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				030AA70A253E7CE900BE98B9 /* XCRemoteSwiftPackageReference "AppAuth-iOS" */,
+				030AA715253E7D1B00BE98B9 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+			);
 			productRefGroup = 01527CC020E1B5C300B5042A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -7373,6 +7395,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		030AA700253E7C7000BE98B9 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.3.0;
+			};
+		};
+		030AA70A253E7CE900BE98B9 /* XCRemoteSwiftPackageReference "AppAuth-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/openid/AppAuth-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.0;
+			};
+		};
+		030AA715253E7D1B00BE98B9 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		030AA701253E7C7000BE98B9 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 030AA700253E7C7000BE98B9 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		030AA713253E7D0900BE98B9 /* AppAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 030AA70A253E7CE900BE98B9 /* XCRemoteSwiftPackageReference "AppAuth-iOS" */;
+			productName = AppAuth;
+		};
+		030AA716253E7D1B00BE98B9 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 030AA715253E7D1B00BE98B9 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		0160953C20F47FE10060791B /* TestInvalidDataModel.xcdatamodeld */ = {
