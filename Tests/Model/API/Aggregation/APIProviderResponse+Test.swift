@@ -42,8 +42,12 @@ extension APIProviderResponse {
                                    oAuthSite: false,
                                    smallLogoURLString: "https://example.com/small_logo.png",
                                    aggregatorType: "yodlee",
-                                   permissions: nil,
-                                   productsAvailable: false)
+                                   productsAvailable: false,
+                                   permissions: [
+                                    .init(id: "account_details", title: "Account Details", description: "We leverage...", required: true, details: [
+                                        .init(id: "transaction_details", description: "transaction details")])
+                                   ]
+        )
     }
     
     static func testIncompleteData() -> APIProviderResponse {
@@ -65,8 +69,12 @@ extension APIProviderResponse {
                                    oAuthSite: nil,
                                    smallLogoURLString: "https://example.com/small_logo.png",
                                    aggregatorType: "yodlee",
-                                   permissions: nil,
-                                   productsAvailable: false)
+                                   productsAvailable: false,
+                                   permissions: [
+                                    .init(id: "account_details", title: "Account Details", description: "We leverage...", required: true, details: [
+                                        .init(id: "transaction_details", description: "transaction details")])
+                                   ]
+        )
     }
     
     static func testDetailsCompleteData() -> APIProviderResponse {
@@ -105,8 +113,12 @@ extension APIProviderResponse {
                                    oAuthSite: false,
                                    smallLogoURLString: "https://example.com/small_logo.png",
                                    aggregatorType: "yodlee",
-                                   permissions: nil,
-                                   productsAvailable: false)
+                                   productsAvailable: false,
+                                   permissions: [
+                                    .init(id: "account_details", title: "Account Details", description: "We leverage...", required: true, details: [
+                                        .init(id: "transaction_details", description: "transaction details")])
+                                   ]
+        )
     }
     
 }

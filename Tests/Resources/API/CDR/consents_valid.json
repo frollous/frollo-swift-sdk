@@ -1,0 +1,293 @@
+[
+    {
+        "id": 351,
+        "provider_id": 11582,
+        "provider_account_id": 623,
+        "status": "withdrawn",
+        "sharing_duration": 15814800,
+        "sharing_stopped_at": "2020-05-26",
+        "permissions": [
+            {
+                "id": "account_details",
+                "title": "Account balance and details",
+                "description": "We leverage...",
+                "required": true,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            },
+            {
+                "id": "transaction_details",
+                "title": "Transaction and details",
+                "description": "We leverage...",
+                "required": false,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            }
+        ],
+        "additional_permissions": {},
+        "delete_redundant_data": true,
+        "confirmation_pdf_url": "https://example.com/api/v2/cdr/consents/351/pdfs/confirmation",
+        "withdrawal_pdf_url": "https://example.com/api/v2/cdr/consents/351/pdfs/withdrawal"
+    },
+    {
+        "id": 286,
+        "provider_id": 447,
+        "provider_account_id": 1597,
+        "status": "withdrawn",
+        "sharing_duration": 15814800,
+        "sharing_stopped_at": "2020-03-01",
+        "permissions": [
+            {
+                "id": "account_details",
+                "title": "Account balance and details",
+                "description": "We leverage...",
+                "required": true,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            },
+            {
+                "id": "transaction_details",
+                "title": "Transaction and details",
+                "description": "We leverage...",
+                "required": false,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            }
+        ],
+        "additional_permissions": {},
+        "delete_redundant_data": true,
+        "confirmation_pdf_url": "https://example.com/api/v2/cdr/consents/286/pdfs/confirmation",
+        "withdrawal_pdf_url": "https://example.com/api/v2/cdr/consents/286/pdfs/withdrawal"
+    },
+    {
+        "id": 353,
+        "provider_id": 447,
+        "provider_account_id": 1709,
+        "status": "active",
+        "sharing_started_at": "2020-03-23",
+        "permissions": [
+            {
+                "id": "account_details",
+                "title": "Account balance and details",
+                "description": "We leverage...",
+                "required": true,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            },
+            {
+                "id": "transaction_details",
+                "title": "Transaction and details",
+                "description": "We leverage...",
+                "required": false,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            }
+        ],
+        "delete_redundant_data": true
+    },
+    {
+        "id": 401,
+        "provider_id": 447,
+        "provider_account_id": 1574,
+        "status": "active",
+        "sharing_started_at": "2020-04-01",
+        "permissions": [
+            {
+                "id": "account_details",
+                "title": "Account balance and details",
+                "description": "We leverage...",
+                "required": true,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            },
+            {
+                "id": "transaction_details",
+                "title": "Transaction and details",
+                "description": "We leverage...",
+                "required": false,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            }
+        ],
+        "delete_redundant_data": true
+    },
+    {
+        "id": 332,
+        "provider_id": 447,
+        "provider_account_id": 1654,
+        "status": "withdrawn",
+        "sharing_started_at": "2020-03-10",
+        "sharing_duration": 15814800,
+        "sharing_stopped_at": "2020-02-28",
+        "permissions": [
+            {
+                "id": "account_details",
+                "title": "Account balance and details",
+                "description": "We leverage...",
+                "required": true,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            },
+            {
+                "id": "transaction_details",
+                "title": "Transaction and details",
+                "description": "We leverage...",
+                "required": false,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            }
+        ],
+        "additional_permissions": {},
+        "delete_redundant_data": true,
+        "confirmation_pdf_url": "https://example.com/api/v2/cdr/consents/332/pdfs/confirmation",
+        "withdrawal_pdf_url": "https://example.com/api/v2/cdr/consents/332/pdfs/withdrawal"
+    },
+    {
+        "id": 705,
+        "provider_id": 447,
+        "provider_account_id": 2382,
+        "status": "pending",
+        "sharing_duration": 15721200,
+        "permissions": [
+            {
+                "id": "account_details",
+                "title": "Account balance and details",
+                "description": "We leverage...",
+                "required": true,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            },
+            {
+                "id": "transaction_details",
+                "title": "Transaction and details",
+                "description": "We leverage...",
+                "required": false,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            }
+        ],
+        "additional_permissions": {},
+        "delete_redundant_data": true
+    },
+    {
+        "id": 370,
+        "provider_id": 447,
+        "provider_account_id": 1740,
+        "status": "pending",
+        "sharing_duration": 15814800,
+        "permissions": [
+            {
+                "id": "account_details",
+                "title": "Account balance and details",
+                "description": "We leverage...",
+                "required": true,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            },
+            {
+                "id": "transaction_details",
+                "title": "Transaction and details",
+                "description": "We leverage...",
+                "required": false,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            }
+        ],
+        "additional_permissions": {},
+        "delete_redundant_data": true,
+        "authorisation_request_url": "https://admin-sandbox.frollo.us/api/pages/mock_cdr_redirect?redirect_uri=https%3A%2F%2Fcdrtest-staging.frollo.us%2Fcdr%2Fauthorisation%2Fcallback&client_id=dcr-6ad6a187-f7a5-3101-8ca0-dc6e24e32bba&state=1b9fd3e6-3800-4e94-a145-2f75926322b9&nonce=57296e21-0c2d-40e1-b3cc-44738febd1af&scope=openid+bank%3Aaccounts.basic%3Aread+bank%3Atransactions%3Aread&response_type=code+id_token&request=eyJ0eXAiOiJKV1QiLCJraWQiOiJ4WFRXdFRVdDlHcEZqWUp3QWZyUFJkQTVZR1J3T0UxSC0zRlJMd282S2g4IiwiYWxnIjoiUFMyNTYifQ.eyJzY29wZSI6Im9wZW5pZCBiYW5rOmFjY291bnRzLmJhc2ljOnJlYWQgYmFuazp0cmFuc2FjdGlvbnM6cmVhZCIsInJlc3BvbnNlX3R5cGUiOiJjb2RlIGlkX3Rva2VuIiwicmVkaXJlY3RfdXJpIjoiaHR0cHM6Ly9jZHJ0ZXN0LXN0YWdpbmcuZnJvbGxvLnVzL2Nkci9hdXRob3Jpc2F0aW9uL2NhbGxiYWNrIiwibm9uY2UiOiJjZWQ1N2M2Ni01NjAwLTQzMWQtOTI2Yi02NDA0MjE5YjI3YTYiLCJzdGF0ZSI6IjFiOWZkM2U2LTM4MDAtNGU5NC1hMTQ1LTJmNzU5MjYzMjJiOSIsImNsaWVudF9pZCI6ImRjci02YWQ2YTE4Ny1mN2E1LTMxMDEtOGNhMC1kYzZlMjRlMzJiYmEiLCJhdWQiOiJodHRwczovL3Rlc3QuaWRwLndlc3RwYWMuY29tLmF1L2lkZW50aXR5IiwiY2xhaW1zIjp7InNoYXJpbmdfZHVyYXRpb24iOiIxNTgxNDgwMCIsImlkX3Rva2VuIjp7ImFjciI6eyJ2YWx1ZXMiOlsidXJuOmNkcy5hdTpjZHI6MiJdLCJlc3NlbnRpYWwiOnRydWV9fX19.Z8bA-H9idjRJvptdw4Oju90-iXw0RX85B2ej8Ac88pXv1X_vORKUd4xQGN30nhZmHnerg2W6v1wtJKkbk5ccp7cgX9eVdiP4wTvyi1naASsh24xqKVBk2nPcMvg8j6vIpeILm-EO6aSYVptpKNrpiz_jts8o6tyvFWucWeKno_A9F0nkGKx1WcVMuw2C9sLKSdoVZuzgu_PsQLDK2cOgWHJsl1j-2_-vBdqJPj4ql4Y-2ojO6cK8bydAgZgE3USPQKTnhf-sjF1jUeQYftybOt4Mx4ADRBqE2HrTmjTRToEktvkjncf0weAauK7VK0CRw_M9av8JiRGPmAiVrsg6hA"
+    },
+    {
+        "id": 371,
+        "provider_id": 447,
+        "provider_account_id": 1742,
+        "status": "active",
+        "sharing_started_at": "2020-03-25",
+        "sharing_duration": 15814800,
+        "permissions": [
+            {
+                "id": "account_details",
+                "title": "Account balance and details",
+                "description": "We leverage...",
+                "required": true,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            },
+            {
+                "id": "transaction_details",
+                "title": "Transaction and details",
+                "description": "We leverage...",
+                "required": false,
+                "details": [
+                    {
+                        "id": "account_name",
+                        "description": "Name of account"
+                    }
+                ]
+            }
+        ],
+        "additional_permissions": {},
+        "delete_redundant_data": true,
+        "confirmation_pdf_url": "https://example.com/api/v2/cdr/consents/371/pdfs/confirmation"
+    }
+]

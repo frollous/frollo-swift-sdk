@@ -1,0 +1,37 @@
+{
+    "id": 39,
+    "provider_id": 22580,
+    "provider_account_id": 1502,
+    "status": "pending",
+    "sharing_duration": 15642000,
+    "permissions": [
+        {
+            "id": "account_details",
+            "title": "Account balance and details",
+            "description": "We leverage...",
+            "required": true,
+            "details": [
+                {
+                    "id": "account_name",
+                    "description": "Name of account"
+                }
+            ]
+        },
+        {
+            "id": "transaction_details",
+            "title": "Transaction and details",
+            "description": "We leverage...",
+            "required": false,
+            "details": [
+                {
+                    "id": "account_name",
+                    "description": "Name of account"
+                }
+            ]
+        }
+    ],
+    "additional_permissions": {},
+    "delete_redundant_data": true,
+    "confirmation_pdf_url": "https://content.frollo.us/pdf/consent_confirmation.pdf",
+    "withdrawal_pdf_url": "https://content.frollo.us/pdf/consent_withdrawal.pdf",
+}

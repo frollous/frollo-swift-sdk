@@ -15,6 +15,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 struct APIProviderResponse: APIUniqueResponse, Codable {
     
@@ -37,8 +38,8 @@ struct APIProviderResponse: APIUniqueResponse, Codable {
         case productsAvailable = "products_available"
         case smallLogoURLString = "small_logo_url"
         case status
-        case permissions
         case aggregatorType = "aggregator_type"
+        case permissions
     }
     
     enum ContainerName: String, Codable {
@@ -87,7 +88,7 @@ struct APIProviderResponse: APIUniqueResponse, Codable {
     var oAuthSite: Bool?
     var smallLogoURLString: String?
     var aggregatorType: String
-    var permissions: [String]?
     let productsAvailable: Bool?
+    var permissions: [CDRPermission]
     
 }
