@@ -79,6 +79,7 @@ platform :ios do
    	  run_tests(scheme: "FrolloSDK tvOS Tests",
       		  clean: true,
       		  code_coverage: true,
+            include_simulator_logs: false,
       		  device: "Apple TV 4K",
       		  slack_message: "Frollo SDK: tvOS Tests")
 
