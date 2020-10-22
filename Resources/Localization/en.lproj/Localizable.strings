@@ -29,6 +29,7 @@
 "Error.API.UserAlreadyExists" = "Hmmm. An account already exists with these details.";
 "Error.API.UserLoggedOut" = "You are already logged out.";
 "Error.API.MissingOTP" = "Missing OTP. An sms was sent to your phone with your otp code";
+"Error.API.InvalidOTP" = "Invalid OTP";
 
 "Error.Data.API.InvalidData" = "API request or response data was invalid.";
 "Error.Data.API.PasswordTooShort" = "Your password must be at least 8 characters long.";
