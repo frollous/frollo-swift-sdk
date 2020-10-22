@@ -26,15 +26,12 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: PaymentsEndpoint.payAnyone.path, relativeTo: self.serverURL)!
             
-            guard var urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request, userOtp: otp)
             else {
                 let dataError = DataError(type: .api, subType: .invalidData)
                 
                 completion(.failure(dataError))
                 return
-            }
-            if let otp = otp {
-                urlRequest.addValue(otp, forHTTPHeaderField: HTTPHeader.otp.rawValue)
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
@@ -49,15 +46,12 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: PaymentsEndpoint.transfers.path, relativeTo: self.serverURL)!
             
-            guard var urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request, userOtp: otp)
             else {
                 let dataError = DataError(type: .api, subType: .invalidData)
                 
                 completion(.failure(dataError))
                 return
-            }
-            if let otp = otp {
-                urlRequest.addValue(otp, forHTTPHeaderField: HTTPHeader.otp.rawValue)
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
@@ -72,15 +66,12 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: PaymentsEndpoint.bpay.path, relativeTo: self.serverURL)!
             
-            guard var urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request, userOtp: otp)
             else {
                 let dataError = DataError(type: .api, subType: .invalidData)
                 
                 completion(.failure(dataError))
                 return
-            }
-            if let otp = otp {
-                urlRequest.addValue(otp, forHTTPHeaderField: HTTPHeader.otp.rawValue)
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
