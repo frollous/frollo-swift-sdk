@@ -47,7 +47,7 @@ class NotificationsTests: XCTestCase {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -76,7 +76,7 @@ class NotificationsTests: XCTestCase {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -116,7 +116,7 @@ class NotificationsTests: XCTestCase {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
