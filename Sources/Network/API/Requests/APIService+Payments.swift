@@ -22,16 +22,19 @@ extension APIService {
     
     // MARK: - Pay Anyone
     
-    internal func payAnyone(request: APIPayAnyoneRequest, completion: @escaping RequestCompletion<PayAnyoneResponse>) {
+    internal func payAnyone(request: APIPayAnyoneRequest, otp: String?, completion: @escaping RequestCompletion<PayAnyoneResponse>) {
         requestQueue.async {
             let url = URL(string: PaymentsEndpoint.payAnyone.path, relativeTo: self.serverURL)!
             
-            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            guard var urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
             else {
                 let dataError = DataError(type: .api, subType: .invalidData)
                 
                 completion(.failure(dataError))
                 return
+            }
+            if let otp = otp {
+                urlRequest.addValue(otp, forHTTPHeaderField: HTTPHeader.otp.rawValue)
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
@@ -42,16 +45,19 @@ extension APIService {
     
     // MARK: - Payment - Transfer
     
-    internal func transfer(request: APIPaymentTransferRequest, completion: @escaping RequestCompletion<PaymentTransferResponse>) {
+    internal func transfer(request: APIPaymentTransferRequest, otp: String?, completion: @escaping RequestCompletion<PaymentTransferResponse>) {
         requestQueue.async {
             let url = URL(string: PaymentsEndpoint.transfers.path, relativeTo: self.serverURL)!
             
-            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            guard var urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
             else {
                 let dataError = DataError(type: .api, subType: .invalidData)
                 
                 completion(.failure(dataError))
                 return
+            }
+            if let otp = otp {
+                urlRequest.addValue(otp, forHTTPHeaderField: HTTPHeader.otp.rawValue)
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
@@ -62,16 +68,19 @@ extension APIService {
     
     // MARK: - Payment - Bpay
     
-    internal func bpayPayment(request: APIBpayPaymentRequest, completion: @escaping RequestCompletion<BpayPaymentResponse>) {
+    internal func bpayPayment(request: APIBpayPaymentRequest, otp: String?, completion: @escaping RequestCompletion<BpayPaymentResponse>) {
         requestQueue.async {
             let url = URL(string: PaymentsEndpoint.bpay.path, relativeTo: self.serverURL)!
             
-            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            guard var urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
             else {
                 let dataError = DataError(type: .api, subType: .invalidData)
                 
                 completion(.failure(dataError))
                 return
+            }
+            if let otp = otp {
+                urlRequest.addValue(otp, forHTTPHeaderField: HTTPHeader.otp.rawValue)
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in

@@ -90,6 +90,8 @@ public class APIError: FrolloSDKError, ResponseError {
         /// Unknown error
         case unknown
         
+        case securityCodeRequired
+        
     }
     
     /// Debug description
@@ -163,6 +165,8 @@ public class APIError: FrolloSDKError, ResponseError {
                             self.type = .suspendedUser
                         case .accountLocked:
                             self.type = .accountLocked
+                        case .missingOTP:
+                            self.type = .securityCodeRequired
                         default:
                             self.type = .otherAuthorisation
                     }
@@ -243,6 +247,8 @@ public class APIError: FrolloSDKError, ResponseError {
                 return Localization.string("Error.API.Unauthorised")
             case .unknown:
                 return Localization.string("Error.API.UnknownError")
+            case .securityCodeRequired:
+                return Localization.string("Error.API.MissingOTP")
         }
     }
     
