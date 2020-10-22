@@ -323,7 +323,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         
         Log.logLevel = configuration.logLevel
         
-        _authentication = Authentication(serverEndpoint: configuration.serverEndpoint)
+        _authentication = Authentication(configuration: configuration)
         network = Network(serverEndpoint: configuration.serverEndpoint, authentication: _authentication, pinnedPublicKeys: pinnedKeys)
         
         // Setup authentication stack
