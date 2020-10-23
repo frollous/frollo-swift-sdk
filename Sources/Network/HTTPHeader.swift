@@ -26,4 +26,5 @@ internal enum HTTPHeader: String, CaseIterable {
     case etag = "Etag"
     case softwareVersion = "X-Software-Version"
     case userAgent = "User-Agent"
+    case otp = "X-User-Otp"
 }

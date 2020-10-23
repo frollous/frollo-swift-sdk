@@ -425,6 +425,14 @@ class APIErrorTests: XCTestCase {
     func testAPIErrorPaymentProcessor() {
         validatePaymentErrors(resourceFileName: "error_payment_processor", errorCode: .paymentProcessorError)
     }
+
+    func testAPIErrorPaymentOTPMissing() {
+        validatePaymentErrors(resourceFileName: "error_payment_missing_otp", errorCode: .missingOTP)
+    }
+
+    func testAPIErrorPaymentInvalidOTP() {
+        validatePaymentErrors(resourceFileName: "error_payment_invalid_otp", errorCode: .invalidOTP)
+    }
     
     func validatePaymentErrors(resourceFileName: String, errorCode: APIErrorCode) {
         let errorJSON = errorJSONNamed(resourceFileName)

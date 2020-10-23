@@ -131,6 +131,11 @@ public enum APIErrorCode: String, Codable {
     /// F9999 - Internal Exception
     case internalException = "F9999"
     
+    /// F0120 - OTP is required for completing payment
+    case missingOTP = "F0120"
+    
+    /// F0117 - OTP is invalid
+    case invalidOTP = "F0117"
 }
 
 internal struct APIErrorResponse: Codable {
