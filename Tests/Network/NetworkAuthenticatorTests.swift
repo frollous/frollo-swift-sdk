@@ -52,7 +52,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let path = tempFolderPath()
         let preferences = Preferences(path: path)
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         
@@ -91,7 +91,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let path = tempFolderPath()
         let preferences = Preferences(path: path)
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
@@ -143,7 +143,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let path = tempFolderPath()
         let preferences = Preferences(path: path)
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
@@ -197,7 +197,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let path = tempFolderPath()
         let preferences = Preferences(path: path)
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
@@ -257,7 +257,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let path = tempFolderPath()
         let preferences = Preferences(path: path)
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
@@ -326,7 +326,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let path = tempFolderPath()
         let preferences = Preferences(path: path)
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
@@ -390,7 +390,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         }
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -416,7 +416,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let config = FrolloSDKConfiguration.testConfig()
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -446,7 +446,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let config = FrolloSDKConfiguration.testConfig()
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -476,7 +476,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let config = FrolloSDKConfiguration.testConfig()
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -506,12 +506,48 @@ class NetworkAuthenticatorTests: XCTestCase {
 
         wait(for: [exp], timeout: 3)
     }
+
+    func testHeaderWithOtpRemainsIntactMigrateUserRequest() {
+        let config = FrolloSDKConfiguration.testConfig()
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let userURL = URL(string: UserEndpoint.migrate.path, relativeTo: config.serverEndpoint)!
+
+        let body = APIUserMigrationRequest(password: "12345678")
+        var urlRequest = network.contentRequest(url: userURL, method: .post, content: body, userOtp: "123456")
+
+        let bearer = "Bearer MyRefreshToken"
+        urlRequest?.setValue(bearer, forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+
+        let request = network.sessionManager.request(urlRequest!)
+
+        let exp = expectation(description: "Adapt")
+        service.network.authentication.adapt(request.convertible.urlRequest!, for: network.sessionManager, completion: {
+            result in
+            switch result {
+            case .success(let adaptedRequest):
+                XCTAssertEqual(adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue), bearer)
+                XCTAssertEqual(adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.otp.rawValue), "123456")
+                exp.fulfill()
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+        })
+
+        wait(for: [exp], timeout: 3)
+    }
     
     func testAccessTokenHeaderAppendedToHostRequests() {
         let config = FrolloSDKConfiguration.testConfig()
         
         let mockAuthenticationData = MockAuthentication(token: "AnExistingAccessToken")
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthenticationData
         authentication.delegate = mockAuthenticationData
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -543,7 +579,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let config = FrolloSDKConfiguration.testConfig()
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -570,7 +606,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let config = FrolloSDKConfiguration.testConfig()
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -578,6 +614,38 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let userURL = URL(string: "https://google.com.au")!
         let request = network.sessionManager.request(userURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil, interceptor: authentication)
+
+        let exp = expectation(description: "Adapt")
+        service.network.authentication.adapt(request.convertible.urlRequest!, for: network.sessionManager, completion: {
+            result in
+            switch result {
+            case .success(let adaptedRequest):
+                XCTAssertNil(adaptedRequest.value(forHTTPHeaderField:  HTTPHeader.authorization.rawValue))
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            exp.fulfill()
+        })
+
+        wait(for: [exp], timeout: 3)
+    }
+    
+    func testNoHeaderAppendedToCustomURLRequests() {
+        let config = FrolloSDKConfiguration(authenticationType: .oAuth2(redirectURL: URL(string: "app://redirect")!,
+                                    authorizationEndpoint: URL(string: "https://api.example.com/oauth/authorize")!,
+                                    tokenEndpoint: URL(string: "https://api.example.com/oauth/token")!,
+                                    revokeTokenEndpoint: URL(string: "https://api.example.com/oauth/revoke")!),
+        clientID: "abc123",
+        serverEndpoint: URL(string: "https://api.example.com")!)
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let request = network.sessionManager.request(FrolloSDKConfiguration.tokenEndpoint, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil, interceptor: authentication)
 
         let exp = expectation(description: "Adapt")
         service.network.authentication.adapt(request.convertible.urlRequest!, for: network.sessionManager, completion: {

@@ -92,13 +92,15 @@ public class Authentication: RequestInterceptor {
     private let requestQueue = DispatchQueue(label: "FrolloSDK.APIAuthenticatorRequestQueue", qos: .userInitiated, attributes: .concurrent)
     private let responseQueue = DispatchQueue(label: "FrolloSDK.APIAuthenticatorResponseQueue", qos: .userInitiated, attributes: .concurrent)
     private let serverURL: URL
+    private let authenticationType: FrolloSDKConfiguration.AuthenticationType
     
     private var rateLimitCount: Double = 0
     private var refreshing = false
     private var requestsToRetry: [(RetryResult) -> Void] = []
     
-    init(serverEndpoint: URL) {
-        self.serverURL = serverEndpoint
+    init(configuration: FrolloSDKConfiguration) {
+        self.serverURL = configuration.serverEndpoint
+        self.authenticationType = configuration.authenticationType
     }
     
     // MARK: - Authentication Status
@@ -122,23 +124,26 @@ public class Authentication: RequestInterceptor {
         - urlRequest: The request to be authorized
      */
     public func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
-        guard let url = urlRequest.url, url.host == serverURL.host
-        else {
+        
+        /// Don't append access token if the url is one of the OAuth URL, or any other URL outside base url
+        if case FrolloSDKConfiguration.AuthenticationType.oAuth2(let redirectURL, let authorizationEndpoint, let tokenEndpoint, let revokeTokenEndpoint) = authenticationType, let url = urlRequest.url, [redirectURL.absoluteString, authorizationEndpoint.absoluteString, tokenEndpoint.absoluteString, revokeTokenEndpoint?.absoluteString ?? ""].contains(url.absoluteString) || url.host != serverURL.host {
+            
             completion(.success(urlRequest))
             return
-        }
-        
-        let request = urlRequest
-        
-        if let relativePath = request.url?.relativePath, !(relativePath.contains(UserEndpoint.register.path) || relativePath.contains(UserEndpoint.resetPassword.path) || relativePath.contains(UserEndpoint.migrate.path)) {
-            do {
-                let adaptedRequest = try validateAndAppendAccessToken(request: request)
-                completion(.success(adaptedRequest))
-            } catch {
-                completion(.failure(error))
-            }
+                
         } else {
-            completion(.success(request))
+            let request = urlRequest
+            
+            if let relativePath = request.url?.relativePath, !(relativePath.contains(UserEndpoint.register.path) || relativePath.contains(UserEndpoint.resetPassword.path) || relativePath.contains(UserEndpoint.migrate.path)) {
+                do {
+                    let adaptedRequest = try validateAndAppendAccessToken(request: request)
+                    completion(.success(adaptedRequest))
+                } catch {
+                    completion(.failure(error))
+                }
+            } else {
+                completion(.success(request))
+            }
         }
     }
     

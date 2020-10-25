@@ -129,7 +129,7 @@ public class Message: NSManagedObject, UniqueManagedObject {
     /// Metadata - custom JSON to be stored with the message
     public var metadata: JSON {
         get {
-            if let rawValue = metadataRawValue {
+            if let rawValue = metaDataRawValue {
                 do {
                     return try JSON(data: rawValue)
                 } catch {
@@ -140,11 +140,11 @@ public class Message: NSManagedObject, UniqueManagedObject {
         }
         set {
             do {
-                metadataRawValue = try newValue.rawData()
+                metaDataRawValue = try newValue.rawData()
             } catch {
                 Log.error(error.localizedDescription)
                 
-                metadataRawValue = try? JSONSerialization.data(withJSONObject: [:], options: [])
+                metaDataRawValue = try? JSONSerialization.data(withJSONObject: [:], options: [])
             }
         }
     }

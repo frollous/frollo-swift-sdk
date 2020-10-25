@@ -51,7 +51,7 @@ class CDRTests: BaseTestCase {
             XCTAssertNil(error)
             
             let aggregation = self.aggregation(loggedIn: true)
-            let consent = CDRConsentForm.Post(providerID: 1, sharingDuration: 100, permissions: [])
+            let consent = CDRConsentForm.Post(providerID: 1, sharingDuration: 100, permissions: [], existingConsentID: 1)
             aggregation.submitCDRConsent(consent: consent) { (result) in
                 switch result {
                     case .success:
@@ -161,6 +161,35 @@ class CDRTests: BaseTestCase {
             expectation1.fulfill()
         }
                
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchConfiguration() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: CDREndpoint.configuration.path.prefixedWithSlash, method: .get, toResourceWithName: "get_configuration")
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let aggregation = self.aggregation(loggedIn: true)
+            aggregation.refreshCDRConfiguration() { (result) in
+                switch result {
+                    case .success:
+                        let configuration = aggregation.cdrConfiguration(context: self.database.viewContext)
+                        XCTAssertEqual(configuration?.adrID, "ADBK0001")
+                        XCTAssertEqual(configuration?.adrName, "ACME")
+                        XCTAssertEqual(configuration?.supportEmail, "suppert@acme.com")
+                        XCTAssertEqual(configuration?.sharingDurations.count, 1)
+                        break
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
         wait(for: [expectation1], timeout: 3.0)
     }
 }

@@ -121,7 +121,7 @@ class Network: SessionDelegate {
     
     // MARK: - Requests
     
-    internal func contentRequest<T: Codable>(url: URL, method: HTTPMethod, content: T, dateEncodingStrategy: JSONEncoder.DateEncodingStrategy? = nil) -> URLRequest? {
+    internal func contentRequest<T: Codable>(url: URL, method: HTTPMethod, content: T, dateEncodingStrategy: JSONEncoder.DateEncodingStrategy? = nil, userOtp: String? = nil) -> URLRequest? {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
         
@@ -136,6 +136,9 @@ class Network: SessionDelegate {
             
             urlRequest.addValue("application/json", forHTTPHeaderField: HTTPHeader.contentType.rawValue)
             urlRequest.httpBody = requestData
+            if let otp = userOtp {
+                urlRequest.addValue(otp, forHTTPHeaderField: HTTPHeader.otp.rawValue)
+            }
             
             return urlRequest
         } catch {

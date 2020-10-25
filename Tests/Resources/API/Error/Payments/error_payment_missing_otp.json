@@ -1,0 +1,6 @@
+{
+    "error": {
+        "error_code": "F0120",
+        "error_message": "Missing X-User-Otp code. An sms was sent to your phone with your otp code"
+    }
+}

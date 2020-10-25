@@ -17,6 +17,7 @@
 
 import CoreData
 import Foundation
+import SwiftyJSON
 
 /**
  Provider
@@ -128,6 +129,9 @@ public class Provider: NSManagedObject, UniqueManagedObject {
         
         /// Direct API connection via the Consumer Data Right (Open Banking) regime
         case cdr
+        
+        /// Demo providers used for testing and demos
+        case demo
         
         /// Unknown aggregator
         case unknown
@@ -279,18 +283,13 @@ public class Provider: NSManagedObject, UniqueManagedObject {
     }
     
     /// The aggregator permissions on the provider (This value will be set for cdr aggregator)
-    public var permissions: [Consent.Permission]? {
+    public var permissions: [CDRPermission] {
         get {
-            let permissionStrings = permissionsRawValue?.components(separatedBy: "|")
-            return permissionStrings?.map { Consent.Permission(rawValue: $0) }.compactMap { $0 }
+            guard let permissionObjectsRawValue = permissionObjectsRawValue else { return [] }
+            return try! JSONDecoder().decode([CDRPermission].self, from: permissionObjectsRawValue)
         }
         set {
-            if let newValue = newValue {
-                let newString = newValue.map { $0.rawValue }.joined(separator: "|")
-                permissionsRawValue = "|" + newString + "|"
-            } else {
-                permissionsRawValue = nil
-            }
+            permissionObjectsRawValue = try! JSONEncoder().encode(newValue)
         }
     }
     
@@ -318,7 +317,7 @@ public class Provider: NSManagedObject, UniqueManagedObject {
         smallLogoURLString = response.smallLogoURLString
         status = response.status
         aggregatorType = AggregatorType(rawValue: response.aggregatorType) ?? .unknown
-        permissions = response.permissions?.map { Consent.Permission(rawValue: $0) ?? .unknown }
+        permissions = response.permissions
         productsAvailable = response.productsAvailable ?? false
         
         // Reset all containers
