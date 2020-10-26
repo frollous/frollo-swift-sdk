@@ -63,7 +63,7 @@ jobs:
       - run: xcrun simctl list
       - run:
           name: Install simulators
-          command: xcrun simctl create 'iPhone 5s (13.5)' com.apple.CoreSimulator.SimDeviceType.iPhone-5s com.apple.CoreSimulator.SimRuntime.iOS-13-5
+          command: xcrun simctl create 'iPhone SE (13.5)' com.apple.CoreSimulator.SimDeviceType.iPhone-SE--2nd-generation com.apple.CoreSimulator.SimRuntime.iOS-13-5
       - run:
           name: Fastlane
           command: export TERM=${TERM:-dumb} && bundle exec fastlane $FASTLANE_LANE
