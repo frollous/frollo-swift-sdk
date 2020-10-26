@@ -60,6 +60,7 @@ jobs:
       - restore_cache: *restore_carthage_cache
       - run: *bootstrap_if_needed
       - save_cache: *save_carthage_cache
+      - run: xcrun simctl list
       - run:
           name: Install simulators
           command: xcrun simctl create 'iPhone 5s (13.5)' com.apple.CoreSimulator.SimDeviceType.iPhone-5s com.apple.CoreSimulator.SimRuntime.iOS-13-5
