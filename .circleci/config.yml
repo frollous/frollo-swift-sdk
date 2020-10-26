@@ -70,6 +70,11 @@ jobs:
           path: output
       - store_test_results:
           path: output/scan
+      - slack/notify:
+          event: fail
+          channel: ci
+          mentions: '@here'
+          template: basic_fail_1
 
 workflows:
   build-test:
