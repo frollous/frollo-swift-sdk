@@ -3,6 +3,9 @@
 
 version: 2.1
 
+orbs:
+  jira: circleci/jira@1.2.2
+
 aliases:
   - &restore_gem_cache
       name: Restore gem cache
@@ -74,3 +77,5 @@ workflows:
       - build-test:
           context:
             - ios-context
+          post-steps:
+            - jira/notify
