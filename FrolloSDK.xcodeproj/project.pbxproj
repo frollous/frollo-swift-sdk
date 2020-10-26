@@ -1180,6 +1180,8 @@
 		037934032526EB9E00FE053C /* CDRConfiguration+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037934022526EB9E00FE053C /* CDRConfiguration+Test.swift */; };
 		037934042526EB9E00FE053C /* CDRConfiguration+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037934022526EB9E00FE053C /* CDRConfiguration+Test.swift */; };
 		037934052526EB9E00FE053C /* CDRConfiguration+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037934022526EB9E00FE053C /* CDRConfiguration+Test.swift */; };
+		037997102546B1280087668A /* tmp.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0379970F2546B1280087668A /* tmp.xcconfig */; };
+		037997112546B1280087668A /* tmp.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0379970F2546B1280087668A /* tmp.xcconfig */; };
 		039C07A523F3B2C4002F7979 /* get_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 039C07A423F3B2C4002F7979 /* get_consent.json */; };
 		039C07A623F3B2C4002F7979 /* get_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 039C07A423F3B2C4002F7979 /* get_consent.json */; };
 		039C07A723F3B2C4002F7979 /* get_consent.json in Resources */ = {isa = PBXBuildFile; fileRef = 039C07A423F3B2C4002F7979 /* get_consent.json */; };
@@ -2118,6 +2120,7 @@
 		03778B7B23F3BEC9008C856B /* put_consent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = put_consent.json; sourceTree = "<group>"; };
 		037933FE2526D48300FE053C /* CDRPermission+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDRPermission+Test.swift"; sourceTree = "<group>"; };
 		037934022526EB9E00FE053C /* CDRConfiguration+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDRConfiguration+Test.swift"; sourceTree = "<group>"; };
+		0379970F2546B1280087668A /* tmp.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tmp.xcconfig; sourceTree = "<group>"; };
 		039C07A423F3B2C4002F7979 /* get_consent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_consent.json; sourceTree = "<group>"; };
 		03A3A71E2432F15600D46BB0 /* Consent+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Consent+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		03A3A71F2432F15600D46BB0 /* Consent+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Consent+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -2776,6 +2779,7 @@
 		01527CB320E1B49800B5042A = {
 			isa = PBXGroup;
 			children = (
+				0379970F2546B1280087668A /* tmp.xcconfig */,
 				01527CDA20E1CD1800B5042A /* Cartfile */,
 				01E0819520FDBA850036133F /* Cartfile.private */,
 				01527CDC20E1CD1800B5042A /* Carthage.xcconfig */,
@@ -4376,6 +4380,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				037997102546B1280087668A /* tmp.xcconfig in Resources */,
 				01C8250D20EDEF250093400E /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5083,6 +5088,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				037997112546B1280087668A /* tmp.xcconfig in Resources */,
 				01E5BF732227A475003D85FD /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
