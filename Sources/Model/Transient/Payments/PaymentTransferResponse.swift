@@ -26,7 +26,7 @@ public struct PaymentTransferResponse: Codable {
     enum CodingKeys: String, CodingKey {
         case amount
         case description
-        case destinationAccountName = "destination_account_name"
+        case destinationAccountHolder = "destination_account_holder"
         case destinationAccountID = "destination_account_id"
         case paymentDate = "payment_date"
         case sourceAccountID = "source_account_id"
@@ -40,10 +40,10 @@ public struct PaymentTransferResponse: Codable {
     public let amount: String
     
     /// Description of the the transfer
-    public let description: String
+    public let description: String?
     
     /// Account name of destination account in the payment
-    public let destinationAccountName: String
+    public let destinationAccountHolder: String
     
     /// Account ID of destination account in the payment
     public let destinationAccountID: Int64
@@ -64,5 +64,5 @@ public struct PaymentTransferResponse: Codable {
     public let transactionID: Int64?
     
     /// Transaction reference of the payment
-    public let transactionReference: String?
+    public let transactionReference: String
 }

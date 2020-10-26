@@ -41,10 +41,10 @@ public struct PayAnyoneResponse: Codable {
     public let amount: String
     
     /// Description of the the payment
-    public let description: String
+    public let description: String?
     
     /// BSB of payee's account of the payment
-    public let destinationBSB: String
+    public let destinationBSB: String?
     
     /// Account name of payee's account in the payment
     public let destinationAccountHolder: String
@@ -68,5 +68,5 @@ public struct PayAnyoneResponse: Codable {
     public let transactionID: Int64?
     
     /// Transaction reference of the payment
-    public let transactionReference: String?
+    public let transactionReference: String
 }
