@@ -60,7 +60,7 @@ jobs:
       - restore_cache: *restore_carthage_cache
       - run: *bootstrap_if_needed
       - save_cache: *save_carthage_cache
-      -run: xcversion simulators --install="12.4" --no-progress
+      - run: xcversion simulators --install="12.4" --no-progress
       - run:
           name: Install simulators
           command: xcrun simctl create 'iPhone 5s (12.4)' com.apple.CoreSimulator.SimDeviceType.iPhone-5s com.apple.CoreSimulator.SimRuntime.iOS-12-4
