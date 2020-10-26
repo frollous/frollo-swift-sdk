@@ -5,6 +5,7 @@ version: 2.1
 
 orbs:
   jira: circleci/jira@1.2.2
+  slack: circleci/slack@4.0.2
 
 aliases:
   - &restore_gem_cache
