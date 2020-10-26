@@ -127,7 +127,7 @@ class PaymentsTests: XCTestCase {
                 case .success(let response):
                     XCTAssertEqual(response.amount, "542.37")
                     XCTAssertEqual(response.destinationAccountID, 43)
-                    XCTAssertEqual(response.destinationAccountName, "Everyday Txn")
+                    XCTAssertEqual(response.destinationAccountHolder, "Everyday Txn")
                     XCTAssertEqual(response.transactionID, 34)
                     XCTAssertEqual(response.transactionReference, "XXX")
                     XCTAssertEqual(response.status, "scheduled")
