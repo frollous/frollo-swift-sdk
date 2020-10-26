@@ -511,7 +511,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let config = FrolloSDKConfiguration.testConfig()
 
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
