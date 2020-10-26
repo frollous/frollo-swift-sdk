@@ -60,7 +60,9 @@ jobs:
       - restore_cache: *restore_carthage_cache
       - run: *bootstrap_if_needed
       - save_cache: *save_carthage_cache
-      - run: xcrun simctl list
+      - run: |
+            echo 'export XCODE_XCCONFIG_FILE=$PWD/tmp.xcconfig' >> $BASH_ENV
+            source $BASH_ENV
       - run:
           name: Install simulators
           command: xcrun simctl create 'iPhone SE (14.0)' com.apple.CoreSimulator.SimDeviceType.iPhone-SE com.apple.CoreSimulator.SimRuntime.iOS-14-0
