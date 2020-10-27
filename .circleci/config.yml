@@ -37,10 +37,7 @@ aliases:
   - &bootstrap_if_needed
       name: Bootstrap Carthage
       command: |
-        if ! cmp -s Cartfile.resolved Carthage/Cartfile.resolved; then
           carthage bootstrap
-          cp Cartfile.resolved Carthage
-        fi
 
 jobs:
   build-test:
@@ -56,10 +53,10 @@ jobs:
       - checkout
       - restore_cache: *restore_gem_cache
       - run: *bundle_install
-      - save_cache: *save_gem_cache
-      - restore_cache: *restore_carthage_cache
+#      - save_cache: *save_gem_cache
+#      - restore_cache: *restore_carthage_cache
       - run: *bootstrap_if_needed
-      - save_cache: *save_carthage_cache
+#      - save_cache: *save_carthage_cache
       - run: |
             echo 'export XCODE_XCCONFIG_FILE=$PWD/tmp.xcconfig' >> $BASH_ENV
             source $BASH_ENV
