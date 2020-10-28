@@ -38,9 +38,7 @@ aliases:
   - &bootstrap_if_needed
       name: Bootstrap Carthage
       command: |
-#        if ! cmp -s Cartfile.resolved Carthage/Cartfile.resolved; then
           carthage bootstrap
-#          cp Cartfile.resolved Carthage
         fi
 
 jobs:
