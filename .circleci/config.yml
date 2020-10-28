@@ -5,6 +5,7 @@ version: 2.1
 
 orbs:
   jira: circleci/jira@1.2.2
+  slack: circleci/slack@4.0.2
 
 aliases:
   - &restore_gem_cache
@@ -25,19 +26,22 @@ aliases:
   - &restore_carthage_cache
       name: Restore Carthage cache
       keys:
-        - carthage-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Cartfile.resolved" }}
-        - carthage-cache-v1-{{ arch }}-{{ .Branch }}
+        - carthage-cache-v2-{{ arch }}-{{ .Branch }}-{{ checksum "Cartfile.resolved" }}
+        - carthage-cache-v2-{{ arch }}-{{ .Branch }}
         # Fall back to using the latest cache if no exact match is found.
-        - carthage-cache-v1
+        - carthage-cache-v2
   - &save_carthage_cache
       name: Save Carthage cache
-      key: carthage-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Cartfile.resolved" }}
+      key: carthage-cache-v2-{{ arch }}-{{ .Branch }}-{{ checksum "Cartfile.resolved" }}
       paths:
         - Carthage
   - &bootstrap_if_needed
       name: Bootstrap Carthage
       command: |
+        if ! cmp -s Cartfile.resolved Carthage/Cartfile.resolved; then
           carthage bootstrap
+          cp Cartfile.resolved Carthage
+        fi
 
 jobs:
   build-test:
@@ -58,10 +62,10 @@ jobs:
       - checkout
       - restore_cache: *restore_gem_cache
       - run: *bundle_install
-#      - save_cache: *save_gem_cache
-#      - restore_cache: *restore_carthage_cache
+      - save_cache: *save_gem_cache
+      - restore_cache: *restore_carthage_cache
       - run: *bootstrap_if_needed
-#      - save_cache: *save_carthage_cache
+      - save_cache: *save_carthage_cache
       - run:
           name: Install simulators
           command: xcrun simctl create 'iPhone SE (14.0)' com.apple.CoreSimulator.SimDeviceType.iPhone-SE com.apple.CoreSimulator.SimRuntime.iOS-14-0
@@ -72,6 +76,11 @@ jobs:
           path: output
       - store_test_results:
           path: output/scan
+      - slack/notify:
+          event: fail
+          channel: ci
+          mentions: '@here'
+          template: basic_fail_1
 
 workflows:
   build-test:
