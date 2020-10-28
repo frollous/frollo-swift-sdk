@@ -39,7 +39,6 @@ aliases:
       name: Bootstrap Carthage
       command: |
           carthage bootstrap
-        fi
 
 jobs:
   build-test:
