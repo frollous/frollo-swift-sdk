@@ -430,4 +430,31 @@ public class UserManagement {
         }
     }
     
+    /**
+     Change the password for the user. Current password is not needed for users who signed up using a 3rd party and never set a password. Check for `validPassword` on the user profile to determine this.
+     
+     - parameters:
+     - currentPassword: Current password to validate the user (optional)
+     - newPassword: New password for the user - must be at least 8 characters
+     - completion: Completion handler with any error that occurred
+     */
+    public func requestNewOTPCodeForUser(method: User.OtpMethodType = .sms, completion: @escaping FrolloSDKCompletionHandler) {
+        let sendOTPRequest = APIUserOTPRequest(method: method)
+        
+        service.sendOTP(request: sendOTPRequest) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success:
+                    DispatchQueue.main.async {
+                        completion(.success)
+                    }
+            }
+        }
+    }
+    
 }

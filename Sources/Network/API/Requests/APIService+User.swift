@@ -142,6 +142,25 @@ extension APIService {
         }
     }
     
+    internal func sendOTP(request: APIUserOTPRequest, completion: @escaping NetworkCompletion) {
+        requestQueue.async {
+            let url = URL(string: UserEndpoint.requestOTP.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     // MARK: - Response Handling
     
     private func handleUserResponse(response: DataResponse<Data, AFError>, completion: UserRequestCompletion) {

@@ -199,6 +199,16 @@ public class User: NSManagedObject {
         
     }
     
+    /**
+     Otp  Method Type
+     
+     Method by which the OTP should be sent to the user's registered mobile number
+     */
+    public enum OtpMethodType: String, Codable, CaseIterable {
+        /// OTP will be sent via SMS mode
+        case sms
+    }
+    
     /// Core Data entity description name
     static let entityName = "User"
     

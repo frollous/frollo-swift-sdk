@@ -27,6 +27,7 @@ enum UserEndpoint: Endpoint {
     case register
     case resetPassword
     case user
+    case requestOTP
     
     private func urlPath() -> String {
         switch self {
@@ -40,6 +41,8 @@ enum UserEndpoint: Endpoint {
                 return "user/reset"
             case .user:
                 return "user"
+            case .requestOTP:
+                return "user/otp"
         }
     }
     
