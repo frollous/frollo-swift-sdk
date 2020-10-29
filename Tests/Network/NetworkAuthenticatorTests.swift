@@ -369,7 +369,7 @@ class NetworkAuthenticatorTests: XCTestCase {
             expectation3.fulfill()
         }
         
-        wait(for: [expectation1, expectation2, expectation3], timeout: 30.0)
+        wait(for: [expectation1, expectation2, expectation3], timeout: 300.0)
     }
     
     func testRateLimitRetries() {
