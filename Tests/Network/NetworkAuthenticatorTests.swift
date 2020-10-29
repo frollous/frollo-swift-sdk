@@ -311,7 +311,6 @@ class NetworkAuthenticatorTests: XCTestCase {
     func testRequestsGetCancelledAfterRefreshingAccessTokenFails() {
         let expectation1 = expectation(description: "API Response 1")
         let expectation2 = expectation(description: "API Response 2")
-        let expectation3 = expectation(description: "API Response 3")
         
         let config = FrolloSDKConfiguration.testConfig()
         
@@ -358,18 +357,8 @@ class NetworkAuthenticatorTests: XCTestCase {
             
             expectation2.fulfill()
         }
-        service.fetchUser { (result) in
-            switch result {
-                case .failure:
-                    break
-                case .success:
-                    XCTFail("Request should fail")
-            }
-            
-            expectation3.fulfill()
-        }
         
-        wait(for: [expectation1, expectation2, expectation3], timeout: 300.0)
+        wait(for: [expectation1, expectation2], timeout: 60)
     }
     
     func testRateLimitRetries() {
