@@ -100,14 +100,14 @@ extension APIService {
         }
     }
     
-    internal func updateUser(request: APIUserUpdateRequest, completion: @escaping UserRequestCompletion) {
+    internal func updateUser(request: APIUserUpdateRequest, otpCode: String?, completion: @escaping UserRequestCompletion) {
         requestQueue.async {
             let url = URL(string: UserEndpoint.details.path, relativeTo: self.serverURL)!
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM"
             
-            guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: request, dateEncodingStrategy: .formatted(dateFormatter))
+            guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: request, dateEncodingStrategy: .formatted(dateFormatter), userOtp: otpCode)
             else {
                 let dataError = DataError(type: .api, subType: .invalidData)
                 
@@ -152,6 +152,35 @@ extension APIService {
                 
                 completion(.failure(dataError))
                 
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func fetchUnconfirmedUserDetails(completion: @escaping RequestCompletion<APIUserDetailsConfirm>) {
+        requestQueue.async {
+            let url = URL(string: UserEndpoint.unconfirmedDetails.path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APIUserDetailsConfirm.self, errorType: APIError.self, response: response, completion: completion)
+            }
+            
+        }
+    }
+    
+    internal func confirmUserDetails(request: APIUserDetailsConfirm, otpCode: String?, completion: @escaping NetworkCompletion) {
+        requestQueue.async {
+            let url = URL(string: UserEndpoint.confirmDetails.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: request, userOtp: otpCode)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
                 return
             }
             

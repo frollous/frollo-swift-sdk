@@ -158,9 +158,10 @@ public class UserManagement {
      Updates the user details from cache on the server. This should be called whenever details or statistics about a user are altered, e.g. changing email.
      
      - parameters:
+        - securityCode: Verification code/ OTP for updtaing sensitive information
         - completion: A completion handler once the API has returned and the cache has been updated. Returns any error that occurred during the process.
      */
-    public func updateUser(completion: @escaping FrolloSDKCompletionHandler) {
+    public func updateUser(securityCode: String? = nil, completion: @escaping FrolloSDKCompletionHandler) {
         let managedObjectContext = database.newBackgroundContext()
         
         guard let user = fetchUser(context: managedObjectContext)
@@ -179,7 +180,7 @@ public class UserManagement {
             request = user.updateRequest()
         }
         
-        service.updateUser(request: request) { result in
+        service.updateUser(request: request, otpCode: securityCode) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -431,17 +432,68 @@ public class UserManagement {
     }
     
     /**
-     Change the password for the user. Current password is not needed for users who signed up using a 3rd party and never set a password. Check for `validPassword` on the user profile to determine this.
+     Request new OTP for the user.
      
      - parameters:
-     - currentPassword: Current password to validate the user (optional)
-     - newPassword: New password for the user - must be at least 8 characters
+     - method: Method by which the otp will be sent to the user. eg. sms
      - completion: Completion handler with any error that occurred
      */
     public func requestNewOTPCodeForUser(method: User.OtpMethodType = .sms, completion: @escaping FrolloSDKCompletionHandler) {
         let sendOTPRequest = APIUserOTPRequest(method: method)
         
         service.sendOTP(request: sendOTPRequest) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success:
+                    DispatchQueue.main.async {
+                        completion(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
+     Fetch all the unconfirmed user details
+     
+     - parameters:
+     - completion: Completion handler with any error that occurred
+     */
+    public func fetchUnconfimedUserDetails(completion: @escaping (Result<APIUserDetailsConfirm, Error>) -> Void) {
+        
+        service.fetchUnconfirmedUserDetails { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Fetch all the unconfirmed user details
+     
+     - parameters:
+     - mobileNumber: Mobile number to be confirmed/ verified
+     - securityCode: Verification code/ OTP for confirming sensitive information
+     - completion: Completion handler with any error that occurred
+     */
+    public func confimUserDetails(mobileNumber: String, securityCode: String? = nil, completion: @escaping FrolloSDKCompletionHandler) {
+        
+        let confirmDetailsRequest = APIUserDetailsConfirm(mobileNumber: mobileNumber)
+        
+        service.confirmUserDetails(request: confirmDetailsRequest, otpCode: securityCode) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)

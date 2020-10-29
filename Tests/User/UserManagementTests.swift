@@ -778,4 +778,106 @@ class UserManagementTests: BaseTestCase {
         wait(for: [exp], timeout: 3)
     }
 
+    func testRequestNewOTP() {
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.requestOTP.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_request_otp", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let keychain = validKeychain()
+        let networkAuthenticator = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            user.requestNewOTPCodeForUser { result in
+                switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+                }
+
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+
+    }
+
+    func testFetchUnconfimedUserDetails() {
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.unconfirmedDetails.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_confirm_details", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let keychain = validKeychain()
+        let networkAuthenticator = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+
+        user.fetchUnconfimedUserDetails { (result) in
+            switch result {
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            case .success(let data):
+                XCTAssertNotNil(data.mobileNumber)
+            }
+
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+
+    }
+
+    func testConfirmUserDetails() {
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.confirmDetails.path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+
+        let keychain = validKeychain()
+        let networkAuthenticator = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            user.confimUserDetails(mobileNumber: "+64111111111") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        break
+                }
+
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
 }
