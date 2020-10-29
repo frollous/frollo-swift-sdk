@@ -26,19 +26,23 @@ aliases:
   - &restore_carthage_cache
       name: Restore Carthage cache
       keys:
-        - carthage-cache-v2-{{ arch }}-{{ .Branch }}-{{ checksum "Cartfile.resolved" }}
-        - carthage-cache-v2-{{ arch }}-{{ .Branch }}
+        - carthage-cache-v3-{{ arch }}-{{ .Branch }}-{{ checksum "Cartfile.resolved" }}
+        - carthage-cache-v3-{{ arch }}-{{ .Branch }}
         # Fall back to using the latest cache if no exact match is found.
-        - carthage-cache-v2
+        - carthage-cache-v3
   - &save_carthage_cache
       name: Save Carthage cache
-      key: carthage-cache-v2-{{ arch }}-{{ .Branch }}-{{ checksum "Cartfile.resolved" }}
+      key: carthage-cache-v3-{{ arch }}-{{ .Branch }}-{{ checksum "Cartfile.resolved" }}
       paths:
         - Carthage
   - &bootstrap_if_needed
       name: Bootstrap Carthage
       command: |
+        if ! cmp -s Cartfile.resolved Carthage/Cartfile.resolved; then
           carthage bootstrap
+          cp Cartfile.resolved Carthage
+        fi
+
 
 jobs:
   build-test:
