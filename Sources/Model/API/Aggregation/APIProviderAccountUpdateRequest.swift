@@ -20,8 +20,10 @@ struct APIProviderAccountUpdateRequest: Codable {
     
     enum CodingKeys: String, CodingKey {
         case loginForm = "login_form"
+        case consentID = "consent_id"
     }
     
     let loginForm: ProviderLoginForm
+    let consentID: Int64?
     
 }
