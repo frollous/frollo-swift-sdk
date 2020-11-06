@@ -54,16 +54,10 @@ platform :ios do
     begin
       cisetup
       
-      carthage(
-          command: "bootstrap",
-          cache_builds: true,
-          platform: "all",
-          use_binaries: false)
-      
       xcodebuild(scheme: "FrolloSDK",
           clean: true,
           build: true,
-          destination: "platform=watchOS Simulator,name=Apple Watch Series 4 - 44mm")
+          destination: "platform=watchOS Simulator,name=Apple Watch Series 6 - 40mm")
 
       xcodebuild(scheme: "FrolloSDKCore",
           clean: true,
