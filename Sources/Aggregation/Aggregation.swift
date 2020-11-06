@@ -692,6 +692,8 @@ public class Aggregation: CachedObjects, ResponseHandler {
      
      - parameters:
         - providerAccountID: ID of the provider account to be updated
+        - loginForm: The provider login form
+        - consentID: The ID of the consent attached to this provider account
         - completion: Optional completion handler with optional error if the request fails
      */
     public func updateProviderAccount(providerAccountID: Int64, loginForm: ProviderLoginForm, consentID: Int64?, completion: FrolloSDKCompletionHandler? = nil) {
