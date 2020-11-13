@@ -1,4 +1,4 @@
-github "Alamofire/Alamofire" "5.3.0"
+github "Alamofire/Alamofire" "5.4.0"
 github "AliSoftware/OHHTTPStubs" "8.0.0"
 github "SwiftyJSON/SwiftyJSON" "5.0.0"
 github "openid/AppAuth-iOS" "1.4.0"

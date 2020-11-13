@@ -880,4 +880,39 @@ class UserManagementTests: BaseTestCase {
 
         wait(for: [expectation1], timeout: 3.0)
     }
+
+    func testLogging() {
+        let expectation1 = expectation(description: "User feedback message logging")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.log.path)) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+
+        let keychain = validKeychain()
+        let networkAuthenticator = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            user.sendLog(message: "User test feedback message", level: .off) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        break
+                }
+
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
 }

@@ -34,6 +34,8 @@ public enum LogLevel: Int, Codable {
     /// Log additional information
     case info = 2
     
+    /// Log user feedback message
+    case off = 0
 }
 
 class Log {
@@ -99,7 +101,7 @@ class Log {
                 fallthrough
             case .error:
                 errorLoggers = [consoleLogger, fileLogger, networkLogger]
-                
+            case .off: break
         }
     }
     
