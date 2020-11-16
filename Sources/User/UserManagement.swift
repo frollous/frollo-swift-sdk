@@ -39,6 +39,7 @@ public class UserManagement {
     private let database: Database
     private let preferences: Preferences
     private let service: APIService
+    private static let feedbackMessageKey = "feedback"
     
     private weak var delegate: UserManagementDelegate?
     
@@ -509,4 +510,34 @@ public class UserManagement {
         }
     }
     
+    /// Send device log
+    /// - Parameters:
+    ///   - message: The message to be logged
+    ///   - level: The logging level
+    ///   - completion: Completion handler with any error that occurred
+    public func sendLog(message: String, level: LogLevel, completion: FrolloSDKCompletionHandler? = nil) {
+        let deviceInfo = DeviceInfo.current()
+        
+        let request = APIDeviceLogRequest(details: level == .off ? message : nil,
+                                          deviceID: deviceInfo.deviceID,
+                                          deviceName: deviceInfo.deviceName,
+                                          deviceType: deviceInfo.deviceType,
+                                          message: level == .off ? UserManagement.feedbackMessageKey : message,
+                                          score: level)
+        
+        service.createLog(request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success:
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
 }
