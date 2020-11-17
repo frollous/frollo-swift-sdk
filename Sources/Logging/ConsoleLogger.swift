@@ -33,6 +33,7 @@ class ConsoleLogger: Logger {
                 os_log("%@", log: log, type: .info, message)
             case .error:
                 os_log("%@", log: log, type: .error, message)
+            case .off: break
         }
     }
     

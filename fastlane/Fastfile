@@ -54,16 +54,10 @@ platform :ios do
     begin
       cisetup
       
-      carthage(
-          command: "bootstrap",
-          cache_builds: true,
-          platform: "all",
-          use_binaries: false)
-      
       xcodebuild(scheme: "FrolloSDK",
           clean: true,
           build: true,
-          destination: "platform=watchOS Simulator,name=Apple Watch Series 4 - 44mm")
+          destination: "platform=watchOS Simulator,name=Apple Watch Series 6 - 40mm")
 
       xcodebuild(scheme: "FrolloSDKCore",
           clean: true,
@@ -93,8 +87,6 @@ platform :ios do
       xcov(project: "FrolloSDK.xcodeproj",
       	 scheme: "FrolloSDK")
 
-      jazzy(config: ".jazzy.json")
-
       slack(message: "Frollo Swift SDK Successfully Integrated!",
             success: true)
 
@@ -102,6 +94,16 @@ platform :ios do
     #   on_error(exception)
     end
   end
+
+  lane :release do
+    jazzy(config: ".jazzy.json")
+
+    sh("mkdir -p output/docs/${APP_VERSION}; mv docs/* $_")
+
+    slack(message: "Frollo Swift SDK ${APP_VERSION} Successfully Released!",
+          success: true)
+  end
+
 end
 
 def on_error(exception)

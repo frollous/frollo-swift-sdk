@@ -899,6 +899,7 @@ class AggregationTests: BaseTestCase {
         let notificationExpectation = expectation(forNotification: Aggregation.providerAccountsUpdatedNotification, object: nil, handler: nil)
         
         let providerAccountID: Int64 = 123
+        let consentID: Int64 = 3
         
         let loginForm = ProviderLoginForm.loginFormFilledData()
         
@@ -909,7 +910,7 @@ class AggregationTests: BaseTestCase {
         database.setup { error in
             XCTAssertNil(error)
             
-            aggregation.updateProviderAccount(providerAccountID: providerAccountID, loginForm: loginForm) { result in
+            aggregation.updateProviderAccount(providerAccountID: providerAccountID, loginForm: loginForm, consentID: consentID) { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -947,7 +948,7 @@ class AggregationTests: BaseTestCase {
             
             let loginForm = ProviderLoginForm.loginFormFilledData()
             
-            aggregation.updateProviderAccount(providerAccountID: 12345, loginForm: loginForm) { result in
+            aggregation.updateProviderAccount(providerAccountID: 12345, loginForm: loginForm, consentID: 3) { result in
                 switch result {
                     case .failure(let error):
                         XCTAssertNotNil(error)

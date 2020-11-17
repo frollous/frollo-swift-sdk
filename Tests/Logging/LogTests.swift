@@ -188,6 +188,8 @@ class LogTests: XCTestCase {
             log.errorLog(testMessage1)
             log.errorLog(testMessage2)
             log.errorLog(testMessage3)
+        case .off:
+            break
         }
         
         if async {

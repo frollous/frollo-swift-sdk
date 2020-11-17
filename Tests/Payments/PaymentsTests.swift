@@ -28,7 +28,7 @@ class PaymentsTests: XCTestCase {
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -77,7 +77,7 @@ class PaymentsTests: XCTestCase {
         let config = FrolloSDKConfiguration.testConfig()
         
         let mockAuthentication = MockAuthentication(valid: false)
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -127,7 +127,7 @@ class PaymentsTests: XCTestCase {
                 case .success(let response):
                     XCTAssertEqual(response.amount, "542.37")
                     XCTAssertEqual(response.destinationAccountID, 43)
-                    XCTAssertEqual(response.destinationAccountName, "Everyday Txn")
+                    XCTAssertEqual(response.destinationAccountHolder, "Everyday Txn")
                     XCTAssertEqual(response.transactionID, 34)
                     XCTAssertEqual(response.transactionReference, "XXX")
                     XCTAssertEqual(response.status, "scheduled")
