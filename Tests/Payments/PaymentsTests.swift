@@ -140,7 +140,7 @@ class PaymentsTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
     
-    func testBpayPayment() {
+    func testBPAYPayment() {
         let expectation1 = expectation(description: "Network Request 1")
         
         let config = FrolloSDKConfiguration.testConfig()

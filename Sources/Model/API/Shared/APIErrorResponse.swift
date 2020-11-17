@@ -102,7 +102,7 @@ public enum APIErrorCode: String, Codable {
     case paymentAccountRestricted = "F1014"
     
     ///  Payment validation - BPAY Other
-    case paymentInvalidBpay = "F1020"
+    case paymentInvalidBPAY = "F1020"
     
     ///  Payment validation - BPAY Biller Code
     case paymentInvalidBillerCode = "F1021"

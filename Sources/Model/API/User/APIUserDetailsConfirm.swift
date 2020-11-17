@@ -16,6 +16,7 @@
 
 import Foundation
 
+/// API User Details Confirmation Response
 public struct APIUserDetailsConfirm: Codable {
     enum CodingKeys: String, CodingKey {
         case mobileNumber = "mobile_number"
