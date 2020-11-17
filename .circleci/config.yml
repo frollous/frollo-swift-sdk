@@ -4,6 +4,7 @@
 version: 2.1
 
 orbs:
+  aws-s3: circleci/aws-s3@2.0.0
   jira: circleci/jira@1.2.2
   slack: circleci/slack@4.0.2
 
@@ -71,7 +72,9 @@ jobs:
           command: xcrun simctl create 'iPhone 11 (13.5)' com.apple.CoreSimulator.SimDeviceType.iPhone-11 com.apple.CoreSimulator.SimRuntime.iOS-13-5
       - run:
           name: Fastlane
-          command: export TERM=${TERM:-dumb} && bundle exec fastlane $FASTLANE_LANE
+          command: |
+            export TERM=${TERM:-dumb}
+            bundle exec fastlane $FASTLANE_LANE
       - store_artifacts:
           path: output
       - store_test_results:
@@ -82,6 +85,23 @@ jobs:
           mentions: '@here'
           template: basic_fail_1
 
+    release:
+      macos:
+        xcode: 12.0.1
+      environment:
+        FL_OUTPUT_DIR: output
+      - run:
+          name: Fastlane Documentation
+          command: |
+            export TERM=${TERM:-dumb}
+            bundle exec fastlane release
+      - aws-s3/sync:
+          arguments: |
+            --acl public-read \
+            --cache-control "max-age=86400"
+          from: output/docs
+          to: 's3://frollo-shared-documentation/sdk/swift'
+
 workflows:
   build-test:
     jobs:
@@ -90,3 +110,14 @@ workflows:
             - ios-context
           post-steps:
             - jira/notify
+      - release:
+          filters:
+            branches:
+              only: 
+                - /release\/.*/
+          requires:
+            - build-test
+          context:
+            - aws-docs
+      
+

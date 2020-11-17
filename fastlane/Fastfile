@@ -87,8 +87,6 @@ platform :ios do
       xcov(project: "FrolloSDK.xcodeproj",
       	 scheme: "FrolloSDK")
 
-      jazzy(config: ".jazzy.json")
-
       slack(message: "Frollo Swift SDK Successfully Integrated!",
             success: true)
 
@@ -96,6 +94,16 @@ platform :ios do
     #   on_error(exception)
     end
   end
+
+  lane :release do
+    jazzy(config: ".jazzy.json")
+
+    sh("mkdir -p output/docs/${APP_VERSION}; mv docs/* $_")
+
+    slack(message: "Frollo Swift SDK ${APP_VERSION} Successfully Released!",
+          success: true)
+  end
+
 end
 
 def on_error(exception)

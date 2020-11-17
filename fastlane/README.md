@@ -31,6 +31,11 @@ fastlane ios update_dependencies
 fastlane ios test
 ```
 Frollo SDK testing and deployment
+### ios release
+```
+fastlane ios release
+```
+
 
 ----
 
