@@ -17,11 +17,11 @@
 import Foundation
 
 /**
- BpayPaymentResponse
+ BPAYPaymentResponse
  
- Represents the response after bpay payment is successful
+ Represents the response after BPAY payment is successful
  */
-public struct BpayPaymentResponse: Codable {
+public struct BPAYPaymentResponse: Codable {
     
     enum CodingKeys: String, CodingKey {
         case amount
