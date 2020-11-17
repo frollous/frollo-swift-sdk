@@ -79,6 +79,13 @@ jobs:
           path: output
       - store_test_results:
           path: output/scan
+      - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is 
+          # taken to be the root directory of the workspace.
+          root: ~/
+          # Must be relative path from root
+          paths:
+            - project/output
       - slack/notify:
           event: fail
           channel: ci
@@ -92,11 +99,11 @@ jobs:
       FL_OUTPUT_DIR: output
 
     steps:
+      - attach_workspace:
+        at: ~/
       - run:
-          name: Fastlane Documentation
-          command: |
-            export TERM=${TERM:-dumb}
-            bundle exec fastlane release
+          name: Move Documentation
+          command: mkdir -p output/docs/${APP_VERSION}; mv docs/* $_
       - aws-s3/sync:
           arguments: |
             --acl public-read \
