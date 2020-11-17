@@ -16,7 +16,7 @@ $ brew install carthage
 To integrate FrolloSDK into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "frollous/frollo-swift-sdk" ~> 4.6.3
+github "frollous/frollo-swift-sdk" ~> 4.7.0
 ```
 
 Run `carthage update` to build the framework and drag the built `FrolloSDK.framework`, `Alamofire.framework` and `AppAuth.framework` into your Xcode project.
