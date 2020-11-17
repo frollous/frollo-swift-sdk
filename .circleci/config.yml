@@ -82,11 +82,10 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - project/output
+            - project/docs
       - slack/notify:
           event: fail
           channel: ci
-          mentions: '@here'
           template: basic_fail_1
 
   release:
