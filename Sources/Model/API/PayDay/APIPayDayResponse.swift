@@ -20,8 +20,8 @@ struct APIPayDayResponse: Codable {
     
     enum CodingKeys: String, CodingKey {
         case frequency
-        case lastTransactionDate = "last_transaction_date"
-        case nextTransactionDate = "next_transaction_date"
+        case lastTransactionDate = "previous_date"
+        case nextTransactionDate = "next_date"
         case status
     }
     
