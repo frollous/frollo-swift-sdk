@@ -247,7 +247,6 @@ public class Budgets: CachedObjects, ResponseHandler {
          - periodAmount: Budget amount for one budget period
          - imageURL: Image Url of the budget (Optional)
          - startDate: start date of the budget (Optional)
-         - trackingType: `Budget.TrackingType` of the budget
          - metadata: Optional JSON metadata accociated withf the budget
          - completion: Optional completion handler with optional error if the request fails
      */
@@ -272,7 +271,6 @@ public class Budgets: CachedObjects, ResponseHandler {
          - periodAmount: Budget amount for one budget period
          - imageURL: Image Url of the budget (Optional)
          - startDate: start date of the budget (Optional)
-         - trackingType: `Budget.TrackingType` of the budget
          - metadata: Optional JSON metadata accociated withf the budget
          - completion: Optional completion handler with optional error if the request fails
      */
@@ -297,7 +295,6 @@ public class Budgets: CachedObjects, ResponseHandler {
          - periodAmount: Budget amount for one budget period
          - imageURL: Image Url of the budget (Optional)
          - startDate: start date of the budget (Optional)
-         - trackingType: `Budget.TrackingType` of the budget
          - metadata: Optional JSON metadata accociated withf the budget
          - completion: Optional completion handler with optional error if the request fails
      */
@@ -322,7 +319,6 @@ public class Budgets: CachedObjects, ResponseHandler {
          - periodAmount: Budget amount for one budget period
          - imageURL: Image Url of the budget (Optional)
          - startDate: start date of the budget (Optional)
-         - trackingType: `Budget.TrackingType` of the budget
          - metadata: Optional JSON metadata accociated withf the budget
          - completion: Optional completion handler with optional error if the request fails
      */
