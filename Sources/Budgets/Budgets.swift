@@ -256,11 +256,10 @@ public class Budgets: CachedObjects, ResponseHandler {
                                     periodAmount: Decimal,
                                     imageURL: String? = nil,
                                     startDate: String? = nil,
-                                    trackingType: Budget.TrackingType,
                                     metadata: JSON = [:],
                                     completion: FrolloSDKCompletionHandler? = nil) {
         
-        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .account, typeValue: "\(accountID)", imageURL: imageURL, startDate: startDate, trackingType: trackingType, metadata: metadata, completion: completion)
+        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .account, typeValue: "\(accountID)", imageURL: imageURL, startDate: startDate, metadata: metadata, completion: completion)
         
     }
     
@@ -282,11 +281,10 @@ public class Budgets: CachedObjects, ResponseHandler {
                                            periodAmount: Decimal,
                                            imageURL: String? = nil,
                                            startDate: String? = nil,
-                                           trackingType: Budget.TrackingType,
                                            metadata: JSON = [:],
                                            completion: FrolloSDKCompletionHandler? = nil) {
         
-        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .budgetCategory, typeValue: budgetCategory.rawValue, imageURL: imageURL, startDate: startDate, trackingType: trackingType, metadata: metadata, completion: completion)
+        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .budgetCategory, typeValue: budgetCategory.rawValue, imageURL: imageURL, startDate: startDate, metadata: metadata, completion: completion)
         
     }
     
@@ -308,11 +306,10 @@ public class Budgets: CachedObjects, ResponseHandler {
                                      periodAmount: Decimal,
                                      imageURL: String? = nil,
                                      startDate: String? = nil,
-                                     trackingType: Budget.TrackingType,
                                      metadata: JSON = [:],
                                      completion: FrolloSDKCompletionHandler? = nil) {
         
-        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .category, typeValue: "\(categoryID)", imageURL: imageURL, startDate: startDate, trackingType: trackingType, metadata: metadata, completion: completion)
+        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .category, typeValue: "\(categoryID)", imageURL: imageURL, startDate: startDate, metadata: metadata, completion: completion)
         
     }
     
@@ -334,11 +331,10 @@ public class Budgets: CachedObjects, ResponseHandler {
                                      periodAmount: Decimal,
                                      imageURL: String? = nil,
                                      startDate: String? = nil,
-                                     trackingType: Budget.TrackingType,
                                      metadata: JSON = [:],
                                      completion: FrolloSDKCompletionHandler? = nil) {
         
-        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .merchant, typeValue: "\(merchantID)", imageURL: imageURL, startDate: startDate, trackingType: trackingType, metadata: metadata, completion: completion)
+        createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .merchant, typeValue: "\(merchantID)", imageURL: imageURL, startDate: startDate, metadata: metadata, completion: completion)
         
     }
     
@@ -348,11 +344,10 @@ public class Budgets: CachedObjects, ResponseHandler {
                               typeValue: String,
                               imageURL: String? = nil,
                               startDate: String? = nil,
-                              trackingType: Budget.TrackingType,
                               metadata: JSON = [:],
                               completion: FrolloSDKCompletionHandler? = nil) {
         
-        let request = APIBudgetCreateRequest(frequency: frequency, periodAmount: String(decimal: periodAmount), type: budgetType, typeValue: typeValue, imageURL: imageURL, startDate: startDate, trackingType: trackingType, metadata: metadata)
+        let request = APIBudgetCreateRequest(frequency: frequency, periodAmount: String(decimal: periodAmount), type: budgetType, typeValue: typeValue, imageURL: imageURL, startDate: startDate, metadata: metadata)
         
         guard request.valid()
         else {
