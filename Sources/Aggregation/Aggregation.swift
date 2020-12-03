@@ -2287,6 +2287,22 @@ public class Aggregation: CachedObjects, ResponseHandler {
         
     }
     
+    public func getContacts(type: ContactType? = nil, completion: @escaping (Result<[Contact], Error>) -> Void) {
+        
+        service.fetchContacts(type: type) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    completion(.success(response.data.elements.map { Contact(response: $0) }))
+            }
+        }
+    }
+    
     // MARK: - Linking Objects
     
     private func linkProviderAccountsToProviders(managedObjectContext: NSManagedObjectContext) {
