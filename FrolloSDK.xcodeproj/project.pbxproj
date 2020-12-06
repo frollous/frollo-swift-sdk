@@ -1574,6 +1574,28 @@
 		4E7C46F32541377100684E1B /* error_payment_invalid_otp.json in Resources */ = {isa = PBXBuildFile; fileRef = 4E7C46F22541377100684E1B /* error_payment_invalid_otp.json */; };
 		4E7C46F42541377100684E1B /* error_payment_invalid_otp.json in Resources */ = {isa = PBXBuildFile; fileRef = 4E7C46F22541377100684E1B /* error_payment_invalid_otp.json */; };
 		4E7C46F52541377100684E1B /* error_payment_invalid_otp.json in Resources */ = {isa = PBXBuildFile; fileRef = 4E7C46F22541377100684E1B /* error_payment_invalid_otp.json */; };
+		4E8052F42579E4F90087C01A /* Contacts+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8052F22579E4F90087C01A /* Contacts+CoreDataProperties.swift */; };
+		4E8052F52579E4F90087C01A /* Contacts+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8052F22579E4F90087C01A /* Contacts+CoreDataProperties.swift */; };
+		4E8052F62579E4F90087C01A /* Contacts+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8052F32579E4F90087C01A /* Contacts+CoreDataClass.swift */; };
+		4E8052F72579E4F90087C01A /* Contacts+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8052F32579E4F90087C01A /* Contacts+CoreDataClass.swift */; };
+		4E8053202579E9D40087C01A /* APIContactResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E80531F2579E9D40087C01A /* APIContactResponse.swift */; };
+		4E8053212579E9D40087C01A /* APIContactResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E80531F2579E9D40087C01A /* APIContactResponse.swift */; };
+		4E8053382579EBE10087C01A /* PayAnyoneContact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8053372579EBE10087C01A /* PayAnyoneContact+CoreDataClass.swift */; };
+		4E8053392579EBE10087C01A /* PayAnyoneContact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8053372579EBE10087C01A /* PayAnyoneContact+CoreDataClass.swift */; };
+		4E805349257D7D370087C01A /* PayAnyoneContact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E805348257D7D370087C01A /* PayAnyoneContact+CoreDataProperties.swift */; };
+		4E80534A257D7D370087C01A /* PayAnyoneContact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E805348257D7D370087C01A /* PayAnyoneContact+CoreDataProperties.swift */; };
+		4E805354257D80710087C01A /* BPAYContact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E805352257D80700087C01A /* BPAYContact+CoreDataProperties.swift */; };
+		4E805355257D80710087C01A /* BPAYContact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E805352257D80700087C01A /* BPAYContact+CoreDataProperties.swift */; };
+		4E805356257D80710087C01A /* BPAYContact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E805353257D80710087C01A /* BPAYContact+CoreDataClass.swift */; };
+		4E805357257D80710087C01A /* BPAYContact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E805353257D80710087C01A /* BPAYContact+CoreDataClass.swift */; };
+		4E80536F257D85EC0087C01A /* PayIDContact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E80536D257D85EC0087C01A /* PayIDContact+CoreDataProperties.swift */; };
+		4E805370257D85EC0087C01A /* PayIDContact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E80536D257D85EC0087C01A /* PayIDContact+CoreDataProperties.swift */; };
+		4E805371257D85EC0087C01A /* PayIDContact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E80536E257D85EC0087C01A /* PayIDContact+CoreDataClass.swift */; };
+		4E805372257D85EC0087C01A /* PayIDContact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E80536E257D85EC0087C01A /* PayIDContact+CoreDataClass.swift */; };
+		4E80537C257D88560087C01A /* InternationalContact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E80537A257D88560087C01A /* InternationalContact+CoreDataProperties.swift */; };
+		4E80537D257D88560087C01A /* InternationalContact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E80537A257D88560087C01A /* InternationalContact+CoreDataProperties.swift */; };
+		4E80537E257D88560087C01A /* InternationalContact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E80537B257D88560087C01A /* InternationalContact+CoreDataClass.swift */; };
+		4E80537F257D88560087C01A /* InternationalContact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E80537B257D88560087C01A /* InternationalContact+CoreDataClass.swift */; };
 		4E81F08A243D92E50006162A /* Aggregation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E81F089243D92E50006162A /* Aggregation.swift */; };
 		4E81F08B243D93000006162A /* Aggregation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E81F089243D92E50006162A /* Aggregation.swift */; };
 		69E7DED52397692E00291937 /* ReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E7DED42397692E00291937 /* ReportResponse.swift */; };
@@ -2282,6 +2304,18 @@
 		4E6E9CF6254A8107003E7B97 /* user_confirm_details.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user_confirm_details.json; sourceTree = "<group>"; };
 		4E7C46ED254136D500684E1B /* error_payment_missing_otp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_payment_missing_otp.json; sourceTree = "<group>"; };
 		4E7C46F22541377100684E1B /* error_payment_invalid_otp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_payment_invalid_otp.json; sourceTree = "<group>"; };
+		4E8052CC2579E1440087C01A /* FrolloSDKDataModel-1.7.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.7.3.xcdatamodel"; sourceTree = "<group>"; };
+		4E8052F22579E4F90087C01A /* Contacts+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Contacts+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4E8052F32579E4F90087C01A /* Contacts+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Contacts+CoreDataClass.swift"; sourceTree = "<group>"; };
+		4E80531F2579E9D40087C01A /* APIContactResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIContactResponse.swift; sourceTree = "<group>"; };
+		4E8053372579EBE10087C01A /* PayAnyoneContact+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PayAnyoneContact+CoreDataClass.swift"; sourceTree = "<group>"; };
+		4E805348257D7D370087C01A /* PayAnyoneContact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PayAnyoneContact+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4E805352257D80700087C01A /* BPAYContact+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BPAYContact+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4E805353257D80710087C01A /* BPAYContact+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BPAYContact+CoreDataClass.swift"; sourceTree = "<group>"; };
+		4E80536D257D85EC0087C01A /* PayIDContact+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PayIDContact+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4E80536E257D85EC0087C01A /* PayIDContact+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PayIDContact+CoreDataClass.swift"; sourceTree = "<group>"; };
+		4E80537A257D88560087C01A /* InternationalContact+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "InternationalContact+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4E80537B257D88560087C01A /* InternationalContact+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "InternationalContact+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4E81F089243D92E50006162A /* Aggregation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Aggregation.swift; sourceTree = "<group>"; };
 		69E7DED42397692E00291937 /* ReportResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2718,6 +2752,7 @@
 				13AC07692394BDEE00982FB1 /* Budget */,
 				016097F1210EE26C0034E857 /* Aggregation */,
 				018240DF21C8BA55005705F9 /* Bills */,
+				4E8053172579E5AD0087C01A /* Contacts */,
 				013D2D84210A889200EEDEC5 /* Device */,
 				011F813C219D251000A1495F /* Events */,
 				017F0F9422DBF97500ACE7BB /* Goals */,
@@ -3238,6 +3273,7 @@
 			children = (
 				016097F3210EE2820034E857 /* Aggregation */,
 				01D7A4A0247C9390000339D9 /* CDR */,
+				4E8052F12579E4F90087C01A /* Contacts */,
 				018240DA21C8B7F5005705F9 /* Bills */,
 				132154582390B743001495A2 /* Budgets */,
 				017F0F8D22DBF8D900ACE7BB /* Goals */,
@@ -4155,6 +4191,31 @@
 				2F657DAE223B467000471B85 /* survey_response.json */,
 			);
 			path = Surveys;
+			sourceTree = "<group>";
+		};
+		4E8052F12579E4F90087C01A /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				4E8052F32579E4F90087C01A /* Contacts+CoreDataClass.swift */,
+				4E8052F22579E4F90087C01A /* Contacts+CoreDataProperties.swift */,
+				4E8053372579EBE10087C01A /* PayAnyoneContact+CoreDataClass.swift */,
+				4E805348257D7D370087C01A /* PayAnyoneContact+CoreDataProperties.swift */,
+				4E805353257D80710087C01A /* BPAYContact+CoreDataClass.swift */,
+				4E805352257D80700087C01A /* BPAYContact+CoreDataProperties.swift */,
+				4E80536E257D85EC0087C01A /* PayIDContact+CoreDataClass.swift */,
+				4E80536D257D85EC0087C01A /* PayIDContact+CoreDataProperties.swift */,
+				4E80537B257D88560087C01A /* InternationalContact+CoreDataClass.swift */,
+				4E80537A257D88560087C01A /* InternationalContact+CoreDataProperties.swift */,
+			);
+			path = Contacts;
+			sourceTree = "<group>";
+		};
+		4E8053172579E5AD0087C01A /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				4E80531F2579E9D40087C01A /* APIContactResponse.swift */,
+			);
+			path = Contacts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -5257,6 +5318,7 @@
 				01704F5A21FAD13D00666DAE /* ReportAccountBalance+CoreDataProperties.swift in Sources */,
 				017B83A7221A4CBF0022884E /* Result.swift in Sources */,
 				018240DD21C8B80B005705F9 /* Bill+CoreDataClass.swift in Sources */,
+				4E8052F42579E4F90087C01A /* Contacts+CoreDataProperties.swift in Sources */,
 				01C8250720EDDB4F0093400E /* DataError.swift in Sources */,
 				01ED8FC7211A5DE800ACE691 /* Transaction+CoreDataClass.swift in Sources */,
 				011C198921E3063600490EDD /* APIBillPaymentUpdateRequest.swift in Sources */,
@@ -5268,6 +5330,7 @@
 				01226E3A22A774DE00A443EF /* OAuth2TokenRevokeRequest.swift in Sources */,
 				01226E2E22A5070000A443EF /* APIUserMigrationRequest.swift in Sources */,
 				0159E4842193CBAD002CC3BB /* TransactionCategory+CoreDataProperties.swift in Sources */,
+				4E805356257D80710087C01A /* BPAYContact+CoreDataClass.swift in Sources */,
 				034EDC91250F2DFD00C48A57 /* Images.swift in Sources */,
 				01C824FD20EDD6630093400E /* FrolloSDKError.swift in Sources */,
 				012606B2219A784D005D8377 /* MessageText+CoreDataProperties.swift in Sources */,
@@ -5310,9 +5373,11 @@
 				01405E5821DDCD65009356CC /* BillPayment+CoreDataProperties.swift in Sources */,
 				2F0B461B23DFF56B00D16143 /* TransactionFilter.swift in Sources */,
 				017F0FE622DED79800ACE7BB /* GoalPeriod+CoreDataClass.swift in Sources */,
+				4E80537E257D88560087C01A /* InternationalContact+CoreDataClass.swift in Sources */,
 				013A32AA211273A300B0590B /* ProviderAccount+CoreDataClass.swift in Sources */,
 				0159E48A2193CBAD002CC3BB /* AccountBalanceTier+CoreDataProperties.swift in Sources */,
 				018240DE21C8B80B005705F9 /* Bill+CoreDataProperties.swift in Sources */,
+				4E8052F62579E4F90087C01A /* Contacts+CoreDataClass.swift in Sources */,
 				0101A8E021C9BDEF00DCFCEB /* APIService+Bills.swift in Sources */,
 				034EDC97250F2FE100C48A57 /* ImagesEndpoint.swift in Sources */,
 				1394CE6A252EC796009FCC2C /* PaymentTransferResponse.swift in Sources */,
@@ -5373,6 +5438,7 @@
 				2F657DA5223B2FB300471B85 /* Surveys.swift in Sources */,
 				017F0F9222DBF8D900ACE7BB /* Goal+CoreDataProperties.swift in Sources */,
 				1394CE7E252FE14E009FCC2C /* VerifyPayAnyoneResponse.swift in Sources */,
+				4E8053202579E9D40087C01A /* APIContactResponse.swift in Sources */,
 				01E5BF7B222895CA003D85FD /* APITransactionSummaryResponse.swift in Sources */,
 				13D44A33238B5E2400AF74EC /* PaginatedResponse.swift in Sources */,
 				0136D225210011E70062EAEA /* Keychain.swift in Sources */,
@@ -5385,6 +5451,7 @@
 				0126069621992AD4005D8377 /* APIMessageResponse.swift in Sources */,
 				0176862C235E54FC00F66D17 /* FrolloSDKDataModel.xcdatamodeld in Sources */,
 				015EEDDE210FD7710081AD76 /* FailableCodable.swift in Sources */,
+				4E805371257D85EC0087C01A /* PayIDContact+CoreDataClass.swift in Sources */,
 				013BC1DF218A6998005A2714 /* ProviderLoginFormViewModel.swift in Sources */,
 				034EDC94250F2EF200C48A57 /* APIService+Images.swift in Sources */,
 				011F1A60216B289B00119474 /* APIUserResetPasswordRequest.swift in Sources */,
@@ -5418,6 +5485,7 @@
 				0159E47621926949002CC3BB /* PropertyListPersistence.swift in Sources */,
 				01874B7D20FD6FB9005A7D0C /* APIService+User.swift in Sources */,
 				012606B3219A784D005D8377 /* MessageHTML+CoreDataClass.swift in Sources */,
+				4E80537C257D88560087C01A /* InternationalContact+CoreDataProperties.swift in Sources */,
 				0101A8FB21CC649000DCFCEB /* Bills.swift in Sources */,
 				01EAAEDF214B6185003D1EAC /* APIProviderAccountCreateRequest.swift in Sources */,
 				018240E121C8BAE3005705F9 /* APIBillResponse.swift in Sources */,
@@ -5441,11 +5509,14 @@
 				13CFDAA12398990E00559476 /* APIBudgetUpdateRequest.swift in Sources */,
 				2F657DA7223B314100471B85 /* APIService+Surveys.swift in Sources */,
 				011E87D0213766550026E047 /* SecKeyPEM.swift in Sources */,
+				4E8053382579EBE10087C01A /* PayAnyoneContact+CoreDataClass.swift in Sources */,
 				012606B1219A784D005D8377 /* MessageText+CoreDataClass.swift in Sources */,
 				034BD7D623988D9D00142B7A /* Decimal.swift in Sources */,
 				0126068921991963005D8377 /* Message+CoreDataProperties.swift in Sources */,
 				0159E4872193CBAD002CC3BB /* Provider+CoreDataProperties.swift in Sources */,
 				01483B9921192C3900D0DA87 /* TransactionCategory+CoreDataClass.swift in Sources */,
+				4E805349257D7D370087C01A /* PayAnyoneContact+CoreDataProperties.swift in Sources */,
+				4E80536F257D85EC0087C01A /* PayIDContact+CoreDataProperties.swift in Sources */,
 				011F814A219D31C000A1495F /* Events.swift in Sources */,
 				01C824EC20EC34BA0093400E /* Log.swift in Sources */,
 				017F0FB322DC513900ACE7BB /* GoalsEndpoint.swift in Sources */,
@@ -5453,6 +5524,7 @@
 				012606B0219A784D005D8377 /* MessageVideo+CoreDataProperties.swift in Sources */,
 				01BB5A55221CD2AE000C03F0 /* FrolloSDKConfiguration.swift in Sources */,
 				1394CE33252E85F2009FCC2C /* PaymentsEndpoint.swift in Sources */,
+				4E805354257D80710087C01A /* BPAYContact+CoreDataProperties.swift in Sources */,
 				015EEDDA210FC8760081AD76 /* APIService+Aggregation.swift in Sources */,
 				012606B5219A784D005D8377 /* MessageImage+CoreDataClass.swift in Sources */,
 				13F3CA6C240F1CA20031D072 /* CDRProductInformation+CoreDataClass.swift in Sources */,
@@ -5952,6 +6024,7 @@
 				01E5BEE62227A475003D85FD /* ReportAccountBalance+CoreDataProperties.swift in Sources */,
 				01E5BEE72227A475003D85FD /* Result.swift in Sources */,
 				01E5BEE92227A475003D85FD /* Bill+CoreDataClass.swift in Sources */,
+				4E8052F52579E4F90087C01A /* Contacts+CoreDataProperties.swift in Sources */,
 				01E5BEEA2227A475003D85FD /* DataError.swift in Sources */,
 				01E5BEEB2227A475003D85FD /* Transaction+CoreDataClass.swift in Sources */,
 				01E5BEEC2227A475003D85FD /* APIBillPaymentUpdateRequest.swift in Sources */,
@@ -5963,6 +6036,7 @@
 				03ADF87C22795C78001B5E20 /* Tag+CoreDataProperties.swift in Sources */,
 				01226E3B22A774DE00A443EF /* OAuth2TokenRevokeRequest.swift in Sources */,
 				01226E2F22A5070000A443EF /* APIUserMigrationRequest.swift in Sources */,
+				4E805357257D80710087C01A /* BPAYContact+CoreDataClass.swift in Sources */,
 				034EDC92250F2DFD00C48A57 /* Images.swift in Sources */,
 				01E5BEF02227A475003D85FD /* Transaction+CoreDataProperties.swift in Sources */,
 				01E5BEF12227A475003D85FD /* TransactionCategory+CoreDataProperties.swift in Sources */,
@@ -6005,9 +6079,11 @@
 				01E5BF062227A475003D85FD /* APIBillCreateRequest.swift in Sources */,
 				01E5BF072227A475003D85FD /* APIBillPaymentResponse.swift in Sources */,
 				017F0FE722DED79800ACE7BB /* GoalPeriod+CoreDataClass.swift in Sources */,
+				4E80537F257D88560087C01A /* InternationalContact+CoreDataClass.swift in Sources */,
 				01E5BF082227A475003D85FD /* PreferencesPersistence.swift in Sources */,
 				01E5BF092227A475003D85FD /* BillPayment+CoreDataProperties.swift in Sources */,
 				01E5BF0A2227A475003D85FD /* ProviderAccount+CoreDataClass.swift in Sources */,
+				4E8052F72579E4F90087C01A /* Contacts+CoreDataClass.swift in Sources */,
 				0125879A23442FAB0077D8B4 /* PayDayEndpoint.swift in Sources */,
 				034EDC98250F2FE100C48A57 /* ImagesEndpoint.swift in Sources */,
 				1394CE69252EC796009FCC2C /* PaymentTransferResponse.swift in Sources */,
@@ -6068,6 +6144,7 @@
 				01E5BF2D2227A475003D85FD /* Merchant+CoreDataProperties.swift in Sources */,
 				017F0F9322DBF8D900ACE7BB /* Goal+CoreDataProperties.swift in Sources */,
 				1394CE7F252FE14E009FCC2C /* VerifyPayAnyoneResponse.swift in Sources */,
+				4E8053212579E9D40087C01A /* APIContactResponse.swift in Sources */,
 				01E5BF2E2227A475003D85FD /* Version.swift in Sources */,
 				01E5BF7C222895CA003D85FD /* APITransactionSummaryResponse.swift in Sources */,
 				0176862D235E54FC00F66D17 /* FrolloSDKDataModel.xcdatamodeld in Sources */,
@@ -6080,6 +6157,7 @@
 				01E5BF342227A475003D85FD /* APIMessageResponse.swift in Sources */,
 				01E5BF352227A475003D85FD /* FailableCodable.swift in Sources */,
 				01E5BF362227A475003D85FD /* ProviderLoginFormViewModel.swift in Sources */,
+				4E805372257D85EC0087C01A /* PayIDContact+CoreDataClass.swift in Sources */,
 				01E5BF372227A475003D85FD /* APIUserResetPasswordRequest.swift in Sources */,
 				034EDC95250F2EF200C48A57 /* APIService+Images.swift in Sources */,
 				01E5BF382227A475003D85FD /* APIProviderAccountUpdateRequest.swift in Sources */,
@@ -6113,6 +6191,7 @@
 				01E5BF482227A475003D85FD /* APIService+User.swift in Sources */,
 				01456B7422433BD10077FC56 /* Surveys.swift in Sources */,
 				01E5BF492227A475003D85FD /* MessageHTML+CoreDataClass.swift in Sources */,
+				4E80537D257D88560087C01A /* InternationalContact+CoreDataProperties.swift in Sources */,
 				01E5BF4A2227A475003D85FD /* Bills.swift in Sources */,
 				01E5BF4B2227A475003D85FD /* APIProviderAccountCreateRequest.swift in Sources */,
 				01E5BF4C2227A475003D85FD /* APIBillResponse.swift in Sources */,
@@ -6136,11 +6215,14 @@
 				01E5BF582227A475003D85FD /* MessageHTML+CoreDataProperties.swift in Sources */,
 				01456B7622433D550077FC56 /* APIService+Surveys.swift in Sources */,
 				01E5BF592227A475003D85FD /* SecKeyPEM.swift in Sources */,
+				4E8053392579EBE10087C01A /* PayAnyoneContact+CoreDataClass.swift in Sources */,
 				034BD7D723988D9D00142B7A /* Decimal.swift in Sources */,
 				01E5BF5A2227A475003D85FD /* MessageText+CoreDataClass.swift in Sources */,
 				01E5BF5B2227A475003D85FD /* Message+CoreDataProperties.swift in Sources */,
 				01E5BF5C2227A475003D85FD /* Provider+CoreDataProperties.swift in Sources */,
 				01E5BF5D2227A475003D85FD /* TransactionCategory+CoreDataClass.swift in Sources */,
+				4E80534A257D7D370087C01A /* PayAnyoneContact+CoreDataProperties.swift in Sources */,
+				4E805370257D85EC0087C01A /* PayIDContact+CoreDataProperties.swift in Sources */,
 				01E5BF5E2227A475003D85FD /* Events.swift in Sources */,
 				017F0FB422DC513900ACE7BB /* GoalsEndpoint.swift in Sources */,
 				01E5BF5F2227A475003D85FD /* Log.swift in Sources */,
@@ -6148,6 +6230,7 @@
 				01E5BF612227A475003D85FD /* MessageVideo+CoreDataProperties.swift in Sources */,
 				2F04B8A923E27028008354BF /* TransactionFilter.swift in Sources */,
 				1394CE34252E85F2009FCC2C /* PaymentsEndpoint.swift in Sources */,
+				4E805355257D80710087C01A /* BPAYContact+CoreDataProperties.swift in Sources */,
 				01E5BF622227A475003D85FD /* FrolloSDKConfiguration.swift in Sources */,
 				01E5BF632227A475003D85FD /* APIService+Aggregation.swift in Sources */,
 				13F3CA6D240F1CA20031D072 /* CDRProductInformation+CoreDataClass.swift in Sources */,
@@ -7438,6 +7521,7 @@
 		01768620235E54FC00F66D17 /* FrolloSDKDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				4E8052CC2579E1440087C01A /* FrolloSDKDataModel-1.7.3.xcdatamodel */,
 				1328A9D224E21EA200F42ACF /* FrolloSDKDataModel-1.7.2.xcdatamodel */,
 				01D7A49F247C9000000339D9 /* FrolloSDKDataModel-1.7.1.xcdatamodel */,
 				03DC5B5D2446D1410019CABC /* FrolloSDKDataModel-1.7.0.xcdatamodel */,
@@ -7457,7 +7541,7 @@
 				0176862A235E54FC00F66D17 /* FrolloSDKDataModel-1.5.1.xcdatamodel */,
 				0176862B235E54FC00F66D17 /* FrolloSDKDataModel-1.3.3.xcdatamodel */,
 			);
-			currentVersion = 1328A9D224E21EA200F42ACF /* FrolloSDKDataModel-1.7.2.xcdatamodel */;
+			currentVersion = 4E8052CC2579E1440087C01A /* FrolloSDKDataModel-1.7.3.xcdatamodel */;
 			path = FrolloSDKDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
