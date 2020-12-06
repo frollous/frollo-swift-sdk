@@ -36,32 +36,32 @@ extension InternationalContact {
     
     /// Description of the International contact
     @NSManaged public var internationalContactMessage: String?
-
+    
     /// Country of bank of the International contact
     @NSManaged public var internationalBankCountry: String
-
+    
     /// Account number of the International contact
     @NSManaged public var internationalAccountNumber: String
-
+    
     /// Bank Address of the International contact
     @NSManaged public var internationalBankAddress: String?
-
+    
     /// BIC of the International contact
     @NSManaged public var bic: String?
-
+    
     /// Fedwire number of the International contact
     @NSManaged public var fedwireNumber: String?
-
+    
     /// Sort code of the International contact
     @NSManaged public var sortCode: String?
-
+    
     /// Chip number of the International contact
     @NSManaged public var chipNumber: String?
-
+    
     /// Routing number of the International contact
     @NSManaged public var routingNumber: String?
-
+    
     /// Legal entity identifier of the International contact
     @NSManaged public var legalEntityId: String?
-
+    
 }
