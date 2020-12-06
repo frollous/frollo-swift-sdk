@@ -1328,6 +1328,15 @@
 		13710B7B24FDBB6400213721 /* FrolloSDKDataModel-1.7.2.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 13710B7424FDBB6400213721 /* FrolloSDKDataModel-1.7.2.sqlite-shm */; };
 		13710B7C24FDBB6400213721 /* FrolloSDKDataModel-1.7.2.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 13710B7424FDBB6400213721 /* FrolloSDKDataModel-1.7.2.sqlite-shm */; };
 		13710B7D24FDBB6400213721 /* FrolloSDKDataModel-1.7.2.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 13710B7424FDBB6400213721 /* FrolloSDKDataModel-1.7.2.sqlite-shm */; };
+		137A7CDA257D995C002AFB49 /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137A7CD9257D995C002AFB49 /* Contacts.swift */; };
+		137A7CDB257D995C002AFB49 /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137A7CD9257D995C002AFB49 /* Contacts.swift */; };
+		137A7CEB257D9A33002AFB49 /* ContactsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137A7CEA257D9A33002AFB49 /* ContactsEndpoint.swift */; };
+		137A7CEC257D9A33002AFB49 /* ContactsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137A7CEA257D9A33002AFB49 /* ContactsEndpoint.swift */; };
+		137A7CF5257DA144002AFB49 /* APIService+Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137A7CF4257DA144002AFB49 /* APIService+Contacts.swift */; };
+		137A7CF6257DA144002AFB49 /* APIService+Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137A7CF4257DA144002AFB49 /* APIService+Contacts.swift */; };
+		137A7D00257DA1CF002AFB49 /* ContactsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137A7CFF257DA1CF002AFB49 /* ContactsTests.swift */; };
+		137A7D01257DA1CF002AFB49 /* ContactsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137A7CFF257DA1CF002AFB49 /* ContactsTests.swift */; };
+		137A7D02257DA1CF002AFB49 /* ContactsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137A7CFF257DA1CF002AFB49 /* ContactsTests.swift */; };
 		13800E1A2446CAB800228407 /* consent_update_period_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 13800E192446CAB800228407 /* consent_update_period_response.json */; };
 		13800E1B2446CAB800228407 /* consent_update_period_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 13800E192446CAB800228407 /* consent_update_period_response.json */; };
 		13800E1C2446CAB800228407 /* consent_update_period_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 13800E192446CAB800228407 /* consent_update_period_response.json */; };
@@ -2230,6 +2239,10 @@
 		13710B7224FDBB6300213721 /* FrolloSDKDataModel-1.7.2.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.7.2.sqlite"; sourceTree = "<group>"; };
 		13710B7324FDBB6300213721 /* FrolloSDKDataModel-1.7.2.sqlite-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.7.2.sqlite-wal"; sourceTree = "<group>"; };
 		13710B7424FDBB6400213721 /* FrolloSDKDataModel-1.7.2.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.7.2.sqlite-shm"; sourceTree = "<group>"; };
+		137A7CD9257D995C002AFB49 /* Contacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
+		137A7CEA257D9A33002AFB49 /* ContactsEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsEndpoint.swift; sourceTree = "<group>"; };
+		137A7CF4257DA144002AFB49 /* APIService+Contacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+Contacts.swift"; sourceTree = "<group>"; };
+		137A7CFF257DA1CF002AFB49 /* ContactsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTests.swift; sourceTree = "<group>"; };
 		13800E192446CAB800228407 /* consent_update_period_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = consent_update_period_response.json; sourceTree = "<group>"; };
 		13818BEF238200150057A9F3 /* FrolloSDKDataModelMapping-1.5.1-1.5.2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "FrolloSDKDataModelMapping-1.5.1-1.5.2.xcmappingmodel"; sourceTree = "<group>"; };
 		1387A9A023A1BB56002E0483 /* merchant_page_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = merchant_page_1.json; sourceTree = "<group>"; };
@@ -2894,6 +2907,7 @@
 		01527CC120E1B5C300B5042A /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				137A7CD8257D994A002AFB49 /* Contacts */,
 				1394CE2B252E839B009FCC2C /* Payments */,
 				01527CC220E1B5C300B5042A /* FrolloSDK.h */,
 				01527CD820E1C5A600B5042A /* FrolloSDK.swift */,
@@ -2931,6 +2945,7 @@
 		01527CCC20E1B5C300B5042A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				137A7CFE257DA1A6002AFB49 /* Contacts */,
 				1394CE3C252E9A6E009FCC2C /* Payments */,
 				03E157B9227BBFD90083F0D8 /* BaseTestCase.swift */,
 				01BB5A56221CDDA1000C03F0 /* FrolloSDKConfiguration+Test.swift */,
@@ -3539,6 +3554,7 @@
 				01874B7320F81EA8005A7D0C /* UserEndpoint.swift */,
 				034EDC96250F2FE100C48A57 /* ImagesEndpoint.swift */,
 				1394CE32252E85F2009FCC2C /* PaymentsEndpoint.swift */,
+				137A7CEA257D9A33002AFB49 /* ContactsEndpoint.swift */,
 			);
 			path = Endpoints;
 			sourceTree = "<group>";
@@ -3560,6 +3576,7 @@
 				01874B7C20FD6FB9005A7D0C /* APIService+User.swift */,
 				034EDC93250F2EF200C48A57 /* APIService+Images.swift */,
 				1394CE2F252E85AC009FCC2C /* APIService+Payments.swift */,
+				137A7CF4257DA144002AFB49 /* APIService+Contacts.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -4079,6 +4096,22 @@
 				1364E7892394A583009C82CD /* BudgetsTests.swift */,
 			);
 			path = Budgets;
+			sourceTree = "<group>";
+		};
+		137A7CD8257D994A002AFB49 /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				137A7CD9257D995C002AFB49 /* Contacts.swift */,
+			);
+			path = Contacts;
+			sourceTree = "<group>";
+		};
+		137A7CFE257DA1A6002AFB49 /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				137A7CFF257DA1CF002AFB49 /* ContactsTests.swift */,
+			);
+			path = Contacts;
 			sourceTree = "<group>";
 		};
 		138FD3E9252FFA1F008967CD /* Payments */ = {
@@ -5396,7 +5429,9 @@
 				13DB95AA23E5210400555338 /* MerchantSearch.swift in Sources */,
 				013A32AF21127A3600B0590B /* AccountRefreshStatus.swift in Sources */,
 				017F0F9622DC129B00ACE7BB /* APIGoalResponse.swift in Sources */,
+				137A7CDA257D995C002AFB49 /* Contacts.swift in Sources */,
 				01483BB6211967A500D0DA87 /* Merchant+CoreDataClass.swift in Sources */,
+				137A7CEB257D9A33002AFB49 /* ContactsEndpoint.swift in Sources */,
 				034EDC8C250F24DD00C48A57 /* APIImageResponse.swift in Sources */,
 				01616B0C2186BFD5003EF2D0 /* APIDeviceLogRequest.swift in Sources */,
 				13AC076E2394BF5900982FB1 /* APIBudgetPeriodResponse.swift in Sources */,
@@ -5469,6 +5504,7 @@
 				01236D0E21EBFA34008DD61A /* ReportsEndpoint.swift in Sources */,
 				2FE180082248892800B87AAB /* OAuth2ErrorResponse.swift in Sources */,
 				011F8142219D282400A1495F /* APIService+Events.swift in Sources */,
+				137A7CF5257DA144002AFB49 /* APIService+Contacts.swift in Sources */,
 				01483B9C21192D4A00D0DA87 /* APITransactionCategoryResponse.swift in Sources */,
 				01483B9221190E1700D0DA87 /* APIAccountUpdateRequest.swift in Sources */,
 				0159E47821926959002CC3BB /* UserDefaultsPersistence.swift in Sources */,
@@ -5650,6 +5686,7 @@
 				01BB5A6D221F54A3000C03F0 /* OAuthServiceTests.swift in Sources */,
 				0160953A20F41ECF0060791B /* VersionTests.swift in Sources */,
 				015EEDFD211018420081AD76 /* ProviderTests.swift in Sources */,
+				137A7D00257DA1CF002AFB49 /* ContactsTests.swift in Sources */,
 				016139512288E03A001A62E8 /* UserManagementTests.swift in Sources */,
 				03E00A63243432F300D989CB /* Consent+Test.swift in Sources */,
 				017B48FC21084BA200447E65 /* AuthenticationTests.swift in Sources */,
@@ -5808,6 +5845,7 @@
 				01BB5A6E221F54A3000C03F0 /* OAuthServiceTests.swift in Sources */,
 				017B48352101B4FE00447E65 /* VersionTests.swift in Sources */,
 				015EEDFE211018420081AD76 /* ProviderTests.swift in Sources */,
+				137A7D01257DA1CF002AFB49 /* ContactsTests.swift in Sources */,
 				016139522288E03A001A62E8 /* UserManagementTests.swift in Sources */,
 				03E00A64243432F300D989CB /* Consent+Test.swift in Sources */,
 				017B48FD21084BA200447E65 /* AuthenticationTests.swift in Sources */,
@@ -5975,6 +6013,7 @@
 				01BB5A6F221F54A3000C03F0 /* OAuthServiceTests.swift in Sources */,
 				017B48912105958100447E65 /* NetworkErrorTests.swift in Sources */,
 				016097E8210AAAD90034E857 /* DeviceInfoTests.swift in Sources */,
+				137A7D02257DA1CF002AFB49 /* ContactsTests.swift in Sources */,
 				016139532288E03A001A62E8 /* UserManagementTests.swift in Sources */,
 				03E00A65243432F400D989CB /* Consent+Test.swift in Sources */,
 				013A32D52112C40500B0590B /* CoreData+Test.swift in Sources */,
@@ -6117,7 +6156,9 @@
 				13DB95AB23E5210400555338 /* MerchantSearch.swift in Sources */,
 				01E5BEF42227A475003D85FD /* FrolloSDK.swift in Sources */,
 				01E5BEF52227A475003D85FD /* Date.swift in Sources */,
+				137A7CDB257D995C002AFB49 /* Contacts.swift in Sources */,
 				017F0F9722DC129B00ACE7BB /* APIGoalResponse.swift in Sources */,
+				137A7CEC257D9A33002AFB49 /* ContactsEndpoint.swift in Sources */,
 				034EDC8D250F24DD00C48A57 /* APIImageResponse.swift in Sources */,
 				01E5BEF62227A475003D85FD /* AccountRefreshStatus.swift in Sources */,
 				13AC076F2394BF5900982FB1 /* APIBudgetPeriodResponse.swift in Sources */,
@@ -6190,6 +6231,7 @@
 				01E5BF192227A475003D85FD /* NetworkError.swift in Sources */,
 				01E5BF1A2227A475003D85FD /* APIMessageUpdateRequest.swift in Sources */,
 				01E5BF1B2227A475003D85FD /* Endpoint.swift in Sources */,
+				137A7CF6257DA144002AFB49 /* APIService+Contacts.swift in Sources */,
 				01E5BF1C2227A475003D85FD /* BillPayment+CoreDataClass.swift in Sources */,
 				01E5BF1D2227A475003D85FD /* ReportsEndpoint.swift in Sources */,
 				01E5BF1E2227A475003D85FD /* APIService+Events.swift in Sources */,
