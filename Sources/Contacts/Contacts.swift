@@ -82,7 +82,7 @@ public class Contacts: CachedObjects, ResponseHandler {
     public func createPayAnyoneContact(name: String? = nil, nickName: String, description: String? = nil, accountName: String, bsb: String, accountNumber: String, completion: FrolloSDKCompletionHandler? = nil) {
         
         let paymentDetails: PaymentDetails.PayAnyone = .init(accountHolder: accountName, bsb: bsb, accountNumber: accountNumber)
-        let request = APICreateContactRequest(name: name, nickName: nickName, description: description, type: .payAnyone, details: .payAnyone(paymentDetails))
+        let request = APICreateContactRequest(name: name ?? nickName, nickName: nickName, description: description, type: .payAnyone, details: .payAnyone(paymentDetails))
         
         service.createContact(request: request) { result in
             switch result {
@@ -103,7 +103,7 @@ public class Contacts: CachedObjects, ResponseHandler {
     public func createBPAYContact(name: String? = nil, nickName: String, description: String? = nil, billerCode: String, crn: String, billerName: String, completion: FrolloSDKCompletionHandler? = nil) {
         
         let paymentDetails: PaymentDetails.Biller = .init(billerCode: billerCode, crn: crn, billerName: billerName)
-        let request = APICreateContactRequest(name: name, nickName: nickName, description: description, type: .BPAY, details: .BPAY(paymentDetails))
+        let request = APICreateContactRequest(name: name ?? nickName, nickName: nickName, description: description, type: .BPAY, details: .BPAY(paymentDetails))
         
         service.createContact(request: request) { result in
             switch result {
@@ -124,9 +124,30 @@ public class Contacts: CachedObjects, ResponseHandler {
     public func createPayIDContact(name: String? = nil, nickName: String, description: String? = nil, payID: String, payIDName: String, payIDType: PayIDContact.PayIDType, completion: FrolloSDKCompletionHandler? = nil) {
         
         let paymentDetails: PaymentDetails.PayID = .init(payid: payID, name: payIDName, idType: payIDType)
-        let request = APICreateContactRequest(name: name, nickName: nickName, description: description, type: .payID, details: .payID(paymentDetails))
+        let request = APICreateContactRequest(name: name ?? nickName, nickName: nickName, description: description, type: .payID, details: .payID(paymentDetails))
         
         service.createContact(request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success:
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    public func createInternationalContact(name: String? = nil, nickName: String, description: String? = nil, country: String, message: String? = nil, bankCountry: String, accountNumber: String, bankAddress: String? = nil, bic: String? = nil, fedwireNumber: String? = nil, sortCode: String? = nil, chipNumber: String? = nil, routingNumber: String? = nil, legalEntityNumber: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        
+        let paymentDetails: APICreateInternationalContactRequest.InternationalPaymentDetails = .init(name: name, country: country, message: message, bankcountry: bankCountry, accountNumber: accountNumber, bankAddress: bankAddress, bic: bic, fedwireNumber: fedwireNumber, sortCode: sortCode, chipNumber: chipNumber, routingNumber: routingNumber, legalEntityIdentifier: legalEntityNumber)
+        let request = APICreateInternationalContactRequest(name: name, nickName: nickName, description: description, paymentDetails: paymentDetails)
+        
+        service.createInternationalContact(request: request) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)

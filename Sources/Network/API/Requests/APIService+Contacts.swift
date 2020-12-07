@@ -62,4 +62,21 @@ extension APIService {
         }
     }
     
+    internal func createInternationalContact(request: APICreateInternationalContactRequest, completion: @escaping RequestCompletion<APIContactResponse>) {
+        requestQueue.async {
+            let url = URL(string: ContactsEndpoint.contacts.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APIContactResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
 }

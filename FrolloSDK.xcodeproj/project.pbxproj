@@ -1634,6 +1634,8 @@
 		4E8054D7257DB9040087C01A /* FrolloSDKDataModel-1.7.3.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 4E8054CE257DB9040087C01A /* FrolloSDKDataModel-1.7.3.sqlite-shm */; };
 		4E8054FC257DD57E0087C01A /* APICreateContactRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8054FB257DD57E0087C01A /* APICreateContactRequest.swift */; };
 		4E8054FD257DD57E0087C01A /* APICreateContactRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8054FB257DD57E0087C01A /* APICreateContactRequest.swift */; };
+		4E805521257DF9B20087C01A /* APICreateInternationalContactRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E805520257DF9B20087C01A /* APICreateInternationalContactRequest.swift */; };
+		4E805522257DF9B20087C01A /* APICreateInternationalContactRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E805520257DF9B20087C01A /* APICreateInternationalContactRequest.swift */; };
 		4E81F08A243D92E50006162A /* Aggregation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E81F089243D92E50006162A /* Aggregation.swift */; };
 		4E81F08B243D93000006162A /* Aggregation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E81F089243D92E50006162A /* Aggregation.swift */; };
 		69E7DED52397692E00291937 /* ReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E7DED42397692E00291937 /* ReportResponse.swift */; };
@@ -2368,6 +2370,7 @@
 		4E8054CD257DB9040087C01A /* FrolloSDKDataModel-1.7.3.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.7.3.sqlite"; sourceTree = "<group>"; };
 		4E8054CE257DB9040087C01A /* FrolloSDKDataModel-1.7.3.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.7.3.sqlite-shm"; sourceTree = "<group>"; };
 		4E8054FB257DD57E0087C01A /* APICreateContactRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICreateContactRequest.swift; sourceTree = "<group>"; };
+		4E805520257DF9B20087C01A /* APICreateInternationalContactRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICreateInternationalContactRequest.swift; sourceTree = "<group>"; };
 		4E81F089243D92E50006162A /* Aggregation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Aggregation.swift; sourceTree = "<group>"; };
 		69E7DED42397692E00291937 /* ReportResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -4300,6 +4303,7 @@
 			children = (
 				4E80531F2579E9D40087C01A /* APIContactResponse.swift */,
 				4E8054FB257DD57E0087C01A /* APICreateContactRequest.swift */,
+				4E805520257DF9B20087C01A /* APICreateInternationalContactRequest.swift */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -5453,6 +5457,7 @@
 				01483BB6211967A500D0DA87 /* Merchant+CoreDataClass.swift in Sources */,
 				137A7CEB257D9A33002AFB49 /* ContactsEndpoint.swift in Sources */,
 				034EDC8C250F24DD00C48A57 /* APIImageResponse.swift in Sources */,
+				4E805521257DF9B20087C01A /* APICreateInternationalContactRequest.swift in Sources */,
 				01616B0C2186BFD5003EF2D0 /* APIDeviceLogRequest.swift in Sources */,
 				13AC076E2394BF5900982FB1 /* APIBudgetPeriodResponse.swift in Sources */,
 				1394CE6F252ED75C009FCC2C /* BPAYPaymentResponse.swift in Sources */,
@@ -6181,6 +6186,7 @@
 				017F0F9722DC129B00ACE7BB /* APIGoalResponse.swift in Sources */,
 				137A7CEC257D9A33002AFB49 /* ContactsEndpoint.swift in Sources */,
 				034EDC8D250F24DD00C48A57 /* APIImageResponse.swift in Sources */,
+				4E805522257DF9B20087C01A /* APICreateInternationalContactRequest.swift in Sources */,
 				01E5BEF62227A475003D85FD /* AccountRefreshStatus.swift in Sources */,
 				13AC076F2394BF5900982FB1 /* APIBudgetPeriodResponse.swift in Sources */,
 				1394CE70252ED75C009FCC2C /* BPAYPaymentResponse.swift in Sources */,
