@@ -1,0 +1,29 @@
+{
+    "id": 9,
+    "name": "Anne Frank",
+    "nick_name": "Annie",
+    "payment_method": "international",
+    "payment_details": {
+        "beneficiary": {
+            "name": "Anne Frank",
+            "country": "New Zeland",
+            "message": "Test message"
+        },
+        "bank_details": {
+            "country": "New Zeland",
+            "account_number": "12345678",
+            "bank_address": {
+                "address": "ABC 123"
+            },
+            "bic": "999",
+            "fed_wire_number": "1234567",
+            "sort_code": "111",
+            "chip_number": "567",
+            "routing_number": "123",
+            "legal_entity_identifier": "12345"
+        }
+    },
+    "created_date": "2020-12-07T16:35:25.741+11:00",
+    "modified_date": "2020-12-07T16:35:25.741+11:00",
+    "verified": false
+}
