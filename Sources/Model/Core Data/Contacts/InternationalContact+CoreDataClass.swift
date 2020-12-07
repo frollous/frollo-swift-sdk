@@ -27,10 +27,21 @@ public class InternationalContact: Contact {
     internal override func update(response: APIContactResponse, context: NSManagedObjectContext) {
         super.update(response: response, context: context)
         
-        guard case .international = response.contactType else {
+        guard case .international(let contact) = response.contactDetailsType else {
             return
         }
         
+        internationalContactName = contact.name
+        internationalContactCountry = contact.country
+        internationalContactMessage = contact.message
+        internationalBankCountry = contact.bankCountry
+        internationalBankAddress = contact.bankAddress?.name
+        bic = contact.bic
+        fedwireNumber = contact.fedwireNumber
+        sortCode = contact.sortCode
+        chipNumber = contact.chipNumber
+        routingNumber = contact.routingNumber
+        legalEntityId = contact.legalEntityIdentifier
     }
     
 }

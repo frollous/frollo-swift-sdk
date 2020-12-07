@@ -27,10 +27,13 @@ public class BPAYContact: Contact {
     internal override func update(response: APIContactResponse, context: NSManagedObjectContext) {
         super.update(response: response, context: context)
         
-        guard case .BPAY = response.contactType else {
+        guard case .BPAY(let contact) = response.contactDetailsType else {
             return
         }
         
+        billerCode = contact.billerCode
+        crn = contact.crn
+        billerName = contact.billerName
     }
     
 }

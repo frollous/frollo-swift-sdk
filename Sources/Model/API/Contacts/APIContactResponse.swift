@@ -68,7 +68,7 @@ struct APIContactResponse: APIUniqueResponse {
             
             let payid: String
             let name: String?
-            let idType: PayIDContact.PayIDType?
+            let idType: PayIDContact.PayIDType
         }
         
         struct International: Codable {

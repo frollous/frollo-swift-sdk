@@ -49,10 +49,13 @@ public class PayIDContact: Contact {
     internal override func update(response: APIContactResponse, context: NSManagedObjectContext) {
         super.update(response: response, context: context)
         
-        guard case .payID = response.contactType else {
+        guard case .payID(let contact) = response.contactDetailsType else {
             return
         }
         
+        payID = contact.payid
+        payIDName = contact.name
+        payIDType = contact.idType
     }
     
 }
