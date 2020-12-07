@@ -1,20 +1,6 @@
 {
     "data": [
         {
-            "id": 11,
-            "name": "John Cena",
-            "nick_name": "Mr invisible",
-            "payment_method": "pay_anyone",
-            "payment_details": {
-                "account_holder": "Mr John Cena",
-                "bsb": "103-123",
-                "account_number": "212345678"
-            },
-            "created_date": "2020-12-07T14:31:03.583+11:00",
-            "modified_date": "2020-12-07T14:31:03.583+11:00",
-            "verified": false
-        },
-        {
             "id": 10,
             "name": "Sincy Chacko",
             "nick_name": "Sincy",
@@ -173,8 +159,8 @@
     "paging": {
         "cursors": {
             "before": null,
-            "after": null
+            "after": "10"
         },
-        "total": 11
+        "total": 10
     }
 }

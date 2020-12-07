@@ -1340,6 +1340,9 @@
 		137A7DD1257DF03D002AFB49 /* get_contacts.json in Resources */ = {isa = PBXBuildFile; fileRef = 137A7DD0257DF03D002AFB49 /* get_contacts.json */; };
 		137A7DD2257DF03D002AFB49 /* get_contacts.json in Resources */ = {isa = PBXBuildFile; fileRef = 137A7DD0257DF03D002AFB49 /* get_contacts.json */; };
 		137A7DD3257DF03D002AFB49 /* get_contacts.json in Resources */ = {isa = PBXBuildFile; fileRef = 137A7DD0257DF03D002AFB49 /* get_contacts.json */; };
+		137A7E03257EE812002AFB49 /* get_contacts_page_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 137A7E02257EE812002AFB49 /* get_contacts_page_2.json */; };
+		137A7E04257EE812002AFB49 /* get_contacts_page_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 137A7E02257EE812002AFB49 /* get_contacts_page_2.json */; };
+		137A7E05257EE812002AFB49 /* get_contacts_page_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 137A7E02257EE812002AFB49 /* get_contacts_page_2.json */; };
 		13800E1A2446CAB800228407 /* consent_update_period_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 13800E192446CAB800228407 /* consent_update_period_response.json */; };
 		13800E1B2446CAB800228407 /* consent_update_period_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 13800E192446CAB800228407 /* consent_update_period_response.json */; };
 		13800E1C2446CAB800228407 /* consent_update_period_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 13800E192446CAB800228407 /* consent_update_period_response.json */; };
@@ -2251,6 +2254,7 @@
 		137A7CF4257DA144002AFB49 /* APIService+Contacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+Contacts.swift"; sourceTree = "<group>"; };
 		137A7CFF257DA1CF002AFB49 /* ContactsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTests.swift; sourceTree = "<group>"; };
 		137A7DD0257DF03D002AFB49 /* get_contacts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_contacts.json; sourceTree = "<group>"; };
+		137A7E02257EE812002AFB49 /* get_contacts_page_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_contacts_page_2.json; sourceTree = "<group>"; };
 		13800E192446CAB800228407 /* consent_update_period_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = consent_update_period_response.json; sourceTree = "<group>"; };
 		13818BEF238200150057A9F3 /* FrolloSDKDataModelMapping-1.5.1-1.5.2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "FrolloSDKDataModelMapping-1.5.1-1.5.2.xcmappingmodel"; sourceTree = "<group>"; };
 		1387A9A023A1BB56002E0483 /* merchant_page_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = merchant_page_1.json; sourceTree = "<group>"; };
@@ -4129,6 +4133,7 @@
 			isa = PBXGroup;
 			children = (
 				137A7DD0257DF03D002AFB49 /* get_contacts.json */,
+				137A7E02257EE812002AFB49 /* get_contacts_page_2.json */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -4711,6 +4716,7 @@
 				2F9F199F22A4ABD200A416EA /* transaction_update_tag.json in Resources */,
 				13BF16312533D532007C43C4 /* error_payment_insufficient_funds.json in Resources */,
 				039C07A523F3B2C4002F7979 /* get_consent.json in Resources */,
+				137A7E03257EE812002AFB49 /* get_contacts_page_2.json in Resources */,
 				0101949B20F5815800334482 /* FrolloSDKDataModel-1.0.0.sqlite-wal in Resources */,
 				0135D30D21A2628F00318142 /* notification_message.json in Resources */,
 				01A1F5962148D646002B9A93 /* provider-public-key.pem in Resources */,
@@ -4947,6 +4953,7 @@
 				012C4518212A967800799A0A /* provider_login_form_multiple_choice.json in Resources */,
 				13BF16322533D532007C43C4 /* error_payment_insufficient_funds.json in Resources */,
 				017B48EC21082DD000447E65 /* user_details_incomplete.json in Resources */,
+				137A7E04257EE812002AFB49 /* get_contacts_page_2.json in Resources */,
 				017F0FD822DEA87500ACE7BB /* goal_id_3213.json in Resources */,
 				039C07A623F3B2C4002F7979 /* get_consent.json in Resources */,
 				017B48ED21082DD000447E65 /* user_details_invalid.json in Resources */,
@@ -5192,6 +5199,7 @@
 				017F0FD922DEA87500ACE7BB /* goal_id_3213.json in Resources */,
 				13BF16332533D532007C43C4 /* error_payment_insufficient_funds.json in Resources */,
 				017B48EF21082DD000447E65 /* user_details_invalid.json in Resources */,
+				137A7E05257EE812002AFB49 /* get_contacts_page_2.json in Resources */,
 				039C07A723F3B2C4002F7979 /* get_consent.json in Resources */,
 				2F9F19A122A4ABD300A416EA /* transaction_update_tag.json in Resources */,
 				017B48B92105958100447E65 /* FrolloSDKDataModel-1.0.0.sqlite-wal in Resources */,

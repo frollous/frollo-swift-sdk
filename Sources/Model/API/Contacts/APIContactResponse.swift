@@ -61,7 +61,7 @@ struct APIContactResponse: APIUniqueResponse {
         
         struct PayID: Codable {
             enum CodingKeys: String, CodingKey {
-                case payid
+                case payid = "pay_id"
                 case name
                 case idType = "id_type"
             }

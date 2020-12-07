@@ -47,6 +47,34 @@ public class Contacts: CachedObjects, ResponseHandler {
     }
     
     /**
+     Fetch merchants from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - type: Filter contacts by the type (Optional)
+        - filteredBy: Predicate of properties to match for fetching. See `Contact` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to merchantID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func contacts(context: NSManagedObjectContext,
+                         type: Contact.ContactType? = nil,
+                         filteredBy predicate: NSPredicate? = nil,
+                         sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Contact.contactID), ascending: true)],
+                         limit: Int? = nil) -> [Contact]? {
+        var predicates = [NSPredicate]()
+        
+        if let filterType = type {
+            predicates.append(NSPredicate(format: #keyPath(Contact.contactTypeRawValue) + " == %@", argumentArray: [filterType.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return cachedObjects(type: Contact.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
      Refresh all contacts from the host.
      
      - parameters:
