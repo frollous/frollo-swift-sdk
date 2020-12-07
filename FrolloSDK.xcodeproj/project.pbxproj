@@ -1629,6 +1629,8 @@
 		4E8054D5257DB9040087C01A /* FrolloSDKDataModel-1.7.3.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 4E8054CE257DB9040087C01A /* FrolloSDKDataModel-1.7.3.sqlite-shm */; };
 		4E8054D6257DB9040087C01A /* FrolloSDKDataModel-1.7.3.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 4E8054CE257DB9040087C01A /* FrolloSDKDataModel-1.7.3.sqlite-shm */; };
 		4E8054D7257DB9040087C01A /* FrolloSDKDataModel-1.7.3.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 4E8054CE257DB9040087C01A /* FrolloSDKDataModel-1.7.3.sqlite-shm */; };
+		4E8054FC257DD57E0087C01A /* APICreateContactRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8054FB257DD57E0087C01A /* APICreateContactRequest.swift */; };
+		4E8054FD257DD57E0087C01A /* APICreateContactRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8054FB257DD57E0087C01A /* APICreateContactRequest.swift */; };
 		4E81F08A243D92E50006162A /* Aggregation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E81F089243D92E50006162A /* Aggregation.swift */; };
 		4E81F08B243D93000006162A /* Aggregation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E81F089243D92E50006162A /* Aggregation.swift */; };
 		69E7DED52397692E00291937 /* ReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E7DED42397692E00291937 /* ReportResponse.swift */; };
@@ -2361,6 +2363,7 @@
 		4E8054CC257DB9040087C01A /* FrolloSDKDataModel-1.7.3.sqlite-wal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FrolloSDKDataModel-1.7.3.sqlite-wal"; sourceTree = "<group>"; };
 		4E8054CD257DB9040087C01A /* FrolloSDKDataModel-1.7.3.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.7.3.sqlite"; sourceTree = "<group>"; };
 		4E8054CE257DB9040087C01A /* FrolloSDKDataModel-1.7.3.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.7.3.sqlite-shm"; sourceTree = "<group>"; };
+		4E8054FB257DD57E0087C01A /* APICreateContactRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICreateContactRequest.swift; sourceTree = "<group>"; };
 		4E81F089243D92E50006162A /* Aggregation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Aggregation.swift; sourceTree = "<group>"; };
 		69E7DED42397692E00291937 /* ReportResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -4283,6 +4286,7 @@
 			isa = PBXGroup;
 			children = (
 				4E80531F2579E9D40087C01A /* APIContactResponse.swift */,
+				4E8054FB257DD57E0087C01A /* APICreateContactRequest.swift */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -5566,6 +5570,7 @@
 				031DC9ED240F864D005CCC71 /* String+URL.swift in Sources */,
 				01819149211178D2000E0F80 /* ResponseHandler.swift in Sources */,
 				033D46D02272C7D800E0C6D6 /* Tag+CoreDataClass.swift in Sources */,
+				4E8054FC257DD57E0087C01A /* APICreateContactRequest.swift in Sources */,
 				017F0F9022DBF8D900ACE7BB /* Goal+CoreDataClass.swift in Sources */,
 				2F657DA9223B323A00471B85 /* SurveysEndpoint.swift in Sources */,
 				01C88BED2321F05D0027D01B /* PayDay+CoreDataClass.swift in Sources */,
@@ -6293,6 +6298,7 @@
 				031DC9EE240F864D005CCC71 /* String+URL.swift in Sources */,
 				01E5BF432227A475003D85FD /* MessageImage+CoreDataProperties.swift in Sources */,
 				01E5BF442227A475003D85FD /* ResponseHandler.swift in Sources */,
+				4E8054FD257DD57E0087C01A /* APICreateContactRequest.swift in Sources */,
 				017F0F9122DBF8D900ACE7BB /* Goal+CoreDataClass.swift in Sources */,
 				01C88BEE2321F05D0027D01B /* PayDay+CoreDataClass.swift in Sources */,
 				01E5BF452227A475003D85FD /* APIEventCreateRequest.swift in Sources */,
