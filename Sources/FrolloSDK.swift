@@ -72,16 +72,6 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     public var oAuth2Authentication: OAuth2Authentication?
     
     /// Bills - All bills and bill payments see `Bills` for details
-    public var contacts: Contacts {
-        guard _setup
-        else {
-            fatalError("SDK not setup.")
-        }
-        
-        return _contacts
-    }
-    
-    /// Bills - All bills and bill payments see `Bills` for details
     public var bills: Bills {
         guard _setup
         else {
@@ -211,6 +201,16 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         return _userManagement
     }
     
+    /// Contacts - Managing Contacts
+    public var contacts: Contacts {
+        guard _setup
+        else {
+            fatalError("SDK not setup.")
+        }
+        
+        return _contacts
+    }
+    
     /// Indicates if the SDK has completed setup or not
     public var setup: Bool {
         return _setup
@@ -222,7 +222,6 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     internal var _authentication: Authentication!
     internal var _bills: Bills!
     internal var _budgets: Budgets!
-    internal var _contacts: Contacts!
     internal var _database: Database!
     internal var _events: Events!
     internal var _goals: Goals!
@@ -240,6 +239,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     internal var _setup = false
     internal var _userManagement: UserManagement!
     internal var version: Version!
+    internal var _contacts: Contacts!
     
     private let cacheExpiry: TimeInterval = 120
     private let frolloHost = "frollo.us"
@@ -357,7 +357,6 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         _aggregation = Aggregation(database: _database, service: service)
         _bills = Bills(database: _database, service: service, aggregation: _aggregation)
         _budgets = Budgets(database: _database, service: service)
-        _contacts = Contacts(service: service)
         _events = Events(service: service)
         _goals = Goals(database: _database, service: service, aggregation: _aggregation)
         _images = Images(database: _database, service: service)
@@ -368,6 +367,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         _surveys = Surveys(service: service)
         _userManagement = UserManagement(database: _database, service: service, clientID: configuration.clientID, authentication: oAuth2Authentication, preferences: preferences, delegate: self)
         _notifications = Notifications(events: _events, messages: _messages, userManagement: _userManagement)
+        _contacts = Contacts(database: _database, service: service)
         
         _events.delegate = delegate
         _messages.delegate = delegate

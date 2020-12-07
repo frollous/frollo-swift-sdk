@@ -19,7 +19,30 @@ import Foundation
 import Alamofire
 
 extension APIService {
-    // MARK: - Create Contact
+    
+    internal func fetchContacts(type: String? = nil, before: String? = nil, after: String? = nil, size: Int? = nil, completion: @escaping RequestCompletion<APIPaginatedResponse<APIContactResponse>>) {
+        requestQueue.async {
+            let url = URL(string: ContactsEndpoint.contacts.path, relativeTo: self.serverURL)!
+            
+            var parameters = [String: String]()
+            if let type = type {
+                parameters[ContactsEndpoint.QueryParameters.type.rawValue] = type
+            }
+            if let before = before {
+                parameters[ContactsEndpoint.QueryParameters.before.rawValue] = before
+            }
+            if let after = after {
+                parameters[ContactsEndpoint.QueryParameters.after.rawValue] = after
+            }
+            if let size = size {
+                parameters[ContactsEndpoint.QueryParameters.size.rawValue] = String(size)
+            }
+            
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handlePaginatedArrayResponse(type: APIContactResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
     
     internal func createContact(request: APICreateContactRequest, completion: @escaping RequestCompletion<APIContactResponse>) {
         requestQueue.async {
@@ -38,4 +61,5 @@ extension APIService {
             }
         }
     }
+    
 }

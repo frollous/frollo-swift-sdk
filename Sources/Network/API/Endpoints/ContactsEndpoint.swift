@@ -20,6 +20,13 @@ import Foundation
 
 internal enum ContactsEndpoint: Endpoint {
     
+    enum QueryParameters: String, Codable {
+        case after
+        case before
+        case size
+        case type
+    }
+    
     internal var path: String {
         return urlPath()
     }

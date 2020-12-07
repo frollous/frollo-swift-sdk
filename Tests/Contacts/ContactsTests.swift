@@ -14,49 +14,101 @@
 //  limitations under the License.
 //
 
+import CoreData
 import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
 
-class ContactsTests: XCTestCase {
+class ContactsTests: BaseTestCase {
     
-    let keychainService = "ContactsTests"
     var service: APIService!
+    var contacts: Contacts!
     
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(configuration: config)
-        authentication.dataSource = mockAuthentication
-        authentication.delegate = mockAuthentication
-        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
-        service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        testsKeychainService = "ContactsTests"
+        super.setUp()
     }
-    
+
     override func tearDown() {
         OHHTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testRefreshContacts(){
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        contacts = Contacts(database: database, service: service)
+        
+        let expectation1 = expectation(description: "Network Request")
+        let expectation2 = expectation(description: "Core Data Update")
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "get_contacts", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
+        
+        contacts = Contacts(database: database, service: service)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let contact = Contact(context: managedObjectContext)
+                contact.populateTestData()
+                contact.contactID = 11
+                contact.name = "Overridden Name"
+                
+                try? managedObjectContext.save()
+            }
+            
+            self.contacts.refreshContacts(size: 5) { result in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success(let (before, after, total)):
+                        XCTAssertEqual(before, nil)
+                        XCTAssertEqual(after, nil)
+                        XCTAssertEqual(total, 11)
+                }
+                
+                expectation1.fulfill()
+            }
+            
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = database.viewContext
+            
+            let fetchRequest: NSFetchRequest<Contact> = Contact.fetchRequest()
+            
+            do {
+                
+                let fetchedContacts = try context.fetch(fetchRequest)
+                let updatedContact = self.contacts.contact(context: context, contactID: 11)
+                XCTAssertEqual(updatedContact?.name, "John Cena")
+                
+                XCTAssertEqual(fetchedContacts.count, 11)
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
     }
 
 }
