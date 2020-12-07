@@ -79,10 +79,18 @@ jobs:
           path: output
       - store_test_results:
           path: output/scan
+      - run:
+          name: Move Documentation
+          command: |
+            export APP_VERSION=`xcodebuild -showBuildSettings | grep MARKETING_VERSION | tr -d 'MARKETING_VERSION ='`
+            mkdir -p output/docs/${APP_VERSION}; mv docs/* $_
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/output
       - slack/notify:
           event: fail
           channel: ci
-          mentions: '@here'
           template: basic_fail_1
 
   release:
@@ -92,11 +100,8 @@ jobs:
       FL_OUTPUT_DIR: output
 
     steps:
-      - run:
-          name: Fastlane Documentation
-          command: |
-            export TERM=${TERM:-dumb}
-            bundle exec fastlane release
+      - attach_workspace:
+          at: ~/
       - aws-s3/sync:
           arguments: |
             --acl public-read \

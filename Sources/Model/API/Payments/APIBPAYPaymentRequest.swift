@@ -16,7 +16,7 @@
 
 import Foundation
 
-struct APIBpayPaymentRequest: Codable {
+struct APIBPAYPaymentRequest: Codable {
     
     enum CodingKeys: String, CodingKey {
         case amount

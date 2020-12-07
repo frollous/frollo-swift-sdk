@@ -60,9 +60,9 @@ extension APIService {
         }
     }
     
-    // MARK: - Payment - Bpay
+    // MARK: - Payment - BPAY
     
-    internal func bpayPayment(request: APIBpayPaymentRequest, otp: String?, completion: @escaping RequestCompletion<BpayPaymentResponse>) {
+    internal func bpayPayment(request: APIBPAYPaymentRequest, otp: String?, completion: @escaping RequestCompletion<BPAYPaymentResponse>) {
         requestQueue.async {
             let url = URL(string: PaymentsEndpoint.bpay.path, relativeTo: self.serverURL)!
             
@@ -75,7 +75,7 @@ extension APIService {
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: BpayPaymentResponse.self, errorType: APIError.self, response: response, completion: completion)
+                self.network.handleResponse(type: BPAYPaymentResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }

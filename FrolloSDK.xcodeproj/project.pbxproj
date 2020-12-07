@@ -1383,10 +1383,10 @@
 		1394CE68252EC700009FCC2C /* APIPaymentTransferRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1394CE5F252EC486009FCC2C /* APIPaymentTransferRequest.swift */; };
 		1394CE69252EC796009FCC2C /* PaymentTransferResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1394CE63252EC532009FCC2C /* PaymentTransferResponse.swift */; };
 		1394CE6A252EC796009FCC2C /* PaymentTransferResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1394CE63252EC532009FCC2C /* PaymentTransferResponse.swift */; };
-		1394CE6C252ED699009FCC2C /* APIBpayPaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1394CE6B252ED699009FCC2C /* APIBpayPaymentRequest.swift */; };
-		1394CE6D252ED699009FCC2C /* APIBpayPaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1394CE6B252ED699009FCC2C /* APIBpayPaymentRequest.swift */; };
-		1394CE6F252ED75C009FCC2C /* BpayPaymentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1394CE6E252ED75C009FCC2C /* BpayPaymentResponse.swift */; };
-		1394CE70252ED75C009FCC2C /* BpayPaymentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1394CE6E252ED75C009FCC2C /* BpayPaymentResponse.swift */; };
+		1394CE6C252ED699009FCC2C /* APIBPAYPaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1394CE6B252ED699009FCC2C /* APIBPAYPaymentRequest.swift */; };
+		1394CE6D252ED699009FCC2C /* APIBPAYPaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1394CE6B252ED699009FCC2C /* APIBPAYPaymentRequest.swift */; };
+		1394CE6F252ED75C009FCC2C /* BPAYPaymentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1394CE6E252ED75C009FCC2C /* BPAYPaymentResponse.swift */; };
+		1394CE70252ED75C009FCC2C /* BPAYPaymentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1394CE6E252ED75C009FCC2C /* BPAYPaymentResponse.swift */; };
 		1394CE73252EDC36009FCC2C /* bpay_payment_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 1394CE71252EDC35009FCC2C /* bpay_payment_response.json */; };
 		1394CE74252EDC36009FCC2C /* bpay_payment_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 1394CE71252EDC35009FCC2C /* bpay_payment_response.json */; };
 		1394CE75252EDC36009FCC2C /* bpay_payment_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 1394CE71252EDC35009FCC2C /* bpay_payment_response.json */; };
@@ -2261,8 +2261,8 @@
 		1394CE58252EC384009FCC2C /* payment_transfer_request.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = payment_transfer_request.json; sourceTree = "<group>"; };
 		1394CE5F252EC486009FCC2C /* APIPaymentTransferRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIPaymentTransferRequest.swift; sourceTree = "<group>"; };
 		1394CE63252EC532009FCC2C /* PaymentTransferResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentTransferResponse.swift; sourceTree = "<group>"; };
-		1394CE6B252ED699009FCC2C /* APIBpayPaymentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIBpayPaymentRequest.swift; sourceTree = "<group>"; };
-		1394CE6E252ED75C009FCC2C /* BpayPaymentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BpayPaymentResponse.swift; sourceTree = "<group>"; };
+		1394CE6B252ED699009FCC2C /* APIBPAYPaymentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIBPAYPaymentRequest.swift; sourceTree = "<group>"; };
+		1394CE6E252ED75C009FCC2C /* BPAYPaymentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPAYPaymentResponse.swift; sourceTree = "<group>"; };
 		1394CE71252EDC35009FCC2C /* bpay_payment_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bpay_payment_response.json; sourceTree = "<group>"; };
 		1394CE72252EDC36009FCC2C /* bpay_payment_request.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bpay_payment_request.json; sourceTree = "<group>"; };
 		1394CE79252FE0D9009FCC2C /* APIVerifyPayAnyoneRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIVerifyPayAnyoneRequest.swift; sourceTree = "<group>"; };
@@ -3301,9 +3301,10 @@
 			isa = PBXGroup;
 			children = (
 				1394CE7C252FE12B009FCC2C /* Payments */,
-				131EC63B240C7B7D0004F7CB /* CDRProduct.swift */,
 				01483B9D21192F1600D0DA87 /* BudgetCategory.swift */,
 				032F10BF23DA88E100F3BF01 /* CDRConsentForm.swift */,
+				03651DB225232EAB00011732 /* CDRPermission.swift */,
+				131EC63B240C7B7D0004F7CB /* CDRProduct.swift */,
 				013D2D93210AA38800EEDEC5 /* DeviceInfo.swift */,
 				13DB95A923E5210400555338 /* MerchantSearch.swift */,
 				0135D2FC21A2202400318142 /* NotificationPayload.swift */,
@@ -3313,7 +3314,6 @@
 				03D965AF22768C92009BC283 /* SuggestedTag.swift */,
 				2F657DA2223B26B300471B85 /* Survey.swift */,
 				2F0B461A23DFF56B00D16143 /* TransactionFilter.swift */,
-				03651DB225232EAB00011732 /* CDRPermission.swift */,
 			);
 			path = Transient;
 			sourceTree = "<group>";
@@ -4135,7 +4135,7 @@
 			children = (
 				1394CE36252E8801009FCC2C /* APIPayAnyoneRequest.swift */,
 				1394CE5F252EC486009FCC2C /* APIPaymentTransferRequest.swift */,
-				1394CE6B252ED699009FCC2C /* APIBpayPaymentRequest.swift */,
+				1394CE6B252ED699009FCC2C /* APIBPAYPaymentRequest.swift */,
 				1394CE79252FE0D9009FCC2C /* APIVerifyPayAnyoneRequest.swift */,
 			);
 			path = Payments;
@@ -4170,7 +4170,7 @@
 			children = (
 				1394CE39252E8830009FCC2C /* PayAnyoneResponse.swift */,
 				1394CE63252EC532009FCC2C /* PaymentTransferResponse.swift */,
-				1394CE6E252ED75C009FCC2C /* BpayPaymentResponse.swift */,
+				1394CE6E252ED75C009FCC2C /* BPAYPaymentResponse.swift */,
 				1394CE7D252FE14E009FCC2C /* VerifyPayAnyoneResponse.swift */,
 			);
 			path = Payments;
@@ -5435,7 +5435,7 @@
 				034EDC8C250F24DD00C48A57 /* APIImageResponse.swift in Sources */,
 				01616B0C2186BFD5003EF2D0 /* APIDeviceLogRequest.swift in Sources */,
 				13AC076E2394BF5900982FB1 /* APIBudgetPeriodResponse.swift in Sources */,
-				1394CE6F252ED75C009FCC2C /* BpayPaymentResponse.swift in Sources */,
+				1394CE6F252ED75C009FCC2C /* BPAYPaymentResponse.swift in Sources */,
 				017F0FB622DC523800ACE7BB /* APIService+Goals.swift in Sources */,
 				01874B7420F81EA8005A7D0C /* UserEndpoint.swift in Sources */,
 				01E8375A2149F08100A50E15 /* LoginFormError.swift in Sources */,
@@ -5516,7 +5516,7 @@
 				2F2F0C9D22A0D0E700F05961 /* APITagUpdateRequest.swift in Sources */,
 				0159E4882193CBAD002CC3BB /* ProviderAccount+CoreDataProperties.swift in Sources */,
 				013A32AD2112799500B0590B /* APIProviderAccountResponse.swift in Sources */,
-				1394CE6C252ED699009FCC2C /* APIBpayPaymentRequest.swift in Sources */,
+				1394CE6C252ED699009FCC2C /* APIBPAYPaymentRequest.swift in Sources */,
 				01C824F520EC75560093400E /* FileLogger.swift in Sources */,
 				01A8D88523EA2196004E20E1 /* FrolloSDKDataModelMapping-1.6.0-1.6.1.xcmappingmodel in Sources */,
 				01483B6C2117C70600D0DA87 /* Account+CoreDataClass.swift in Sources */,
@@ -6162,7 +6162,7 @@
 				034EDC8D250F24DD00C48A57 /* APIImageResponse.swift in Sources */,
 				01E5BEF62227A475003D85FD /* AccountRefreshStatus.swift in Sources */,
 				13AC076F2394BF5900982FB1 /* APIBudgetPeriodResponse.swift in Sources */,
-				1394CE70252ED75C009FCC2C /* BpayPaymentResponse.swift in Sources */,
+				1394CE70252ED75C009FCC2C /* BPAYPaymentResponse.swift in Sources */,
 				01E5BEF72227A475003D85FD /* Merchant+CoreDataClass.swift in Sources */,
 				017F0FB722DC523800ACE7BB /* APIService+Goals.swift in Sources */,
 				01E5BEF82227A475003D85FD /* APIDeviceLogRequest.swift in Sources */,
@@ -6243,7 +6243,7 @@
 				01E5BF232227A475003D85FD /* APIUserRegisterRequest.swift in Sources */,
 				01E5BF242227A475003D85FD /* BillsEndpoint.swift in Sources */,
 				01E5BF262227A475003D85FD /* APIService.swift in Sources */,
-				1394CE6D252ED699009FCC2C /* APIBpayPaymentRequest.swift in Sources */,
+				1394CE6D252ED699009FCC2C /* APIBPAYPaymentRequest.swift in Sources */,
 				01E5BF272227A475003D85FD /* ProviderAccount+CoreDataProperties.swift in Sources */,
 				01A8D88623EA2196004E20E1 /* FrolloSDKDataModelMapping-1.6.0-1.6.1.xcmappingmodel in Sources */,
 				01E5BF292227A475003D85FD /* APIProviderAccountResponse.swift in Sources */,
@@ -6600,7 +6600,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CURRENT_PROJECT_VERSION = 463;
+				CURRENT_PROJECT_VERSION = 470;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -6613,7 +6613,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = YES;
-				SDK_VERSION = 4.6.3;
+				SDK_VERSION = 4.7.0;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
@@ -6644,7 +6644,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CURRENT_PROJECT_VERSION = 463;
+				CURRENT_PROJECT_VERSION = 470;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -6655,7 +6655,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				SDK_VERSION = 4.6.3;
+				SDK_VERSION = 4.7.0;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
@@ -6700,7 +6700,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 462;
+				CURRENT_PROJECT_VERSION = 470;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -6730,7 +6730,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.6.3;
+				MARKETING_VERSION = $SDK_VERSION;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = us.frollo.FrolloSDK;
@@ -6780,7 +6780,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 462;
+				CURRENT_PROJECT_VERSION = 470;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -6804,7 +6804,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.6.3;
+				MARKETING_VERSION = $SDK_VERSION;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = us.frollo.FrolloSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -7455,6 +7455,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = $SDK_VERSION;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "-DCORE";
@@ -7529,6 +7530,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = $SDK_VERSION;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_SWIFT_FLAGS = "-DCORE";
 				PRODUCT_BUNDLE_IDENTIFIER = us.frollo.FrolloSDK;

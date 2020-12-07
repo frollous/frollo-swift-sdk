@@ -382,8 +382,8 @@ class APIErrorTests: XCTestCase {
         validatePaymentErrors(resourceFileName: "error_payment_invalid_biller_code", errorCode: .paymentInvalidBillerCode)
     }
     
-    func testAPIErrorPaymentInvalidBpay() {
-        validatePaymentErrors(resourceFileName: "error_payment_invalid_bpay", errorCode: .paymentInvalidBpay)
+    func testAPIErrorPaymentInvalidBPAY() {
+        validatePaymentErrors(resourceFileName: "error_payment_invalid_bpay", errorCode: .paymentInvalidBPAY)
     }
     
     func testAPIErrorPaymentInvalidBSB() {

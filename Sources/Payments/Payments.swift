@@ -117,19 +117,19 @@ public class Payments: ResponseHandler {
     }
     
     /**
-     Bpay Payment
+     BPAY Payment
      
      - parameters:
          - amount: Amount of the transfer
-         - billerCode: biller code of the Biller
-         - crn: CRN
+         - billerCode: BPAY Biller Code
+         - crn: Customer Reference Number
          - paymentDate: Date of the payment (Optional)
          - reference: reference of the payment (Optional)
          - sourceAccountID: Account ID of source account of the payment
          - securityCode: Verification code/ OTP for payment
-         - completion: Optional completion handler with `BpayPaymentResponse` result if succeeds and error if the request fails
+         - completion: Optional completion handler with `BPAYPaymentResponse` result if succeeds and error if the request fails
      */
-    public func bpayPayment(amount: Decimal, billerCode: String, crn: String, paymentDate: Date? = nil, reference: String? = nil, sourceAccountID: Int64, securityCode: String? = nil, completion: @escaping (Result<BpayPaymentResponse, Error>) -> Void) {
+    public func bpayPayment(amount: Decimal, billerCode: String, crn: String, paymentDate: Date? = nil, reference: String? = nil, sourceAccountID: Int64, securityCode: String? = nil, completion: @escaping (Result<BPAYPaymentResponse, Error>) -> Void) {
         
         let paymentAmount = amount as NSDecimalNumber
         var date: String?
@@ -137,7 +137,7 @@ public class Payments: ResponseHandler {
             date = Payments.paymentDateFormatter.string(from: paymentDate)
         }
         
-        let request = APIBpayPaymentRequest(amount: paymentAmount.stringValue, billerCode: billerCode, crn: crn, paymentDate: date, reference: reference, sourceAccountID: sourceAccountID)
+        let request = APIBPAYPaymentRequest(amount: paymentAmount.stringValue, billerCode: billerCode, crn: crn, paymentDate: date, reference: reference, sourceAccountID: sourceAccountID)
         
         service.bpayPayment(request: request, otp: securityCode) { result in
             switch result {

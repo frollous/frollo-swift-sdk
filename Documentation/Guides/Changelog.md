@@ -1,19 +1,35 @@
 # Changelog
-## 4.6.3
+
+## 4.7.0
 
 ### Features
+
+- Payments API
+- CDR Configuration API
+- OTP endpoint protection
+- Images API
+
+### Changes
+
+- Xcode 12 support
+- API 2.11 upgrade
+- Added support for CDR existing consent ID parameter
+
+## 4.6.3
+
+### Fixes
 
 - Fixed crash in metadata for messages
 
 ## 4.6.2
 
-### Features
+### Changes
 
 - Updated Alamofire dependency to 5.2.1
 
 ## 4.6.1
 
-### Features
+### Changes
 
 - Added support for Sharing Stopped At field on Consents
 

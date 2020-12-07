@@ -369,7 +369,7 @@ class BudgetsTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            self.budgets.createBudgetCategoryBudget(budgetCategory: .lifestyle, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png", trackingType: .debitCredit) { (result) in
+            self.budgets.createBudgetCategoryBudget(budgetCategory: .lifestyle, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png") { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -405,7 +405,7 @@ class BudgetsTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            self.budgets.createBudgetCategoryBudget(budgetCategory: .lifestyle, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png", trackingType: .debitCredit) { (result) in
+            self.budgets.createBudgetCategoryBudget(budgetCategory: .lifestyle, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png") { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -441,7 +441,7 @@ class BudgetsTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            self.budgets.createCategoryBudget(categoryID: 11, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png", trackingType: .debitCredit) { (result) in
+            self.budgets.createCategoryBudget(categoryID: 11, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png") { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -477,7 +477,7 @@ class BudgetsTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            self.budgets.createMerchantBudget(merchantID: 11, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png", trackingType: .debitCredit) { (result) in
+            self.budgets.createMerchantBudget(merchantID: 11, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png") { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
