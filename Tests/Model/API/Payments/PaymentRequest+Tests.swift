@@ -30,7 +30,7 @@ class PaymentRequestTests: XCTestCase {
         
     }
     
-    func testBpayPaymentRequest() throws {
+    func testBPAYPaymentRequest() throws {
 
         guard let url = Bundle(for: type(of: self)).path(forResource: "bpay_payment_request", ofType: "json") else {
             XCTFail("Missing file: bpay_payment_request")
@@ -38,7 +38,7 @@ class PaymentRequestTests: XCTestCase {
         }
         
         do {
-            let bpayPaymentRequest = try JSONDecoder().decode(APIBpayPaymentRequest.self, from: Data(contentsOf: URL(fileURLWithPath: url)))
+            let bpayPaymentRequest = try JSONDecoder().decode(APIBPAYPaymentRequest.self, from: Data(contentsOf: URL(fileURLWithPath: url)))
             XCTAssertEqual(bpayPaymentRequest.amount, "542.37")
             XCTAssertEqual(bpayPaymentRequest.billerCode, "123456")
             XCTAssertEqual(bpayPaymentRequest.crn, "98765432122232")

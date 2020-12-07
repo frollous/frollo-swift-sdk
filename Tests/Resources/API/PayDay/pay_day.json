@@ -1,6 +1,6 @@
 {
   "status": "estimated",
   "frequency": "monthly",
-  "next_transaction_date": "2018-01-31",
-  "last_transaction_date": "2017-12-01"
+  "next_date": "2018-01-31",
+  "previous_date": "2017-12-01"
 }
