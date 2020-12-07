@@ -79,6 +79,18 @@ public class Contacts: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Create a Pay Anyone contact on the host.
+     
+     - Parameters:
+     - name: Name of the contact; default value will be nickName (Optional)
+     - nickName:  Nickname of the contact
+     - description: Description of the contact (Optional)
+     - accountName:  Account name of the payAnyone contact
+     - bsb:  BSB of the payAnyone contact
+     - accountNumber:  Account number of the payAnyone contact
+     - completion:  Optional completion handler with optional error if the request fails
+     */
     public func createPayAnyoneContact(name: String? = nil, nickName: String, description: String? = nil, accountName: String, bsb: String, accountNumber: String, completion: FrolloSDKCompletionHandler? = nil) {
         
         let paymentDetails: PaymentDetails.PayAnyone = .init(accountHolder: accountName, bsb: bsb, accountNumber: accountNumber)
@@ -100,6 +112,18 @@ public class Contacts: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Create a BPAY contact on the host.
+     
+     - Parameters:
+     - name: Name of the contact; default value will be nickName (Optional)
+     - nickName:  Nickname of the contact
+     - description: Description of the contact (Optional)
+     - billerCode:  Biller Code of the BPAY contact
+     - crn:  CRN of the BPAY contact
+     - billerName:  Biller Namee of the BPAY contact
+     - completion:  Optional completion handler with optional error if the request fails
+     */
     public func createBPAYContact(name: String? = nil, nickName: String, description: String? = nil, billerCode: String, crn: String, billerName: String, completion: FrolloSDKCompletionHandler? = nil) {
         
         let paymentDetails: PaymentDetails.Biller = .init(billerCode: billerCode, crn: crn, billerName: billerName)
@@ -121,6 +145,18 @@ public class Contacts: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Create a PayID contact on the host.
+     
+     - Parameters:
+     - name: Name of the contact; default value will be nickName (Optional)
+     - nickName:  Nickname of the contact
+     - description: Description of the contact (Optional)
+     - payID:  PayID value of the contact
+     - payIDName:  Name of the PayID contact
+     - payIDType:  Type of PayID; e.g. phone, email, abn, organisation id
+     - completion:  Optional completion handler with optional error if the request fails
+     */
     public func createPayIDContact(name: String? = nil, nickName: String, description: String? = nil, payID: String, payIDName: String, payIDType: PayIDContact.PayIDType, completion: FrolloSDKCompletionHandler? = nil) {
         
         let paymentDetails: PaymentDetails.PayID = .init(payid: payID, name: payIDName, idType: payIDType)
@@ -142,6 +178,26 @@ public class Contacts: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Create a PayID contact on the host.
+     
+     - Parameters:
+     - name: Name of the contact; default value will be nickName (Optional)
+     - nickName:  Nickname of the contact
+     - description: Description of the contact (Optional)
+     - country:  Country of the contact
+     - message:  Message of the contact
+     - bankCountry:  Country of the contact's bank
+     - accountNumber:  Account number of the contact
+     - bankAddress:  Bank Address of the contact
+     - bic:  BIC of the contact's bank
+     - fedwireNumber: Fedwire number of the contact's bank
+     - sortCode:  Sort code of the contact's bank
+     - chipNumber:  Chip number of the contact's bank
+     - routingNumber:  Routing number of the contact's bank
+     - legalEntityNumber:  Legal entity identifier of the contact's bank
+     - completion:  Optional completion handler with optional error if the request fails
+     */
     public func createInternationalContact(name: String? = nil, nickName: String, description: String? = nil, country: String, message: String? = nil, bankCountry: String, accountNumber: String, bankAddress: String? = nil, bic: String? = nil, fedwireNumber: String? = nil, sortCode: String? = nil, chipNumber: String? = nil, routingNumber: String? = nil, legalEntityNumber: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
         
         let paymentDetails: APICreateInternationalContactRequest.InternationalPaymentDetails = .init(name: name, country: country, message: message, bankcountry: bankCountry, accountNumber: accountNumber, bankAddress: bankAddress, bic: bic, fedwireNumber: fedwireNumber, sortCode: sortCode, chipNumber: chipNumber, routingNumber: routingNumber, legalEntityIdentifier: legalEntityNumber)

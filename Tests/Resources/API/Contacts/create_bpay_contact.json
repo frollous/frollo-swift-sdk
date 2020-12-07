@@ -1,0 +1,15 @@
+{
+    "id": 5,
+    "name": "ACME Inc.",
+    "nick_name": "ACME",
+    "payment_method": "bpay",
+    "payment_details": {
+        "biller_code": "209999",
+        "crn": "84100064513925",
+        "biller_name": "XXX",
+        "crn_type": "fixed_crn"
+    },
+    "created_date": "2020-12-07T14:05:02.221+11:00",
+    "modified_date": "2020-12-07T14:05:02.221+11:00",
+    "verified": false
+}

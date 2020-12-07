@@ -36,7 +36,7 @@ class ContactsTests: BaseTestCase {
     }
 
 
-    func testRefreshContacts(){
+    func testRefreshContacts() {
         
         let mockAuthentication = MockAuthentication()
         let authentication = Authentication(configuration: config)
@@ -99,7 +99,7 @@ class ContactsTests: BaseTestCase {
                 let updatedContact = self.contacts.contact(context: context, contactID: 11)
                 XCTAssertEqual(updatedContact?.name, "John Cena")
                 
-                XCTAssertEqual(fetchedContacts.count, 11)
+                XCTAssertEqual(fetchedContacts.count, 9)
                 
             } catch {
                 XCTFail(error.localizedDescription)
@@ -109,6 +109,146 @@ class ContactsTests: BaseTestCase {
         }
         
         wait(for: [expectation2], timeout: 3.0)
+    }
+
+    func testCreateBPAYContact() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "create_bpay_contact", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+
+        contacts = Contacts(database: database, service: service)
+
+        database.setup { [self] (error) in
+            XCTAssertNil(error)
+
+            self.contacts.createBPAYContact(nickName: "ACME Inc.", billerCode: "209999", crn: "84100064513925", billerName: "ACME Inc.") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        break
+                }
+
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+
+    func testCreatePayAnyoneContact() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "create_payAnyone_contact", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+
+        contacts = Contacts(database: database, service: service)
+
+        database.setup { [self] (error) in
+            XCTAssertNil(error)
+
+            self.contacts.createPayAnyoneContact(name: "Johnathan", nickName: "Johnny Boy", accountName: "Mr Johnathan Smith", bsb: "100-123", accountNumber: "12345678") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        break
+                }
+
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+
+    func testCreatePayIDContact() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "create_payID_contact", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+
+        contacts = Contacts(database: database, service: service)
+
+        self.contacts.createPayIDContact(name: "Johnathan", nickName: "Johnny Boy", description: "That guy I buy tyres from", payID: "0412345678", payIDName: "J SMITH", payIDType: .phoneNumber) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+
+    func testCreateInternationalContact() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "create_international_contact", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+
+        contacts = Contacts(database: database, service: service)
+
+        database.setup { [self] (error) in
+            XCTAssertNil(error)
+
+            self.contacts.createInternationalContact(name: "Anne Frank", nickName: "Annie", country: "New Zeland", bankCountry: "New Zeland", accountNumber: "12345678") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        break
+                }
+
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
     }
 
 }
