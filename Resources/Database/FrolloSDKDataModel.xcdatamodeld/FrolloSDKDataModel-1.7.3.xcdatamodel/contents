@@ -223,6 +223,11 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nickName" attributeType="String"/>
         <attribute name="providerAccountIDsRawValue" optional="YES" attributeType="Binary"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="contactID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="Goal" representedClassName=".Goal" syncable="YES">
         <attribute name="accountID" optional="YES" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>

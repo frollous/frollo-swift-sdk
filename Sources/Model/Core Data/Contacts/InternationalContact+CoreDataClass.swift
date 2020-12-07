@@ -35,6 +35,7 @@ public class InternationalContact: Contact {
         internationalContactCountry = contact.country
         internationalContactMessage = contact.message
         internationalBankCountry = contact.bankCountry
+        internationalAccountNumber = contact.accountNumber
         internationalBankAddress = contact.bankAddress?.name
         bic = contact.bic
         fedwireNumber = contact.fedwireNumber
