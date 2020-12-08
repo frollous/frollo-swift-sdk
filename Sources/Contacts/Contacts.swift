@@ -209,11 +209,12 @@ public class Contacts: CachedObjects, ResponseHandler {
      - billerCode:  Biller Code of the BPAY contact
      - crn:  CRN of the BPAY contact
      - billerName:  Biller Namee of the BPAY contact
+     - crnType:  `CRNType` Type of the Biller's CRN; defaulted to fixed crn.
      - completion:  Optional completion handler with optional error if the request fails
      */
-    public func createBPAYContact(name: String? = nil, nickName: String, description: String? = nil, billerCode: String, crn: String, billerName: String, completion: FrolloSDKCompletionHandler? = nil) {
+    public func createBPAYContact(name: String? = nil, nickName: String, description: String? = nil, billerCode: String, crn: String, billerName: String, crnType: BPAYContact.CRNType = .fixed, completion: FrolloSDKCompletionHandler? = nil) {
         
-        let paymentDetails: PaymentDetails.Biller = .init(billerCode: billerCode, crn: crn, billerName: billerName)
+        let paymentDetails: PaymentDetails.Biller = .init(billerCode: billerCode, crn: crn, billerName: billerName, crnType: crnType)
         let request = APICreateContactRequest(name: name ?? nickName, nickName: nickName, description: description, type: .BPAY, details: .BPAY(paymentDetails))
         
         service.createContact(request: request) { result in
@@ -351,11 +352,12 @@ public class Contacts: CachedObjects, ResponseHandler {
       - billerCode:  Biller Code of the BPAY contact
       - crn:  CRN of the BPAY contact
       - billerName:  Biller Namee of the BPAY contact
+      - crnType:  `CRNType` Type of the Biller's CRN; defaulted to fixed crn.
       - completion:  Optional completion handler with optional error if the request fails
      */
-    public func updateBPAYContact(contactID: Int64, name: String? = nil, nickName: String, description: String? = nil, billerCode: String, crn: String, billerName: String, completion: FrolloSDKCompletionHandler? = nil) {
+    public func updateBPAYContact(contactID: Int64, name: String? = nil, nickName: String, description: String? = nil, billerCode: String, crn: String, billerName: String, crnType: BPAYContact.CRNType = .fixed, completion: FrolloSDKCompletionHandler? = nil) {
         
-        let paymentDetails: PaymentDetails.Biller = .init(billerCode: billerCode, crn: crn, billerName: billerName)
+        let paymentDetails: PaymentDetails.Biller = .init(billerCode: billerCode, crn: crn, billerName: billerName, crnType: crnType)
         let request = APICreateContactRequest(name: name ?? nickName, nickName: nickName, description: description, type: .BPAY, details: .BPAY(paymentDetails))
         
         service.updateContact(contactID: contactID, request: request) { result in
@@ -450,6 +452,33 @@ public class Contacts: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Delete a specific contact by ID from the host
+     
+     - parameters:
+        - contactID: ID of the contact to be deleted
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func deleteContact(contactID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        service.deleteContact(contactID: contactID) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success:
+                    self.removeCachedContact(contactID: contactID)
+                    NotificationCenter.default.post(name: Contacts.contactsUpdatedNotification, object: self)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
     // MARK: - Response Handling
     
     private func handleContactsResponse(_ contactsResponse: [APIContactResponse], before: String?, after: String?, managedObjectContext: NSManagedObjectContext) {
@@ -490,6 +519,26 @@ public class Contacts: CachedObjects, ResponseHandler {
         }
         
         updateObjectWithResponse(type: Contact.self, objectResponse: contactResponse, primaryKey: #keyPath(Contact.contactID), managedObjectContext: managedObjectContext)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func removeCachedContact(contactID: Int64) {
+        contactsLock.lock()
+        
+        defer {
+            contactsLock.unlock()
+        }
+        
+        let managedObjectContext = database.newBackgroundContext()
+        
+        removeObject(type: Contact.self, id: contactID, primaryKey: #keyPath(Contact.contactID), managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
             do {

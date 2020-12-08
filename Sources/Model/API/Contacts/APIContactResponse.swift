@@ -52,16 +52,18 @@ struct APIContactResponse: APIUniqueResponse {
                 case billerCode = "biller_code"
                 case crn
                 case billerName = "biller_name"
+                case crnType = "crn_type"
             }
             
             let billerCode: String
             let crn: String
             let billerName: String
+            let crnType: BPAYContact.CRNType
         }
         
         struct PayID: Codable {
             enum CodingKeys: String, CodingKey {
-                case payid = "pay_id"
+                case payid
                 case name
                 case idType = "id_type"
             }

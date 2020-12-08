@@ -1,0 +1,15 @@
+{
+    "id": 9,
+    "name": "Tenstra Inc",
+    "nick_name": "Tenstra",
+    "payment_method": "bpay",
+    "payment_details": {
+        "biller_code": "2275362",
+        "crn": "723647803",
+        "biller_name": "Tenstra Inc",
+        "crn_type": "fixed_crn"
+    },
+    "created_date": "2020-12-07T14:29:21.112+11:00",
+    "modified_date": "2020-12-07T14:29:21.112+11:00",
+    "verified": false
+}

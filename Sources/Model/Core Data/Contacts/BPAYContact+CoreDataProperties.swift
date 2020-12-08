@@ -37,4 +37,6 @@ extension BPAYContact {
     /// Biller name of the BPAY contact
     @NSManaged public var billerName: String
     
+    /// The type of CRN; defaulted to fixed crn,
+    @NSManaged public var crnTypeRawValue: String
 }
