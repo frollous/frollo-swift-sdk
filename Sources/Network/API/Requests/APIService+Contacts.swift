@@ -89,4 +89,40 @@ extension APIService {
             }
         }
     }
+    
+    internal func updateContact(contactID: Int64, request: APICreateContactRequest, completion: @escaping RequestCompletion<APIContactResponse>) {
+        requestQueue.async {
+            let url = URL(string: ContactsEndpoint.contact(contactID: contactID).path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APIContactResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func updateInternationalContact(contactID: Int64, request: APICreateInternationalContactRequest, completion: @escaping RequestCompletion<APIContactResponse>) {
+        requestQueue.async {
+            let url = URL(string: ContactsEndpoint.contact(contactID: contactID).path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APIContactResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
 }
