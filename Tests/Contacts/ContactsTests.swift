@@ -35,6 +35,76 @@ class ContactsTests: BaseTestCase {
         Keychain(service: keychainService).removeAll()
     }
 
+    func testFetchContactByID() {
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        contacts = Contacts(database: database, service: service)
+        
+        let expectation1 = expectation(description: "Network Request")
+        let expectation2 = expectation(description: "Core Data Update")
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 2).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "get_contact_by_id", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+                
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let contact = Contact(context: managedObjectContext)
+                contact.populateTestData()
+                contact.contactID = 2
+                contact.name = "Overridden Name"
+                
+                try? managedObjectContext.save()
+            }
+            
+            self.contacts.refreshContact(contactID: 2) { result in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        break
+                }
+                
+                expectation1.fulfill()
+            }
+            
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = database.viewContext
+            
+            let fetchRequest: NSFetchRequest<Contact> = Contact.fetchRequest()
+            
+            do {
+                
+                let fetchedContacts = try context.fetch(fetchRequest)
+                let updatedContact = self.contacts.contact(context: context, contactID: 2)
+                XCTAssertEqual(updatedContact?.name, "Steven")
+                
+                XCTAssertEqual(fetchedContacts.count, 1)
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+    }
 
     func testRefreshContacts() {
         
@@ -54,9 +124,7 @@ class ContactsTests: BaseTestCase {
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "get_contacts", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
-        
-        contacts = Contacts(database: database, service: service)
-        
+                
         database.setup { (error) in
             XCTAssertNil(error)
             

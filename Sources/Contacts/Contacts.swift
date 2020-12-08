@@ -75,6 +75,65 @@ public class Contacts: CachedObjects, ResponseHandler {
     }
     
     /**
+     Fetched results controller of contacts from the cache
+     
+     - parameters:
+        - context: Managed object context to fetch these from; background or main thread
+        - type: Filter contacts by the type (Optional)
+        - filteredBy: Predicate of properties to match for fetching. See `Contact` for properties (Optional)
+        - sortedBy: Array of sort descriptors to sort the results by. Defaults to contactID ascending (Optional)
+        - limit: Fetch limit to set maximum number of returned items (Optional)
+     */
+    public func contactsFetchedResultsController(context: NSManagedObjectContext,
+                                                 type: Contact.ContactType? = nil,
+                                                 filteredBy predicate: NSPredicate? = nil,
+                                                 sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Contact.contactID), ascending: true)],
+                                                 limit: Int? = nil) -> NSFetchedResultsController<Contact>? {
+        var predicates = [NSPredicate]()
+        
+        if let filterType = type {
+            predicates.append(NSPredicate(format: #keyPath(Contact.contactTypeRawValue) + " == %@", argumentArray: [filterType.rawValue]))
+        }
+        
+        if let filterPredicate = predicate {
+            predicates.append(filterPredicate)
+        }
+        
+        return fetchedResultsController(type: Contact.self, context: context, predicate: predicate, sortDescriptors: sortDescriptors, limit: limit)
+    }
+    
+    /**
+     Refresh a specific contact by ID from the host
+     
+     - parameters:
+        - contactID: ID of the contact to fetch
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshContact(contactID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        
+        service.fetchContact(contactID: contactID) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleContactResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    NotificationCenter.default.post(name: Contacts.contactsUpdatedNotification, object: self)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
      Refresh contacts from the host.
      
      - parameters:
@@ -268,6 +327,25 @@ public class Contacts: CachedObjects, ResponseHandler {
         }
         
         updateObjectsWithResponse(type: Contact.self, objectsResponse: contactsResponse, primaryKey: #keyPath(Contact.contactID), linkedKeys: [], filterPredicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), managedObjectContext: managedObjectContext)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleContactResponse(_ contactResponse: APIContactResponse, managedObjectContext: NSManagedObjectContext) {
+        
+        contactsLock.lock()
+        
+        defer {
+            contactsLock.unlock()
+        }
+        
+        updateObjectWithResponse(type: Contact.self, objectResponse: contactResponse, primaryKey: #keyPath(Contact.contactID), managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
             do {

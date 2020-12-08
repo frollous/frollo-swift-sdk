@@ -20,6 +20,16 @@ import Alamofire
 
 extension APIService {
     
+    internal func fetchContact(contactID: Int64, completion: @escaping RequestCompletion<APIContactResponse>) {
+        requestQueue.async {
+            let url = URL(string: ContactsEndpoint.contact(contactID: contactID).path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APIContactResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     internal func fetchContacts(type: String? = nil, before: String? = nil, after: String? = nil, size: Int? = nil, completion: @escaping RequestCompletion<APIPaginatedResponse<APIContactResponse>>) {
         requestQueue.async {
             let url = URL(string: ContactsEndpoint.contacts.path, relativeTo: self.serverURL)!
