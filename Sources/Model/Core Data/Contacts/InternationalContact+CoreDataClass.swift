@@ -31,18 +31,18 @@ public class InternationalContact: Contact {
             return
         }
         
-        internationalContactName = contact.name
-        internationalContactCountry = contact.country
-        internationalContactMessage = contact.message
-        internationalBankCountry = contact.bankCountry
-        internationalAccountNumber = contact.accountNumber
-        internationalBankAddress = contact.bankAddress?.name
-        bic = contact.bic
-        fedwireNumber = contact.fedwireNumber
-        sortCode = contact.sortCode
-        chipNumber = contact.chipNumber
-        routingNumber = contact.routingNumber
-        legalEntityId = contact.legalEntityIdentifier
+        internationalContactName = contact.beneficiary.name
+        internationalContactCountry = contact.beneficiary.country
+        internationalContactMessage = contact.beneficiary.message
+        internationalBankCountry = contact.bankDetails.country
+        internationalAccountNumber = contact.bankDetails.accountNumber
+        internationalBankAddress = contact.bankDetails.bankAddress?.address
+        bic = contact.bankDetails.bic
+        fedwireNumber = contact.bankDetails.fedwireNumber
+        sortCode = contact.bankDetails.sortCode
+        chipNumber = contact.bankDetails.chipNumber
+        routingNumber = contact.bankDetails.routingNumber
+        legalEntityId = contact.bankDetails.legalEntityIdentifier
     }
     
 }

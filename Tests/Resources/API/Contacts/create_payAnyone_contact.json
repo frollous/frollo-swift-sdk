@@ -1,0 +1,14 @@
+{
+    "id": 10,
+    "name": "Johnathan",
+    "nick_name": "Johnny Boy",
+    "payment_method": "pay_anyone",
+    "payment_details": {
+        "account_holder": "Mr Johnathan Smith",
+        "bsb": "100-123",
+        "account_number": "12345678"
+    },
+    "created_date": "2020-12-07T17:58:17.876+11:00",
+    "modified_date": "2020-12-07T17:58:17.876+11:00",
+    "verified": false
+}

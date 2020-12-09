@@ -132,7 +132,7 @@ class DatabaseMigrationTests: XCTestCase {
 //        generateCoreDataModelTestDatabases()
 //        generateFakeCoreDataModelTestDatabase()
 //    }
-    
+
     // MARK: - Migration Tests
     
     func testMigrationIsNotNeededIfNoPersistentStore() {

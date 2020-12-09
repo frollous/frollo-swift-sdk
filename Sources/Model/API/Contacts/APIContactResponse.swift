@@ -52,11 +52,13 @@ struct APIContactResponse: APIUniqueResponse {
                 case billerCode = "biller_code"
                 case crn
                 case billerName = "biller_name"
+                case crnType = "crn_type"
             }
             
             let billerCode: String
             let crn: String
             let billerName: String
+            let crnType: BPAYContact.CRNType
         }
         
         struct PayID: Codable {
@@ -73,41 +75,58 @@ struct APIContactResponse: APIUniqueResponse {
         
         struct International: Codable {
             
-            struct BankAddress: Codable {
+            struct Beneficiary: Codable {
                 enum CodingKeys: String, CodingKey {
                     case name
+                    case country
+                    case message
                 }
                 
-                let name: String
+                let name: String?
+                let country: String
+                let message: String?
+            }
+            
+            struct BankAddress: Codable {
+                enum CodingKeys: String, CodingKey {
+                    case address
+                }
+                
+                let address: String
+            }
+            
+            struct BankDetails: Codable {
+                
+                enum CodingKeys: String, CodingKey {
+                    case country
+                    case accountNumber = "account_number"
+                    case bankAddress = "bank_address"
+                    case bic
+                    case fedwireNumber = "fed_wire_number"
+                    case sortCode = "sort_code"
+                    case chipNumber = "chip_number"
+                    case routingNumber = "routing_number"
+                    case legalEntityIdentifier = "legal_entity_identifier"
+                }
+                
+                let country: String
+                let accountNumber: String
+                let bankAddress: BankAddress?
+                let bic: String?
+                let fedwireNumber: String?
+                let sortCode: String?
+                let chipNumber: String?
+                let routingNumber: String?
+                let legalEntityIdentifier: String?
             }
             
             enum CodingKeys: String, CodingKey {
-                case name
-                case country
-                case message
-                case bankCountry = "bank_country"
-                case accountNumber = "account_number"
-                case bankAddress = "bank_address"
-                case bic
-                case fedwireNumber = "fed_wire_number"
-                case sortCode = "sort_code"
-                case chipNumber = "chip_number"
-                case routingNumber = "routing_number"
-                case legalEntityIdentifier = "legal_entity_identifier"
+                case beneficiary
+                case bankDetails = "bank_details"
             }
             
-            let name: String?
-            let country: String
-            let message: String?
-            let bankCountry: String
-            let accountNumber: String
-            let bankAddress: BankAddress?
-            let bic: String?
-            let fedwireNumber: String?
-            let sortCode: String?
-            let chipNumber: String?
-            let routingNumber: String?
-            let legalEntityIdentifier: String?
+            let beneficiary: Beneficiary
+            let bankDetails: BankDetails
         }
         
         case payAnyone(PayAnyone)

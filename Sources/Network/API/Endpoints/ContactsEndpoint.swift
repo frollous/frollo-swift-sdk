@@ -14,29 +14,33 @@
 //  limitations under the License.
 //
 
-import CoreData
 import Foundation
 
-extension BPAYContact {
+import Foundation
+
+internal enum ContactsEndpoint: Endpoint {
     
-    /**
-     Fetch Request
-     
-     - returns: Fetch request for `BPAYContact` type
-     */
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<BPAYContact> {
-        return NSFetchRequest<BPAYContact>(entityName: "BPAYContact")
+    enum QueryParameters: String, Codable {
+        case after
+        case before
+        case size
+        case type
     }
     
-    /// Biller code of the BPAY contact
-    @NSManaged public var billerCode: String
+    internal var path: String {
+        return urlPath()
+    }
     
-    /// CRN of the BPAY contact
-    @NSManaged public var crn: String
+    case contact(contactID: Int64)
+    case contacts
     
-    /// Biller name of the BPAY contact
-    @NSManaged public var billerName: String
+    private func urlPath() -> String {
+        switch self {
+            case .contact(let contactID):
+                return "contacts" + String(contactID)
+            case .contacts:
+                return "contacts"
+        }
+    }
     
-    /// The type of CRN; defaulted to fixed crn,
-    @NSManaged public var crnTypeRawValue: String
 }

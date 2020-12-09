@@ -201,6 +201,16 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         return _userManagement
     }
     
+    /// Contacts - Managing Contacts
+    public var contacts: Contacts {
+        guard _setup
+        else {
+            fatalError("SDK not setup.")
+        }
+        
+        return _contacts
+    }
+    
     /// Indicates if the SDK has completed setup or not
     public var setup: Bool {
         return _setup
@@ -229,6 +239,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     internal var _setup = false
     internal var _userManagement: UserManagement!
     internal var version: Version!
+    internal var _contacts: Contacts!
     
     private let cacheExpiry: TimeInterval = 120
     private let frolloHost = "frollo.us"
@@ -356,6 +367,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         _surveys = Surveys(service: service)
         _userManagement = UserManagement(database: _database, service: service, clientID: configuration.clientID, authentication: oAuth2Authentication, preferences: preferences, delegate: self)
         _notifications = Notifications(events: _events, messages: _messages, userManagement: _userManagement)
+        _contacts = Contacts(database: _database, service: service)
         
         _events.delegate = delegate
         _messages.delegate = delegate

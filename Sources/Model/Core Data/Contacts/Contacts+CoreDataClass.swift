@@ -38,7 +38,7 @@ public class Contact: NSManagedObject, UniqueManagedObject {
         
         /// The contact is of type pay anyone; has account number and bsb
         case payAnyone = "pay_anyone"
-        case payID = "payid"
+        case payID = "pay_id"
         /// The contact is of type pay anyone; has biller code and crn
         case BPAY = "bpay"
         case international

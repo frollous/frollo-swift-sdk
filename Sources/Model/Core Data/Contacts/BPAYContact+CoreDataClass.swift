@@ -24,6 +24,27 @@ import Foundation
  */
 public class BPAYContact: Contact {
     
+    /**
+     CRN Type
+     
+     Indicates the type of the Biller CRN
+     */
+    public enum CRNType: String, CaseIterable, Codable {
+        case fixed = "fixed_crn"
+        case variable = "variable_crn"
+        case intelligent = "intelligent_crn"
+    }
+    
+    /// Type of  the PayID contact, indicates `PayIDContact` subentity
+    public var crnType: CRNType {
+        get {
+            return CRNType(rawValue: crnTypeRawValue)!
+        }
+        set {
+            crnTypeRawValue = newValue.rawValue
+        }
+    }
+    
     internal override func update(response: APIContactResponse, context: NSManagedObjectContext) {
         super.update(response: response, context: context)
         
@@ -34,6 +55,7 @@ public class BPAYContact: Contact {
         billerCode = contact.billerCode
         crn = contact.crn
         billerName = contact.billerName
+        crnType = contact.crnType
     }
     
 }

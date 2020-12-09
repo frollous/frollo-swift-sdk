@@ -1,0 +1,29 @@
+{
+    "id": 9,
+    "name": "Anne Maria",
+    "nick_name": "Mary",
+    "payment_method": "international",
+    "payment_details": {
+        "beneficiary": {
+            "name": "Anne Maria",
+            "country": "New Zeland",
+            "message": "Test message new"
+        },
+        "bank_details": {
+            "country": "New Zeland",
+            "account_number": "12345666",
+            "bank_address": {
+                "address": "ABC 666"
+            },
+            "bic": "777",
+            "fed_wire_number": "1234566",
+            "sort_code": "666",
+            "chip_number": "555",
+            "routing_number": "444",
+            "legal_entity_identifier": "123666"
+        }
+    },
+    "created_date": "2020-12-07T16:35:25.741+11:00",
+    "modified_date": "2020-12-08T10:27:28.999+11:00",
+    "verified": false
+}

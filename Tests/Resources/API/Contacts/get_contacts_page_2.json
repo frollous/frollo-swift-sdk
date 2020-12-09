@@ -1,0 +1,58 @@
+{
+    "data": [
+        {
+            "id": 13,
+            "name": "Steven Gerrard",
+            "nick_name": "Captain fantastic",
+            "payment_method": "pay_anyone",
+            "payment_details": {
+                "account_holder": "Steven Gerrard",
+                "bsb": "103-123",
+                "account_number": "212345678"
+            },
+            "created_date": "2020-12-07T14:31:03.583+11:00",
+            "modified_date": "2020-12-07T14:31:03.583+11:00",
+            "verified": false
+        },
+        {
+            "id": 12,
+            "name": "Luis Suarez",
+            "nick_name": "El Magician",
+            "payment_method": "international",
+            "payment_details": {
+                "beneficiary": {
+                    "country": "uruguay"
+                },
+                "bank_details": {
+                    "country": "uruguay",
+                    "account_number": "2752476"
+                }
+            },
+            "created_date": "2020-12-07T14:30:11.625+11:00",
+            "modified_date": "2020-12-07T14:30:11.625+11:00",
+            "verified": false
+        },
+        {
+            "id": 11,
+            "name": "Liverpool FC",
+            "nick_name": "LFC",
+            "payment_method": "bpay",
+            "payment_details": {
+                "biller_code": "2275362",
+                "crn": "723647803",
+                "biller_name": "Liverpool FC",
+                "crn_type": "fixed_crn"
+            },
+            "created_date": "2020-12-07T14:29:21.112+11:00",
+            "modified_date": "2020-12-07T14:29:21.112+11:00",
+            "verified": false
+        }
+    ],
+    "paging": {
+        "cursors": {
+            "before": "10",
+            "after": null
+        },
+        "total": 13
+    }
+}
