@@ -26,6 +26,7 @@ extension BPAYContact {
         billerName = String.randomString(range: 5...20)
         crn = String.randomString(range: 5...20)
         billerCode = String.randomString(range: 5...20)
+        crnType = CRNType.allCases.randomElement()!
     }
     
 }

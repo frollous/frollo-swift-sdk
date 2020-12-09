@@ -31,6 +31,8 @@ public class BPAYContact: Contact {
      */
     public enum CRNType: String, CaseIterable, Codable {
         case fixed = "fixed_crn"
+        case variable = "variable_crn"
+        case intelligent = "intelligent_crn"
     }
     
     /// Type of  the PayID contact, indicates `PayIDContact` subentity
@@ -53,6 +55,7 @@ public class BPAYContact: Contact {
         billerCode = contact.billerCode
         crn = contact.crn
         billerName = contact.billerName
+        crnType = contact.crnType
     }
     
 }
