@@ -518,7 +518,19 @@ public class Contacts: CachedObjects, ResponseHandler {
             contactsLock.unlock()
         }
         
-        updateObjectWithResponse(type: Contact.self, objectResponse: contactResponse, primaryKey: #keyPath(Contact.contactID), managedObjectContext: managedObjectContext)
+        let type: Contact.Type
+        switch contactResponse.contactType {
+            case .payAnyone:
+                type = PayAnyoneContact.self
+            case .payID:
+                type = PayIDContact.self
+            case .BPAY:
+                type = BPAYContact.self
+            case .international:
+                type = InternationalContact.self
+        }
+        
+        updateObjectWithResponse(type: type, objectResponse: contactResponse, primaryKey: #keyPath(Contact.contactID), managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
             do {
