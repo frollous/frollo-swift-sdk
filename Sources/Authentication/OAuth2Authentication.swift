@@ -360,9 +360,10 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
      Exchange a legacy access token if it exists for a new valid refresh access token pair.
      
      - parameters:
+        - legacyRefreshToken: existing legacy Refresh Token. (optional)
         - completion: Completion handler with any error that occurred
      */
-    public func exchangeLegacyToken(completion: @escaping FrolloSDKCompletionHandler) {
+    public func exchangeLegacyToken(legacyRefreshToken: String? = nil, completion: @escaping FrolloSDKCompletionHandler) {
         guard loggedIn
         else {
             let error = DataError(type: .authentication, subType: .loggedOut)
@@ -375,7 +376,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
             return
         }
         
-        guard let token = refreshToken
+        guard let token = legacyRefreshToken ?? refreshToken
         else {
             let error = DataError(type: .authentication, subType: .missingRefreshToken)
             
