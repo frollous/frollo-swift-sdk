@@ -37,7 +37,7 @@ internal enum ContactsEndpoint: Endpoint {
     private func urlPath() -> String {
         switch self {
             case .contact(let contactID):
-                return "contacts" + String(contactID)
+                return "contacts/" + String(contactID)
             case .contacts:
                 return "contacts"
         }

@@ -333,7 +333,11 @@ public class Contacts: CachedObjects, ResponseHandler {
                     DispatchQueue.main.async {
                         completion?(.failure(error))
                     }
-                case .success:
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleContactResponse(response, managedObjectContext: managedObjectContext)
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -368,7 +372,10 @@ public class Contacts: CachedObjects, ResponseHandler {
                     DispatchQueue.main.async {
                         completion?(.failure(error))
                     }
-                case .success:
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleContactResponse(response, managedObjectContext: managedObjectContext)
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -402,7 +409,10 @@ public class Contacts: CachedObjects, ResponseHandler {
                     DispatchQueue.main.async {
                         completion?(.failure(error))
                     }
-                case .success:
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleContactResponse(response, managedObjectContext: managedObjectContext)
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -444,7 +454,10 @@ public class Contacts: CachedObjects, ResponseHandler {
                     DispatchQueue.main.async {
                         completion?(.failure(error))
                     }
-                case .success:
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleContactResponse(response, managedObjectContext: managedObjectContext)
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -499,13 +512,86 @@ public class Contacts: CachedObjects, ResponseHandler {
             predicates.append(NSPredicate(format: #keyPath(Contact.contactID) + " <= %ld", argumentArray: [afterID]))
         }
         
-        updateObjectsWithResponse(type: Contact.self, objectsResponse: contactsResponse, primaryKey: #keyPath(Contact.contactID), linkedKeys: [], filterPredicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), managedObjectContext: managedObjectContext)
+        updateContactsObjectsWithResponse(contactsResponse, filterPredicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
             do {
                 try managedObjectContext.save()
             } catch {
                 Log.error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func updateContactsObjectsWithResponse(_ contactsResponse: [APIContactResponse], filterPredicate: NSPredicate?, managedObjectContext: NSManagedObjectContext) {
+        // Sort by ID
+        let sortedObjectResponses = contactsResponse.sorted { $0.id > $1.id }
+        
+        // Build id list predicate
+        let objectIDs = sortedObjectResponses.map { $0.id }
+        
+        managedObjectContext.performAndWait {
+            // Fetch existing providers for updating
+            let fetchRequest: NSFetchRequest<Contact> = Contact.fetchRequest()
+            
+            var predicates = [NSPredicate(format: #keyPath(Contact.contactID) + " IN %@", argumentArray: [objectIDs])]
+            
+            if let filter = filterPredicate {
+                predicates.append(filter)
+            }
+            
+            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Contact.contactID), ascending: true)]
+            
+            do {
+                let existingObjects = try managedObjectContext.fetch(fetchRequest)
+                
+                var index = 0
+                
+                for objectResponse in sortedObjectResponses {
+                    var object: Contact
+                    
+                    if index < existingObjects.count, existingObjects[index].primaryID == objectResponse.id {
+                        object = existingObjects[index]
+                        index += 1
+                    } else {
+                        switch objectResponse.contactType {
+                            case .payAnyone:
+                                object = PayAnyoneContact(context: managedObjectContext)
+                            case .BPAY:
+                                object = BPAYContact(context: managedObjectContext)
+                            case .payID:
+                                object = PayIDContact(context: managedObjectContext)
+                            case .international:
+                                object = InternationalContact(context: managedObjectContext)
+                        }
+                    }
+                    
+                    object.update(response: objectResponse, context: managedObjectContext)
+                }
+                
+                // Fetch and delete any leftovers
+                let deleteRequest: NSFetchRequest<Contact> = Contact.fetchRequest()
+                
+                var deletePredicates = [NSPredicate(format: "NOT " + #keyPath(Contact.contactID) + " IN %@", argumentArray: [objectIDs])]
+                
+                if let filter = filterPredicate {
+                    deletePredicates.append(filter)
+                }
+                
+                deleteRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: deletePredicates)
+                
+                do {
+                    let deleteObjects = try managedObjectContext.fetch(deleteRequest)
+                    
+                    for deleteObject in deleteObjects {
+                        managedObjectContext.delete(deleteObject)
+                    }
+                } catch let fetchError {
+                    Log.error(fetchError.localizedDescription)
+                }
+            } catch let fetchError {
+                Log.error(fetchError.localizedDescription)
             }
         }
     }
@@ -518,7 +604,19 @@ public class Contacts: CachedObjects, ResponseHandler {
             contactsLock.unlock()
         }
         
-        updateObjectWithResponse(type: Contact.self, objectResponse: contactResponse, primaryKey: #keyPath(Contact.contactID), managedObjectContext: managedObjectContext)
+        let type: Contact.Type
+        switch contactResponse.contactType {
+            case .payAnyone:
+                type = PayAnyoneContact.self
+            case .payID:
+                type = PayIDContact.self
+            case .BPAY:
+                type = BPAYContact.self
+            case .international:
+                type = InternationalContact.self
+        }
+        
+        updateObjectWithResponse(type: type, objectResponse: contactResponse, primaryKey: #keyPath(Contact.contactID), managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
             do {
