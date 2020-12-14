@@ -333,7 +333,11 @@ public class Contacts: CachedObjects, ResponseHandler {
                     DispatchQueue.main.async {
                         completion?(.failure(error))
                     }
-                case .success:
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleContactResponse(response, managedObjectContext: managedObjectContext)
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -368,7 +372,10 @@ public class Contacts: CachedObjects, ResponseHandler {
                     DispatchQueue.main.async {
                         completion?(.failure(error))
                     }
-                case .success:
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleContactResponse(response, managedObjectContext: managedObjectContext)
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -402,7 +409,10 @@ public class Contacts: CachedObjects, ResponseHandler {
                     DispatchQueue.main.async {
                         completion?(.failure(error))
                     }
-                case .success:
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleContactResponse(response, managedObjectContext: managedObjectContext)
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -444,7 +454,10 @@ public class Contacts: CachedObjects, ResponseHandler {
                     DispatchQueue.main.async {
                         completion?(.failure(error))
                     }
-                case .success:
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleContactResponse(response, managedObjectContext: managedObjectContext)
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
