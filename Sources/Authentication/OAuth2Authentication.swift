@@ -364,7 +364,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
         - completion: Completion handler with any error that occurred
      */
     public func exchangeLegacyToken(legacyRefreshToken: String? = nil, completion: @escaping FrolloSDKCompletionHandler) {
-        guard loggedIn
+        guard loggedIn || legacyRefreshToken != nil
         else {
             let error = DataError(type: .authentication, subType: .loggedOut)
             
@@ -422,6 +422,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
                     
                     let expiryDate = response.createdAt?.addingTimeInterval(response.expiresIn)
                     self.updateAccessToken(response.accessToken, expiryDate: expiryDate)
+                    self.loggedIn = true
                     
                     DispatchQueue.main.async {
                         completion(.success)
