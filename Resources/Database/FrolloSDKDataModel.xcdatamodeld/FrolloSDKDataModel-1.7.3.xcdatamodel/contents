@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="19H15" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.7.3">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.7.3">
     <entity name="Account" representedClassName=".Account" syncable="YES">
         <attribute name="accountHolderName" optional="YES" attributeType="String"/>
         <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
@@ -590,7 +590,7 @@
         <attribute name="occupationRawValue" optional="YES" attributeType="String"/>
         <attribute name="postcode" optional="YES" attributeType="String"/>
         <attribute name="primaryCurrency" attributeType="String"/>
-        <attribute name="registerComplete" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="registerStepsRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="statusRawValue" attributeType="String" defaultValueString="registered"/>
         <attribute name="suburb" optional="YES" attributeType="String"/>
         <attribute name="userID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
@@ -632,6 +632,6 @@
         <element name="Tag" positionX="283.4609375" positionY="696.9375" width="128" height="105"/>
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="613"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="178"/>
-        <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="420"/>
+        <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="433"/>
     </elements>
 </model>

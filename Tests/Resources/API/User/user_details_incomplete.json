@@ -5,6 +5,6 @@
 	"email_verified": true,
 	"status": "active",
 	"primary_currency": "AUD",
-	"register_complete": false,
-	"valid_password": true
+	"valid_password": true,
+    "register_steps": []
 }

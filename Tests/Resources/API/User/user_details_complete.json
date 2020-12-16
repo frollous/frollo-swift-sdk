@@ -36,9 +36,28 @@
 		"enabled": true
 	}],
 	"facebook_id": "1234567890",
-	"register_complete": false,
 	"valid_password": true,
 	"refresh_token": "sdjfnlasdjknfldskjngdflskjgnldsjkfnoa;nfeiansvijnasdvijda;nfgi;ej",
 	"access_token": "sdjfnlasdjknfldskjngdflskjgnldsjkfnoa;nfeiansvijnasdvijda;nfgi;ej",
-	"access_token_exp": 1939911061
+	"access_token_exp": 1939911061,
+    "register_steps": [
+        {
+          "key": "kyc",
+          "index": 0,
+          "required": true,
+          "completed": true
+        },
+        {
+          "key": "survey",
+          "index": 1,
+          "required": true,
+          "completed": false
+        },
+        {
+          "key": "otp",
+          "index": 2,
+          "required": false,
+          "completed": false
+        }
+      ]
 }

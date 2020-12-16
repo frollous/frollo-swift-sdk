@@ -84,5 +84,4 @@ struct APIUserUpdateRequest: Codable {
     let lastName: String?
     let mobileNumber: String?
     let occupation: User.Occupation?
-    
 }

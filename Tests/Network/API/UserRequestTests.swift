@@ -126,9 +126,11 @@ class UserRequestTests: XCTestCase {
                     XCTAssertEqual(userResponse.industry, .electricityGasWaterAndWasteServices)
                     XCTAssertEqual(userResponse.householdSize, 2)
                     XCTAssertEqual(userResponse.facebookID, "1234567890")
-                    XCTAssertEqual(userResponse.registerComplete, false)
                     XCTAssertEqual(userResponse.validPassword, true)
                     XCTAssertEqual(userResponse.features, [User.FeatureFlag(enabled: true, feature: "aggregation")])
+                    XCTAssertEqual(userResponse.registerSteps.count, 3)
+                    XCTAssertEqual(userResponse.registerSteps[1].key, "survey")
+                    XCTAssertEqual(userResponse.registerSteps[2].completed, false)
             }
             
             expectation1.fulfill()
@@ -167,7 +169,6 @@ class UserRequestTests: XCTestCase {
                     XCTAssertEqual(userResponse.emailVerified, true)
                     XCTAssertEqual(userResponse.status, .active)
                     XCTAssertEqual(userResponse.primaryCurrency, "AUD")
-                    XCTAssertEqual(userResponse.registerComplete, false)
                     XCTAssertNil(userResponse.gender)
                     XCTAssertNil(userResponse.dateOfBirth)
                     XCTAssertNil(userResponse.address?.postcode)
