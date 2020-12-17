@@ -92,8 +92,8 @@ extension User {
     /// Primary currency ISO code associated with the user
     @NSManaged public var primaryCurrency: String
     
-    /// Indicates if the user has completed the onboarding flow - tenant specific implementation
-    @NSManaged public var registerComplete: Bool
+    /// Raw value for register steps. Do not use
+    @NSManaged public var registerStepsRawValue: Data?
     
     /// Raw value of the user status. Use only in predicates
     @NSManaged public var statusRawValue: String

@@ -37,7 +37,7 @@ struct APIUserResponse: Codable {
         case occupation
         case primaryCurrency = "primary_currency"
         case previousAddress = "previous_address"
-        case registerComplete = "register_complete"
+        case registerSteps = "register_steps"
         case status
         case userID = "id"
         case validPassword = "valid_password"
@@ -101,6 +101,6 @@ struct APIUserResponse: Codable {
     let mobileNumber: String?
     let occupation: User.Occupation?
     let previousAddress: Address?
-    let registerComplete: Bool
+    let registerSteps: [User.RegisterStep]
     
 }

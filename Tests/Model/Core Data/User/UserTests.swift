@@ -76,7 +76,8 @@ class UserTests: XCTestCase {
                 XCTAssertEqual(userModel.attributionCampaign, userResponseModel.attribution?.campaign)
                 XCTAssertEqual(userModel.attributionCreative, userResponseModel.attribution?.creative)
                 XCTAssertEqual(userModel.attributionNetwork, userResponseModel.attribution?.network)
-                XCTAssertEqual(userModel.registerComplete, userResponseModel.registerComplete)
+                XCTAssertEqual(userModel.registerSteps, userResponseModel.registerSteps)
+                
                 
                 expectation1.fulfill()
             }

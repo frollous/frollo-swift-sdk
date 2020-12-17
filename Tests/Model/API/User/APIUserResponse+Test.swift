@@ -47,7 +47,7 @@ extension APIUserResponse {
                                mobileNumber: "0412345678",
                                occupation: .communityAndPersonalServiceWorkers,
                                previousAddress: Address(line1: "Bay 9 Middlemiss St", line2: "Frollo Unit 13", postcode: "2060", suburb: "Lavender Bay"),
-                               registerComplete: Bool.random())
+                               registerSteps: [User.RegisterStep(key: "survey", index: 0, required: true, completed: false), User.RegisterStep(key: "kyc", index: 1, required: true, completed: false)])
     }
     
 }

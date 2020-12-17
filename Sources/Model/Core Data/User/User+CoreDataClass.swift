@@ -209,6 +209,27 @@ public class User: NSManagedObject {
         case sms
     }
     
+    /**
+     Register Steps
+     
+     Represents registration steps which are required
+     */
+    public struct RegisterStep: Codable, Equatable {
+        
+        /// Step key
+        public let key: String
+        
+        /// Step index
+        public let index: Int
+        
+        /// Step required flag
+        public let required: Bool
+        
+        /// Step completed flag
+        public let completed: Bool
+        
+    }
+    
     /// Core Data entity description name
     static let entityName = "User"
     
@@ -295,6 +316,27 @@ public class User: NSManagedObject {
         }
     }
     
+    /// An array of `RegisterStep` decoded from a json array stored in the database. (Optional)
+    public var registerSteps: [RegisterStep]? {
+        get {
+            if let featureData = registerStepsRawValue {
+                let decoder = JSONDecoder()
+                
+                do {
+                    let features = try decoder.decode([RegisterStep].self, from: featureData)
+                    return features
+                } catch {
+                    Log.error(error.localizedDescription)
+                }
+            }
+            return nil
+        }
+        set {
+            let encoder = JSONEncoder()
+            registerStepsRawValue = try? encoder.encode(newValue)
+        }
+    }
+    
     // MARK: - Updating from response
     
     internal func update(response: APIUserResponse) {
@@ -324,8 +366,8 @@ public class User: NSManagedObject {
         mobileNumber = response.mobileNumber
         occupation = response.occupation
         postcode = response.address?.postcode
-        registerComplete = response.registerComplete
         suburb = response.address?.suburb
+        registerSteps = response.registerSteps
     }
     
     // MARK: - Update request
