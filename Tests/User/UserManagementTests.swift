@@ -626,7 +626,7 @@ class UserManagementTests: BaseTestCase {
     func testResetPassword() {
         let expectation1 = expectation(description: "Network Request")
         
-        connect(endpoint: UserEndpoint.resetPassword.path.prefixedWithSlash, addingData: "{}".data(using: .utf8)!, addingStatusCode: 202)
+        connect(endpoint: UserEndpoint.resetPassword.path.prefixedWithSlash, addingData: "".data(using: .utf8)!, addingStatusCode: 202)
         
         let keychain = validKeychain()
         let user = defaultUser(keychain: keychain)

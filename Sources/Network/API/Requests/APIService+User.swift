@@ -94,7 +94,7 @@ extension APIService {
                 return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue, emptyResponseCodes: [202]) { response in
                 self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
             }
         }
