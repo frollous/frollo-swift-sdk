@@ -54,7 +54,7 @@ public class Merchant: NSManagedObject, UniqueManagedObject {
     /// Type of merchant
     public var merchantType: MerchantType {
         get {
-            return MerchantType(rawValue: merchantTypeRawValue!)!
+            return MerchantType(rawValue: merchantTypeRawValue ?? "") ?? .unknown
         }
         set {
             merchantTypeRawValue = newValue.rawValue

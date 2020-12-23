@@ -4615,6 +4615,35 @@ class AggregationTests: BaseTestCase {
         }
         
     }
+    
+    func testMerchantTypeFallBack() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testMerchant1 = Merchant(context: managedObjectContext)
+                testMerchant1.populateTestData()
+                testMerchant1.merchantTypeRawValue = nil
+                
+                try! managedObjectContext.save()
+            }
+            
+            let merchant = aggregation.merchants(context: self.context)?.first
+            
+            XCTAssertNotNil(merchant)
+            XCTAssertEqual(merchant?.merchantType, .unknown)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
 }
 
 
