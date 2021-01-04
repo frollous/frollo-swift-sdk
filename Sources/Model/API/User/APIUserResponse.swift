@@ -20,45 +20,31 @@ struct APIUserResponse: Codable {
     
     enum CodingKeys: String, CodingKey {
         
-        case address
         case attribution
+        case currentAddress = "current_address"
         case dateOfBirth = "date_of_birth"
         case email
         case emailVerified = "email_verified"
         case facebookID = "facebook_id"
         case features
         case firstName = "first_name"
+        case foreignTax = "foreign_tax"
         case gender
         case householdSize = "household_size"
         case householdType = "marital_status"
         case industry
         case lastName = "last_name"
+        case mailingAddress = "mailing_address"
         case mobileNumber = "mobile_number"
         case occupation
         case primaryCurrency = "primary_currency"
-        case previousAddress = "previous_address"
         case registerSteps = "register_steps"
         case status
+        case taxResidency = "tax_residency"
+        case tfn
+        case tin
         case userID = "id"
         case validPassword = "valid_password"
-        
-    }
-    
-    struct Address: Codable {
-        
-        enum CodingKeys: String, CodingKey {
-            
-            case line1 = "line_1"
-            case line2 = "line_2"
-            case postcode
-            case suburb
-            
-        }
-        
-        let line1: String?
-        let line2: String?
-        let postcode: String?
-        let suburb: String?
         
     }
     
@@ -86,8 +72,8 @@ struct APIUserResponse: Codable {
     let status: User.Status
     let userID: Int64
     let validPassword: Bool
-    
-    let address: Address?
+    let currentAddress: User.Address?
+    let mailingAddress: User.Address?
     let attribution: Attribution?
     let dateOfBirth: Date?
     let facebookID: String?
@@ -100,7 +86,10 @@ struct APIUserResponse: Codable {
     let lastName: String?
     let mobileNumber: String?
     let occupation: User.Occupation?
-    let previousAddress: Address?
     let registerSteps: [User.RegisterStep]
+    let tfn: String?
+    let taxResidency: String?
+    let foreignTax: Bool?
+    let tin: String?
     
 }

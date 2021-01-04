@@ -33,8 +33,8 @@ extension APIUserResponse {
                                status: .active,
                                userID: Int64(arc4random()),
                                validPassword: true,
-                               address: Address(line1: "41 McLaren Street", line2: "Frollo Level 1", postcode: "2060", suburb: "North Sydney"),
-                               attribution: Attribution(adGroup: String.randomString(range: 1...10), campaign: String.randomString(range: 1...10), creative: String.randomString(range: 1...10), network: String.randomString(range: 1...10)),
+                               currentAddress: User.Address(buildingName: "100 Mount", unitNumber: "Unit 3", streetNumber: "100", streetName: "Mount", streetType: "street", suburb: "North Sydney", town: "Sydney", region: "Greater Sydney", state: "NSW", country: "AU", postcode: "2060", longForm: "Frollo, Level 33, 100 Mount St, North Sydney, NSW, 2060, Australia"),
+                               mailingAddress: User.Address(buildingName: "100 Mount", unitNumber: "Unit 3", streetNumber: "100", streetName: "Mount", streetType: "street", suburb: "North Sydney", town: "Sydney", region: "Greater Sydney", state: "NSW", country: "AU", postcode: "2060", longForm: "Frollo, Level 33, 100 Mount St, North Sydney, NSW, 2060, Australia"), attribution: Attribution(adGroup: String.randomString(range: 1...10), campaign: String.randomString(range: 1...10), creative: String.randomString(range: 1...10), network: String.randomString(range: 1...10)),
                                dateOfBirth: date,
                                facebookID: String(arc4random()),
                                features: [User.FeatureFlag(enabled: true, feature: "aggregation")],
@@ -46,8 +46,11 @@ extension APIUserResponse {
                                lastName: UUID().uuidString,
                                mobileNumber: "0412345678",
                                occupation: .communityAndPersonalServiceWorkers,
-                               previousAddress: Address(line1: "Bay 9 Middlemiss St", line2: "Frollo Unit 13", postcode: "2060", suburb: "Lavender Bay"),
-                               registerSteps: [User.RegisterStep(key: "survey", index: 0, required: true, completed: false), User.RegisterStep(key: "kyc", index: 1, required: true, completed: false)])
+                               registerSteps: [User.RegisterStep(key: "survey", index: 0, required: true, completed: false), User.RegisterStep(key: "kyc", index: 1, required: true, completed: false)],
+                               tfn: "12345678",
+                               taxResidency: "AU",
+                               foreignTax: false,
+                               tin: "12345")
     }
     
 }

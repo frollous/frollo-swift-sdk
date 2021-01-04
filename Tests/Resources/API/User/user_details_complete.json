@@ -8,18 +8,38 @@
 	"primary_currency": "AUD",
 	"gender": "male",
 	"date_of_birth": "1990-01",
-	"address": {
-		"line_1": "41 McLaren Street",
-		"line_2": "Frollo Level 1",
-		"postcode": "2060",
-		"suburb": "North Sydney"
+    "tfn": "12345678",
+    "tax_residency": "AU",
+    "foreign_tax": false,
+    "tin": "12345",
+	"current_address": {
+        "building_name": "100 Mount",
+        "unit_number": "Unit 3, Level 33",
+        "street_number": "100",
+        "street_name": "Mount",
+        "street_type": "street",
+        "suburb": "North Sydney",
+        "town": "Sydney",
+        "region": "Greater Sydney",
+        "state": "NSW",
+        "country": "AU",
+        "postal_code": "2060",
+        "long_form": "Frollo, Level 33, 100 Mount St, North Sydney, NSW, 2060, Australia"
 	},
-	"previous_address": {
-		"line_1": "Bay 9 Middlemiss St",
-		"line_2": "Frollo Unit 13",
-		"postcode": "2060",
-		"suburb": "Lavender Bay"
-	},
+    "mailing_address": {
+        "building_name": "100 Mount",
+        "unit_number": "Unit 3, Level 33",
+        "street_number": "100",
+        "street_name": "Mount",
+        "street_type": "street",
+        "suburb": "North Sydney",
+        "town": "Sydney",
+        "region": "Greater Sydney",
+        "state": "NSW",
+        "country": "AU",
+        "postal_code": "2060",
+        "long_form": "Frollo, Level 33, 100 Mount St, North Sydney, NSW, 2060, Australia"
+      },
 	"attribution": {
 		"ad_group": "ADGROUP1",
 		"campaign": "CAMPAIGN1",

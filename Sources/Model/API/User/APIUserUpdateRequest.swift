@@ -19,37 +19,24 @@ import Foundation
 struct APIUserUpdateRequest: Codable {
     
     enum CodingKeys: String, CodingKey {
-        case address
         case attribution
+        case currentAddress = "current_address"
         case dateOfBirth = "date_of_birth"
         case email
         case firstName = "first_name"
+        case foreignTax = "foreign_tax"
         case gender
         case householdSize = "household_size"
         case householdType = "marital_status"
         case industry
         case lastName = "last_name"
+        case mailingAddress = "mailing_address"
         case mobileNumber = "mobile_number"
         case occupation
         case primaryCurrency = "primary_currency"
-    }
-    
-    struct Address: Codable {
-        
-        enum CodingKeys: String, CodingKey {
-            
-            case line1 = "line_1"
-            case line2 = "line_2"
-            case postcode
-            case suburb
-            
-        }
-        
-        let line1: String?
-        let line2: String?
-        let postcode: String?
-        let suburb: String?
-        
+        case taxResidency = "tax_residency"
+        case tfn
+        case tin
     }
     
     struct Attribution: Codable {
@@ -72,11 +59,12 @@ struct APIUserUpdateRequest: Codable {
     
     let email: String
     let primaryCurrency: String
-    
-    let address: Address?
+    let currentAddress: User.Address?
+    let mailingAddress: User.Address?
     let attribution: Attribution?
     let dateOfBirth: Date?
     let firstName: String?
+    let foreignTax: Bool?
     let gender: User.Gender?
     let householdSize: Int64?
     let householdType: User.HouseholdType?
@@ -84,4 +72,7 @@ struct APIUserUpdateRequest: Codable {
     let lastName: String?
     let mobileNumber: String?
     let occupation: User.Occupation?
+    let taxResidency: String?
+    let tfn: String?
+    let tin: String?
 }

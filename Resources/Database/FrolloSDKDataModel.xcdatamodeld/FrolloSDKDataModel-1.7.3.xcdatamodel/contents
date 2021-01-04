@@ -569,30 +569,32 @@
         </uniquenessConstraints>
     </entity>
     <entity name="User" representedClassName=".User" syncable="YES">
-        <attribute name="addressLine1" optional="YES" attributeType="String"/>
-        <attribute name="addressLine2" optional="YES" attributeType="String"/>
         <attribute name="attributionAdGroup" optional="YES" attributeType="String"/>
         <attribute name="attributionCampaign" optional="YES" attributeType="String"/>
         <attribute name="attributionCreative" optional="YES" attributeType="String"/>
         <attribute name="attributionNetwork" optional="YES" attributeType="String"/>
+        <attribute name="currentAddressRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="dateOfBirth" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="email" attributeType="String"/>
         <attribute name="emailVerified" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="facebookID" optional="YES" attributeType="String"/>
         <attribute name="featuresRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="firstName" optional="YES" attributeType="String"/>
+        <attribute name="foreignTax" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="genderRawValue" optional="YES" attributeType="String"/>
         <attribute name="householdSize" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
         <attribute name="householdTypeRawValue" optional="YES" attributeType="String"/>
         <attribute name="industryRawValue" optional="YES" attributeType="String"/>
         <attribute name="lastName" optional="YES" attributeType="String"/>
+        <attribute name="mailingAddressRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="mobileNumber" optional="YES" attributeType="String"/>
         <attribute name="occupationRawValue" optional="YES" attributeType="String"/>
-        <attribute name="postcode" optional="YES" attributeType="String"/>
         <attribute name="primaryCurrency" attributeType="String"/>
         <attribute name="registerStepsRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="statusRawValue" attributeType="String" defaultValueString="registered"/>
-        <attribute name="suburb" optional="YES" attributeType="String"/>
+        <attribute name="taxResidency" optional="YES" attributeType="String"/>
+        <attribute name="tfn" optional="YES" attributeType="String"/>
+        <attribute name="tin" optional="YES" attributeType="String"/>
         <attribute name="userID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
         <attribute name="validPassword" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <uniquenessConstraints>
@@ -632,6 +634,6 @@
         <element name="Tag" positionX="283.4609375" positionY="696.9375" width="128" height="105"/>
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="613"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="178"/>
-        <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="433"/>
+        <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="463"/>
     </elements>
 </model>
