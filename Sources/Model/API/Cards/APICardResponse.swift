@@ -16,49 +16,35 @@
 
 import Foundation
 
-struct APICardResponse: Codable {
-    
-    /**
-     Card Status
-     
-     Status indicating the current state of the card.
-     */
-    enum CardStatus: String, Codable, CaseIterable {
-        /// The card is active
-        case active
-        
-        /// The card is pending activation
-        case pending
-        
-        /// The card is locked/ frozen
-        case locked
-    }
-    
-    /**
-     Card Design Type
-     
-     Type indicating the design of the card
-     */
-    enum CardDesignType: String, Codable, CaseIterable {
-        /// Default design
-        case `default`
-    }
+struct APICardResponse: APIUniqueResponse, Codable {
     
     enum CodingKeys: String, CodingKey {
-        case cardID = "id"
+        case id
         case accountID = "account_id"
         case status
         case designType = "design_type"
-        case createdAtDateString = "created_at"
+        case createdAt = "created_at"
         case name
         case nickName = "nick_name"
+        case cancelledAt = "cancelled_at"
+        case type
+        case panLastDigits = "pan_last_digits"
+        case expiryDate = "expiry_date"
+        case cardholderName = "cardholder_name"
+        case issuer
     }
     
-    let cardID: Int64
+    var id: Int64
     let accountID: Int64
-    let status: CardStatus
-    let designType: CardDesignType
-    let createdAtDateString: String
+    let status: Card.CardStatus
+    let designType: Card.CardDesignType
+    let createdAt: String
     let name: String
     let nickName: String?
+    let cancelledAt: String?
+    let type: String?
+    let panLastDigits: String?
+    let expiryDate: String?
+    let cardholderName: String?
+    let issuer: String?
 }

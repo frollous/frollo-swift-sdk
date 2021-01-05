@@ -21,11 +21,25 @@ import OHHTTPStubs
 
 class CardsTests: BaseTestCase {
 
-    var service: APIService!
+    var aggregation: Aggregation!
+    var cards: Cards!
 
     override func setUp() {
         testsKeychainService = "CardsTests"
         super.setUp()
+
+        let keychain = defaultKeychain(isNetwork: true)
+
+        let authentication = defaultAuthentication(keychain: keychain)
+        let network = defaultNetwork(keychain: keychain, authentication: authentication)
+        let service = defaultService(keychain: keychain, authentication: authentication)
+        let authService = defaultAuthService(keychain: keychain, network: network)
+
+        let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
+        oAuth2Authentication.loggedIn = true
+        aggregation = Aggregation(database: database, service: service)
+
+        cards = Cards(database: database, service: service, aggregation: aggregation)
     }
 
     override func tearDown() {
@@ -40,25 +54,26 @@ class CardsTests: BaseTestCase {
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "create_card", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
-        let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(configuration: config)
-        authentication.dataSource = mockAuthentication
-        authentication.delegate = mockAuthentication
-        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
-        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
-        let database = Database(path: tempFolderPath())
-
-        let cards = Cards(service: service)
-
         database.setup { (error) in
             XCTAssertNil(error)
 
-            cards.createCard(accountID: 325, firstName: "Jacob", lastName: "Smith", postalAddressLine1: "Address Line 1", postalAddressLine2: "Address Line 2", postalAddressSuburb: "Mock Suburb", postalCode: "123456", postalAddressState: "NSW", postalAddressCountry: "Australia") { (result) in
+            self.cards.createCard(accountID: 325, firstName: "Jacob", lastName: "Smith", postalAddressLine1: "Address Line 1", postalAddressLine2: "Address Line 2", postalAddressSuburb: "Mock Suburb", postalCode: "123456", postalAddressState: "NSW", postalAddressCountry: "Australia") { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     case .success:
-                        break
+                        let context = self.database.viewContext
+
+                        let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "cardID == %ld", argumentArray: [2])
+
+                        do {
+                            let fetchedGoals = try context.fetch(fetchRequest)
+
+                            XCTAssertEqual(fetchedGoals.first?.cardID, 2)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
                 }
 
                 expectation1.fulfill()

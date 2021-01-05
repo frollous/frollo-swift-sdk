@@ -36,4 +36,24 @@ extension APIService {
             }
         }
     }
+    
+    func fetchCards(completion: @escaping RequestCompletion<[APICardResponse]>) {
+        requestQueue.async {
+            let url = URL(string: CardsEndpoint.cards.path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleArrayResponse(type: APICardResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    func fetchCard(cardID: Int64, completion: @escaping RequestCompletion<APICardResponse>) {
+        requestQueue.async {
+            let url = URL(string: CardsEndpoint.card(cardID: cardID).path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APICardResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
 }
