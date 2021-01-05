@@ -379,7 +379,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         _userManagement = UserManagement(database: _database, service: service, clientID: configuration.clientID, authentication: oAuth2Authentication, preferences: preferences, delegate: self)
         _notifications = Notifications(events: _events, messages: _messages, userManagement: _userManagement)
         _contacts = Contacts(database: _database, service: service)
-        _cards = Cards(service: service)
+        _cards = Cards(database: _database, service: service, aggregation: _aggregation)
         
         _events.delegate = delegate
         _messages.delegate = delegate
