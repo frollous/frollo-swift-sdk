@@ -515,6 +515,9 @@ public class Account: NSManagedObject, UniqueManagedObject {
         if let transaction = object as? Transaction {
             addToTransactions(transaction)
         }
+        if let card = object as? Card {
+            addToCards(card)
+        }
     }
     
     internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {

@@ -51,22 +51,22 @@ extension Card {
     
     /// Account associated with the card (Optional)
     @NSManaged public var account: Account?
-
+    
     /// Date the card was cancelled (Optional)
     @NSManaged public var cancelledDateString: String?
-
+    
     /// Name of the card holder (Optional)
     @NSManaged public var cardholderName: String?
-
+    
     /// Date on which the card will expire (Optional)
     @NSManaged public var expiryDate: String?
-
+    
     /// Issuer of the card; eg Visa, Mastercard (Optional)
     @NSManaged public var issuerRawValue: String?
-
+    
     /// Last 4 digits of the card's Primary Account Number (Optional)
     @NSManaged public var panLastDigits: String?
-
+    
     /// Type of the card; eg credit, debit (Optional)
     @NSManaged public var typeRawValue: String?
 }

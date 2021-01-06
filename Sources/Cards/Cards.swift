@@ -193,7 +193,7 @@ public class Cards: CachedObjects, ResponseHandler {
             cardsLock.unlock()
         }
         
-        let updatedLinkedIDs = updateObjectsWithResponse(type: Card.self, objectsResponse: cardsResponse, primaryKey: #keyPath(Card.cardID), linkedKeys: [\Card.cardID], filterPredicate: nil, managedObjectContext: managedObjectContext)
+        let updatedLinkedIDs = updateObjectsWithResponse(type: Card.self, objectsResponse: cardsResponse, primaryKey: #keyPath(Card.cardID), linkedKeys: [\Card.accountID], filterPredicate: nil, managedObjectContext: managedObjectContext)
         
         if let accountIDs = updatedLinkedIDs[\Card.accountID] {
             linkingAccountIDs = linkingAccountIDs.union(accountIDs)
