@@ -33,20 +33,22 @@ public class Cards: CachedObjects, ResponseHandler {
         self.service = service
         self.aggregation = aggregation
     }
-    
-    /// Creates/ Orders a new card on the host.
-    /// - Parameters:
-    ///   - accountID: ID of the account to which the card is to be linked
-    ///   - firstName: First name of the card holder
-    ///   - middleName: Middle name of the card holder; Optional
-    ///   - lastName: Last name of the card holder
-    ///   - postalAddressLine1: Line 1 of the postal address to which the card is to be sent
-    ///   - postalAddressLine2: Line 2 of the postal address to which the card is to be sent; Optional
-    ///   - postalAddressSuburb: Suburb of the postal address to which the card is to be sent
-    ///   - postalCode: Postcode of the address to which the card is to be sent
-    ///   - postalAddressState: State of the address to which the card is to be sent
-    ///   - postalAddressCountry: Country of the address to which the card is to be sent
-    ///   - completion:  Optional completion handler with optional error if the request fails
+
+    /**
+     Creates/ Orders a new card on the host.
+     - Parameters:
+     - accountID: ID of the account to which the card is to be linked
+     - firstName: First name of the card holder
+     - middleName: Middle name of the card holder; Optional
+     - lastName: Last name of the card holder
+     - postalAddressLine1: Line 1 of the postal address to which the card is to be sent
+     - postalAddressLine2: Line 2 of the postal address to which the card is to be sent; Optional
+     - postalAddressSuburb: Suburb of the postal address to which the card is to be sent
+     - postalCode: Postcode of the address to which the card is to be sent
+     - postalAddressState: State of the address to which the card is to be sent
+     - postalAddressCountry: Country of the address to which the card is to be sent
+     - completion:  Optional completion handler with optional error if the request fails
+     */
     public func createCard(accountID: Int64, firstName: String, middleName: String? = nil, lastName: String, postalAddressLine1: String, postalAddressLine2: String? = nil, postalAddressSuburb: String, postalCode: String, postalAddressState: String, postalAddressCountry: String, completion: FrolloSDKCompletionHandler? = nil) {
         
         let address = APICreateCardRequest.Address(line1: postalAddressLine1, line2: postalAddressLine2, postcode: postalCode, suburb: postalAddressSuburb, state: postalAddressState, country: postalAddressCountry)
@@ -73,14 +75,16 @@ public class Cards: CachedObjects, ResponseHandler {
             }
         }
     }
-    
-    /// Fetch cards from the cache
-    /// - Parameters:
-    ///   - context: Managed object context to fetch these from; background or main thread
-    ///   - predicate: Predicate of properties to match for fetching. See `Card` for properties (Optional)
-    ///   - sortDescriptors: Array of sort descriptors to sort the results by. Defaults to cardID ascending (Optional)
-    ///   - limit: Fetch limit to set maximum number of returned items (Optional)
-    /// - Returns: Array of cards See `Card` for properties
+
+    /**
+     Fetch cards from the cache
+     - Parameters:
+     - context: Managed object context to fetch these from; background or main thread
+     - predicate: Predicate of properties to match for fetching. See `Card` for properties (Optional)
+     - sortDescriptors: Array of sort descriptors to sort the results by. Defaults to cardID ascending (Optional)
+     - limit: Fetch limit to set maximum number of returned items (Optional)
+     - Returns: Array of cards See `Card` for properties
+     */
     public func cards(context: NSManagedObjectContext,
                       filteredBy predicate: NSPredicate? = nil,
                       sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Card.cardID), ascending: true)],
