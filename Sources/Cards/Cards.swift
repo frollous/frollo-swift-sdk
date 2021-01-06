@@ -160,6 +160,39 @@ public class Cards: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Update a card on the host
+     
+     - Parameters:
+     - cardID: ID of the card to be updated
+     - status:  Status of the card to be updated
+     - nickName:  Nickname of the card to be updated
+     - completion: Optional completion handler with optional error if the request fails
+     */
+    public func updateCard(cardID: Int64, status: Card.CardStatus? = nil, nickName: String? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        
+        let request = APIUpdateCardRequest(status: status, nickName: nickName)
+        
+        service.updateCard(cardID: cardID, request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleCardResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
     // MARK: - Linking Objects
     
     private func linkCardsToAccounts(managedObjectContext: NSManagedObjectContext) {

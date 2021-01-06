@@ -68,9 +68,9 @@ class CardsTests: BaseTestCase {
                         fetchRequest.predicate = NSPredicate(format: "cardID == %ld", argumentArray: [2])
 
                         do {
-                            let fetchedGoals = try context.fetch(fetchRequest)
+                            let fetchedCards = try context.fetch(fetchRequest)
 
-                            XCTAssertEqual(fetchedGoals.first?.cardID, 2)
+                            XCTAssertEqual(fetchedCards.first?.cardID, 2)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -87,7 +87,9 @@ class CardsTests: BaseTestCase {
     func testRefreshCards() {
         let expectation1 = expectation(description: "Network Request 1")
 
-        connect(endpoint: CardsEndpoint.cards.path.prefixedWithSlash, toResourceWithName: "get_cards")
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.cards.path) && isMethodGET()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "get_cards", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
 
         database.setup { (error) in
             XCTAssertNil(error)
@@ -107,7 +109,7 @@ class CardsTests: BaseTestCase {
                             XCTAssertEqual(fetchedCards.count, 2)
 
                             XCTAssertEqual(fetchedCards.first?.cardID, 123)
-                            XCTAssertEqual(fetchedCards.first?.accountID, 456)
+                            XCTAssertEqual(fetchedCards.first?.accountID, 542)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -123,7 +125,9 @@ class CardsTests: BaseTestCase {
     func testRefreshCardByID() {
         let expectation1 = expectation(description: "Network Request 1")
 
-        connect(endpoint: CardsEndpoint.card(cardID: 3).path.prefixedWithSlash, toResourceWithName: "get_card_by_id")
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.card(cardID: 3).path) && isMethodGET()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "get_card_by_id", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
 
         database.setup { (error) in
             XCTAssertNil(error)
@@ -153,5 +157,116 @@ class CardsTests: BaseTestCase {
         }
 
         wait(for: [expectation1], timeout: 3.0)
+    }
+
+    func testUpdateCard() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.card(cardID: 3).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "get_card_by_id", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = self.database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let card = Card(context: managedObjectContext)
+                card.populateTestData()
+                card.cardID = 3
+
+                try? managedObjectContext.save()
+
+                self.cards.updateCard(cardID: 3, status: .locked, nickName: "Transaction card") { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTFail(error.localizedDescription)
+                        case .success:
+                            let context = self.database.viewContext
+
+                            let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
+                            fetchRequest.predicate = NSPredicate(format: "cardID == %ld", argumentArray: [3])
+
+                            do {
+                                let fetchedMessages = try context.fetch(fetchRequest)
+
+                                XCTAssertEqual(fetchedMessages.first?.cardID, 3)
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                    }
+
+                    expectation1.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
+    func testCardsLinkToAccounts() {
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Accounts Request")
+        let expectation3 = expectation(description: "Network Cards Request")
+
+        connect(endpoint: AggregationEndpoint.accounts.path.prefixedWithSlash, toResourceWithName: "accounts_valid")
+        connect(endpoint: CardsEndpoint.cards.path.prefixedWithSlash, toResourceWithName: "get_cards")
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+
+        aggregation.refreshAccounts { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+
+            expectation2.fulfill()
+        }
+
+        wait(for: [expectation2], timeout: 3.0)
+
+        cards.refreshCards { result in
+            switch result {
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            case .success:
+                break
+            }
+
+            expectation3.fulfill()
+        }
+
+        wait(for: [expectation3], timeout: 3.0)
+
+        let context = database.viewContext
+
+        let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "cardID == %ld", argumentArray: [123])
+
+        do {
+            let fetchedCards = try context.fetch(fetchRequest)
+
+            XCTAssertEqual(fetchedCards.count, 1)
+
+            if let card = fetchedCards.first {
+                XCTAssertNotNil(card.accountID)
+
+                XCTAssertEqual(card.accountID, card.account?.accountID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+
+        OHHTTPStubs.removeAllStubs()
+
     }
 }

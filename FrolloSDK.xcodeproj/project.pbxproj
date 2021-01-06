@@ -1604,6 +1604,8 @@
 		4E45D9AD25A5668B0092F26E /* get_card_by_id.json in Resources */ = {isa = PBXBuildFile; fileRef = 4E45D9AC25A5668B0092F26E /* get_card_by_id.json */; };
 		4E45D9AE25A5668B0092F26E /* get_card_by_id.json in Resources */ = {isa = PBXBuildFile; fileRef = 4E45D9AC25A5668B0092F26E /* get_card_by_id.json */; };
 		4E45D9AF25A5668B0092F26E /* get_card_by_id.json in Resources */ = {isa = PBXBuildFile; fileRef = 4E45D9AC25A5668B0092F26E /* get_card_by_id.json */; };
+		4E45DA3A25A5805A0092F26E /* APIUpdateCardRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E45DA3925A5805A0092F26E /* APIUpdateCardRequest.swift */; };
+		4E45DA3B25A5805A0092F26E /* APIUpdateCardRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E45DA3925A5805A0092F26E /* APIUpdateCardRequest.swift */; };
 		4E6E9CEA254A6606003E7B97 /* APIUserOTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6E9CE9254A6606003E7B97 /* APIUserOTPRequest.swift */; };
 		4E6E9CEB254A660C003E7B97 /* APIUserOTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6E9CE9254A6606003E7B97 /* APIUserOTPRequest.swift */; };
 		4E6E9CF0254A7102003E7B97 /* user_request_otp.json in Resources */ = {isa = PBXBuildFile; fileRef = 4E6E9CEC254A70F9003E7B97 /* user_request_otp.json */; };
@@ -2414,6 +2416,7 @@
 		4E45D94C25A444BA0092F26E /* Card+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Card+Test.swift"; sourceTree = "<group>"; };
 		4E45D99825A562CC0092F26E /* get_cards.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_cards.json; sourceTree = "<group>"; };
 		4E45D9AC25A5668B0092F26E /* get_card_by_id.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_card_by_id.json; sourceTree = "<group>"; };
+		4E45DA3925A5805A0092F26E /* APIUpdateCardRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUpdateCardRequest.swift; sourceTree = "<group>"; };
 		4E6E9CE9254A6606003E7B97 /* APIUserOTPRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserOTPRequest.swift; sourceTree = "<group>"; };
 		4E6E9CEC254A70F9003E7B97 /* user_request_otp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user_request_otp.json; sourceTree = "<group>"; };
 		4E6E9CF3254A7798003E7B97 /* APIUserDetailsConfirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserDetailsConfirm.swift; sourceTree = "<group>"; };
@@ -4459,6 +4462,7 @@
 			children = (
 				4EFB625625A3E0EC00930C95 /* APICreateCardRequest.swift */,
 				4EFB627B25A3E80900930C95 /* APICardResponse.swift */,
+				4E45DA3925A5805A0092F26E /* APIUpdateCardRequest.swift */,
 			);
 			path = Cards;
 			sourceTree = "<group>";
@@ -5644,6 +5648,7 @@
 				013A32AF21127A3600B0590B /* AccountRefreshStatus.swift in Sources */,
 				017F0F9622DC129B00ACE7BB /* APIGoalResponse.swift in Sources */,
 				137A7CDA257D995C002AFB49 /* Contacts.swift in Sources */,
+				4E45DA3A25A5805A0092F26E /* APIUpdateCardRequest.swift in Sources */,
 				01483BB6211967A500D0DA87 /* Merchant+CoreDataClass.swift in Sources */,
 				137A7CEB257D9A33002AFB49 /* ContactsEndpoint.swift in Sources */,
 				034EDC8C250F24DD00C48A57 /* APIImageResponse.swift in Sources */,
@@ -6386,6 +6391,7 @@
 				01E5BEF42227A475003D85FD /* FrolloSDK.swift in Sources */,
 				01E5BEF52227A475003D85FD /* Date.swift in Sources */,
 				137A7CDB257D995C002AFB49 /* Contacts.swift in Sources */,
+				4E45DA3B25A5805A0092F26E /* APIUpdateCardRequest.swift in Sources */,
 				017F0F9722DC129B00ACE7BB /* APIGoalResponse.swift in Sources */,
 				137A7CEC257D9A33002AFB49 /* ContactsEndpoint.swift in Sources */,
 				034EDC8D250F24DD00C48A57 /* APIImageResponse.swift in Sources */,
