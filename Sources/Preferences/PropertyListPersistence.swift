@@ -122,11 +122,14 @@ class PropertyListPersistence: PreferencesPersistence {
         
         preferencesData = [:]
         
-        do {
-            try FileManager.default.removeItem(at: preferencesPath)
-        } catch {
-            Log.error(error.localizedDescription)
+        if FileManager.default.fileExists(atPath: preferencesPath.path) {
+            do {
+                try FileManager.default.removeItem(at: preferencesPath)
+            } catch {
+                Log.error(error.localizedDescription)
+            }
         }
+        
     }
     
 }

@@ -34,10 +34,8 @@ extension User: TestableCoreData {
         primaryCurrency = "AUD"
         gender = .male
         dateOfBirth = date
-        addressLine1 = "41 McLaren Street"
-        addressLine2 = "Frollo Level 1"
-        postcode = "2060"
-        suburb = "North Sydney"
+        address = User.getTestAddress()
+        mailingAddress = User.getTestAddress()
         mobileNumber = "0412345678"
         householdType = .single
         householdSize = 1
@@ -49,6 +47,15 @@ extension User: TestableCoreData {
         attributionCreative = String.randomString(range: 1...10)
         attributionNetwork = String.randomString(range: 1...10)
         validPassword = true
+        foreignTax = false
+        tin = "12345"
+        tfn = "12345678"
+        taxResidency = "AU"
+    }
+    
+    static func getTestAddress() -> Address{
+        return Address(buildingName: "100 Mount", unitNumber: "Unit 3", streetNumber: "100", streetName: "Mount", streetType: "street", suburb: "North Sydney", town: "Sydney", region: "Greater Sydney", state: "NSW", country: "AU", postcode: "2060", longForm: "Frollo, Level 33, 100 Mount St, North Sydney, NSW, 2060, Australia")
     }
     
 }
+

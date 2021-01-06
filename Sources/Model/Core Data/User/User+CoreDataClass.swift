@@ -26,6 +26,68 @@ import Foundation
 public class User: NSManagedObject {
     
     /**
+     Address
+     
+     Represents address
+     */
+    public struct Address: Codable {
+        
+        enum CodingKeys: String, CodingKey {
+            
+            case buildingName = "building_name"
+            case unitNumber = "unit_number"
+            case streetNumber = "street_number"
+            case streetName = "street_name"
+            case streetType = "street_type"
+            case suburb
+            case town
+            case region
+            case state
+            case country
+            case postcode = "postal_code"
+            case longForm = "long_form"
+            
+        }
+        
+        /// Address building name. (Optional)
+        public var buildingName: String?
+        
+        /// Address unit number. (Optional)
+        public var unitNumber: String?
+        
+        /// Address street number. (Optional)
+        public var streetNumber: String?
+        
+        /// Address street name. (Optional)
+        public var streetName: String?
+        
+        /// Address street type. (Optional)
+        public var streetType: String?
+        
+        /// Address suburb name. (Optional)
+        public var suburb: String?
+        
+        /// Address town name. (Optional)
+        public var town: String?
+        
+        /// Address region. (Optional)
+        public var region: String?
+        
+        /// Address state. (Optional)
+        public var state: String?
+        
+        /// Address country. (Optional)
+        public var country: String?
+        
+        /// Address post code. (Optional)
+        public var postcode: String?
+        
+        /// Full address in formatted form. (Optional)
+        public let longForm: String?
+        
+    }
+    
+    /**
      Feature Flags
      
      Represents features which are available to the user
@@ -337,6 +399,48 @@ public class User: NSManagedObject {
         }
     }
     
+    /// Address of user (optional)
+    public var address: Address? {
+        get {
+            if let addressData = addressRawValue {
+                let decoder = JSONDecoder()
+                
+                do {
+                    let address = try decoder.decode(Address.self, from: addressData)
+                    return address
+                } catch {
+                    Log.error(error.localizedDescription)
+                }
+            }
+            return nil
+        }
+        set {
+            let encoder = JSONEncoder()
+            addressRawValue = try? encoder.encode(newValue)
+        }
+    }
+    
+    /// Mailing Address of user (optional)
+    public var mailingAddress: Address? {
+        get {
+            if let mailingAddressData = mailingAddressRawValue {
+                let decoder = JSONDecoder()
+                
+                do {
+                    let mailingAddress = try decoder.decode(Address.self, from: mailingAddressData)
+                    return mailingAddress
+                } catch {
+                    Log.error(error.localizedDescription)
+                }
+            }
+            return nil
+        }
+        set {
+            let encoder = JSONEncoder()
+            mailingAddressRawValue = try? encoder.encode(newValue)
+        }
+    }
+    
     // MARK: - Updating from response
     
     internal func update(response: APIUserResponse) {
@@ -348,8 +452,8 @@ public class User: NSManagedObject {
         validPassword = response.validPassword
         
         // Optional properties
-        addressLine1 = response.address?.line1
-        addressLine2 = response.address?.line2
+        address = response.address
+        mailingAddress = response.mailingAddress
         attributionAdGroup = response.attribution?.adGroup
         attributionCampaign = response.attribution?.campaign
         attributionCreative = response.attribution?.creative
@@ -358,6 +462,7 @@ public class User: NSManagedObject {
         facebookID = response.facebookID
         features = response.features
         firstName = response.firstName
+        foreignTax = response.foreignTax ?? false
         gender = response.gender
         householdSize = response.householdSize ?? -1
         householdType = response.householdType
@@ -365,18 +470,15 @@ public class User: NSManagedObject {
         lastName = response.lastName
         mobileNumber = response.mobileNumber
         occupation = response.occupation
-        postcode = response.address?.postcode
-        suburb = response.address?.suburb
         registerSteps = response.registerSteps
+        taxResidency = response.taxResidency
+        tfn = response.tfn
+        tin = response.tfn
     }
     
     // MARK: - Update request
     
     internal func updateRequest() -> APIUserUpdateRequest {
-        var address: APIUserUpdateRequest.Address?
-        if addressLine1 != nil || addressLine2 != nil || postcode != nil || suburb != nil {
-            address = APIUserUpdateRequest.Address(line1: addressLine1, line2: addressLine2, postcode: postcode, suburb: suburb)
-        }
         
         var attribution: APIUserUpdateRequest.Attribution?
         if attributionAdGroup != nil || attributionCampaign != nil || attributionCreative != nil || attributionNetwork != nil {
@@ -389,16 +491,21 @@ public class User: NSManagedObject {
         return APIUserUpdateRequest(email: email,
                                     primaryCurrency: primaryCurrency,
                                     address: address,
+                                    mailingAddress: mailingAddress,
                                     attribution: attribution,
                                     dateOfBirth: dateOfBirth,
                                     firstName: firstName,
+                                    foreignTax: foreignTax,
                                     gender: gender,
                                     householdSize: householdSize,
                                     householdType: householdType,
                                     industry: industry,
                                     lastName: lastName,
                                     mobileNumber: mobileNumber,
-                                    occupation: occupation)
+                                    occupation: occupation,
+                                    taxResidency: taxResidency,
+                                    tfn: tfn,
+                                    tin: tin)
     }
     
 }
