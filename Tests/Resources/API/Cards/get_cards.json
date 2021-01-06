@@ -1,0 +1,32 @@
+[
+  {
+    "id": 123,
+    "account_id": 542,
+    "status": "active",
+    "type": "debit",
+    "design_type": "default",
+    "created_at": "2020-12-01T18:25:43.511Z",
+    "cancelled_at": "2020-12-02T18:25:43.511Z",
+    "name": "Everyday Debit Card",
+    "nick_name": "Splurge Card",
+    "pan_last_digits": "1234",
+    "expiry_date": "mm/YY",
+    "cardholder_name": "Joe Blow",
+    "issuer": "Visa"
+  },
+  {
+    "id": 124,
+    "account_id": 456,
+    "status": "active",
+    "type": "debit",
+    "design_type": "default",
+    "created_at": "2020-12-01T18:25:43.511Z",
+    "cancelled_at": "2020-12-02T18:25:43.511Z",
+    "name": "Everyday Credit Card",
+    "nick_name": "Presents Card",
+    "pan_last_digits": "1234",
+    "expiry_date": "mm/YY",
+    "cardholder_name": "Joe Blow",
+    "issuer": "Mastercard"
+  }
+]

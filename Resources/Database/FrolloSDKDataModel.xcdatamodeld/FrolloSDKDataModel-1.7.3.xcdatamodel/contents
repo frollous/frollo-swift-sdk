@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.7.3">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="19H114" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.7.3">
     <entity name="Account" representedClassName=".Account" syncable="YES">
         <attribute name="accountHolderName" optional="YES" attributeType="String"/>
         <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
@@ -54,6 +54,7 @@
         <attribute name="totalCreditLineCurrency" optional="YES" attributeType="String"/>
         <relationship name="balanceTiers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AccountBalanceTier" inverseName="account" inverseEntity="AccountBalanceTier"/>
         <relationship name="bills" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Bill" inverseName="account" inverseEntity="Bill"/>
+        <relationship name="cards" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Card" inverseName="account" inverseEntity="Card"/>
         <relationship name="goals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Goal" inverseName="account" inverseEntity="Goal"/>
         <relationship name="productInformations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDRProductInformation" inverseName="account" inverseEntity="CDRProductInformation"/>
         <relationship name="providerAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProviderAccount" inverseName="accounts" inverseEntity="ProviderAccount"/>
@@ -184,6 +185,27 @@
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="budgetPeriodID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="Card" representedClassName=".Card" syncable="YES">
+        <attribute name="accountID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="cancelledDateString" optional="YES" attributeType="String"/>
+        <attribute name="cardholderName" optional="YES" attributeType="String"/>
+        <attribute name="cardID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="createdDateString" attributeType="String"/>
+        <attribute name="designTypeRawValue" attributeType="String"/>
+        <attribute name="expiryDate" optional="YES" attributeType="String"/>
+        <attribute name="issuerRawValue" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="nickName" optional="YES" attributeType="String"/>
+        <attribute name="panLastDigits" optional="YES" attributeType="String"/>
+        <attribute name="statusRawValue" attributeType="String"/>
+        <attribute name="typeRawValue" optional="YES" attributeType="String"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="cards" inverseEntity="Account"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="cardID"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
@@ -604,13 +626,14 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="913"/>
+        <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="928"/>
         <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="105"/>
         <element name="Bill" positionX="-378" positionY="162" width="128" height="373"/>
         <element name="BillPayment" positionX="-378" positionY="162" width="128" height="178"/>
         <element name="BPAYContact" positionX="-360" positionY="180" width="128" height="103"/>
         <element name="Budget" positionX="-378" positionY="162" width="128" height="283"/>
         <element name="BudgetPeriod" positionX="-369" positionY="171" width="128" height="193"/>
+        <element name="Card" positionX="-378" positionY="162" width="128" height="253"/>
         <element name="CDRConfiguration" positionX="-378" positionY="162" width="128" height="103"/>
         <element name="CDRProductInformation" positionX="-378" positionY="162" width="128" height="88"/>
         <element name="Consent" positionX="-378" positionY="162" width="128" height="253"/>

@@ -203,6 +203,9 @@ extension Account {
     /// Child transactions
     @NSManaged public var transactions: Set<Transaction>?
     
+    /// Associated cards
+    @NSManaged public var cards: Set<Card>?
+    
 }
 
 // MARK: Generated accessors for balanceTiers
@@ -334,5 +337,25 @@ extension Account {
     /// Remove CDR product information relationships
     @objc(removeProductInformations:)
     @NSManaged public func removeFromProductInformations(_ values: Set<CDRProductInformation>)
+    
+}
+
+extension Account {
+    
+    /// Add an cards relationship
+    @objc(addCardsObject:)
+    @NSManaged public func addToCards(_ value: Card)
+    
+    /// Remove an cards relationship
+    @objc(removeCardsObject:)
+    @NSManaged public func removeFromCards(_ value: Card)
+    
+    /// Add cards relationships
+    @objc(addCards:)
+    @NSManaged public func addToCards(_ values: Set<Card>)
+    
+    /// Remove cards relationships
+    @objc(removeCards:)
+    @NSManaged public func removeFromCards(_ values: Set<Card>)
     
 }
