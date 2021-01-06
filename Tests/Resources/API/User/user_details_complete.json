@@ -12,7 +12,7 @@
     "tax_residency": "AU",
     "foreign_tax": false,
     "tin": "12345",
-	"current_address": {
+	"address": {
         "building_name": "100 Mount",
         "unit_number": "Unit 3, Level 33",
         "street_number": "100",
