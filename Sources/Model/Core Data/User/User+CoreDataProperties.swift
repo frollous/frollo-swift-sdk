@@ -42,7 +42,7 @@ extension User {
     @NSManaged public var attributionNetwork: String?
     
     /// Raw value for current address. Do not use
-    @NSManaged public var currentAddressRawValue: Data?
+    @NSManaged public var addressRawValue: Data?
     
     /// Date of birth of the user (optional)
     @NSManaged public var dateOfBirth: Date?

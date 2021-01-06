@@ -399,15 +399,15 @@ public class User: NSManagedObject {
         }
     }
     
-    /// Current Address of user (optional)
-    public var currentAddress: Address? {
+    /// Address of user (optional)
+    public var address: Address? {
         get {
-            if let currentAddressData = currentAddressRawValue {
+            if let addressData = addressRawValue {
                 let decoder = JSONDecoder()
                 
                 do {
-                    let currentAddress = try decoder.decode(Address.self, from: currentAddressData)
-                    return currentAddress
+                    let address = try decoder.decode(Address.self, from: addressData)
+                    return address
                 } catch {
                     Log.error(error.localizedDescription)
                 }
@@ -416,7 +416,7 @@ public class User: NSManagedObject {
         }
         set {
             let encoder = JSONEncoder()
-            currentAddressRawValue = try? encoder.encode(newValue)
+            addressRawValue = try? encoder.encode(newValue)
         }
     }
     
@@ -452,7 +452,7 @@ public class User: NSManagedObject {
         validPassword = response.validPassword
         
         // Optional properties
-        currentAddress = response.currentAddress
+        address = response.address
         mailingAddress = response.mailingAddress
         attributionAdGroup = response.attribution?.adGroup
         attributionCampaign = response.attribution?.campaign
@@ -490,7 +490,7 @@ public class User: NSManagedObject {
         
         return APIUserUpdateRequest(email: email,
                                     primaryCurrency: primaryCurrency,
-                                    currentAddress: currentAddress,
+                                    address: address,
                                     mailingAddress: mailingAddress,
                                     attribution: attribution,
                                     dateOfBirth: dateOfBirth,

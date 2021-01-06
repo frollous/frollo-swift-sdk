@@ -591,11 +591,11 @@
         </uniquenessConstraints>
     </entity>
     <entity name="User" representedClassName=".User" syncable="YES">
+        <attribute name="addressRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="attributionAdGroup" optional="YES" attributeType="String"/>
         <attribute name="attributionCampaign" optional="YES" attributeType="String"/>
         <attribute name="attributionCreative" optional="YES" attributeType="String"/>
         <attribute name="attributionNetwork" optional="YES" attributeType="String"/>
-        <attribute name="currentAddressRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="dateOfBirth" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="email" attributeType="String"/>
         <attribute name="emailVerified" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>

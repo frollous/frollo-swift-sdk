@@ -34,8 +34,8 @@ extension User: TestableCoreData {
         primaryCurrency = "AUD"
         gender = .male
         dateOfBirth = date
-        currentAddress = getTestAddress()
-        mailingAddress = getTestAddress()
+        address = User.getTestAddress()
+        mailingAddress = User.getTestAddress()
         mobileNumber = "0412345678"
         householdType = .single
         householdSize = 1
@@ -53,7 +53,7 @@ extension User: TestableCoreData {
         taxResidency = "AU"
     }
     
-    func getTestAddress() -> Address{
+    static func getTestAddress() -> Address{
         return Address(buildingName: "100 Mount", unitNumber: "Unit 3", streetNumber: "100", streetName: "Mount", streetType: "street", suburb: "North Sydney", town: "Sydney", region: "Greater Sydney", state: "NSW", country: "AU", postcode: "2060", longForm: "Frollo, Level 33, 100 Mount St, North Sydney, NSW, 2060, Australia")
     }
     

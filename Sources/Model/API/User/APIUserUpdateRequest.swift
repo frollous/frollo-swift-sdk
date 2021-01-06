@@ -20,7 +20,7 @@ struct APIUserUpdateRequest: Codable {
     
     enum CodingKeys: String, CodingKey {
         case attribution
-        case currentAddress = "current_address"
+        case address
         case dateOfBirth = "date_of_birth"
         case email
         case firstName = "first_name"
@@ -59,7 +59,7 @@ struct APIUserUpdateRequest: Codable {
     
     let email: String
     let primaryCurrency: String
-    let currentAddress: User.Address?
+    let address: User.Address?
     let mailingAddress: User.Address?
     let attribution: Attribution?
     let dateOfBirth: Date?
