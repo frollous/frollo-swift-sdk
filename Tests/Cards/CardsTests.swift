@@ -83,4 +83,75 @@ class CardsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
         OHHTTPStubs.removeAllStubs()
     }
+
+    func testRefreshCards() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        connect(endpoint: CardsEndpoint.cards.path.prefixedWithSlash, toResourceWithName: "get_cards")
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+
+            self.cards.refreshCards() { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = self.database.viewContext
+
+                        let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
+                        fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Card.cardID), ascending: true)]
+                        do {
+                            let fetchedCards = try context.fetch(fetchRequest)
+                            XCTAssertEqual(fetchedCards.count, 2)
+
+                            XCTAssertEqual(fetchedCards.first?.cardID, 123)
+                            XCTAssertEqual(fetchedCards.first?.accountID, 456)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
+    func testRefreshCardByID() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        connect(endpoint: CardsEndpoint.card(cardID: 3).path.prefixedWithSlash, toResourceWithName: "get_card_by_id")
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+
+            self.cards.refreshCard(cardID: 3) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = self.database.viewContext
+
+                        let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "cardID == %ld", argumentArray: [3])
+
+                        do {
+                            let fetchedCards = try context.fetch(fetchRequest)
+
+                            XCTAssertEqual(fetchedCards.first?.cardID, 3)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
 }

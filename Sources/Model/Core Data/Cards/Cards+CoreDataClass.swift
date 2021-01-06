@@ -53,32 +53,32 @@ public class Card: NSManagedObject, UniqueManagedObject {
         /// Default design
         case `default`
     }
-
+    
     /**
      Card Design Type
-
+     
      Type indicating the issuer of the card
      */
     public enum CardIssuer: String, Codable, CaseIterable {
         /// Visa
         case visa
-
+        
         /// Mastercard
         case mastercard
     }
-
+    
     /**
      Card Type
-
+     
      Indicates the type of the card
      */
     public enum CardType: String, Codable, CaseIterable {
         /// Credit
         case credit
-
+        
         /// Debit
         case debit
-
+        
         /// Prepaid
         case prepaid
     }
@@ -126,24 +126,24 @@ public class Card: NSManagedObject, UniqueManagedObject {
             createdDateString = Card.cardDateFormatter.string(from: newValue)
         }
     }
-
+    
     /// The design type of the card
     public var cardIssuer: CardIssuer? {
         get {
             guard let issuer = issuerRawValue else { return nil }
-
+            
             return CardIssuer(rawValue: issuer)
         }
         set {
             issuerRawValue = newValue?.rawValue
         }
     }
-
+    
     /// The design type of the card
     public var cardType: CardType? {
         get {
             guard let type = typeRawValue else { return nil }
-
+            
             return CardType(rawValue: type)
         }
         set {
@@ -178,5 +178,5 @@ public class Card: NSManagedObject, UniqueManagedObject {
         cardholderName = response.cardholderName
         issuerRawValue = response.issuer
     }
-
+    
 }
