@@ -49,6 +49,40 @@ public class User: NSManagedObject {
             
         }
         
+        /**
+         Initilizer
+         
+         - Parameters:
+           - buildingName: building name. (Optional)
+           - unitNumber: unit number. (Optional)
+           - streetNumber: street number. (Optional)
+           - streetName: street name. (Optional)
+           - streetType: street type. (Optional)
+           - suburb: suburb. (Optional)
+           - town: town. (Optional)
+           - region: region. (Optional)
+           - state: state. (Optional)
+           - country: country. (Optional)
+           - postcode: post code. (Optional)
+           - longForm: long form. (Optional)
+         */
+        
+        public init(buildingName: String? = nil, unitNumber: String? = nil, streetNumber: String? = nil, streetName: String? = nil, streetType: String? = nil, suburb: String? = nil, town: String? = nil, region: String? = nil, state: String? = nil, country: String? = nil, postcode: String? = nil, longForm: String? = nil) {
+            
+            self.buildingName = buildingName
+            self.unitNumber = unitNumber
+            self.streetNumber = streetNumber
+            self.streetName = streetName
+            self.streetType = streetType
+            self.suburb = suburb
+            self.town = town
+            self.region = region
+            self.state = state
+            self.country = country
+            self.postcode = postcode
+            self.longForm = longForm
+        }
+        
         /// Address building name. (Optional)
         public var buildingName: String?
         
