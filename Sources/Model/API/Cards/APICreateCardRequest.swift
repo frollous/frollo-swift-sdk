@@ -26,28 +26,9 @@ struct APICreateCardRequest: Codable {
         case address
     }
     
-    struct Address: Codable {
-        
-        enum CodingKeys: String, CodingKey {
-            case line1 = "line_1"
-            case line2 = "line_2"
-            case postcode
-            case suburb
-            case state
-            case country
-        }
-        
-        let line1: String
-        let line2: String?
-        let postcode: String
-        let suburb: String
-        let state: String
-        let country: String
-    }
-    
     let accountID: Int64
     let firstName: String
     let middleName: String?
     let lastName: String
-    let address: Address
+    let address: User.Address
 }
