@@ -33,7 +33,7 @@ public class Cards: CachedObjects, ResponseHandler {
         self.service = service
         self.aggregation = aggregation
     }
-
+    
     /**
      Creates/ Orders a new card on the host.
      - Parameters:
@@ -41,17 +41,20 @@ public class Cards: CachedObjects, ResponseHandler {
      - firstName: First name of the card holder
      - middleName: Middle name of the card holder; Optional
      - lastName: Last name of the card holder
-     - postalAddressLine1: Line 1 of the postal address to which the card is to be sent
-     - postalAddressLine2: Line 2 of the postal address to which the card is to be sent; Optional
+     - unitNumber: Unit Number of the postal address to which the card is to be sent; Optional
+     - buildingName: Building Name of the postal address to which the card is to be sent; Optional
+     - streetNumber: Street number of the postal address to which the card is to be sent
+     - streetName: Street Name of the postal address to which the card is to be sent
+     - streetType: Street Type of the postal address to which the card is to be sent
      - postalAddressSuburb: Suburb of the postal address to which the card is to be sent
      - postalCode: Postcode of the address to which the card is to be sent
      - postalAddressState: State of the address to which the card is to be sent
      - postalAddressCountry: Country of the address to which the card is to be sent
-     - completion:  Optional completion handler with optional error if the request fails
+     - completion: Optional completion handler with optional error if the request fails
      */
-    public func createCard(accountID: Int64, firstName: String, middleName: String? = nil, lastName: String, postalAddressLine1: String, postalAddressLine2: String? = nil, postalAddressSuburb: String, postalCode: String, postalAddressState: String, postalAddressCountry: String, completion: FrolloSDKCompletionHandler? = nil) {
+    public func createCard(accountID: Int64, firstName: String, middleName: String? = nil, lastName: String, unitNumber: String? = nil, buildingName: String? = nil, streetNumber: String, streetName: String, streetType: String = "street", postalAddressSuburb: String, postalCode: String, postalAddressState: String, postalAddressCountry: String, completion: FrolloSDKCompletionHandler? = nil) {
         
-        let address = APICreateCardRequest.Address(line1: postalAddressLine1, line2: postalAddressLine2, postcode: postalCode, suburb: postalAddressSuburb, state: postalAddressState, country: postalAddressCountry)
+        let address = User.Address(buildingName: buildingName, unitNumber: unitNumber, streetNumber: streetNumber, streetName: streetName, streetType: streetType, suburb: postalAddressSuburb, state: postalAddressState, country: postalAddressCountry, postcode: postalCode)
         let request = APICreateCardRequest(accountID: accountID, firstName: firstName, middleName: middleName, lastName: lastName, address: address)
         
         service.createCard(request: request) { result in
@@ -75,7 +78,7 @@ public class Cards: CachedObjects, ResponseHandler {
             }
         }
     }
-
+    
     /**
      Fetch cards from the cache
      - Parameters:

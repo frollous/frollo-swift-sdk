@@ -57,7 +57,7 @@ class CardsTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
 
-            self.cards.createCard(accountID: 325, firstName: "Jacob", lastName: "Smith", postalAddressLine1: "Address Line 1", postalAddressLine2: "Address Line 2", postalAddressSuburb: "Mock Suburb", postalCode: "123456", postalAddressState: "NSW", postalAddressCountry: "Australia") { (result) in
+            self.cards.createCard(accountID: 325, firstName: "Jacob", lastName: "Smith", streetNumber: "41-45", streetName: "Belmore Street", streetType: "Street", postalAddressSuburb: "Mock Suburb", postalCode: "123456", postalAddressState: "NSW", postalAddressCountry: "Australia") { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
