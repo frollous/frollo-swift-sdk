@@ -169,7 +169,7 @@ class NetworkTests: BaseTestCase {
             XCTAssertTrue(request.allHTTPHeaderFields?["X-Device-Version"]?.contains(ProcessInfo.processInfo.operatingSystemVersionString) == true)
             
             if Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleVersion) != nil && Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) != nil {
-                XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "SDK4.8.0-B470|APP1.0-B1")
+                XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "SDK4.8.0-B480|APP1.0-B1")
             } else {
                 XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "SDK4.8.0-B470")
             }
