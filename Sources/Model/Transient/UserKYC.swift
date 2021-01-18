@@ -33,7 +33,7 @@ public class UserKYC: Codable {
     public var gender: String
     
     /// mobile number
-    public var mobile: String?
+    public var mobileNumber: String?
     
     /// Object to hold information of name
     public var name: Name
@@ -41,23 +41,28 @@ public class UserKYC: Codable {
     /// Array of Identity documents
     public var identityDocuments: [IdentityDocument]
     
+    /// Details of the KYC
+    public var kycDetails: KYCDetails?
+    
     /// initilizer
-    init(addresses: [Address], dateOfBirth: DateOfBirth, gender: String, mobile: String?, name: Name, identityDocuments: [IdentityDocument]) {
+    init(addresses: [Address], dateOfBirth: DateOfBirth, gender: String, mobileNumber: String?, name: Name, identityDocuments: [IdentityDocument], kycDetails: KYCDetails? = nil) {
         self.addresses = addresses
         self.dateOfBirth = dateOfBirth
         self.gender = gender
-        self.mobile = mobile
+        self.mobileNumber = mobileNumber
         self.name = name
         self.identityDocuments = identityDocuments
+        self.kycDetails = kycDetails
     }
     
     private enum CodingKeys: String, CodingKey {
         case addresses
         case dateOfBirth = "date_of_birth"
         case gender
-        case mobile
+        case mobileNumber = "mobile_number"
         case name
         case identityDocuments = "identity_docs"
+        case kycDetails = "kyc_details"
     }
     
     /**
@@ -252,22 +257,22 @@ public class UserKYC: Codable {
         }
         
     }
-}
-
-/**
- KYC Status
- */
-public class UserKYCStatus: Codable {
     
-    /// KYC status
-    public var status: String
-    
-    /// initilizer
-    init(status: String) {
-        self.status = status
-    }
-    
-    private enum CodingKeys: String, CodingKey {
-        case status
+    /**
+     KYC Details
+     */
+    public class KYCDetails: Codable {
+        
+        /// KYC status
+        public var status: String
+        
+        /// initilizer
+        init(status: String) {
+            self.status = status
+        }
+        
+        private enum CodingKeys: String, CodingKey {
+            case status
+        }
     }
 }

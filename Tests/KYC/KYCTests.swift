@@ -57,7 +57,7 @@ class KYCTests: XCTestCase {
                 case .success(let userKYC):
                     XCTAssertEqual(userKYC.name.middleName, "k")
                     XCTAssertEqual(userKYC.gender, "M")
-                    XCTAssertEqual(userKYC.mobile, "0421354444")
+                    XCTAssertEqual(userKYC.mobileNumber, "0421354444")
                     XCTAssertEqual(userKYC.name.givenName, "Sheldon")
                     XCTAssertEqual(userKYC.addresses.count, 3)
                     XCTAssertEqual(userKYC.dateOfBirth.dateOfBirth, "1991-01-01")
@@ -73,6 +73,7 @@ class KYCTests: XCTestCase {
                     XCTAssertEqual(userKYC.addresses[0].country, "AU")
                     XCTAssertEqual(userKYC.addresses[0].country, "AU")
                     XCTAssertEqual(userKYC.addresses[0].country, "AU")
+                    XCTAssertEqual(userKYC.kycDetails?.status, "success")
             }
             expectation1.fulfill()
         }
@@ -99,7 +100,7 @@ class KYCTests: XCTestCase {
                 case .success(let userKYC):
                     XCTAssertEqual(userKYC.name.middleName, "k")
                     XCTAssertEqual(userKYC.gender, "M")
-                    XCTAssertEqual(userKYC.mobile, "0421354444")
+                    XCTAssertEqual(userKYC.mobileNumber, "0421354444")
                     XCTAssertEqual(userKYC.name.givenName, "Sheldon")
                     XCTAssertEqual(userKYC.addresses.count, 3)
                     XCTAssertEqual(userKYC.dateOfBirth.dateOfBirth, "1991-01-01")
@@ -115,6 +116,7 @@ class KYCTests: XCTestCase {
                     XCTAssertEqual(userKYC.addresses[0].country, "AU")
                     XCTAssertEqual(userKYC.addresses[0].country, "AU")
                     XCTAssertEqual(userKYC.addresses[0].country, "AU")
+                    XCTAssertEqual(userKYC.kycDetails?.status, "success")
             }
             expectation1.fulfill()
         }
@@ -141,7 +143,7 @@ class KYCTests: XCTestCase {
                 case .success(let userKYC):
                     XCTAssertEqual(userKYC.name.middleName, "k")
                     XCTAssertEqual(userKYC.gender, "M")
-                    XCTAssertEqual(userKYC.mobile, "0421354444")
+                    XCTAssertEqual(userKYC.mobileNumber, "0421354444")
                     XCTAssertEqual(userKYC.name.givenName, "Sheldon")
                     XCTAssertEqual(userKYC.addresses.count, 3)
                     XCTAssertEqual(userKYC.dateOfBirth.dateOfBirth, "1991-01-01")
@@ -157,52 +159,7 @@ class KYCTests: XCTestCase {
                     XCTAssertEqual(userKYC.addresses[0].country, "AU")
                     XCTAssertEqual(userKYC.addresses[0].country, "AU")
                     XCTAssertEqual(userKYC.addresses[0].country, "AU")
-            }
-            expectation1.fulfill()
-        }
-        
-        wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
-    }
-    
-    func testFetchKYCStatus() {
-        let expectation1 = expectation(description: "Network Request 1")
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + KYCEndpoint.status.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "kyc_status_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let kyc = KYC(service: service)
-        kyc.getKYCStatus { (result) in
-            switch result {
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
-                case .success(let kysStatus):
-                    XCTAssertEqual(kysStatus.status, "success")
-            }
-            expectation1.fulfill()
-        }
-        
-        wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
-    }
-    
-    func testUpdateKYCStatus() {
-        let expectation1 = expectation(description: "Network Request 1")
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + KYCEndpoint.status.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "kyc_status_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let kyc = KYC(service: service)
-        kyc.updateKYCStatus(status: UserKYCStatus(status: "success")) { (result) in
-            switch result {
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
-                case .success(let kysStatus):
-                    XCTAssertEqual(kysStatus.status, "success")
+                    XCTAssertEqual(userKYC.kycDetails?.status, "success")
             }
             expectation1.fulfill()
         }
@@ -217,7 +174,6 @@ extension KYCTests {
     
     static func createTestKyc() -> UserKYC {
         
-        return UserKYC(addresses: [User.getTestAddress()], dateOfBirth: UserKYC.DateOfBirth(dateOfBirth: "1991-01-01", yearOfBirth: "1991"), gender: "M", mobile: "0421354444", name: UserKYC.Name(displayName: "Sheldon", familyName: "Cooper", givenName: "Shelly", honourific: "Dr", middleName: "K"), identityDocuments: [UserKYC.IdentityDocument(country: "AU", idExpiry: "2022-12-12", idNumber: "123456", idSubType: "certificate", idType: .nationalHealthID, region: "Sydney")])
-        
+        return UserKYC(addresses: [ Address.getTestAddress()], dateOfBirth: UserKYC.DateOfBirth(dateOfBirth: "1991-01-01", yearOfBirth: "1991"), gender: "M", mobileNumber: "0421354444", name: UserKYC.Name(displayName: "Sheldon", familyName: "Cooper", givenName: "Shelly", honourific: "Dr", middleName: "K"), identityDocuments: [UserKYC.IdentityDocument(country: "AU", idExpiry: "2022-12-12", idNumber: "123456", idSubType: "certificate", idType: .nationalHealthID, region: "Sydney")], kycDetails: UserKYC.KYCDetails(status: "success"))
     }
 }
