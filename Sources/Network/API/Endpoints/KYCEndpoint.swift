@@ -16,19 +16,22 @@
 
 import Foundation
 
-struct APICreateCardRequest: Codable {
+internal enum KYCEndpoint: Endpoint {
     
-    enum CodingKeys: String, CodingKey {
-        case accountID = "account_id"
-        case firstName = "first_name"
-        case middleName = "middle_names"
-        case lastName = "last_name"
-        case address
+    internal var path: String {
+        return urlPath()
     }
     
-    let accountID: Int64
-    let firstName: String
-    let middleName: String?
-    let lastName: String
-    let address: Address
+    case kyc
+    case status
+    
+    private func urlPath() -> String {
+        switch self {
+            case .kyc:
+                return "user/kyc"
+            case .status:
+                return "user/kyc/status"
+        }
+    }
+    
 }

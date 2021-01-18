@@ -54,7 +54,7 @@ public class Cards: CachedObjects, ResponseHandler {
      */
     public func createCard(accountID: Int64, firstName: String, middleName: String? = nil, lastName: String, unitNumber: String? = nil, buildingName: String? = nil, streetNumber: String, streetName: String, streetType: String = "street", postalAddressSuburb: String, postalCode: String, postalAddressState: String, postalAddressCountry: String, completion: FrolloSDKCompletionHandler? = nil) {
         
-        let address = User.Address(buildingName: buildingName, unitNumber: unitNumber, streetNumber: streetNumber, streetName: streetName, streetType: streetType, suburb: postalAddressSuburb, state: postalAddressState, country: postalAddressCountry, postcode: postalCode)
+        let address = Address(buildingName: buildingName, unitNumber: unitNumber, streetNumber: streetNumber, streetName: streetName, streetType: streetType, suburb: postalAddressSuburb, state: postalAddressState, country: postalAddressCountry, postcode: postalCode)
         let request = APICreateCardRequest(accountID: accountID, firstName: firstName, middleName: middleName, lastName: lastName, address: address)
         
         service.createCard(request: request) { result in

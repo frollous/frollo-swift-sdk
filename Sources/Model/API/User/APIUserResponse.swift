@@ -72,8 +72,8 @@ struct APIUserResponse: Codable {
     let status: User.Status
     let userID: Int64
     let validPassword: Bool
-    let address: User.Address?
-    let mailingAddress: User.Address?
+    let address: Address?
+    let mailingAddress: Address?
     let attribution: Attribution?
     let dateOfBirth: Date?
     let facebookID: String?
