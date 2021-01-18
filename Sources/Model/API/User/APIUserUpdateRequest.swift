@@ -59,8 +59,8 @@ struct APIUserUpdateRequest: Codable {
     
     let email: String
     let primaryCurrency: String
-    let address: User.Address?
-    let mailingAddress: User.Address?
+    let address: Address?
+    let mailingAddress: Address?
     let attribution: Attribution?
     let dateOfBirth: Date?
     let firstName: String?

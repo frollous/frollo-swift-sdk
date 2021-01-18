@@ -221,6 +221,15 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         return _cards
     }
     
+    /// KYC - Managing KYC
+    public var kyc: KYC {
+        guard _setup else {
+            fatalError("SDK not setup.")
+        }
+        
+        return _kyc
+    }
+    
     /// Indicates if the SDK has completed setup or not
     public var setup: Bool {
         return _setup
@@ -251,6 +260,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     internal var version: Version!
     internal var _contacts: Contacts!
     internal var _cards: Cards!
+    internal var _kyc: KYC!
     
     private let cacheExpiry: TimeInterval = 120
     private let frolloHost = "frollo.us"
@@ -380,6 +390,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         _notifications = Notifications(events: _events, messages: _messages, userManagement: _userManagement)
         _contacts = Contacts(database: _database, service: service)
         _cards = Cards(database: _database, service: service, aggregation: _aggregation)
+        _kyc = KYC(service: service)
         
         _events.delegate = delegate
         _messages.delegate = delegate

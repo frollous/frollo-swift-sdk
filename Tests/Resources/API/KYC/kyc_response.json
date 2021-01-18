@@ -1,0 +1,80 @@
+{
+  "addresses": [
+    {
+      "country": "AU",
+      "suburb": "North Sydney",
+      "region": "NSW"
+    },
+    {
+      "country": "AU",
+      "town": "Sydney",
+      "street_number": "100",
+      "address_id": "FrolloAddressID",
+      "unit_number": "33",
+      "suburb": "North Sydney",
+      "state": "NSW",
+      "address_type": "BUSINESS",
+      "region": "Greater Sydney",
+      "long_form": "100 Mount Street, North Sydney, NSW",
+      "street_type": "Street",
+      "street_name": "Mount"
+    },
+    {
+      "country": "AU",
+      "postal_code": "2217",
+      "street_type": "Street",
+      "address_id": "ResStreet",
+      "state": "NSW",
+      "address_type": "RESIDENTIAL1",
+      "building_name": "voluptate",
+      "street_number": "2",
+      "suburb": "Carlton",
+      "region": "Carlton",
+      "town": "Sydney",
+      "street_name": "Beaconsfield",
+      "unit_number": "1",
+      "long_form": "20 beaconsfield street, Carlton, 2217, NSW"
+    }
+  ],
+  "date_of_birth": {
+    "year_of_birth": "1991",
+    "date_of_birth": "1991-01-01"
+  },
+  "gender": "M",
+  "mobile_number": "0421354444",
+  "name": {
+    "given_name": "Sheldon",
+    "middle_name": "k",
+    "display_name": "Shelly",
+    "family_name": "Cooper",
+    "honourific": "Dr"
+  },
+  "identity_docs": [
+    {
+      "id_number": "123456",
+      "id_type": "BIRTH_CERT",
+      "region": "Sydney",
+      "country": "AU",
+      "id_sub_type": "certificate"
+    },
+    {
+      "id_number": "234567",
+      "id_type": "DRIVERS_LICENCE",
+      "id_sub_type": "NSW license",
+      "country": "AU",
+      "region": "NSW",
+      "id_expiry:": "2022-12-12"
+    },
+    {
+      "id_number": "345678",
+      "id_type": "DEVICE",
+      "id_sub_type": "no idea type",
+      "id_expiry:": "2022-12-12",
+      "country": "AU",
+      "region": "NSW"
+    }
+  ],
+  "kyc_details": {
+      "status": "success"
+  }
+}
