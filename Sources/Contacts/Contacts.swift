@@ -267,7 +267,7 @@ public class Contacts: CachedObjects, ResponseHandler {
     }
     
     /**
-     Create a PayID contact on the host.
+     Create a International contact on the host.
      
      - Parameters:
      - name: Name of the contact; default value will be nickName (Optional)
@@ -525,7 +525,7 @@ public class Contacts: CachedObjects, ResponseHandler {
     
     private func updateContactsObjectsWithResponse(_ contactsResponse: [APIContactResponse], filterPredicate: NSPredicate?, managedObjectContext: NSManagedObjectContext) {
         // Sort by ID
-        let sortedObjectResponses = contactsResponse.sorted { $0.id > $1.id }
+        let sortedObjectResponses = contactsResponse.sorted { $0.id < $1.id }
         
         // Build id list predicate
         let objectIDs = sortedObjectResponses.map { $0.id }
@@ -551,7 +551,7 @@ public class Contacts: CachedObjects, ResponseHandler {
                 for objectResponse in sortedObjectResponses {
                     var object: Contact
                     
-                    if index < existingObjects.count, existingObjects[index].primaryID == objectResponse.id {
+                    if index < existingObjects.count, existingObjects[index].contactID == objectResponse.id {
                         object = existingObjects[index]
                         index += 1
                     } else {
