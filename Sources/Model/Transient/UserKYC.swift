@@ -29,6 +29,9 @@ public class UserKYC: Codable {
     /// Object to hold information of  date of birth
     public var dateOfBirth: DateOfBirth
     
+    /// email of the user
+    public var email: String
+    
     /// gender
     public var gender: String
     
@@ -45,9 +48,10 @@ public class UserKYC: Codable {
     public var kycDetails: KYCDetails?
     
     /// initilizer
-    init(addresses: [Address], dateOfBirth: DateOfBirth, gender: String, mobileNumber: String?, name: Name, identityDocuments: [IdentityDocument], kycDetails: KYCDetails? = nil) {
+    public init(addresses: [Address], dateOfBirth: DateOfBirth, email: String, gender: String, mobileNumber: String? = nil, name: Name, identityDocuments: [IdentityDocument], kycDetails: KYCDetails? = nil) {
         self.addresses = addresses
         self.dateOfBirth = dateOfBirth
+        self.email = email
         self.gender = gender
         self.mobileNumber = mobileNumber
         self.name = name
@@ -58,6 +62,7 @@ public class UserKYC: Codable {
     private enum CodingKeys: String, CodingKey {
         case addresses
         case dateOfBirth = "date_of_birth"
+        case email
         case gender
         case mobileNumber = "mobile_number"
         case name
@@ -91,7 +96,7 @@ public class UserKYC: Codable {
         public var region: String?
         
         /// initilizer
-        init(country: String?, idExpiry: String?, idNumber: String, idSubType: String?, idType: IDType, region: String?) {
+        public init(country: String? = nil, idExpiry: String? = nil, idNumber: String, idSubType: String? = nil, idType: IDType, region: String? = nil) {
             self.country = country
             self.idExpiry = idExpiry
             self.idNumber = idNumber
@@ -214,7 +219,7 @@ public class UserKYC: Codable {
         public var middleName: String?
         
         /// initilizer
-        init(displayName: String?, familyName: String?, givenName: String?, honourific: String?, middleName: String?) {
+        public init(displayName: String? = nil, familyName: String? = nil, givenName: String? = nil, honourific: String? = nil, middleName: String? = nil) {
             self.displayName = displayName
             self.familyName = familyName
             self.givenName = givenName
@@ -246,7 +251,7 @@ public class UserKYC: Codable {
         public var yearOfBirth: String?
         
         /// initilizer
-        public init(dateOfBirth: String?, yearOfBirth: String?) {
+        public init(dateOfBirth: String? = nil, yearOfBirth: String? = nil) {
             self.dateOfBirth = dateOfBirth
             self.yearOfBirth = yearOfBirth
         }
@@ -267,7 +272,7 @@ public class UserKYC: Codable {
         public var status: String
         
         /// initilizer
-        init(status: String) {
+        public init(status: String) {
             self.status = status
         }
         

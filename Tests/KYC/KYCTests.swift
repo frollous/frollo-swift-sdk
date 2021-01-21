@@ -174,6 +174,6 @@ extension KYCTests {
     
     static func createTestKyc() -> UserKYC {
         
-        return UserKYC(addresses: [ Address.getTestAddress()], dateOfBirth: UserKYC.DateOfBirth(dateOfBirth: "1991-01-01", yearOfBirth: "1991"), gender: "M", mobileNumber: "0421354444", name: UserKYC.Name(displayName: "Sheldon", familyName: "Cooper", givenName: "Shelly", honourific: "Dr", middleName: "K"), identityDocuments: [UserKYC.IdentityDocument(country: "AU", idExpiry: "2022-12-12", idNumber: "123456", idSubType: "certificate", idType: .nationalHealthID, region: "Sydney")], kycDetails: UserKYC.KYCDetails(status: "success"))
+        return UserKYC(addresses: [ Address.getTestAddress()], dateOfBirth: UserKYC.DateOfBirth(dateOfBirth: "1991-01-01", yearOfBirth: "1991"), email: "drsheldon@frollo.us", gender: "M", mobileNumber: "0421354444", name: UserKYC.Name(displayName: "Sheldon", familyName: "Cooper", givenName: "Shelly", honourific: "Dr", middleName: "K"), identityDocuments: [UserKYC.IdentityDocument(country: "AU", idExpiry: "2022-12-12", idNumber: "123456", idSubType: "certificate", idType: .nationalHealthID, region: "Sydney")], kycDetails: UserKYC.KYCDetails(status: "success"))
     }
 }
