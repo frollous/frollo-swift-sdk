@@ -540,4 +540,118 @@ public class UserManagement {
             }
         }
     }
+    
+    // MARK: - PayID Management
+    
+    /**
+     Fetch all the PayIDs
+     
+     - Parameters:
+     - completion: Completion handler with either the data from the host or an error
+     */
+    public func fetchPayIDs(completion: @escaping (Result<[APIUserPayIDResponse], Error>) -> Void) {
+        service.fetchPayIDs { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Request OTP for PayID Registration.
+     
+     - Parameters:
+     - payID: Value of the PayID to be registered
+     - type: Mode to be used to send the OTP code.
+     - completion: Completion handler with either the data from the host or an error
+     */
+    public func requestOTPForPayIDRegistration(payID: String, type: APIUserPayIDOTPRequest.PayIDOtpRequestMode, completion: @escaping (Result<String, Error>) -> Void) {
+        
+        let request = APIUserPayIDOTPRequest(payID: payID, type: type)
+        
+        service.requestPayIDOTP(request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    DispatchQueue.main.async {
+                        completion(.success(response.trackingID))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Register PayID
+     
+     - Parameters:
+     - accountID:ID of the account that the PayID should be associated with
+     - payID: Value of the payID
+     - type: Type of the PayID. See `APIUserPayIDResponse.PayIDType` for allowed types.
+     - trackingID: Tracking ID for the register. Available from the request PayID OTP API
+     - otpCode: Security code sent to the user after
+     - completion: Completion handler with any error that occurred
+     */
+    public func registerPayID(accountID: Int64, payID: String, type: APIUserPayIDResponse.PayIDType, trackingID: String, otpCode: String, completion: @escaping FrolloSDKCompletionHandler) {
+        
+        let request = APIUserRegisterPayIDRequest(accountID: accountID, payID: payID, type: type, trackingID: trackingID, securityCode: otpCode)
+        service.registerPayID(request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    DispatchQueue.main.async {
+                        print(response.messageID ?? "")
+                        completion(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
+     Remove PayID
+     
+     - Parameters:
+     - accountID:ID of the account that the PayID should be associated with
+     - payID: Value of the payID
+     - type: Type of the PayID. See `APIUserPayIDResponse.PayIDType` for allowed types.
+     - completion: Completion handler with any error that occurred
+     */
+    public func removePayID(payID: String, type: APIUserPayIDResponse.PayIDType, completion: @escaping FrolloSDKCompletionHandler) {
+        
+        let request = APIUserRemovePayIDRequest(payID: payID, type: type)
+        service.removePayID(request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    DispatchQueue.main.async {
+                        print(response.messageID ?? "")
+                        completion(.success)
+                    }
+            }
+        }
+    }
+    
 }

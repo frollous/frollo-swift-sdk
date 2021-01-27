@@ -190,6 +190,73 @@ extension APIService {
         }
     }
     
+    internal func fetchPayIDs(completion: @escaping RequestCompletion<[APIUserPayIDResponse]>) {
+        requestQueue.async {
+            let url = URL(string: UserEndpoint.payID.path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleArrayResponse(type: APIUserPayIDResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func requestPayIDOTP(request: APIUserPayIDOTPRequest, completion: @escaping RequestCompletion<APIUserPayIDOTPResponse>) {
+        requestQueue.async {
+            let url = URL(string: UserEndpoint.payIDOTP.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APIUserPayIDOTPResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func registerPayID(request: APIUserRegisterPayIDRequest, completion: @escaping RequestCompletion<APIUserRegisterPayIDResponse>) {
+        requestQueue.async {
+            let url = URL(string: UserEndpoint.payID.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APIUserRegisterPayIDResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func removePayID(request: APIUserRemovePayIDRequest, completion: @escaping RequestCompletion<APIUserRegisterPayIDResponse>) {
+        requestQueue.async {
+            let url = URL(string: UserEndpoint.removePayID.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APIUserRegisterPayIDResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     // MARK: - Response Handling
     
     private func handleUserResponse(response: DataResponse<Data, AFError>, completion: UserRequestCompletion) {

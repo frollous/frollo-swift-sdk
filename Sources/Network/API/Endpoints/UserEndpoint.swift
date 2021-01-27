@@ -30,6 +30,9 @@ enum UserEndpoint: Endpoint {
     case requestOTP
     case unconfirmedDetails
     case confirmDetails
+    case payID
+    case removePayID
+    case payIDOTP
     
     private func urlPath() -> String {
         switch self {
@@ -47,6 +50,12 @@ enum UserEndpoint: Endpoint {
                 return "user/otp"
             case .unconfirmedDetails, .confirmDetails:
                 return "user/details/confirm"
+            case .payID:
+                return "user/payid"
+            case .removePayID:
+                return "user/payid/remove"
+            case .payIDOTP:
+                return "user/payid/otp"
         }
     }
     
