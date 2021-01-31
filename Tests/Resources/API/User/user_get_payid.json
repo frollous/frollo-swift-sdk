@@ -1,0 +1,12 @@
+[
+    {
+        "id": "+6412345678",
+        "status": "available",
+        "type": "mobile"
+    },
+    {
+        "id": "user@example.com",
+        "status": "registered",
+        "type": "email"
+    }
+]
