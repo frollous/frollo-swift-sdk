@@ -232,7 +232,7 @@ extension APIService {
                 return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue, emptyResponseCodes: [201]) { response in
                 self.network.handleResponse(type: APIUserRegisterPayIDResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -253,6 +253,16 @@ extension APIService {
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: APIUserRegisterPayIDResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func fetchPayIDs(accountID: Int64, completion: @escaping RequestCompletion<[APIUserAccountPayIDResponse]>) {
+        requestQueue.async {
+            let url = URL(string: UserEndpoint.accountPayID(accountID: accountID).path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleArrayResponse(type: APIUserAccountPayIDResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }

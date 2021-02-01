@@ -33,6 +33,7 @@ enum UserEndpoint: Endpoint {
     case payID
     case removePayID
     case payIDOTP
+    case accountPayID(accountID: Int64)
     
     private func urlPath() -> String {
         switch self {
@@ -56,6 +57,8 @@ enum UserEndpoint: Endpoint {
                 return "user/payid/remove"
             case .payIDOTP:
                 return "user/payid/otp"
+            case .accountPayID(let accountID):
+                return "user/payid/account/" + String(accountID)
         }
     }
     

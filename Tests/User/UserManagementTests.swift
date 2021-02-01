@@ -1061,4 +1061,39 @@ class UserManagementTests: BaseTestCase {
 
     }
 
+    func testFetchPayIDListForAccount() {
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.accountPayID(accountID: 325).path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_get_account_payid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let keychain = validKeychain()
+        let networkAuthenticator = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            user.fetchPayIDs(for: 325) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success(let data):
+                        XCTAssertEqual(data.count, 1)
+                        break
+                }
+
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
 }
