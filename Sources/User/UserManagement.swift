@@ -616,9 +616,8 @@ public class UserManagement {
                     DispatchQueue.main.async {
                         completion(.failure(error))
                     }
-                case .success(let response):
+                case .success:
                     DispatchQueue.main.async {
-                        print(response.messageID ?? "")
                         completion(.success)
                     }
             }
@@ -645,9 +644,8 @@ public class UserManagement {
                     DispatchQueue.main.async {
                         completion(.failure(error))
                     }
-                case .success(let response):
+                case .success:
                     DispatchQueue.main.async {
-                        print(response.messageID ?? "")
                         completion(.success)
                     }
             }
