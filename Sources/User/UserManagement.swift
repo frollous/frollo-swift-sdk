@@ -616,9 +616,8 @@ public class UserManagement {
                     DispatchQueue.main.async {
                         completion(.failure(error))
                     }
-                case .success(let response):
+                case .success:
                     DispatchQueue.main.async {
-                        print(response.messageID ?? "")
                         completion(.success)
                     }
             }
@@ -645,10 +644,33 @@ public class UserManagement {
                     DispatchQueue.main.async {
                         completion(.failure(error))
                     }
+                case .success:
+                    DispatchQueue.main.async {
+                        completion(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
+     Fetch all the PayIDs associated with the specified account
+     
+     - Parameters:
+     - accountID: ID of the account for which the payIDs need to be fetched
+     - completion: Completion handler with either the data from the host or an error
+     */
+    public func fetchPayIDs(for accountID: Int64, completion: @escaping (Result<[APIUserAccountPayIDResponse], Error>) -> Void) {
+        service.fetchPayIDs(accountID: accountID) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
                 case .success(let response):
                     DispatchQueue.main.async {
-                        print(response.messageID ?? "")
-                        completion(.success)
+                        completion(.success(response))
                     }
             }
         }
