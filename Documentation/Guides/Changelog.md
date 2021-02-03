@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.8.1
+
+### Fixes
+
+- Core data merge policy
+
 ## 4.8.0
 
 ### Features
