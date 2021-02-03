@@ -25,15 +25,8 @@ public class Reports: ResponseHandler, CachedObjects {
     private let service: APIService
     
     private let accountBalanceReportsLock = NSLock()
-    private let currentReportsLock = NSLock()
-    private let historyReportsLock = NSLock()
     
     private var linkingAccountIDs = Set<Int64>()
-    private var linkingCurrentMerchantIDs = Set<Int64>()
-    private var linkingCurrentTransactionCategoryIDs = Set<Int64>()
-    private var linkingHistoryMerchantIDs = Set<Int64>()
-    private var linkingHistoryTransactionCategoryIDs = Set<Int64>()
-    private var refreshingMerchantIDs = Set<Int64>()
     
     internal init(database: Database, service: APIService, aggregation: Aggregation) {
         self.database = database
