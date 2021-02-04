@@ -65,7 +65,7 @@ public struct PayAnyoneResponse: Codable {
     public let status: String
     
     /// Transaction ID of the payment
-    public let transactionID: Int64?
+    public let transactionID: String?
     
     /// Transaction reference of the payment
     public let transactionReference: String

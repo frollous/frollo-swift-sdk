@@ -190,12 +190,12 @@ extension APIService {
         }
     }
     
-    internal func fetchPayIDs(completion: @escaping RequestCompletion<[APIUserPayIDResponse]>) {
+    internal func fetchPayIDs(completion: @escaping RequestCompletion<[PayIDResponse]>) {
         requestQueue.async {
             let url = URL(string: UserEndpoint.payID.path, relativeTo: self.serverURL)!
             
             self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleArrayResponse(type: APIUserPayIDResponse.self, errorType: APIError.self, response: response, completion: completion)
+                self.network.handleArrayResponse(type: PayIDResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
@@ -257,12 +257,12 @@ extension APIService {
         }
     }
     
-    internal func fetchPayIDs(accountID: Int64, completion: @escaping RequestCompletion<[APIUserAccountPayIDResponse]>) {
+    internal func fetchPayIDs(accountID: Int64, completion: @escaping RequestCompletion<[AccountPayIDResponse]>) {
         requestQueue.async {
             let url = URL(string: UserEndpoint.accountPayID(accountID: accountID).path, relativeTo: self.serverURL)!
             
             self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleArrayResponse(type: APIUserAccountPayIDResponse.self, errorType: APIError.self, response: response, completion: completion)
+                self.network.handleArrayResponse(type: AccountPayIDResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }

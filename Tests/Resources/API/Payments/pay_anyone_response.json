@@ -1,5 +1,5 @@
 {
-  "transaction_id": 34,
+  "transaction_id": "34",
   "amount": "542.37",
   "payment_date": "2020-12-25",
   "destination_bsb": "123456",

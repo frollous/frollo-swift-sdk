@@ -16,27 +16,18 @@
 
 import Foundation
 
-struct APIPayAnyoneRequest: Codable {
+struct APINPPPaymentResponse: Codable {
     
     enum CodingKeys: String, CodingKey {
-        case accountHolder = "account_holder"
-        case accountNumber = "account_number"
-        case amount
-        case bsb
+        case transactionID = "transaction_id"
+        case isDuplicate = "is_duplicate"
         case description
-        case paymentDate = "payment_date"
-        case reference
-        case sourceAccountID = "source_account_id"
-        case overrideMethod = "override_method"
     }
     
-    let accountHolder: String
-    let accountNumber: String
-    let amount: String
-    let bsb: String
+    let transactionID: String
+    
+    let isDuplicate: Bool
+    
     let description: String?
-    let paymentDate: String?
-    let reference: String?
-    let sourceAccountID: Int64
-    let overrideMethod: String?
+    
 }
