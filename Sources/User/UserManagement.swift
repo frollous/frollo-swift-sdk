@@ -600,12 +600,12 @@ public class UserManagement {
      - Parameters:
      - accountID:ID of the account that the PayID should be associated with
      - payID: Value of the payID
-     - type: Type of the PayID. See `PayIDContact.PayIDType` for allowed types.
+     - type: Type of the PayID. See `PayIDResponse.PayIDType` for allowed types.
      - trackingID: Tracking ID for the register. Available from the request PayID OTP API
      - otpCode: Security code sent to the user after
      - completion: Completion handler with any error that occurred
      */
-    public func registerPayID(accountID: Int64, payID: String, type: PayIDContact.PayIDType, trackingID: String, otpCode: String, completion: @escaping FrolloSDKCompletionHandler) {
+    public func registerPayID(accountID: Int64, payID: String, type: PayIDResponse.PayIDType, trackingID: String, otpCode: String, completion: @escaping FrolloSDKCompletionHandler) {
         
         let request = APIUserRegisterPayIDRequest(accountID: accountID, payID: payID, type: type, trackingID: trackingID, securityCode: otpCode)
         service.registerPayID(request: request) { result in
@@ -630,10 +630,10 @@ public class UserManagement {
      - Parameters:
      - accountID:ID of the account that the PayID should be associated with
      - payID: Value of the payID
-     - type: Type of the PayID. See `PayIDContact.PayIDType` for allowed types.
+     - type: Type of the PayID. See `PayIDResponse.PayIDType` for allowed types.
      - completion: Completion handler with any error that occurred
      */
-    public func removePayID(payID: String, type: PayIDContact.PayIDType, completion: @escaping FrolloSDKCompletionHandler) {
+    public func removePayID(payID: String, type: PayIDResponse.PayIDType, completion: @escaping FrolloSDKCompletionHandler) {
         
         let request = APIUserRemovePayIDRequest(payID: payID, type: type)
         service.removePayID(request: request) { result in

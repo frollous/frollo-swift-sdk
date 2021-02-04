@@ -49,7 +49,7 @@ public struct AccountPayIDResponse: Codable {
     
     /// The creditor PayID identifier type.
     public var type: PayIDResponse.PayIDType
-
+    
     /// The name of the payID; shown to external parties
     public var name: String
     
