@@ -55,8 +55,8 @@
             "payment_method": "pay_id",
             "payment_details": {
                 "name": "Mather Wade",
-                "pay_id": "mathew@wade@frollo.us",
-                "id_type": "email"
+                "payid": "mathew@wade@frollo.us",
+                "type": "email"
             },
             "created_date": "2020-12-07T14:27:22.727+11:00",
             "modified_date": "2020-12-07T14:27:22.727+11:00",
@@ -87,8 +87,8 @@
             "payment_method": "pay_id",
             "payment_details": {
                 "name": "Glenn Maxwell",
-                "pay_id": "glenn@maxwell@frollo.us",
-                "id_type": "email"
+                "payid": "glenn@maxwell@frollo.us",
+                "type": "email"
             },
             "created_date": "2020-12-07T14:22:15.358+11:00",
             "modified_date": "2020-12-07T14:22:15.358+11:00",

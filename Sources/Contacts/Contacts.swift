@@ -247,7 +247,7 @@ public class Contacts: CachedObjects, ResponseHandler {
      */
     public func createPayIDContact(name: String? = nil, nickName: String, description: String? = nil, payID: String, payIDName: String, payIDType: PayIDContact.PayIDType, completion: FrolloSDKCompletionHandler? = nil) {
         
-        let paymentDetails: PaymentDetails.PayID = .init(payid: payID, name: payIDName, idType: payIDType)
+        let paymentDetails: PaymentDetails.PayID = .init(payid: payID, name: payIDName, type: payIDType)
         let request = APICreateContactRequest(name: name ?? nickName, nickName: nickName, description: description, type: .payID, details: .payID(paymentDetails))
         
         service.createContact(request: request) { result in
@@ -398,7 +398,7 @@ public class Contacts: CachedObjects, ResponseHandler {
      */
     public func updatePayIDContact(contactID: Int64, name: String? = nil, nickName: String, description: String? = nil, payID: String, payIDName: String, payIDType: PayIDContact.PayIDType, completion: FrolloSDKCompletionHandler? = nil) {
         
-        let paymentDetails: PaymentDetails.PayID = .init(payid: payID, name: payIDName, idType: payIDType)
+        let paymentDetails: PaymentDetails.PayID = .init(payid: payID, name: payIDName, type: payIDType)
         let request = APICreateContactRequest(name: name ?? nickName, nickName: nickName, description: description, type: .payID, details: .payID(paymentDetails))
         
         service.updateContact(contactID: contactID, request: request) { result in

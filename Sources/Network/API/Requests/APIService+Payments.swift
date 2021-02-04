@@ -80,6 +80,44 @@ extension APIService {
         }
     }
     
+    // MARK: - Npp
+    
+    internal func payIDPayment(request: APIPayIDPaymentRequest, otp: String?, completion: @escaping RequestCompletion<APINPPPaymentResponse>) {
+        requestQueue.async {
+            let url = URL(string: PaymentsEndpoint.payID.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request, userOtp: otp)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APINPPPaymentResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func payAnyoneNPPPayment(request: APIPayAnyoneRequest, otp: String?, completion: @escaping RequestCompletion<APINPPPaymentResponse>) {
+        requestQueue.async {
+            let url = URL(string: PaymentsEndpoint.npp.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request, userOtp: otp)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APINPPPaymentResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     // MARK: - Verify - Pay Anyone
     
     internal func verifyPayAnyone(request: APIVerifyPayAnyoneRequest, completion: @escaping RequestCompletion<VerifyPayAnyoneResponse>) {

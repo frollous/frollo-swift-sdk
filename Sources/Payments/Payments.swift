@@ -58,7 +58,7 @@ public class Payments: ResponseHandler {
             date = Payments.paymentDateFormatter.string(from: paymentDate)
         }
         
-        let request = APIPayAnyoneRequest(accountHolder: accountHolder, accountNumber: accountNumber, amount: paymentAmount.stringValue, bsb: bsb, description: description, paymentDate: date, reference: reference, sourceAccountID: sourceAccountID)
+        let request = APIPayAnyoneRequest(accountHolder: accountHolder, accountNumber: accountNumber, amount: paymentAmount.stringValue, bsb: bsb, description: description, paymentDate: date, reference: reference, sourceAccountID: sourceAccountID, overrideMethod: "payanyone")
         
         service.payAnyone(request: request, otp: securityCode) { result in
             switch result {
@@ -151,6 +151,85 @@ public class Payments: ResponseHandler {
                     
                     DispatchQueue.main.async {
                         completion(.success(response))
+                    }
+            }
+        }
+    }
+    
+    /**
+     PayID Payment
+     
+     - parameters:
+     - payID: Value of the PayID
+     - type: Type of the PayID
+     - payIDName: Name of the PayID holder
+     - amount: Amount of the payment
+     - description: desctiption of the payment (Optional)
+     - paymentDate: Date of the payment (Optional)
+     - reference: reference of the payment (Optional)
+     - sourceAccountID: Account ID of the payment source account
+     - securityCode: Verification code/ OTP for payment
+     - completion: Optional completion handler with `PayIDPaymentResponse` result if succeeds and error if the request fails
+     */
+    public func payIDPayment(payID: String, type: PayIDContact.PayIDType, payIDName: String, amount: Decimal, paymentDate: Date = Date(), description: String? = nil, reference: String? = nil, sourceAccountID: Int64, securityCode: String? = nil, completion: @escaping (Result<PayIDPaymentResponse, Error>) -> Void) {
+        
+        let paymentAmount = amount as NSDecimalNumber
+        let date = Payments.paymentDateFormatter.string(from: paymentDate)
+        
+        let request = APIPayIDPaymentRequest(payID: payID, payIDType: type, payIDName: payIDName, amount: paymentAmount.stringValue, description: description, paymentDate: date, reference: reference, sourceAccountID: sourceAccountID)
+        
+        service.payIDPayment(request: request, otp: securityCode) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    let payIDResponse = PayIDPaymentResponse(amount: paymentAmount.stringValue, description: response.description, destinationPayID: payID, destinationPayIDType: type, destinationAccountHolder: payIDName, paymentDate: date, sourceAccountID: sourceAccountID, transactionID: response.transactionID)
+                    
+                    DispatchQueue.main.async {
+                        completion(.success(payIDResponse))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Pay Anyone NPP Payment
+     
+     - parameters:
+     - accountHolder: Name of the payee's bank account
+     - accountNumber: Account number of the payee
+     - amount: Amount of the payment
+     - bsb: BSB of payee's bank
+     - description: desctiption of the payment (Optional)
+     - paymentDate: Date of the payment (Optional)
+     - reference: reference of the payment (Optional)
+     - sourceAccountID: Account ID of the payment source account
+     - securityCode: Verification code/ OTP for payment
+     - completion: Optional completion handler with `APIPayAnyoneResponse` result if succeeds and error if the request fails
+     */
+    public func payAnyoneNPPPayment(accountHolder: String, accountNumber: String, amount: Decimal, bsb: String, description: String? = nil, paymentDate: Date = Date(), reference: String? = nil, sourceAccountID: Int64, securityCode: String? = nil, completion: @escaping (Result<PayAnyoneResponse, Error>) -> Void) {
+        
+        let paymentAmount = amount as NSDecimalNumber
+        let date = Payments.paymentDateFormatter.string(from: paymentDate)
+        
+        let request = APIPayAnyoneRequest(accountHolder: accountHolder, accountNumber: accountNumber, amount: paymentAmount.stringValue, bsb: bsb, description: description, paymentDate: date, reference: reference, sourceAccountID: sourceAccountID, overrideMethod: nil)
+        
+        service.payAnyoneNPPPayment(request: request, otp: securityCode) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    let payAnyoneResponse = PayAnyoneResponse(amount: paymentAmount.stringValue, description: response.description, destinationBSB: bsb, destinationAccountHolder: accountHolder, destinationAccountNumber: accountNumber, paymentDate: date, sourceAccountID: sourceAccountID, sourceAccountName: "", status: "", transactionID: response.transactionID, transactionReference: response.transactionID)
+                    DispatchQueue.main.async {
+                        completion(.success(payAnyoneResponse))
                     }
             }
         }

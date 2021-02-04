@@ -1009,7 +1009,7 @@ class UserManagementTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
 
-            user.registerPayID(accountID: 325, payID: "+61411111111", type: .mobile, trackingID: "VE20db0310501c4d7cc347c8d897967039", otpCode: "444684") { result in
+            user.registerPayID(accountID: 325, payID: "+61411111111", type: .phoneNumber, trackingID: "VE20db0310501c4d7cc347c8d897967039", otpCode: "444684") { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -1045,7 +1045,7 @@ class UserManagementTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
 
-            user.removePayID(payID: "+61411111111", type: .mobile) { result in
+            user.removePayID(payID: "+61411111111", type: .phoneNumber) { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)

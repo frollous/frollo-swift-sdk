@@ -59,7 +59,7 @@ class PaymentsTests: XCTestCase {
                     XCTAssertEqual(response.amount, "542.37")
                     XCTAssertEqual(response.destinationAccountHolder, "Joe Blow")
                     XCTAssertEqual(response.destinationBSB, "123456")
-                    XCTAssertEqual(response.transactionID, 34)
+                    XCTAssertEqual(response.transactionID, "34")
                     XCTAssertEqual(response.transactionReference, "XXX")
                     XCTAssertEqual(response.status, "confirmed")
                     XCTAssertEqual(response.paymentDate, "2020-12-25")
@@ -170,6 +170,56 @@ class PaymentsTests: XCTestCase {
             }
         }
         
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+
+    func testPayIDPayment() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.payID.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "npp_payment_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+
+        let payments = Payments(service: service)
+        payments.payIDPayment(payID: "user@example.com", type: .email, payIDName: "Example Name", amount: 24.4, paymentDate: Date(), description: "Test", reference: "ABC123", sourceAccountID: 42) { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.transactionID, "VLLTAU22XXXN20210202000000000770820")
+                    expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+
+    func testNppPayAnyone() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.npp.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "npp_payment_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+
+        let payments = Payments(service: service)
+        payments.payAnyoneNPPPayment(accountHolder: "Joe Blow", accountNumber: "98765432", amount: 542.37, bsb: "123456", sourceAccountID: 42) { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.transactionID, "VLLTAU22XXXN20210202000000000770820")
+                    expectation1.fulfill()
+            }
+        }
+
         wait(for: [expectation1], timeout: 3.0)
         OHHTTPStubs.removeAllStubs()
     }

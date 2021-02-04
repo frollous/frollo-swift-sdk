@@ -24,5 +24,5 @@ struct APIUserRemovePayIDRequest: Codable {
     }
     
     let payID: String
-    let type: APIUserPayIDResponse.PayIDType
+    let type: PayIDContact.PayIDType
 }

@@ -549,7 +549,7 @@ public class UserManagement {
      - Parameters:
      - completion: Completion handler with either the data from the host or an error
      */
-    public func fetchPayIDs(completion: @escaping (Result<[APIUserPayIDResponse], Error>) -> Void) {
+    public func fetchPayIDs(completion: @escaping (Result<[PayIDResponse], Error>) -> Void) {
         service.fetchPayIDs { result in
             switch result {
                 case .failure(let error):
@@ -600,12 +600,12 @@ public class UserManagement {
      - Parameters:
      - accountID:ID of the account that the PayID should be associated with
      - payID: Value of the payID
-     - type: Type of the PayID. See `APIUserPayIDResponse.PayIDType` for allowed types.
+     - type: Type of the PayID. See `PayIDContact.PayIDType` for allowed types.
      - trackingID: Tracking ID for the register. Available from the request PayID OTP API
      - otpCode: Security code sent to the user after
      - completion: Completion handler with any error that occurred
      */
-    public func registerPayID(accountID: Int64, payID: String, type: APIUserPayIDResponse.PayIDType, trackingID: String, otpCode: String, completion: @escaping FrolloSDKCompletionHandler) {
+    public func registerPayID(accountID: Int64, payID: String, type: PayIDContact.PayIDType, trackingID: String, otpCode: String, completion: @escaping FrolloSDKCompletionHandler) {
         
         let request = APIUserRegisterPayIDRequest(accountID: accountID, payID: payID, type: type, trackingID: trackingID, securityCode: otpCode)
         service.registerPayID(request: request) { result in
@@ -630,10 +630,10 @@ public class UserManagement {
      - Parameters:
      - accountID:ID of the account that the PayID should be associated with
      - payID: Value of the payID
-     - type: Type of the PayID. See `APIUserPayIDResponse.PayIDType` for allowed types.
+     - type: Type of the PayID. See `PayIDContact.PayIDType` for allowed types.
      - completion: Completion handler with any error that occurred
      */
-    public func removePayID(payID: String, type: APIUserPayIDResponse.PayIDType, completion: @escaping FrolloSDKCompletionHandler) {
+    public func removePayID(payID: String, type: PayIDContact.PayIDType, completion: @escaping FrolloSDKCompletionHandler) {
         
         let request = APIUserRemovePayIDRequest(payID: payID, type: type)
         service.removePayID(request: request) { result in
@@ -659,7 +659,7 @@ public class UserManagement {
      - accountID: ID of the account for which the payIDs need to be fetched
      - completion: Completion handler with either the data from the host or an error
      */
-    public func fetchPayIDs(for accountID: Int64, completion: @escaping (Result<[APIUserAccountPayIDResponse], Error>) -> Void) {
+    public func fetchPayIDs(for accountID: Int64, completion: @escaping (Result<[AccountPayIDResponse], Error>) -> Void) {
         service.fetchPayIDs(accountID: accountID) { result in
             switch result {
                 case .failure(let error):

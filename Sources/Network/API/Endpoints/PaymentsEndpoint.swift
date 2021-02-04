@@ -25,6 +25,8 @@ internal enum PaymentsEndpoint: Endpoint {
     case bpay
     case payAnyone
     case transfers
+    case payID
+    case npp
     case verifyPayAnyone
     
     private func urlPath() -> String {
@@ -35,6 +37,10 @@ internal enum PaymentsEndpoint: Endpoint {
                 return "payments/payanyone"
             case .transfers:
                 return "payments/transfer"
+            case .payID:
+                return "payments/payid"
+            case .npp:
+                return "payments/npp"
             case .verifyPayAnyone:
                 return "payments/verify/payanyone"
         }

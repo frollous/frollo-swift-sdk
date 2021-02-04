@@ -16,41 +16,37 @@
 
 import Foundation
 
-/// API User PayID Response
-public struct APIUserAccountPayIDResponse: Codable {
+/**
+ PayID Response
+ 
+ Represents a PayID for the User
+ */
+public struct PayIDResponse: Codable {
     
     /// Status of the PayID
     public enum PayIDStatus: String, Codable, CaseIterable {
-        case active = "ACTIVE"
-        case portable = "PORTABLE"
-        case deregistered = "DEREGISTERED"
-        case disabled = "DISABLED"
+        /// PayID is available for registration
+        case available
+        /// PayID is already registered
+        case registered
+        
+        /// PayID details are not confirmed
+        case unconfirmed
+        
+        /// Undetermined
+        case unknown
     }
     
     enum CodingKeys: String, CodingKey {
-        case payID = "payid"
-        case status = "payid_status"
+        case payID = "id"
+        case status
         case type
-        case name = "payid_name"
-        case createdAt = "created_at"
-        case updatedAt = "updated_at"
     }
     
     /// The value of the payId
     public var payID: String
-    
-    /// Current status of the PayID
+    /// Status of the PayID
     public var status: PayIDStatus
-    
-    /// The creditor PayID identifier type.
-    public var type: APIUserPayIDResponse.PayIDType
-    
-    /// The name of the payID; shown to external parties
-    public var name: String
-    
-    /// The date and time the payID was registered
-    public var createdAt: String?
-    
-    /// The date and time the payID was updated
-    public var updatedAt: String?
+    /// Type of the PayID
+    public var type: PayIDContact.PayIDType
 }
