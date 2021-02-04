@@ -30,7 +30,7 @@ struct APIPayIDPaymentRequest: Codable {
     }
     
     let payID: String
-    let payIDType: PayIDResponse.PayIDType
+    let payIDType: PayIDContact.PayIDType
     let payIDName: String
     let amount: String
     let description: String?

@@ -167,7 +167,7 @@ class ContactsTests: BaseTestCase {
                 let updatedContact = self.contacts.contact(context: context, contactID: 10)
                 XCTAssertEqual(updatedContact?.name, "Sincy Chacko")
                 
-                XCTAssertEqual(fetchedContacts.count, 8)
+                XCTAssertEqual(fetchedContacts.count, 10)
                 
             } catch {
                 XCTFail(error.localizedDescription)
@@ -243,7 +243,7 @@ class ContactsTests: BaseTestCase {
                 let updatedContact = self.contacts.contact(context: context, contactID: 10)
                 XCTAssertEqual(updatedContact?.name, "Sincy Chacko")
                 
-                XCTAssertEqual(fetchedContacts.count, 8)
+                XCTAssertEqual(fetchedContacts.count, 10)
                 
             } catch {
                 XCTFail(error.localizedDescription)
@@ -281,7 +281,7 @@ class ContactsTests: BaseTestCase {
             do {
                 let fetchedContacts = try context.fetch(fetchRequest)
                 
-                XCTAssertEqual(fetchedContacts.count, 11)
+                XCTAssertEqual(fetchedContacts.count, 13)
                 XCTAssertNotNil(self.contacts.contact(context: context, contactID: 10))
                 
             } catch {

@@ -30,7 +30,7 @@ public class PayIDContact: Contact {
      Indicates the type of the payID
      */
     public enum PayIDType: String, CaseIterable, Codable {
-        case phoneNumber = "telephone"
+        case phoneNumber = "mobile"
         case email
         case organisationID = "org_identifier"
         case abn
@@ -55,7 +55,7 @@ public class PayIDContact: Contact {
         
         payID = contact.payid
         payIDName = contact.name
-        payIDType = contact.idType
+        payIDType = contact.type
     }
     
 }

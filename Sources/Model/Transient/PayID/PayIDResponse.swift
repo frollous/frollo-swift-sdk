@@ -37,12 +37,6 @@ public struct PayIDResponse: Codable {
         case unknown
     }
     
-    /// Type of the PayID
-    public enum PayIDType: String, Codable, CaseIterable {
-        case email
-        case mobile
-    }
-    
     enum CodingKeys: String, CodingKey {
         case payID = "id"
         case status
@@ -54,5 +48,5 @@ public struct PayIDResponse: Codable {
     /// Status of the PayID
     public var status: PayIDStatus
     /// Type of the PayID
-    public var type: PayIDType
+    public var type: PayIDContact.PayIDType
 }

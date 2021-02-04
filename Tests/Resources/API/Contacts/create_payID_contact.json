@@ -6,7 +6,7 @@
     "payment_details": {
         "name": "J SMITH",
         "payid": "0412345678",
-        "id_type": "telephone"
+        "type": "mobile"
     },
     "created_date": "2020-12-07T13:55:49.240+11:00",
     "modified_date": "2020-12-07T13:55:49.240+11:00",

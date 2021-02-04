@@ -171,7 +171,7 @@ public class Payments: ResponseHandler {
      - securityCode: Verification code/ OTP for payment
      - completion: Optional completion handler with `PayIDPaymentResponse` result if succeeds and error if the request fails
      */
-    public func payIDPayment(payID: String, type: PayIDResponse.PayIDType, payIDName: String, amount: Decimal, paymentDate: Date = Date(), description: String? = nil, reference: String? = nil, sourceAccountID: Int64, securityCode: String? = nil, completion: @escaping (Result<PayIDPaymentResponse, Error>) -> Void) {
+    public func payIDPayment(payID: String, type: PayIDContact.PayIDType, payIDName: String, amount: Decimal, paymentDate: Date = Date(), description: String? = nil, reference: String? = nil, sourceAccountID: Int64, securityCode: String? = nil, completion: @escaping (Result<PayIDPaymentResponse, Error>) -> Void) {
         
         let paymentAmount = amount as NSDecimalNumber
         let date = Payments.paymentDateFormatter.string(from: paymentDate)

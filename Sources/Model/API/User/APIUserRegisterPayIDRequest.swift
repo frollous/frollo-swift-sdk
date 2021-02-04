@@ -28,7 +28,7 @@ struct APIUserRegisterPayIDRequest: Codable {
     
     let accountID: Int64
     let payID: String
-    let type: PayIDResponse.PayIDType
+    let type: PayIDContact.PayIDType
     let trackingID: String
     let securityCode: String
 }

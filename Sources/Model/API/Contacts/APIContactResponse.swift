@@ -65,12 +65,12 @@ struct APIContactResponse: APIUniqueResponse {
             enum CodingKeys: String, CodingKey {
                 case payid
                 case name
-                case idType = "id_type"
+                case type
             }
             
             let payid: String
             let name: String?
-            let idType: PayIDContact.PayIDType
+            let type: PayIDContact.PayIDType
         }
         
         struct International: Codable {

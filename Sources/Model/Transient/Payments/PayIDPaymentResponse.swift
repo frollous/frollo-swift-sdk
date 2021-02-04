@@ -33,7 +33,7 @@ public struct PayIDPaymentResponse {
     public let destinationPayID: String
     
     /// Account number of payee's account in the payment
-    public let destinationPayIDType: PayIDResponse.PayIDType
+    public let destinationPayIDType: PayIDContact.PayIDType
     
     /// PayID name payee's account in the payment
     public let destinationAccountHolder: String
