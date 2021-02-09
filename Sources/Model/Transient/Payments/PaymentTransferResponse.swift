@@ -34,6 +34,7 @@ public struct PaymentTransferResponse: Codable {
         case status
         case transactionID = "transaction_id"
         case transactionReference = "transaction_reference"
+        case isDuplicate = "is_duplicate"
     }
     
     /// Amount of the the transfer
@@ -65,4 +66,7 @@ public struct PaymentTransferResponse: Codable {
     
     /// Transaction reference of the payment
     public let transactionReference: String
+    
+    /// Payment is duplicate; Optional - returned only for NPP
+    public let isDuplicate: Bool?
 }

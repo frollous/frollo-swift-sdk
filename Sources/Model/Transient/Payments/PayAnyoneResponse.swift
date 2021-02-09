@@ -35,6 +35,7 @@ public struct PayAnyoneResponse: Codable {
         case status
         case transactionID = "transaction_id"
         case transactionReference = "transaction_reference"
+        case isDuplicate = "is_duplicate"
     }
     
     /// Amount of the the payment
@@ -50,7 +51,7 @@ public struct PayAnyoneResponse: Codable {
     public let destinationAccountHolder: String
     
     /// Account number of payee's account in the payment
-    public let destinationAccountNumber: String
+    public let destinationAccountNumber: String?
     
     /// Datet of the payment
     public let paymentDate: String
@@ -69,4 +70,7 @@ public struct PayAnyoneResponse: Codable {
     
     /// Transaction reference of the payment
     public let transactionReference: String
+    
+    /// Payment is duplicate; Optional - returned only for NPP
+    public let isDuplicate: Bool?
 }

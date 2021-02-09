@@ -21,7 +21,20 @@ import Foundation
  
  Represents the response after the Payment to a PayID is successful
  */
-public struct PayIDPaymentResponse {
+public struct PayIDPaymentResponse: Codable {
+    
+    enum CodingKeys: String, CodingKey {
+        case amount
+        case description
+        case reference
+        case paymentDate = "payment_date"
+        case destinationAccountHolder = "destination_account_holder"
+        case sourceAccountID = "source_account_id"
+        case sourceAccountName = "source_account_name"
+        case transactionReference = "transaction_reference"
+        case status
+        case isDuplicate = "is_duplicate"
+    }
     
     /// Amount of the the payment
     public let amount: String
@@ -29,11 +42,8 @@ public struct PayIDPaymentResponse {
     /// Description of the the payment
     public let description: String?
     
-    /// BSB of payee's account of the payment
-    public let destinationPayID: String
-    
-    /// Account number of payee's account in the payment
-    public let destinationPayIDType: PayIDContact.PayIDType
+    /// Reference of the the payment
+    public let reference: String?
     
     /// PayID name payee's account in the payment
     public let destinationAccountHolder: String
@@ -44,7 +54,15 @@ public struct PayIDPaymentResponse {
     /// Account ID of source account in the payment
     public let sourceAccountID: Int64
     
-    /// Transaction ID of the payment
-    public let transactionID: String
+    /// Account Name of source account in the payment
+    public let sourceAccountName: String
     
+    /// Transaction reference of the payment
+    public let transactionReference: String
+    
+    /// Status of the payment
+    public let status: String
+    
+    /// Payment is duplicate; Optional - returned only for NPP
+    public let isDuplicate: Bool?
 }

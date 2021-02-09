@@ -190,7 +190,7 @@ class PaymentsTests: XCTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success(let response):
-                    XCTAssertEqual(response.transactionID, "VLLTAU22XXXN20210202000000000770820")
+                    XCTAssertEqual(response.transactionReference, "VLLTAU22XXXN20210202000000000770820")
                     expectation1.fulfill()
             }
         }
@@ -205,7 +205,7 @@ class PaymentsTests: XCTestCase {
         let config = FrolloSDKConfiguration.testConfig()
 
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.npp.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "npp_payment_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "pay_anyone_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
 
@@ -215,7 +215,7 @@ class PaymentsTests: XCTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success(let response):
-                    XCTAssertEqual(response.transactionID, "VLLTAU22XXXN20210202000000000770820")
+                    XCTAssertEqual(response.transactionReference, "XXX")
                     expectation1.fulfill()
             }
         }
@@ -278,5 +278,31 @@ class PaymentsTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         OHHTTPStubs.removeAllStubs()
-    }    
+    }
+
+    func testVerifyValidPayID() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.verifyPayID.path)) { (request) -> OHHTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "verify_payID_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let payments = Payments(service: service)
+        payments.verifyPayID(payID: "+61411111111", type: .phoneNumber) { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let response):
+                    XCTAssertEqual(response.name, "John Doe")
+                    XCTAssertEqual(response.payID, "+61411111111")
+                    expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        OHHTTPStubs.removeAllStubs()
+    }
+
 }
