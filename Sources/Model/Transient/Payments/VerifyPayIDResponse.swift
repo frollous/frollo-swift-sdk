@@ -16,18 +16,26 @@
 
 import Foundation
 
-struct APINPPPaymentResponse: Codable {
+/**
+ VerifyPayIDResponse
+ 
+ Represents the response of verify pay id
+ */
+public struct VerifyPayIDResponse: Codable {
     
     enum CodingKeys: String, CodingKey {
-        case transactionID = "transaction_id"
-        case isDuplicate = "is_duplicate"
-        case description
+        case type
+        case payID = "payid"
+        case name = "payid_name"
     }
     
-    let transactionID: String
+    /// The creditor PayID identifier type.
+    public let type: PayIDContact.PayIDType
     
-    let isDuplicate: Bool
+    /// Value for the corresponding payIdType
+    public let payID: String
     
-    let description: String?
+    /// Name of the registered PayID; shown to external parties when they attempt to make a Payment
+    public let name: String
     
 }

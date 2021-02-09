@@ -82,7 +82,7 @@ extension APIService {
     
     // MARK: - Npp
     
-    internal func payIDPayment(request: APIPayIDPaymentRequest, otp: String?, completion: @escaping RequestCompletion<APINPPPaymentResponse>) {
+    internal func payIDPayment(request: APIPayIDPaymentRequest, otp: String?, completion: @escaping RequestCompletion<PayIDPaymentResponse>) {
         requestQueue.async {
             let url = URL(string: PaymentsEndpoint.payID.path, relativeTo: self.serverURL)!
             
@@ -95,12 +95,12 @@ extension APIService {
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: APINPPPaymentResponse.self, errorType: APIError.self, response: response, completion: completion)
+                self.network.handleResponse(type: PayIDPaymentResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
     
-    internal func payAnyoneNPPPayment(request: APIPayAnyoneRequest, otp: String?, completion: @escaping RequestCompletion<APINPPPaymentResponse>) {
+    internal func payAnyoneNPPPayment(request: APIPayAnyoneRequest, otp: String?, completion: @escaping RequestCompletion<PayAnyoneResponse>) {
         requestQueue.async {
             let url = URL(string: PaymentsEndpoint.npp.path, relativeTo: self.serverURL)!
             
@@ -113,7 +113,7 @@ extension APIService {
             }
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: APINPPPaymentResponse.self, errorType: APIError.self, response: response, completion: completion)
+                self.network.handleResponse(type: PayAnyoneResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }
@@ -134,6 +134,26 @@ extension APIService {
             
             self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
                 self.network.handleResponse(type: VerifyPayAnyoneResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    // MARK: - Verify PayID
+    
+    internal func verifyPayID(request: APIVerifyPayIDRequest, completion: @escaping RequestCompletion<VerifyPayIDResponse>) {
+        requestQueue.async {
+            let url = URL(string: PaymentsEndpoint.verifyPayID.path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: VerifyPayIDResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }

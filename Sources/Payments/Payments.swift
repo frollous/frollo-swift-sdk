@@ -58,7 +58,7 @@ public class Payments: ResponseHandler {
             date = Payments.paymentDateFormatter.string(from: paymentDate)
         }
         
-        let request = APIPayAnyoneRequest(accountHolder: accountHolder, accountNumber: accountNumber, amount: paymentAmount.stringValue, bsb: bsb, description: description, paymentDate: date, reference: reference, sourceAccountID: sourceAccountID, overrideMethod: "payanyone")
+        let request = APIPayAnyoneRequest(accountHolder: accountHolder, accountNumber: accountNumber, amount: paymentAmount.stringValue, bsb: bsb, description: description, paymentDate: date, reference: reference, sourceAccountID: sourceAccountID, overrideMethod: nil)
         
         service.payAnyone(request: request, otp: securityCode) { result in
             switch result {
@@ -187,10 +187,8 @@ public class Payments: ResponseHandler {
                         completion(.failure(error))
                     }
                 case .success(let response):
-                    let payIDResponse = PayIDPaymentResponse(amount: paymentAmount.stringValue, description: response.description, destinationPayID: payID, destinationPayIDType: type, destinationAccountHolder: payIDName, paymentDate: date, sourceAccountID: sourceAccountID, transactionID: response.transactionID)
-                    
                     DispatchQueue.main.async {
-                        completion(.success(payIDResponse))
+                        completion(.success(response))
                     }
             }
         }
@@ -227,9 +225,8 @@ public class Payments: ResponseHandler {
                         completion(.failure(error))
                     }
                 case .success(let response):
-                    let payAnyoneResponse = PayAnyoneResponse(amount: paymentAmount.stringValue, description: response.description, destinationBSB: bsb, destinationAccountHolder: accountHolder, destinationAccountNumber: accountNumber, paymentDate: date, sourceAccountID: sourceAccountID, sourceAccountName: "", status: "", transactionID: response.transactionID, transactionReference: response.transactionID)
                     DispatchQueue.main.async {
-                        completion(.success(payAnyoneResponse))
+                        completion(.success(response))
                     }
             }
         }
@@ -249,6 +246,35 @@ public class Payments: ResponseHandler {
         let request = APIVerifyPayAnyoneRequest(accountHolder: accountHolder, accountNumber: accountNumber, bsb: bsb)
         
         service.verifyPayAnyone(request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Verify PayID
+     
+     - parameters:
+     - payID: Value of the PayID
+     - type: Type of the PayID
+     - completion: Optional completion handler with `VerifyPayIDResponse` result if succeeds and error if the request fails
+     */
+    public func verifyPayID(payID: String, type: PayIDContact.PayIDType, completion: @escaping (Result<VerifyPayIDResponse, Error>) -> Void) {
+        
+        let request = APIVerifyPayIDRequest(payID: payID, type: type)
+        
+        service.verifyPayID(request: request) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
