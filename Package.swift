@@ -1,4 +1,4 @@
-// swift-tools-version:4.0
+// swift-tools-version:5.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -11,16 +11,11 @@ let package = Package(
             targets: ["FrolloSDK"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.0.0"))
+        
     ],
     targets: [
-        .target(
-            name: "FrolloSDK",
-            dependencies: [],
-            path: "./Sources/"),
-        .testTarget(
-            name: "FrolloSDKTests",
-            dependencies: ["FrolloSDK"],
-            path: "./Tests/"),
+      .binaryTarget(
+        name: "FrolloSDK",
+        path: "./Sources/FrolloSDK.xcframework")
     ]
 )
