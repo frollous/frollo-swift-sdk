@@ -1,0 +1,11 @@
+framework module FrolloSDK {
+  umbrella header "FrolloSDK.h"
+
+  export *
+  module * { export * }
+}
+
+module FrolloSDK.Swift {
+    header "FrolloSDK-Swift.h"
+    requires objc
+}

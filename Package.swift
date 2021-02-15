@@ -5,13 +5,15 @@ import PackageDescription
 
 let package = Package(
     name: "FrolloSDK",
+    platforms: [
+        .iOS(.v11)
+    ],
     products: [
         .library(
             name: "FrolloSDK",
             targets: ["FrolloSDK"]),
     ],
     dependencies: [
-        
     ],
     targets: [
       .binaryTarget(
