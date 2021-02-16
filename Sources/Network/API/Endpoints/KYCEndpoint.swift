@@ -23,11 +23,14 @@ internal enum KYCEndpoint: Endpoint {
     }
     
     case kyc
+    case createVerify
     
     private func urlPath() -> String {
         switch self {
             case .kyc:
                 return "user/kyc"
+            case .createVerify:
+                return "user/kyc/create_verify"
         }
     }
     
