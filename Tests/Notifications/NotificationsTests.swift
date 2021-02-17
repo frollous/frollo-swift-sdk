@@ -28,7 +28,7 @@ class NotificationsTests: XCTestCase {
     }
 
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
 
@@ -37,10 +37,10 @@ class NotificationsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.device.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.device.path)) { (request) -> HTTPStubsResponse in
             expectation1.fulfill()
             
-            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+            return HTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
         let path = tempFolderPath()
@@ -106,7 +106,7 @@ class NotificationsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 98765).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 98765).path)) { (request) -> HTTPStubsResponse in
             expectation1.fulfill()
             
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])

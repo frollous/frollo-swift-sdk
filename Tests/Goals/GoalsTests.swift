@@ -41,7 +41,7 @@ class GoalsTests: BaseTestCase {
     }
     
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
     
@@ -647,7 +647,7 @@ class GoalsTests: BaseTestCase {
             XCTFail(error.localizedDescription)
         }
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         
     }
     
@@ -908,7 +908,7 @@ class GoalsTests: BaseTestCase {
             XCTFail(error.localizedDescription)
         }
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
 }

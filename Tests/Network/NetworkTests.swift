@@ -163,7 +163,7 @@ class NetworkTests: BaseTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> HTTPStubsResponse in
             XCTAssertEqual(request.allHTTPHeaderFields?["X-Api-Version"], "2.12")
             XCTAssertEqual(request.allHTTPHeaderFields?["X-Bundle-Id"], "us.frollo.FrolloSDK")
             XCTAssertTrue(request.allHTTPHeaderFields?["X-Device-Version"]?.contains(ProcessInfo.processInfo.operatingSystemVersionString) == true)
@@ -204,8 +204,8 @@ class NetworkTests: BaseTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(error: NSError(domain: NSURLErrorDomain, code: -999, userInfo: [NSURLErrorFailingURLStringErrorKey: "https://example.com", NSLocalizedDescriptionKey: "cancelled", NSURLErrorFailingURLErrorKey: URL(string: "https://api.example.com/" + UserEndpoint.details.path)!]))
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(error: NSError(domain: NSURLErrorDomain, code: -999, userInfo: [NSURLErrorFailingURLStringErrorKey: "https://example.com", NSLocalizedDescriptionKey: "cancelled", NSURLErrorFailingURLErrorKey: URL(string: "https://api.example.com/" + UserEndpoint.details.path)!]))
         }
         
         let keychain = Keychain(service: keychainService)
@@ -232,7 +232,7 @@ class NetworkTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     // MARK: - Forced Logout Tests
@@ -270,7 +270,7 @@ class NetworkTests: BaseTestCase {
         
         wait(for: [expectation1, expectation2], timeout: 3.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testUnauthorizedClientTriggersForcedLogout() {
@@ -307,7 +307,7 @@ class NetworkTests: BaseTestCase {
         
         wait(for: [expectation1, expectation2], timeout: 3.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testInvalidRefreshTokenAPIFail() {
@@ -320,7 +320,7 @@ class NetworkTests: BaseTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_invalid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
     

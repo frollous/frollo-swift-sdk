@@ -29,7 +29,7 @@ class ReportsTests: XCTestCase {
     }
 
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
     
@@ -98,7 +98,7 @@ class ReportsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_day_2018-10-29_2019-01-29", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -139,7 +139,7 @@ class ReportsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 10.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testFetchingAccountBalanceReportsByDay() {
@@ -147,7 +147,7 @@ class ReportsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_day_2018-10-29_2019-01-29", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -206,7 +206,7 @@ class ReportsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 10.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testFetchingAccountBalanceReportsByMonth() {
@@ -214,7 +214,7 @@ class ReportsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_month_2018-10-29_2019-01-29", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -273,7 +273,7 @@ class ReportsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 10.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testFetchingAccountBalanceReportsByWeek() {
@@ -281,7 +281,7 @@ class ReportsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_week_2018-10-29_2019-01-29", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -340,7 +340,7 @@ class ReportsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 10.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testFetchingAccountBalanceReportsByAccountID() {
@@ -348,7 +348,7 @@ class ReportsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_day_account_id_937_2018-10-29_2019-01-29", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -407,7 +407,7 @@ class ReportsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 10.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testFetchingAccountBalanceReportsByAccountType() {
@@ -417,11 +417,11 @@ class ReportsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_day_container_bank_2018-10-29_2019-01-29", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -503,7 +503,7 @@ class ReportsTests: XCTestCase {
             XCTFail(error.localizedDescription)
         }
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testFetchingAccountBalanceReportsUpdatesExisting() {
@@ -513,7 +513,7 @@ class ReportsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> HTTPStubsResponse in
             if let requestURL = request.url, let queryItems = URLComponents(url: requestURL, resolvingAgainstBaseURL: true)?.queryItems {
                 var fromDate: String = ""
                 
@@ -677,7 +677,7 @@ class ReportsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> HTTPStubsResponse in
             if let requestURL = request.url, let queryItems = URLComponents(url: requestURL, resolvingAgainstBaseURL: true)?.queryItems {
                 var period: String = ""
                 
@@ -841,7 +841,7 @@ class ReportsTests: XCTestCase {
         let filter = TransactionReportFilter.budgetCategory(id: budgetCategory.id)
         let transactionHistoryPath = ReportsEndpoint.transactionsHistory(entity: filter.entity, id: filter.id)
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + transactionHistoryPath.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + transactionHistoryPath.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_txn_budget_category_monthly_2019_01_01_2019_12_31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -896,7 +896,7 @@ class ReportsTests: XCTestCase {
         
         let filter = TransactionReportFilter.category(id: 1)
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory(entity: filter.entity, id: filter.id).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory(entity: filter.entity, id: filter.id).path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_txn_category_monthly_2019_01_01_2019_12_31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -953,7 +953,7 @@ class ReportsTests: XCTestCase {
         
         let filter = TransactionReportFilter.category(id: 1)
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory(entity: filter.entity, id: filter.id).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.transactionsHistory(entity: filter.entity, id: filter.id).path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transaction_reports_merchant_monthly_2019_01_01_2019_12_31", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 

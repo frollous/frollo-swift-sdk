@@ -31,7 +31,7 @@ class ContactsTests: BaseTestCase {
     }
 
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
 
@@ -50,7 +50,7 @@ class ContactsTests: BaseTestCase {
         let expectation1 = expectation(description: "Network Request")
         let expectation2 = expectation(description: "Core Data Update")
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 2).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 2).path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "get_contact_by_id", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
                 
@@ -121,7 +121,7 @@ class ContactsTests: BaseTestCase {
         let expectation1 = expectation(description: "Network Request")
         let expectation2 = expectation(description: "Core Data Update")
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "get_contacts", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
                 
@@ -254,7 +254,7 @@ class ContactsTests: BaseTestCase {
         
         wait(for: [expectation3], timeout: 3.0)
         
-        OHHTTPStubs.removeStub(contactsStub)
+        HTTPStubs.removeStub(contactsStub)
         
         connect(endpoint: ContactsEndpoint.contacts.path.prefixedWithSlash, toResourceWithName: "get_contacts_page_2")
         
@@ -298,7 +298,7 @@ class ContactsTests: BaseTestCase {
     func testCreateBPAYContact() {
         let expectation1 = expectation(description: "Network Request 1")
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path) && isMethodPOST()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "create_bpay_contact", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -328,13 +328,13 @@ class ContactsTests: BaseTestCase {
         }
 
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
     func testCreatePayAnyoneContact() {
         let expectation1 = expectation(description: "Network Request 1")
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path) && isMethodPOST()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "create_payAnyone_contact", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -364,13 +364,13 @@ class ContactsTests: BaseTestCase {
         }
 
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
     func testCreatePayIDContact() {
         let expectation1 = expectation(description: "Network Request 1")
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path) && isMethodPOST()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "create_payID_contact", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -396,13 +396,13 @@ class ContactsTests: BaseTestCase {
         }
 
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
     func testCreateInternationalContact() {
         let expectation1 = expectation(description: "Network Request 1")
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path) && isMethodPOST()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "create_international_contact", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -432,13 +432,13 @@ class ContactsTests: BaseTestCase {
         }
 
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
     func testUpdateBPAYContact() {
         let expectation1 = expectation(description: "Network Request 1")
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 9).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 9).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "update_bpay_contact", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -489,13 +489,13 @@ class ContactsTests: BaseTestCase {
         }
 
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
     func testUpdatePayAnyoneContact() {
         let expectation1 = expectation(description: "Network Request 1")
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 1).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 1).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "update_payAnyone_contact", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -546,13 +546,13 @@ class ContactsTests: BaseTestCase {
         }
 
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
     func testUpdatePayIDContact() {
         let expectation1 = expectation(description: "Network Request 1")
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 4).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 4).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "update_payID_contact", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -603,13 +603,13 @@ class ContactsTests: BaseTestCase {
         }
 
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
     func testUpdateInternationalContact() {
         let expectation1 = expectation(description: "Network Request 1")
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 9).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 9).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "update_international_contact", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -660,14 +660,14 @@ class ContactsTests: BaseTestCase {
         }
 
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
     func testDeleteContact() {
         let expectation1 = expectation(description: "Network Request")
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 12345).path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 12345).path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
 
         let mockAuthentication = MockAuthentication()

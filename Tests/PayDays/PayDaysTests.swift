@@ -42,7 +42,7 @@ class PayDaysTests: BaseTestCase {
     }
     
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
     

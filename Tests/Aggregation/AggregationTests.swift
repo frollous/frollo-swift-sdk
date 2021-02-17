@@ -32,7 +32,7 @@ class AggregationTests: BaseTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
     
@@ -293,7 +293,7 @@ class AggregationTests: BaseTestCase {
         
         wait(for: [expectation3], timeout: 3.0)
         
-        OHHTTPStubs.removeStub(providerStub)
+        HTTPStubs.removeStub(providerStub)
         
         connect(endpoint: AggregationEndpoint.providers.path.prefixedWithSlash, toResourceWithName: "providers_updated")
         
@@ -1942,7 +1942,7 @@ class AggregationTests: BaseTestCase {
         
         wait(for: [expectation3], timeout: 3.0)
         
-        OHHTTPStubs.removeStub(transactionStub)
+        HTTPStubs.removeStub(transactionStub)
 
         connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_page_2")
 
@@ -3640,7 +3640,7 @@ class AggregationTests: BaseTestCase {
         
         wait(for: [expectation3], timeout: 3.0)
         
-        OHHTTPStubs.removeStub(merchantStub)
+        HTTPStubs.removeStub(merchantStub)
         
         connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchant_page_2")
         
@@ -4406,7 +4406,7 @@ class AggregationTests: BaseTestCase {
         
         wait(for: [expectation3], timeout: 3.0)
         
-        OHHTTPStubs.removeStub(providerStub)
+        HTTPStubs.removeStub(providerStub)
         
         connect(endpoint: CDREndpoint.consents.path.prefixedWithSlash, toResourceWithName: "consents_updated")
         

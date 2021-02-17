@@ -33,7 +33,7 @@ class UserManagementTests: BaseTestCase {
     }
 
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
 
@@ -460,8 +460,8 @@ class UserManagementTests: BaseTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.migrate.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.migrate.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
         let keychain = validKeychain()
@@ -508,8 +508,8 @@ class UserManagementTests: BaseTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.migrate.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 500, headers: nil)
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.migrate.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 500, headers: nil)
         }
         
         let keychain = validKeychain()
@@ -548,8 +548,8 @@ class UserManagementTests: BaseTestCase {
 
         let config = FrolloSDKConfiguration.testConfig()
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.migrate.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.migrate.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
 
         let keychain = Keychain(service: "EmptyMe")
@@ -588,8 +588,8 @@ class UserManagementTests: BaseTestCase {
 
         let config = FrolloSDKConfiguration.testConfig()
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.migrate.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.migrate.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
 
         let keychain = validKeychain()
@@ -783,7 +783,7 @@ class UserManagementTests: BaseTestCase {
 
         let config = FrolloSDKConfiguration.testConfig()
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.requestOTP.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.requestOTP.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_request_otp", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -819,7 +819,7 @@ class UserManagementTests: BaseTestCase {
 
         let config = FrolloSDKConfiguration.testConfig()
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.unconfirmedDetails.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.unconfirmedDetails.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_confirm_details", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -851,8 +851,8 @@ class UserManagementTests: BaseTestCase {
 
         let config = FrolloSDKConfiguration.testConfig()
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.confirmDetails.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.confirmDetails.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
 
         let keychain = validKeychain()
@@ -886,8 +886,8 @@ class UserManagementTests: BaseTestCase {
 
         let config = FrolloSDKConfiguration.testConfig()
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.log.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.log.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
         }
 
         let keychain = validKeychain()
@@ -921,7 +921,7 @@ class UserManagementTests: BaseTestCase {
 
         let config = FrolloSDKConfiguration.testConfig()
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.payID.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.payID.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_get_payid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -957,7 +957,7 @@ class UserManagementTests: BaseTestCase {
 
         let config = FrolloSDKConfiguration.testConfig()
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.payIDOTP.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.payIDOTP.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_request_payid_otp", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -994,7 +994,7 @@ class UserManagementTests: BaseTestCase {
 
         let config = FrolloSDKConfiguration.testConfig()
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.payID.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.payID.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_register_payid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -1030,7 +1030,7 @@ class UserManagementTests: BaseTestCase {
 
         let config = FrolloSDKConfiguration.testConfig()
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.removePayID.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.removePayID.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_register_payid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -1066,7 +1066,7 @@ class UserManagementTests: BaseTestCase {
 
         let config = FrolloSDKConfiguration.testConfig()
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.accountPayID(accountID: 325).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.accountPayID(accountID: 325).path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_get_account_payid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 

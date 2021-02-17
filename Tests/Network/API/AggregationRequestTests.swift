@@ -37,7 +37,7 @@ class AggregationRequestTests: BaseTestCase {
         super.tearDown()
         
         Keychain(service: keychainService).removeAll()
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testFetchProviders() {
@@ -233,7 +233,7 @@ class AggregationRequestTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testFetchAccounts() {
