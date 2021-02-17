@@ -708,8 +708,6 @@
 		017F0FEB22DEE71B00ACE7BB /* GoalPeriod+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FEA22DEE71B00ACE7BB /* GoalPeriod+Test.swift */; };
 		017F0FEC22DEE71B00ACE7BB /* GoalPeriod+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FEA22DEE71B00ACE7BB /* GoalPeriod+Test.swift */; };
 		017F0FED22DEE71B00ACE7BB /* GoalPeriod+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FEA22DEE71B00ACE7BB /* GoalPeriod+Test.swift */; };
-		017F0FEF22DEE82900ACE7BB /* APIGoalPeriodResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FEE22DEE82900ACE7BB /* APIGoalPeriodResponse.swift */; };
-		017F0FF022DEE82900ACE7BB /* APIGoalPeriodResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FEE22DEE82900ACE7BB /* APIGoalPeriodResponse.swift */; };
 		017F0FF222DEFF6500ACE7BB /* GoalPeriodTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FF122DEFF6500ACE7BB /* GoalPeriodTests.swift */; };
 		017F0FF322DEFF6500ACE7BB /* GoalPeriodTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FF122DEFF6500ACE7BB /* GoalPeriodTests.swift */; };
 		017F0FF422DEFF6500ACE7BB /* GoalPeriodTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F0FF122DEFF6500ACE7BB /* GoalPeriodTests.swift */; };
@@ -1189,6 +1187,8 @@
 		03A3A7212432F15700D46BB0 /* Consent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A3A71E2432F15600D46BB0 /* Consent+CoreDataProperties.swift */; };
 		03A3A7222432F15700D46BB0 /* Consent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A3A71F2432F15600D46BB0 /* Consent+CoreDataClass.swift */; };
 		03A3A7232432F15700D46BB0 /* Consent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A3A71F2432F15600D46BB0 /* Consent+CoreDataClass.swift */; };
+		03A7E75E25DC91D400A6400A /* APIGoalPeriodResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A7E74C25DC915400A6400A /* APIGoalPeriodResponse.swift */; };
+		03A7E75F25DC91D400A6400A /* APIGoalPeriodResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A7E74C25DC915400A6400A /* APIGoalPeriodResponse.swift */; };
 		03ADF878227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ADF877227937A9001B5E20 /* XCTestCaseExtensions.swift */; };
 		03ADF879227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ADF877227937A9001B5E20 /* XCTestCaseExtensions.swift */; };
 		03ADF87A227937A9001B5E20 /* XCTestCaseExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ADF877227937A9001B5E20 /* XCTestCaseExtensions.swift */; };
@@ -2128,7 +2128,6 @@
 		017F0FE422DED79800ACE7BB /* GoalPeriod+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GoalPeriod+CoreDataClass.swift"; sourceTree = "<group>"; };
 		017F0FE522DED79800ACE7BB /* GoalPeriod+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GoalPeriod+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		017F0FEA22DEE71B00ACE7BB /* GoalPeriod+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GoalPeriod+Test.swift"; sourceTree = "<group>"; };
-		017F0FEE22DEE82900ACE7BB /* APIGoalPeriodResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = APIGoalPeriodResponse.swift; path = ../../../../Tests/Model/API/Goals/APIGoalPeriodResponse.swift; sourceTree = "<group>"; };
 		017F0FF122DEFF6500ACE7BB /* GoalPeriodTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalPeriodTests.swift; sourceTree = "<group>"; };
 		017F0FF522DEFFC800ACE7BB /* APIGoalPeriodResponse+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIGoalPeriodResponse+Test.swift"; sourceTree = "<group>"; };
 		017F0FF922E045C400ACE7BB /* goals_filtered_cancelled_equal.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = goals_filtered_cancelled_equal.json; sourceTree = "<group>"; };
@@ -2314,6 +2313,7 @@
 		039C07A423F3B2C4002F7979 /* get_consent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_consent.json; sourceTree = "<group>"; };
 		03A3A71E2432F15600D46BB0 /* Consent+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Consent+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		03A3A71F2432F15600D46BB0 /* Consent+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Consent+CoreDataClass.swift"; sourceTree = "<group>"; };
+		03A7E74C25DC915400A6400A /* APIGoalPeriodResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIGoalPeriodResponse.swift; sourceTree = "<group>"; };
 		03ADF877227937A9001B5E20 /* XCTestCaseExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestCaseExtensions.swift; sourceTree = "<group>"; };
 		03B17C5422780FE500182511 /* FrolloSDKDataModel-1.3.2.sqlite-wal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FrolloSDKDataModel-1.3.2.sqlite-wal"; sourceTree = "<group>"; };
 		03B17C5522780FE500182511 /* FrolloSDKDataModel-1.3.2.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.3.2.sqlite"; sourceTree = "<group>"; };
@@ -3062,6 +3062,9 @@
 				018B042B216EFD95008C34D7 /* Gemfile */,
 				01527CDB20E1CD1800B5042A /* README.md */,
 				01527CD720E1C2D700B5042A /* Package.swift */,
+				01527CC220E1B5C300B5042A /* FrolloSDK.h */,
+				01527CC320E1B5C300B5042A /* Info.plist */,
+				01E5BF792227A796003D85FD /* FrolloSDKCore-Info.plist */,
 				017094E723823DCF008E9EEB /* Documentation */,
 				01C8250820EDEC630093400E /* Resources */,
 				01527CC120E1B5C300B5042A /* Sources */,
@@ -3087,39 +3090,7 @@
 		01527CC120E1B5C300B5042A /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				135B78DA25AFC1EF00BD3140 /* KYC */,
-				01527CC220E1B5C300B5042A /* FrolloSDK.h */,
-				01527CD820E1C5A600B5042A /* FrolloSDK.swift */,
-				01BB5A54221CD2AE000C03F0 /* FrolloSDKConfiguration.swift */,
-				0135D31721A3D74500318142 /* FrolloSDKDelegate.swift */,
-				01527CC320E1B5C300B5042A /* Info.plist */,
-				01E5BF792227A796003D85FD /* FrolloSDKCore-Info.plist */,
-				01EED85D20E5A7EA00F4516B /* Aggregation */,
-				01EED85B20E5A7EA00F4516B /* Authentication */,
-				0101A8F921CC647700DCFCEB /* Bills */,
-				4EFB624325A3CE0B00930C95 /* Cards */,
-				137A7CD8257D994A002AFB49 /* Contacts */,
-				1364E7842394828B009C82CD /* Budgets */,
-				01EED86C20E5AA8B00F4516B /* Database */,
-				01C824FB20EDD64E0093400E /* Error */,
-				011F8148219D31AB00A1495F /* Events */,
-				01C8251020EDF56E0093400E /* Extensions */,
-				017F0FB822DC541F00ACE7BB /* Goals */,
-				034EDC8F250F2DE800C48A57 /* Images */,
-				0136D223210011D90062EAEA /* Keychain */,
-				01C824EA20EC32DE0093400E /* Logging */,
-				0126068121990158005D8377 /* Messages */,
-				01EED85A20E5A7EA00F4516B /* Model */,
-				01EED85E20E5A7EA00F4516B /* Network */,
-				011F8151219E636900A1495F /* Notifications */,
-				01258791234418C50077D8B4 /* PayDays */,
-				1394CE2B252E839B009FCC2C /* Payments */,
-				01EED86020E5A7EA00F4516B /* Preferences */,
-				01236D0821EBF4CD008DD61A /* Reports */,
-				01819147211178AC000E0F80 /* Shared */,
-				2F657DA1223B24E400471B85 /* Surveys */,
-				0161394B2283EF53001A62E8 /* User */,
-				0160953520F33E980060791B /* Version */,
+				03A7E73D25DC8FDE00A6400A /* FrolloSDK */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -3616,8 +3587,8 @@
 			isa = PBXGroup;
 			children = (
 				017F0FCA22DE865C00ACE7BB /* APIGoalCreateRequest.swift */,
-				017F0FEE22DEE82900ACE7BB /* APIGoalPeriodResponse.swift */,
 				017F0F9522DC129B00ACE7BB /* APIGoalResponse.swift */,
+				03A7E74C25DC915400A6400A /* APIGoalPeriodResponse.swift */,
 				017F0FDD22DEB68500ACE7BB /* APIGoalUpdateRequest.swift */,
 			);
 			path = Goals;
@@ -4251,6 +4222,43 @@
 				034EDCA4250F445600C48A57 /* images_valid.json */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		03A7E73D25DC8FDE00A6400A /* FrolloSDK */ = {
+			isa = PBXGroup;
+			children = (
+				135B78DA25AFC1EF00BD3140 /* KYC */,
+				01527CD820E1C5A600B5042A /* FrolloSDK.swift */,
+				01BB5A54221CD2AE000C03F0 /* FrolloSDKConfiguration.swift */,
+				0135D31721A3D74500318142 /* FrolloSDKDelegate.swift */,
+				01EED85D20E5A7EA00F4516B /* Aggregation */,
+				01EED85B20E5A7EA00F4516B /* Authentication */,
+				0101A8F921CC647700DCFCEB /* Bills */,
+				4EFB624325A3CE0B00930C95 /* Cards */,
+				137A7CD8257D994A002AFB49 /* Contacts */,
+				1364E7842394828B009C82CD /* Budgets */,
+				01EED86C20E5AA8B00F4516B /* Database */,
+				01C824FB20EDD64E0093400E /* Error */,
+				011F8148219D31AB00A1495F /* Events */,
+				01C8251020EDF56E0093400E /* Extensions */,
+				017F0FB822DC541F00ACE7BB /* Goals */,
+				034EDC8F250F2DE800C48A57 /* Images */,
+				0136D223210011D90062EAEA /* Keychain */,
+				01C824EA20EC32DE0093400E /* Logging */,
+				0126068121990158005D8377 /* Messages */,
+				01EED85A20E5A7EA00F4516B /* Model */,
+				01EED85E20E5A7EA00F4516B /* Network */,
+				011F8151219E636900A1495F /* Notifications */,
+				01258791234418C50077D8B4 /* PayDays */,
+				1394CE2B252E839B009FCC2C /* Payments */,
+				01EED86020E5A7EA00F4516B /* Preferences */,
+				01236D0821EBF4CD008DD61A /* Reports */,
+				01819147211178AC000E0F80 /* Shared */,
+				2F657DA1223B24E400471B85 /* Surveys */,
+				0161394B2283EF53001A62E8 /* User */,
+				0160953520F33E980060791B /* Version */,
+			);
+			path = FrolloSDK;
 			sourceTree = "<group>";
 		};
 		1318C1C5237B95CD00ABFC51 /* Migrations */ = {
@@ -5917,7 +5925,6 @@
 				1394CE2D252E83B3009FCC2C /* Payments.swift in Sources */,
 				1321545D2390B867001495A2 /* Budget+CoreDataProperties.swift in Sources */,
 				131EC63C240C7B7D0004F7CB /* CDRProduct.swift in Sources */,
-				017F0FEF22DEE82900ACE7BB /* APIGoalPeriodResponse.swift in Sources */,
 				0159E4822193CBAD002CC3BB /* Merchant+CoreDataProperties.swift in Sources */,
 				0160953720F33EB10060791B /* Version.swift in Sources */,
 				2F657DA5223B2FB300471B85 /* Surveys.swift in Sources */,
@@ -6004,6 +6011,7 @@
 				012606B1219A784D005D8377 /* MessageText+CoreDataClass.swift in Sources */,
 				034BD7D623988D9D00142B7A /* Decimal.swift in Sources */,
 				0126068921991963005D8377 /* Message+CoreDataProperties.swift in Sources */,
+				03A7E75E25DC91D400A6400A /* APIGoalPeriodResponse.swift in Sources */,
 				0159E4872193CBAD002CC3BB /* Provider+CoreDataProperties.swift in Sources */,
 				135B78ED25AFC23F00BD3140 /* KYCEndpoint.swift in Sources */,
 				01483B9921192C3900D0DA87 /* TransactionCategory+CoreDataClass.swift in Sources */,
@@ -6681,7 +6689,6 @@
 				1394CE2E252E83B3009FCC2C /* Payments.swift in Sources */,
 				01E5BF2A2227A475003D85FD /* FileLogger.swift in Sources */,
 				131EC63D240C7B7D0004F7CB /* CDRProduct.swift in Sources */,
-				017F0FF022DEE82900ACE7BB /* APIGoalPeriodResponse.swift in Sources */,
 				01E5BF2B2227A475003D85FD /* Account+CoreDataClass.swift in Sources */,
 				01E5BF2C2227A475003D85FD /* DeviceInfo.swift in Sources */,
 				01E5BF2D2227A475003D85FD /* Merchant+CoreDataProperties.swift in Sources */,
@@ -6768,6 +6775,7 @@
 				034BD7D723988D9D00142B7A /* Decimal.swift in Sources */,
 				01E5BF5A2227A475003D85FD /* MessageText+CoreDataClass.swift in Sources */,
 				01E5BF5B2227A475003D85FD /* Message+CoreDataProperties.swift in Sources */,
+				03A7E75F25DC91D400A6400A /* APIGoalPeriodResponse.swift in Sources */,
 				01E5BF5C2227A475003D85FD /* Provider+CoreDataProperties.swift in Sources */,
 				135B78EE25AFC23F00BD3140 /* KYCEndpoint.swift in Sources */,
 				01E5BF5D2227A475003D85FD /* TransactionCategory+CoreDataClass.swift in Sources */,
@@ -7161,7 +7169,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Sources/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7235,7 +7243,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Sources/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7886,7 +7894,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Sources/FrolloSDKCore-Info.plist";
+				INFOPLIST_FILE = "FrolloSDKCore-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7961,7 +7969,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Sources/FrolloSDKCore-Info.plist";
+				INFOPLIST_FILE = "FrolloSDKCore-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
