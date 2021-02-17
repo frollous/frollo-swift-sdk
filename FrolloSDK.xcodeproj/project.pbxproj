@@ -3886,7 +3886,6 @@
 				01C824E820EB2F570093400E /* Data+Random.swift */,
 				017E58D1217FF86F00DC56FF /* DateExtensionsTests.swift */,
 				016097ED210EA27E0034E857 /* Keychain+Test.swift */,
-				13F5F5A223E7DB3000EC8734 /* NSDecimalNumber+NegativeValue.swift */,
 				011E87D1213767F00026E047 /* SecKeyPEMTests.swift */,
 				012606CE219BBD75005D8377 /* String+Random.swift */,
 				016097E9210EA0D60034E857 /* XCTestCase+TempFolder.swift */,
@@ -3961,6 +3960,7 @@
 		01C8251020EDF56E0093400E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				13F5F5A223E7DB3000EC8734 /* NSDecimalNumber+NegativeValue.swift */,
 				01A1F5992148DBC9002B9A93 /* Data.swift */,
 				018B0425216EC785008C34D7 /* Date.swift */,
 				013A32C02112AF4E00B0590B /* DateFormatter.swift */,
