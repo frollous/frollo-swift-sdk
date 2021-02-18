@@ -30,7 +30,7 @@ public class UserKYC: Codable {
     public var dateOfBirth: DateOfBirth?
     
     /// email of the user
-    public var email: String
+    public var email: String?
     
     /// gender
     public var gender: String?
@@ -48,7 +48,7 @@ public class UserKYC: Codable {
     public var status: KYCStatus?
     
     /// initilizer
-    public init(addresses: [Address], dateOfBirth: DateOfBirth?, email: String, gender: String?, mobileNumber: String? = nil, name: Name?, identityDocuments: [IdentityDocument]?, status: KYCStatus? = nil) {
+    public init(addresses: [Address]? = nil, dateOfBirth: DateOfBirth? = nil, email: String? = nil, gender: String? = nil, mobileNumber: String? = nil, name: Name? = nil, identityDocuments: [IdentityDocument]? = nil, status: KYCStatus? = nil) {
         self.addresses = addresses
         self.dateOfBirth = dateOfBirth
         self.email = email
