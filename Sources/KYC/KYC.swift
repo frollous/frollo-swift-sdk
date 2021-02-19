@@ -54,45 +54,16 @@ public class KYC: ResponseHandler {
     }
     
     /**
-     Create KYC for the user
+     Create or update KYC for the user
      
      - parameters:
      - userKYC: KYC of the user to create
      - completion: Completion handler with optional error if the request fails and survey model if succeeds
      */
     
-    public func createKYC(userKYC: UserKYC, completion: @escaping (Result<UserKYC, Error>) -> Void) {
+    public func submitKYC(userKYC: UserKYC, completion: @escaping (Result<UserKYC, Error>) -> Void) {
         
-        service.createKYC(request: userKYC) { result in
-            
-            switch result {
-                case .failure(let error):
-                    Log.error(error.localizedDescription)
-                    
-                    DispatchQueue.main.async {
-                        completion(.failure(error))
-                    }
-                case .success(let response):
-                    
-                    DispatchQueue.main.async {
-                        completion(.success(response))
-                    }
-            }
-            
-        }
-    }
-    
-    /**
-     Update the KYC of user
-     
-     - parameters:
-     - userKYC: KYC of the user to update
-     - completion: Completion handler with optional error if the request fails and userKYC model if succeeds
-     */
-    
-    public func updateKYC(userKYC: UserKYC, completion: @escaping (Result<UserKYC, Error>) -> Void) {
-        
-        service.createKYC(request: userKYC) { result in
+        service.submitKYC(request: userKYC) { result in
             
             switch result {
                 case .failure(let error):

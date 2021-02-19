@@ -75,7 +75,5 @@
       "region": "NSW"
     }
   ],
-  "kyc_details": {
-      "status": "success"
-  }
+  "status": "verified"
 }
