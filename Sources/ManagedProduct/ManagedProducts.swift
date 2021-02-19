@@ -29,10 +29,10 @@ public class ManagedProducts: ResponseHandler {
      Lists all the products that are available for creation
      
      - parameters:
-     - completion: Completion handler with optional error if the request fails and list of `ManagedProduct` if succeeds
+     - completion: Completion handler with optional error if the request fails and list of `ManagedProduct`with pangination information if succeeds
      */
     
-    public func listAvailableProducts(completion: @escaping (Result<[ManagedProduct], Error>) -> Void) {
+    public func listAvailableProducts(completion: PaginatedDataCompletionHandler<ManagedProduct>? = nil) {
         
         service.listAvailableProducts { result in
             
@@ -41,25 +41,25 @@ public class ManagedProducts: ResponseHandler {
                     Log.error(error.localizedDescription)
                     
                     DispatchQueue.main.async {
-                        completion(.failure(error))
+                        completion?(.failure(error))
                     }
                 case .success(let response):
                     
                     DispatchQueue.main.async {
-                        completion(.success(response))
+                        completion?(.success(PaginationInfoWithData(before: response.paging?.cursors?.before, after: response.paging?.cursors?.after, total: response.paging?.total, data: response.data.elements)))
                     }
             }
         }
     }
     
     /**
-     Lists all the products that have been created on the user account
+     Lists all the products that has been created on the user account
      
      - parameters:
-     - completion: Completion handler with optional error if the request fails and list of `ManagedProduct` if succeeds
+     - completion: Completion handler with optional error if the request fails and list of `ManagedProduct`with pangination information if succeeds
      */
     
-    public func listManagedProducts(completion: @escaping (Result<[ManagedProduct], Error>) -> Void) {
+    public func listManagedProducts(completion: PaginatedDataCompletionHandler<ManagedProduct>? = nil) {
         
         service.listManagedProducts { result in
             
@@ -68,12 +68,12 @@ public class ManagedProducts: ResponseHandler {
                     Log.error(error.localizedDescription)
                     
                     DispatchQueue.main.async {
-                        completion(.failure(error))
+                        completion?(.failure(error))
                     }
                 case .success(let response):
                     
                     DispatchQueue.main.async {
-                        completion(.success(response))
+                        completion?(.success(PaginationInfoWithData(before: response.paging?.cursors?.before, after: response.paging?.cursors?.after, total: response.paging?.total, data: response.data.elements)))
                     }
             }
         }

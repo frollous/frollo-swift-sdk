@@ -1,0 +1,53 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "Volt Bank Savings",
+            "provider_id": 22772,
+            "container": "bank",
+            "account_type": "savings",
+            "terms_conditions": [
+                {
+                    "id": 1,
+                    "name": "Volt Bank Savings Terms & Conditions",
+                    "url": "https://www.voltbank.com.au/voltsaveterms"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Volt Bank Transaction",
+            "provider_id": 22772,
+            "container": "bank",
+            "account_type": "bank_account",
+            "terms_conditions": [
+                {
+                    "id": 1,
+                    "name": "Volt Bank Transaction Terms & Conditions",
+                    "url": "https://www.voltbank.com.au/voltsaveterms"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Volt Bank Cash",
+            "provider_id": 22772,
+            "container": "bank",
+            "account_type": "bank_account",
+            "terms_conditions": [
+                {
+                    "id": 1,
+                    "name": "Volt Bank Cash Terms & Conditions",
+                    "url": "https://www.voltbank.com.au/voltsaveterms"
+                }
+            ]
+        }
+    ],
+    "paging": {
+        "cursors": {
+            "before": null,
+            "after": null
+        },
+        "total": 3
+    }
+}

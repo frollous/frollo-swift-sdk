@@ -21,23 +21,49 @@ import Foundation
 
 extension APIService {
     
-    internal func listAvailableProducts(completion: @escaping RequestCompletion<[ManagedProduct]>) {
+    internal func listAvailableProducts(before: String? = nil, after: String? = nil, size: Int? = nil, completion: @escaping RequestCompletion<APIPaginatedResponse<ManagedProduct>>) {
         requestQueue.async {
+            
             let url = URL(string: ManagedProductEndpoint.availableProducts.path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleArrayResponse(type: ManagedProduct.self, errorType: APIError.self, response: response, completion: completion)
+            var parameters = [String: String]()
+            
+            if let before = before {
+                parameters[ManagedProductEndpoint.QueryParameters.before.rawValue] = before
+            }
+            if let after = after {
+                parameters[ManagedProductEndpoint.QueryParameters.after.rawValue] = after
+            }
+            if let size = size {
+                parameters[ManagedProductEndpoint.QueryParameters.size.rawValue] = String(size)
+            }
+            
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handlePaginatedArrayResponse(type: ManagedProduct.self, errorType: APIError.self, response: response, completion: completion)
                 
             }
         }
     }
     
-    internal func listManagedProducts(completion: @escaping RequestCompletion<[ManagedProduct]>) {
+    internal func listManagedProducts(before: String? = nil, after: String? = nil, size: Int? = nil, completion: @escaping RequestCompletion<APIPaginatedResponse<ManagedProduct>>) {
         requestQueue.async {
+            
             let url = URL(string: ManagedProductEndpoint.managedProducts.path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .get, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleArrayResponse(type: ManagedProduct.self, errorType: APIError.self, response: response, completion: completion)
+            var parameters = [String: String]()
+            
+            if let before = before {
+                parameters[ManagedProductEndpoint.QueryParameters.before.rawValue] = before
+            }
+            if let after = after {
+                parameters[ManagedProductEndpoint.QueryParameters.after.rawValue] = after
+            }
+            if let size = size {
+                parameters[ManagedProductEndpoint.QueryParameters.size.rawValue] = String(size)
+            }
+            
+            self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handlePaginatedArrayResponse(type: ManagedProduct.self, errorType: APIError.self, response: response, completion: completion)
                 
             }
         }

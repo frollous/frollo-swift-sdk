@@ -18,6 +18,12 @@ import Foundation
 
 internal enum ManagedProductEndpoint: Endpoint {
     
+    enum QueryParameters: String, Codable {
+        case after
+        case before
+        case size
+    }
+    
     internal var path: String {
         return urlPath()
     }
@@ -33,7 +39,7 @@ internal enum ManagedProductEndpoint: Endpoint {
             case .managedProducts:
                 return "manage/products"
             case .product(let productID):
-                return "/manage/products/" + String(productID)
+                return "manage/products/" + String(productID)
         }
     }
     

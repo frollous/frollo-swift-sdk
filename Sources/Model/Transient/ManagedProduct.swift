@@ -50,6 +50,16 @@ public class ManagedProduct: Codable {
         case termsConditions = "terms_conditions"
     }
     
+    // Initiliser
+    init(id: Int64, name: String, providerID: Int64, container: String, accountType: String, termsConditions: [TermsCondition]) {
+        self.id = id
+        self.name = name
+        self.providerID = providerID
+        self.container = container
+        self.accountType = accountType
+        self.termsConditions = termsConditions
+    }
+    
     /**
      Terms Condition
      
