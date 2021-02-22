@@ -16,6 +16,12 @@ public typealias FrolloSDKPaginatedCompletionHandler = (Result<PaginationInfo, E
 /// Result with information of Pagination cursors and total count
 public typealias PaginationInfo = (before: String?, after: String?, total: Int?)
 
+/// Result with information of transaction Pagination cursors and actual list of data
+public typealias PaginationInfoWithData<T> = (before: String?, after: String?, total: Int?, data: [T])
+
+/// Paginated Completion Handler with `PaginationInfoWithData` and optional error if an issue occurs
+public typealias PaginatedDataCompletionHandler<T> = (Result<PaginationInfoWithData<T>, Error>) -> Void
+
 /// Frollo SDK manager and main instantiation. Responsible for managing the lifecycle and coordination of the SDK
 public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     
@@ -230,6 +236,15 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         return _kyc
     }
     
+    /// ManagedProduct - Managing Products
+    public var managedProducts: ManagedProducts {
+        guard _setup else {
+            fatalError("SDK not setup.")
+        }
+        
+        return _managedProducts
+    }
+    
     /// Indicates if the SDK has completed setup or not
     public var setup: Bool {
         return _setup
@@ -261,6 +276,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     internal var _contacts: Contacts!
     internal var _cards: Cards!
     internal var _kyc: KYC!
+    internal var _managedProducts: ManagedProducts!
     
     private let cacheExpiry: TimeInterval = 120
     private let frolloHost = "frollo.us"
@@ -391,6 +407,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         _contacts = Contacts(database: _database, service: service)
         _cards = Cards(database: _database, service: service, aggregation: _aggregation)
         _kyc = KYC(service: service)
+        _managedProducts = ManagedProducts(service: service)
         
         _events.delegate = delegate
         _messages.delegate = delegate
