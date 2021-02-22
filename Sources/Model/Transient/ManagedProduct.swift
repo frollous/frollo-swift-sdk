@@ -50,22 +50,15 @@ public class ManagedProduct: Codable {
         case termsConditions = "terms_conditions"
     }
     
-    // Initiliser
-    init(id: Int64, name: String, providerID: Int64, container: String, accountType: String, termsConditions: [TermsCondition]) {
-        self.id = id
-        self.name = name
-        self.providerID = providerID
-        self.container = container
-        self.accountType = accountType
-        self.termsConditions = termsConditions
-    }
-    
     /**
      Terms Condition
      
      Object to hold information of `TermsCondition`
      */
     public class TermsCondition: Codable {
+        
+        /// Unique ID of `TermsCondition`
+        public var id: Int64
         
         /// Name of `TermsCondition`
         public var name: String
@@ -74,6 +67,7 @@ public class ManagedProduct: Codable {
         public var url: String?
         
         private enum CodingKeys: String, CodingKey {
+            case id
             case name
             case url
         }

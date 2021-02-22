@@ -69,7 +69,7 @@ extension APIService {
         }
     }
     
-    internal func createManagedProduct(request: ManagedProduct, completion: @escaping RequestCompletion<ManagedProduct>) {
+    internal func createManagedProduct(request: APIProductCreateRequest, completion: @escaping RequestCompletion<ManagedProduct>) {
         
         let url = URL(string: ManagedProductEndpoint.managedProducts.path, relativeTo: serverURL)!
         

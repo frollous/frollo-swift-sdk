@@ -1466,6 +1466,7 @@
 		1394CE89252FE87F009FCC2C /* verify_payanyone_response_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 1394CE88252FE87F009FCC2C /* verify_payanyone_response_invalid.json */; };
 		1394CE8A252FE87F009FCC2C /* verify_payanyone_response_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 1394CE88252FE87F009FCC2C /* verify_payanyone_response_invalid.json */; };
 		1394CE8B252FE87F009FCC2C /* verify_payanyone_response_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 1394CE88252FE87F009FCC2C /* verify_payanyone_response_invalid.json */; };
+		13A48EBF25E380D2006403A4 /* APIProductCreateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A48EBE25E380D2006403A4 /* APIProductCreateRequest.swift */; };
 		13ABEDD1236FBE6A00FBE283 /* provider_accounts_valid_sync.json in Resources */ = {isa = PBXBuildFile; fileRef = 13ABEDD0236FBE6A00FBE283 /* provider_accounts_valid_sync.json */; };
 		13ABEDD2236FBE6A00FBE283 /* provider_accounts_valid_sync.json in Resources */ = {isa = PBXBuildFile; fileRef = 13ABEDD0236FBE6A00FBE283 /* provider_accounts_valid_sync.json */; };
 		13ABEDD3236FBE6A00FBE283 /* provider_accounts_valid_sync.json in Resources */ = {isa = PBXBuildFile; fileRef = 13ABEDD0236FBE6A00FBE283 /* provider_accounts_valid_sync.json */; };
@@ -2441,6 +2442,7 @@
 		1394CE80252FE779009FCC2C /* verify_payanyone_request.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = verify_payanyone_request.json; sourceTree = "<group>"; };
 		1394CE81252FE779009FCC2C /* verify_payanyone_response_valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = verify_payanyone_response_valid.json; sourceTree = "<group>"; };
 		1394CE88252FE87F009FCC2C /* verify_payanyone_response_invalid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = verify_payanyone_response_invalid.json; sourceTree = "<group>"; };
+		13A48EBE25E380D2006403A4 /* APIProductCreateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProductCreateRequest.swift; sourceTree = "<group>"; };
 		13ABEDD0236FBE6A00FBE283 /* provider_accounts_valid_sync.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = provider_accounts_valid_sync.json; sourceTree = "<group>"; };
 		13AC076A2394BE1E00982FB1 /* APIBudgetResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIBudgetResponse.swift; sourceTree = "<group>"; };
 		13AC076D2394BF5900982FB1 /* APIBudgetPeriodResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIBudgetPeriodResponse.swift; sourceTree = "<group>"; };
@@ -2998,6 +3000,7 @@
 		013D2D81210A885F00EEDEC5 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				13A48EBD25E380B2006403A4 /* ManagedProduct */,
 				01819145211168C8000E0F80 /* APIUniqueResponse.swift */,
 				032F10BE23DA85B400F3BF01 /* CDR */,
 				13AC07692394BDEE00982FB1 /* Budget */,
@@ -4488,6 +4491,14 @@
 				4E144E7125D0E09E002BDBC6 /* VerifyPayIDResponse.swift */,
 			);
 			path = Payments;
+			sourceTree = "<group>";
+		};
+		13A48EBD25E380B2006403A4 /* ManagedProduct */ = {
+			isa = PBXGroup;
+			children = (
+				13A48EBE25E380D2006403A4 /* APIProductCreateRequest.swift */,
+			);
+			path = ManagedProduct;
 			sourceTree = "<group>";
 		};
 		13AC07692394BDEE00982FB1 /* Budget */ = {
@@ -6074,6 +6085,7 @@
 				01A1F59A2148DBC9002B9A93 /* Data.swift in Sources */,
 				0125879623442C0D0077D8B4 /* APIService+PayDay.swift in Sources */,
 				01874B7820F82C98005A7D0C /* DeviceEndpoint.swift in Sources */,
+				13A48EBF25E380D2006403A4 /* APIProductCreateRequest.swift in Sources */,
 				013A32C12112AF4E00B0590B /* DateFormatter.swift in Sources */,
 				012606B4219A784D005D8377 /* MessageHTML+CoreDataProperties.swift in Sources */,
 				032F10B723DA7E2900F3BF01 /* APICDRConsentRequest.swift in Sources */,
@@ -7181,6 +7193,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				ONLY_ACTIVE_ARCH = YES;
 				SDK_VERSION = 4.7.0;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
 				SWIFT_VERSION = 5.0;
@@ -7983,6 +7996,7 @@
 				);
 				MARKETING_VERSION = $SDK_VERSION;
 				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "-DCORE";
 				PRODUCT_BUNDLE_IDENTIFIER = us.frollo.FrolloSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";

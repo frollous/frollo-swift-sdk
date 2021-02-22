@@ -114,7 +114,7 @@ class ManagedProductsTests: XCTestCase {
         }
         
         let managedProducts = ManagedProducts(service: service)
-        managedProducts.createManagedProduct(managedProduct: ManagedProduct(id: 1, name: "", providerID: 1, container: "", accountType: "", termsConditions: []), completion: { (result) in
+        managedProducts.createManagedProduct(productID: 1, acceptedTermsConditionsIDs: [1,2], completion: { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)

@@ -87,9 +87,11 @@ public class ManagedProducts: ResponseHandler {
      - completion: Completion handler with optional error if the request fails and `ManagedProduct` if succeeds
      */
     
-    public func createManagedProduct(managedProduct: ManagedProduct, completion: @escaping (Result<ManagedProduct, Error>) -> Void) {
+    public func createManagedProduct(productID: Int64, acceptedTermsConditionsIDs: [Int64], completion: @escaping (Result<ManagedProduct, Error>) -> Void) {
         
-        service.createManagedProduct(request: managedProduct) { result in
+        let request = APIProductCreateRequest(productID: productID, acceptedTermsConditionsIDs: acceptedTermsConditionsIDs)
+        
+        service.createManagedProduct(request: request) { result in
             
             switch result {
                 case .failure(let error):
