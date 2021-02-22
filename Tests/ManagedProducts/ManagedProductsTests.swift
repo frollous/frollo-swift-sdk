@@ -50,7 +50,7 @@ class ManagedProductsTests: XCTestCase {
         }
         
         let managedProducts = ManagedProducts(service: service)
-        managedProducts.listAvailableProducts { (result) in
+        managedProducts.listAvailableProducts(before: "20", after: "10", size: 10)  { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -82,7 +82,7 @@ class ManagedProductsTests: XCTestCase {
         }
         
         let managedProducts = ManagedProducts(service: service)
-        managedProducts.listManagedProducts { (result) in
+        managedProducts.listManagedProducts(before: "10", size: 10) { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)

@@ -29,12 +29,15 @@ public class ManagedProducts: ResponseHandler {
      Lists all the products that are available for creation
      
      - parameters:
-     - completion: Completion handler with optional error if the request fails and list of `ManagedProduct`with pangination information if succeeds
+         - before: ID of product to fetch list of products before  (optional); used for pagination
+         - after: ID of product to fetch list of products after  (optional); used for pagination
+         - size: Batch size of products to returned by API (optional);
+         - completion: Completion handler with optional error if the request fails and list of `ManagedProduct`with pangination information if succeeds
      */
     
-    public func listAvailableProducts(completion: PaginatedDataCompletionHandler<ManagedProduct>? = nil) {
+    public func listAvailableProducts(before: String? = nil, after: String? = nil, size: Int? = nil, completion: PaginatedDataCompletionHandler<ManagedProduct>? = nil) {
         
-        service.listAvailableProducts { result in
+        service.listAvailableProducts(before: before, after: after, size: size) { result in
             
             switch result {
                 case .failure(let error):
@@ -56,12 +59,15 @@ public class ManagedProducts: ResponseHandler {
      Lists all the products that has been created on the user account
      
      - parameters:
-     - completion: Completion handler with optional error if the request fails and list of `ManagedProduct`with pangination information if succeeds
+         - before: ID of product to fetch list of products before  (optional); used for pagination
+         - after: ID of product to fetch list of products after  (optional); used for pagination
+         - size: Batch size of products to returned by API (optional);
+         - completion: Completion handler with optional error if the request fails and list of `ManagedProduct`with pangination information if succeeds
      */
     
-    public func listManagedProducts(completion: PaginatedDataCompletionHandler<ManagedProduct>? = nil) {
+    public func listManagedProducts(before: String? = nil, after: String? = nil, size: Int? = nil, completion: PaginatedDataCompletionHandler<ManagedProduct>? = nil) {
         
-        service.listManagedProducts { result in
+        service.listManagedProducts(before: before, after: after, size: size) { result in
             
             switch result {
                 case .failure(let error):
@@ -83,8 +89,9 @@ public class ManagedProducts: ResponseHandler {
      Creates a managed product using a product from the available products
      
      - parameters:
-     - managedProduct: `ManagedProduct` to create
-     - completion: Completion handler with optional error if the request fails and `ManagedProduct` if succeeds
+         - productID: ID of `ManagedProduct` to create
+         - acceptedTermsConditionsIDs: Array of  IDs of`TermsConditions` for `ManagedProduct` to create
+         - completion: Completion handler with optional error if the request fails and `ManagedProduct` if succeeds
      */
     
     public func createManagedProduct(productID: Int64, acceptedTermsConditionsIDs: [Int64], completion: @escaping (Result<ManagedProduct, Error>) -> Void) {
