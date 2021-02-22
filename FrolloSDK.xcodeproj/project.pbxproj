@@ -1467,6 +1467,7 @@
 		1394CE8A252FE87F009FCC2C /* verify_payanyone_response_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 1394CE88252FE87F009FCC2C /* verify_payanyone_response_invalid.json */; };
 		1394CE8B252FE87F009FCC2C /* verify_payanyone_response_invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 1394CE88252FE87F009FCC2C /* verify_payanyone_response_invalid.json */; };
 		13A48EBF25E380D2006403A4 /* APIProductCreateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A48EBE25E380D2006403A4 /* APIProductCreateRequest.swift */; };
+		13A48F0825E464F1006403A4 /* APIProductCreateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A48EBE25E380D2006403A4 /* APIProductCreateRequest.swift */; };
 		13ABEDD1236FBE6A00FBE283 /* provider_accounts_valid_sync.json in Resources */ = {isa = PBXBuildFile; fileRef = 13ABEDD0236FBE6A00FBE283 /* provider_accounts_valid_sync.json */; };
 		13ABEDD2236FBE6A00FBE283 /* provider_accounts_valid_sync.json in Resources */ = {isa = PBXBuildFile; fileRef = 13ABEDD0236FBE6A00FBE283 /* provider_accounts_valid_sync.json */; };
 		13ABEDD3236FBE6A00FBE283 /* provider_accounts_valid_sync.json in Resources */ = {isa = PBXBuildFile; fileRef = 13ABEDD0236FBE6A00FBE283 /* provider_accounts_valid_sync.json */; };
@@ -6857,6 +6858,7 @@
 				0125879723442C0D0077D8B4 /* APIService+PayDay.swift in Sources */,
 				01E5BF552227A475003D85FD /* Data.swift in Sources */,
 				01E5BF562227A475003D85FD /* DeviceEndpoint.swift in Sources */,
+				13A48F0825E464F1006403A4 /* APIProductCreateRequest.swift in Sources */,
 				01E5BF572227A475003D85FD /* DateFormatter.swift in Sources */,
 				032F10B823DA7E2900F3BF01 /* APICDRConsentRequest.swift in Sources */,
 				13CFDAA22398990E00559476 /* APIBudgetUpdateRequest.swift in Sources */,
@@ -7193,7 +7195,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				ONLY_ACTIVE_ARCH = YES;
 				SDK_VERSION = 4.7.0;
 				SUPPORTED_PLATFORMS = "macosx iphoneos appletvos watchos appletvsimulator iphonesimulator watchsimulator";
 				SWIFT_VERSION = 5.0;
@@ -7271,7 +7272,6 @@
 				);
 				MARKETING_VERSION = $SDK_VERSION;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = us.frollo.FrolloSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7996,7 +7996,6 @@
 				);
 				MARKETING_VERSION = $SDK_VERSION;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "-DCORE";
 				PRODUCT_BUNDLE_IDENTIFIER = us.frollo.FrolloSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -38,7 +38,7 @@ public class ManagedProduct: Codable {
     /// account type of `ManagedProduct`
     public var accountType: String
     
-    /// Array of terms and conditions for the `ManagedProduct`
+    /// array of terms and conditions for the `ManagedProduct`
     public var termsConditions: [TermsCondition]
     
     private enum CodingKeys: String, CodingKey {
@@ -51,16 +51,16 @@ public class ManagedProduct: Codable {
     }
     
     /**
-     Terms Condition
+     Terms & Condition
      
      Object to hold information of `TermsCondition`
      */
     public class TermsCondition: Codable {
         
-        /// Unique ID of `TermsCondition`
+        /// unique ID of `TermsCondition`
         public var id: Int64
         
-        /// Name of `TermsCondition`
+        /// name of `TermsCondition`
         public var name: String
         
         /// URL of `TermsCondition`
