@@ -42,6 +42,9 @@ extension APITransactionResponse {
                                 name: String.randomString(range: 1...50),
                                 phone: String.randomString(length: 9),
                                 website: String.randomString(range: 10...100))
+        let category = Category(id: Int64.random(in: 1...Int64.max),
+                                name: String.randomString(range: 1...50),
+                                imageURL: "https://example.com/category.png")
         
         return APITransactionResponse(id: Int64.random(in: 1...Int64.max),
                                       accountID: Int64.random(in: 1...Int64.max),
@@ -50,7 +53,7 @@ extension APITransactionResponse {
                                       billID: Int64.random(in: 1...Int64.max),
                                       billPaymentID: Int64.random(in: 1...Int64.max),
                                       budgetCategory: .living,
-                                      categoryID:Int64.random(in: 1...Int64.max),
+                                      category: category,
                                       description: description,
                                       externalID: UUID().uuidString,
                                       goalID: Int64.random(in: 1...Int64.max),
@@ -75,6 +78,10 @@ extension APITransactionResponse {
                                 name: String.randomString(range: 5...50),
                                 phone: nil,
                                 website: nil)
+
+        let category = Category(id: Int64.random(in: 1...Int64.max),
+                                name: String.randomString(range: 1...50),
+                                imageURL: "https://example.com/category.png")
         
         return APITransactionResponse(id: Int64.random(in: 1...Int64.max),
                                       accountID: Int64.random(in: 1...Int64.max),
@@ -83,7 +90,7 @@ extension APITransactionResponse {
                                       billID: nil,
                                       billPaymentID: nil,
                                       budgetCategory: .living,
-                                      categoryID: Int64.random(in: 1...Int64.max),
+                                      category: category,
                                       description: description,
                                       externalID: UUID().uuidString,
                                       goalID: Int64.random(in: 1...Int64.max),

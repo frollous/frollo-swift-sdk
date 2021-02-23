@@ -18,7 +18,11 @@
             "simple": "Woolworths"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 2,
             "name": "Woolworths",
@@ -44,7 +48,11 @@
             "simple": "ATM Withdrawal at Commonwealth Bank"
         },
         "budget_category": "lifestyle",
-        "category_id": 80,
+        "category": {
+            "id": 80,
+            "name": "ATM/Cash Withdrawals",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -67,7 +75,11 @@
             "simple": "Transport For Nsw"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 924,
             "name": "Transport For Nsw"
@@ -90,7 +102,11 @@
             "simple": "Opal"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -115,7 +131,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -138,7 +158,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -161,7 +185,11 @@
             "simple": "Bupa"
         },
         "budget_category": "living",
-        "category_id": 67,
+        "category": {
+            "id": 67,
+            "name": "Healthcare/Medical",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 47,
             "name": "Bupa"
@@ -184,7 +212,11 @@
             "simple": "Bupa"
         },
         "budget_category": "living",
-        "category_id": 67,
+        "category": {
+            "id": 67,
+            "name": "Healthcare/Medical",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 47,
             "name": "Bupa"
@@ -207,7 +239,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -230,7 +266,11 @@
             "simple": "Transfer to Commonwealth Bank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -253,7 +293,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -276,7 +320,11 @@
             "simple": "Opal Chippendale"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -301,7 +349,11 @@
             "simple": "Opal Chippendale"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -326,7 +378,11 @@
             "simple": "THE FRESH PANTRY NORTH SYDNEY AU Card XX0996"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -351,7 +407,11 @@
             "simple": "Opal Chippendale"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -376,7 +436,11 @@
             "simple": "Commonwealth Bank"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -399,7 +463,11 @@
             "simple": "Transfer from ROJIN SUBEDI CommBank app thanks"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -422,7 +490,11 @@
             "simple": "Opal Chippendale"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -447,7 +519,11 @@
             "simple": "Transfer From SAGAR THAPA Loan 400 cleared"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -472,7 +548,11 @@
             "simple": "Transfer to Commonwealth Bank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -495,7 +575,11 @@
             "simple": "Transfer to Commonwealth Bank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -518,7 +602,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -541,7 +629,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -564,7 +656,11 @@
             "simple": "Opal Chippendale"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -589,7 +685,11 @@
             "simple": "Facebook"
         },
         "budget_category": "lifestyle",
-        "category_id": 71,
+        "category": {
+            "id": 71,
+            "name": "Services/Supplies",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 238,
             "name": "Facebook"
@@ -612,7 +712,11 @@
             "simple": "Transfer to Commonwealth Bank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -635,7 +739,11 @@
             "simple": "Opal Chippendale"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -660,7 +768,11 @@
             "simple": "Woolworths Kogarah"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 2,
             "name": "Woolworths",
@@ -685,7 +797,11 @@
             "simple": "Return Wish.com AU SYDNEY NS AUS Card XX0996 Value Date_"
         },
         "budget_category": "income",
-        "category_id": 102,
+        "category": {
+            "id": 102,
+            "name": "Refunds/Adjustments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -710,7 +826,11 @@
             "simple": "Opal Chippendale"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -735,7 +855,11 @@
             "simple": "Ezymart Canberra"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 919,
             "name": "Ezymart"
@@ -758,7 +882,11 @@
             "simple": "Eve's Apple Kogarah"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 2567,
             "name": "Eve's Apple"
@@ -781,7 +909,11 @@
             "simple": "SALAAM NAMASTE MIXED KOGARAH NS AUS Card XX0996 Value Date_"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -807,7 +939,11 @@
             "simple": "Credit Interest"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
