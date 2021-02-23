@@ -113,12 +113,14 @@ public class Database {
                         let dataError = DataError(type: .database, subType: .corrupt)
                         completionHandler(dataError)
                     } else {
+                        self.persistentContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
                         self.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
                         
                         completionHandler(nil)
                     }
                 })
             } else {
+                self.persistentContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
                 self.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
                 
                 DispatchQueue.main.async {

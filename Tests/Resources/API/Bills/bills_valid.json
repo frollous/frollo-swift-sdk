@@ -6,7 +6,6 @@
 	"bills": [{
 		"id": 1059,
 		"name": "McDonald's Really Really Long Transaction Name for Bill Test",
-		"description": "MCDONALDS AUS",
 		"bill_type": "bill",
 		"status": "confirmed",
 		"due_amount": "8.0",
