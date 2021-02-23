@@ -118,7 +118,7 @@ class BillsRequestTests: BaseTestCase {
                     if let firstBill = response.first {
                         XCTAssertEqual(firstBill.id, 1059)
                         XCTAssertEqual(firstBill.name, "McDonald's Really Really Long Transaction Name for Bill Test")
-                        XCTAssertEqual(firstBill.description, "MCDONALDS AUS")
+                        XCTAssertEqual(firstBill.description, nil)
                         XCTAssertEqual(firstBill.billType, .bill)
                         XCTAssertEqual(firstBill.status, .confirmed)
                         XCTAssertEqual(firstBill.dueAmount, "8.0")

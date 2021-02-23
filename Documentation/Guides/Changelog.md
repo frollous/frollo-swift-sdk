@@ -1,5 +1,30 @@
 # Changelog
 
+## 4.8.1
+
+### Fixes
+
+- Core data merge policy
+
+## 4.8.0
+
+### Features
+
+- Contacts
+
+### Changes
+
+- User details API  address, tax details
+- User details Onboarding steps
+- Remove tracking_type in budget
+
+### Fixes
+
+- Fixed crash in merchants
+- Fixed passing legacy refresh token
+- Fixed Alamofire valid empty response codes
+
+
 ## 4.7.0
 
 ### Features
