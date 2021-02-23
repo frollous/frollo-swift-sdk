@@ -30,29 +30,11 @@ extension APIService {
         }
     }
     
-    internal func createKYC(request: UserKYC, completion: @escaping RequestCompletion<UserKYC>) {
+    internal func submitKYC(request: UserKYC, completion: @escaping RequestCompletion<UserKYC>) {
         requestQueue.async {
-            let url = URL(string: KYCEndpoint.kyc.path, relativeTo: self.serverURL)!
+            let url = URL(string: KYCEndpoint.createVerify.path, relativeTo: self.serverURL)!
             
             guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request)
-            else {
-                let dataError = DataError(type: .api, subType: .invalidData)
-                
-                completion(.failure(dataError))
-                return
-            }
-            
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: UserKYC.self, errorType: APIError.self, response: response, completion: completion)
-            }
-        }
-    }
-    
-    internal func updateKYC(request: UserKYC, completion: @escaping RequestCompletion<UserKYC>) {
-        requestQueue.async {
-            let url = URL(string: KYCEndpoint.kyc.path, relativeTo: self.serverURL)!
-            
-            guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: request)
             else {
                 let dataError = DataError(type: .api, subType: .invalidData)
                 

@@ -2703,7 +2703,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         
         linkingAccountIDs.insert(transactionResponse.accountID)
         linkingMerchantIDs.insert(transactionResponse.merchant.id)
-        linkingTransactionCategoryIDs.insert(transactionResponse.categoryID)
+        linkingTransactionCategoryIDs.insert(transactionResponse.category.id)
         
         if let billID = transactionResponse.billID {
             linkingBillIDs.insert(billID)

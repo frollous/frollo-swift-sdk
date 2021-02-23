@@ -432,7 +432,7 @@ class AggregationRequestTests: BaseTestCase {
                         XCTAssertEqual(firstTransaction.memo, nil)
                         XCTAssertEqual(firstTransaction.postDate, "2020-01-25")
                         XCTAssertEqual(firstTransaction.status, .posted)
-                        XCTAssertEqual(firstTransaction.categoryID, 66)
+                        XCTAssertEqual(firstTransaction.category.id, 66)
                         XCTAssertEqual(firstTransaction.transactionDate, "2020-01-25")
                     }
             }

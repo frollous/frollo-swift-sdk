@@ -16,7 +16,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -52,7 +56,11 @@
             "simple": "Woolworths"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 2,
             "name": "Woolworths",
@@ -87,7 +95,11 @@
             "simple": "Opal"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -112,7 +124,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -148,7 +164,11 @@
             "simple": "PayPal"
         },
         "budget_category": "lifestyle",
-        "category_id": 71,
+        "category": {
+            "id": 71,
+            "name": "Services/Supplies",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 31,
             "name": "PayPal"
@@ -171,7 +191,11 @@
             "simple": "Uber"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 204,
             "name": "Uber",
@@ -196,7 +220,11 @@
             "simple": "Charge/Fee"
         },
         "budget_category": "lifestyle",
-        "category_id": 79,
+        "category": {
+            "id": 79,
+            "name": "Automotive",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 148,
             "name": "Charge/Fee",
@@ -221,7 +249,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -244,7 +276,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -280,7 +316,11 @@
             "simple": "The Occidental Hotel"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 238,
             "name": "The Occidental Hotel",
@@ -315,7 +355,11 @@
             "simple": "IGA grocery stores"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 23,
             "name": "IGA grocery stores",
@@ -350,7 +394,11 @@
             "simple": "Uber"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 204,
             "name": "Uber",
@@ -375,7 +423,11 @@
             "simple": "Transfer to Commonwealth Bank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -398,7 +450,11 @@
             "simple": "Refunds from Commbank"
         },
         "budget_category": "income",
-        "category_id": 102,
+        "category": {
+            "id": 102,
+            "name": "Refunds/Adjustments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -421,7 +477,11 @@
             "simple": "Bupa"
         },
         "budget_category": "living",
-        "category_id": 67,
+        "category": {
+            "id": 67,
+            "name": "Healthcare/Medical",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 47,
             "name": "Bupa"
@@ -444,7 +504,11 @@
             "simple": "Coles"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 44,
             "name": "Coles",
@@ -479,7 +543,11 @@
             "simple": "Burger Project"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 249,
             "name": "Burger Project",
@@ -515,7 +583,11 @@
             "simple": "7-eleven"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 926,
             "name": "7-eleven"
@@ -538,7 +610,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -574,7 +650,11 @@
             "simple": "Woolworths"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 2,
             "name": "Woolworths",
@@ -609,7 +689,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -645,7 +729,11 @@
             "simple": "Opal"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -670,7 +758,11 @@
             "simple": "Tax Payment to Australian Taxation Office"
         },
         "budget_category": "living",
-        "category_id": 89,
+        "category": {
+            "id": 89,
+            "name": "Taxes",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 734,
             "name": "Australian Taxation Office"
@@ -693,7 +785,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -729,7 +825,11 @@
             "simple": "Bunnings"
         },
         "budget_category": "lifestyle",
-        "category_id": 68,
+        "category": {
+            "id": 68,
+            "name": "Automotive",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 72,
             "name": "Bunnings",
@@ -764,7 +864,11 @@
             "simple": "IGA grocery stores"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 23,
             "name": "IGA grocery stores",
@@ -799,7 +903,11 @@
             "simple": "The Tree House"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 248,
             "name": "The Tree House",
@@ -834,7 +942,11 @@
             "simple": "The Tree House"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 248,
             "name": "The Tree House",
@@ -869,7 +981,11 @@
             "simple": "Apple Inc"
         },
         "budget_category": "lifestyle",
-        "category_id": 64,
+        "category": {
+            "id": 64,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 14,
             "name": "Apple Inc"
@@ -892,7 +1008,11 @@
             "simple": "Aldi"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 954,
             "name": "Aldi"
@@ -915,7 +1035,11 @@
             "simple": "Dan Murphy"
         },
         "budget_category": "lifestyle",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 97,
             "name": "Dan Murphy",
@@ -950,7 +1074,11 @@
             "simple": "Coles"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 44,
             "name": "Coles",
@@ -985,7 +1113,11 @@
             "simple": "Refunds from Commbank"
         },
         "budget_category": "income",
-        "category_id": 102,
+        "category": {
+            "id": 102,
+            "name": "Refunds/Adjustments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -1008,7 +1140,11 @@
             "simple": "Transfer to Commonwealth Bank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -1031,7 +1167,11 @@
             "simple": "SUSHI PTY. LTD."
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 292,
             "name": "SUSHI PTY. LTD.",
@@ -1066,7 +1206,11 @@
             "simple": "Woolworths"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 2,
             "name": "Woolworths",
@@ -1101,7 +1245,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -1137,7 +1285,11 @@
             "simple": "FEDERATION UNIVERSITY MOUNT HELEN VI AUS Card XX0996 Value Date_"
         },
         "budget_category": "living",
-        "category_id": 63,
+        "category": {
+            "id": 63,
+            "name": "Education",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -1162,7 +1314,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -1198,7 +1354,11 @@
             "simple": "Opal"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -1223,7 +1383,11 @@
             "simple": "Refunds from Commbank"
         },
         "budget_category": "income",
-        "category_id": 102,
+        "category": {
+            "id": 102,
+            "name": "Refunds/Adjustments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -1246,7 +1410,11 @@
             "simple": "Direct Credit XX1000 MR ROJIN SUBEDI Loan firta"
         },
         "budget_category": "income",
-        "category_id": 102,
+        "category": {
+            "id": 102,
+            "name": "Refunds/Adjustments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -1271,7 +1439,11 @@
             "simple": "BIG W"
         },
         "budget_category": "lifestyle",
-        "category_id": 94,
+        "category": {
+            "id": 94,
+            "name": "Electronics",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 125,
             "name": "BIG W",
@@ -1304,7 +1476,11 @@
             "simple": "IGA grocery stores"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 23,
             "name": "IGA grocery stores",
@@ -1339,7 +1515,11 @@
             "simple": "North Sydney Hotel"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 542,
             "name": "North Sydney Hotel"
@@ -1362,7 +1542,11 @@
             "simple": "The Brew House Hotel"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 107,
             "name": "The Brew House Hotel",
@@ -1395,7 +1579,11 @@
             "simple": "Uber"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 204,
             "name": "Uber",
@@ -1420,7 +1608,11 @@
             "simple": "Transfer from SUJATA BHATTARAI CommBank app fee ko lagi"
         },
         "budget_category": "income",
-        "category_id": 86,
+        "category": {
+            "id": 86,
+            "name": "Other Income",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -1443,7 +1635,11 @@
             "simple": "Refunds from Commbank"
         },
         "budget_category": "income",
-        "category_id": 102,
+        "category": {
+            "id": 102,
+            "name": "Refunds/Adjustments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -1466,7 +1662,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "goals",
-        "category_id": 91,
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -1489,7 +1689,11 @@
             "simple": "Refunds from Commbank"
         },
         "budget_category": "income",
-        "category_id": 102,
+        "category": {
+            "id": 102,
+            "name": "Refunds/Adjustments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -1512,7 +1716,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 110,
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -1535,7 +1743,11 @@
             "simple": "Uber"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 204,
             "name": "Uber",
@@ -1559,7 +1771,11 @@
             "original": "Credit Card Payment"
         },
         "budget_category": "lifestyle",
-        "category_id": 81,
+        "category": {
+            "id": 81,
+            "name": "Credit Card Payments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -1584,7 +1800,11 @@
             "simple": "Transfer to Commonwealth Bank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -1607,7 +1827,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "goals",
-        "category_id": 91,
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -1630,7 +1854,11 @@
             "simple": "Transfer to Commonwealth Bank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -1653,7 +1881,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "goals",
-        "category_id": 91,
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -1676,7 +1908,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 110,
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -1699,7 +1935,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 110,
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -1722,7 +1962,11 @@
             "simple": "Coles"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 44,
             "name": "Coles",
@@ -1757,7 +2001,11 @@
             "simple": "Netflix"
         },
         "budget_category": "lifestyle",
-        "category_id": 64,
+        "category": {
+            "id": 64,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 40,
             "name": "Netflix"
@@ -1780,7 +2028,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "goals",
-        "category_id": 91,
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -1803,7 +2055,11 @@
             "simple": "Refunds from Commonwealth Bank"
         },
         "budget_category": "income",
-        "category_id": 102,
+        "category": {
+            "id": 102,
+            "name": "Refunds/Adjustments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -1826,7 +2082,11 @@
             "simple": "Woolworths"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 2,
             "name": "Woolworths",
@@ -1851,7 +2111,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 110,
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -1874,7 +2138,11 @@
             "simple": "Unknown"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -1899,7 +2167,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 110,
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -1922,7 +2194,11 @@
             "simple": "THIRD EYE ENTERTAINMEN BANKSIA AU Card XX0996"
         },
         "budget_category": "living",
-        "category_id": 67,
+        "category": {
+            "id": 67,
+            "name": "Healthcare/Medical",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -1947,7 +2223,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "goals",
-        "category_id": 91,
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -1970,7 +2250,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -2006,7 +2290,11 @@
             "simple": "Woolworths"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 2,
             "name": "Woolworths",
@@ -2041,7 +2329,11 @@
             "simple": "Opal"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -2066,7 +2358,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -2102,7 +2398,11 @@
             "simple": "SUSHI PTY. LTD."
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 292,
             "name": "SUSHI PTY. LTD.",
@@ -2137,7 +2437,11 @@
             "simple": "IGA grocery stores"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 23,
             "name": "IGA grocery stores",
@@ -2172,7 +2476,11 @@
             "simple": "Uber"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 204,
             "name": "Uber",
@@ -2197,7 +2505,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 110,
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -2220,7 +2532,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "goals",
-        "category_id": 91,
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -2243,7 +2559,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -2266,7 +2586,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -2302,7 +2626,11 @@
             "simple": "PayPal"
         },
         "budget_category": "lifestyle",
-        "category_id": 71,
+        "category": {
+            "id": 71,
+            "name": "Services/Supplies",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 31,
             "name": "PayPal"
@@ -2325,7 +2653,11 @@
             "simple": "Uber"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 204,
             "name": "Uber",
@@ -2350,7 +2682,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -2373,7 +2709,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -2396,7 +2736,11 @@
             "simple": "Subway"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 627,
             "name": "Subway"
@@ -2419,7 +2763,11 @@
             "simple": "ATM Withdrawal at Commonwealth Bank"
         },
         "budget_category": "lifestyle",
-        "category_id": 80,
+        "category": {
+            "id": 80,
+            "name": "ATM/Cash Withdrawals",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -2442,7 +2790,11 @@
             "simple": "Coles"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 44,
             "name": "Coles",
@@ -2477,7 +2829,11 @@
             "simple": "Uber"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 204,
             "name": "Uber",
@@ -2502,7 +2858,11 @@
             "simple": "Woolworths"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 2,
             "name": "Woolworths",
@@ -2537,7 +2897,11 @@
             "simple": "Interest Income"
         },
         "budget_category": "income",
-        "category_id": 97,
+        "category": {
+            "id": 97,
+            "name": "Interest Income",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -2562,7 +2926,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 110,
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -2585,7 +2953,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "goals",
-        "category_id": 91,
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -2608,7 +2980,11 @@
             "simple": "Refunds from Commbank"
         },
         "budget_category": "income",
-        "category_id": 102,
+        "category": {
+            "id": 102,
+            "name": "Refunds/Adjustments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -2631,7 +3007,11 @@
             "simple": "Transfer to Commonwealth Bank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -2654,7 +3034,11 @@
             "simple": "Transfer to Commonwealth Bank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -2677,7 +3061,11 @@
             "simple": "The Occidental Hotel"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 238,
             "name": "The Occidental Hotel",
@@ -2712,7 +3100,11 @@
             "simple": "The Occidental Hotel"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 238,
             "name": "The Occidental Hotel",
@@ -2747,7 +3139,11 @@
             "simple": "IGA grocery stores"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 23,
             "name": "IGA grocery stores",
@@ -2782,7 +3178,11 @@
             "simple": "Woolworths"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 2,
             "name": "Woolworths",
@@ -2807,7 +3207,11 @@
             "simple": "Coles"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 44,
             "name": "Coles",
@@ -2842,7 +3246,11 @@
             "simple": "Uber"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 204,
             "name": "Uber",
@@ -2867,7 +3275,11 @@
             "simple": "Salary/Regular Income from Frollo"
         },
         "budget_category": "income",
-        "category_id": 84,
+        "category": {
+            "id": 84,
+            "name": "Salary/Regular Income",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1619,
             "name": "Frollo"
@@ -2890,7 +3302,11 @@
             "simple": "Woolworths"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 2,
             "name": "Woolworths",
@@ -2924,7 +3340,11 @@
             "original": "Fee Transaction"
         },
         "budget_category": "living",
-        "category_id": 79,
+        "category": {
+            "id": 79,
+            "name": "Automotive",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -2948,7 +3368,11 @@
             "original": "Insurance Premium"
         },
         "budget_category": "living",
-        "category_id": 69,
+        "category": {
+            "id": 69,
+            "name": "Insurance",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -2972,7 +3396,11 @@
             "original": "Contribution Tax"
         },
         "budget_category": "goals",
-        "category_id": 92,
+        "category": {
+            "id": 92,
+            "name": "Retirement Contributions",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -2997,7 +3425,11 @@
             "simple": "PayPal"
         },
         "budget_category": "lifestyle",
-        "category_id": 71,
+        "category": {
+            "id": 71,
+            "name": "Services/Supplies",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 31,
             "name": "PayPal"
@@ -3020,7 +3452,11 @@
             "simple": "Opal"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -3045,7 +3481,11 @@
             "simple": "Direct Credit XX1000 MR ROJIN SUBEDI Thanks"
         },
         "budget_category": "income",
-        "category_id": 102,
+        "category": {
+            "id": 102,
+            "name": "Refunds/Adjustments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -3070,7 +3510,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -3106,7 +3550,11 @@
             "simple": "Woolworths"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 2,
             "name": "Woolworths",
@@ -3141,7 +3589,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -3164,7 +3616,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -3187,7 +3643,11 @@
             "simple": "Cardless Cash for third party collection Cash checkout"
         },
         "budget_category": "lifestyle",
-        "category_id": 80,
+        "category": {
+            "id": 80,
+            "name": "ATM/Cash Withdrawals",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -3212,7 +3672,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -3248,7 +3712,11 @@
             "simple": "Charge/Fee"
         },
         "budget_category": "lifestyle",
-        "category_id": 79,
+        "category": {
+            "id": 79,
+            "name": "Automotive",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 148,
             "name": "Charge/Fee",
@@ -3273,7 +3741,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 110,
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -3296,7 +3768,11 @@
             "simple": "Refunds from Commbank"
         },
         "budget_category": "income",
-        "category_id": 102,
+        "category": {
+            "id": 102,
+            "name": "Refunds/Adjustments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -3319,7 +3795,11 @@
             "simple": "Opal"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -3344,7 +3824,11 @@
             "simple": "Transfer to Commonwealth Bank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -3367,7 +3851,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "goals",
-        "category_id": 91,
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -3390,7 +3878,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -3426,7 +3918,11 @@
             "simple": "The Occidental Hotel"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 238,
             "name": "The Occidental Hotel",
@@ -3461,7 +3957,11 @@
             "simple": "IGA grocery stores"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 23,
             "name": "IGA grocery stores",
@@ -3496,7 +3996,11 @@
             "simple": "Udemy udemy.com IR IRL Card XX0996 AUD 14.99 Value Date_"
         },
         "budget_category": "lifestyle",
-        "category_id": 71,
+        "category": {
+            "id": 71,
+            "name": "Services/Supplies",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -3521,7 +4025,11 @@
             "simple": "Coles"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 44,
             "name": "Coles",
@@ -3556,7 +4064,11 @@
             "simple": "Burger Project"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 249,
             "name": "Burger Project",
@@ -3592,7 +4104,11 @@
             "simple": "Uber"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 204,
             "name": "Uber",
@@ -3617,7 +4133,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -3653,7 +4173,11 @@
             "simple": "Woolworths"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 2,
             "name": "Woolworths",
@@ -3688,7 +4212,11 @@
             "simple": "Uber"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 204,
             "name": "Uber",
@@ -3713,7 +4241,11 @@
             "simple": "Opal"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -3738,7 +4270,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -3774,7 +4310,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -3810,7 +4350,11 @@
             "simple": "Bunnings"
         },
         "budget_category": "lifestyle",
-        "category_id": 68,
+        "category": {
+            "id": 68,
+            "name": "Automotive",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 72,
             "name": "Bunnings",
@@ -3845,7 +4389,11 @@
             "simple": "IGA grocery stores"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 23,
             "name": "IGA grocery stores",
@@ -3880,7 +4428,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -3903,7 +4455,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -3926,7 +4482,11 @@
             "simple": "Refunds from Commbank"
         },
         "budget_category": "income",
-        "category_id": 102,
+        "category": {
+            "id": 102,
+            "name": "Refunds/Adjustments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -3949,7 +4509,11 @@
             "simple": "Transfer From ALOK KATUWAL to PayID Phone mero best fren"
         },
         "budget_category": "income",
-        "category_id": 102,
+        "category": {
+            "id": 102,
+            "name": "Refunds/Adjustments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -3974,7 +4538,11 @@
             "simple": "Transfer to Commonwealth Bank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -3997,7 +4565,11 @@
             "simple": "The Tree House"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 248,
             "name": "The Tree House",
@@ -4032,7 +4604,11 @@
             "simple": "The Tree House"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 248,
             "name": "The Tree House",
@@ -4067,7 +4643,11 @@
             "simple": "Apple Inc"
         },
         "budget_category": "lifestyle",
-        "category_id": 64,
+        "category": {
+            "id": 64,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 14,
             "name": "Apple Inc"
@@ -4089,7 +4669,11 @@
             "original": "Credit Card Payment"
         },
         "budget_category": "lifestyle",
-        "category_id": 81,
+        "category": {
+            "id": 81,
+            "name": "Credit Card Payments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -4114,7 +4698,11 @@
             "simple": "Dan Murphy"
         },
         "budget_category": "lifestyle",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 97,
             "name": "Dan Murphy",
@@ -4149,7 +4737,11 @@
             "simple": "Coles"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 44,
             "name": "Coles",
@@ -4184,7 +4776,11 @@
             "simple": "Opal"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -4209,7 +4805,11 @@
             "simple": "SUSHI PTY. LTD."
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 292,
             "name": "SUSHI PTY. LTD.",
@@ -4244,7 +4844,11 @@
             "simple": "Woolworths"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 2,
             "name": "Woolworths",
@@ -4279,7 +4883,11 @@
             "simple": "Uber"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 204,
             "name": "Uber",
@@ -4304,7 +4912,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 110,
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -4327,7 +4939,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "goals",
-        "category_id": 91,
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -4350,7 +4966,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -4373,7 +4993,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -4409,7 +5033,11 @@
             "simple": "Uber"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 204,
             "name": "Uber",
@@ -4434,7 +5062,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -4470,7 +5102,11 @@
             "simple": "BIG W"
         },
         "budget_category": "lifestyle",
-        "category_id": 94,
+        "category": {
+            "id": 94,
+            "name": "Electronics",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 125,
             "name": "BIG W",
@@ -4503,7 +5139,11 @@
             "simple": "IGA grocery stores"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 23,
             "name": "IGA grocery stores",
@@ -4538,7 +5178,11 @@
             "simple": "Uber"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 204,
             "name": "Uber",
@@ -4563,7 +5207,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 110,
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -4586,7 +5234,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "goals",
-        "category_id": 91,
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -4609,7 +5261,11 @@
             "simple": "Refunds from Commbank"
         },
         "budget_category": "income",
-        "category_id": 102,
+        "category": {
+            "id": 102,
+            "name": "Refunds/Adjustments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -4632,7 +5288,11 @@
             "simple": "Transfer to Commonwealth Bank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -4655,7 +5315,11 @@
             "simple": "The Brew House Hotel"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 107,
             "name": "The Brew House Hotel",
@@ -4688,7 +5352,11 @@
             "simple": "Refunds from Commbank"
         },
         "budget_category": "income",
-        "category_id": 102,
+        "category": {
+            "id": 102,
+            "name": "Refunds/Adjustments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -4711,7 +5379,11 @@
             "simple": "Refunds from Commbank"
         },
         "budget_category": "income",
-        "category_id": 102,
+        "category": {
+            "id": 102,
+            "name": "Refunds/Adjustments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -4734,7 +5406,11 @@
             "simple": "WWW.TICKETPLUS.COM.AU ROCKDALE NS AUS Card XX0996 Value Date_"
         },
         "budget_category": "lifestyle",
-        "category_id": 74,
+        "category": {
+            "id": 74,
+            "name": "Other Expenses",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -4759,7 +5435,11 @@
             "simple": "Greater Union"
         },
         "budget_category": "lifestyle",
-        "category_id": 64,
+        "category": {
+            "id": 64,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 398,
             "name": "Greater Union"
@@ -4782,7 +5462,11 @@
             "simple": "Greater Union"
         },
         "budget_category": "lifestyle",
-        "category_id": 64,
+        "category": {
+            "id": 64,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 398,
             "name": "Greater Union"
@@ -4805,7 +5489,11 @@
             "simple": "Coles"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 44,
             "name": "Coles",
@@ -4840,7 +5528,11 @@
             "simple": "Netflix"
         },
         "budget_category": "lifestyle",
-        "category_id": 64,
+        "category": {
+            "id": 64,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 40,
             "name": "Netflix"
@@ -4863,7 +5555,11 @@
             "simple": "EPICURE AVENUE PTY L PARRAMATTA NS AUS Card XX0996 Value Date_"
         },
         "budget_category": "lifestyle",
-        "category_id": 74,
+        "category": {
+            "id": 74,
+            "name": "Other Expenses",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -4888,7 +5584,11 @@
             "simple": "Unknown"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -4913,7 +5613,11 @@
             "simple": "Opal"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -4938,7 +5642,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -4974,7 +5682,11 @@
             "simple": "Woolworths"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 2,
             "name": "Woolworths",
@@ -5009,7 +5721,11 @@
             "simple": "PayPal"
         },
         "budget_category": "lifestyle",
-        "category_id": 71,
+        "category": {
+            "id": 71,
+            "name": "Services/Supplies",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 31,
             "name": "PayPal"
@@ -5032,7 +5748,11 @@
             "simple": "Uber"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 204,
             "name": "Uber",
@@ -5057,7 +5777,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 110,
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -5080,7 +5804,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "goals",
-        "category_id": 91,
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -5103,7 +5831,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -5139,7 +5871,11 @@
             "simple": "SUSHI PTY. LTD."
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 292,
             "name": "SUSHI PTY. LTD.",
@@ -5174,7 +5910,11 @@
             "simple": "IGA grocery stores"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 23,
             "name": "IGA grocery stores",
@@ -5209,7 +5949,11 @@
             "simple": "Uber"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 204,
             "name": "Uber",
@@ -5234,7 +5978,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 110,
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -5257,7 +6005,11 @@
             "simple": "Transfer to Commonwealth Bank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 715,
             "name": "Commonwealth Bank"
@@ -5280,7 +6032,11 @@
             "simple": "Transfer from Commbank"
         },
         "budget_category": "goals",
-        "category_id": 91,
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -5303,7 +6059,11 @@
             "simple": "ST GEORGE MINI MARKE CARLTON AU Card XX0996"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",
@@ -5328,7 +6088,11 @@
             "simple": "Transfer to Commbank"
         },
         "budget_category": "lifestyle",
-        "category_id": 83,
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -5351,7 +6115,11 @@
             "simple": "McDonald's"
         },
         "budget_category": "lifestyle",
-        "category_id": 77,
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 81,
             "name": "McDonald's",
@@ -5387,7 +6155,11 @@
             "simple": "Opal"
         },
         "budget_category": "lifestyle",
-        "category_id": 78,
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1603,
             "name": "Opal",
@@ -5412,7 +6184,11 @@
             "simple": "Refunds from Commbank"
         },
         "budget_category": "income",
-        "category_id": 102,
+        "category": {
+            "id": 102,
+            "name": "Refunds/Adjustments",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1423,
             "name": "Commbank"
@@ -5435,7 +6211,11 @@
             "simple": "Coles"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 44,
             "name": "Coles",
@@ -5470,7 +6250,11 @@
             "simple": "Woolworths"
         },
         "budget_category": "living",
-        "category_id": 66,
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 2,
             "name": "Woolworths",
@@ -5505,7 +6289,11 @@
             "simple": "Interest Income"
         },
         "budget_category": "income",
-        "category_id": 97,
+        "category": {
+            "id": 97,
+            "name": "Interest Income",
+            "icon_url": "https://example.com/image.png",
+        },
         "merchant": {
             "id": 1,
             "name": "Unknown",

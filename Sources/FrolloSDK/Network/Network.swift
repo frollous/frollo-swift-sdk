@@ -33,7 +33,7 @@ class Network: SessionDelegate {
     internal var authentication: Authentication
     internal var sessionManager: Session!
     
-    private let APIVersion = "2.12"
+    private let APIVersion = "2.13"
     
     /**
      Initialise a network stack pointing to an API at a specific URL

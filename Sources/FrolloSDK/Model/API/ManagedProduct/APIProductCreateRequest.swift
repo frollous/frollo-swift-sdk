@@ -16,22 +16,15 @@
 
 import Foundation
 
-internal enum KYCEndpoint: Endpoint {
+import Foundation
+
+struct APIProductCreateRequest: Codable {
     
-    internal var path: String {
-        return urlPath()
+    enum CodingKeys: String, CodingKey {
+        case productID = "product_id"
+        case acceptedTermsConditionsIDs = "accepted_terms_conditions_ids"
     }
     
-    case kyc
-    case createVerify
-    
-    private func urlPath() -> String {
-        switch self {
-            case .kyc:
-                return "user/kyc"
-            case .createVerify:
-                return "user/kyc/create_verify"
-        }
-    }
-    
+    let productID: Int64
+    let acceptedTermsConditionsIDs: [Int64]
 }

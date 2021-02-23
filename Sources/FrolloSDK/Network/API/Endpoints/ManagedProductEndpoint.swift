@@ -16,21 +16,30 @@
 
 import Foundation
 
-internal enum KYCEndpoint: Endpoint {
+internal enum ManagedProductEndpoint: Endpoint {
+    
+    enum QueryParameters: String, Codable {
+        case after
+        case before
+        case size
+    }
     
     internal var path: String {
         return urlPath()
     }
     
-    case kyc
-    case createVerify
+    case availableProducts
+    case managedProducts
+    case product(productID: Int64)
     
     private func urlPath() -> String {
         switch self {
-            case .kyc:
-                return "user/kyc"
-            case .createVerify:
-                return "user/kyc/create_verify"
+            case .availableProducts:
+                return "manage/products/available"
+            case .managedProducts:
+                return "manage/products"
+            case .product(let productID):
+                return "manage/products/" + String(productID)
         }
     }
     
