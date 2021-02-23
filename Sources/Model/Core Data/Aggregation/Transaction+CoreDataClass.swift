@@ -184,7 +184,7 @@ public class Transaction: NSManagedObject, UniqueManagedObject {
         postDateString = response.postDate
         simpleDescription = response.description.simple
         status = response.status
-        transactionCategoryID = response.categoryID
+        transactionCategoryID = response.category.id
         transactionDateString = response.transactionDate
         userDescription = response.description.user
         userTags = response.userTags

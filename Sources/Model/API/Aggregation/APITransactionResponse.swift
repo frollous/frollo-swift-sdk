@@ -25,7 +25,7 @@ struct APITransactionResponse: APIUniqueResponse, Codable {
         case billID = "bill_id"
         case billPaymentID = "bill_payment_id"
         case budgetCategory = "budget_category"
-        case categoryID = "category_id"
+        case category
         case description
         case externalID = "external_id"
         case goalID = "goal_id"
@@ -103,6 +103,19 @@ struct APITransactionResponse: APIUniqueResponse, Codable {
         
     }
     
+    struct Category: Codable {
+        
+        enum CodingKeys: String, CodingKey {
+            case id
+            case name
+            case imageURL = "icon_url"
+        }
+        
+        let id: Int64
+        let name: String
+        let imageURL: String?
+    }
+    
     var id: Int64
     let accountID: Int64
     let amount: Amount
@@ -110,7 +123,7 @@ struct APITransactionResponse: APIUniqueResponse, Codable {
     let billID: Int64?
     let billPaymentID: Int64?
     let budgetCategory: BudgetCategory
-    let categoryID: Int64
+    let category: Category
     let description: Description
     let externalID: String?
     let goalID: Int64?

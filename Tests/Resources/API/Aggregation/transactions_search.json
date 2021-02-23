@@ -16,7 +16,11 @@
 		"simple": "The Occidental Hotel"
 	},
 	"budget_category": "lifestyle",
-	"category_id": 77,
+    "category": {
+        "id": 77,
+        "name": "Travel/Entertainment",
+        "icon_url": "https://example.com/image.png",
+    },
 	"merchant": {
 		"id": 238,
 		"name": "The Occidental Hotel",
@@ -42,7 +46,11 @@
 		"simple": "The Occidental Hotel"
 	},
 	"budget_category": "lifestyle",
-	"category_id": 77,
+    "category": {
+        "id": 77,
+        "name": "Travel/Entertainment",
+        "icon_url": "https://example.com/image.png",
+    },
 	"merchant": {
 		"id": 238,
 		"name": "The Occidental Hotel",
@@ -68,7 +76,11 @@
 		"simple": "The Occidental Hotel"
 	},
 	"budget_category": "lifestyle",
-	"category_id": 77,
+    "category": {
+        "id": 77,
+        "name": "Travel/Entertainment",
+        "icon_url": "https://example.com/image.png",
+    },
 	"merchant": {
 		"id": 238,
 		"name": "The Occidental Hotel",
@@ -94,7 +106,11 @@
 		"simple": "The Occidental Hotel"
 	},
 	"budget_category": "lifestyle",
-	"category_id": 77,
+    "category": {
+        "id": 77,
+        "name": "Travel/Entertainment",
+        "icon_url": "https://example.com/image.png",
+    },
 	"merchant": {
 		"id": 238,
 		"name": "The Occidental Hotel",
