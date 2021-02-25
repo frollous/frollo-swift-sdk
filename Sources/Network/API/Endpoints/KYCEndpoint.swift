@@ -30,7 +30,7 @@ internal enum KYCEndpoint: Endpoint {
             case .kyc:
                 return "user/kyc"
             case .createVerify:
-                return "user/kyc/create_verify"
+                return "user/kyc/create/verify"
         }
     }
     
