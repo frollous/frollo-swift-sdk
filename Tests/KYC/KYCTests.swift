@@ -77,11 +77,7 @@ class KYCTests: XCTestCase {
         let expectation1 = expectation(description: "Network Request 1")
         let config = FrolloSDKConfiguration.testConfig()
         
-<<<<<<< HEAD
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + KYCEndpoint.kyc.path)) { (request) -> HTTPStubsResponse in
-=======
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + KYCEndpoint.createVerify.path)) { (request) -> OHHTTPStubsResponse in
->>>>>>> 9722fb69b974e24db4caf37e650005c62313ca4b
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "kyc_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -124,13 +120,8 @@ class KYCTests: XCTestCase {
         let expectation1 = expectation(description: "Network Request 1")
         let config = FrolloSDKConfiguration.testConfig()
         
-<<<<<<< HEAD
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + KYCEndpoint.kyc.path)) { (request) -> HTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "kyc_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-=======
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + KYCEndpoint.createVerify.path)) { (request) -> OHHTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "kyc_response_medicare", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
->>>>>>> 9722fb69b974e24db4caf37e650005c62313ca4b
         }
         
         let kyc = KYC(service: service)

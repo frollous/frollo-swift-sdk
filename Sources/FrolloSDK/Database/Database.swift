@@ -40,7 +40,7 @@ public class Database {
     internal var persistentContainer: NSPersistentContainer
     
     static let model: NSManagedObjectModel = {
-        let modelURL = Bundle(for: Database.self).url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!
+        let modelURL = Bundle.module.url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     
@@ -146,7 +146,7 @@ public class Database {
         do {
             let storeMetadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL)
             
-            let model = NSManagedObjectModel(contentsOf: Bundle(for: type(of: self)).url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!)!
+            let model = NSManagedObjectModel(contentsOf: Bundle.module.url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!)!
             return !model.isConfiguration(withName: nil, compatibleWithStoreMetadata: storeMetadata)
         } catch {
             Log.error(error.localizedDescription)
