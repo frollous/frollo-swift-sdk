@@ -65,8 +65,8 @@ class Network: SessionDelegate {
         let sdkVersion = Bundle(for: Network.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
         let sdkBuild = Bundle(for: Network.self).object(forInfoDictionaryKey: VersionConstants.bundleVersion) as! String
         #else
-        let sdkVersion = "4.8.1"
-        let sdkBuild = "481"
+        let sdkVersion = "4.9.0"
+        let sdkBuild = "490"
         #endif
         
         let appBuild = Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleVersion) as? String

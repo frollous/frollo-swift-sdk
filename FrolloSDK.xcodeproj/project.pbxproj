@@ -1270,7 +1270,6 @@
 		1357F3A825DE449000E6EF06 /* kyc_response_non_existent.json in Resources */ = {isa = PBXBuildFile; fileRef = 1357F3A425DE449000E6EF06 /* kyc_response_non_existent.json */; };
 		1357F3A925DE449000E6EF06 /* kyc_response_non_existent.json in Resources */ = {isa = PBXBuildFile; fileRef = 1357F3A425DE449000E6EF06 /* kyc_response_non_existent.json */; };
 		1357F3AA25DE449000E6EF06 /* kyc_response_non_existent.json in Resources */ = {isa = PBXBuildFile; fileRef = 1357F3A425DE449000E6EF06 /* kyc_response_non_existent.json */; };
-		1357F43225DF43EF00E6EF06 /* ManagedProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1357F43025DF43EF00E6EF06 /* ManagedProducts.swift */; };
 		1357F44225DF444100E6EF06 /* APIService+ManagedProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1357F44125DF444100E6EF06 /* APIService+ManagedProduct.swift */; };
 		1357F44325DF444100E6EF06 /* APIService+ManagedProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1357F44125DF444100E6EF06 /* APIService+ManagedProduct.swift */; };
 		1357F44C25DF449400E6EF06 /* ManagedProductEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1357F44B25DF449400E6EF06 /* ManagedProductEndpoint.swift */; };
@@ -6784,7 +6783,6 @@
 				4EFB624625A3CE4500930C95 /* Cards.swift in Sources */,
 				034BD7F62399F54600142B7A /* Reports+Helpers.swift in Sources */,
 				03A3A7212432F15700D46BB0 /* Consent+CoreDataProperties.swift in Sources */,
-				1357F43225DF43EF00E6EF06 /* ManagedProducts.swift in Sources */,
 				01E5BF172227A475003D85FD /* UniqueManagedObject.swift in Sources */,
 				69E7DED62397692E00291937 /* ReportResponse.swift in Sources */,
 				032F10C123DA88E100F3BF01 /* CDRConsentForm.swift in Sources */,

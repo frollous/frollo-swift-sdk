@@ -24,7 +24,7 @@ let package = Package(
         .target(
             name: "FrolloSDK",
             dependencies: ["Alamofire", "AppAuth", "SwiftyJSON"],
-            exclude: ["Bundle+Resources.swift"],
+            exclude: ["Bundle+Resources.swift", "Info.plist", "FrolloSDKCore-Info.plist"],
             resources: [.process("Resources")]
         ),
         /*.testTarget(
@@ -37,8 +37,8 @@ let package = Package(
             path: "Tests",
             exclude: ["Bundle+Resources.swift"],
             resources: [.process("Resources"),
-                        .process("Sources/FrolloSDK/Resources/Database")]*/
-        )
+                        .process("Sources/FrolloSDK/Resources/Database")]
+        )*/
     ],
     swiftLanguageVersions: [.v5]
 )
