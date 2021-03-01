@@ -53,7 +53,7 @@ struct APIBillResponse: APIUniqueResponse, Codable {
     let averageAmount: String
     let billType: Bill.BillType
     let category: Category?
-    let description: String
+    let description: String?
     let dueAmount: String
     let endDate: String?
     let frequency: Bill.Frequency

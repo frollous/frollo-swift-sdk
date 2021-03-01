@@ -64,11 +64,12 @@ class Network: SessionDelegate {
         #if !SWIFT_PACKAGE
         let moduleBundle = Bundle(for: Network.self)
         let sdkVersion = moduleBundle.object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
+        let sdkBuild = moduleBundle.object(forInfoDictionaryKey: VersionConstants.bundleVersion) as! String
         #else
         let moduleBundle = Bundle.main
-        let sdkVersion = "4.7.0"
+        let sdkVersion = "4.8.1"
+        let sdkBuild = "481"
         #endif
-        let sdkBuild = moduleBundle.object(forInfoDictionaryKey: VersionConstants.bundleVersion) as! String
         let appBuild = Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleVersion) as? String
         let appVersion = Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as? String
         let bundleID = moduleBundle.bundleIdentifier!
