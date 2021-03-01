@@ -27,7 +27,7 @@ let package = Package(
             exclude: ["Bundle+Resources.swift"],
             resources: [.process("Resources")]
         ),
-        .testTarget(
+        /*.testTarget(
             name: "FrolloSDKiOSTests",
             dependencies: [
                 .byName(name: "FrolloSDK"),
@@ -35,8 +35,9 @@ let package = Package(
                 .product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs")
             ],
             path: "Tests",
-            exclude: ["Bundle+Resources.swift", "Hosts"],
-            resources: [.process("Resources")]
+            exclude: ["Bundle+Resources.swift"],
+            resources: [.process("Resources"),
+                        .process("Sources/FrolloSDK/Resources/Database")]*/
         )
     ],
     swiftLanguageVersions: [.v5]

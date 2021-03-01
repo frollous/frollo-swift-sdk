@@ -47,7 +47,11 @@ class Version {
         self.preferencesPersistence = PropertyListPersistence(path: path)
         #endif
         
-        self.currentVersion = Bundle(for: Version.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
+        #if !SWIFT_PACKAGE
+        self.currentVersion = Bundle(for: Network.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
+        #else
+        self.currentVersion = "4.8.1"
+        #endif
         self.previousVersion = preferencesPersistence[VersionConstants.appVersionLast] as? String
         if let appVersionHistory = preferencesPersistence[VersionConstants.appVersionHistory] as? [String] {
             self.versionHistory = appVersionHistory

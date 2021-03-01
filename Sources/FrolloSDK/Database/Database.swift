@@ -175,8 +175,8 @@ public class Database {
             Log.info("Starting database migration...")
             
             // Gather all models
-            let modelPath = Bundle(for: type(of: self)).url(forResource: Database.DatabaseConstants.modelName, withExtension: Database.DatabaseConstants.parentModelExtension)!
-            var subPaths = Bundle(for: type(of: self)).urls(forResourcesWithExtension: Database.DatabaseConstants.modelExtension, subdirectory: modelPath.lastPathComponent)!
+            let modelPath = Bundle.module.url(forResource: Database.DatabaseConstants.modelName, withExtension: Database.DatabaseConstants.parentModelExtension)!
+            var subPaths = Bundle.module.urls(forResourcesWithExtension: Database.DatabaseConstants.modelExtension, subdirectory: modelPath.lastPathComponent)!
             
             subPaths.sort { (urlA: URL, urlB: URL) -> Bool in
                 let urlAVersion = urlA.deletingPathExtension().lastPathComponent.components(separatedBy: "-").last!
