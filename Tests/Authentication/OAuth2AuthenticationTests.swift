@@ -24,6 +24,9 @@ import AppAuth
 #endif
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class OAuth2AuthenticationTests: BaseTestCase {
     

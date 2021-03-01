@@ -20,6 +20,9 @@ import XCTest
 import Alamofire
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class AggregationTests: BaseTestCase {
     

@@ -60,12 +60,18 @@ class Network: SessionDelegate {
         #else
         let osVersion = "unknownOS"
         #endif
-        
-        let sdkBuild = Bundle(for: Network.self).object(forInfoDictionaryKey: VersionConstants.bundleVersion) as! String
-        let sdkVersion = Bundle(for: Network.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
+
+        #if !SWIFT_PACKAGE
+        let moduleBundle = Bundle(for: Network.self)
+        let sdkVersion = moduleBundle.object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
+        #else
+        let moduleBundle = Bundle.main
+        let sdkVersion = "4.7.0"
+        #endif
+        let sdkBuild = moduleBundle.object(forInfoDictionaryKey: VersionConstants.bundleVersion) as! String
         let appBuild = Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleVersion) as? String
         let appVersion = Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as? String
-        let bundleID = Bundle(for: Network.self).bundleIdentifier!
+        let bundleID = moduleBundle.bundleIdentifier!
         let systemVersion = ProcessInfo.processInfo.operatingSystemVersionString
         
         #if !os(watchOS)

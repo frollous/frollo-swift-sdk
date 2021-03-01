@@ -32,7 +32,7 @@ class APIErrorTests: XCTestCase {
     // MARK: - Helpers
     
     func errorJSONNamed(_ fileName: String) -> Data {
-        let errorJSONPath = Bundle(for: type(of: self)).url(forResource: fileName, withExtension: "json")!
+        let errorJSONPath = Bundle.module.url(forResource: fileName, withExtension: "json")!
         return try! Data(contentsOf: errorJSONPath)
     }
     

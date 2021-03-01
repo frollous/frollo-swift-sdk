@@ -18,6 +18,9 @@ import XCTest
 @testable import FrolloSDK
 import CoreData
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 protocol KeychainServiceIdentifying {
     var keychainService: String { get }
@@ -201,7 +204,7 @@ extension XCTestCase {
     func connect(host: String, endpoint: String, method: Method? = nil, toResourceWithName name: String, addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> HTTPStubsDescriptor {
         var finalHeaders = headers ?? [:]
         finalHeaders[HTTPHeader.contentType.rawValue] = "application/json"
-        let response: HTTPStubsResponseBlock = { _ in fixture(filePath: Bundle(for: type(of: self)).path(forResource: name, ofType: "json")!, status: Int32(statusCode), headers: finalHeaders) }
+        let response: HTTPStubsResponseBlock = { _ in fixture(filePath: Bundle.module.path(forResource: name, ofType: "json")!, status: Int32(statusCode), headers: finalHeaders) }
         var condition = isHost(host) && isPath(endpoint)
         if let method = method {
             condition = condition && method.condition

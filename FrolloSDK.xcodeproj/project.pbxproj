@@ -1689,6 +1689,9 @@
 		4E6ADDC325EB6A78005A5074 /* FrolloSDKDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4E6ADDA725EB6A78005A5074 /* FrolloSDKDataModel.xcdatamodeld */; };
 		4E6ADDC425EB6A78005A5074 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4E6ADDBC25EB6A78005A5074 /* Localizable.strings */; };
 		4E6ADDC525EB6A78005A5074 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4E6ADDBC25EB6A78005A5074 /* Localizable.strings */; };
+		4E6AE6E225EC6CDF005A5074 /* Bundle+Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6AE6E125EC6CDF005A5074 /* Bundle+Resources.swift */; };
+		4E6AE6E325EC6CDF005A5074 /* Bundle+Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6AE6E125EC6CDF005A5074 /* Bundle+Resources.swift */; };
+		4E6AE6E425EC6CDF005A5074 /* Bundle+Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6AE6E125EC6CDF005A5074 /* Bundle+Resources.swift */; };
 		4E6E9CEA254A6606003E7B97 /* APIUserOTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6E9CE9254A6606003E7B97 /* APIUserOTPRequest.swift */; };
 		4E6E9CEB254A660C003E7B97 /* APIUserOTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6E9CE9254A6606003E7B97 /* APIUserOTPRequest.swift */; };
 		4E6E9CF0254A7102003E7B97 /* user_request_otp.json in Resources */ = {isa = PBXBuildFile; fileRef = 4E6E9CEC254A70F9003E7B97 /* user_request_otp.json */; };
@@ -2023,7 +2026,6 @@
 		01483BC72119781C00D0DA87 /* merchants_valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = merchants_valid.json; sourceTree = "<group>"; };
 		01527CBF20E1B5C300B5042A /* FrolloSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FrolloSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		01527CC220E1B5C300B5042A /* FrolloSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrolloSDK.h; sourceTree = "<group>"; };
-		01527CC320E1B5C300B5042A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		01527CC820E1B5C300B5042A /* FrolloSDK iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FrolloSDK iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrolloSDKTests.swift; sourceTree = "<group>"; };
 		01527CCF20E1B5C300B5042A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2255,7 +2257,6 @@
 		01E0819720FDC0E90036133F /* refresh_token_valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = refresh_token_valid.json; sourceTree = "<group>"; };
 		01E5BEDF222786DF003D85FD /* OAuthErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthErrorTests.swift; sourceTree = "<group>"; };
 		01E5BF772227A475003D85FD /* FrolloSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FrolloSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		01E5BF792227A796003D85FD /* FrolloSDKCore-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FrolloSDKCore-Info.plist"; sourceTree = "<group>"; };
 		01E5BF7A222895CA003D85FD /* APITransactionSummaryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITransactionSummaryResponse.swift; sourceTree = "<group>"; };
 		01E5BF7D2228B031003D85FD /* transaction_summary.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_summary.json; sourceTree = "<group>"; };
 		01E5BF81222C88E8003D85FD /* transaction_id_194630_excluded.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction_id_194630_excluded.json; sourceTree = "<group>"; };
@@ -2538,6 +2539,9 @@
 		4E6ADDB925EB6A78005A5074 /* FrolloSDKDataModel-1.3.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.3.3.xcdatamodel"; sourceTree = "<group>"; };
 		4E6ADDBA25EB6A78005A5074 /* FrolloSDKDataModel-1.6.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FrolloSDKDataModel-1.6.1.xcdatamodel"; sourceTree = "<group>"; };
 		4E6ADDBD25EB6A78005A5074 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4E6AE6E125EC6CDF005A5074 /* Bundle+Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Resources.swift"; sourceTree = "<group>"; };
+		4E6AE6F325EC877E005A5074 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4E6AE70425EC8820005A5074 /* FrolloSDKCore-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FrolloSDKCore-Info.plist"; sourceTree = "<group>"; };
 		4E6E9CE9254A6606003E7B97 /* APIUserOTPRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserOTPRequest.swift; sourceTree = "<group>"; };
 		4E6E9CEC254A70F9003E7B97 /* user_request_otp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user_request_otp.json; sourceTree = "<group>"; };
 		4E6E9CF3254A7798003E7B97 /* APIUserDetailsConfirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserDetailsConfirm.swift; sourceTree = "<group>"; };
@@ -3104,8 +3108,6 @@
 				01527CDB20E1CD1800B5042A /* README.md */,
 				01527CD720E1C2D700B5042A /* Package.swift */,
 				01527CC220E1B5C300B5042A /* FrolloSDK.h */,
-				01527CC320E1B5C300B5042A /* Info.plist */,
-				01E5BF792227A796003D85FD /* FrolloSDKCore-Info.plist */,
 				017094E723823DCF008E9EEB /* Documentation */,
 				01527CC120E1B5C300B5042A /* Sources */,
 				01527CCC20E1B5C300B5042A /* Tests */,
@@ -3139,8 +3141,10 @@
 		01527CCC20E1B5C300B5042A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				01527CCF20E1B5C300B5042A /* Info.plist */,
 				1357F48825DF66A700E6EF06 /* ManagedProducts */,
 				135B792C25B142E800BD3140 /* KYC */,
+				4E6AE6E125EC6CDF005A5074 /* Bundle+Resources.swift */,
 				03E157B9227BBFD90083F0D8 /* BaseTestCase.swift */,
 				01BB5A56221CDDA1000C03F0 /* FrolloSDKConfiguration+Test.swift */,
 				01527CCD20E1B5C300B5042A /* FrolloSDKTests.swift */,
@@ -4108,7 +4112,6 @@
 		01EEDB1520EADEFA00F4516B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				01527CCF20E1B5C300B5042A /* Info.plist */,
 				01B896A120F2EDA30068069A /* API */,
 				01874B6320F6C0C6005A7D0C /* Certificates */,
 				0160953B20F47FE10060791B /* Database */,
@@ -4247,6 +4250,8 @@
 		03A7E73D25DC8FDE00A6400A /* FrolloSDK */ = {
 			isa = PBXGroup;
 			children = (
+				4E6AE6F325EC877E005A5074 /* Info.plist */,
+				4E6AE70425EC8820005A5074 /* FrolloSDKCore-Info.plist */,
 				4E6ADDA325EB6A78005A5074 /* Resources */,
 				4EFFC57B25E5C18400533316 /* ManagedProduct */,
 				135B78DA25AFC1EF00BD3140 /* KYC */,
@@ -6318,6 +6323,7 @@
 				012606CF219BBD75005D8377 /* String+Random.swift in Sources */,
 				01527CCE20E1B5C300B5042A /* FrolloSDKTests.swift in Sources */,
 				011F8117219BE3B800A1495F /* MessageHTML+Test.swift in Sources */,
+				4E6AE6E225EC6CDF005A5074 /* Bundle+Resources.swift in Sources */,
 				01C824E920EB2F570093400E /* Data+Random.swift in Sources */,
 				01405E5221DDB0AF009356CC /* APIBillCreateRequest+Test.swift in Sources */,
 				01D7A4AC247C99E4000339D9 /* APIConsentResponse+Test.swift in Sources */,
@@ -6482,6 +6488,7 @@
 				012606D0219BBD75005D8377 /* String+Random.swift in Sources */,
 				017B48402101B4FE00447E65 /* FrolloSDKTests.swift in Sources */,
 				011F8118219BE3B800A1495F /* MessageHTML+Test.swift in Sources */,
+				4E6AE6E325EC6CDF005A5074 /* Bundle+Resources.swift in Sources */,
 				017B48412101B4FE00447E65 /* Data+Random.swift in Sources */,
 				01405E5321DDB0AF009356CC /* APIBillCreateRequest+Test.swift in Sources */,
 				01D7A4AD247C99E4000339D9 /* APIConsentResponse+Test.swift in Sources */,
@@ -6655,6 +6662,7 @@
 				012606D1219BBD75005D8377 /* String+Random.swift in Sources */,
 				017B489D2105958100447E65 /* FrolloSDKTests.swift in Sources */,
 				011F8119219BE3B800A1495F /* MessageHTML+Test.swift in Sources */,
+				4E6AE6E425EC6CDF005A5074 /* Bundle+Resources.swift in Sources */,
 				017B489E2105958100447E65 /* Data+Random.swift in Sources */,
 				01405E5421DDB0AF009356CC /* APIBillCreateRequest+Test.swift in Sources */,
 				01D7A4AE247C99E4000339D9 /* APIConsentResponse+Test.swift in Sources */,
@@ -7289,7 +7297,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = Sources/FrolloSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7362,7 +7370,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = Sources/FrolloSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7435,7 +7443,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Tests/Resources/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -7505,7 +7513,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Tests/Resources/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -7581,7 +7589,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Tests/Resources/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -7650,7 +7658,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Tests/Resources/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -7861,7 +7869,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Tests/Resources/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -7931,7 +7939,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Tests/Resources/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -8013,7 +8021,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "FrolloSDKCore-Info.plist";
+				INFOPLIST_FILE = "Sources/FrolloSDK/FrolloSDKCore-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -8087,7 +8095,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "FrolloSDKCore-Info.plist";
+				INFOPLIST_FILE = "Sources/FrolloSDK/FrolloSDKCore-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

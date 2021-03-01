@@ -17,6 +17,9 @@
 import CoreData
 import XCTest
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 @testable import FrolloSDK
 
 class CardsTests: BaseTestCase {

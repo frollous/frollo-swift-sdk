@@ -18,6 +18,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class KYCTests: XCTestCase {
 
@@ -45,7 +48,7 @@ class KYCTests: XCTestCase {
         let expectation1 = expectation(description: "Network Request 1")
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + KYCEndpoint.kyc.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + KYCEndpoint.kyc.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "kyc_response_non_existent", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -77,7 +80,7 @@ class KYCTests: XCTestCase {
         let expectation1 = expectation(description: "Network Request 1")
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + KYCEndpoint.createVerify.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + KYCEndpoint.createVerify.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "kyc_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -120,7 +123,7 @@ class KYCTests: XCTestCase {
         let expectation1 = expectation(description: "Network Request 1")
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + KYCEndpoint.createVerify.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + KYCEndpoint.createVerify.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "kyc_response_medicare", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         

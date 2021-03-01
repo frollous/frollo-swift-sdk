@@ -19,6 +19,9 @@ import CoreData
 import XCTest
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class CDRTests: BaseTestCase {
     
