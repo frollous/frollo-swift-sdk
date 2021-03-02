@@ -7,7 +7,10 @@ let package = Package(
     name: "FrolloSDK",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v10)
+        .iOS(.v10),
+        .macOS(.v10_13),
+        .tvOS(.v10),
+        .watchOS(.v4)
     ],
     products: [
         .library(
