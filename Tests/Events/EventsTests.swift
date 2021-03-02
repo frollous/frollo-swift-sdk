@@ -222,5 +222,42 @@ class EventsTests: XCTestCase {
         
         wait(for: [expectation1, notificationExpectation], timeout: 3.0)
     }
+    
+    func testHandleOnboardingEvent() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: UserManagement.onboardingStepCompleted, object: nil) { (notification) -> Bool in
+            
+            XCTAssertNotNil(notification.userInfo)
+            
+            guard let onboardingStep = notification.userInfo?[UserManagement.onboardingEventKey] as? String
+                else {
+                    XCTFail()
+                    return true
+            }
+            
+            XCTAssertEqual(onboardingStep, "account_opening")
+            
+            return true
+        }
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let events = Events(service: service)
+                
+        events.handleEvent("ONBOARDING_STEP_COMPLETED", notification: NotificationPayload.testOnboardingData()) { (handled, error) in
+            XCTAssertTrue(handled)
+            XCTAssertNil(error)
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+    }
 
 }

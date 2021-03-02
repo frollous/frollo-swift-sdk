@@ -27,7 +27,7 @@ public struct NotificationPayload: Codable {
         case transactionIDs = "transaction_ids"
         case userEventID = "user_event_id"
         case userMessageID = "user_message_id"
-        
+        case onboardingEvent = "onboarding_event"
     }
     
     /// Proprietary Apple Push Notification (APNS) Payload
@@ -149,5 +149,8 @@ public struct NotificationPayload: Codable {
     
     /// The unique ID of the message associated with this notification
     public let userMessageID: Int64?
+    
+    /// The name of onboarding event
+    public let onboardingEvent: String?
     
 }

@@ -27,6 +27,7 @@ public class Events {
         static let test = "TEST_EVENT"
         static let transactionsUpdated = "T_UPDATED"
         static let currentBudgetPeriodReady = "B_CURRENT_PERIOD_READY"
+        static let onboardingStepCompleted = "ONBOARDING_STEP_COMPLETED"
     }
     
     internal weak var delegate: FrolloSDKDelegate?
@@ -99,6 +100,15 @@ public class Events {
                 Log.debug("Current budget period ready event received")
                 
                 NotificationCenter.default.post(name: Budgets.currentBudgetPeriodReadyNotification, object: self, userInfo: nil)
+                
+                completion?(true, nil)
+                
+            case EventNames.onboardingStepCompleted:
+                Log.debug("Onboarding step complete event received")
+                
+                if let onboardingEvent = notification?.onboardingEvent {
+                    NotificationCenter.default.post(name: UserManagement.onboardingStepCompleted, object: self, userInfo: [UserManagement.onboardingEventKey: onboardingEvent])
+                }
                 
                 completion?(true, nil)
                 
