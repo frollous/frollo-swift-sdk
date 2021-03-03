@@ -19,7 +19,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 2,
@@ -48,7 +48,7 @@
         "category": {
             "id": 80,
             "name": "ATM/Cash Withdrawals",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -75,7 +75,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 924,
@@ -102,7 +102,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1603,
@@ -131,7 +131,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -158,7 +158,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -185,7 +185,7 @@
         "category": {
             "id": 67,
             "name": "Healthcare/Medical",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 47,
@@ -212,7 +212,7 @@
         "category": {
             "id": 67,
             "name": "Healthcare/Medical",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 47,
@@ -239,7 +239,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -266,7 +266,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -293,7 +293,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -320,7 +320,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1603,
@@ -349,7 +349,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1603,
@@ -378,7 +378,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -407,7 +407,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1603,
@@ -436,7 +436,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -463,7 +463,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -490,7 +490,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "user_tags": []
     }, {
@@ -512,7 +512,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -541,7 +541,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -564,7 +564,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -590,7 +590,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -617,7 +617,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -644,7 +644,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1603,
@@ -673,7 +673,7 @@
         "category": {
             "id": 71,
             "name": "Services/Supplies",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 657,
@@ -700,7 +700,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -727,7 +727,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1603,
@@ -756,7 +756,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 2,
@@ -785,7 +785,7 @@
         "category": {
             "id": 102,
             "name": "Refunds/Adjustments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -814,7 +814,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1603,
@@ -843,7 +843,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 919,
@@ -870,7 +870,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 2567,
@@ -897,7 +897,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -926,7 +926,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,

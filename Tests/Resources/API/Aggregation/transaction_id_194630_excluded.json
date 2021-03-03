@@ -20,7 +20,7 @@
     "category": {
         "id": 77,
         "name": "Travel/Entertainment",
-        "icon_url": "https://example.com/image.png",
+        "image_url": "https://example.com/image.png",
     },
     "memo": "Remind me",
     "merchant": {
