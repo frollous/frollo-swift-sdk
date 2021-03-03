@@ -17,6 +17,9 @@
 import XCTest
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 @testable import FrolloSDK
 
@@ -36,7 +39,7 @@ class ConsentRequestTests: BaseTestCase {
 
     override func tearDown() {
         Keychain(service: keychainService).removeAll()
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         super.tearDown()
     }
 

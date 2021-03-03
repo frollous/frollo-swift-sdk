@@ -18,6 +18,9 @@ import XCTest
 @testable import FrolloSDK
 import CoreData
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 protocol KeychainServiceIdentifying {
     var keychainService: String { get }
@@ -175,7 +178,7 @@ extension XCTestCase {
         case put
         case get
         
-        var condition: OHHTTPStubsTestBlock {
+        var condition: HTTPStubsTestBlock {
             switch self {
             case .post:
                 return isMethodPOST()
@@ -188,20 +191,20 @@ extension XCTestCase {
     }
     
     @discardableResult
-    func connect(endpoint: String, method: Method? = nil, toResourceWithName name: String, addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
+    func connect(endpoint: String, method: Method? = nil, toResourceWithName name: String, addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> HTTPStubsDescriptor {
         return connect(host: serverEndpointHost, endpoint: endpoint, method: method, toResourceWithName: name, addingStatusCode: statusCode, addingHeaders: headers)
     }
     
     @discardableResult
-    func connect(endpoint: String, method: Method? = nil, addingData data: Data = Data(), addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
+    func connect(endpoint: String, method: Method? = nil, addingData data: Data = Data(), addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> HTTPStubsDescriptor {
         return connect(host: serverEndpointHost, endpoint: endpoint, method: method, addingData: data, addingStatusCode: statusCode, addingHeaders: headers)
     }
     
     @discardableResult
-    func connect(host: String, endpoint: String, method: Method? = nil, toResourceWithName name: String, addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
+    func connect(host: String, endpoint: String, method: Method? = nil, toResourceWithName name: String, addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> HTTPStubsDescriptor {
         var finalHeaders = headers ?? [:]
         finalHeaders[HTTPHeader.contentType.rawValue] = "application/json"
-        let response: OHHTTPStubsResponseBlock = { _ in fixture(filePath: Bundle(for: type(of: self)).path(forResource: name, ofType: "json")!, status: Int32(statusCode), headers: finalHeaders) }
+        let response: HTTPStubsResponseBlock = { _ in fixture(filePath: Bundle.module.path(forResource: name, ofType: "json")!, status: Int32(statusCode), headers: finalHeaders) }
         var condition = isHost(host) && isPath(endpoint)
         if let method = method {
             condition = condition && method.condition
@@ -210,10 +213,10 @@ extension XCTestCase {
     }
     
     @discardableResult
-    func connect(host: String, endpoint: String, method: Method? = nil, addingData data: Data = Data(), addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
+    func connect(host: String, endpoint: String, method: Method? = nil, addingData data: Data = Data(), addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> HTTPStubsDescriptor {
         var finalHeaders = headers ?? [:]
         finalHeaders[HTTPHeader.contentType.rawValue] = "application/json"
-        let response: OHHTTPStubsResponseBlock = { _ in OHHTTPStubsResponse(data: data, statusCode: Int32(statusCode), headers: finalHeaders) }
+        let response: HTTPStubsResponseBlock = { _ in HTTPStubsResponse(data: data, statusCode: Int32(statusCode), headers: finalHeaders) }
         var condition = isHost(host) && isPath(endpoint)
         if let method = method {
             condition = condition && method.condition

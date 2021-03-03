@@ -18,6 +18,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 
 class PaymentsTests: XCTestCase {
@@ -36,7 +39,7 @@ class PaymentsTests: XCTestCase {
     }
     
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
     
@@ -45,7 +48,7 @@ class PaymentsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.payAnyone.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.payAnyone.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "pay_anyone_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -68,7 +71,7 @@ class PaymentsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testPayAnyoneFailsIfLoggedOut() {
@@ -83,7 +86,7 @@ class PaymentsTests: XCTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.payAnyone.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.payAnyone.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "pay_anyone_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -107,7 +110,7 @@ class PaymentsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testPaymentTransfer() {
@@ -115,7 +118,7 @@ class PaymentsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.transfers.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.transfers.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "payment_transfer_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
                 
@@ -137,7 +140,7 @@ class PaymentsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testBPAYPayment() {
@@ -145,7 +148,7 @@ class PaymentsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.bpay.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.bpay.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bpay_payment_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -171,7 +174,7 @@ class PaymentsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
     func testPayIDPayment() {
@@ -179,7 +182,7 @@ class PaymentsTests: XCTestCase {
 
         let config = FrolloSDKConfiguration.testConfig()
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.payID.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.payID.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "npp_payment_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -196,7 +199,7 @@ class PaymentsTests: XCTestCase {
         }
 
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
     func testNppPayAnyone() {
@@ -204,7 +207,7 @@ class PaymentsTests: XCTestCase {
 
         let config = FrolloSDKConfiguration.testConfig()
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.npp.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.npp.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "pay_anyone_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -221,7 +224,7 @@ class PaymentsTests: XCTestCase {
         }
 
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testVerifyValidPayAnyone() {
@@ -229,7 +232,7 @@ class PaymentsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.verifyPayAnyone.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.verifyPayAnyone.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "verify_payanyone_response_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -249,7 +252,7 @@ class PaymentsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testVerifyInValidPayAnyone() {
@@ -257,7 +260,7 @@ class PaymentsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.verifyPayAnyone.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.verifyPayAnyone.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "verify_payanyone_response_invalid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -277,7 +280,7 @@ class PaymentsTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
     func testVerifyValidPayID() {
@@ -285,7 +288,7 @@ class PaymentsTests: XCTestCase {
 
         let config = FrolloSDKConfiguration.testConfig()
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.verifyPayID.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.verifyPayID.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "verify_payID_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -302,7 +305,7 @@ class PaymentsTests: XCTestCase {
         }
 
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
 }

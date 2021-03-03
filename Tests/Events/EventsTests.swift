@@ -18,6 +18,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class EventsTests: XCTestCase {
     
@@ -28,7 +31,7 @@ class EventsTests: XCTestCase {
     }
 
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
 
@@ -37,8 +40,8 @@ class EventsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + EventsEndpoint.events.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: "{}".data(using: .utf8)!, statusCode: 201, headers: nil)
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + EventsEndpoint.events.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: "{}".data(using: .utf8)!, statusCode: 201, headers: nil)
         }
         
         let mockAuthentication = MockAuthentication()
@@ -69,8 +72,8 @@ class EventsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + EventsEndpoint.events.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + EventsEndpoint.events.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
         }
         
         let mockAuthentication = MockAuthentication(valid: false)

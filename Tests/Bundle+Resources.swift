@@ -16,10 +16,8 @@
 
 import Foundation
 
-extension NSDecimalNumber {
-    
-    internal var negativeValue: NSDecimalNumber {
-        return multiplying(by: NSDecimalNumber(mantissa: 1, exponent: 0, isNegative: true))
-    }
-    
+#if !SWIFT_PACKAGE
+extension Bundle {
+    static var module: Bundle { Bundle(for: BaseTestCase.self) }
 }
+#endif

@@ -18,6 +18,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class ReportsRequestTests: XCTestCase {
     
@@ -28,7 +31,7 @@ class ReportsRequestTests: XCTestCase {
     }
 
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
     
@@ -37,7 +40,7 @@ class ReportsRequestTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_day_2018-10-29_2019-01-29", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         

@@ -40,7 +40,7 @@ public class Database {
     internal var persistentContainer: NSPersistentContainer
     
     static let model: NSManagedObjectModel = {
-        let modelURL = Bundle(for: Database.self).url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!
+        let modelURL = Bundle.module.url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     
@@ -148,7 +148,7 @@ public class Database {
         do {
             let storeMetadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL)
             
-            let model = NSManagedObjectModel(contentsOf: Bundle(for: type(of: self)).url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!)!
+            let model = NSManagedObjectModel(contentsOf: Bundle.module.url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!)!
             return !model.isConfiguration(withName: nil, compatibleWithStoreMetadata: storeMetadata)
         } catch {
             Log.error(error.localizedDescription)
@@ -175,8 +175,8 @@ public class Database {
             Log.info("Starting database migration...")
             
             // Gather all models
-            let modelPath = Bundle(for: type(of: self)).url(forResource: Database.DatabaseConstants.modelName, withExtension: Database.DatabaseConstants.parentModelExtension)!
-            var subPaths = Bundle(for: type(of: self)).urls(forResourcesWithExtension: Database.DatabaseConstants.modelExtension, subdirectory: modelPath.lastPathComponent)!
+            let modelPath = Bundle.module.url(forResource: Database.DatabaseConstants.modelName, withExtension: Database.DatabaseConstants.parentModelExtension)!
+            var subPaths = Bundle.module.urls(forResourcesWithExtension: Database.DatabaseConstants.modelExtension, subdirectory: modelPath.lastPathComponent)!
             
             subPaths.sort { (urlA: URL, urlB: URL) -> Bool in
                 let urlAVersion = urlA.deletingPathExtension().lastPathComponent.components(separatedBy: "-").last!

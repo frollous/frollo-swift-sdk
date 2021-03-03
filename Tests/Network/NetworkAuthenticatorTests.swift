@@ -19,6 +19,9 @@ import XCTest
 
 import Alamofire
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class NetworkAuthenticatorTests: XCTestCase {
     
@@ -33,7 +36,7 @@ class NetworkAuthenticatorTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
     
@@ -44,7 +47,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -74,7 +77,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 5.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         keychain.removeAll()
     }
     
@@ -83,7 +86,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_oauth2_invalid_grant", ofType: "json")!, status: 401, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -120,7 +123,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 5.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         keychain.removeAll()
     }
     
@@ -129,10 +132,10 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -170,7 +173,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 5.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         keychain.removeAll()
     }
     
@@ -181,10 +184,10 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         var failedOnce = false
         
-        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> HTTPStubsResponse in
             if failedOnce {
                 return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
             } else {
@@ -224,7 +227,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         keychain.removeAll()
     }
     
@@ -239,11 +242,11 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         var userRequestCount = 0
         
-        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
-            let fix: OHHTTPStubsResponse
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> HTTPStubsResponse in
+            let fix: HTTPStubsResponse
             if userRequestCount < 3 {
                 fix = fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_access_token", ofType: "json")!, status: 401, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
             } else {
@@ -304,7 +307,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         wait(for: [expectation1, expectation2, expectation3], timeout: 5.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         keychain.removeAll()
     }
     
@@ -314,10 +317,10 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_oauth2_invalid_grant", ofType: "json")!, status: 401, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "error_invalid_access_token", ofType: "json")!, status: 401, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -369,7 +372,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         
         var rateLimited = true
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> HTTPStubsResponse in
             if rateLimited {
                 rateLimited = false
                 return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, status: 429, headers: [ HTTPHeader.contentType.rawValue: "application/json"])

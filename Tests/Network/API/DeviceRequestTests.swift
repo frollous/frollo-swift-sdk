@@ -17,6 +17,9 @@
 import XCTest
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 @testable import FrolloSDK
 
@@ -29,7 +32,7 @@ class DeviceRequestTests: XCTestCase {
     }
 
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
     
@@ -38,8 +41,8 @@ class DeviceRequestTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.log.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: "{}".data(using: .utf8)!, statusCode: 201, headers: nil)
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.log.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: "{}".data(using: .utf8)!, statusCode: 201, headers: nil)
         }
         
         let mockAuthentication = MockAuthentication()
@@ -75,8 +78,8 @@ class DeviceRequestTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.device.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.device.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
         let mockAuthentication = MockAuthentication()

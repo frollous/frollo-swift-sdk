@@ -18,6 +18,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class BillsRequestTests: BaseTestCase {
     
@@ -33,7 +36,7 @@ class BillsRequestTests: BaseTestCase {
 
     override func tearDown() {
         Keychain(service: keychainService).removeAll()
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         super.tearDown()
     }
     
@@ -100,7 +103,7 @@ class BillsRequestTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testFetchBills() {
@@ -219,7 +222,7 @@ class BillsRequestTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testFetchBillPayments() {

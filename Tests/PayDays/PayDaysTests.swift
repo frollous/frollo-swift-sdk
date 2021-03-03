@@ -19,6 +19,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class PayDaysTests: BaseTestCase {
     
@@ -42,7 +45,7 @@ class PayDaysTests: BaseTestCase {
     }
     
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
     

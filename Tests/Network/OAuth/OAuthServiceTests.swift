@@ -18,6 +18,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class OAuth2ServiceTests: XCTestCase {
     
@@ -29,7 +32,7 @@ class OAuth2ServiceTests: XCTestCase {
 
     override func tearDown() {
         Keychain(service: keychainService).removeAll()
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
     func testTokenRequestValid() {
@@ -37,7 +40,7 @@ class OAuth2ServiceTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -67,7 +70,7 @@ class OAuth2ServiceTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testTokenRequestInvalid() {
@@ -75,7 +78,7 @@ class OAuth2ServiceTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -101,7 +104,7 @@ class OAuth2ServiceTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
 }

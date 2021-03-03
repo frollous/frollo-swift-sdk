@@ -19,6 +19,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class MessagesTests: XCTestCase, FrolloSDKDelegate {
     
@@ -34,7 +37,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         expectations = []
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
     
@@ -258,7 +261,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.messages.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.messages.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -318,7 +321,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.messages.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.messages.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -355,7 +358,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testRefreshMessageByID() {
@@ -365,7 +368,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let id: Int64 = 12345
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: id).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: id).path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -415,7 +418,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let id: Int64 = 12345
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: id).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: id).path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -452,7 +455,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testUpdateMessage() {
@@ -460,7 +463,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -518,7 +521,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -565,7 +568,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testUpdateMessageNotFound() {
@@ -573,7 +576,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -625,7 +628,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.unread.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.unread.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_unread", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -687,7 +690,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.unread.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.unread.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_unread", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
@@ -724,7 +727,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testHandlingPushMessageTriggersDelegate() {
@@ -734,7 +737,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let notificationPayload = NotificationPayload.testMessageData()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: notificationPayload.userMessageID!).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: notificationPayload.userMessageID!).path)) { (request) -> HTTPStubsResponse in
             expectation1.fulfill()
             
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
@@ -770,7 +773,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
 //
 //        let config = FrolloSDKConfiguration.testConfig()
 //
-//        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 98765).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+//        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 98765).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
 //            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_98765", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
 //        }
 //

@@ -18,6 +18,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class GoalsRequestTests: BaseTestCase {
     
@@ -35,7 +38,7 @@ class GoalsRequestTests: BaseTestCase {
     
     override func tearDown() {
         Keychain(service: keychainService).removeAll()
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         
         super.tearDown()
     }

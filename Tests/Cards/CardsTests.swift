@@ -17,6 +17,9 @@
 import CoreData
 import XCTest
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 @testable import FrolloSDK
 
 class CardsTests: BaseTestCase {
@@ -43,14 +46,14 @@ class CardsTests: BaseTestCase {
     }
 
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
 
     func testCreateCard() {
         let expectation1 = expectation(description: "Network Request 1")
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.cards.path) && isMethodPOST()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.cards.path) && isMethodPOST()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "create_card", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -81,13 +84,13 @@ class CardsTests: BaseTestCase {
         }
 
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
     func testRefreshCards() {
         let expectation1 = expectation(description: "Network Request 1")
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.cards.path) && isMethodGET()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.cards.path) && isMethodGET()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "get_cards", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -125,7 +128,7 @@ class CardsTests: BaseTestCase {
     func testRefreshCardByID() {
         let expectation1 = expectation(description: "Network Request 1")
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.card(cardID: 3).path) && isMethodGET()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.card(cardID: 3).path) && isMethodGET()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "get_card_by_id", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -162,7 +165,7 @@ class CardsTests: BaseTestCase {
     func testUpdateCard() {
         let expectation1 = expectation(description: "Network Request 1")
 
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.card(cardID: 3).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.card(cardID: 3).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "get_card_by_id", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
 
@@ -266,7 +269,7 @@ class CardsTests: BaseTestCase {
             XCTFail(error.localizedDescription)
         }
 
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
 
     }
 }
