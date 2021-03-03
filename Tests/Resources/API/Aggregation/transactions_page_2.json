@@ -19,7 +19,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -59,7 +59,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 2,
@@ -98,7 +98,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1603,
@@ -127,7 +127,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -167,7 +167,7 @@
         "category": {
             "id": 71,
             "name": "Services/Supplies",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 31,
@@ -194,7 +194,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 204,
@@ -223,7 +223,7 @@
         "category": {
             "id": 79,
             "name": "Automotive",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 148,
@@ -252,7 +252,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -279,7 +279,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -319,7 +319,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 238,
@@ -358,7 +358,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 23,
@@ -397,7 +397,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 204,
@@ -426,7 +426,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -453,7 +453,7 @@
         "category": {
             "id": 102,
             "name": "Refunds/Adjustments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -480,7 +480,7 @@
         "category": {
             "id": 67,
             "name": "Healthcare/Medical",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 47,
@@ -507,7 +507,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 44,
@@ -546,7 +546,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 249,
@@ -586,7 +586,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 926,
@@ -613,7 +613,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -653,7 +653,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 2,
@@ -692,7 +692,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -732,7 +732,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1603,
@@ -761,7 +761,7 @@
         "category": {
             "id": 89,
             "name": "Taxes",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 734,
@@ -788,7 +788,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -828,7 +828,7 @@
         "category": {
             "id": 68,
             "name": "Automotive",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 72,
@@ -867,7 +867,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 23,
@@ -906,7 +906,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 248,
@@ -945,7 +945,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 248,
@@ -984,7 +984,7 @@
         "category": {
             "id": 64,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 14,
@@ -1011,7 +1011,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 954,
@@ -1038,7 +1038,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 97,
@@ -1077,7 +1077,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 44,
@@ -1116,7 +1116,7 @@
         "category": {
             "id": 102,
             "name": "Refunds/Adjustments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -1143,7 +1143,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -1170,7 +1170,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 292,
@@ -1209,7 +1209,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 2,
@@ -1248,7 +1248,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -1288,7 +1288,7 @@
         "category": {
             "id": 63,
             "name": "Education",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -1317,7 +1317,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -1357,7 +1357,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1603,
@@ -1386,7 +1386,7 @@
         "category": {
             "id": 102,
             "name": "Refunds/Adjustments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -1413,7 +1413,7 @@
         "category": {
             "id": 102,
             "name": "Refunds/Adjustments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -1442,7 +1442,7 @@
         "category": {
             "id": 94,
             "name": "Electronics",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 125,
@@ -1479,7 +1479,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 23,
@@ -1518,7 +1518,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 542,
@@ -1545,7 +1545,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 107,
@@ -1582,7 +1582,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 204,
@@ -1611,7 +1611,7 @@
         "category": {
             "id": 86,
             "name": "Other Income",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -1638,7 +1638,7 @@
         "category": {
             "id": 102,
             "name": "Refunds/Adjustments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -1665,7 +1665,7 @@
         "category": {
             "id": 91,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -1692,7 +1692,7 @@
         "category": {
             "id": 102,
             "name": "Refunds/Adjustments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -1719,7 +1719,7 @@
         "category": {
             "id": 110,
             "name": "Transfer Between Accounts",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -1746,7 +1746,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 204,
@@ -1774,7 +1774,7 @@
         "category": {
             "id": 81,
             "name": "Credit Card Payments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -1803,7 +1803,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -1830,7 +1830,7 @@
         "category": {
             "id": 91,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -1857,7 +1857,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -1884,7 +1884,7 @@
         "category": {
             "id": 91,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -1911,7 +1911,7 @@
         "category": {
             "id": 110,
             "name": "Transfer Between Accounts",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -1938,7 +1938,7 @@
         "category": {
             "id": 110,
             "name": "Transfer Between Accounts",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -1965,7 +1965,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 44,
@@ -2004,7 +2004,7 @@
         "category": {
             "id": 64,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 40,
@@ -2031,7 +2031,7 @@
         "category": {
             "id": 91,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -2058,7 +2058,7 @@
         "category": {
             "id": 102,
             "name": "Refunds/Adjustments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -2085,7 +2085,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 2,
@@ -2114,7 +2114,7 @@
         "category": {
             "id": 110,
             "name": "Transfer Between Accounts",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -2141,7 +2141,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -2170,7 +2170,7 @@
         "category": {
             "id": 110,
             "name": "Transfer Between Accounts",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -2197,7 +2197,7 @@
         "category": {
             "id": 67,
             "name": "Healthcare/Medical",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -2226,7 +2226,7 @@
         "category": {
             "id": 91,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -2253,7 +2253,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -2293,7 +2293,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 2,
@@ -2332,7 +2332,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1603,
@@ -2361,7 +2361,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -2401,7 +2401,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 292,
@@ -2440,7 +2440,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 23,
@@ -2479,7 +2479,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 204,
@@ -2508,7 +2508,7 @@
         "category": {
             "id": 110,
             "name": "Transfer Between Accounts",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -2535,7 +2535,7 @@
         "category": {
             "id": 91,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -2562,7 +2562,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -2589,7 +2589,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -2629,7 +2629,7 @@
         "category": {
             "id": 71,
             "name": "Services/Supplies",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 31,
@@ -2656,7 +2656,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 204,
@@ -2685,7 +2685,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -2712,7 +2712,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -2739,7 +2739,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 627,
@@ -2766,7 +2766,7 @@
         "category": {
             "id": 80,
             "name": "ATM/Cash Withdrawals",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -2793,7 +2793,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 44,
@@ -2832,7 +2832,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 204,
@@ -2861,7 +2861,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 2,
@@ -2900,7 +2900,7 @@
         "category": {
             "id": 97,
             "name": "Interest Income",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -2929,7 +2929,7 @@
         "category": {
             "id": 110,
             "name": "Transfer Between Accounts",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -2956,7 +2956,7 @@
         "category": {
             "id": 91,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -2983,7 +2983,7 @@
         "category": {
             "id": 102,
             "name": "Refunds/Adjustments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -3010,7 +3010,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -3037,7 +3037,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -3064,7 +3064,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 238,
@@ -3103,7 +3103,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 238,
@@ -3142,7 +3142,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 23,
@@ -3181,7 +3181,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 2,
@@ -3210,7 +3210,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 44,
@@ -3249,7 +3249,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 204,
@@ -3278,7 +3278,7 @@
         "category": {
             "id": 84,
             "name": "Salary/Regular Income",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1619,
@@ -3305,7 +3305,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 2,
@@ -3343,7 +3343,7 @@
         "category": {
             "id": 79,
             "name": "Automotive",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -3371,7 +3371,7 @@
         "category": {
             "id": 69,
             "name": "Insurance",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -3399,7 +3399,7 @@
         "category": {
             "id": 92,
             "name": "Retirement Contributions",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -3428,7 +3428,7 @@
         "category": {
             "id": 71,
             "name": "Services/Supplies",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 31,
@@ -3455,7 +3455,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1603,
@@ -3484,7 +3484,7 @@
         "category": {
             "id": 102,
             "name": "Refunds/Adjustments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -3513,7 +3513,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -3553,7 +3553,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 2,
@@ -3592,7 +3592,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -3619,7 +3619,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -3646,7 +3646,7 @@
         "category": {
             "id": 80,
             "name": "ATM/Cash Withdrawals",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -3675,7 +3675,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -3715,7 +3715,7 @@
         "category": {
             "id": 79,
             "name": "Automotive",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 148,
@@ -3744,7 +3744,7 @@
         "category": {
             "id": 110,
             "name": "Transfer Between Accounts",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -3771,7 +3771,7 @@
         "category": {
             "id": 102,
             "name": "Refunds/Adjustments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -3798,7 +3798,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1603,
@@ -3827,7 +3827,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -3854,7 +3854,7 @@
         "category": {
             "id": 91,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -3881,7 +3881,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -3921,7 +3921,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 238,
@@ -3960,7 +3960,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 23,
@@ -3999,7 +3999,7 @@
         "category": {
             "id": 71,
             "name": "Services/Supplies",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -4028,7 +4028,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 44,
@@ -4067,7 +4067,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 249,
@@ -4107,7 +4107,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 204,
@@ -4136,7 +4136,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -4176,7 +4176,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 2,
@@ -4215,7 +4215,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 204,
@@ -4244,7 +4244,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1603,
@@ -4273,7 +4273,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -4313,7 +4313,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -4353,7 +4353,7 @@
         "category": {
             "id": 68,
             "name": "Automotive",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 72,
@@ -4392,7 +4392,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 23,
@@ -4431,7 +4431,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -4458,7 +4458,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -4485,7 +4485,7 @@
         "category": {
             "id": 102,
             "name": "Refunds/Adjustments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -4512,7 +4512,7 @@
         "category": {
             "id": 102,
             "name": "Refunds/Adjustments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -4541,7 +4541,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -4568,7 +4568,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 248,
@@ -4607,7 +4607,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 248,
@@ -4646,7 +4646,7 @@
         "category": {
             "id": 64,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 14,
@@ -4672,7 +4672,7 @@
         "category": {
             "id": 81,
             "name": "Credit Card Payments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -4701,7 +4701,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 97,
@@ -4740,7 +4740,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 44,
@@ -4779,7 +4779,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1603,
@@ -4808,7 +4808,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 292,
@@ -4847,7 +4847,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 2,
@@ -4886,7 +4886,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 204,
@@ -4915,7 +4915,7 @@
         "category": {
             "id": 110,
             "name": "Transfer Between Accounts",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -4942,7 +4942,7 @@
         "category": {
             "id": 91,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -4969,7 +4969,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -4996,7 +4996,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -5036,7 +5036,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 204,
@@ -5065,7 +5065,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -5105,7 +5105,7 @@
         "category": {
             "id": 94,
             "name": "Electronics",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 125,
@@ -5142,7 +5142,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 23,
@@ -5181,7 +5181,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 204,
@@ -5210,7 +5210,7 @@
         "category": {
             "id": 110,
             "name": "Transfer Between Accounts",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -5237,7 +5237,7 @@
         "category": {
             "id": 91,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -5264,7 +5264,7 @@
         "category": {
             "id": 102,
             "name": "Refunds/Adjustments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -5291,7 +5291,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -5318,7 +5318,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 107,
@@ -5355,7 +5355,7 @@
         "category": {
             "id": 102,
             "name": "Refunds/Adjustments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -5382,7 +5382,7 @@
         "category": {
             "id": 102,
             "name": "Refunds/Adjustments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -5409,7 +5409,7 @@
         "category": {
             "id": 74,
             "name": "Other Expenses",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -5438,7 +5438,7 @@
         "category": {
             "id": 64,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 398,
@@ -5465,7 +5465,7 @@
         "category": {
             "id": 64,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 398,
@@ -5492,7 +5492,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 44,
@@ -5531,7 +5531,7 @@
         "category": {
             "id": 64,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 40,
@@ -5558,7 +5558,7 @@
         "category": {
             "id": 74,
             "name": "Other Expenses",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -5587,7 +5587,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -5616,7 +5616,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1603,
@@ -5645,7 +5645,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -5685,7 +5685,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 2,
@@ -5724,7 +5724,7 @@
         "category": {
             "id": 71,
             "name": "Services/Supplies",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 31,
@@ -5751,7 +5751,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 204,
@@ -5780,7 +5780,7 @@
         "category": {
             "id": 110,
             "name": "Transfer Between Accounts",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -5807,7 +5807,7 @@
         "category": {
             "id": 91,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -5834,7 +5834,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -5874,7 +5874,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 292,
@@ -5913,7 +5913,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 23,
@@ -5952,7 +5952,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 204,
@@ -5981,7 +5981,7 @@
         "category": {
             "id": 110,
             "name": "Transfer Between Accounts",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -6008,7 +6008,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 715,
@@ -6035,7 +6035,7 @@
         "category": {
             "id": 91,
             "name": "Entertainment/Recreation",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -6062,7 +6062,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,
@@ -6091,7 +6091,7 @@
         "category": {
             "id": 83,
             "name": "Transfers",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -6118,7 +6118,7 @@
         "category": {
             "id": 77,
             "name": "Travel/Entertainment",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 81,
@@ -6158,7 +6158,7 @@
         "category": {
             "id": 78,
             "name": "Public Transport",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1603,
@@ -6187,7 +6187,7 @@
         "category": {
             "id": 102,
             "name": "Refunds/Adjustments",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1423,
@@ -6214,7 +6214,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 44,
@@ -6253,7 +6253,7 @@
         "category": {
             "id": 66,
             "name": "Groceries",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 2,
@@ -6292,7 +6292,7 @@
         "category": {
             "id": 97,
             "name": "Interest Income",
-            "icon_url": "https://example.com/image.png",
+            "image_url": "https://example.com/image.png",
         },
         "merchant": {
             "id": 1,

@@ -108,7 +108,7 @@ struct APITransactionResponse: APIUniqueResponse, Codable {
         enum CodingKeys: String, CodingKey {
             case id
             case name
-            case imageURL = "icon_url"
+            case imageURL = "image_url"
         }
         
         let id: Int64
