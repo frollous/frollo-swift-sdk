@@ -26,9 +26,13 @@ public struct AccountPayIDResponse: Codable {
     
     /// Status of the PayID
     public enum PayIDStatus: String, Codable, CaseIterable {
+        /// PayID is Active
         case active = "ACTIVE"
+        /// PayID is Portable
         case portable = "PORTABLE"
+        /// PayID is Deregistered
         case deregistered = "DEREGISTERED"
+        /// PayID is Disabled
         case disabled = "DISABLED"
     }
     

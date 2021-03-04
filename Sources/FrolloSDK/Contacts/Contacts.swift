@@ -25,7 +25,7 @@ public class Contacts: CachedObjects, ResponseHandler {
     private let service: APIService
     private let database: Database
     
-    // Notification fired when contacts cache has been updated
+    /// Notification fired when contacts cache has been updated
     public static let contactsUpdatedNotification = Notification.Name("FrolloSDK.contacts.contactsUpdatedNotification")
     
     private let contactsLock = NSLock()

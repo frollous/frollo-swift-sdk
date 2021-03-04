@@ -1,5 +1,21 @@
 # Changelog
 
+## 4.9.0
+
+### Features
+
+- Cards
+- KYC
+- Managed Products
+- PayID Management
+- NPP Payments
+- SPM Support
+- Transaction API changes
+
+### Fixes
+
+- Contacts caching
+
 ## 4.8.1
 
 ### Fixes
