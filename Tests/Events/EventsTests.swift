@@ -225,7 +225,7 @@ class EventsTests: XCTestCase {
     
     func testHandleOnboardingEvent() {
         let expectation1 = expectation(description: "Network Request 1")
-        let notificationExpectation = expectation(forNotification: UserManagement.onboardingStepCompleted, object: nil) { (notification) -> Bool in
+        let notificationExpectation = expectation(forNotification: UserManagement.onboardingStepCompletedNotification, object: nil) { (notification) -> Bool in
             
             XCTAssertNotNil(notification.userInfo)
             

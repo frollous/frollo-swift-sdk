@@ -26,7 +26,7 @@ extension NotificationPayload {
                                    transactionIDs: nil,
                                    userEventID: 12345,
                                    userMessageID: nil,
-                                   onboardingEvent: nil)
+                                   onboardingStep: nil)
     }
     
     static func testMessageData() -> NotificationPayload {
@@ -58,7 +58,7 @@ extension NotificationPayload {
                                    transactionIDs: nil,
                                    userEventID: 12345,
                                    userMessageID: 98765,
-                                   onboardingEvent: "account_opening")
+                                   onboardingStep: "account_opening")
     }
     
     static func testTransactionUpdatedData() -> NotificationPayload {
@@ -68,7 +68,7 @@ extension NotificationPayload {
                                    transactionIDs: [45123, 986, 7000072],
                                    userEventID: Int64.random(in: 1...100000000),
                                    userMessageID: nil,
-                                   onboardingEvent: nil)
+                                   onboardingStep: nil)
     }
     
     static func testOnboardingData() -> NotificationPayload {
@@ -78,7 +78,7 @@ extension NotificationPayload {
                                    transactionIDs: nil,
                                    userEventID: nil,
                                    userMessageID: nil,
-                                   onboardingEvent: "account_opening")
+                                   onboardingStep: "account_opening")
     }
     
 }
