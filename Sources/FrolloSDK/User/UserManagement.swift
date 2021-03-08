@@ -31,7 +31,7 @@ internal protocol UserManagementDelegate: AnyObject {
 public class UserManagement {
     
     /// Notification fired when silent push notification recieved after onboarding step is completed
-    public static let onboardingStepCompleted = Notification.Name("UserNotification.onboardingStepCompleted")
+    public static let onboardingStepCompletedNotification = Notification.Name("UserNotification.onboardingStepCompleted")
     
     internal static let onboardingEventKey = "onboarding_step"
     

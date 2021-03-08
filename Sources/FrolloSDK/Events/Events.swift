@@ -106,8 +106,8 @@ public class Events {
             case EventNames.onboardingStepCompleted:
                 Log.debug("Onboarding step complete event received")
                 
-                if let onboardingEvent = notification?.onboardingEvent {
-                    NotificationCenter.default.post(name: UserManagement.onboardingStepCompleted, object: self, userInfo: [UserManagement.onboardingEventKey: onboardingEvent])
+                if let onboardingStep = notification?.onboardingStep {
+                    NotificationCenter.default.post(name: UserManagement.onboardingStepCompletedNotification, object: self, userInfo: [UserManagement.onboardingEventKey: onboardingStep])
                 }
                 
                 completion?(true, nil)
