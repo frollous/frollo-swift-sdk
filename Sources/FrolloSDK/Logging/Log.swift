@@ -41,6 +41,7 @@ public enum LogLevel: Int, Codable {
 class Log {
     
     internal static let manager = Log(synchronous: false)
+    internal static var logDataFolderURL: URL = Frollo.defaultDataFolderURL
     
     struct LogConstants {
         static let fileName = Bundle(for: Log.self).bundleIdentifier!
@@ -59,13 +60,13 @@ class Log {
     private let queue = DispatchQueue(label: "Logging", qos: .utility)
     
     private let logFilePath: URL = {
-        var logFileURL = Frollo.defaultDataFolderURL.appendingPathComponent(LogConstants.fileName)
+        var logFileURL = logDataFolderURL.appendingPathComponent(LogConstants.fileName)
         logFileURL.appendPathExtension(LogConstants.logExtension)
         return logFileURL
     }()
     
     private let previousLogFilePath: URL = {
-        var logFileURL = Frollo.defaultDataFolderURL
+        var logFileURL = logDataFolderURL
         let fileName = LogConstants.fileName.appending(LogConstants.previousFileSuffix)
         logFileURL.appendPathComponent(fileName)
         logFileURL.appendPathExtension(LogConstants.logExtension)
