@@ -176,7 +176,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                                                   status: Provider.Status? = nil,
                                                   filteredBy predicate: NSPredicate? = nil,
                                                   sortedBy sortDescriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: #keyPath(Provider.providerID), ascending: true)],
-                                                  limit: Int? = nil) -> NSFetchedResultsController<Provider>? {
+                                                  limit: Int? = nil, sectionNameKeypath: String? = nil) -> NSFetchedResultsController<Provider>? {
         var predicates = [NSPredicate]()
         
         if let filterStatus = status {
@@ -187,7 +187,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             predicates.append(filterPredicate)
         }
         
-        return fetchedResultsController(type: Provider.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
+        return fetchedResultsController(type: Provider.self, context: context, predicate: NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit, sectionNameKeypath: sectionNameKeypath)
     }
     
     /**
