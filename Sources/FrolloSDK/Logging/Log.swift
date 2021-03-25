@@ -38,7 +38,7 @@ public enum LogLevel: Int, Codable {
     case off = 0
 }
 
-class Log {
+public class Log {
     
     internal static let manager = Log(synchronous: false)
     internal static var logDataFolderURL: URL = Frollo.defaultDataFolderURL
@@ -108,15 +108,39 @@ class Log {
     
     // MARK: - Log Messages
     
-    internal class func error(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+    /**
+     Log error
+     - parameters:
+        - message: Message of log
+        - file: File name contains the log statement
+        - function: Function name contains the log statement
+        - line: Line number of the file contains the log statement
+     */
+    public class func error(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
         manager.errorLog(String(format: "%@.%@[%ld]: %@", className(filePath: file), function, line, message))
     }
     
-    internal class func info(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+    /**
+     Log info
+     - parameters:
+        - message: Message of log
+        - file: File name contains the log statement
+        - function: Function name contains the log statement
+        - line: Line number of the file contains the log statement
+     */
+    public class func info(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
         manager.infoLog(String(format: "%@.%@[%ld]: %@", className(filePath: file), function, line, message))
     }
     
-    internal class func debug(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+    /**
+     Log debug
+     - parameters:
+        - message: Message of log
+        - file: File name contains the log statement
+        - function: Function name contains the log statement
+        - line: Line number of the file contains the log statement
+     */
+    public class func debug(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
         manager.debugLog(String(format: "%@.%@[%ld]: %@", className(filePath: file), function, line, message))
     }
     
