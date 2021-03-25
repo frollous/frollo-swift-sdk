@@ -250,6 +250,14 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         return _setup
     }
     
+    public var logs: Log {
+        guard _setup else {
+            fatalError("SDK not setup.")
+        }
+        
+        return _logs
+    }
+    
     internal let keychain: Keychain
     
     internal var _aggregation: Aggregation!
@@ -277,6 +285,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     internal var _cards: Cards!
     internal var _kyc: KYC!
     internal var _managedProducts: ManagedProducts!
+    internal var _logs: Log!
     
     private let cacheExpiry: TimeInterval = 120
     private let frolloHost = "frollo.us"
@@ -409,6 +418,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         _cards = Cards(database: _database, service: service, aggregation: _aggregation)
         _kyc = KYC(service: service)
         _managedProducts = ManagedProducts(service: service)
+        _logs = Log.manager
         
         _events.delegate = delegate
         _messages.delegate = delegate

@@ -116,8 +116,8 @@ public class Log {
         - function: Function name contains the log statement
         - line: Line number of the file contains the log statement
      */
-    public class func error(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
-        manager.errorLog(String(format: "%@.%@[%ld]: %@", className(filePath: file), function, line, message))
+    public func error(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+        errorLog(String(format: "%@.%@[%ld]: %@", Log.className(filePath: file), function, line, message))
     }
     
     /**
@@ -128,8 +128,8 @@ public class Log {
         - function: Function name contains the log statement
         - line: Line number of the file contains the log statement
      */
-    public class func info(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
-        manager.infoLog(String(format: "%@.%@[%ld]: %@", className(filePath: file), function, line, message))
+    public func info(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+        infoLog(String(format: "%@.%@[%ld]: %@", Log.className(filePath: file), function, line, message))
     }
     
     /**
@@ -140,7 +140,19 @@ public class Log {
         - function: Function name contains the log statement
         - line: Line number of the file contains the log statement
      */
-    public class func debug(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+    public func debug(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+        debugLog(String(format: "%@.%@[%ld]: %@", Log.className(filePath: file), function, line, message))
+    }
+        
+    class func error(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+        manager.errorLog(String(format: "%@.%@[%ld]: %@", className(filePath: file), function, line, message))
+    }
+    
+    class func info(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+        manager.infoLog(String(format: "%@.%@[%ld]: %@", className(filePath: file), function, line, message))
+    }
+    
+    class func debug(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
         manager.debugLog(String(format: "%@.%@[%ld]: %@", className(filePath: file), function, line, message))
     }
     
