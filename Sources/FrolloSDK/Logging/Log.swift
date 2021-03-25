@@ -38,7 +38,7 @@ public enum LogLevel: Int, Codable {
     case off = 0
 }
 
-class Log {
+public class Log {
     
     internal static let manager = Log(synchronous: false)
     internal static var logDataFolderURL: URL = Frollo.defaultDataFolderURL
@@ -108,15 +108,51 @@ class Log {
     
     // MARK: - Log Messages
     
-    internal class func error(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+    /**
+     Log error
+     - parameters:
+        - message: Message of log
+        - file: File name contains the log statement
+        - function: Function name contains the log statement
+        - line: Line number of the file contains the log statement
+     */
+    public func error(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+        errorLog(String(format: "%@.%@[%ld]: %@", Log.className(filePath: file), function, line, message))
+    }
+    
+    /**
+     Log info
+     - parameters:
+        - message: Message of log
+        - file: File name contains the log statement
+        - function: Function name contains the log statement
+        - line: Line number of the file contains the log statement
+     */
+    public func info(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+        infoLog(String(format: "%@.%@[%ld]: %@", Log.className(filePath: file), function, line, message))
+    }
+    
+    /**
+     Log debug
+     - parameters:
+        - message: Message of log
+        - file: File name contains the log statement
+        - function: Function name contains the log statement
+        - line: Line number of the file contains the log statement
+     */
+    public func debug(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+        debugLog(String(format: "%@.%@[%ld]: %@", Log.className(filePath: file), function, line, message))
+    }
+        
+    class func error(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
         manager.errorLog(String(format: "%@.%@[%ld]: %@", className(filePath: file), function, line, message))
     }
     
-    internal class func info(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+    class func info(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
         manager.infoLog(String(format: "%@.%@[%ld]: %@", className(filePath: file), function, line, message))
     }
     
-    internal class func debug(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
+    class func debug(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
         manager.debugLog(String(format: "%@.%@[%ld]: %@", className(filePath: file), function, line, message))
     }
     
