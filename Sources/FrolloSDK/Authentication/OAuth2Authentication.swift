@@ -502,7 +502,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
     public func logout() {
         // Revoke the refresh token if possible
         if let token = refreshToken {
-            let request = OAuth2TokenRevokeRequest(clientID: clientID, token: token)
+            let request = OAuth2TokenRevokeRequest(clientID: clientID, token: token, domain: domain)
             
             authService.revokeToken(request: request) { result in
                 switch result {

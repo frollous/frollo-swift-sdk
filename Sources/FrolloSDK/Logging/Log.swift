@@ -143,7 +143,7 @@ public class Log {
     public func debug(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
         debugLog(String(format: "%@.%@[%ld]: %@", Log.className(filePath: file), function, line, message))
     }
-        
+    
     class func error(_ message: String, _ file: String = #file, _ function: String = #function, line: Int = #line) {
         manager.errorLog(String(format: "%@.%@[%ld]: %@", className(filePath: file), function, line, message))
     }

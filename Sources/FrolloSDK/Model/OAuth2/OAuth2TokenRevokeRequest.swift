@@ -21,9 +21,11 @@ struct OAuth2TokenRevokeRequest: Codable {
     enum CodingKeys: String, CodingKey {
         case clientID = "client_id"
         case token
+        case domain
     }
     
     let clientID: String
     let token: String
+    let domain: String
     
 }
