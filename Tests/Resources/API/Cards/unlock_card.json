@@ -1,0 +1,14 @@
+{
+    "id": 5,
+    "account_id": 10026,
+    "status": "active",
+    "type": "debit",
+    "design_type": "default",
+    "created_at": "2021-03-31T14:15:59.372+11:00",
+    "nick_name": "Smile",
+    "pan_last_digits": "1234",
+    "expiry_date": "03/22",
+    "cardholder_name": "kris eml demo",
+    "issuer": "mastercard",
+    "name": "Test name"
+}

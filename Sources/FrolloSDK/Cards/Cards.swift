@@ -200,6 +200,190 @@ public class Cards: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Get Public key for encrypting card PIN on the host
+     
+     - Parameter completion: Completion handler with `APICardPublicKeyResponse` result if succeeds and error if the request fails
+     */
+    public func getPublicKey(completion: @escaping (Result<APICardPublicKeyResponse, Error>) -> Void) {
+        
+        service.getPublicKey { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Activate a card on the host
+     
+     - Parameters:
+     - cardID: ID of the card to be activated
+     - panLastFourDigits:  Last for digits of the PAN on the physical card
+     - completion: Optional completion handler with optional error if the request fails
+     */
+    public func activateCard(cardID: Int64, panLastFourDigits: String, completion: FrolloSDKCompletionHandler? = nil) {
+        
+        let request = APIActivateCardRequest(panLastDigits: panLastFourDigits)
+        
+        service.activateCard(cardID: cardID, request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleCardResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
+     Set PIN for a card on the host
+     
+     - Parameters:
+     - cardID: ID of the card for which the PIN needs to be set
+     - encryptedPIN: Encrypted PIN using key from getPublicKey API
+     - keyID: KeyID retuned from the getPublicKey API
+     - completion: Optional completion handler with optional error if the request fails
+     */
+    public func setCardPin(cardID: Int64, encryptedPIN: String, keyID: String, completion: FrolloSDKCompletionHandler? = nil) {
+        
+        let request = APICardSetPINRequest(keyID: keyID, cardPIN: encryptedPIN)
+        
+        service.setCardPIN(cardID: cardID, request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleCardResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
+     Lock a card on the host
+     
+     - Parameters:
+     - cardID: ID of the card to be locked
+     - reason: Reason for locking the card; Optional
+     - completion: Optional completion handler with optional error if the request fails
+     */
+    public func lockCard(cardID: Int64, reason: APICardLockOrReplaceRequest.CardLockOrReplaceReason? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        
+        let request = APICardLockOrReplaceRequest(reason: reason)
+        
+        service.lockCard(cardID: cardID, request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleCardResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
+     Unlock a card on the host
+     
+     - Parameters:
+     - cardID: ID of the card to be unlocked
+     - completion: Optional completion handler with optional error if the request fails
+     */
+    public func unlockCard(cardID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        
+        service.unlockCard(cardID: cardID) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleCardResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
+     Replace a card on the host
+     
+     - Parameters:
+     - cardID: ID of the card to be locked
+     - reason: Reason for locking the card; Optional
+     - completion: Optional completion handler with optional error if the request fails
+     */
+    public func replaceCard(cardID: Int64, reason: APICardLockOrReplaceRequest.CardLockOrReplaceReason? = nil, completion: FrolloSDKCompletionHandler? = nil) {
+        
+        let request = APICardLockOrReplaceRequest(reason: reason)
+        
+        service.replaceCard(cardID: cardID, request: request) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success:
+                    self.refreshCards { _ in
+                        DispatchQueue.main.async {
+                            completion?(.success)
+                        }
+                    }
+            }
+        }
+    }
+    
     // MARK: - Linking Objects
     
     private func linkCardsToAccounts(managedObjectContext: NSManagedObjectContext) {

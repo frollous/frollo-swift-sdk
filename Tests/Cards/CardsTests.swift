@@ -208,6 +208,266 @@ class CardsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
 
+    func testGetCardPublicKey() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.publicKey.path) && isMethodGET()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "get_public_key", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = self.database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let card = Card(context: managedObjectContext)
+                card.populateTestData()
+
+                try? managedObjectContext.save()
+
+                self.cards.getPublicKey { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTFail(error.localizedDescription)
+                        case .success:
+                            break
+                    }
+
+                    expectation1.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
+    func testSetCardPin() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.setPin(cardID: 1).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "set_card_pin", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = self.database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let card = Card(context: managedObjectContext)
+                card.populateTestData()
+                card.cardID = 1
+
+                try? managedObjectContext.save()
+
+                self.cards.setCardPin(cardID: 1, encryptedPIN: "100110 111010 001011 101001", keyID: "d79fe9eb-66dc-4929-bbe8-954d55222e15") { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTFail(error.localizedDescription)
+                        case .success:
+                            let context = self.database.viewContext
+
+                            let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
+                            fetchRequest.predicate = NSPredicate(format: "cardID == %ld", argumentArray: [1])
+
+                            do {
+                                let fetchedMessages = try context.fetch(fetchRequest)
+
+                                XCTAssertEqual(fetchedMessages.first?.cardID, 1)
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                    }
+
+                    expectation1.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
+    func testActivateCard() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.activate(cardID: 2).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "activate_card", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = self.database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let card = Card(context: managedObjectContext)
+                card.populateTestData()
+                card.cardID = 2
+                card.cardStatus = .pending
+
+                try? managedObjectContext.save()
+
+                self.cards.activateCard(cardID: 2, panLastFourDigits: "1234") { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTFail(error.localizedDescription)
+                        case .success:
+                            let context = self.database.viewContext
+
+                            let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
+                            fetchRequest.predicate = NSPredicate(format: "cardID == %ld", argumentArray: [2])
+
+                            do {
+                                let fetchedMessages = try context.fetch(fetchRequest)
+
+                                XCTAssertEqual(fetchedMessages.first?.cardID, 2)
+                                XCTAssertEqual(fetchedMessages.first?.cardStatus, .active)
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                    }
+
+                    expectation1.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
+    func testLockCard() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.lock(cardID: 4).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "lock_card", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = self.database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let card = Card(context: managedObjectContext)
+                card.populateTestData()
+                card.cardID = 4
+                card.cardStatus = .active
+
+                try? managedObjectContext.save()
+
+                self.cards.lockCard(cardID: 4) { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTFail(error.localizedDescription)
+                        case .success:
+                            let context = self.database.viewContext
+
+                            let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
+                            fetchRequest.predicate = NSPredicate(format: "cardID == %ld", argumentArray: [4])
+
+                            do {
+                                let fetchedMessages = try context.fetch(fetchRequest)
+
+                                XCTAssertEqual(fetchedMessages.first?.cardID, 4)
+                                XCTAssertEqual(fetchedMessages.first?.cardStatus, .locked)
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                    }
+
+                    expectation1.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
+    func testUnlockCard() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.unlock(cardID: 5).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "unlock_card", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = self.database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let card = Card(context: managedObjectContext)
+                card.populateTestData()
+                card.cardID = 5
+                card.cardStatus = .locked
+
+                try? managedObjectContext.save()
+
+                self.cards.unlockCard(cardID: 5) { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTFail(error.localizedDescription)
+                        case .success:
+                            let context = self.database.viewContext
+
+                            let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
+                            fetchRequest.predicate = NSPredicate(format: "cardID == %ld", argumentArray: [5])
+
+                            do {
+                                let fetchedMessages = try context.fetch(fetchRequest)
+
+                                XCTAssertEqual(fetchedMessages.first?.cardID, 5)
+                                XCTAssertEqual(fetchedMessages.first?.cardStatus, .active)
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                    }
+
+                    expectation1.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
+
+    func testReplaceCard() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.replace(cardID: 6).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
+        }
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = self.database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let card = Card(context: managedObjectContext)
+                card.populateTestData()
+                card.cardID = 6
+
+                try? managedObjectContext.save()
+
+                self.cards.replaceCard(cardID: 6, reason: .loss) { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTFail(error.localizedDescription)
+                        case .success:
+                            break
+                    }
+
+                    expectation1.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
     func testCardsLinkToAccounts() {
         let expectation1 = expectation(description: "Database Setup")
         let expectation2 = expectation(description: "Network Accounts Request")

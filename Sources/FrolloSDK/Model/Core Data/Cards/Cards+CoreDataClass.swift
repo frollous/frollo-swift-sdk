@@ -83,14 +83,6 @@ public class Card: NSManagedObject, UniqueManagedObject {
         case prepaid
     }
     
-    /// Date formatter to convert from stored date string to user's current locale
-    public static let cardDateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale.autoupdatingCurrent
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        return dateFormatter
-    }()
-    
     internal static var primaryKey = #keyPath(Card.cardID)
     
     internal var primaryID: Int64 {
@@ -114,16 +106,6 @@ public class Card: NSManagedObject, UniqueManagedObject {
         }
         set {
             designTypeRawValue = newValue.rawValue
-        }
-    }
-    
-    /// Date on which the card was created / ordered
-    public var createdDate: Date {
-        get {
-            return Card.cardDateFormatter.date(from: createdDateString)!
-        }
-        set {
-            createdDateString = Card.cardDateFormatter.string(from: newValue)
         }
     }
     
@@ -168,15 +150,16 @@ public class Card: NSManagedObject, UniqueManagedObject {
         accountID = response.accountID
         cardStatus = response.status
         cardDesignType = response.designType
-        createdDateString = response.createdAt
+        createdDate = response.createdAt
         name = response.name
         nickName = response.nickName
-        cancelledDateString = response.cancelledAt
+        cancelledDate = response.cancelledAt
         typeRawValue = response.type
         panLastDigits = response.panLastDigits
-        expiryDate = response.expiryDate
+        expiryDateString = response.expiryDate
         cardholderName = response.cardholderName
         issuerRawValue = response.issuer
+        pinSetAt = response.pinSetAt
     }
     
 }
