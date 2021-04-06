@@ -24,6 +24,9 @@ public struct APICardPublicKeyResponse: Codable {
         case publicKey = "public_key"
     }
     
-    var keyID: String
-    let publicKey: String
+    /// The id of the public key to be used to encrypt the Card's PIN
+    public let keyID: String
+    
+    /// The public key to be used to encrypt the Card's PIN
+    public let publicKey: String
 }

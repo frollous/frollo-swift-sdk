@@ -19,12 +19,21 @@ import Foundation
 public struct APICardLockOrReplaceRequest: Codable {
     
     public enum CardLockOrReplaceReason: String, Codable, CaseIterable {
+        /// Card Fraud
         case fraud
+        
+        /// Loss of Card
         case loss
+        
+        /// Stolen Card
         case stolen
+        
+        /// Damaged card
         case damage
+        
+        /// Non receipt of card
         case nonReceipt = "non_receipt"
     }
     
-    var reason: CardLockOrReplaceReason?
+    let reason: CardLockOrReplaceReason?
 }
