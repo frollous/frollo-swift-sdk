@@ -58,7 +58,7 @@ extension Card {
     /// Name of the card holder (Optional)
     @NSManaged public var cardholderName: String?
     
-    /// Date on which the card will expire (Optional). Use only in predicates
+    /// Date on which the card will expire (Optional).
     @NSManaged public var expiryDateString: String?
     
     /// Issuer of the card; eg Visa, Mastercard (Optional)
@@ -70,6 +70,6 @@ extension Card {
     /// Type of the card; eg credit, debit (Optional)
     @NSManaged public var typeRawValue: String?
     
-    /// Date on which the PIN of card was set (Optional)
-    @NSManaged public var pinSetAt: Date?
+    /// Date on which the PIN of card was set (Optional). Use only in predicates
+    @NSManaged public var pinSetAtString: String?
 }

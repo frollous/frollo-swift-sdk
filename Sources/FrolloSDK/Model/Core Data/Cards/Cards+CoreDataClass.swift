@@ -83,6 +83,14 @@ public class Card: NSManagedObject, UniqueManagedObject {
         case prepaid
     }
     
+    /// Date formatter to convert from stored date string to user's current locale
+    public static let cardDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.autoupdatingCurrent
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter
+    }()
+    
     internal static var primaryKey = #keyPath(Card.cardID)
     
     internal var primaryID: Int64 {
@@ -133,6 +141,13 @@ public class Card: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    /// Date on which PIN was set for the card
+    public var pinSetAt: Date? {
+        guard let dateString = pinSetAtString else { return nil }
+        
+        return Card.cardDateFormatter.date(from: dateString)
+    }
+    
     // MARK: Updating Object
     
     internal func linkObject(object: NSManagedObject) {
@@ -159,7 +174,7 @@ public class Card: NSManagedObject, UniqueManagedObject {
         expiryDateString = response.expiryDate
         cardholderName = response.cardholderName
         issuerRawValue = response.issuer
-        pinSetAt = response.pinSetAt
+        pinSetAtString = response.pinSetAt
     }
     
 }

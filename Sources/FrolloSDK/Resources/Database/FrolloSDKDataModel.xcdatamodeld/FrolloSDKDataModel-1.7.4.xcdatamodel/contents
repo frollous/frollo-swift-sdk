@@ -200,7 +200,7 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nickName" optional="YES" attributeType="String"/>
         <attribute name="panLastDigits" optional="YES" attributeType="String"/>
-        <attribute name="pinSetAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="pinSetAtString" optional="YES" attributeType="String"/>
         <attribute name="statusRawValue" attributeType="String"/>
         <attribute name="typeRawValue" optional="YES" attributeType="String"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="cards" inverseEntity="Account"/>

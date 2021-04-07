@@ -38,7 +38,7 @@ internal enum CardsEndpoint: Endpoint {
             case .cards:
                 return "cards"
             case .publicKey:
-                return "cards/public_key"
+                return "cards/pin/key"
             case .activate(let cardID):
                 return "cards/" + String(cardID) + "/activate"
             case .setPin(let cardID):

@@ -48,5 +48,5 @@ struct APICardResponse: APIUniqueResponse, Codable {
     let expiryDate: String?
     let cardholderName: String?
     let issuer: String?
-    let pinSetAt: Date?
+    let pinSetAt: String?
 }
