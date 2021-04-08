@@ -379,8 +379,6 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
             }
         }
         
-        Log.logLevel = configuration.logLevel
-        
         _authentication = Authentication(configuration: configuration)
         network = Network(serverEndpoint: configuration.serverEndpoint, authentication: _authentication, pinnedPublicKeys: pinnedKeys)
         
@@ -400,6 +398,9 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         service = APIService(serverEndpoint: configuration.serverEndpoint, network: network)
         
         Log.manager.service = service
+        
+        // Log level should be updated after setting the service. Otherwise the network logger will have nil service.
+        Log.logLevel = configuration.logLevel
         
         _aggregation = Aggregation(database: _database, service: service)
         _bills = Bills(database: _database, service: service, aggregation: _aggregation)
