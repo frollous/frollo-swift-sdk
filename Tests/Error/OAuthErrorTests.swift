@@ -38,7 +38,7 @@ class OAuthErrorTests: XCTestCase {
         
         let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .accessDenied)
-        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.AccessDenied"))
+        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.AccessDenied") + "\n\norg.openid.appauth.oauth_authorization -4: Error Domain=org.openid.appauth.oauth_authorization Code=-4 \"(null)\"")
     }
     
     func testClientError() {
@@ -46,7 +46,7 @@ class OAuthErrorTests: XCTestCase {
         
         let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .clientError)
-        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.ClientError"))
+        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.ClientError") + "\n\norg.openid.appauth.oauth_authorization -61439: Error Domain=org.openid.appauth.oauth_authorization Code=-61439 \"(null)\"")
     }
     
     func testInvalidClientError() {
@@ -54,7 +54,7 @@ class OAuthErrorTests: XCTestCase {
         
         let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .invalidClient)
-        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidClient"))
+        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidClient") + "\n\norg.openid.appauth.oauth_authorization -9: Error Domain=org.openid.appauth.oauth_authorization Code=-9 \"(null)\"")
     }
     
     func testInvalidClientMetadataError() {
@@ -62,7 +62,7 @@ class OAuthErrorTests: XCTestCase {
         
         let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .invalidClientMetadata)
-        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidClientMetadata"))
+        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidClientMetadata") + "\n\norg.openid.appauth.oauth_authorization -13: Error Domain=org.openid.appauth.oauth_authorization Code=-13 \"(null)\"")
     }
     
     func testInvalidGrantError() {
@@ -70,7 +70,7 @@ class OAuthErrorTests: XCTestCase {
         
         let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .invalidGrant)
-        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidGrant"))
+        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidGrant") + "\n\norg.openid.appauth.oauth_authorization -10: Error Domain=org.openid.appauth.oauth_authorization Code=-10 \"(null)\"")
     }
     
     func testInvalidRedirectURIError() {
@@ -78,7 +78,7 @@ class OAuthErrorTests: XCTestCase {
         
         let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .invalidRedirectURI)
-        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidRedirectURI"))
+        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidRedirectURI") + "\n\norg.openid.appauth.oauth_authorization -12: Error Domain=org.openid.appauth.oauth_authorization Code=-12 \"(null)\"")
     }
     
     func testInvalidRequestError() {
@@ -86,7 +86,7 @@ class OAuthErrorTests: XCTestCase {
         
         let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .invalidRequest)
-        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidRequest"))
+        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidRequest") + "\n\norg.openid.appauth.oauth_authorization -2: Error Domain=org.openid.appauth.oauth_authorization Code=-2 \"(null)\"")
     }
     
     func testInvalidScopeError() {
@@ -94,7 +94,7 @@ class OAuthErrorTests: XCTestCase {
         
         let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .invalidScope)
-        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidScope"))
+        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.InvalidScope") + "\n\norg.openid.appauth.oauth_authorization -6: Error Domain=org.openid.appauth.oauth_authorization Code=-6 \"(null)\"")
     }
    
     func testUnauthorizedClientError() {
@@ -102,7 +102,7 @@ class OAuthErrorTests: XCTestCase {
         
         let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .unauthorizedClient)
-        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.UnauthorizedClient"))
+        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.UnauthorizedClient") + "\n\norg.openid.appauth.oauth_authorization -3: Error Domain=org.openid.appauth.oauth_authorization Code=-3 \"(null)\"")
     }
     
     func testUnsupportedGrantTypeError() {
@@ -110,7 +110,7 @@ class OAuthErrorTests: XCTestCase {
         
         let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .unsupportedGrantType)
-        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.UnsupportedGrantType"))
+        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.UnsupportedGrantType") + "\n\norg.openid.appauth.oauth_authorization -11: Error Domain=org.openid.appauth.oauth_authorization Code=-11 \"(null)\"")
     }
     
     func testUnsupportedResponseTypeError() {
@@ -118,7 +118,7 @@ class OAuthErrorTests: XCTestCase {
         
         let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .unsupportedResponseType)
-        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.UnsupportedResponseType"))
+        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.UnsupportedResponseType") + "\n\norg.openid.appauth.oauth_authorization -5: Error Domain=org.openid.appauth.oauth_authorization Code=-5 \"(null)\"")
     }
     
     func testBrowserError() {
@@ -126,7 +126,7 @@ class OAuthErrorTests: XCTestCase {
         
         let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .browserError)
-        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.BrowserError"))
+        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.BrowserError") + "\n\norg.openid.appauth.general -9: Error Domain=org.openid.appauth.general Code=-9 \"(null)\"")
     }
     
     func testNetworkError() {
@@ -134,7 +134,7 @@ class OAuthErrorTests: XCTestCase {
         
         let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .networkError)
-        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.NetworkError"))
+        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.NetworkError") + "\n\norg.openid.appauth.general -5: Error Domain=org.openid.appauth.general Code=-5 \"(null)\"")
     }
     
     func testServerError() {
@@ -142,7 +142,7 @@ class OAuthErrorTests: XCTestCase {
         
         let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .serverError)
-        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.ServerError"))
+        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.ServerError") + "\n\norg.openid.appauth.oauth_authorization -7: Error Domain=org.openid.appauth.oauth_authorization Code=-7 \"(null)\"")
     }
     
     func testUserCancelledError() {
@@ -150,7 +150,7 @@ class OAuthErrorTests: XCTestCase {
         
         let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .userCancelled)
-        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.UserCancelled"))
+        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.UserCancelled") + "\n\norg.openid.appauth.general -3: Error Domain=org.openid.appauth.general Code=-3 \"(null)\"")
     }
     
     func testOtherAuthorisationError() {
@@ -158,7 +158,7 @@ class OAuthErrorTests: XCTestCase {
         
         let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .otherAuthorization)
-        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.OtherAuthorisation"))
+        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.OtherAuthorisation") + "\n\norg.openid.appauth.oauth_authorization -61440: Error Domain=org.openid.appauth.oauth_authorization Code=-61440 \"(null)\"")
     }
     
     func testUnknownError() {
@@ -166,7 +166,7 @@ class OAuthErrorTests: XCTestCase {
         
         let authError = OAuth2Error(error: error)
         XCTAssertEqual(authError.type, .unknown)
-        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.Unknown"))
+        XCTAssertEqual(authError.localizedDescription, Localization.string("Error.OAuth.Unknown") + "\n\nUnknown -1: Error Domain=Unknown Code=-1 \"(null)\"")
     }
 
 }
