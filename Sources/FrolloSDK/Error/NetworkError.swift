@@ -57,7 +57,11 @@ public class NetworkError: FrolloSDKError {
     
     /// Error description
     public var errorDescription: String? {
-        return localizedNetworkErrorDescription()
+        var description = localizedNetworkErrorDescription()
+        if let systemError = systemError {
+            description += "\n\n" + systemError.domain + " " + String(systemError.code) + ": " + systemError.description
+        }
+        return description
     }
     
     /// Underlying system error that triggered this error

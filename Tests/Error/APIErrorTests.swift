@@ -42,7 +42,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_invalid_value")
         
         let error = APIError(statusCode: 400, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.BadRequest"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.BadRequest") + "\n\nAPI Error F0001: Invalid value for ID")
         XCTAssertEqual(error.statusCode, 400)
         XCTAssertEqual(error.type, .badRequest)
         XCTAssertEqual(error.errorCode, .invalidValue)
@@ -53,7 +53,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_invalid_length")
         
         let error = APIError(statusCode: 400, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.BadRequest"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.BadRequest") + "\n\nAPI Error F0002: Invalid length for ID")
         XCTAssertEqual(error.statusCode, 400)
         XCTAssertEqual(error.type, .badRequest)
         XCTAssertEqual(error.errorCode, .invalidLength)
@@ -64,7 +64,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_invalid_auth_head")
         
         let error = APIError(statusCode: 400, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.BadRequest"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.BadRequest") + "\n\nAPI Error F0003: Invalid Authorisation header")
         XCTAssertEqual(error.statusCode, 400)
         XCTAssertEqual(error.type, .badRequest)
         XCTAssertEqual(error.errorCode, .invalidAuthorisationHeader)
@@ -75,7 +75,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_invalid_user_agent")
         
         let error = APIError(statusCode: 400, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.BadRequest"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.BadRequest") + "\n\nAPI Error F0004: Invalid User-Agent header")
         XCTAssertEqual(error.statusCode, 400)
         XCTAssertEqual(error.type, .badRequest)
         XCTAssertEqual(error.errorCode, .invalidUserAgentHeader)
@@ -86,7 +86,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_value_must_differ")
         
         let error = APIError(statusCode: 400, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.PasswordMustBeDifferent"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.PasswordMustBeDifferent") + "\n\nAPI Error F0005: ID must be different")
         XCTAssertEqual(error.statusCode, 400)
         XCTAssertEqual(error.type, .passwordMustBeDifferent)
         XCTAssertEqual(error.errorCode, .invalidMustBeDifferent)
@@ -97,7 +97,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_value_over_limit")
         
         let error = APIError(statusCode: 400, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.BadRequest"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.BadRequest") + "\n\nAPI Error F0006: ID over limit")
         XCTAssertEqual(error.statusCode, 400)
         XCTAssertEqual(error.type, .badRequest)
         XCTAssertEqual(error.errorCode, .invalidOverLimit)
@@ -108,7 +108,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_invalid_count")
         
         let error = APIError(statusCode: 400, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.BadRequest"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.BadRequest") + "\n\nAPI Error F0007: Invalid count for ID")
         XCTAssertEqual(error.statusCode, 400)
         XCTAssertEqual(error.type, .badRequest)
         XCTAssertEqual(error.errorCode, .invalidCount)
@@ -119,7 +119,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_aggregator_bad_request")
         
         let error = APIError(statusCode: 400, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.AggregatorBadRequest"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.AggregatorBadRequest") + "\n\nAPI Error F0014: Maximum threshold for the day has been reached. Please try later")
         XCTAssertEqual(error.statusCode, 400)
         XCTAssertEqual(error.type, .aggregatorBadRequest)
         XCTAssertEqual(error.errorCode, .aggregatorBadRequest)
@@ -132,7 +132,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_invalid_access_token")
         
         let error = APIError(statusCode: 401, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.InvalidAccessToken"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.InvalidAccessToken") + "\n\nAPI Error F0101: Invalid access token")
         XCTAssertEqual(error.statusCode, 401)
         XCTAssertEqual(error.type, .invalidAccessToken)
         XCTAssertEqual(error.errorCode, .invalidAccessToken)
@@ -143,7 +143,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_invalid_refresh_token")
         
         let error = APIError(statusCode: 401, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.InvalidRefreshToken"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.InvalidRefreshToken") + "\n\nAPI Error F0110: Invalid refresh token")
         XCTAssertEqual(error.statusCode, 401)
         XCTAssertEqual(error.type, .invalidRefreshToken)
         XCTAssertEqual(error.errorCode, .invalidRefreshToken)
@@ -154,7 +154,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_invalid_username_password")
         
         let error = APIError(statusCode: 401, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.InvalidUsernamePassword"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.InvalidUsernamePassword") + "\n\nAPI Error F0111: Invalid username or password")
         XCTAssertEqual(error.statusCode, 401)
         XCTAssertEqual(error.type, .invalidUsernamePassword)
         XCTAssertEqual(error.errorCode, .invalidUsernamePassword)
@@ -165,7 +165,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_suspended_device")
         
         let error = APIError(statusCode: 401, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.SuspendedDevice"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.SuspendedDevice") + "\n\nAPI Error F0113: Suspended device")
         XCTAssertEqual(error.statusCode, 401)
         XCTAssertEqual(error.type, .suspendedDevice)
         XCTAssertEqual(error.errorCode, .suspendedDevice)
@@ -176,7 +176,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_suspended_user")
         
         let error = APIError(statusCode: 401, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.SuspendedUser"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.SuspendedUser") + "\n\nAPI Error F0112: Suspended user")
         XCTAssertEqual(error.statusCode, 401)
         XCTAssertEqual(error.type, .suspendedUser)
         XCTAssertEqual(error.errorCode, .suspendedUser)
@@ -187,7 +187,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_account_locked")
         
         let error = APIError(statusCode: 401, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.AccountLocked"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.AccountLocked") + "\n\nAPI Error F0114: Account Locked")
         XCTAssertEqual(error.statusCode, 401)
         XCTAssertEqual(error.type, .accountLocked)
         XCTAssertEqual(error.errorCode, .accountLocked)
@@ -200,7 +200,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_not_allowed")
         
         let error = APIError(statusCode: 403, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.Unauthorised"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.Unauthorised") + "\n\nAPI Error F0200: ID not allowed")
         XCTAssertEqual(error.statusCode, 403)
         XCTAssertEqual(error.type, .unauthorised)
         XCTAssertEqual(error.errorCode, .unauthorised)
@@ -211,7 +211,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_not_found")
         
         let error = APIError(statusCode: 404, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.NotFound"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.NotFound") + "\n\nAPI Error F0300: ID not found")
         XCTAssertEqual(error.statusCode, 404)
         XCTAssertEqual(error.type, .notFound)
         XCTAssertEqual(error.errorCode, .notFound)
@@ -222,7 +222,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_duplicate")
         
         let error = APIError(statusCode: 409, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.UserAlreadyExists"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.UserAlreadyExists") + "\n\nAPI Error F0400: ID already exists")
         XCTAssertEqual(error.statusCode, 409)
         XCTAssertEqual(error.type, .alreadyExists)
         XCTAssertEqual(error.errorCode, .alreadyExists)
@@ -233,7 +233,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_aggregator")
         
         let error = APIError(statusCode: 503, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.ServerError"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.ServerError") + "\n\nAPI Error F9000: Aggregator error")
         XCTAssertEqual(error.statusCode, 503)
         XCTAssertEqual(error.type, .serverError)
         XCTAssertEqual(error.errorCode, .aggregatorError)
@@ -244,7 +244,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_server")
         
         let error = APIError(statusCode: 504, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.ServerError"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.ServerError") + "\n\nAPI Error F9998: Something error")
         XCTAssertEqual(error.statusCode, 504)
         XCTAssertEqual(error.type, .serverError)
         XCTAssertEqual(error.errorCode, .unknownServer)
@@ -255,7 +255,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_internal_exception")
         
         let error = APIError(statusCode: 500, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.ServerError"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.ServerError") + "\n\nAPI Error F9999: Internal exception")
         XCTAssertEqual(error.statusCode, 500)
         XCTAssertEqual(error.type, .serverError)
         XCTAssertEqual(error.errorCode, .internalException)
@@ -313,7 +313,7 @@ class APIErrorTests: XCTestCase {
         let errorJSON = errorJSONNamed("error_migration_failed")
         
         let error = APIError(statusCode: 400, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.MigrationFailed"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.MigrationFailed") + "\n\nAPI Error F0012: There was an error while migrating the user to Auth0. Please check the logs.")
         XCTAssertEqual(error.statusCode, 400)
         XCTAssertEqual(error.type, .migrationFailed)
         XCTAssertEqual(error.errorCode, .migrationFailed)
@@ -437,7 +437,7 @@ class APIErrorTests: XCTestCase {
     func validatePaymentErrors(resourceFileName: String, errorCode: APIErrorCode) {
         let errorJSON = errorJSONNamed(resourceFileName)
         let error = APIError(statusCode: 400, response: errorJSON)
-        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.BadRequest"))
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.BadRequest") + "\n\nAPI Error " + error.errorCode!.rawValue + ": " + error.message!)
         XCTAssertEqual(error.statusCode, 400)
         XCTAssertEqual(error.type, .badRequest)
         XCTAssertEqual(error.errorCode, errorCode)

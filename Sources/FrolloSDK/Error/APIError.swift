@@ -105,7 +105,11 @@ public class APIError: FrolloSDKError, ResponseError {
     
     /// Localized description
     public var errorDescription: String? {
-        return localizedAPIErrorDescription()
+        var description = localizedAPIErrorDescription()
+        if let code = errorCode?.rawValue, let message = message {
+            description += "\n\nAPI Error " + code + ": " + message
+        }
+        return description
     }
     
     /// Type of API Error

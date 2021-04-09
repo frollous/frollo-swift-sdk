@@ -241,7 +241,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
             switch result {
                 case .failure(let error):
                     self.handleTokenError(error: error)
-                    
+                    Log.error(error.localizedDescription)
                     DispatchQueue.main.async {
                         completion(.failure(error))
                     }

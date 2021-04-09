@@ -104,7 +104,11 @@ public class DataError: FrolloSDKError {
     
     /// Error description
     public var errorDescription: String? {
-        return localizedDataErrorDescription()
+        var description = localizedDataErrorDescription()
+        if let systemError = systemError as NSError? {
+            description += "\n\n" + systemError.domain + " " + String(systemError.code) + ": " + systemError.description
+        }
+        return description
     }
     
     internal init(type: DataErrorType, subType: DataErrorSubType) {

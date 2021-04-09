@@ -96,7 +96,11 @@ public class OAuth2Error: FrolloSDKError, ResponseError {
     
     /// Localized description
     public var errorDescription: String? {
-        return localizedOAuthErrorDescription()
+        var description = localizedOAuthErrorDescription()
+        if let systemError = systemError as NSError? {
+            description += "\n\n" + systemError.domain + " " + String(systemError.code) + ": " + systemError.description
+        }
+        return description
     }
     
     /// Type of OAuth Error
