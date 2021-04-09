@@ -36,7 +36,7 @@ class DatabaseMigrationTests: XCTestCase {
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(Progress.totalUnitCount), let progress = object as? Progress {
-            XCTAssertEqual(progress.totalUnitCount, 19)
+            XCTAssertEqual(progress.totalUnitCount, 20)
             
             progress.removeObserver(self, forKeyPath: #keyPath(Progress.totalUnitCount))
         }
@@ -506,6 +506,24 @@ class DatabaseMigrationTests: XCTestCase {
         let expectation1 = XCTestExpectation(description: "Migration Completion")
 
         let path = populateTestDataNamed(name: "FrolloSDKDataModel-1.7.3")
+
+        let database = Database(path: path)
+
+        XCTAssertTrue(database.needsMigration())
+
+        database.migrate { (error) in
+            XCTAssertNil(error)
+
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 15.0)
+    }
+
+    func testMigrationFrom174() {
+        let expectation1 = XCTestExpectation(description: "Migration Completion")
+
+        let path = populateTestDataNamed(name: "FrolloSDKDataModel-1.7.4")
 
         let database = Database(path: path)
 

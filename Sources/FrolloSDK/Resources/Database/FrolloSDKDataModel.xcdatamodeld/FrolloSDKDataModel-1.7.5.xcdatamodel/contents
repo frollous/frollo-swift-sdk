@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.7.4">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D74" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.7.5">
     <entity name="Account" representedClassName="FrolloSDK.Account" syncable="YES">
         <attribute name="accountHolderName" optional="YES" attributeType="String"/>
         <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
@@ -190,16 +190,17 @@
     </entity>
     <entity name="Card" representedClassName="FrolloSDK.Card" syncable="YES">
         <attribute name="accountID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="cancelledDateString" optional="YES" attributeType="String"/>
+        <attribute name="cancelledDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="cardholderName" optional="YES" attributeType="String"/>
         <attribute name="cardID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="createdDateString" attributeType="String"/>
+        <attribute name="createdDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="designTypeRawValue" attributeType="String"/>
-        <attribute name="expiryDate" optional="YES" attributeType="String"/>
+        <attribute name="expiryDateString" optional="YES" attributeType="String"/>
         <attribute name="issuerRawValue" optional="YES" attributeType="String"/>
-        <attribute name="name" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nickName" optional="YES" attributeType="String"/>
         <attribute name="panLastDigits" optional="YES" attributeType="String"/>
+        <attribute name="pinSetAtString" optional="YES" attributeType="String"/>
         <attribute name="statusRawValue" attributeType="String"/>
         <attribute name="typeRawValue" optional="YES" attributeType="String"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="cards" inverseEntity="Account"/>
@@ -633,7 +634,7 @@
         <element name="BPAYContact" positionX="-360" positionY="180" width="128" height="89"/>
         <element name="Budget" positionX="-378" positionY="162" width="128" height="284"/>
         <element name="BudgetPeriod" positionX="-369" positionY="171" width="128" height="179"/>
-        <element name="Card" positionX="-378" positionY="162" width="128" height="239"/>
+        <element name="Card" positionX="-378" positionY="162" width="128" height="254"/>
         <element name="CDRConfiguration" positionX="-378" positionY="162" width="128" height="89"/>
         <element name="CDRProductInformation" positionX="-378" positionY="162" width="128" height="74"/>
         <element name="Consent" positionX="-378" positionY="162" width="128" height="239"/>
