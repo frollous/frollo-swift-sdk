@@ -32,19 +32,21 @@ struct APICardResponse: APIUniqueResponse, Codable {
         case expiryDate = "expiry_date"
         case cardholderName = "cardholder_name"
         case issuer
+        case pinSetAt = "pin_set_at"
     }
     
     var id: Int64
     let accountID: Int64
     let status: Card.CardStatus
     let designType: Card.CardDesignType
-    let createdAt: String
-    let name: String
+    let createdAt: Date
+    let name: String?
     let nickName: String?
-    let cancelledAt: String?
+    let cancelledAt: Date?
     let type: String?
     let panLastDigits: String?
     let expiryDate: String?
     let cardholderName: String?
     let issuer: String?
+    let pinSetAt: String?
 }

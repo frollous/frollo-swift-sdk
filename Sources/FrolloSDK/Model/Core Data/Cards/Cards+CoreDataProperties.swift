@@ -35,7 +35,7 @@ extension Card {
     @NSManaged public var accountID: Int64
     
     /// Name of the card
-    @NSManaged public var name: String
+    @NSManaged public var name: String?
     
     /// Nick name of the card (optional)
     @NSManaged public var nickName: String?
@@ -47,19 +47,19 @@ extension Card {
     @NSManaged public var designTypeRawValue: String
     
     /// Date the card was created
-    @NSManaged public var createdDateString: String
+    @NSManaged public var createdDate: Date
     
     /// Account associated with the card (Optional)
     @NSManaged public var account: Account?
     
     /// Date the card was cancelled (Optional)
-    @NSManaged public var cancelledDateString: String?
+    @NSManaged public var cancelledDate: Date?
     
     /// Name of the card holder (Optional)
     @NSManaged public var cardholderName: String?
     
-    /// Date on which the card will expire (Optional)
-    @NSManaged public var expiryDate: String?
+    /// Date on which the card will expire (Optional).
+    @NSManaged public var expiryDateString: String?
     
     /// Issuer of the card; eg Visa, Mastercard (Optional)
     @NSManaged public var issuerRawValue: String?
@@ -69,4 +69,7 @@ extension Card {
     
     /// Type of the card; eg credit, debit (Optional)
     @NSManaged public var typeRawValue: String?
+    
+    /// Date on which the PIN of card was set (Optional). Use only in predicates
+    @NSManaged public var pinSetAtString: String?
 }

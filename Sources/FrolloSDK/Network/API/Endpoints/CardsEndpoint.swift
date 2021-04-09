@@ -24,6 +24,12 @@ internal enum CardsEndpoint: Endpoint {
     
     case card(cardID: Int64)
     case cards
+    case publicKey
+    case activate(cardID: Int64)
+    case setPin(cardID: Int64)
+    case lock(cardID: Int64)
+    case unlock(cardID: Int64)
+    case replace(cardID: Int64)
     
     private func urlPath() -> String {
         switch self {
@@ -31,7 +37,20 @@ internal enum CardsEndpoint: Endpoint {
                 return "cards/" + String(cardID)
             case .cards:
                 return "cards"
+            case .publicKey:
+                return "cards/pin/key"
+            case .activate(let cardID):
+                return "cards/" + String(cardID) + "/activate"
+            case .setPin(let cardID):
+                return "cards/" + String(cardID) + "/pin"
+            case .lock(cardID: let cardID):
+                return "cards/" + String(cardID) + "/lock"
+            case .unlock(cardID: let cardID):
+                return "cards/" + String(cardID) + "/unlock"
+            case .replace(cardID: let cardID):
+                return "cards/" + String(cardID) + "/replace"
         }
+        
     }
     
 }

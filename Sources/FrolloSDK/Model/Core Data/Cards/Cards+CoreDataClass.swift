@@ -117,16 +117,6 @@ public class Card: NSManagedObject, UniqueManagedObject {
         }
     }
     
-    /// Date on which the card was created / ordered
-    public var createdDate: Date {
-        get {
-            return Card.cardDateFormatter.date(from: createdDateString)!
-        }
-        set {
-            createdDateString = Card.cardDateFormatter.string(from: newValue)
-        }
-    }
-    
     /// The design type of the card
     public var cardIssuer: CardIssuer? {
         get {
@@ -151,6 +141,13 @@ public class Card: NSManagedObject, UniqueManagedObject {
         }
     }
     
+    /// Date on which PIN was set for the card
+    public var pinSetAt: Date? {
+        guard let dateString = pinSetAtString else { return nil }
+        
+        return Card.cardDateFormatter.date(from: dateString)
+    }
+    
     // MARK: Updating Object
     
     internal func linkObject(object: NSManagedObject) {
@@ -168,15 +165,16 @@ public class Card: NSManagedObject, UniqueManagedObject {
         accountID = response.accountID
         cardStatus = response.status
         cardDesignType = response.designType
-        createdDateString = response.createdAt
+        createdDate = response.createdAt
         name = response.name
         nickName = response.nickName
-        cancelledDateString = response.cancelledAt
+        cancelledDate = response.cancelledAt
         typeRawValue = response.type
         panLastDigits = response.panLastDigits
-        expiryDate = response.expiryDate
+        expiryDateString = response.expiryDate
         cardholderName = response.cardholderName
         issuerRawValue = response.issuer
+        pinSetAtString = response.pinSetAt
     }
     
 }
