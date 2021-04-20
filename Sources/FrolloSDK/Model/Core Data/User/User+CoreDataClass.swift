@@ -248,8 +248,16 @@ public class User: NSManagedObject {
             return nil
         }
         set {
-            let encoder = JSONEncoder()
-            featuresRawValue = try? encoder.encode(newValue)
+            if let newRawValue = newValue {
+                let encoder = JSONEncoder()
+                do {
+                    featuresRawValue = try encoder.encode(newRawValue)
+                } catch {
+                    featuresRawValue = nil
+                }
+            } else {
+                featuresRawValue = nil
+            }
         }
     }
     
@@ -331,8 +339,16 @@ public class User: NSManagedObject {
             return nil
         }
         set {
-            let encoder = JSONEncoder()
-            registerStepsRawValue = try? encoder.encode(newValue)
+            if let newRawValue = newValue {
+                let encoder = JSONEncoder()
+                do {
+                    registerStepsRawValue = try encoder.encode(newRawValue)
+                } catch {
+                    registerStepsRawValue = nil
+                }
+            } else {
+                registerStepsRawValue = nil
+            }
         }
     }
     
@@ -352,8 +368,16 @@ public class User: NSManagedObject {
             return nil
         }
         set {
-            let encoder = JSONEncoder()
-            addressRawValue = try? encoder.encode(newValue)
+            if let newRawValue = newValue {
+                let encoder = JSONEncoder()
+                do {
+                    addressRawValue = try encoder.encode(newRawValue)
+                } catch {
+                    addressRawValue = nil
+                }
+            } else {
+                addressRawValue = nil
+            }
         }
     }
     
@@ -373,8 +397,16 @@ public class User: NSManagedObject {
             return nil
         }
         set {
-            let encoder = JSONEncoder()
-            mailingAddressRawValue = try? encoder.encode(newValue)
+            if let newRawValue = newValue {
+                let encoder = JSONEncoder()
+                do {
+                    mailingAddressRawValue = try encoder.encode(newRawValue)
+                } catch {
+                    mailingAddressRawValue = nil
+                }
+            } else {
+                mailingAddressRawValue = nil
+            }
         }
     }
     
@@ -427,8 +459,8 @@ public class User: NSManagedObject {
         
         return APIUserUpdateRequest(email: email,
                                     primaryCurrency: primaryCurrency,
-                                    address: address,
-                                    mailingAddress: mailingAddress,
+                                    address: address?.isValid() ?? false ? address : nil,
+                                    mailingAddress: mailingAddress?.isValid() ?? false ? mailingAddress : nil,
                                     attribution: attribution,
                                     dateOfBirth: dateOfBirth,
                                     firstName: firstName,

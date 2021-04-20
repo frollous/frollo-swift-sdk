@@ -147,4 +147,11 @@ public struct Address: Codable {
     /// Full address in formatted form. (Optional)
     public let longForm: String?
     
+    internal func isValid() -> Bool {
+        guard let postcode = postcode else {
+            return false
+        }
+        return !postcode.isEmpty
+    }
+    
 }
