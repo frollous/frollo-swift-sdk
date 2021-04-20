@@ -562,16 +562,19 @@ public class Budgets: CachedObjects, ResponseHandler {
     }
     
     /**
-     Refresh budget periods for a budget from the host.
+     Refresh all budget periods from the host.
      
      - parameters:
-        - budgetID: ID of the budget to fetch periods for
+        - before: Contact ID to fetch before this contact (optional)
+        - after: Contact ID to fetch upto this contact (optional)
+        - size: Batch size of contact to returned by API (optional); defaults to 500
         - fromDate: Start date to fetch budget periods from (Optional)
         - toDate: End date to fetch budget periods up to (Optional)
+        - status: Filter by status of the budget (optional)
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func refreshBudgetPeriods(budgetID: Int64, from fromDate: Date? = nil, to toDate: Date? = nil, completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchBudgetPeriods(budgetID: budgetID, from: fromDate, to: toDate) { result in
+    public func refreshAllBudgetPeriods(before: String? = nil, after: String? = nil, size: Int? = 500, from fromDate: Date? = nil, to toDate: Date? = nil, status: Budget.Status? = nil, completion: FrolloSDKPaginatedCompletionHandler? = nil) {
+        service.fetchBudgetPeriods(before: before, after: after, size: size, budgetID: nil, from: fromDate, to: toDate) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -582,12 +585,47 @@ public class Budgets: CachedObjects, ResponseHandler {
                 case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleBudgetPeriodsResponse(response, budgetID: budgetID, from: fromDate, to: toDate, managedObjectContext: managedObjectContext)
+                    self.handleBudgetPeriodsResponse(response.data.elements, before: response.paging?.cursors?.before, after: response.paging?.cursors?.after, budgetID: nil, from: fromDate, to: toDate, managedObjectContext: managedObjectContext)
                     
                     self.linkBudgetPeriodsToBudgets(managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
-                        completion?(.success)
+                        completion?(.success(PaginationInfo(response.paging?.cursors?.before, response.paging?.cursors?.after, response.paging?.total)))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Refresh budget periods for a budget from the host.
+     
+     - parameters:
+        - before: Contact ID to fetch before this contact (optional)
+        - after: Contact ID to fetch upto this contact (optional)
+        - size: Batch size of contact to returned by API (optional); defaults to 500
+        - budgetID: ID of the budget to fetch periods for
+        - fromDate: Start date to fetch budget periods from (Optional)
+        - toDate: End date to fetch budget periods up to (Optional)
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshBudgetPeriods(before: String? = nil, after: String? = nil, size: Int? = 500, budgetID: Int64, from fromDate: Date? = nil, to toDate: Date? = nil, completion: FrolloSDKPaginatedCompletionHandler? = nil) {
+        service.fetchBudgetPeriods(before: before, after: after, size: size, budgetID: budgetID, from: fromDate, to: toDate) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleBudgetPeriodsResponse(response.data.elements, before: response.paging?.cursors?.before, after: response.paging?.cursors?.after, budgetID: budgetID, from: fromDate, to: toDate, managedObjectContext: managedObjectContext)
+                    
+                    self.linkBudgetPeriodsToBudgets(managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success(PaginationInfo(response.paging?.cursors?.before, response.paging?.cursors?.after, response.paging?.total)))
                     }
             }
         }
@@ -695,7 +733,7 @@ public class Budgets: CachedObjects, ResponseHandler {
         }
     }
     
-    private func handleBudgetPeriodsResponse(_ budgetPeriodsResponse: [APIBudgetPeriodResponse], budgetID: Int64, from fromDate: Date? = nil, to toDate: Date? = nil, managedObjectContext: NSManagedObjectContext) {
+    private func handleBudgetPeriodsResponse(_ budgetPeriodsResponse: [APIBudgetPeriodResponse], before: String?, after: String?, budgetID: Int64?, from fromDate: Date? = nil, to toDate: Date? = nil, managedObjectContext: NSManagedObjectContext) {
         budgetPeriodsLock.lock()
         
         defer {
@@ -704,7 +742,17 @@ public class Budgets: CachedObjects, ResponseHandler {
         
         var predicates = [NSPredicate]()
         
-        predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.budgetID) + " == %ld", argumentArray: [budgetID]))
+        if let beforeID = budgetPeriodsResponse.first?.id, before != nil {
+            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.budgetPeriodID) + " > %ld", argumentArray: [beforeID]))
+        }
+        
+        if let afterID = budgetPeriodsResponse.last?.id, after != nil {
+            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.budgetPeriodID) + " <= %ld", argumentArray: [afterID]))
+        }
+        
+        if let budgetID = budgetID {
+            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.budgetID) + " == %ld", argumentArray: [budgetID]))
+        }
         
         if let fromDate = fromDate {
             predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " >= %@", argumentArray: [Budget.budgetDateFormatter.string(from: fromDate)]))

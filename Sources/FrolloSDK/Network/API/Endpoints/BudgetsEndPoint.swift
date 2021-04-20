@@ -23,6 +23,7 @@ enum BudgetsEndpoint: Endpoint {
         case categoryType = "category_type"
         case fromDate = "from_date"
         case toDate = "to_date"
+        case status
     }
     
     internal var path: String {
@@ -32,7 +33,7 @@ enum BudgetsEndpoint: Endpoint {
     case budget(budgetID: Int64)
     case budgets
     case period(budgetID: Int64, budgetPeriodID: Int64)
-    case periods(budgetID: Int64)
+    case periods(budgetID: Int64? = nil)
     
     private func urlPath() -> String {
         switch self {
@@ -43,6 +44,9 @@ enum BudgetsEndpoint: Endpoint {
             case .period(let budgetID, let budgetPeriodID):
                 return "budgets/" + String(budgetID) + "/periods/" + String(budgetPeriodID)
             case .periods(let budgetID):
+                guard let budgetID = budgetID else {
+                    return "budgets/periods"
+                }
                 return "budgets/" + String(budgetID) + "/periods"
         }
     }
