@@ -742,12 +742,14 @@ public class Budgets: CachedObjects, ResponseHandler {
         
         var predicates = [NSPredicate]()
         
-        if let beforeID = budgetPeriodsResponse.first?.id, before != nil {
-            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.budgetPeriodID) + " > %ld", argumentArray: [beforeID]))
+        if let beforeID = budgetPeriodsResponse.first?.id, let beforeDate = budgetPeriodsResponse.first?.startDate, before != nil {
+
+            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " >= %@ && " + #keyPath(BudgetPeriod.budgetPeriodID) + " >= %ld", argumentArray: [beforeDate, beforeID]))
+            
         }
         
-        if let afterID = budgetPeriodsResponse.last?.id, after != nil {
-            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.budgetPeriodID) + " <= %ld", argumentArray: [afterID]))
+        if let afterID = budgetPeriodsResponse.last?.id, let afterDate = budgetPeriodsResponse.last?.startDate, after != nil {
+            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " <= %@ && " + #keyPath(BudgetPeriod.budgetPeriodID) + " <= %ld", argumentArray: [afterDate, afterID]))
         }
         
         if let budgetID = budgetID {
