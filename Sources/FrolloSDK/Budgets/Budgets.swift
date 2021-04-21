@@ -565,9 +565,9 @@ public class Budgets: CachedObjects, ResponseHandler {
      Refresh all budget periods from the host.
      
      - parameters:
-        - before: Contact ID to fetch before this contact (optional)
-        - after: Contact ID to fetch upto this contact (optional)
-        - size: Batch size of contact to returned by API (optional); defaults to 500
+        - before: before field to get previous list in pagination. Format is "<epoch_date>_<id>"(Optional)
+        - after: after field to get next list in pagination. Format is "<epoch_date>_<id>"(Optional)
+        - size: Batch size of budget periods to returned by API (optional); defaults to 500
         - fromDate: Start date to fetch budget periods from (Optional)
         - toDate: End date to fetch budget periods up to (Optional)
         - status: Filter by status of the budget (optional)
@@ -600,9 +600,9 @@ public class Budgets: CachedObjects, ResponseHandler {
      Refresh budget periods for a budget from the host.
      
      - parameters:
-        - before: Contact ID to fetch before this contact (optional)
-        - after: Contact ID to fetch upto this contact (optional)
-        - size: Batch size of contact to returned by API (optional); defaults to 500
+        - before: before field to get previous list in pagination. Format is "<epoch_date>_<id>"(Optional)
+        - after: after field to get next list in pagination. Format is "<epoch_date>_<id>"(Optional)
+        - size: Batch size of budget periods to returned by API (optional); defaults to 500
         - budgetID: ID of the budget to fetch periods for
         - fromDate: Start date to fetch budget periods from (Optional)
         - toDate: End date to fetch budget periods up to (Optional)
