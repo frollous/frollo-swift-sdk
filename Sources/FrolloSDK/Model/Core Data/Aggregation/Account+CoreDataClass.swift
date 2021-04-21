@@ -428,8 +428,16 @@ public class Account: NSManagedObject, UniqueManagedObject {
             return nil
         }
         set {
-            let encoder = JSONEncoder()
-            featuresRawValue = try? encoder.encode(newValue)
+            if let newRawValue = newValue {
+                let encoder = JSONEncoder()
+                do {
+                    featuresRawValue = try encoder.encode(newRawValue)
+                } catch {
+                    featuresRawValue = nil
+                }
+            } else {
+                featuresRawValue = nil
+            }
         }
     }
     
@@ -449,8 +457,16 @@ public class Account: NSManagedObject, UniqueManagedObject {
             return nil
         }
         set {
-            let encoder = JSONEncoder()
-            goalIDsRawValue = try? encoder.encode(newValue)
+            if let newRawValue = newValue {
+                let encoder = JSONEncoder()
+                do {
+                    goalIDsRawValue = try encoder.encode(newRawValue)
+                } catch {
+                    goalIDsRawValue = nil
+                }
+            } else {
+                goalIDsRawValue = nil
+            }
         }
     }
     

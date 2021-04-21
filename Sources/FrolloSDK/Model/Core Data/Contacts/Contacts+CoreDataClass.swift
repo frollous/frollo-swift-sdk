@@ -76,8 +76,16 @@ public class Contact: NSManagedObject, UniqueManagedObject {
             return nil
         }
         set {
-            let encoder = JSONEncoder()
-            providerAccountIDsRawValue = try? encoder.encode(newValue)
+            if let newRawValue = newValue {
+                let encoder = JSONEncoder()
+                do {
+                    providerAccountIDsRawValue = try encoder.encode(newRawValue)
+                } catch {
+                    providerAccountIDsRawValue = nil
+                }
+            } else {
+                providerAccountIDsRawValue = nil
+            }
         }
     }
     

@@ -84,7 +84,19 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
     }
     
     /// OAuth2 access token if authenticated
-    public var accessToken: AccessToken?
+    public var accessToken: AccessToken? {
+        guard let rawAccessToken = keychain[KeychainKey.accessToken]
+        else {
+            return nil
+        }
+        
+        var expiryDate: Date?
+        if let expiryTime = keychain[KeychainKey.accessTokenExpiry], let expirySeconds = TimeInterval(expiryTime) {
+            expiryDate = Date(timeIntervalSince1970: expirySeconds)
+        }
+        
+        return OAuth2AccessToken(expiryDate: expiryDate, token: rawAccessToken)
+    }
     
     /// Refresh the token 3 minutes before expiry
     public var preemptiveRefreshTime: TimeInterval? = 180
@@ -92,7 +104,9 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
     internal weak var delegate: OAuth2AuthenticationDelegate?
     
     internal var authorizationFlow: OIDExternalUserAgentSession?
-    internal var refreshToken: String?
+    internal var refreshToken: String? {
+        return keychain[KeychainKey.refreshToken]
+    }
     
     private let authService: OAuth2Service
     private let clientID: String
@@ -111,8 +125,6 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
         self.redirectURL = redirectURL
         self.serverURL = serverURL
         self.delegate = delegate
-        
-        loadTokens()
     }
     
     // MARK: - Login
@@ -577,8 +589,6 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
     }
     
     internal func updateAccessToken(_ token: String, expiryDate: Date?) {
-        accessToken = OAuth2AccessToken(expiryDate: expiryDate, token: token)
-        
         keychain[KeychainKey.accessToken] = token
         
         guard let date = expiryDate
@@ -592,35 +602,13 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
     }
     
     internal func updateRefreshToken(_ token: String) {
-        refreshToken = token
-        
         keychain[KeychainKey.refreshToken] = token
     }
     
     internal func clearTokens() {
-        refreshToken = nil
-        accessToken = nil
-        
         keychain[KeychainKey.refreshToken] = nil
         keychain[KeychainKey.accessToken] = nil
         keychain[KeychainKey.accessTokenExpiry] = nil
-    }
-    
-    private func loadTokens() {
-        refreshToken = keychain[KeychainKey.refreshToken]
-        
-        guard let rawAccessToken = keychain[KeychainKey.accessToken]
-        else {
-            accessToken = nil
-            return
-        }
-        
-        var expiryDate: Date?
-        if let expiryTime = keychain[KeychainKey.accessTokenExpiry], let expirySeconds = TimeInterval(expiryTime) {
-            expiryDate = Date(timeIntervalSince1970: expirySeconds)
-        }
-        
-        accessToken = OAuth2AccessToken(expiryDate: expiryDate, token: rawAccessToken)
     }
     
 }
