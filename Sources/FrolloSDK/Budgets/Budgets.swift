@@ -734,33 +734,28 @@ public class Budgets: CachedObjects, ResponseHandler {
     }
     
     private func handleBudgetPeriodsResponse(_ budgetPeriodsResponse: [APIBudgetPeriodResponse], before: String?, after: String?, budgetID: Int64?, from fromDate: Date? = nil, to toDate: Date? = nil, status: Budget.Status? = nil, managedObjectContext: NSManagedObjectContext) {
-        budgetPeriodsLock.lock()
-        
-        defer {
-            budgetPeriodsLock.unlock()
-        }
         
         var predicates = [NSPredicate]()
-
+        
         var beforeDate: Date?
         var afterDate: Date?
         var beforeID: Int64?
         var afterID: Int64?
-
+        
         // Lower limit predicate if not first page
         if let id = budgetPeriodsResponse.first?.id, let afterDateString = budgetPeriodsResponse.first?.startDate, before != nil {
-
+            
             afterID = id
             afterDate = BudgetPeriod.budgetPeriodDateFormatter.date(from: afterDateString)
         }
-
+        
         // Upper limit predicate if not last page
         if let id = budgetPeriodsResponse.last?.id, let beforeDateString = budgetPeriodsResponse.last?.startDate, after != nil {
-
+            
             beforeID = id
             beforeDate = BudgetPeriod.budgetPeriodDateFormatter.date(from: beforeDateString)
         }
-
+        
         /**
          Following code creates a filter predicate that will be applied to cached transactions to update
          Predicate 1: Considers all budget periods after start date of first budget period (date of first budget period + 1)
@@ -771,34 +766,34 @@ public class Budgets: CachedObjects, ResponseHandler {
          Predicate 6: Predicate 2 OR Predicate 4 (Lower limit Predicate)
          Predicate 7: Predicate 5 AND Predicate 6 (Satisfy both upper and lower limit) (Final filter predicate to apply in core data)
          */
-
+        
         // Filter by after cursor in paginated response
         if let afterDate = afterDate, let afterID = afterID, let dayAfterFirstDate = afterDate.withAddingValue(1, to: .day) {
-
+            
             let toDateString = BudgetPeriod.budgetPeriodDateFormatter.string(from: afterDate)
             let dayAfterFirstDateString = BudgetPeriod.budgetPeriodDateFormatter.string(from: dayAfterFirstDate)
-
+            
             // Filter for other days except first day. All budget periods can be considered after afterDate (one day after the date of first budget period). This means we dont need to consider budgetPeriodIDs here.
             let filterPredicate = NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " >= %@ ", argumentArray: [dayAfterFirstDateString])
-
+            
             // Fiest day filter. For the first date in budget period list, the day should be equal to date of the first budget period and budgetPeriodID should be before last transaction ID (afterID).
             let lastDayFilterPredicate = NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " == %@ && " + #keyPath(BudgetPeriod.budgetPeriodID) + " >= %@ ", argumentArray: [toDateString, afterID])
-
+            
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [filterPredicate, lastDayFilterPredicate]))
         }
-
+        
         // Filter by before cursor in paginated response
         if let beforeDate = beforeDate, let beforeID = beforeID, let dayBeforeLastDate = beforeDate.withAddingValue(-1, to: .day) {
-
+            
             let fromDateString = BudgetPeriod.budgetPeriodDateFormatter.string(from: beforeDate)
             let dayBeforeLastDateString = BudgetPeriod.budgetPeriodDateFormatter.string(from: dayBeforeLastDate)
-
+            
             // Filter for other days except first day of transaction list. All transactions will be considered before beforeDate (one day before first day). This means we dont need to consider transactionIDs here.
             let filterPredicate = NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " <= %@ ", argumentArray: [dayBeforeLastDateString])
-
+            
             // First day filter. For the first date in transaction list, the day should be equal to first day and transactionID should be after first transaction ID (beforeID).
             let firstDayFilterPredicate = NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " == %@ && " + #keyPath(BudgetPeriod.budgetPeriodID) + " <= %@ ", argumentArray: [fromDateString, beforeID])
-
+            
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [filterPredicate, firstDayFilterPredicate]))
         }
         
@@ -813,7 +808,7 @@ public class Budgets: CachedObjects, ResponseHandler {
         if let toDate = toDate {
             predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " <= %@", argumentArray: [BudgetPeriod.budgetPeriodDateFormatter.string(from: toDate)]))
         }
-
+        
         if let status = status {
             predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.budget.statusRawValue) + " == %@", argumentArray: [status.rawValue]))
         }
@@ -825,9 +820,9 @@ public class Budgets: CachedObjects, ResponseHandler {
         if let budgetIDs = updatedLinkedIDs[\BudgetPeriod.budgetID] {
             linkingBudgetIDs = linkingBudgetIDs.union(budgetIDs)
         }
-
+        
         budgetPeriodsLock.lock()
-
+        
         defer {
             budgetPeriodsLock.unlock()
         }

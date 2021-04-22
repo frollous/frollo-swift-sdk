@@ -708,8 +708,8 @@ class BudgetsTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let fromDate = Budget.budgetDateFormatter.date(from: "2019-11-21")!
-            let toDate = Budget.budgetDateFormatter.date(from: "2019-12-05")!
+            let fromDate = BudgetPeriod.budgetPeriodDateFormatter.date(from: "2019-11-21")!
+            let toDate = BudgetPeriod.budgetPeriodDateFormatter.date(from: "2019-12-05")!
             
             self.budgets.refreshBudgetPeriods(budgetID: 4, from: fromDate, to: toDate) { (result) in
                 switch result {
@@ -737,7 +737,7 @@ class BudgetsTests: BaseTestCase {
                                 XCTAssertEqual(budgetPeriod.trackingStatus, .below)
                                 XCTAssertEqual(budgetPeriod.index, 50)
                             } else {
-                                XCTFail("Budget Period missing")
+                                XCTFail("Budget Periods missing")
                             }
                         } catch {
                             XCTFail(error.localizedDescription)
