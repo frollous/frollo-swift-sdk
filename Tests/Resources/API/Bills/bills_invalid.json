@@ -1,0 +1,142 @@
+{
+	"budget_period": {
+		"amount_paid": 100,
+		"amount_remaining": 50
+	},
+	"bills": [{
+		"id": 1059,
+		"merchant": {
+			"id": 81,
+			"name": "McDonald's"
+		}
+	}, {
+		"id": 583,
+		"name": "Netflix",
+		"description": "NETFLIX.COM LOS GATOS CA   Cable and Other Pay Television Services",
+		"bill_type": "subscription",
+		"status": "confirmed",
+		"due_amount": "11.99",
+		"average_amount": "11.99",
+		"frequency": "monthly",
+		"payment_status": "overdue",
+		"next_payment_date": "2018-05-20",
+		"category": {
+			"id": 64,
+			"name": "Entertainment/Recreation"
+		},
+		"merchant": {
+			"id": 40,
+			"name": "Netflix"
+		}
+	}, {
+		"id": 1251,
+		"name": "Rent",
+		"description": "RAINE\u0026HORNE - Direct Debit - Receipt",
+		"bill_type": "bill",
+		"status": "estimated",
+		"last_amount": "185.0",
+		"due_amount": "185.0",
+		"average_amount": "185.0",
+		"frequency": "weekly",
+		"payment_status": "due",
+		"last_payment_date": "2018-12-16",
+		"next_payment_date": "2018-12-23",
+		"category": {
+			"id": 76,
+			"name": "Rent"
+		},
+		"merchant": {
+			"id": 686,
+			"name": "Rent"
+		},
+		"account_id": 937
+	}, {
+		"id": 1249,
+		"name": "Optus Internet",
+		"description": "Direct Debit 052610 OPTUS VISION P/L",
+		"bill_type": "bill",
+		"status": "confirmed",
+		"last_amount": "70.0",
+		"due_amount": "70.0",
+		"average_amount": "70.0",
+		"frequency": "monthly",
+		"payment_status": "future",
+		"last_payment_date": "2018-12-07",
+		"next_payment_date": "2019-01-07",
+		"category": {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom"
+		},
+		"merchant": {
+			"id": 19,
+			"name": "Optus"
+		},
+		"account_id": 542
+	}, {
+		"id": 1250,
+		"name": "AGL",
+		"description": "Direct Debit 348045 AGL SALES P/L 820005441191",
+		"bill_type": "bill",
+		"status": "confirmed",
+		"last_amount": "70.0",
+		"due_amount": "70.0",
+		"average_amount": "70.0",
+		"frequency": "monthly",
+		"payment_status": "due",
+		"last_payment_date": "2018-11-25",
+		"next_payment_date": "2018-12-25",
+		"category": {
+			"id": 90,
+			"name": "Utilities"
+		},
+		"merchant": {
+			"id": 57,
+			"name": "AGL"
+		},
+		"account_id": 937
+	}, {
+		"id": 1252,
+		"name": "Rent",
+		"description": "RAINE\u0026HORNE - Direct Debit - Receipt",
+		"bill_type": "bill",
+		"status": "confirmed",
+		"last_amount": "185.0",
+		"due_amount": "185.0",
+		"average_amount": "185.0",
+		"frequency": "fortnightly",
+		"payment_status": "due",
+		"last_payment_date": "2018-12-16",
+		"next_payment_date": "2018-12-30",
+		"category": {
+			"id": 76,
+			"name": "Rent"
+		},
+		"merchant": {
+			"id": 1,
+			"name": "Unknown"
+		},
+		"account_id": 542
+	}, {
+		"id": 1248,
+		"name": "Amaysim",
+		"description": "AMAYSIM AUSTRALIA PTY SYDNEY AU",
+		"bill_type": "bill",
+		"status": "estimated",
+		"last_amount": "39.9",
+		"due_amount": "39.9",
+		"average_amount": "39.9",
+		"frequency": "monthly",
+		"payment_status": "future",
+		"last_payment_date": "2018-12-04",
+		"next_payment_date": "2019-01-04",
+		"category": {
+			"id": 70,
+			"name": "Cable/Satellite/Telecom"
+		},
+		"merchant": {
+			"id": 205,
+			"name": "Amaysim"
+		},
+		"account_id": 937
+	}]
+}

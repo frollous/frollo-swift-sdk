@@ -38,5 +38,14 @@ extension APIBillCreateRequest {
                                     notes: String.randomString(range: 10...100),
                                     transactionID: nil)
     }
-    
+}
+
+enum InvalidEncodingError: Error {
+    case invalidData
+}
+
+class InvalidEncoder: JSONEncoder {
+    override func encode<T>(_ value: T) throws -> Data where T : Encodable {
+        throw InvalidEncodingError.invalidData
+    }
 }
