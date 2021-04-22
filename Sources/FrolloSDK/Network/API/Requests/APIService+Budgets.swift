@@ -109,12 +109,24 @@ extension APIService {
         }
     }
     
-    internal func fetchBudgetPeriods(budgetID: Int64, from fromDate: Date?, to toDate: Date?, completion: @escaping RequestCompletion<[APIBudgetPeriodResponse]>) {
+    internal func fetchBudgetPeriods(before: String? = nil, after: String? = nil, size: Int? = nil, budgetID: Int64? = nil, from fromDate: Date?, to toDate: Date?, status: Budget.Status? = nil, completion: @escaping RequestCompletion<APIPaginatedResponse<APIBudgetPeriodResponse>>) {
         requestQueue.async {
             let url = URL(string: BudgetsEndpoint.periods(budgetID: budgetID).path, relativeTo: self.serverURL)!
             
             let dateFormatter = Budget.budgetDateFormatter
             var parameters = [String: Any]()
+            
+            if let before = before {
+                parameters[ContactsEndpoint.QueryParameters.before.rawValue] = before
+            }
+            
+            if let after = after {
+                parameters[ContactsEndpoint.QueryParameters.after.rawValue] = after
+            }
+            
+            if let size = size {
+                parameters[ContactsEndpoint.QueryParameters.size.rawValue] = String(size)
+            }
             
             if let fromDate = fromDate {
                 parameters[BudgetsEndpoint.QueryParameters.fromDate.rawValue] = dateFormatter.string(from: fromDate)
@@ -124,8 +136,12 @@ extension APIService {
                 parameters[BudgetsEndpoint.QueryParameters.toDate.rawValue] = dateFormatter.string(from: toDate)
             }
             
+            if let status = status {
+                parameters[BudgetsEndpoint.QueryParameters.status.rawValue] = status.rawValue
+            }
+            
             self.network.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleArrayResponse(type: APIBudgetPeriodResponse.self, errorType: APIError.self, response: response, completion: completion)
+                self.network.handlePaginatedArrayResponse(type: APIBudgetPeriodResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
             
         }

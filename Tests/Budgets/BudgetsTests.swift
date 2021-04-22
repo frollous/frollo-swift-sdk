@@ -708,8 +708,8 @@ class BudgetsTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let fromDate = Budget.budgetDateFormatter.date(from: "2019-11-21")!
-            let toDate = Budget.budgetDateFormatter.date(from: "2019-12-05")!
+            let fromDate = BudgetPeriod.budgetPeriodDateFormatter.date(from: "2019-11-21")!
+            let toDate = BudgetPeriod.budgetPeriodDateFormatter.date(from: "2019-12-05")!
             
             self.budgets.refreshBudgetPeriods(budgetID: 4, from: fromDate, to: toDate) { (result) in
                 switch result {
@@ -737,7 +737,7 @@ class BudgetsTests: BaseTestCase {
                                 XCTAssertEqual(budgetPeriod.trackingStatus, .below)
                                 XCTAssertEqual(budgetPeriod.index, 50)
                             } else {
-                                XCTFail("Budget Period missing")
+                                XCTFail("Budget Periods missing")
                             }
                         } catch {
                             XCTFail(error.localizedDescription)
@@ -749,6 +749,112 @@ class BudgetsTests: BaseTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+    }
+
+
+    func testFetchPaginatedBudgetPeriod() {
+        let expectation1 = expectation(description: "Database")
+        let expectation2 = expectation(description: "Network Request Page 1")
+        let expectation3 = expectation(description: "Fetch Request Page 1")
+        let expectation4 = expectation(description: "Network Request Page 2")
+        let expectation5 = expectation(description: "Fetch Request Page 2")
+
+        let contactsStub = connect(endpoint: BudgetsEndpoint.periods(budgetID: nil).path.prefixedWithSlash, toResourceWithName: "budget_periods_valid")
+
+        database.setup { error in
+            XCTAssertNil(error)
+
+            let managedObjectContext = self.database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let budgetPeriod = BudgetPeriod(context: managedObjectContext)
+                budgetPeriod.populateTestData()
+                budgetPeriod.budgetPeriodID = 109
+                budgetPeriod.trackingStatus = .above
+
+                try? managedObjectContext.save()
+            }
+
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+
+        self.budgets.refreshAllBudgetPeriods(size: 15) { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let (before, after, total)):
+                    XCTAssertEqual(before, nil)
+                    XCTAssertEqual(after, "1614038400_109")
+                    XCTAssertEqual(total, 15)
+            }
+
+            expectation2.fulfill()
+        }
+
+        wait(for: [expectation2], timeout: 3.0)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = self.database.viewContext
+
+            let fetchRequest: NSFetchRequest<BudgetPeriod> = BudgetPeriod.fetchRequest()
+
+            do {
+                let fetchedPeriods = try context.fetch(fetchRequest)
+                let updatedPeriod = self.budgets.budgetPeriod(context: context, budgetPeriodID: 109)
+                XCTAssertEqual(updatedPeriod?.trackingStatus, .below)
+
+                XCTAssertEqual(fetchedPeriods.count, 15)
+
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+
+            expectation3.fulfill()
+        }
+
+        wait(for: [expectation3], timeout: 3.0)
+
+        HTTPStubs.removeStub(contactsStub)
+
+        connect(endpoint: BudgetsEndpoint.periods(budgetID: nil).path.prefixedWithSlash, toResourceWithName: "budget_periods_valid_page_2")
+
+        self.budgets.refreshAllBudgetPeriods(after: "1614038400_109", size: 10) { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let (before, after, total)):
+                    XCTAssertEqual(before, "1614038400_109")
+                    XCTAssertEqual(after, nil)
+                    XCTAssertEqual(total, 20)
+            }
+
+            expectation4.fulfill()
+        }
+
+        wait(for: [expectation4], timeout: 3.0)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = self.database.viewContext
+
+            let fetchRequest: NSFetchRequest<BudgetPeriod> = BudgetPeriod.fetchRequest()
+
+            do {
+                let fetchedPeriods = try context.fetch(fetchRequest)
+
+                XCTAssertEqual(fetchedPeriods.count, 20)
+                XCTAssertNotNil(self.budgets.budgetPeriod(context: context, budgetPeriodID: 109))
+
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+
+            expectation5.fulfill()
+        }
+
+        wait(for: [expectation5], timeout: 3.0)
+
     }
     
     func testRefreshBudgetPeriod() {

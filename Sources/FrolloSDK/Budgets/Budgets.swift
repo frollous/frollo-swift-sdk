@@ -562,16 +562,19 @@ public class Budgets: CachedObjects, ResponseHandler {
     }
     
     /**
-     Refresh budget periods for a budget from the host.
+     Refresh all budget periods from the host.
      
      - parameters:
-        - budgetID: ID of the budget to fetch periods for
+        - before: before field to get previous list in pagination. Format is "<epoch_date>_<id>"(Optional)
+        - after: after field to get next list in pagination. Format is "<epoch_date>_<id>"(Optional)
+        - size: Batch size of budget periods to returned by API (optional); defaults to 500
         - fromDate: Start date to fetch budget periods from (Optional)
         - toDate: End date to fetch budget periods up to (Optional)
+        - status: Filter by status of the budget (optional)
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func refreshBudgetPeriods(budgetID: Int64, from fromDate: Date? = nil, to toDate: Date? = nil, completion: FrolloSDKCompletionHandler? = nil) {
-        service.fetchBudgetPeriods(budgetID: budgetID, from: fromDate, to: toDate) { result in
+    public func refreshAllBudgetPeriods(before: String? = nil, after: String? = nil, size: Int? = 500, from fromDate: Date? = nil, to toDate: Date? = nil, status: Budget.Status? = nil, completion: FrolloSDKPaginatedCompletionHandler? = nil) {
+        service.fetchBudgetPeriods(before: before, after: after, size: size, budgetID: nil, from: fromDate, to: toDate) { result in
             switch result {
                 case .failure(let error):
                     Log.error(error.localizedDescription)
@@ -582,12 +585,47 @@ public class Budgets: CachedObjects, ResponseHandler {
                 case .success(let response):
                     let managedObjectContext = self.database.newBackgroundContext()
                     
-                    self.handleBudgetPeriodsResponse(response, budgetID: budgetID, from: fromDate, to: toDate, managedObjectContext: managedObjectContext)
+                    self.handleBudgetPeriodsResponse(response.data.elements, before: response.paging?.cursors?.before, after: response.paging?.cursors?.after, budgetID: nil, from: fromDate, to: toDate, status: status, managedObjectContext: managedObjectContext)
                     
                     self.linkBudgetPeriodsToBudgets(managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
-                        completion?(.success)
+                        completion?(.success(PaginationInfo(response.paging?.cursors?.before, response.paging?.cursors?.after, response.paging?.total)))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Refresh budget periods for a budget from the host.
+     
+     - parameters:
+        - before: before field to get previous list in pagination. Format is "<epoch_date>_<id>"(Optional)
+        - after: after field to get next list in pagination. Format is "<epoch_date>_<id>"(Optional)
+        - size: Batch size of budget periods to returned by API (optional); defaults to 500
+        - budgetID: ID of the budget to fetch periods for
+        - fromDate: Start date to fetch budget periods from (Optional)
+        - toDate: End date to fetch budget periods up to (Optional)
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func refreshBudgetPeriods(before: String? = nil, after: String? = nil, size: Int? = 500, budgetID: Int64, from fromDate: Date? = nil, to toDate: Date? = nil, completion: FrolloSDKPaginatedCompletionHandler? = nil) {
+        service.fetchBudgetPeriods(before: before, after: after, size: size, budgetID: budgetID, from: fromDate, to: toDate) { result in
+            switch result {
+                case .failure(let error):
+                    Log.error(error.localizedDescription)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleBudgetPeriodsResponse(response.data.elements, before: response.paging?.cursors?.before, after: response.paging?.cursors?.after, budgetID: budgetID, from: fromDate, to: toDate, managedObjectContext: managedObjectContext)
+                    
+                    self.linkBudgetPeriodsToBudgets(managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success(PaginationInfo(response.paging?.cursors?.before, response.paging?.cursors?.after, response.paging?.total)))
                     }
             }
         }
@@ -695,23 +733,84 @@ public class Budgets: CachedObjects, ResponseHandler {
         }
     }
     
-    private func handleBudgetPeriodsResponse(_ budgetPeriodsResponse: [APIBudgetPeriodResponse], budgetID: Int64, from fromDate: Date? = nil, to toDate: Date? = nil, managedObjectContext: NSManagedObjectContext) {
-        budgetPeriodsLock.lock()
-        
-        defer {
-            budgetPeriodsLock.unlock()
-        }
+    private func handleBudgetPeriodsResponse(_ budgetPeriodsResponse: [APIBudgetPeriodResponse], before: String?, after: String?, budgetID: Int64?, from fromDate: Date? = nil, to toDate: Date? = nil, status: Budget.Status? = nil, managedObjectContext: NSManagedObjectContext) {
         
         var predicates = [NSPredicate]()
         
-        predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.budgetID) + " == %ld", argumentArray: [budgetID]))
+        var beforeDate: Date?
+        var afterDate: Date?
+        var beforeID: Int64?
+        var afterID: Int64?
+        
+        // Lower limit predicate if not first page
+        if let id = budgetPeriodsResponse.first?.id, let afterDateString = budgetPeriodsResponse.first?.startDate, before != nil {
+            
+            afterID = id
+            afterDate = BudgetPeriod.budgetPeriodDateFormatter.date(from: afterDateString)
+        }
+        
+        // Upper limit predicate if not last page
+        if let id = budgetPeriodsResponse.last?.id, let beforeDateString = budgetPeriodsResponse.last?.startDate, after != nil {
+            
+            beforeID = id
+            beforeDate = BudgetPeriod.budgetPeriodDateFormatter.date(from: beforeDateString)
+        }
+        
+        /**
+         Following code creates a filter predicate that will be applied to cached transactions to update
+         Predicate 1: Considers all budget periods after start date of first budget period (date of first budget period + 1)
+         Predicate 2: Considers all budget periods as of the date of first budget period and higher than or equal to the ID of the first budget period
+         Predicate 3: Considers all budget periods before the date of last budget period (date of last budget period - 1)
+         Predicate 4: Considers all budget periods of the date of last budget period but lower than or equal to the ID of the last budget period
+         Predicate 5: Predicate 1 OR Predicate 2 (Upper limit Predicate)
+         Predicate 6: Predicate 2 OR Predicate 4 (Lower limit Predicate)
+         Predicate 7: Predicate 5 AND Predicate 6 (Satisfy both upper and lower limit) (Final filter predicate to apply in core data)
+         */
+        
+        // Filter by after cursor in paginated response
+        if let afterDate = afterDate, let afterID = afterID, let dayAfterFirstDate = afterDate.withAddingValue(1, to: .day) {
+            
+            let toDateString = BudgetPeriod.budgetPeriodDateFormatter.string(from: afterDate)
+            let dayAfterFirstDateString = BudgetPeriod.budgetPeriodDateFormatter.string(from: dayAfterFirstDate)
+            
+            // Filter for other days except first day. All budget periods can be considered after afterDate (one day after the date of first budget period). This means we dont need to consider budgetPeriodIDs here.
+            let filterPredicate = NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " >= %@ ", argumentArray: [dayAfterFirstDateString])
+            
+            // Fiest day filter. For the first date in budget period list, the day should be equal to date of the first budget period and budgetPeriodID should be before last transaction ID (afterID).
+            let lastDayFilterPredicate = NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " == %@ && " + #keyPath(BudgetPeriod.budgetPeriodID) + " >= %@ ", argumentArray: [toDateString, afterID])
+            
+            predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [filterPredicate, lastDayFilterPredicate]))
+        }
+        
+        // Filter by before cursor in paginated response
+        if let beforeDate = beforeDate, let beforeID = beforeID, let dayBeforeLastDate = beforeDate.withAddingValue(-1, to: .day) {
+            
+            let fromDateString = BudgetPeriod.budgetPeriodDateFormatter.string(from: beforeDate)
+            let dayBeforeLastDateString = BudgetPeriod.budgetPeriodDateFormatter.string(from: dayBeforeLastDate)
+            
+            // Filter for other days except first day of transaction list. All transactions will be considered before beforeDate (one day before first day). This means we dont need to consider transactionIDs here.
+            let filterPredicate = NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " <= %@ ", argumentArray: [dayBeforeLastDateString])
+            
+            // First day filter. For the first date in transaction list, the day should be equal to first day and transactionID should be after first transaction ID (beforeID).
+            let firstDayFilterPredicate = NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " == %@ && " + #keyPath(BudgetPeriod.budgetPeriodID) + " <= %@ ", argumentArray: [fromDateString, beforeID])
+            
+            predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [filterPredicate, firstDayFilterPredicate]))
+        }
+        
+        if let budgetID = budgetID {
+            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.budgetID) + " == %ld", argumentArray: [budgetID]))
+        }
         
         if let fromDate = fromDate {
-            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " >= %@", argumentArray: [Budget.budgetDateFormatter.string(from: fromDate)]))
+            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " >= %@", argumentArray: [BudgetPeriod.budgetPeriodDateFormatter.string(from: fromDate)]))
         }
         
         if let toDate = toDate {
-            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " <= %@", argumentArray: [Budget.budgetDateFormatter.string(from: toDate)]))
+            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.startDateString) + " <= %@", argumentArray: [BudgetPeriod.budgetPeriodDateFormatter.string(from: toDate)]))
+        }
+        
+        if let status = status {
+            predicates.append(NSPredicate(format: #keyPath(BudgetPeriod.budget.statusRawValue) + " == %@", argumentArray: [status.rawValue]))
         }
         
         let filterPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
@@ -720,6 +819,12 @@ public class Budgets: CachedObjects, ResponseHandler {
         
         if let budgetIDs = updatedLinkedIDs[\BudgetPeriod.budgetID] {
             linkingBudgetIDs = linkingBudgetIDs.union(budgetIDs)
+        }
+        
+        budgetPeriodsLock.lock()
+        
+        defer {
+            budgetPeriodsLock.unlock()
         }
         
         managedObjectContext.performAndWait {
