@@ -105,6 +105,18 @@ extension KeychainServiceIdentifying where Self: XCTestCase {
     func defaultAuthService(keychain: Keychain, network: Network) -> OAuth2Service {
         return OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
     }
+    
+    func invalidNetwork(authentication: Authentication) -> Network {
+        Network(serverEndpoint: self.config.serverEndpoint,
+                authentication: authentication,
+                encoder: InvalidEncoder())
+    }
+    
+    func invalidService(keychain: Keychain, loggedIn: Bool = true) -> APIService {
+        APIService(serverEndpoint: self.config.serverEndpoint,
+                   network: invalidNetwork(authentication: defaultAuthentication(keychain: keychain,
+                                                                                 loggedIn: loggedIn)))
+    }
 }
 
 extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTestCase {
