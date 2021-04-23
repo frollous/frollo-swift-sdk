@@ -70,12 +70,12 @@ platform :ios do
       # 		  output_directory: "fastlane/mac_test_output",
       # 		  slack_message: "Frollo SDK: macOS Tests")
 
-   	  run_tests(scheme: "FrolloSDK tvOS Tests",
-      		  clean: true,
-      		  code_coverage: true,
-            include_simulator_logs: false,
-      		  device: "Apple TV 4K",
-      		  slack_message: "Frollo SDK: tvOS Tests")
+      #  run_tests(scheme: "FrolloSDK tvOS Tests",
+      #	  clean: true,
+      #	  code_coverage: true,
+      #    include_simulator_logs: false,
+      #		  device: "Apple TV 4K",
+      #		  slack_message: "Frollo SDK: tvOS Tests")
 
       run_tests(scheme: "FrolloSDK iOS Tests",
       		  clean: true,
