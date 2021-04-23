@@ -84,6 +84,32 @@ class BillsRequestTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testCreateBillFail() {
+        let expectation1 = expectation(description: "Network Request")
+        // create invalid service
+        service = invalidService(keychain: keychain)
+        
+        connect(endpoint: BillsEndpoint.bills.path.prefixedWithSlash, toResourceWithName: "bill_id_12345", addingStatusCode: 201)
+        
+        let request = APIBillCreateRequest.testTransactionData()
+        service.createBill(request: request) { (result) in
+            switch result {
+            case .failure(let error):
+                XCTAssertTrue(error is DataError)
+                if let error = error as? DataError {
+                    XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                    XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                }
+            case .success:
+                XCTFail("Invalid service throw Error when encoding APIBillCreateRequest")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
 
     func testDeleteBill() {
         let expectation1 = expectation(description: "Network Request")
@@ -145,6 +171,51 @@ class BillsRequestTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testFetchBillsInvalidResponse() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: BillsEndpoint.bills.path.prefixedWithSlash, toResourceWithName: "bills_invalid")
+        
+        service.fetchBills { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertTrue(error is DataError)
+                    if let error = error as? DataError {
+                        XCTAssertEqual(error.type, DataError.DataErrorType.unknown)
+                        XCTAssertEqual(error.subType, DataError.DataErrorSubType.unknown)
+                    }
+                case .success(let response):
+                    XCTFail("Data response is invalid")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchBillsInvalid() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: BillsEndpoint.bills.path.prefixedWithSlash, addingStatusCode: 404)
+        
+        service.fetchBills { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertTrue(error is APIError)
+                    if let error = error as? APIError {
+                        XCTAssertEqual(error.statusCode, 404)
+                    }
+                case .success(let response):
+                    XCTFail("Data response is invalid")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testFetchBillByID() {
         let expectation1 = expectation(description: "Network Request")
         
@@ -194,6 +265,32 @@ class BillsRequestTests: BaseTestCase {
                 case .success(let response):
                     XCTAssertEqual(response.id, 12345)
                     XCTAssertEqual(response.name, "Netflix")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testUpdateBillFail() {
+        let expectation1 = expectation(description: "Network Request")
+        // create invalid service
+        service = invalidService(keychain: keychain)
+        
+        connect(endpoint: BillsEndpoint.bills.path.prefixedWithSlash, toResourceWithName: "bill_id_12345", addingStatusCode: 201)
+        
+        let request = APIBillUpdateRequest.testCompleteData()
+        service.updateBill(billID: 12345, request: request) { (result) in
+            switch result {
+            case .failure(let error):
+                XCTAssertTrue(error is DataError)
+                if let error = error as? DataError {
+                    XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                    XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                }
+            case .success:
+                XCTFail("Invalid service throw Error when encoding APIBillUpdateRequest")
             }
             
             expectation1.fulfill()
@@ -297,6 +394,32 @@ class BillsRequestTests: BaseTestCase {
                 case .success(let response):
                     XCTAssertEqual(response.id, 12345)
                     XCTAssertEqual(response.name, "Optus Internet")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
+    func testUpdateBillPaymentFail() {
+        let expectation1 = expectation(description: "Network Request")
+        // create invalid service
+        service = invalidService(keychain: keychain)
+        
+        connect(endpoint: BillsEndpoint.billPayment(billPaymentID: 12345).path.prefixedWithSlash, toResourceWithName: "bill_payment_id_12345")
+        
+        let request = APIBillPaymentUpdateRequest.testCompleteData()
+        service.updateBillPayment(billPaymentID: 12345, request: request) { (result) in
+            switch result {
+            case .failure(let error):
+                XCTAssertTrue(error is DataError)
+                if let error = error as? DataError {
+                    XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                    XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                }
+            case .success:
+                XCTFail("Invalid service throw Error when encoding APIBillPaymentUpdateRequest")
             }
             
             expectation1.fulfill()
