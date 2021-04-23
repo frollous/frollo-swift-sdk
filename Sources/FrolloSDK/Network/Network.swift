@@ -34,7 +34,7 @@ class Network: SessionDelegate {
     internal var sessionManager: Session!
     
     private let APIVersion = "2.13"
-    private let encoder: JSONEncoder
+    private var encoder: JSONEncoder?
     
     /**
      Initialise a network stack pointing to an API at a specific URL
@@ -46,7 +46,7 @@ class Network: SessionDelegate {
      
      - warning: If using certificate pinning make sure you pin a second public key as a backup in case the production private/public key pair becomes compromised. Failure to do this will render your app unusable until updated with the new public/private key pair.
      */
-    internal init(serverEndpoint: URL, authentication: Authentication, encoder: JSONEncoder = JSONEncoder(), pinnedPublicKeys: [URL: [SecKey]]? = nil) {
+    internal init(serverEndpoint: URL, authentication: Authentication, encoder: JSONEncoder? = nil, pinnedPublicKeys: [URL: [SecKey]]? = nil) {
         self.authentication = authentication
         self.serverURL = serverEndpoint
         self.encoder = encoder
@@ -133,12 +133,14 @@ class Network: SessionDelegate {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
         
+        var jsonEncoder = encoder ?? JSONEncoder()
+        
         if let encodingStrategy = dateEncodingStrategy {
-            encoder.dateEncodingStrategy = encodingStrategy
+            jsonEncoder.dateEncodingStrategy = encodingStrategy
         }
         
         do {
-            let requestData = try encoder.encode(content)
+            let requestData = try jsonEncoder.encode(content)
             
             urlRequest.addValue("application/json", forHTTPHeaderField: HTTPHeader.contentType.rawValue)
             urlRequest.httpBody = requestData
