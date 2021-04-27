@@ -63,7 +63,7 @@ public class Payments: ResponseHandler {
         service.payAnyone(request: request, otp: securityCode) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -102,7 +102,7 @@ public class Payments: ResponseHandler {
         service.transfer(request: request, otp: securityCode) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -142,7 +142,7 @@ public class Payments: ResponseHandler {
         service.bpayPayment(request: request, otp: securityCode) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -181,7 +181,7 @@ public class Payments: ResponseHandler {
         service.payIDPayment(request: request, otp: securityCode) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -219,7 +219,7 @@ public class Payments: ResponseHandler {
         service.payAnyoneNPPPayment(request: request, otp: securityCode) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -248,7 +248,7 @@ public class Payments: ResponseHandler {
         service.verifyPayAnyone(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -277,7 +277,7 @@ public class Payments: ResponseHandler {
         service.verifyPayID(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))

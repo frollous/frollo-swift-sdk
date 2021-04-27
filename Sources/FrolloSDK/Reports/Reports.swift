@@ -120,7 +120,7 @@ public class Reports: ResponseHandler, CachedObjects {
         service.fetchAccountBalanceReports(period: period, from: fromDate, to: toDate, accountID: accountID, accountType: accountType) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -239,7 +239,7 @@ public class Reports: ResponseHandler, CachedObjects {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -266,7 +266,7 @@ public class Reports: ResponseHandler, CachedObjects {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -350,7 +350,7 @@ public class Reports: ResponseHandler, CachedObjects {
                     }
                 }
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }

@@ -56,7 +56,7 @@ public class PayDays {
                 
                 payDay = fetchedPayDays.first
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
         
@@ -75,7 +75,7 @@ public class PayDays {
         service.fetchPayDay { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -110,7 +110,7 @@ public class PayDays {
         service.updatePayDay(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -154,14 +154,14 @@ public class PayDays {
                 do {
                     try managedObjectContext.save()
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                 }
                 
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(name: PayDays.payDayUpdatedNotification, object: payDay)
                 }
             } catch let error as NSError {
-                Log.error(error.localizedDescription)
+                error.logError()
                 
                 if error.domain == NSCocoaErrorDomain, error.code == 256, let sqliteError = error.userInfo[NSSQLiteErrorDomain] as? NSNumber, sqliteError.int32Value == 1 {
                     Log.error("Critical database error, corrupted.")

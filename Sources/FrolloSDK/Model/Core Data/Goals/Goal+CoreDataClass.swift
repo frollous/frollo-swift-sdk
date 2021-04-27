@@ -223,7 +223,7 @@ public class Goal: NSManagedObject, UniqueManagedObject {
                 do {
                     return try JSON(data: rawValue)
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                 }
             }
             return [:]
@@ -232,7 +232,7 @@ public class Goal: NSManagedObject, UniqueManagedObject {
             do {
                 metadataRawValue = try newValue.rawData()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
                 
                 metadataRawValue = try? JSONSerialization.data(withJSONObject: [:], options: [])
             }

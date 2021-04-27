@@ -38,7 +38,7 @@ public class KYC: ResponseHandler {
             
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -67,7 +67,7 @@ public class KYC: ResponseHandler {
             
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))

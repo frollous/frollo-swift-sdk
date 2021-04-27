@@ -132,7 +132,7 @@ public class Messages: CachedObjects, ResponseHandler {
         do {
             return try context.count(for: fetchRequest)
         } catch {
-            Log.error(error.localizedDescription)
+            error.logError()
             return nil
         }
         
@@ -190,7 +190,7 @@ public class Messages: CachedObjects, ResponseHandler {
         service.fetchMessages { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -218,7 +218,7 @@ public class Messages: CachedObjects, ResponseHandler {
         service.fetchMessage(messageID: messageID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -264,7 +264,7 @@ public class Messages: CachedObjects, ResponseHandler {
         service.updateMessage(messageID: messageID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -301,7 +301,7 @@ public class Messages: CachedObjects, ResponseHandler {
         service.updateMessage(messageID: messageID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -328,7 +328,7 @@ public class Messages: CachedObjects, ResponseHandler {
         service.fetchUnreadMessages { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -360,7 +360,7 @@ public class Messages: CachedObjects, ResponseHandler {
             updateMessage(messageID: messageID, read: true, interacted: true) { result in
                 switch result {
                     case .failure(let error):
-                        Log.error(error.localizedDescription)
+                        error.logError()
                         completion?(.failure(error))
                     case .success:
                         DispatchQueue.main.async { [weak self] in
@@ -381,7 +381,7 @@ public class Messages: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
                 completion?(.failure(error))
             }
         }
@@ -421,7 +421,7 @@ public class Messages: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -444,7 +444,7 @@ public class Messages: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }

@@ -150,7 +150,7 @@ class Network: SessionDelegate {
             
             return urlRequest
         } catch {
-            Log.error(error.localizedDescription)
+            error.logError()
             
             return nil
         }
@@ -209,7 +209,7 @@ class Network: SessionDelegate {
                     
                     completion(.success(apiResponse))
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     let dataError = DataError(type: .api, subType: .invalidData)
                     dataError.systemError = error
@@ -233,7 +233,7 @@ class Network: SessionDelegate {
                     
                     completion(.success(apiResponse.elements))
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     let dataError = DataError(type: .api, subType: .invalidData)
                     dataError.systemError = error
@@ -256,7 +256,7 @@ class Network: SessionDelegate {
                     let apiResponse = try decoder.decode(APIPaginatedResponse<T>.self, from: value)
                     completion(.success(apiResponse))
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     let dataError = DataError(type: .api, subType: .invalidData)
                     dataError.systemError = error

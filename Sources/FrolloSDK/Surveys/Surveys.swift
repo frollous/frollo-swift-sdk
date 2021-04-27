@@ -38,7 +38,7 @@ public class Surveys: ResponseHandler {
         service.fetchSurvey(surveyKey: surveyKey, latest: latest) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -65,7 +65,7 @@ public class Surveys: ResponseHandler {
         service.submitSurvey(request: survey) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))

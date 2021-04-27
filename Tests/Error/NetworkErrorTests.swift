@@ -59,4 +59,15 @@ class NetworkErrorTests: XCTestCase {
         XCTAssertGreaterThan(networkError.debugDescription.count, networkError.localizedDescription.count)
     }
     
+    func testNetworkErrorNotLogged() {
+        let systemError = NSError(domain: NSMachErrorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: "some unexpected NSError"])
+        XCTAssertEqual(systemError.isNetworkConnectionError, false)
+        
+        let noInternetError = NSError(domain: NSURLErrorDomain, code: NSURLErrorNotConnectedToInternet, userInfo: [NSLocalizedDescriptionKey: "No Internet"])
+        XCTAssertEqual(noInternetError.isNetworkConnectionError, true)
+        
+        let connectionLostError = NSError(domain: NSURLErrorDomain, code: NSURLErrorNetworkConnectionLost, userInfo: [NSLocalizedDescriptionKey: "Connection Lost"])
+        XCTAssertEqual(connectionLostError.isNetworkConnectionError, true)
+    }
+    
 }

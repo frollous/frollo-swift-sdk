@@ -43,7 +43,7 @@ public class ProviderAccount: NSManagedObject, UniqueManagedObject {
                 do {
                     return try decoder.decode(ProviderLoginForm.self, from: rawValue)
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                 }
             }
             return nil

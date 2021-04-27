@@ -197,7 +197,7 @@ public class Bills: CachedObjects, ResponseHandler {
         service.createBill(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -229,7 +229,7 @@ public class Bills: CachedObjects, ResponseHandler {
         service.deleteBill(billID: billID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -256,7 +256,7 @@ public class Bills: CachedObjects, ResponseHandler {
         service.fetchBills { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -288,7 +288,7 @@ public class Bills: CachedObjects, ResponseHandler {
         service.fetchBill(billID: billID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -338,7 +338,7 @@ public class Bills: CachedObjects, ResponseHandler {
         service.updateBill(billID: billID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -449,7 +449,7 @@ public class Bills: CachedObjects, ResponseHandler {
         service.deleteBillPayment(billPaymentID: billPaymentID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -476,7 +476,7 @@ public class Bills: CachedObjects, ResponseHandler {
         service.fetchBillPayments(from: fromDate, to: toDate) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -506,7 +506,7 @@ public class Bills: CachedObjects, ResponseHandler {
         service.fetchBillPayment(billPaymentID: billPaymentID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -554,7 +554,7 @@ public class Bills: CachedObjects, ResponseHandler {
         service.updateBillPayment(billPaymentID: billPaymentID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -592,7 +592,7 @@ public class Bills: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -621,7 +621,7 @@ public class Bills: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -643,7 +643,7 @@ public class Bills: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -665,7 +665,7 @@ public class Bills: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -695,7 +695,7 @@ public class Bills: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -723,7 +723,7 @@ public class Bills: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -750,7 +750,7 @@ public class Bills: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -770,7 +770,7 @@ public class Bills: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -790,7 +790,7 @@ public class Bills: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -810,7 +810,7 @@ public class Bills: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }

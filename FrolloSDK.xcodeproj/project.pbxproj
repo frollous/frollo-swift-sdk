@@ -1267,6 +1267,8 @@
 		132154702390ECEB001495A2 /* BudgetPeriod+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1321546C2390ECE6001495A2 /* BudgetPeriod+Test.swift */; };
 		132154712390ECEB001495A2 /* BudgetPeriod+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1321546C2390ECE6001495A2 /* BudgetPeriod+Test.swift */; };
 		133B024D23A9A1A00067D6FA /* PaginatedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D44A32238B5E2400AF74EC /* PaginatedResponse.swift */; };
+		133E59292637A01F0000E0BB /* Error+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133E59282637A01F0000E0BB /* Error+Logging.swift */; };
+		133E592A2637A01F0000E0BB /* Error+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133E59282637A01F0000E0BB /* Error+Logging.swift */; };
 		1357F3A525DE449000E6EF06 /* kyc_response_medicare.json in Resources */ = {isa = PBXBuildFile; fileRef = 1357F3A325DE448F00E6EF06 /* kyc_response_medicare.json */; };
 		1357F3A625DE449000E6EF06 /* kyc_response_medicare.json in Resources */ = {isa = PBXBuildFile; fileRef = 1357F3A325DE448F00E6EF06 /* kyc_response_medicare.json */; };
 		1357F3A725DE449000E6EF06 /* kyc_response_medicare.json in Resources */ = {isa = PBXBuildFile; fileRef = 1357F3A325DE448F00E6EF06 /* kyc_response_medicare.json */; };
@@ -2409,6 +2411,7 @@
 		132154622390CC62001495A2 /* BudgetPeriod+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BudgetPeriod+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		132154662390EC1C001495A2 /* Budget+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Budget+Test.swift"; sourceTree = "<group>"; };
 		1321546C2390ECE6001495A2 /* BudgetPeriod+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BudgetPeriod+Test.swift"; sourceTree = "<group>"; };
+		133E59282637A01F0000E0BB /* Error+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+Logging.swift"; sourceTree = "<group>"; };
 		1357F3A325DE448F00E6EF06 /* kyc_response_medicare.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kyc_response_medicare.json; sourceTree = "<group>"; };
 		1357F3A425DE449000E6EF06 /* kyc_response_non_existent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kyc_response_non_existent.json; sourceTree = "<group>"; };
 		1357F43025DF43EF00E6EF06 /* ManagedProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedProducts.swift; sourceTree = "<group>"; };
@@ -4075,6 +4078,7 @@
 				011E87CF213766550026E047 /* SecKeyPEM.swift */,
 				031DC9EC240F864D005CCC71 /* String+URL.swift */,
 				4E6ADD9225EB6992005A5074 /* Bundle+Resources.swift */,
+				133E59282637A01F0000E0BB /* Error+Logging.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -6200,6 +6204,7 @@
 				01483B6E2117C70600D0DA87 /* AccountBalanceTier+CoreDataClass.swift in Sources */,
 				137C26F825B1486000DF7DDD /* KYC.swift in Sources */,
 				13AC07712394CD0300982FB1 /* APIService+Budgets.swift in Sources */,
+				133E59292637A01F0000E0BB /* Error+Logging.swift in Sources */,
 				01258793234418EE0077D8B4 /* PayDays.swift in Sources */,
 				1357F44225DF444100E6EF06 /* APIService+ManagedProduct.swift in Sources */,
 				01EED86420E5A7EB00F4516B /* Preferences.swift in Sources */,
@@ -6983,6 +6988,7 @@
 				133B024D23A9A1A00067D6FA /* PaginatedResponse.swift in Sources */,
 				01E5BF3B2227A475003D85FD /* AccountBalanceTier+CoreDataClass.swift in Sources */,
 				13AC07722394CD0300982FB1 /* APIService+Budgets.swift in Sources */,
+				133E592A2637A01F0000E0BB /* Error+Logging.swift in Sources */,
 				137C270025B1486100DF7DDD /* KYC.swift in Sources */,
 				01258794234418EE0077D8B4 /* PayDays.swift in Sources */,
 				01E5BF3D2227A475003D85FD /* Preferences.swift in Sources */,

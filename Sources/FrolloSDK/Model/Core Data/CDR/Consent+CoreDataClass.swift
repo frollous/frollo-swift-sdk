@@ -71,7 +71,7 @@ public class Consent: NSManagedObject, UniqueManagedObject {
                 do {
                     return try JSONSerialization.jsonObject(with: rawValue, options: []) as? [String: Bool]
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     return nil
                 }
             } else {
@@ -83,7 +83,7 @@ public class Consent: NSManagedObject, UniqueManagedObject {
                 do {
                     additionalPermissionsRawValue = try JSONSerialization.data(withJSONObject: newValue, options: [])
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     additionalPermissionsRawValue = nil
                 }
             } else {

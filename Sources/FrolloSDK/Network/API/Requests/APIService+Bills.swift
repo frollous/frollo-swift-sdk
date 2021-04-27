@@ -158,7 +158,7 @@ extension APIService {
                     
                     completion(.success(billsResponse.bills))
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     let dataError = DataError(type: .unknown, subType: .unknown)
                     completion(.failure(dataError))

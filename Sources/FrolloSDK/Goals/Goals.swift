@@ -167,7 +167,7 @@ public class Goals: CachedObjects, ResponseHandler {
         service.fetchGoal(goalID: goalID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -201,7 +201,7 @@ public class Goals: CachedObjects, ResponseHandler {
         service.fetchGoals(status: status, trackingStatus: trackingStatus) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -290,7 +290,7 @@ public class Goals: CachedObjects, ResponseHandler {
         service.createGoal(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -321,7 +321,7 @@ public class Goals: CachedObjects, ResponseHandler {
         service.deleteGoal(goalID: goalID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -365,7 +365,7 @@ public class Goals: CachedObjects, ResponseHandler {
         service.updateGoal(goalID: goalID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -467,7 +467,7 @@ public class Goals: CachedObjects, ResponseHandler {
         service.fetchGoalPeriod(goalID: goalID, goalPeriodID: goalPeriodID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -497,7 +497,7 @@ public class Goals: CachedObjects, ResponseHandler {
         service.fetchGoalPeriods(goalID: goalID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -535,7 +535,7 @@ public class Goals: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -557,7 +557,7 @@ public class Goals: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -587,7 +587,7 @@ public class Goals: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -628,7 +628,7 @@ public class Goals: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -648,7 +648,7 @@ public class Goals: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -672,7 +672,7 @@ public class Goals: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -692,7 +692,7 @@ public class Goals: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }

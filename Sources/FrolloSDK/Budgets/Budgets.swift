@@ -181,7 +181,7 @@ public class Budgets: CachedObjects, ResponseHandler {
         service.fetchBudget(budgetID: budgetID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -212,7 +212,7 @@ public class Budgets: CachedObjects, ResponseHandler {
         service.fetchBudgets(current: current, budgetType: budgetType) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -358,7 +358,7 @@ public class Budgets: CachedObjects, ResponseHandler {
         service.createBudget(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -388,7 +388,7 @@ public class Budgets: CachedObjects, ResponseHandler {
         service.deleteBudget(budgetID: budgetID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -432,7 +432,7 @@ public class Budgets: CachedObjects, ResponseHandler {
         service.updateBudget(budgetID: budgetID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -542,7 +542,7 @@ public class Budgets: CachedObjects, ResponseHandler {
         service.fetchBudgetPeriod(budgetID: budgetID, budgetPeriodID: budgetPeriodID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -577,7 +577,7 @@ public class Budgets: CachedObjects, ResponseHandler {
         service.fetchBudgetPeriods(before: before, after: after, size: size, budgetID: nil, from: fromDate, to: toDate) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -612,7 +612,7 @@ public class Budgets: CachedObjects, ResponseHandler {
         service.fetchBudgetPeriods(before: before, after: after, size: size, budgetID: budgetID, from: fromDate, to: toDate) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -650,7 +650,7 @@ public class Budgets: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -676,7 +676,7 @@ public class Budgets: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -707,7 +707,7 @@ public class Budgets: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
         
@@ -728,7 +728,7 @@ public class Budgets: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -831,7 +831,7 @@ public class Budgets: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -851,7 +851,7 @@ public class Budgets: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }

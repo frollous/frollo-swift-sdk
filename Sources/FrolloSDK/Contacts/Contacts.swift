@@ -114,7 +114,7 @@ public class Contacts: CachedObjects, ResponseHandler {
         service.fetchContact(contactID: contactID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -147,7 +147,7 @@ public class Contacts: CachedObjects, ResponseHandler {
         service.fetchContacts(before: before, after: after, size: size) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -186,7 +186,7 @@ public class Contacts: CachedObjects, ResponseHandler {
         service.createContact(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -220,7 +220,7 @@ public class Contacts: CachedObjects, ResponseHandler {
         service.createContact(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -253,7 +253,7 @@ public class Contacts: CachedObjects, ResponseHandler {
         service.createContact(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -294,7 +294,7 @@ public class Contacts: CachedObjects, ResponseHandler {
         service.createInternationalContact(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -328,7 +328,7 @@ public class Contacts: CachedObjects, ResponseHandler {
         service.updateContact(contactID: contactID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -367,7 +367,7 @@ public class Contacts: CachedObjects, ResponseHandler {
         service.updateContact(contactID: contactID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -404,7 +404,7 @@ public class Contacts: CachedObjects, ResponseHandler {
         service.updateContact(contactID: contactID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -449,7 +449,7 @@ public class Contacts: CachedObjects, ResponseHandler {
         service.updateInternationalContact(contactID: contactID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -476,7 +476,7 @@ public class Contacts: CachedObjects, ResponseHandler {
         service.deleteContact(contactID: contactID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -518,7 +518,7 @@ public class Contacts: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -622,7 +622,7 @@ public class Contacts: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -642,7 +642,7 @@ public class Contacts: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
