@@ -65,6 +65,30 @@ class GoalsRequestTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testCreateGoalFail() {
+        let expectation1 = expectation(description: "Network Request")
+        service = invalidService(keychain: keychain)
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goal_id_3211", addingStatusCode: 404)
+        
+        let request = APIGoalCreateRequest.testAmountTargetData()
+        
+        service.createGoal(request: request) { (result) in
+            switch result {
+            case .failure(let error):
+                XCTAssertTrue(error is DataError)
+                if let error = error as? DataError {
+                    XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                    XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                }
+            case .success:
+                XCTFail("Invalid service throw Error when encoding")
+            }
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testCreateDateTargetGoal() {
         let expectation1 = expectation(description: "Network Request")
         

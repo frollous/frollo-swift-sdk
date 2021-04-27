@@ -511,6 +511,92 @@ class GoalsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testCreateDateGoalFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goal_id_3211", addingStatusCode: 201)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            
+            self.goals.createGoal(name: "My test goal",
+                             description: "The bestest test goal",
+                             imageURL: URL(string: "https://example.com/image.png"),
+                             target: .date,
+                             trackingType: .credit,
+                             frequency: .weekly,
+                             startDate: nil,
+                             endDate: nil,
+                             periodAmount: 700,
+                             startAmount: 0,
+                             targetAmount: 20000,
+                             accountID: 123,
+                             metadata: ["seen": true]) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .api)
+                            XCTAssertEqual(dataError.subType, .invalidData)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Invalid data should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testCreateOpenEndedGoalFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goal_id_3211", addingStatusCode: 201)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            
+            self.goals.createGoal(name: "My test goal",
+                             description: "The bestest test goal",
+                             imageURL: URL(string: "https://example.com/image.png"),
+                             target: .openEnded,
+                             trackingType: .credit,
+                             frequency: .weekly,
+                             startDate: nil,
+                             endDate: nil,
+                             periodAmount: 700,
+                             startAmount: 0,
+                             targetAmount: 20000,
+                             accountID: 123,
+                             metadata: ["seen": true]) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .api)
+                            XCTAssertEqual(dataError.subType, .invalidData)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Invalid data should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testDeleteGoal() {
         let expectation1 = expectation(description: "Network Request")
         
