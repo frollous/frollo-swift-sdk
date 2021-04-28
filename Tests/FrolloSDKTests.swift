@@ -614,6 +614,7 @@ class FrolloSDKTests: XCTestCase {
     }
     
     func testSetupInvokesDatabaseMigration() {
+        
         let expectation1 = expectation(description: "Database Setup")
         let expectation2 = expectation(description: "Setup")
         
