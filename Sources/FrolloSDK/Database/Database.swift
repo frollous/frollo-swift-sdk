@@ -65,10 +65,10 @@ public class Database {
         self.targetName = targetName
         
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
-        if #available(iOS 11.0, *) {
+        if #available(iOS 11.0, tvOS 11.0, *) {
             storeDescription.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
         }
-        if #available(iOS 13.0, *) {
+        if #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 15.0, *) {
             storeDescription.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
         }
         
@@ -119,14 +119,14 @@ public class Database {
                         let dataError = DataError(type: .database, subType: .corrupt)
                         completionHandler(dataError)
                     } else {
-                        self.persistentContainer.viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+                        self.persistentContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
                         self.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
                         
                         completionHandler(nil)
                     }
                 })
             } else {
-                self.persistentContainer.viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+                self.persistentContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
                 self.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
                 
                 DispatchQueue.main.async {
@@ -340,10 +340,10 @@ public class Database {
         persistentHistoryPersistence.reset()
         
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
-        if #available(iOS 11.0, *) {
+        if #available(iOS 11.0, tvOS 11.0, *) {
             storeDescription.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
         }
-        if #available(iOS 13.0, *) {
+        if #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 15.0, *) {
             storeDescription.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
         }
         
