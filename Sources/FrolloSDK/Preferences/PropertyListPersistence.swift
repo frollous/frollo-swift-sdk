@@ -91,7 +91,7 @@ class PropertyListPersistence: PreferencesPersistence {
                 preferencesData = [:]
             }
         } catch {
-            Log.error(error.localizedDescription)
+            error.logError()
         }
     }
     
@@ -108,10 +108,10 @@ class PropertyListPersistence: PreferencesPersistence {
             do {
                 try data.write(to: preferencesPath)
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         } catch {
-            Log.error(error.localizedDescription)
+            error.logError()
         }
     }
     
@@ -126,7 +126,7 @@ class PropertyListPersistence: PreferencesPersistence {
             do {
                 try FileManager.default.removeItem(at: preferencesPath)
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
         

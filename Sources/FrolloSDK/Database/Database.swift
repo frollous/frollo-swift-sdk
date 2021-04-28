@@ -65,6 +65,12 @@ public class Database {
         self.targetName = targetName
         
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
+        if #available(iOS 11.0, tvOS 11.0, *) {
+            storeDescription.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+        }
+        if #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 15.0, *) {
+            storeDescription.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
+        }
         
         let persistentHistoryPath = path.appendingPathComponent(persistentHistoryFileName).appendingPathExtension(persistentHistoryExtension)
         
@@ -113,14 +119,14 @@ public class Database {
                         let dataError = DataError(type: .database, subType: .corrupt)
                         completionHandler(dataError)
                     } else {
-                        self.persistentContainer.viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+                        self.persistentContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
                         self.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
                         
                         completionHandler(nil)
                     }
                 })
             } else {
-                self.persistentContainer.viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+                self.persistentContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
                 self.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
                 
                 DispatchQueue.main.async {
@@ -151,7 +157,7 @@ public class Database {
             let model = NSManagedObjectModel(contentsOf: Bundle.module.url(forResource: DatabaseConstants.modelName, withExtension: DatabaseConstants.parentModelExtension)!)!
             return !model.isConfiguration(withName: nil, compatibleWithStoreMetadata: storeMetadata)
         } catch {
-            Log.error(error.localizedDescription)
+            error.logError()
             
             return false
         }
@@ -212,7 +218,7 @@ public class Database {
                             } catch let error as NSError {
                                 self.migrationLock.unlock()
                                 
-                                Log.error(error.localizedDescription)
+                                error.logError()
                                 Log.debug(error.debugDescription)
                                 
                                 completionHandler(error)
@@ -227,7 +233,7 @@ public class Database {
                 } catch let error as NSError {
                     Log.error("Database migration failed to find store metadata")
                     
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     Log.debug(error.debugDescription)
                     
                     self.migrationLock.unlock()
@@ -257,7 +263,7 @@ public class Database {
             } catch let error as NSError {
                 Log.info("Database migration failed to find final store metadata")
                 
-                Log.error(error.localizedDescription)
+                error.logError()
                 Log.debug(error.debugDescription)
                 
                 self.migrationLock.unlock()
@@ -277,7 +283,7 @@ public class Database {
             do {
                 mappingModel = try NSMappingModel.inferredMappingModel(forSourceModel: sourceModel, destinationModel: destinationModel)
             } catch let error as NSError {
-                Log.error(error.localizedDescription)
+                error.logError()
                 Log.debug(error.debugDescription)
                 
                 throw error
@@ -289,7 +295,7 @@ public class Database {
         do {
             try FileManager.default.createDirectory(at: tempDirectory, withIntermediateDirectories: true, attributes: nil)
         } catch let error as NSError {
-            Log.error(error.localizedDescription)
+            error.logError()
             Log.debug(error.debugDescription)
             
             throw error
@@ -306,7 +312,7 @@ public class Database {
         do {
             try migrationManager.migrateStore(from: storeURL, sourceType: NSSQLiteStoreType, options: nil, with: mappingModel, toDestinationURL: destinationURL, destinationType: NSSQLiteStoreType, destinationOptions: nil)
         } catch let error as NSError {
-            Log.error(error.localizedDescription)
+            error.logError()
             Log.debug(error.debugDescription)
             
             throw error
@@ -316,7 +322,7 @@ public class Database {
         do {
             try persistentStoreCoordinator.replacePersistentStore(at: storeURL, destinationOptions: nil, withPersistentStoreFrom: destinationURL, sourceOptions: nil, ofType: NSSQLiteStoreType)
         } catch let error as NSError {
-            Log.error(error.localizedDescription)
+            error.logError()
             Log.debug(error.debugDescription)
             
             throw error
@@ -334,6 +340,13 @@ public class Database {
         persistentHistoryPersistence.reset()
         
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
+        if #available(iOS 11.0, tvOS 11.0, *) {
+            storeDescription.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+        }
+        if #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 15.0, *) {
+            storeDescription.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
+        }
+        
         persistentContainer = NSPersistentContainer(name: DatabaseConstants.storeName, managedObjectModel: Database.model)
         persistentContainer.persistentStoreDescriptions = [storeDescription]
         
@@ -353,7 +366,7 @@ public class Database {
         do {
             try persistentStoreCoordinator.destroyPersistentStore(at: storeURL, ofType: NSSQLiteStoreType, options: nil)
         } catch {
-            Log.error(error.localizedDescription)
+            error.logError()
         }
         
         // Fallback cleanup

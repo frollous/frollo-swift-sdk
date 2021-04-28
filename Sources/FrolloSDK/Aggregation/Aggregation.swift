@@ -204,7 +204,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchProviders { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -239,7 +239,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchProvider(providerID: providerID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -320,7 +320,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             DispatchQueue.main.async {
                 switch result {
                     case .failure(let error):
-                        Log.error(error.localizedDescription)
+                        error.logError()
                         completion?(.failure(error))
                     case .success(let response):
                         let managedObjectContext = self.database.newBackgroundContext()
@@ -344,7 +344,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchConsent(consentID: consentID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -453,7 +453,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchCDRConfiguration { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -482,7 +482,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             let configurations = try context.fetch(fetch)
             return configurations.first
         } catch {
-            Log.error(error.localizedDescription)
+            error.logError()
             return nil
         }
     }
@@ -566,7 +566,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchProviderAccounts { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -601,7 +601,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchProviderAccount(providerAccountID: providerAccountID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -638,7 +638,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.createProviderAccount(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -672,7 +672,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.deleteProviderAccount(providerAccountID: providerAccountID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -704,7 +704,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.updateProviderAccount(providerAccountID: providerAccountID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -736,7 +736,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.syncProviderAccounts(providerAccountIDs: providerAccountIDs) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -921,7 +921,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchAccounts { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -954,7 +954,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchAccount(accountID: accountID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -1004,7 +1004,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.updateAccount(accountID: accountID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -1172,7 +1172,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchTransactions(transactionFilter: transactionFilter) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -1210,7 +1210,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchTransaction(transactionID: transactionID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -1247,7 +1247,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         refreshNextTransactions(transactionFilter: transactionFilter) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -1292,7 +1292,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         refreshNextTransactions(transactionFilter: transactionFilter) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -1312,7 +1312,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         refreshTransactions(transactionFilter: transactionFilter) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -1363,7 +1363,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
             
             request = transaction.updateRequest()
@@ -1374,7 +1374,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.updateTransaction(transactionID: transactionID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -1430,7 +1430,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
             
             request = transaction.updateRequest()
@@ -1441,7 +1441,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.updateTransaction(transactionID: transactionID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -1501,7 +1501,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.updateTransaction(transactionID: transactionID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -1577,7 +1577,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.transactionSearch(searchTerm: searchTerm, count: transactionBatchSize, skip: offset, from: fromDate, to: toDate, accountIDs: accountIDs, onlyIncludedAccounts: onlyIncludedAccounts) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -1621,7 +1621,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.transactionSummary(from: fromDate, to: toDate, accountIDs: accountIDs, transactionIDs: transactionIDs, onlyIncludedAccounts: onlyIncludedAccounts, onlyIncludedTransactions: onlyIncludedTransactions) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -1729,7 +1729,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchTransactionCategories { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -1766,7 +1766,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchTransactionSuggestedTags(searchTerm: searchTerm, sort: sort, order: order) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -1832,7 +1832,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchTransactionUserTags { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -1887,7 +1887,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -1923,7 +1923,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -1954,7 +1954,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -2050,7 +2050,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchMerchant(merchantID: merchantID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -2084,7 +2084,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchMerchants(before: before, after: after, size: size) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -2119,7 +2119,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchMerchants(merchantIDs: merchantIDs, after: after, before: before, size: size) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -2155,7 +2155,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchMerchants(merchantIDs: merchantIDs, after: after, size: batchSize) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -2227,7 +2227,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     switch result {
                         
                         case .failure(let error):
-                            Log.error(error.localizedDescription)
+                            error.logError()
                             
                             DispatchQueue.main.async {
                                 completion?(.failure(error))
@@ -2251,7 +2251,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                     }
                 }
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2271,7 +2271,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchMerchants(keyword: keyword, before: before, after: after, size: size) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -2318,7 +2318,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2340,7 +2340,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2362,7 +2362,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2391,7 +2391,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2413,7 +2413,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2435,7 +2435,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2457,7 +2457,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2477,7 +2477,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2503,7 +2503,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 try managedObjectContext.save()
                 NotificationCenter.default.post(name: Aggregation.consentsUpdatedNotification, object: self)
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2530,7 +2530,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
                 try managedObjectContext.save()
                 NotificationCenter.default.post(name: Aggregation.consentsUpdatedNotification, object: self)
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2543,7 +2543,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
         do {
             try managedObjectContext.execute(deleteRequest)
         } catch let error as NSError {
-            Log.error(error.localizedDescription)
+            error.logError()
         }
     }
     
@@ -2559,7 +2559,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2577,7 +2577,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2597,7 +2597,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2617,7 +2617,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2647,7 +2647,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2667,7 +2667,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2689,7 +2689,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2715,7 +2715,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2778,7 +2778,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2834,7 +2834,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
         
@@ -2928,7 +2928,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2958,7 +2958,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -2976,7 +2976,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -3015,7 +3015,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -3033,7 +3033,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -3053,7 +3053,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }

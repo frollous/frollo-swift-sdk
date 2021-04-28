@@ -227,7 +227,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
         else {
             let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
             
-            Log.error(error.localizedDescription)
+            error.logError()
             
             DispatchQueue.main.async {
                 completion(.failure(error))
@@ -253,7 +253,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
             switch result {
                 case .failure(let error):
                     self.handleTokenError(error: error)
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     DispatchQueue.main.async {
                         completion(.failure(error))
                     }
@@ -318,7 +318,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
         else {
             let error = DataError(type: .authentication, subType: .alreadyLoggedIn)
             
-            Log.error(error.localizedDescription)
+            error.logError()
             
             DispatchQueue.main.async {
                 completion(.failure(error))
@@ -380,7 +380,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
         else {
             let error = DataError(type: .authentication, subType: .loggedOut)
             
-            Log.error(error.localizedDescription)
+            error.logError()
             
             DispatchQueue.main.async {
                 completion(.failure(error))
@@ -392,7 +392,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
         else {
             let error = DataError(type: .authentication, subType: .missingRefreshToken)
             
-            Log.error(error.localizedDescription)
+            error.logError()
             
             forcedReset()
             
@@ -422,7 +422,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
                 case .failure(let error):
                     self.handleTokenError(error: error)
                     
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -456,7 +456,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
         else {
             let error = DataError(type: .authentication, subType: .missingRefreshToken)
             
-            Log.error(error.localizedDescription)
+            error.logError()
             
             forcedReset()
             
@@ -484,7 +484,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
                 case .failure(let error):
                     self.handleTokenError(error: error)
                     
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -519,7 +519,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
             authService.revokeToken(request: request) { result in
                 switch result {
                     case .failure(let error):
-                        Log.error(error.localizedDescription)
+                        error.logError()
                     case .success:
                         break
                 }
@@ -559,8 +559,6 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
         refreshTokens { result in
             switch result {
                 case .failure:
-                    self.forcedReset()
-                    
                     completion(false)
                 case .success:
                     completion(true)

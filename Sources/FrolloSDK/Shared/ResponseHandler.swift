@@ -99,7 +99,7 @@ extension ResponseHandler {
                     managedObjectContext.delete(object)
                 }
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -125,7 +125,7 @@ extension ResponseHandler {
                 
                 object.update(response: objectResponse, context: managedObjectContext)
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -275,7 +275,7 @@ extension ResponseHandler {
                 
                 missingLinkedIDs = linkedIDs.subtracting(matchedParentObjectIDs)
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
         

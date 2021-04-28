@@ -60,7 +60,7 @@ public class Cards: CachedObjects, ResponseHandler {
         service.createCard(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -118,7 +118,7 @@ public class Cards: CachedObjects, ResponseHandler {
         service.fetchCards { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -148,7 +148,7 @@ public class Cards: CachedObjects, ResponseHandler {
         service.fetchCard(cardID: cardID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -183,7 +183,7 @@ public class Cards: CachedObjects, ResponseHandler {
         service.updateCard(cardID: cardID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -210,7 +210,7 @@ public class Cards: CachedObjects, ResponseHandler {
         service.getPublicKey { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -239,7 +239,7 @@ public class Cards: CachedObjects, ResponseHandler {
         service.activateCard(cardID: cardID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -273,7 +273,7 @@ public class Cards: CachedObjects, ResponseHandler {
         service.setCardPIN(cardID: cardID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -306,7 +306,7 @@ public class Cards: CachedObjects, ResponseHandler {
         service.lockCard(cardID: cardID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -336,7 +336,7 @@ public class Cards: CachedObjects, ResponseHandler {
         service.unlockCard(cardID: cardID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -369,7 +369,7 @@ public class Cards: CachedObjects, ResponseHandler {
         service.replaceCard(cardID: cardID, request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -403,7 +403,7 @@ public class Cards: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -427,7 +427,7 @@ public class Cards: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }
@@ -447,7 +447,7 @@ public class Cards: CachedObjects, ResponseHandler {
             do {
                 try managedObjectContext.save()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
     }

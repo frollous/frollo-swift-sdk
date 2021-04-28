@@ -39,7 +39,7 @@ extension CachedObjects {
                 
                 fetchedObject = fetchedObjects.first
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
         
@@ -61,7 +61,7 @@ extension CachedObjects {
             do {
                 fetchedObjects = try context.fetch(fetchRequest)
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
         

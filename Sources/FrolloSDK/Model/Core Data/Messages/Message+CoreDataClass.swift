@@ -133,7 +133,7 @@ public class Message: NSManagedObject, UniqueManagedObject {
                 do {
                     return try JSON(data: rawValue)
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                 }
             }
             return [:]
@@ -142,7 +142,7 @@ public class Message: NSManagedObject, UniqueManagedObject {
             do {
                 metaDataRawValue = try newValue.rawData()
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
                 
                 metaDataRawValue = try? JSONSerialization.data(withJSONObject: [:], options: [])
             }

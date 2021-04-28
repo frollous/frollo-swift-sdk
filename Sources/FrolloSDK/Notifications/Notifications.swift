@@ -78,7 +78,7 @@ public class Notifications {
                 messages.handleMessageNotification(notificationPayload)
             }
         } catch {
-            Log.error(error.localizedDescription)
+            error.logError()
         }
     }
     

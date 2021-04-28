@@ -282,7 +282,7 @@ extension APIService {
                     
                     completion(.success(tokenResponse))
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     let dataError = DataError(type: .api, subType: .invalidData)
                     dataError.systemError = error

@@ -242,7 +242,7 @@ public class User: NSManagedObject {
                     let features = try decoder.decode([FeatureFlag].self, from: featureData)
                     return features
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                 }
             }
             return nil
@@ -333,7 +333,7 @@ public class User: NSManagedObject {
                     let features = try decoder.decode([RegisterStep].self, from: featureData)
                     return features
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                 }
             }
             return nil
@@ -362,7 +362,7 @@ public class User: NSManagedObject {
                     let address = try decoder.decode(Address.self, from: addressData)
                     return address
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                 }
             }
             return nil
@@ -391,7 +391,7 @@ public class User: NSManagedObject {
                     let mailingAddress = try decoder.decode(Address.self, from: mailingAddressData)
                     return mailingAddress
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                 }
             }
             return nil

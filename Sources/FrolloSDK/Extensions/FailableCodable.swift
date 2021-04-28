@@ -25,7 +25,7 @@ internal struct FailableDecodable<Base: Decodable>: Decodable {
         do {
             self.base = try container.decode(Base.self)
         } catch {
-            Log.error(error.localizedDescription)
+            error.logError()
             
             self.base = nil
         }

@@ -310,7 +310,7 @@ public struct ProviderLoginForm: Codable {
                                 return (false, error)
                             }
                         } catch {
-                            Log.error(error.localizedDescription)
+                            error.logError()
                         }
                     }
                 }

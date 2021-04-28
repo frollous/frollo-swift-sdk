@@ -77,7 +77,7 @@ public class UserManagement {
                 
                 user = fetchedUsers.first
             } catch {
-                Log.error(error.localizedDescription)
+                error.logError()
             }
         }
         
@@ -96,7 +96,7 @@ public class UserManagement {
         service.fetchUser { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -143,7 +143,7 @@ public class UserManagement {
         service.registerUser(request: userRegisterRequest) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -189,7 +189,7 @@ public class UserManagement {
         service.updateUser(request: request, otpCode: securityCode) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -214,7 +214,7 @@ public class UserManagement {
         service.deleteUser { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -244,7 +244,7 @@ public class UserManagement {
         else {
             let error = DataError(type: .authentication, subType: .missingRefreshToken)
             
-            Log.error(error.localizedDescription)
+            error.logError()
             
             DispatchQueue.main.async {
                 completion(.failure(error))
@@ -267,7 +267,7 @@ public class UserManagement {
         service.migrateUser(request: migrationRequest, token: refreshToken) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -309,7 +309,7 @@ public class UserManagement {
         service.changePassword(request: changePasswordRequest) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -336,7 +336,7 @@ public class UserManagement {
         service.resetPassword(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -383,7 +383,7 @@ public class UserManagement {
         service.updateDevice(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -421,14 +421,14 @@ public class UserManagement {
                 do {
                     try managedObjectContext.save()
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                 }
                 
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(name: UserNotification.userUpdated, object: user)
                 }
             } catch let error as NSError {
-                Log.error(error.localizedDescription)
+                error.logError()
                 
                 if error.domain == NSCocoaErrorDomain, error.code == 256, let sqliteError = error.userInfo[NSSQLiteErrorDomain] as? NSNumber, sqliteError.int32Value == 1 {
                     Log.error("Critical database error, corrupted.")
@@ -450,7 +450,7 @@ public class UserManagement {
         service.sendOTP(request: sendOTPRequest) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -474,7 +474,7 @@ public class UserManagement {
         service.fetchUnconfirmedUserDetails { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -502,7 +502,7 @@ public class UserManagement {
         service.confirmUserDetails(request: confirmDetailsRequest, otpCode: securityCode) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -533,7 +533,7 @@ public class UserManagement {
         service.createLog(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -558,7 +558,7 @@ public class UserManagement {
         service.fetchPayIDs { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -586,7 +586,7 @@ public class UserManagement {
         service.requestPayIDOTP(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -616,7 +616,7 @@ public class UserManagement {
         service.registerPayID(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -644,7 +644,7 @@ public class UserManagement {
         service.removePayID(request: request) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -668,7 +668,7 @@ public class UserManagement {
         service.fetchPayIDs(accountID: accountID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))

@@ -41,7 +41,8 @@ public class ManagedProducts: ResponseHandler {
             
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -71,7 +72,7 @@ public class ManagedProducts: ResponseHandler {
             
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))
@@ -102,7 +103,7 @@ public class ManagedProducts: ResponseHandler {
             
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -129,7 +130,7 @@ public class ManagedProducts: ResponseHandler {
         service.deleteManagedProducts(productID: productID) { result in
             switch result {
                 case .failure(let error):
-                    Log.error(error.localizedDescription)
+                    error.logError()
                     
                     DispatchQueue.main.async {
                         completion?(.failure(error))

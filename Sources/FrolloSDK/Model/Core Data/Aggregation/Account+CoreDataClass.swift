@@ -422,7 +422,7 @@ public class Account: NSManagedObject, UniqueManagedObject {
                     let features = try decoder.decode([AccountFeature].self, from: featuresRawValue)
                     return features
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                 }
             }
             return nil
@@ -451,7 +451,7 @@ public class Account: NSManagedObject, UniqueManagedObject {
                     let goalIDs = try decoder.decode([Int64].self, from: goalIDsData)
                     return goalIDs
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                 }
             }
             return nil

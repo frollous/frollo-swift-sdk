@@ -70,7 +70,7 @@ public class Contact: NSManagedObject, UniqueManagedObject {
                     let providerAccountIDs = try decoder.decode([Int64].self, from: providerAccountIDsData)
                     return providerAccountIDs
                 } catch {
-                    Log.error(error.localizedDescription)
+                    error.logError()
                 }
             }
             return nil
