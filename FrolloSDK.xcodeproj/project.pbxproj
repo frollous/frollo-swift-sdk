@@ -2426,7 +2426,7 @@
 		135B2AE2241B3B3A001B73BB /* FrolloSDKDataModel-1.6.2.sqlite-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.6.2.sqlite-wal"; sourceTree = "<group>"; };
 		135B2AEC241B3B44001B73BB /* FakeDatabaseModel.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = FakeDatabaseModel.sqlite; sourceTree = "<group>"; };
 		135B2AED241B3B44001B73BB /* FakeDatabaseModel.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FakeDatabaseModel.sqlite-shm"; sourceTree = "<group>"; };
-		135B2AEE241B3B44001B73BB /* FakeDatabaseModel.sqlite-wal */ = {isa = PBXFileReference; lastKnownFileType = text; path = "FakeDatabaseModel.sqlite-wal"; sourceTree = "<group>"; };
+		135B2AEE241B3B44001B73BB /* FakeDatabaseModel.sqlite-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FakeDatabaseModel.sqlite-wal"; sourceTree = "<group>"; };
 		135B2AF8241B3CEC001B73BB /* FrolloSDKDataModel-1.6.1.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.6.1.sqlite"; sourceTree = "<group>"; };
 		135B2AF9241B3CEC001B73BB /* FrolloSDKDataModel-1.6.1.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.6.1.sqlite-shm"; sourceTree = "<group>"; };
 		135B2AFA241B3CEC001B73BB /* FrolloSDKDataModel-1.6.1.sqlite-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FrolloSDKDataModel-1.6.1.sqlite-wal"; sourceTree = "<group>"; };

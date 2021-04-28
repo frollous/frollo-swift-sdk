@@ -113,14 +113,14 @@ public class Database {
                         let dataError = DataError(type: .database, subType: .corrupt)
                         completionHandler(dataError)
                     } else {
-                        self.persistentContainer.viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+                        self.persistentContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
                         self.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
                         
                         completionHandler(nil)
                     }
                 })
             } else {
-                self.persistentContainer.viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+                self.persistentContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
                 self.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
                 
                 DispatchQueue.main.async {
@@ -471,9 +471,7 @@ public class Database {
      - seealso: [NSPersistentContainer Documentation](https://developer.apple.com/documentation/coredata/nspersistentcontainer)
      */
     public func newBackgroundContext() -> NSManagedObjectContext {
-        let backgroundContext = persistentContainer.newBackgroundContext()
-        backgroundContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-        return backgroundContext
+        return persistentContainer.newBackgroundContext()
     }
     
 }
