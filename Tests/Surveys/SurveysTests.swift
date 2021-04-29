@@ -22,7 +22,7 @@ import OHHTTPStubs
 import OHHTTPStubsSwift
 #endif
 
-class SurveysTests: XCTestCase {
+class SurveysTests: XCTestCase, KeychainServiceIdentifying {
 
     let keychainService = "SurveysTests"
     
@@ -160,6 +160,45 @@ class SurveysTests: XCTestCase {
                     XCTAssertEqual(survey.questions[0].metadata?["additional_text"].string, testSurvey?.questions[0].metadata?["additional_text"].string)
                     XCTAssertEqual(survey.questions[0].metadata?["is_optional"].bool, testSurvey?.questions[0].metadata?["is_optional"].bool)
             }
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
+    
+    func testSubmitSurveyEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + SurveysEndpoint.surveys.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "submit_survey_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let service = invalidService(keychain: Keychain(service: keychainService))
+        
+        let surveys = Surveys(service: service)
+        let testSurvey = Survey.createTestSurvey()
+        surveys.submitSurvey(survey: testSurvey!) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertNotNil(error)
+                    
+                    if let dataError = error as? DataError {
+                        XCTAssertEqual(dataError.type, .api)
+                        XCTAssertEqual(dataError.subType, .invalidData)
+                    } else {
+                        XCTFail("Wrong error returned")
+                    }
+                case .success:
+                    XCTFail("Invalid data should fail")
+            }
+            
             expectation1.fulfill()
         }
         

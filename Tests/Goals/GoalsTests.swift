@@ -527,10 +527,10 @@ class GoalsTests: BaseTestCase {
                              trackingType: .credit,
                              frequency: .weekly,
                              startDate: nil,
-                             endDate: nil,
+                             endDate: Date().addingTimeInterval(100000),
                              periodAmount: 700,
                              startAmount: 0,
-                             targetAmount: 20000,
+                             targetAmount: nil,
                              accountID: 123,
                              metadata: ["seen": true]) { (result) in
                 switch result {

@@ -130,6 +130,10 @@ extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTe
         return Aggregation(database: database, service: defaultService(keychain: keychain, loggedIn: loggedIn))
     }
     
+    func aggregation(keychain: Keychain, service: APIService) -> Aggregation {
+        return Aggregation(database: database, service: service)
+    }
+    
     // MARK: - Bills
     func defaultBills() -> Bills {
         let keychain = defaultKeychain(isNetwork: true)
