@@ -133,7 +133,7 @@ class Network: SessionDelegate {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
         
-        var jsonEncoder = encoder ?? JSONEncoder()
+        let jsonEncoder = encoder ?? JSONEncoder()
         
         if let encodingStrategy = dateEncodingStrategy {
             jsonEncoder.dateEncodingStrategy = encodingStrategy
