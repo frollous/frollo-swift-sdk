@@ -22,9 +22,9 @@ import OHHTTPStubs
 import OHHTTPStubsSwift
 #endif
 
-class OAuth2ServiceTests: XCTestCase {
+class OAuth2ServiceTests: XCTestCase, KeychainServiceIdentifying {
     
-    private let keychainService = "TokenRequestTests"
+    let keychainService = "TokenRequestTests"
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -73,6 +73,45 @@ class OAuth2ServiceTests: XCTestCase {
         HTTPStubs.removeAllStubs()
     }
     
+    func testTokenRequestEncodeInvalid() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = invalidNetwork(authentication: authentication)
+        let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+        
+        let loginRequest = OAuth2TokenRequest.testLoginValidData()
+        
+        authService.refreshTokens(request: loginRequest) { (result) in
+            switch result {
+                case .success:
+                    XCTFail("Encode data should not success")
+                case .failure(let error):
+                    if let error = error as? DataError {
+                        XCTAssertEqual(error.type, .api)
+                        XCTAssertEqual(error.subType, .invalidData)
+                    } else {
+                        XCTFail("Not correct error type")
+                    }
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        HTTPStubs.removeAllStubs()
+    }
+    
     func testTokenRequestInvalid() {
         let expectation1 = expectation(description: "Network Request")
         
@@ -106,5 +145,82 @@ class OAuth2ServiceTests: XCTestCase {
         
         HTTPStubs.removeAllStubs()
     }
+    
+    func testRevokeTokenFailWithNilURL() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: nil, network: network)
+        
+        let revokeRequest = OAuth2TokenRevokeRequest(clientID: "clientID", token: "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3", domain: "example.com")
+        
+        authService.revokeToken(request: revokeRequest) { (result) in
+            switch result {
+                case .success:
+                    XCTFail("Encode data should not success")
+                case .failure(let error):
+                    if let error = error as? DataError {
+                        XCTAssertEqual(error.type, .api)
+                        XCTAssertEqual(error.subType, .invalidData)
+                    } else {
+                        XCTFail("Not correct error type")
+                    }
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        HTTPStubs.removeAllStubs()
+    }
 
+    func testRevokeTokenEncodeFail() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = invalidNetwork(authentication: authentication)
+        let authService = OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
+        
+        let revokeRequest = OAuth2TokenRevokeRequest(clientID: "clientID", token: "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3", domain: "example.com")
+        
+        authService.revokeToken(request: revokeRequest) { (result) in
+            switch result {
+                case .success:
+                    XCTFail("Encode data should not success")
+                case .failure(let error):
+                    if let error = error as? DataError {
+                        XCTAssertEqual(error.type, .api)
+                        XCTAssertEqual(error.subType, .invalidData)
+                    } else {
+                        XCTFail("Not correct error type")
+                    }
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        HTTPStubs.removeAllStubs()
+    }
 }
