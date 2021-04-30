@@ -108,6 +108,59 @@ class ContactsTests: BaseTestCase {
         
         wait(for: [expectation2], timeout: 3.0)
     }
+    
+    func testFetchContactFail() {
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        contacts = Contacts(database: database, service: service)
+        
+        let expectation1 = expectation(description: "Network Request")
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 2).path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "get_contact_by_id", ofType: "json")!, status: 404, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+                
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let contact = Contact(context: managedObjectContext)
+                contact.populateTestData()
+                contact.contactID = 2
+                contact.name = "Overridden Name"
+                
+                try? managedObjectContext.save()
+            }
+            
+            self.contacts.refreshContact(contactID: 2) { result in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
 
     func testRefreshContacts() {
         
@@ -181,6 +234,62 @@ class ContactsTests: BaseTestCase {
         
         wait(for: [expectation2], timeout: 3.0)
     }
+    
+    func testRefreshContactsFail() {
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        contacts = Contacts(database: database, service: service)
+        
+        let expectation1 = expectation(description: "Network Request")
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "get_contacts", ofType: "json")!, status: 404, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+                
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let contact = Contact(context: managedObjectContext)
+                contact.populateTestData()
+                contact.contactID = 10
+                contact.name = "Overridden Name"
+                
+                try? managedObjectContext.save()
+            }
+            
+            self.contacts.refreshContacts(size: 5) { result in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+
+            }
+            
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    
     
     func testFetchPaginatedContacts() {
         
@@ -333,6 +442,49 @@ class ContactsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
         HTTPStubs.removeAllStubs()
     }
+    
+    func testCreateBPAYContactEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path) && isMethodPOST()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "create_bpay_contact", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let service = invalidService(keychain: Keychain(service: keychainService))
+        let database = Database(path: tempFolderPath())
+
+        contacts = Contacts(database: database, service: service)
+
+        database.setup { [self] (error) in
+            XCTAssertNil(error)
+
+            self.contacts.createBPAYContact(nickName: "ACME Inc.", billerCode: "209999", crn: "84100064513925", billerName: "ACME Inc.") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .api)
+                            XCTAssertEqual(dataError.subType, .invalidData)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Invalid data should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
+
 
     func testCreatePayAnyoneContact() {
         let expectation1 = expectation(description: "Network Request 1")
@@ -362,6 +514,48 @@ class ContactsTests: BaseTestCase {
                         break
                 }
 
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
+    
+    func testCreatePayAnyoneContactEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path) && isMethodPOST()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "create_payAnyone_contact", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let service = invalidService(keychain: Keychain(service: keychainService))
+        let database = Database(path: tempFolderPath())
+
+        contacts = Contacts(database: database, service: service)
+
+        database.setup { [self] (error) in
+            XCTAssertNil(error)
+
+            self.contacts.createPayAnyoneContact(name: "Johnathan", nickName: "Johnny Boy", accountName: "Mr Johnathan Smith", bsb: "100-123", accountNumber: "12345678") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .api)
+                            XCTAssertEqual(dataError.subType, .invalidData)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Invalid data should fail")
+                }
+                
                 expectation1.fulfill()
             }
         }
@@ -401,6 +595,44 @@ class ContactsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
         HTTPStubs.removeAllStubs()
     }
+    
+    func testCreatePayIDContactEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path) && isMethodPOST()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "create_payID_contact", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let service = invalidService(keychain: Keychain(service: keychainService))
+        let database = Database(path: tempFolderPath())
+
+        contacts = Contacts(database: database, service: service)
+
+        self.contacts.createPayIDContact(name: "Johnathan", nickName: "Johnny Boy", description: "That guy I buy tyres from", payID: "0412345678", payIDName: "J SMITH", payIDType: .phoneNumber) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertNotNil(error)
+                    
+                    if let dataError = error as? DataError {
+                        XCTAssertEqual(dataError.type, .api)
+                        XCTAssertEqual(dataError.subType, .invalidData)
+                    } else {
+                        XCTFail("Wrong error returned")
+                    }
+                case .success:
+                    XCTFail("Invalid data should fail")
+            }
+            
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
 
     func testCreateInternationalContact() {
         let expectation1 = expectation(description: "Network Request 1")
@@ -430,6 +662,48 @@ class ContactsTests: BaseTestCase {
                         break
                 }
 
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
+    
+    func testCreateInternationalContactEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contacts.path) && isMethodPOST()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "create_international_contact", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let service = invalidService(keychain: Keychain(service: keychainService))
+        let database = Database(path: tempFolderPath())
+
+        contacts = Contacts(database: database, service: service)
+
+        database.setup { [self] (error) in
+            XCTAssertNil(error)
+
+            self.contacts.createInternationalContact(name: "Anne Frank", nickName: "Annie", country: "New Zeland", bankCountry: "New Zeland", accountNumber: "12345678") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .api)
+                            XCTAssertEqual(dataError.subType, .invalidData)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Invalid data should fail")
+                }
+                
                 expectation1.fulfill()
             }
         }
@@ -486,6 +760,58 @@ class ContactsTests: BaseTestCase {
                             }
                     }
 
+                    expectation1.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
+    
+    func testUpdateBPAYContactEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 9).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "update_bpay_contact", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let service = invalidService(keychain: Keychain(service: keychainService))
+        let database = Database(path: tempFolderPath())
+
+        contacts = Contacts(database: database, service: service)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let coontact = Contact(context: managedObjectContext)
+                coontact.populateTestData()
+                coontact.contactID = 9
+
+                try? managedObjectContext.save()
+
+                self.contacts.updateBPAYContact(contactID: 9, name: "Tenstra Inc", nickName: "Tenstra", description: "Test Desc update", billerCode: "2275362", crn: "723647803", billerName: "Tenstra Inc") { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTAssertNotNil(error)
+                            
+                            if let dataError = error as? DataError {
+                                XCTAssertEqual(dataError.type, .api)
+                                XCTAssertEqual(dataError.subType, .invalidData)
+                            } else {
+                                XCTFail("Wrong error returned")
+                            }
+                        case .success:
+                            XCTFail("Invalid data should fail")
+                    }
+                    
                     expectation1.fulfill()
                 }
             }
@@ -551,6 +877,60 @@ class ContactsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
         HTTPStubs.removeAllStubs()
     }
+    
+    func testUpdatePayAnyoneContactEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 1).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "update_payAnyone_contact", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let service = invalidService(keychain: Keychain(service: keychainService))
+        let database = Database(path: tempFolderPath())
+
+        contacts = Contacts(database: database, service: service)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let coontact = Contact(context: managedObjectContext)
+                coontact.populateTestData()
+                coontact.contactID = 1
+
+                try? managedObjectContext.save()
+
+                self.contacts.updatePayAnyoneContact(contactID: 1, name: "Johnathan", nickName: "Johnny Boy", accountName: "Mr Johnathan Smith", bsb: "100123", accountNumber: "12345678") { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTAssertNotNil(error)
+                            
+                            if let dataError = error as? DataError {
+                                XCTAssertEqual(dataError.type, .api)
+                                XCTAssertEqual(dataError.subType, .invalidData)
+                            } else {
+                                XCTFail("Wrong error returned")
+                            }
+                        case .success:
+                            XCTFail("Invalid data should fail")
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
+    
+    
 
     func testUpdatePayIDContact() {
         let expectation1 = expectation(description: "Network Request 1")
@@ -600,6 +980,58 @@ class ContactsTests: BaseTestCase {
                             }
                     }
 
+                    expectation1.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
+    
+    func testUpdatePayIDContactEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 4).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "update_payID_contact", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let service = invalidService(keychain: Keychain(service: keychainService))
+        let database = Database(path: tempFolderPath())
+
+        contacts = Contacts(database: database, service: service)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let coontact = Contact(context: managedObjectContext)
+                coontact.populateTestData()
+                coontact.contactID = 1
+
+                try? managedObjectContext.save()
+
+                self.contacts.updatePayIDContact(contactID: 4, name: "Johnathan Smith", nickName: "Johnny Boy", payID: "0412345678", payIDName: "J SMITH", payIDType: .phoneNumber) { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTAssertNotNil(error)
+                            
+                            if let dataError = error as? DataError {
+                                XCTAssertEqual(dataError.type, .api)
+                                XCTAssertEqual(dataError.subType, .invalidData)
+                            } else {
+                                XCTFail("Wrong error returned")
+                            }
+                        case .success:
+                            XCTFail("Invalid data should fail")
+                    }
+                    
                     expectation1.fulfill()
                 }
             }
@@ -665,6 +1097,58 @@ class ContactsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
         HTTPStubs.removeAllStubs()
     }
+    
+    func testUpdateInternationalContactEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 9).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "update_international_contact", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let service = invalidService(keychain: Keychain(service: keychainService))
+        let database = Database(path: tempFolderPath())
+
+        contacts = Contacts(database: database, service: service)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let coontact = Contact(context: managedObjectContext)
+                coontact.populateTestData()
+                coontact.contactID = 9
+
+                try? managedObjectContext.save()
+
+                self.contacts.updateInternationalContact(contactID: 9, name: "Anne Maria", nickName: "Mary", country: "New Zeland", message: "Test message new", bankCountry: "New Zeland", accountNumber: "12345666", bankAddress: "666", bic: "777", fedwireNumber: "1234566", sortCode: "ABC 666", chipNumber: "555", routingNumber: "444", legalEntityNumber: "123666") { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTAssertNotNil(error)
+                            
+                            if let dataError = error as? DataError {
+                                XCTAssertEqual(dataError.type, .api)
+                                XCTAssertEqual(dataError.subType, .invalidData)
+                            } else {
+                                XCTFail("Wrong error returned")
+                            }
+                        case .success:
+                            XCTFail("Invalid data should fail")
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
 
     func testDeleteContact() {
         let expectation1 = expectation(description: "Network Request")
@@ -710,4 +1194,56 @@ class ContactsTests: BaseTestCase {
 
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testDeleteContactEncodeFail() {
+        let expectation1 = expectation(description: "Network Request")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ContactsEndpoint.contact(contactID: 12345).path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 404, headers: nil)
+        }
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+
+        contacts = Contacts(database: database, service: service)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let contact = Contact(context: managedObjectContext)
+                contact.populateTestData()
+                contact.contactID = 12345
+
+                try? managedObjectContext.save()
+            }
+
+            self.contacts.deleteContact(contactID: 12345) { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
 }

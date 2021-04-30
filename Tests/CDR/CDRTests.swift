@@ -70,6 +70,70 @@ class CDRTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testSubmitConsentEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+                
+        connect(endpoint: CDREndpoint.consents.path.prefixedWithSlash, method: .post, toResourceWithName: "post_consent")
+        connect(endpoint: CDREndpoint.consents.path.prefixedWithSlash, method: .get, toResourceWithName: "consents_valid")
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let keychain = self.defaultKeychain(isNetwork: true)
+            let aggregation = self.aggregation(keychain: keychain,
+                                               service: self.invalidService(keychain: keychain))
+            let consent = CDRConsentForm.Post(providerID: 1, sharingDuration: 100, permissions: [], existingConsentID: 1)
+            aggregation.submitCDRConsent(consent: consent) { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, .api)
+                            XCTAssertEqual(error.subType, .invalidData)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testSubmitConsentSuccessButRefreshConsentFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+                
+        connect(endpoint: CDREndpoint.consents.path.prefixedWithSlash, method: .post, toResourceWithName: "post_consent")
+        connect(endpoint: CDREndpoint.consents.path.prefixedWithSlash, method: .get, toResourceWithName: "consents_valid", addingStatusCode: 404)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+                        
+            let aggregation = self.aggregation(loggedIn: true)
+            let consent = CDRConsentForm.Post(providerID: 1, sharingDuration: 100, permissions: [], existingConsentID: 1)
+            aggregation.submitCDRConsent(consent: consent) { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testWithdrawConsent_ShouldWithdrawProperly() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -135,6 +199,47 @@ class CDRTests: BaseTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testUpdateConsentEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: CDREndpoint.consents(id: 1).path.prefixedWithSlash, method: .put, toResourceWithName: "consent_update_period_response")
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let consent1 = Consent(context: managedObjectContext)
+                consent1.populateTestData()
+                consent1.consentID = 39
+                consent1.sharingDuration = 15778476
+                try! managedObjectContext.save()
+            }
+            
+            let keychain = self.defaultKeychain(isNetwork: true)
+            let service = self.invalidService(keychain: keychain)
+            let aggregation = self.aggregation(keychain: keychain, service: service)
+            aggregation.updateCDRConsentSharingPeriod(id: 1, sharingDuration: 15778476) { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, .api)
+                            XCTAssertEqual(error.subType, .invalidData)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
             }
         }
         

@@ -114,6 +114,34 @@ class PayDaysTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testRefreshPayDayFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: PayDayEndpoint.payDay.path.prefixedWithSlash, toResourceWithName: "pay_day", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.payDays.refreshPayDay() { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testUpdatePayDay() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -151,4 +179,31 @@ class PayDaysTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
 
+    func testUpdatePayDayFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: PayDayEndpoint.payDay.path.prefixedWithSlash, toResourceWithName: "pay_day", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.payDays.updatePayDay(period: PayDay.Period.allCases.randomElement()!, nextDate: Date()) { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
 }
