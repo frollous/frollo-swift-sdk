@@ -4458,6 +4458,32 @@ class AggregationTests: BaseTestCase {
         
     }
     
+    func testRefreshConsentByID() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: CDREndpoint.consents(id: 353).path.prefixedWithSlash, toResourceWithName: "consent_id_353")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            aggregation.refreshConsent(consentID: 353) { result in
+                switch result {
+                    case .failure(let error):
+                        XCTFail("User logged in, request should success")
+                    case .success:
+                        XCTAssertTrue(true)
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+    }
+    
     func testRefreshConsentByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
