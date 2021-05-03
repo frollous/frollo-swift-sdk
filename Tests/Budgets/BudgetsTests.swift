@@ -311,6 +311,34 @@ class BudgetsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testRefreshBudgetByIDFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.budget(budgetID: 4).path.prefixedWithSlash, toResourceWithName: "budget_valid_4", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.budgets.refreshBudget(budgetID: 4) { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testRefreshBudgets() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -364,6 +392,34 @@ class BudgetsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testRefreshBudgetsFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "budgets_valid", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.budgets.refreshBudgets() { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testCreateAccountBudget() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -390,6 +446,34 @@ class BudgetsTests: BaseTestCase {
                             XCTAssertEqual(fetchedBudgets.first?.budgetType, .account)
                         } catch {
                             XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testCreateInvalidBudget() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "account_budget", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.budgets.createBudgetCategoryBudget(budgetCategory: .lifestyle, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png") { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
                         }
                 }
                 
@@ -542,6 +626,44 @@ class BudgetsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testDeleteBudgetFail() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: BudgetsEndpoint.budget(budgetID: 4).path.prefixedWithSlash, addingData: Data(), addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let budget = Budget(context: managedObjectContext)
+                budget.populateTestData()
+                budget.budgetID = 4
+                
+                try? managedObjectContext.save()
+            }
+            
+            self.budgets.deleteBudget(budgetID: 4) { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testUpdateBudget() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -577,6 +699,44 @@ class BudgetsTests: BaseTestCase {
                             XCTAssertEqual(fetchedBudgets.first?.startDateString, "2019-10-02")
                         } catch {
                             XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testUpdateBudgetFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.budget(budgetID: 4).path.prefixedWithSlash, toResourceWithName: "budget_valid_4", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let context = self.database.newBackgroundContext()
+            
+            context.performAndWait {
+                let budget = Budget(context: context)
+                budget.populateTestData()
+                budget.budgetID = 4
+                
+                try? context.save()
+            }
+            
+            self.budgets.updateBudget(budgetID: 4) { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
                         }
                 }
                 
@@ -750,7 +910,65 @@ class BudgetsTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testRefreshBudgetPeriodsFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.periods(budgetID: 4).path.prefixedWithSlash, toResourceWithName: "budget_periods_valid", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let fromDate = BudgetPeriod.budgetPeriodDateFormatter.date(from: "2019-11-21")!
+            let toDate = BudgetPeriod.budgetPeriodDateFormatter.date(from: "2019-12-05")!
+            
+            self.budgets.refreshBudgetPeriods(budgetID: 4, from: fromDate, to: toDate) { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testRefreshAllBudgetPeriodsFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.periods(budgetID: nil).path.prefixedWithSlash, toResourceWithName: "budget_periods_valid", addingStatusCode: 404)
 
+        database.setup { error in
+            XCTAssertNil(error)
+
+            self.budgets.refreshAllBudgetPeriods(size: 15) { result in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
 
     func testFetchPaginatedBudgetPeriod() {
         let expectation1 = expectation(description: "Database")
@@ -881,6 +1099,34 @@ class BudgetsTests: BaseTestCase {
                             XCTAssertEqual(fetchedBudgetPeriods.first?.budgetPeriodID, 96)
                         } catch {
                             XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testRefreshBudgetPeriodFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.period(budgetID: 4, budgetPeriodID: 96).path.prefixedWithSlash, toResourceWithName: "budget_periods_96", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.budgets.refreshBudgetPeriod(budgetID: 4, budgetPeriodID: 96) { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
                         }
                 }
                 

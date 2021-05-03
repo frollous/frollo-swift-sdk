@@ -54,7 +54,7 @@ class PaymentsTests: XCTestCase {
         
         
         let payments = Payments(service: service)
-        payments.payAnyone(accountHolder: "Joe Blow", accountNumber: "98765432", amount: 542.37, bsb: "123456", sourceAccountID: 42) { result in
+        payments.payAnyone(accountHolder: "Joe Blow", accountNumber: "98765432", amount: 542.37, bsb: "123456", paymentDate: Date(), sourceAccountID: 42) { result in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -143,6 +143,46 @@ class PaymentsTests: XCTestCase {
         HTTPStubs.removeAllStubs()
     }
     
+    func testPaymentTransferFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.transfers.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "payment_transfer_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+           
+        let network = Network(serverEndpoint: self.config.serverEndpoint,
+                              authentication: authentication,
+                              encoder: InvalidEncoder())
+        service =  APIService(serverEndpoint: self.config.serverEndpoint,
+                                     network: network)
+
+        let payments = Payments(service: service)
+        payments.transferPayment(amount: 542.37, description: "Visible to both sides", destinationAccountID: 43, paymentDate: Date() ,sourceAccountID: 42) { result in
+            switch result {
+            case .failure(let error):
+                XCTAssertTrue(error is DataError)
+                if let error = error as? DataError {
+                    XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                    XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                }
+            case .success:
+                XCTFail("Invalid service throw Error when encoding")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
+    
     func testBPAYPayment() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -176,6 +216,47 @@ class PaymentsTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
         HTTPStubs.removeAllStubs()
     }
+    
+    func testBPAYPaymentFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.bpay.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bpay_payment_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+           
+        let network = Network(serverEndpoint: self.config.serverEndpoint,
+                              authentication: authentication,
+                              encoder: InvalidEncoder())
+        service =  APIService(serverEndpoint: self.config.serverEndpoint,
+                                     network: network)
+
+        
+        let payments = Payments(service: service)
+        payments.bpayPayment(amount: 542.37, billerCode: "123456", crn: "98765432122232", paymentDate: Date(), reference: "Visible to customer", sourceAccountID: 42) { result in
+            switch result {
+            case .failure(let error):
+                XCTAssertTrue(error is DataError)
+                if let error = error as? DataError {
+                    XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                    XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                }
+            case .success:
+                XCTFail("Invalid service throw Error when encoding")
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
 
     func testPayIDPayment() {
         let expectation1 = expectation(description: "Network Request 1")
@@ -196,6 +277,46 @@ class PaymentsTests: XCTestCase {
                     XCTAssertEqual(response.transactionReference, "VLLTAU22XXXN20210202000000000770820")
                     expectation1.fulfill()
             }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
+    
+    func testPayIDPaymentFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.payID.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "npp_payment_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+           
+        let network = Network(serverEndpoint: self.config.serverEndpoint,
+                              authentication: authentication,
+                              encoder: InvalidEncoder())
+        service =  APIService(serverEndpoint: self.config.serverEndpoint,
+                                     network: network)
+
+        let payments = Payments(service: service)
+        payments.payIDPayment(payID: "user@example.com", type: .email, payIDName: "Example Name", amount: 24.4, paymentDate: Date(), description: "Test", reference: "ABC123", sourceAccountID: 42) { result in
+            switch result {
+            case .failure(let error):
+                XCTAssertTrue(error is DataError)
+                if let error = error as? DataError {
+                    XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                    XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                }
+            case .success:
+                XCTFail("Invalid service throw Error when encoding")
+            }
+            
+            expectation1.fulfill()
         }
 
         wait(for: [expectation1], timeout: 3.0)
@@ -227,6 +348,45 @@ class PaymentsTests: XCTestCase {
         HTTPStubs.removeAllStubs()
     }
     
+    func testNppPayAnyoneFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.npp.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "pay_anyone_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+           
+        let network = Network(serverEndpoint: self.config.serverEndpoint,
+                              authentication: authentication,
+                              encoder: InvalidEncoder())
+        service =  APIService(serverEndpoint: self.config.serverEndpoint,
+                                     network: network)
+
+        let payments = Payments(service: service)
+        payments.payAnyoneNPPPayment(accountHolder: "Joe Blow", accountNumber: "98765432", amount: 542.37, bsb: "123456", sourceAccountID: 42) { result in
+            switch result {
+            case .failure(let error):
+                XCTAssertTrue(error is DataError)
+                if let error = error as? DataError {
+                    XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                    XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                }
+            case .success:
+                XCTFail("Invalid service throw Error when encoding")
+            }
+            
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
+    
     func testVerifyValidPayAnyone() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -249,6 +409,44 @@ class PaymentsTests: XCTestCase {
                     XCTAssertEqual(response.accountHolder, "Joe Blow")
                     expectation1.fulfill()
             }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
+    
+    func testVerifyValidPayAnyoneFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.verifyPayAnyone.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "verify_payanyone_response_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+           
+        let network = Network(serverEndpoint: self.config.serverEndpoint,
+                              authentication: authentication,
+                              encoder: InvalidEncoder())
+        service =  APIService(serverEndpoint: self.config.serverEndpoint,
+                                     network: network)
+        let payments = Payments(service: service)
+        payments.verifyPayAnyone(accountHolder: "Joe Blow", accountNumber: "98765432", bsb: "123456") { result in
+            switch result {
+            case .failure(let error):
+                XCTAssertTrue(error is DataError)
+                if let error = error as? DataError {
+                    XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                    XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                }
+            case .success:
+                XCTFail("Invalid service throw Error when encoding")
+            }
+            
+            expectation1.fulfill()
         }
         
         wait(for: [expectation1], timeout: 3.0)
@@ -302,6 +500,44 @@ class PaymentsTests: XCTestCase {
                     XCTAssertEqual(response.payID, "+61411111111")
                     expectation1.fulfill()
             }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
+
+    func testVerifyValidPayIDFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.verifyPayID.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "verify_payID_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+           
+        let network = Network(serverEndpoint: self.config.serverEndpoint,
+                              authentication: authentication,
+                              encoder: InvalidEncoder())
+        service =  APIService(serverEndpoint: self.config.serverEndpoint,
+                                     network: network)
+        let payments = Payments(service: service)
+        payments.verifyPayID(payID: "+61411111111", type: .phoneNumber) { result in
+            switch result {
+            case .failure(let error):
+                XCTAssertTrue(error is DataError)
+                if let error = error as? DataError {
+                    XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                    XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                }
+            case .success:
+                XCTFail("Invalid service throw Error when encoding")
+            }
+            
+            expectation1.fulfill()
         }
 
         wait(for: [expectation1], timeout: 3.0)
