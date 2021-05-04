@@ -54,7 +54,7 @@ class ReportsRequestTests: XCTestCase {
         let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
         let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
         
-        service.fetchAccountBalanceReports(period: .day, from: fromDate, to: toDate) { (result) in
+        service.fetchAccountBalanceReports(period: .day, from: fromDate, to: toDate, accountID: 542, accountType: .bank) { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)

@@ -78,6 +78,39 @@ class UserManagementTests: BaseTestCase {
         try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
+    func testRegisterUserEncodeFail() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(host: tokenEndpointHost, endpoint: FrolloSDKConfiguration.tokenEndpoint.path, toResourceWithName: "token_valid")
+        connect(endpoint: UserEndpoint.register.path.prefixedWithSlash, toResourceWithName: "user_details_complete", addingStatusCode: 201)
+        
+        let user = userWithInvalidEncodingService()
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            user.registerUser(firstName: "Frollo", lastName: "User", mobileNumber: "0412345678", postcode: "2060", dateOfBirth: Date(timeIntervalSince1970: 631152000), email: "user@frollo.us", password: "password") { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, .api)
+                            XCTAssertEqual(error.subType, .invalidData)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
+    }
+    
     func testRegisterUserInvalid() {
         let expectation1 = expectation(description: "Network Request")
         
@@ -149,6 +182,37 @@ class UserManagementTests: BaseTestCase {
         try? FileManager.default.removeItem(at: tempFolderPath())
     }
     
+    func testRefreshUserFail() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: UserEndpoint.details.path.prefixedWithSlash, toResourceWithName: "user_details_complete", addingStatusCode: 404)
+        
+        let keychain = validKeychain()
+        let user = defaultUser(keychain: keychain)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            user.refreshUser { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is APIError)
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.statusCode, 404)
+                        }
+                    case .success:
+                        XCTFail("Data response is invalid")
+                }
+
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
+    }
+    
     func testUpdateUser() {
         let expectation1 = expectation(description: "Network Request")
         
@@ -175,6 +239,47 @@ class UserManagementTests: BaseTestCase {
                     XCTFail(error.localizedDescription)
                 case .success:
                     XCTAssertNotNil(user.fetchUser(context: self.database.newBackgroundContext()))
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
+    }
+    
+    func testUpdateUserEncodeFail() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: UserEndpoint.details.path.prefixedWithSlash, toResourceWithName: "user_details_complete")
+        
+        let user = userWithInvalidEncodingService()
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let moc = self.database.newBackgroundContext()
+            
+            moc.performAndWait {
+                let user = User(context: moc)
+                user.populateTestData()
+                
+                try! moc.save()
+            }
+            
+            user.updateUser { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, .api)
+                            XCTAssertEqual(error.subType, .invalidData)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -289,6 +394,47 @@ class UserManagementTests: BaseTestCase {
                         XCTFail(error.localizedDescription)
                     case .success:
                         break
+                }
+                
+                expectation1.fulfill()
+            })
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
+    }
+    
+    func testChangePasswordEncodeFail() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: UserEndpoint.user.path.prefixedWithSlash, addingData: Data(), addingStatusCode: 204)
+        
+        let user = userWithInvalidEncodingService()
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let moc = self.database.newBackgroundContext()
+            
+            moc.performAndWait {
+                let user = User(context: moc)
+                user.populateTestData()
+                
+                try! moc.save()
+            }
+            
+            user.changePassword(currentPassword: UUID().uuidString, newPassword: UUID().uuidString, completion: { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, .api)
+                            XCTAssertEqual(error.subType, .invalidData)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -506,6 +652,49 @@ class UserManagementTests: BaseTestCase {
         wait(for: [expectation1, expectation2], timeout: 3.0)
     }
     
+    func testMigrateUserEncodeFail() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.migrate.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+        
+        let keychain = validKeychain()
+        let oAuth2Authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let authentication = Authentication(configuration: config)
+        
+        let service = invalidService(keychain: keychain)
+        
+        authentication.dataSource = oAuth2Authentication
+        authentication.delegate = oAuth2Authentication
+                
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: oAuth2Authentication, preferences: preferences, delegate: nil)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            user.migrateUser(password: "12345678") { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, .api)
+                            XCTAssertEqual(error.subType, .invalidData)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testMigrateUserAIPFailure() {
         let expectation1 = expectation(description: "Network Request")
         
@@ -652,6 +841,47 @@ class UserManagementTests: BaseTestCase {
                     XCTFail(error.localizedDescription)
                 case .success:
                     break
+                }
+                
+                expectation1.fulfill()
+            })
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        try? FileManager.default.removeItem(at: tempFolderPath())
+    }
+    
+    func testResetPasswordEncodeFail() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: UserEndpoint.resetPassword.path.prefixedWithSlash, addingData: "".data(using: .utf8)!, addingStatusCode: 202)
+        
+        let user = userWithInvalidEncodingService()
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let moc = self.database.newBackgroundContext()
+            
+            moc.performAndWait {
+                let user = User(context: moc)
+                user.populateTestData()
+                
+                try! moc.save()
+            }
+            
+            user.resetPassword(email: "test@domain.com", completion: { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, .api)
+                            XCTAssertEqual(error.subType, .invalidData)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
                 }
                 
                 expectation1.fulfill()
@@ -816,6 +1046,45 @@ class UserManagementTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
 
     }
+    
+    func testRequestNewOTPEncodeFail() {
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.requestOTP.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_request_otp", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let keychain = validKeychain()
+        let service = invalidService(keychain: keychain)
+
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            user.requestNewOTPCodeForUser { result in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, .api)
+                            XCTAssertEqual(error.subType, .invalidData)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+
+    }
 
     func testFetchUnconfimedUserDetails() {
         let expectation1 = expectation(description: "Network Request")
@@ -848,6 +1117,42 @@ class UserManagementTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
 
     }
+    
+    func testFetchUnconfimedUserDetailsEncodeFail() {
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.unconfirmedDetails.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_confirm_details", ofType: "json")!, status: 404, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let keychain = validKeychain()
+        let networkAuthenticator = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+
+        user.fetchUnconfimedUserDetails { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertTrue(error is APIError)
+                    if let error = error as? APIError {
+                        XCTAssertEqual(error.statusCode, 404)
+                    }
+                case .success:
+                    XCTFail("Data response is invalid")
+            }
+
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+
+    }
+
 
     func testConfirmUserDetails() {
         let expectation1 = expectation(description: "Network Request")
@@ -883,6 +1188,45 @@ class UserManagementTests: BaseTestCase {
 
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testConfirmUserDetailsEncodeFail() {
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.confirmDetails.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+
+        let keychain = validKeychain()
+        let service = invalidService(keychain: keychain)
+
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            user.confimUserDetails(mobileNumber: "+64111111111") { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, .api)
+                            XCTAssertEqual(error.subType, .invalidData)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
 
     func testLogging() {
         let expectation1 = expectation(description: "User feedback message logging")
@@ -918,6 +1262,45 @@ class UserManagementTests: BaseTestCase {
 
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testLoggingEncodeFail() {
+        let expectation1 = expectation(description: "User feedback message logging")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.log.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
+        }
+
+        let keychain = validKeychain()
+        let service = invalidService(keychain: keychain)
+
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            user.sendLog(message: "User test feedback message", level: .off) { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, .api)
+                            XCTAssertEqual(error.subType, .invalidData)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
 
     func testFetchPayIDList() {
         let expectation1 = expectation(description: "Network Request")
@@ -946,6 +1329,44 @@ class UserManagementTests: BaseTestCase {
                     case .success(let data):
                         XCTAssertEqual(data.count, 2)
                         break
+                }
+
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchPayIDListEncodeFail() {
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.payID.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_get_payid", ofType: "json")!, status: 404, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let keychain = validKeychain()
+        let networkAuthenticator = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            user.fetchPayIDs { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is APIError)
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.statusCode, 404)
+                        }
+                    case .success:
+                        XCTFail("Data response is invalid")
                 }
 
                 expectation1.fulfill()
@@ -991,6 +1412,46 @@ class UserManagementTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
 
     }
+    
+    func testRequestPayIDOTPEncodeFail() {
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.payIDOTP.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_request_payid_otp", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let keychain = validKeychain()
+        let service = invalidService(keychain: keychain)
+
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            user.requestOTPForPayIDRegistration(payID: "user@example.com", type: .email) { result in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, .api)
+                            XCTAssertEqual(error.subType, .invalidData)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+
+    }
+
 
     func testRegisterPayID() {
         let expectation1 = expectation(description: "Network Request")
@@ -1027,6 +1488,46 @@ class UserManagementTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
 
     }
+    
+    func testRegisterPayIDEncodeFail() {
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.payID.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_register_payid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let keychain = validKeychain()
+        let service = invalidService(keychain: keychain)
+
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            user.registerPayID(accountID: 325, payID: "+61411111111", type: .phoneNumber, trackingID: "VE20db0310501c4d7cc347c8d897967039", otpCode: "444684") { result in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, .api)
+                            XCTAssertEqual(error.subType, .invalidData)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+
+    }
+
 
     func testRemovePayID() {
         let expectation1 = expectation(description: "Network Request")
@@ -1063,6 +1564,46 @@ class UserManagementTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
 
     }
+    
+    func testRemovePayIDEncodeFail() {
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.removePayID.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_register_payid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let keychain = validKeychain()
+        let service = invalidService(keychain: keychain)
+
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            user.removePayID(payID: "+61411111111", type: .phoneNumber) { result in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, .api)
+                            XCTAssertEqual(error.subType, .invalidData)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+
+    }
+
 
     func testFetchPayIDListForAccount() {
         let expectation1 = expectation(description: "Network Request")
@@ -1091,6 +1632,44 @@ class UserManagementTests: BaseTestCase {
                     case .success(let data):
                         XCTAssertEqual(data.count, 1)
                         break
+                }
+
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchPayIDListForAccountEncodeFail() {
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.accountPayID(accountID: 325).path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_get_account_payid", ofType: "json")!, status: 404, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let keychain = validKeychain()
+        let networkAuthenticator = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            user.fetchPayIDs(for: 325) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is APIError)
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.statusCode, 404)
+                        }
+                    case .success:
+                        XCTFail("Data response is invalid")
                 }
 
                 expectation1.fulfill()

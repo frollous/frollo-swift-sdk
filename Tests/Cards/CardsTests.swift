@@ -349,6 +349,47 @@ class CardsTests: BaseTestCase {
 
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testUpdateCardEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.card(cardID: 3).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "get_card_by_id", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        service = invalidService(keychain: keychain)
+        cards = Cards(database: database, service: service, aggregation: aggregation)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = self.database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let card = Card(context: managedObjectContext)
+                card.populateTestData()
+                card.cardID = 3
+
+                try? managedObjectContext.save()
+
+                self.cards.updateCard(cardID: 3, status: .locked, nickName: "Transaction card") { (result) in
+                    switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is DataError)
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                            XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                        }
+                    case .success:
+                        XCTFail("Invalid service throw Error when encoding")
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
 
     func testGetCardPublicKey() {
         let expectation1 = expectation(description: "Network Request 1")
@@ -504,7 +545,48 @@ class CardsTests: BaseTestCase {
 
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testSetCardPinEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
 
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.setPin(cardID: 1).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "set_card_pin", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        service = invalidService(keychain: keychain)
+        cards = Cards(database: database, service: service, aggregation: aggregation)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = self.database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let card = Card(context: managedObjectContext)
+                card.populateTestData()
+                card.cardID = 1
+
+                try? managedObjectContext.save()
+
+                self.cards.setCardPin(cardID: 1, encryptedPIN: "100110 111010 001011 101001", keyID: "d79fe9eb-66dc-4929-bbe8-954d55222e15") { (result) in
+                    switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is DataError)
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                            XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                        }
+                    case .success:
+                        XCTFail("Invalid service throw Error when encoding")
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
 
     func testActivateCard() {
         let expectation1 = expectation(description: "Network Request 1")
@@ -593,7 +675,48 @@ class CardsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
-    
+    func testActivateCardEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.activate(cardID: 2).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "activate_card", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        service = invalidService(keychain: keychain)
+        cards = Cards(database: database, service: service, aggregation: aggregation)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = self.database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let card = Card(context: managedObjectContext)
+                card.populateTestData()
+                card.cardID = 2
+                card.cardStatus = .pending
+
+                try? managedObjectContext.save()
+
+                self.cards.activateCard(cardID: 2, panLastFourDigits: "1234") { (result) in
+                    switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is DataError)
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                            XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                        }
+                    case .success:
+                        XCTFail("Invalid service throw Error when encoding")
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
 
     func testLockCard() {
         let expectation1 = expectation(description: "Network Request 1")
@@ -674,6 +797,49 @@ class CardsTests: BaseTestCase {
                             XCTFail("Data response is invalid")
                     }
 
+                    expectation1.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testLockCardEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.lock(cardID: 4).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "lock_card", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        service = invalidService(keychain: keychain)
+        cards = Cards(database: database, service: service, aggregation: aggregation)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = self.database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let card = Card(context: managedObjectContext)
+                card.populateTestData()
+                card.cardID = 4
+                card.cardStatus = .active
+
+                try? managedObjectContext.save()
+
+                self.cards.lockCard(cardID: 4) { (result) in
+                    switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is DataError)
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                            XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                        }
+                    case .success:
+                        XCTFail("Invalid service throw Error when encoding")
+                    }
+                    
                     expectation1.fulfill()
                 }
             }
@@ -842,6 +1008,49 @@ class CardsTests: BaseTestCase {
 
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testReplaceCardEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + CardsEndpoint.replace(cardID: 6).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
+        }
+        
+        service = invalidService(keychain: keychain)
+        cards = Cards(database: database, service: service, aggregation: aggregation)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = self.database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let card = Card(context: managedObjectContext)
+                card.populateTestData()
+                card.cardID = 6
+
+                try? managedObjectContext.save()
+
+                self.cards.replaceCard(cardID: 6, reason: .loss) { (result) in
+                    switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is DataError)
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                            XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                        }
+                    case .success:
+                        XCTFail("Invalid service throw Error when encoding")
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
 
     func testCardsLinkToAccounts() {
         let expectation1 = expectation(description: "Database Setup")

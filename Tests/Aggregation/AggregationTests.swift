@@ -43,6 +43,10 @@ class AggregationTests: BaseTestCase {
         return self.aggregation(keychain: self.defaultKeychain(isNetwork: true), loggedIn: loggedIn)
     }
     
+    private func aggregationWithInvalidEncodingService() -> Aggregation {
+        return Aggregation(database: database, service: invalidService(keychain: defaultKeychain(isNetwork: true)))
+    }
+    
     // MARK: - Provider Tests
     
     func testFetchProviderByID() {
@@ -793,6 +797,39 @@ class AggregationTests: BaseTestCase {
         
     }
     
+    func testCreateProviderAccountEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let providerID: Int64 = 12345
+        
+        let loginForm = ProviderLoginForm.loginFormFilledData()
+        
+        connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "provider_account_id_123", addingStatusCode: 201)
+        
+        let aggregation = self.aggregationWithInvalidEncodingService()
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            aggregation.createProviderAccount(providerID: providerID, loginForm: loginForm, completion: { result in
+                switch result {
+                case .failure(let error):
+                    XCTAssertTrue(error is DataError)
+                    if let error = error as? DataError {
+                        XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                        XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                    }
+                case .success:
+                    XCTFail("Invalid service throw Error when encoding")
+                }
+                
+                expectation1.fulfill()
+            })
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+    }
+    
     func testCreateProviderAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -936,6 +973,40 @@ class AggregationTests: BaseTestCase {
         }
         
         wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+        
+    }
+    
+    func testUpdateProviderAccountEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let providerAccountID: Int64 = 123
+        let consentID: Int64 = 3
+        
+        let loginForm = ProviderLoginForm.loginFormFilledData()
+        
+        connect(endpoint: AggregationEndpoint.providerAccount(providerAccountID: providerAccountID).path.prefixedWithSlash, toResourceWithName: "provider_account_id_123")
+        
+        let aggregation = self.aggregationWithInvalidEncodingService()
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            aggregation.updateProviderAccount(providerAccountID: providerAccountID, loginForm: loginForm, consentID: consentID) { result in
+                switch result {
+                case .failure(let error):
+                    XCTAssertTrue(error is DataError)
+                    if let error = error as? DataError {
+                        XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                        XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                    }
+                case .success:
+                    XCTFail("Invalid service throw Error when encoding")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
         
     }
     
@@ -1480,6 +1551,45 @@ class AggregationTests: BaseTestCase {
         }
         
         wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+        
+    }
+    
+    func testUpdatingAccountEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        connect(endpoint: AggregationEndpoint.account(accountID: 542).path.prefixedWithSlash, toResourceWithName: "account_id_542")
+        
+        let aggregation = self.aggregationWithInvalidEncodingService()
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let account = Account(context: managedObjectContext)
+                account.populateTestData()
+                account.accountID = 542
+                
+                try? managedObjectContext.save()
+                
+                aggregation.updateAccount(accountID: 542) { result in
+                    switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is DataError)
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                            XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                        }
+                    case .success:
+                        XCTFail("Invalid service throw Error when encoding")
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
         
     }
     
@@ -2508,6 +2618,45 @@ class AggregationTests: BaseTestCase {
         
     }
     
+    func testUpdatingTransactionEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630).path.prefixedWithSlash, toResourceWithName: "transaction_id_194630")
+        
+        let aggregation = self.aggregationWithInvalidEncodingService()
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let transaction = Transaction(context: managedObjectContext)
+                transaction.populateTestData()
+                transaction.transactionID = 194630
+                
+                try? managedObjectContext.save()
+                
+                aggregation.updateTransaction(transactionID: 194630) { result in
+                    switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is DataError)
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                            XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                        }
+                    case .success:
+                        XCTFail("Invalid service throw Error when encoding")
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        
+    }
+    
     func testUpdateTransactionFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -3167,6 +3316,49 @@ class AggregationTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testAddTagToTransactionEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: AggregationEndpoint.transactionTags(transactionID: 2233).path.prefixedWithSlash, toResourceWithName: "transaction_update_tag")
+        
+        let aggregation = self.aggregationWithInvalidEncodingService()
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let transaction = Transaction(context: managedObjectContext)
+                transaction.populateTestData()
+                transaction.transactionID = 2233
+                transaction.userTags = ["Pub","Dinner"]
+                
+                try? managedObjectContext.save()
+                
+                var tuplearray = [Aggregation.tagApplyAllPairs]()
+                tuplearray.append(("tagone",true))
+                tuplearray.append(("tagtwo",true))
+                
+                aggregation.addTagToTransaction(transactionID: 2233, tagApplyAllPairs: tuplearray) { result in
+                    switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is DataError)
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                            XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                        }
+                    case .success:
+                        XCTFail("Invalid service throw Error when encoding")
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testAddTagToTransaction() {
         
         let expectation1 = expectation(description: "Network Request 1")
@@ -3225,9 +3417,7 @@ class AggregationTests: BaseTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
     }
-    
     
     func testRemoveTagFromTransaction() {
         
@@ -3294,6 +3484,50 @@ class AggregationTests: BaseTestCase {
        
     }
     
+    func testRemoveTagFromTransactionEncodeFail() {
+        
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: AggregationEndpoint.transactionTags(transactionID: 2233).path.prefixedWithSlash, toResourceWithName: "transaction_update_tag")
+        
+        let aggregation = self.aggregationWithInvalidEncodingService()
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let transaction = Transaction(context: managedObjectContext)
+                transaction.populateTestData()
+                transaction.transactionID = 2233
+                transaction.userTags = ["Pub","Dinner","tagone","tagtwo"]
+                
+                try? managedObjectContext.save()
+                
+                var tuplearray = [Aggregation.tagApplyAllPairs]()
+                tuplearray.append(("tagone",true))
+                tuplearray.append(("tagtwo",true))
+                
+                aggregation.removeTagFromTransaction(transactionID: 2233, tagApplyAllPairs: tuplearray) { result in
+                    switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is DataError)
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                            XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                        }
+                    case .success:
+                        XCTFail("Invalid service throw Error when encoding")
+                    }
+                    expectation1.fulfill()
+                }
+            }
+        }
+        wait(for: [expectation1], timeout: 3.0)
+       
+    }
+    
     func testListTagsForTransaction() {
         
         let expectation1 = expectation(description: "Network Request 1")
@@ -3317,6 +3551,37 @@ class AggregationTests: BaseTestCase {
                 
                 expectation1.fulfill()
                 
+            })
+
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+    }
+    
+    func testListTagsForTransactionEncodeFail() {
+        
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: AggregationEndpoint.transactionTags(transactionID: 2233).path.prefixedWithSlash, toResourceWithName: "transaction_update_tag", addingStatusCode: 404)
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            aggregation.listAllTagsForTransaction(transactionID: 2233, completion: { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is APIError)
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.statusCode, 404)
+                        }
+                    case .success:
+                        XCTFail("Data response is invalid")
+                }
+
+                expectation1.fulfill()
             })
 
         }
@@ -4038,6 +4303,91 @@ class AggregationTests: BaseTestCase {
         wait(for: [expectation3], timeout: 5.0)
     }
     
+    func testCachedMerchantsRefreshEncodeFail() {
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Request 1")
+        let expectation3 = expectation(description: "Fetch Request 1")
+
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_valid")
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 5.0)
+
+        // Insert stale data
+        let managedObjectContext = self.database.newBackgroundContext()
+
+        managedObjectContext.performAndWait {
+            let cachedMerchant1 = Merchant(context: managedObjectContext)
+            cachedMerchant1.populateTestData()
+            cachedMerchant1.merchantID = 238
+
+            let cachedMerchant2 = Merchant(context: managedObjectContext)
+            cachedMerchant2.populateTestData()
+            cachedMerchant2.merchantID = 239
+
+            let cachedMerchant3 = Merchant(context: managedObjectContext)
+            cachedMerchant3.populateTestData()
+            cachedMerchant3.merchantID = 1257
+
+            try! managedObjectContext.save()
+        }
+
+        let aggregation = self.aggregation(loggedIn: true)
+
+        aggregation.refreshCachedMerchants { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                break
+                    
+            }
+
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 5.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = self.context
+
+            let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)]
+
+            do {
+                let fetchedMerchants = try context.fetch(fetchRequest)
+
+                XCTAssertEqual(fetchedMerchants.count, 1199)
+
+                if let merchant = fetchedMerchants.last {
+                    XCTAssertEqual(merchant.merchantID, 1258)
+                    XCTAssertEqual(merchant.name, "Sushi 8")
+                    XCTAssertEqual(merchant.merchantType, .retailer)
+                } else {
+                    XCTFail("No merchants")
+                }
+
+                let updatedMerchant = aggregation.merchant(context: context, merchantID: 238)
+                XCTAssertEqual(updatedMerchant?.name, "The Occidental Hotel")
+
+                let deletedMerchant = aggregation.merchant(context: context, merchantID: 1257)
+                XCTAssertNil(deletedMerchant)
+
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 5.0)
+    }
+    
     func testrefreshMerchantWithCompletionHandler(){
         let expectation1 = expectation(description: "Database Setup")
         let expectation2 = expectation(description: "Network Request 1")
@@ -4103,6 +4453,57 @@ class AggregationTests: BaseTestCase {
                     }
             }
             
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+    }
+    
+    func testrefreshMerchantWithCompletionHandlerEncodeFail(){
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchant_page_2", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        // Insert stale data
+        let managedObjectContext = self.database.newBackgroundContext()
+        
+        managedObjectContext.performAndWait {
+            let cachedMerchant1 = Merchant(context: managedObjectContext)
+            cachedMerchant1.populateTestData()
+            cachedMerchant1.merchantID = 109
+            
+            let cachedMerchant2 = Merchant(context: managedObjectContext)
+            cachedMerchant2.populateTestData()
+            cachedMerchant2.merchantID = 78
+            
+            let cachedMerchant3 = Merchant(context: managedObjectContext)
+            cachedMerchant3.populateTestData()
+            cachedMerchant3.merchantID = 268
+            
+            try! managedObjectContext.save()
+        }
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        aggregation.refreshMerchantsWithCompletionHandler(merchantIDs: []) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertTrue(error is APIError)
+                    if let error = error as? APIError {
+                        XCTAssertEqual(error.statusCode, 404)
+                    }
+                case .success:
+                    XCTFail("Data response is invalid")
+            }
             expectation2.fulfill()
         }
         
