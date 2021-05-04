@@ -31,7 +31,7 @@ enum DeviceEndpoint: Endpoint {
             case .device:
                 return "device"
             case .devices:
-                return"devices"
+                return "devices"
             case .log:
                 return "device/log"
         }
