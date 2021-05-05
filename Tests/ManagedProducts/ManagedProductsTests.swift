@@ -135,6 +135,42 @@ class ManagedProductsTests: XCTestCase {
         HTTPStubs.removeAllStubs()
     }
     
+    func testCreateProductsEncodeFail() {
+        
+        let expectation1 = expectation(description: "Network Request 1")
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ManagedProductEndpoint.managedProducts.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "managed_product_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication, encoder: InvalidEncoder())
+        service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let managedProducts = ManagedProducts(service: service)
+        managedProducts.createManagedProduct(productID: 1, acceptedTermsConditionsIDs: [1,2], completion: { (result) in
+            switch result {
+            case .failure(let error):
+                XCTAssertTrue(error is DataError)
+                if let error = error as? DataError {
+                    XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                    XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                }
+            case .success:
+                XCTFail("Invalid service throw Error when encoding")
+            }
+            
+            expectation1.fulfill()
+        })
+        
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
+    
     func testDeleteProduct() {
         
         let expectation1 = expectation(description: "Network Request 1")

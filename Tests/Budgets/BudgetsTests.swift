@@ -709,10 +709,24 @@ class BudgetsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
-    func testUpdateBudgetFail() {
+    func testUpdateBudgetEncodeFail() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: BudgetsEndpoint.budget(budgetID: 4).path.prefixedWithSlash, toResourceWithName: "budget_valid_4", addingStatusCode: 404)
+        connect(endpoint: BudgetsEndpoint.budget(budgetID: 4).path.prefixedWithSlash, toResourceWithName: "budget_valid_4")
+        
+        let keychain = defaultKeychain(isNetwork: true)
+        
+        let authentication = defaultAuthentication(keychain: keychain)
+        let network = defaultNetwork(keychain: keychain, authentication: authentication)
+        let service = invalidService(keychain: keychain)
+        
+        let authService = defaultAuthService(keychain: keychain, network: network)
+        
+        let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
+        oAuth2Authentication.loggedIn = true
+        aggregation = Aggregation(database: database, service: service)
+        
+        budgets = Budgets(database: database, service: service)
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -732,9 +746,9 @@ class BudgetsTests: BaseTestCase {
                     case .success:
                         XCTFail("Encode data should not success")
                     case .failure(let error):
-                        if let error = error as? APIError {
-                            XCTAssertEqual(error.type, .notFound)
-                            XCTAssertEqual(error.statusCode, 404)
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, .api)
+                            XCTAssertEqual(error.subType, .invalidData)
                         } else {
                             XCTFail("Not correct error type")
                         }

@@ -302,6 +302,33 @@ class GoalsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testRefreshGoalByIDFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.goal(goalID: 12345).path.prefixedWithSlash, toResourceWithName: "goal_id_3211", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            
+            self.goals.refreshGoal(goalID: 12345) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is APIError)
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.statusCode, 404)
+                        }
+                    case .success:
+                        XCTFail("Data response is invalid")
+                }
+
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testRefreshGoals() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -355,6 +382,33 @@ class GoalsTests: BaseTestCase {
                         }
                 }
                 
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testRefreshGoalsEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goals_valid", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            
+            self.goals.refreshGoals() { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is APIError)
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.statusCode, 404)
+                        }
+                    case .success:
+                        XCTFail("Data response is invalid")
+                }
+
                 expectation1.fulfill()
             }
         }
@@ -459,6 +513,51 @@ class GoalsTests: BaseTestCase {
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testCreateGoalEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goal_id_3211", addingStatusCode: 201)
+        
+        let service = invalidService(keychain: defaultKeychain(isNetwork: true))
+        aggregation = Aggregation(database: database, service: service)
+        
+        goals = Goals(database: database, service: service, aggregation: aggregation)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            
+            self.goals.createGoal(name: "My test goal",
+                             description: "The bestest test goal",
+                             imageURL: URL(string: "https://example.com/image.png"),
+                             target: .amount,
+                             trackingType: .credit,
+                             frequency: .weekly,
+                             startDate: nil,
+                             endDate: Date().addingTimeInterval(100000),
+                             periodAmount: 700,
+                             startAmount: 0,
+                             targetAmount: 20000,
+                             accountID: 123,
+                             metadata: ["seen": true]) { (result) in
+                switch result {
+                case .failure(let error):
+                    XCTAssertTrue(error is DataError)
+                    if let error = error as? DataError {
+                        XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                        XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                    }
+                case .success:
+                    XCTFail("Invalid service throw Error when encoding")
                 }
                 
                 expectation1.fulfill()
@@ -630,6 +729,42 @@ class GoalsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testDeleteGoalFail() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: GoalsEndpoint.goal(goalID: 12345).path.prefixedWithSlash, addingData: Data(), addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let goal = Goal(context: managedObjectContext)
+                goal.populateTestData()
+                goal.goalID = 12345
+                
+                try? managedObjectContext.save()
+            }
+            
+            self.goals.deleteGoal(goalID: 12345) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is APIError)
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.statusCode, 404)
+                        }
+                    case .success:
+                        XCTFail("Data response is invalid")
+                }
+
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testUpdateGoal() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -666,6 +801,48 @@ class GoalsTests: BaseTestCase {
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testUpdateGoalFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        let service = invalidService(keychain: defaultKeychain(isNetwork: true))
+        aggregation = Aggregation(database: database, service: service)
+        
+        goals = Goals(database: database, service: service, aggregation: aggregation)
+        
+        connect(endpoint: GoalsEndpoint.goal(goalID: 3211).path.prefixedWithSlash, toResourceWithName: "goal_id_3211")
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let context = self.database.newBackgroundContext()
+            
+            context.performAndWait {
+                let goal = Goal(context: context)
+                goal.populateTestData()
+                goal.goalID = 3211
+                
+                try? context.save()
+            }
+            
+            self.goals.updateGoal(goalID: 3211) { (result) in
+                switch result {
+                case .failure(let error):
+                    XCTAssertTrue(error is DataError)
+                    if let error = error as? DataError {
+                        XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                        XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                    }
+                case .success:
+                    XCTFail("Invalid service throw Error when encoding")
                 }
                 
                 expectation1.fulfill()
@@ -902,6 +1079,32 @@ class GoalsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testRefreshGoalPeriodsFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.periods(goalID: 123).path.prefixedWithSlash, toResourceWithName: "goal_periods_valid", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.goals.refreshGoalPeriods(goalID: 123) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is APIError)
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.statusCode, 404)
+                        }
+                    case .success:
+                        XCTFail("Data response is invalid")
+                }
+
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testRefreshGoalPeriod() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -929,6 +1132,32 @@ class GoalsTests: BaseTestCase {
                         }
                 }
                 
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testRefreshGoalPeriodFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.period(goalID: 123, goalPeriodID: 897).path.prefixedWithSlash, toResourceWithName: "goal_period_id_897", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.goals.refreshGoalPeriod(goalID: 123, goalPeriodID: 897) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is APIError)
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.statusCode, 404)
+                        }
+                    case .success:
+                        XCTFail("Data response is invalid")
+                }
+
                 expectation1.fulfill()
             }
         }

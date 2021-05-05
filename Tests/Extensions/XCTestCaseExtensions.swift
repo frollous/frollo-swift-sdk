@@ -165,6 +165,9 @@ extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTe
         return UserManagement(database: database, service: defaultService(keychain: keychain, authentication: authentication), clientID: config.clientID, authentication: nil, preferences: preferences, delegate: delegate)
     }
     
+    func userWithInvalidEncodingService() -> UserManagement {
+        UserManagement(database: database, service: invalidService(keychain: defaultKeychain(isNetwork: true)), clientID: config.clientID, authentication: nil, preferences: preferences, delegate: nil)
+    }
 }
 
 extension XCTestCase {

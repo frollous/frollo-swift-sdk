@@ -160,6 +160,43 @@ class KYCTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
         HTTPStubs.removeAllStubs()
     }
+    
+    func testSubmitKYCEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + KYCEndpoint.createVerify.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "kyc_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication, encoder: InvalidEncoder())
+        service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let kyc = KYC(service: service)
+        
+    
+        kyc.submitKYC(userKYC: KYCTests.createTestKyc()) { (result) in
+            switch result {
+                case .success:
+                    XCTFail("Encode data should not success")
+                case .failure(let error):
+                    if let error = error as? DataError {
+                        XCTAssertEqual(error.type, .api)
+                        XCTAssertEqual(error.subType, .invalidData)
+                    } else {
+                        XCTFail("Not correct error type")
+                    }
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
 }
 
 

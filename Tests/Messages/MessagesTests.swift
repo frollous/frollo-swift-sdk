@@ -516,6 +516,57 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testUpdateMessageFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication, encoder: InvalidEncoder())
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let message = Message(context: managedObjectContext)
+                message.populateTestData()
+                message.messageID = 12345
+                
+                try? managedObjectContext.save()
+                
+                let messages = Messages(database: database, service: service)
+                
+                messages.updateMessage(messageID: 12345, completion: { (result) in
+                    switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is DataError)
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                            XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                        }
+                    case .success:
+                        XCTFail("Invalid service throw Error when encoding")
+                    }
+                    
+                    expectation1.fulfill()
+                })
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testUpdateMessageByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
