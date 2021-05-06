@@ -45,7 +45,10 @@
       "children": [
         "UserManagement",
         "User",
-        "APIUserDetailsConfirm"
+        "APIUserDetailsConfirm",
+        "APIUserPayIDOTPRequest",
+        "AccountPayIDResponse",
+        "PayIDResponse"
       ]
     },
   {
@@ -99,6 +102,26 @@
     ]
   },
   {
+    "name": "Cards",
+    "children": [
+      "Cards",
+      "Card",
+      "APICardLockOrReplaceRequest",
+      "APICardPublicKeyResponse"
+    ]
+  },
+  {
+    "name": "Contacts",
+    "children": [
+      "Contacts",
+      "Contact",
+      "PayAnyoneContact",
+      "BPAYContact",
+      "PayIDContact",
+      "InternationalContact"
+    ]
+  },
+  {
     "name": "Configuration",
     "children": [
       "CDRConfiguration"
@@ -123,6 +146,32 @@
     "children": [
       "Images",
       "Image"
+    ]
+  },
+  {
+    "name": "Address",
+    "children": [
+      "Address"
+    ]
+  },
+  {
+    "name": "KYC",
+    "children": [
+      "KYC",
+      "UserKYC"
+    ]
+  },
+  {
+    "name": "ManagedProducts",
+    "children": [
+      "ManagedProducts",
+      "ManagedProduct"
+    ]
+  },
+  {
+    "name": "Log",
+    "children": [
+      "Log"
     ]
   },
   {
@@ -157,7 +206,9 @@
       "BPAYPaymentResponse",
       "PayAnyoneResponse",
       "PaymentTransferResponse",
-      "VerifyPayAnyoneResponse"
+      "VerifyPayAnyoneResponse",
+      "PayIDPaymentResponse",
+      "VerifyPayIDResponse"
     ]
   },
   {

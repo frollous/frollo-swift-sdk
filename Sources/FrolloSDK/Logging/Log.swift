@@ -38,6 +38,11 @@ public enum LogLevel: Int, Codable {
     case off = 0
 }
 
+/**
+ Log
+ 
+ Manages logging of error, debug & info messages.
+ */
 public class Log {
     
     internal static let manager = Log(synchronous: false)
@@ -49,6 +54,7 @@ public class Log {
         static let previousFileSuffix = "-previous"
     }
     
+    /// Level of logging for debug and error messages. Default is `error`
     public static var logLevel: LogLevel = .error {
         didSet {
             manager.updateLogLevel()

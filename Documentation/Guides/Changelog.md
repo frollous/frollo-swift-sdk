@@ -1,5 +1,29 @@
 # Changelog
 
+## 4.9.1
+
+### Features
+
+- Card Management
+- Making Log API Public
+
+### Fixes
+
+- Pagination in Budget Period response
+
+## 4.9.0
+
+### Features
+
+- Managed Products
+- PayID Management
+- NPP Payments
+- Add SPM Support
+
+### Fixes
+
+- Contacts caching
+
 ## 4.8.1
 
 ### Fixes

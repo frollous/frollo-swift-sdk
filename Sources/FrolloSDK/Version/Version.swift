@@ -50,7 +50,7 @@ class Version {
         #if !SWIFT_PACKAGE
         self.currentVersion = Bundle(for: Network.self).object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) as! String
         #else
-        self.currentVersion = "4.9.0"
+        self.currentVersion = "4.9.1"
         #endif
         self.previousVersion = preferencesPersistence[VersionConstants.appVersionLast] as? String
         if let appVersionHistory = preferencesPersistence[VersionConstants.appVersionHistory] as? [String] {

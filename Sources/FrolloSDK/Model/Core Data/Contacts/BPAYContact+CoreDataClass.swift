@@ -30,8 +30,14 @@ public class BPAYContact: Contact {
      Indicates the type of the Biller CRN
      */
     public enum CRNType: String, CaseIterable, Codable {
+        
+        /// Fixed CRN
         case fixed = "fixed_crn"
+        
+        /// Variable CRN
         case variable = "variable_crn"
+        
+        /// Intelligent CRN
         case intelligent = "intelligent_crn"
     }
     
