@@ -19,18 +19,17 @@ import Foundation
 extension Error {
     
     internal var isNetworkConnectionError: Bool {
-        let networkErrors = [NSURLErrorNetworkConnectionLost, NSURLErrorNotConnectedToInternet]
         
-        if domain == NSURLErrorDomain, networkErrors.contains((self as NSError).code) {
+        if let error = self as? NetworkError, error.type == .connectionFailure {
             return true
         }
         
         return false
     }
     
-    internal func logError() {
+    internal func logError(_ file: String = #file) {
         if !isNetworkConnectionError {
-            Log.error(localizedDescription)
+            Log.error(localizedDescription, file)
         }
     }
     
