@@ -19,9 +19,8 @@ import Foundation
 extension Error {
     
     internal var isNetworkConnectionError: Bool {
-        let networkErrors = [NSURLErrorNetworkConnectionLost, NSURLErrorNotConnectedToInternet, NSURLErrorTimedOut, NSURLErrorBadURL, NSURLErrorCancelled, NSURLErrorCannotConnectToHost, NSURLErrorCannotFindHost]
         
-        if domain == NSURLErrorDomain, networkErrors.contains((self as NSError).code) {
+        if let error = self as? NetworkError, error.type == .connectionFailure {
             return true
         }
         
