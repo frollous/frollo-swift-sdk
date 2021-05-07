@@ -68,6 +68,9 @@ class NetworkErrorTests: XCTestCase {
         
         let connectionLostError = NSError(domain: NSURLErrorDomain, code: NSURLErrorNetworkConnectionLost, userInfo: [NSLocalizedDescriptionKey: "Connection Lost"])
         XCTAssertEqual(connectionLostError.isNetworkConnectionError, true)
+        
+        let timeoutError = NSError(domain: NSURLErrorDomain, code: NSURLErrorTimedOut, userInfo: [NSLocalizedDescriptionKey: "Timed out"])
+        XCTAssertEqual(timeoutError.isNetworkConnectionError, true)
     }
     
 }
