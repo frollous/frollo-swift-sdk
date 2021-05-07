@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D74" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.7.4">
-    <entity name="Account" representedClassName=".Account" syncable="YES">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.7.4">
+    <entity name="Account" representedClassName="FrolloSDK.Account" syncable="YES">
         <attribute name="accountHolderName" optional="YES" attributeType="String"/>
         <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
         <attribute name="accountName" optional="YES" attributeType="String"/>
@@ -75,13 +75,13 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="AccountBalanceTier" representedClassName=".AccountBalanceTier" syncable="YES">
+    <entity name="AccountBalanceTier" representedClassName="FrolloSDK.AccountBalanceTier" syncable="YES">
         <attribute name="maximum" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="minimum" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="balanceTiers" inverseEntity="Account"/>
     </entity>
-    <entity name="Bill" representedClassName=".Bill" syncable="YES">
+    <entity name="Bill" representedClassName="FrolloSDK.Bill" syncable="YES">
         <attribute name="accountID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="averageAmount" attributeType="Decimal" defaultValueString="0"/>
         <attribute name="billID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
@@ -116,7 +116,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="BillPayment" representedClassName=".BillPayment" syncable="YES">
+    <entity name="BillPayment" representedClassName="FrolloSDK.BillPayment" syncable="YES">
         <attribute name="amount" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="billID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
         <attribute name="billPaymentID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
@@ -132,13 +132,13 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="BPAYContact" representedClassName=".BPAYContact" parentEntity="Contact" syncable="YES">
+    <entity name="BPAYContact" representedClassName="FrolloSDK.BPAYContact" parentEntity="Contact" syncable="YES">
         <attribute name="billerCode" attributeType="String"/>
         <attribute name="billerName" attributeType="String"/>
         <attribute name="crn" attributeType="String"/>
         <attribute name="crnTypeRawValue" attributeType="String"/>
     </entity>
-    <entity name="Budget" representedClassName=".Budget" syncable="YES">
+    <entity name="Budget" representedClassName="FrolloSDK.Budget" syncable="YES">
         <attribute name="budgetID" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="currency" attributeType="String"/>
         <attribute name="currentAmount" attributeType="Decimal" defaultValueString="0.0"/>
@@ -165,7 +165,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="BudgetPeriod" representedClassName=".BudgetPeriod" syncable="YES">
+    <entity name="BudgetPeriod" representedClassName="FrolloSDK.BudgetPeriod" syncable="YES">
         <attribute name="budgetID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="budgetPeriodID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="currentAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
@@ -188,7 +188,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="Card" representedClassName=".Card" syncable="YES">
+    <entity name="Card" representedClassName="FrolloSDK.Card" syncable="YES">
         <attribute name="accountID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="cancelledDateString" optional="YES" attributeType="String"/>
         <attribute name="cardholderName" optional="YES" attributeType="String"/>
@@ -209,18 +209,18 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="CDRConfiguration" representedClassName=".CDRConfiguration" syncable="YES">
+    <entity name="CDRConfiguration" representedClassName="FrolloSDK.CDRConfiguration" syncable="YES">
         <attribute name="adrID" attributeType="String"/>
         <attribute name="adrName" attributeType="String"/>
         <attribute name="sharingDurationRawValue" attributeType="Binary"/>
         <attribute name="supportEmail" attributeType="String"/>
     </entity>
-    <entity name="CDRProductInformation" representedClassName=".CDRProductInformation" syncable="YES">
+    <entity name="CDRProductInformation" representedClassName="FrolloSDK.CDRProductInformation" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="value" optional="YES" attributeType="String"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="productInformations" inverseEntity="Account"/>
     </entity>
-    <entity name="Consent" representedClassName=".Consent" syncable="YES">
+    <entity name="Consent" representedClassName="FrolloSDK.Consent" syncable="YES">
         <attribute name="additionalPermissionsRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="authorizationURLString" optional="YES" attributeType="String"/>
         <attribute name="confirmationPDFURLString" optional="YES" attributeType="String"/>
@@ -236,7 +236,7 @@
         <relationship name="provider" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Provider" inverseName="consents" inverseEntity="Provider"/>
         <relationship name="providerAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProviderAccount" inverseName="consents" inverseEntity="ProviderAccount"/>
     </entity>
-    <entity name="Contact" representedClassName=".Contact" syncable="YES">
+    <entity name="Contact" representedClassName="FrolloSDK.Contact" syncable="YES">
         <attribute name="contactDescription" optional="YES" attributeType="String"/>
         <attribute name="contactID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="contactTypeRawValue" attributeType="String"/>
@@ -252,7 +252,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="Goal" representedClassName=".Goal" syncable="YES">
+    <entity name="Goal" representedClassName="FrolloSDK.Goal" syncable="YES">
         <attribute name="accountID" optional="YES" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
         <attribute name="currency" attributeType="String"/>
         <attribute name="currentAmount" attributeType="Decimal" defaultValueString="0.0"/>
@@ -288,7 +288,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="GoalPeriod" representedClassName=".GoalPeriod" syncable="YES">
+    <entity name="GoalPeriod" representedClassName="FrolloSDK.GoalPeriod" syncable="YES">
         <attribute name="currentAmount" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="endDateString" attributeType="String"/>
         <attribute name="goalID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
@@ -311,14 +311,14 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="Image" representedClassName=".Image" syncable="YES">
+    <entity name="Image" representedClassName="FrolloSDK.Image" syncable="YES">
         <attribute name="imageID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="largeURLString" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="smallURLString" optional="YES" attributeType="String"/>
         <attribute name="typesRawValue" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="InternationalContact" representedClassName=".InternationalContact" parentEntity="Contact" syncable="YES">
+    <entity name="InternationalContact" representedClassName="FrolloSDK.InternationalContact" parentEntity="Contact" syncable="YES">
         <attribute name="bic" optional="YES" attributeType="String"/>
         <attribute name="chipNumber" optional="YES" attributeType="String"/>
         <attribute name="fedwireNumber" optional="YES" attributeType="String"/>
@@ -332,7 +332,7 @@
         <attribute name="routingNumber" optional="YES" attributeType="String"/>
         <attribute name="sortCode" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="Merchant" representedClassName=".Merchant" syncable="YES">
+    <entity name="Merchant" representedClassName="FrolloSDK.Merchant" syncable="YES">
         <attribute name="merchantID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
         <attribute name="merchantTypeRawValue" optional="YES" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
@@ -348,7 +348,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="Message" representedClassName=".Message" syncable="YES">
+    <entity name="Message" representedClassName="FrolloSDK.Message" syncable="YES">
         <attribute name="actionTitle" optional="YES" attributeType="String"/>
         <attribute name="actionURLString" optional="YES" attributeType="String"/>
         <attribute name="autoDismiss" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -376,24 +376,24 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="MessageHTML" representedClassName=".MessageHTML" parentEntity="Message" syncable="YES">
+    <entity name="MessageHTML" representedClassName="FrolloSDK.MessageHTML" parentEntity="Message" syncable="YES">
         <attribute name="footer" optional="YES" attributeType="String"/>
         <attribute name="header" optional="YES" attributeType="String"/>
         <attribute name="main" attributeType="String"/>
     </entity>
-    <entity name="MessageImage" representedClassName=".MessageImage" parentEntity="Message" syncable="YES">
+    <entity name="MessageImage" representedClassName="FrolloSDK.MessageImage" parentEntity="Message" syncable="YES">
         <attribute name="height" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="urlString" attributeType="String"/>
         <attribute name="width" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
     </entity>
-    <entity name="MessageText" representedClassName=".MessageText" parentEntity="Message" syncable="YES">
+    <entity name="MessageText" representedClassName="FrolloSDK.MessageText" parentEntity="Message" syncable="YES">
         <attribute name="designType" optional="YES" attributeType="String"/>
         <attribute name="footer" optional="YES" attributeType="String"/>
         <attribute name="header" optional="YES" attributeType="String"/>
         <attribute name="imageURLString" optional="YES" attributeType="String"/>
         <attribute name="text" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="MessageVideo" representedClassName=".MessageVideo" parentEntity="Message" syncable="YES">
+    <entity name="MessageVideo" representedClassName="FrolloSDK.MessageVideo" parentEntity="Message" syncable="YES">
         <attribute name="autoplay" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="autoplayCellular" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="height" optional="YES" attributeType="Double" defaultValueString="-1" usesScalarValueType="YES"/>
@@ -402,23 +402,23 @@
         <attribute name="urlString" attributeType="String"/>
         <attribute name="width" optional="YES" attributeType="Double" defaultValueString="-1" usesScalarValueType="YES"/>
     </entity>
-    <entity name="PayAnyoneContact" representedClassName=".PayAnyoneContact" parentEntity="Contact" syncable="YES">
+    <entity name="PayAnyoneContact" representedClassName="FrolloSDK.PayAnyoneContact" parentEntity="Contact" syncable="YES">
         <attribute name="accountHolder" attributeType="String"/>
         <attribute name="accountNumber" attributeType="String"/>
         <attribute name="bsb" attributeType="String"/>
     </entity>
-    <entity name="PayDay" representedClassName=".PayDay" syncable="YES">
+    <entity name="PayDay" representedClassName="FrolloSDK.PayDay" syncable="YES">
         <attribute name="lastDateString" optional="YES" attributeType="String"/>
         <attribute name="nextDateString" optional="YES" attributeType="String"/>
         <attribute name="periodRawValue" attributeType="String"/>
         <attribute name="statusRawValue" attributeType="String"/>
     </entity>
-    <entity name="PayIDContact" representedClassName=".PayIDContact" parentEntity="Contact" syncable="YES">
+    <entity name="PayIDContact" representedClassName="FrolloSDK.PayIDContact" parentEntity="Contact" syncable="YES">
         <attribute name="payID" attributeType="String"/>
         <attribute name="payIDName" optional="YES" attributeType="String"/>
         <attribute name="payIDTypeRawValue" attributeType="String"/>
     </entity>
-    <entity name="Provider" representedClassName=".Provider" syncable="YES">
+    <entity name="Provider" representedClassName="FrolloSDK.Provider" syncable="YES">
         <attribute name="aggregatorTypeRawValue" optional="YES" attributeType="String"/>
         <attribute name="authTypeRawValue" optional="YES" attributeType="String"/>
         <attribute name="baseURLString" optional="YES" attributeType="String"/>
@@ -471,7 +471,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="ProviderAccount" representedClassName=".ProviderAccount" syncable="YES">
+    <entity name="ProviderAccount" representedClassName="FrolloSDK.ProviderAccount" syncable="YES">
         <attribute name="editable" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="externalID" optional="YES" attributeType="String"/>
         <attribute name="lastRefreshed" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -497,7 +497,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="ReportAccountBalance" representedClassName=".ReportAccountBalance" syncable="YES">
+    <entity name="ReportAccountBalance" representedClassName="FrolloSDK.ReportAccountBalance" syncable="YES">
         <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
         <attribute name="currency" attributeType="String"/>
         <attribute name="dateString" attributeType="String"/>
@@ -505,13 +505,13 @@
         <attribute name="value" attributeType="Decimal" defaultValueString="0.0"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="reports" inverseEntity="Account"/>
     </entity>
-    <entity name="Tag" representedClassName=".Tag" syncable="YES">
+    <entity name="Tag" representedClassName="FrolloSDK.Tag" syncable="YES">
         <attribute name="count" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="lastUsedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="Transaction" representedClassName=".Transaction" syncable="YES">
+    <entity name="Transaction" representedClassName="FrolloSDK.Transaction" syncable="YES">
         <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
         <attribute name="addressLine1" optional="YES" attributeType="String"/>
         <attribute name="addressLine2" optional="YES" attributeType="String"/>
@@ -571,7 +571,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="TransactionCategory" representedClassName=".TransactionCategory" syncable="YES">
+    <entity name="TransactionCategory" representedClassName="FrolloSDK.TransactionCategory" syncable="YES">
         <attribute name="categoryTypeRawValue" attributeType="String"/>
         <attribute name="defaultBudgetCategoryRawValue" attributeType="String"/>
         <attribute name="iconURLString" optional="YES" attributeType="String"/>
@@ -590,7 +590,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="User" representedClassName=".User" syncable="YES">
+    <entity name="User" representedClassName="FrolloSDK.User" syncable="YES">
         <attribute name="addressRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="attributionAdGroup" optional="YES" attributeType="String"/>
         <attribute name="attributionCampaign" optional="YES" attributeType="String"/>
