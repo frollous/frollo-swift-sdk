@@ -211,8 +211,6 @@ public class Budget: NSManagedObject, UniqueManagedObject {
             do {
                 metadataRawValue = try newValue.rawData()
             } catch {
-                error.logError()
-                
                 metadataRawValue = try? JSONSerialization.data(withJSONObject: [:], options: [])
             }
         }

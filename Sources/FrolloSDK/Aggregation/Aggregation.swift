@@ -2221,7 +2221,7 @@ public class Aggregation: CachedObjects, ResponseHandler {
             
             do {
                 let fetchedMerchantIDs = try managedObjectContext.fetch(fetchRequest)
-                let cachedMerchantIDs = fetchedMerchantIDs.compactMap { $0.merchantID }
+                let cachedMerchantIDs = fetchedMerchantIDs.compactMap { $0.merchantID }.filter { $0 != -1 }
                 
                 service.fetchMerchants(merchantIDs: cachedMerchantIDs, size: merchantBatchSize) { result in
                     switch result {
