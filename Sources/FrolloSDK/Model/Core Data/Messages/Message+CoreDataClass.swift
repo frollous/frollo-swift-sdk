@@ -142,8 +142,6 @@ public class Message: NSManagedObject, UniqueManagedObject {
             do {
                 metaDataRawValue = try newValue.rawData()
             } catch {
-                error.logError()
-                
                 metaDataRawValue = try? JSONSerialization.data(withJSONObject: [:], options: [])
             }
         }

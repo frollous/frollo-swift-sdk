@@ -73,7 +73,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: BudgetsEndpoint.budget(budgetID: budgetID).path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+            self.network.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue, emptyResponseCodes: [204]) { response in
                 self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
             }
         }

@@ -90,7 +90,7 @@ class OAuth2Service {
                 return
             }
             
-            self.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+            self.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue, emptyResponseCodes: [200]) { response in
                 self.network.handleEmptyResponse(errorType: OAuth2Error.self, response: response, completion: completion)
             }
         }

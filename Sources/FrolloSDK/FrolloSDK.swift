@@ -292,6 +292,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     
     private var deviceLastUpdated: Date?
     private var notificationToken: Data?
+    private var scheduledRefresh = false
     
     // MARK: - Setup
     
@@ -538,7 +539,10 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
      Notify the SDK of an app lifecycle change. Call this to ensure proper refreshing of cache data occurs when the app enters background or resumes.
      */
     public func applicationWillEnterForeground() {
-        resumeScheduledRefreshing()
+        
+        if scheduledRefresh {
+            resumeScheduledRefreshing()
+        }
         
         // Update device timezone, name and IDs regularly
         let now = Date()
@@ -581,8 +585,11 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     
     /**
      Refreshes all cached data in an optimised way. Fetches most urgent data first and then proceeds to update other caches if needed.
+     
+     - parameters:
+        - scheduledRefresh: Flag to indicate if SDK should periodically refresh data from host. False by default.
      */
-    public func refreshData() {
+    public func refreshData(scheduledRefresh: Bool = false) {
         guard !database.needsMigration()
         else {
             return
@@ -598,7 +605,12 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
             self.refreshSystem()
         }
         
-        resumeScheduledRefreshing()
+        self.scheduledRefresh = scheduledRefresh
+        
+        if scheduledRefresh {
+            resumeScheduledRefreshing()
+        }
+        
     }
     
     /**
