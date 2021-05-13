@@ -91,7 +91,7 @@ extension APIService {
         requestQueue.async {
             let url = URL(string: ManagedProductEndpoint.product(productID: productID).path, relativeTo: self.serverURL)!
             
-            self.network.sessionManager.request(url, method: .delete, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue, emptyResponseCodes: [200]) { response in
+            self.network.sessionManager.request(url, method: .delete, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue, emptyResponseCodes: [200, 204]) { response in
                 self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
                 
             }

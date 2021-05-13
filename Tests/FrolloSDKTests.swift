@@ -220,6 +220,7 @@ class FrolloSDKTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         let sdk = Frollo()
+        
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -227,7 +228,7 @@ class FrolloSDKTests: XCTestCase {
                 case .success:
                     sdk.applicationWillEnterForeground()
                     
-                    XCTAssertNotNil(sdk.refreshTimer)
+                    XCTAssertNil(sdk.refreshTimer)
             }
             expectation1.fulfill()
         }

@@ -35,7 +35,7 @@ extension APIService {
                 return
             }
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue, emptyResponseCodes: [201]) { response in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue, emptyResponseCodes: [201, 204]) { response in
                 self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
             }
         }
@@ -136,7 +136,7 @@ extension APIService {
             
             urlRequest.setValue("Bearer " + token, forHTTPHeaderField: HTTPHeader.authorization.rawValue)
             
-            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue, emptyResponseCodes: [202]) { response in
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue, emptyResponseCodes: [202, 204]) { response in
                 self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
             }
         }
