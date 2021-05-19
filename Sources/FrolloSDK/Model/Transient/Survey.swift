@@ -132,6 +132,9 @@ public class Survey: Codable {
             /// question with checkbox view
             case checkbox
             
+            /// question with text
+            case text
+            
         }
         
         /**
@@ -189,6 +192,9 @@ public class Survey: Codable {
                 
                 /// answer with open input option
                 case freeform
+                
+                /// answer with numeric option
+                case numeric
                 
             }
         }
