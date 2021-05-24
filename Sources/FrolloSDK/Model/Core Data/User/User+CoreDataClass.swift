@@ -52,9 +52,14 @@ public class User: NSManagedObject {
         /// Male
         case male
         
+        /// Non binary
+        case nonBinary
+        
         /// Other or unspecified
         case other
         
+        /// Prefer not answer
+        case preferNotAnswer
     }
     
     /**
