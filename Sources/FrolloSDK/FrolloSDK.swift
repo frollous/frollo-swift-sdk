@@ -10,6 +10,9 @@ import Foundation
 /// Frollo SDK Completion Handler with optional error if an issue occurs
 public typealias FrolloSDKCompletionHandler = (EmptyResult<Error>) -> Void
 
+/// Frollo SDK Completion Handler with Object ID if success and optional error if an issue occurs
+public typealias FrolloSDKObjectCompletionHandler = (ObjectResult<Error>) -> Void
+
 /// Frollo SDK Completion Handler with pagination optional before and after cursors and optional error if an issue occurs
 public typealias FrolloSDKPaginatedCompletionHandler = (Result<PaginationInfo, Error>) -> Void
 

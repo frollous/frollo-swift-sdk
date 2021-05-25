@@ -532,11 +532,12 @@ class BudgetsTests: BaseTestCase {
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
-                    case .success:
+                    case .success(let budgetID):
                         let context = self.database.viewContext
+                        XCTAssertEqual(budgetID, 4)
                         
                         let fetchRequest: NSFetchRequest<Budget> = Budget.fetchRequest()
-                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [4])
+                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [budgetID])
                         
                         do {
                             let fetchedBudgets = try context.fetch(fetchRequest)
@@ -568,11 +569,12 @@ class BudgetsTests: BaseTestCase {
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
-                    case .success:
+                    case .success(let budgetID):
                         let context = self.database.viewContext
+                        XCTAssertEqual(budgetID, 4)
                         
                         let fetchRequest: NSFetchRequest<Budget> = Budget.fetchRequest()
-                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [4])
+                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [budgetID])
                         
                         do {
                             let fetchedBudgets = try context.fetch(fetchRequest)
@@ -686,11 +688,12 @@ class BudgetsTests: BaseTestCase {
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
-                    case .success:
+                    case .success(let budgetID):
                         let context = self.database.viewContext
+                        XCTAssertEqual(budgetID, 4)
                         
                         let fetchRequest: NSFetchRequest<Budget> = Budget.fetchRequest()
-                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [4])
+                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [budgetID])
                         
                         do {
                             let fetchedBudgets = try context.fetch(fetchRequest)

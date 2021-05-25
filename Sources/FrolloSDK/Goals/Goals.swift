@@ -1,3 +1,4 @@
+
 //
 //  Copyright © 2018 Frollo. All rights reserved.
 //
@@ -253,7 +254,7 @@ public class Goals: CachedObjects, ResponseHandler {
                            targetAmount: Decimal?,
                            accountID: Int64,
                            metadata: JSON = [:],
-                           completion: FrolloSDKCompletionHandler? = nil) {
+                           completion: FrolloSDKObjectCompletionHandler? = nil) {
         var endDateString: String?
         if let date = endDate {
             endDateString = Goal.goalDateFormatter.string(from: date)
@@ -304,7 +305,7 @@ public class Goals: CachedObjects, ResponseHandler {
                     self.linkGoalPeriodsToGoals(managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
-                        completion?(.success)
+                        completion?(.success(response.id))
                     }
             }
         }
@@ -343,7 +344,7 @@ public class Goals: CachedObjects, ResponseHandler {
         - goalID: ID of the goal to be updated
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func updateGoal(goalID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+    public func updateGoal(goalID: Int64, completion: FrolloSDKObjectCompletionHandler? = nil) {
         let managedObjectContext = database.newBackgroundContext()
         
         guard let goal = goal(context: managedObjectContext, goalID: goalID)
@@ -379,7 +380,7 @@ public class Goals: CachedObjects, ResponseHandler {
                     self.linkGoalPeriodsToGoals(managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
-                        completion?(.success)
+                        completion?(.success(response.id))
                     }
             }
         }

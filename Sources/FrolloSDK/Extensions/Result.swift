@@ -27,6 +27,17 @@ public enum EmptyResult<Failure> {
     
 }
 
+/// A value that represents either a success with ID or a failure, including an associated error on failure.
+public enum ObjectResult<Failure> {
+    
+    /// A success, storing an ID of the object
+    case success(Int64)
+    
+    /// A failure, storing a `Failure` value.
+    case failure(Failure)
+    
+}
+
 /// A value that represents either a success (with before and after cursors for pagination)or a failure, including an associated error on failure.
 public enum PaginatedResult<Failure, before, after> {
     
