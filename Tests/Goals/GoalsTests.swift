@@ -500,11 +500,12 @@ class GoalsTests: BaseTestCase {
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
-                    case .success:
+                    case .success(let goalID):
                         let context = self.database.viewContext
+                        XCTAssertEqual(goalID, 3211)
                         
                         let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
-                        fetchRequest.predicate = NSPredicate(format: "goalID == %ld", argumentArray: [3211])
+                        fetchRequest.predicate = NSPredicate(format: "goalID == %ld", argumentArray: [goalID])
                         
                         do {
                             let fetchedGoals = try context.fetch(fetchRequest)
@@ -642,7 +643,8 @@ class GoalsTests: BaseTestCase {
                         } else {
                             XCTFail("Wrong error returned")
                         }
-                    case .success:
+                    case .success(let goalID):
+                        XCTAssertEqual(goalID, 3211)
                         XCTFail("Invalid data should fail")
                 }
                 
@@ -788,11 +790,12 @@ class GoalsTests: BaseTestCase {
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
-                    case .success:
+                    case .success(let goalID):
                         let context = self.database.viewContext
+                        XCTAssertEqual(goalID, 3211)
                         
                         let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
-                        fetchRequest.predicate = NSPredicate(format: "goalID == %ld", argumentArray: [3211])
+                        fetchRequest.predicate = NSPredicate(format: "goalID == %ld", argumentArray: [goalID])
                         
                         do {
                             let fetchedGoals = try context.fetch(fetchRequest)

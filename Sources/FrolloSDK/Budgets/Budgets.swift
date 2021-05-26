@@ -256,7 +256,7 @@ public class Budgets: CachedObjects, ResponseHandler {
                                     imageURL: String? = nil,
                                     startDate: String? = nil,
                                     metadata: JSON = [:],
-                                    completion: FrolloSDKCompletionHandler? = nil) {
+                                    completion: FrolloSDKObjectCompletionHandler? = nil) {
         
         createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .account, typeValue: "\(accountID)", imageURL: imageURL, startDate: startDate, metadata: metadata, completion: completion)
         
@@ -280,7 +280,7 @@ public class Budgets: CachedObjects, ResponseHandler {
                                            imageURL: String? = nil,
                                            startDate: String? = nil,
                                            metadata: JSON = [:],
-                                           completion: FrolloSDKCompletionHandler? = nil) {
+                                           completion: FrolloSDKObjectCompletionHandler? = nil) {
         
         createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .budgetCategory, typeValue: budgetCategory.rawValue, imageURL: imageURL, startDate: startDate, metadata: metadata, completion: completion)
         
@@ -304,7 +304,7 @@ public class Budgets: CachedObjects, ResponseHandler {
                                      imageURL: String? = nil,
                                      startDate: String? = nil,
                                      metadata: JSON = [:],
-                                     completion: FrolloSDKCompletionHandler? = nil) {
+                                     completion: FrolloSDKObjectCompletionHandler? = nil) {
         
         createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .category, typeValue: "\(categoryID)", imageURL: imageURL, startDate: startDate, metadata: metadata, completion: completion)
         
@@ -328,7 +328,7 @@ public class Budgets: CachedObjects, ResponseHandler {
                                      imageURL: String? = nil,
                                      startDate: String? = nil,
                                      metadata: JSON = [:],
-                                     completion: FrolloSDKCompletionHandler? = nil) {
+                                     completion: FrolloSDKObjectCompletionHandler? = nil) {
         
         createBudget(frequency: frequency, periodAmount: periodAmount, budgetType: .merchant, typeValue: "\(merchantID)", imageURL: imageURL, startDate: startDate, metadata: metadata, completion: completion)
         
@@ -341,7 +341,7 @@ public class Budgets: CachedObjects, ResponseHandler {
                               imageURL: String? = nil,
                               startDate: String? = nil,
                               metadata: JSON = [:],
-                              completion: FrolloSDKCompletionHandler? = nil) {
+                              completion: FrolloSDKObjectCompletionHandler? = nil) {
         
         let request = APIBudgetCreateRequest(frequency: frequency, periodAmount: String(decimal: periodAmount), type: budgetType, typeValue: typeValue, imageURL: imageURL, startDate: startDate, metadata: metadata)
         
@@ -371,7 +371,7 @@ public class Budgets: CachedObjects, ResponseHandler {
                     self.linkBudgetPeriodsToBudgets(managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
-                        completion?(.success)
+                        completion?(.success(response.id))
                     }
             }
         }
@@ -410,7 +410,7 @@ public class Budgets: CachedObjects, ResponseHandler {
         - budgetID: ID of the budget to be updated
         - completion: Optional completion handler with optional error if the request fails
      */
-    public func updateBudget(budgetID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+    public func updateBudget(budgetID: Int64, completion: FrolloSDKObjectCompletionHandler? = nil) {
         let managedObjectContext = database.newBackgroundContext()
         
         guard let budget = budget(context: managedObjectContext, budgetID: budgetID)
@@ -445,7 +445,7 @@ public class Budgets: CachedObjects, ResponseHandler {
                     self.linkBudgetPeriodsToBudgets(managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
-                        completion?(.success)
+                        completion?(.success(response.id))
                     }
             }
         }
