@@ -1678,4 +1678,69 @@ class UserManagementTests: BaseTestCase {
 
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    func testAdressAutocomplete() {
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.addressesAutocomplete.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "address_autocomplete", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+
+        let keychain = validKeychain()
+        let networkAuthenticator = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+
+        user.addressAutocomplete(query: "ashmole", max: 20) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail("Data response should not fail \(error)")
+                case .success(let addresses):
+                    XCTAssertEqual(addresses.count, 20)
+                    XCTAssertEqual(addresses.first!.id, "c3a85816-a9c5-11eb-81f0-68c07153d52e")
+                    XCTAssertEqual(addresses.last!.address, "65 Ashmole Road, REDCLIFFE QLD 4020")
+            }
+
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchAddressByID() {
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.address(addressID: "c3a85816-a9c5-11eb-81f0-68c07153d52e").path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "address_get", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let keychain = validKeychain()
+        let networkAuthenticator = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+
+        user.getAddress(for: "c3a85816-a9c5-11eb-81f0-68c07153d52e") { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail("Data response should not fail \(error)")
+                case .success(let address):
+                    XCTAssertEqual(address.streetNumber!, "105")
+                    XCTAssertEqual(address.suburb!, "Redcliffe")
+                    XCTAssertEqual(address.country!, "AU")
+            }
+
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 3.0)
+    }
 }

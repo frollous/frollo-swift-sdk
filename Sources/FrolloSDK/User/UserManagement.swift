@@ -681,4 +681,53 @@ public class UserManagement {
         }
     }
     
+    /**
+     Get addresses list that matches the query string
+     
+     - Parameters:
+     - query: String to match address
+     - max: Maximum number of items to fetch. Should be between 10 and 100; defaults to 20.
+     - completion: Completion handler with either the `AddressAutocompleteResponse` list from the host or an error
+     */
+    public func addressAutocomplete(query: String, max: Int = 20, completion: @escaping (Result<[AddressAutocomplete], Error>) -> Void) {
+        service.addressAutocomplete(query: query, max: max) { result in
+            switch result {
+                case .failure(let error):
+                    error.logError()
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Get address by ID
+     
+     - Parameters:
+     - addressID: ID of the address to get the details
+     - completion: Completion handler with either the `Address` from the host or an error
+     */
+    public func getAddress(for addressID: String, completion: @escaping (Result<Address, Error>) -> Void) {
+        service.getAddress(addressID: addressID) { result in
+            switch result {
+                case .failure(let error):
+                    error.logError()
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+            }
+        }
+    }
+    
 }
