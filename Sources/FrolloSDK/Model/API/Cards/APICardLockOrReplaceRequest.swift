@@ -16,8 +16,10 @@
 
 import Foundation
 
+/// API Card Lock Or Replace Request
 public struct APICardLockOrReplaceRequest: Codable {
     
+    /// Reason for locking/ replacing the Card
     public enum CardLockOrReplaceReason: String, Codable, CaseIterable {
         /// Card Fraud
         case fraud

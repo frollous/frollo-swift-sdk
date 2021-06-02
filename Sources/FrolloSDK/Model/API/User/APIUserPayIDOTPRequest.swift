@@ -16,6 +16,7 @@
 
 import Foundation
 
+/// API for requesting OTP to register a PayID
 public struct APIUserPayIDOTPRequest: Codable {
     
     /**
