@@ -6,5 +6,5 @@
   "source_account_id": 42,
   "payment_date": "2020-12-25",
   "description": "Visible to both",
-  "reference": "Visible to payer"
+  "reference": "Visible to payer",
 }

@@ -291,4 +291,23 @@ public class Payments: ResponseHandler {
         }
     }
     
+    public func verifyBSB(_ bsb: String, completion: @escaping (Result<VerifyBSBResponse, Error>) -> Void) {
+        service.verifyBSB(bsb) { result in
+            switch result {
+                case .failure(let error):
+                    error.logError()
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+            }
+        }
+        
+    }
+    
 }
