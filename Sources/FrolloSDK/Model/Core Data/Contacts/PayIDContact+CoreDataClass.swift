@@ -30,9 +30,16 @@ public class PayIDContact: Contact {
      Indicates the type of the payID
      */
     public enum PayIDType: String, CaseIterable, Codable {
+        /// Phone number
         case phoneNumber = "mobile"
+        
+        /// Email
         case email
+        
+        /// Organisation ID or Business name
         case organisationID = "org_identifier"
+        
+        /// ABN
         case abn
     }
     

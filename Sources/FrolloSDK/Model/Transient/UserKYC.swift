@@ -299,25 +299,25 @@ public class UserKYC: Codable {
         
     }
     
-    // KYC Status
+    /// KYC Status
     public enum KYCStatus: String, Codable {
         
-        // status when KYC is fail, inactive, fail_manual, refer or archived
+        /// status when KYC is fail, inactive, fail_manual, refer or archived
         case failed
         
-        // status when KYC is unchecked or wait
+        /// status when KYC is unchecked or wait
         case pending
         
-        // status when KYC is verified or pass_manual
+        /// status when KYC is verified or pass_manual
         case verified
         
-        // status when KYC is unverified
+        /// status when KYC is unverified
         case unverified
         
-        // status when KYC is retryable
+        /// status when KYC is retryable
         case retryable
         
-        // status when KYC is non existent
+        /// status when KYC is non existent
         case nonExistent = "non_existent"
     }
 }

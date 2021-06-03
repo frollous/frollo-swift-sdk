@@ -253,6 +253,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         return _setup
     }
     
+    /// Logs - Managing logging of messages.
     public var logs: Log {
         guard _setup else {
             fatalError("SDK not setup.")

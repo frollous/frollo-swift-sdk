@@ -26,6 +26,7 @@ public struct PayIDResponse: Codable {
     /// Status of the PayID
     public enum PayIDStatus: String, Codable, CaseIterable {
         /// PayID is available for registration
+        
         case available
         /// PayID is already registered
         case registered
