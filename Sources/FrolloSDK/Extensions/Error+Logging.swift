@@ -27,9 +27,9 @@ extension Error {
         return false
     }
     
-    internal func logError(_ file: String = #file) {
+    internal func logError(_ file: String = #file, _ function: String = #function, _ line: Int = #line) {
         if !isNetworkConnectionError {
-            Log.error(localizedDescription, file)
+            Log.error(localizedDescription, file, function, line: line)
         }
     }
     
