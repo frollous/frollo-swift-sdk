@@ -119,16 +119,19 @@ public class Events {
                 Log.debug("Provider Account Linking failed")
                 
                 NotificationCenter.default.post(name: Aggregation.providerAccountLinkedNotification, object: self, userInfo: nil)
+                completion?(true, nil)
                 
             case EventNames.linkProviderAccountFailed:
                 Log.debug("Provider Account Linked successfully")
                 
                 NotificationCenter.default.post(name: Aggregation.providerAccountLinkingFailedNotification, object: self, userInfo: nil)
+                completion?(true, nil)
                 
             case EventNames.mfaRequest:
                 Log.debug("MFA is required for the providerAccount being linked")
                 
                 NotificationCenter.default.post(name: Aggregation.providerAccountMFARequiredNotification, object: self, userInfo: nil)
+                completion?(true, nil)
                 
             default:
                 // Event not recognised

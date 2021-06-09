@@ -260,4 +260,81 @@ class EventsTests: XCTestCase {
         wait(for: [expectation1, notificationExpectation], timeout: 3.0)
     }
 
+    func testHandleProviderAccountLinkedEvent() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.providerAccountLinkedNotification, object: nil) { (notification) -> Bool in
+            return true
+        }
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let events = Events(service: service)
+
+        events.handleEvent("PA_LINKED") { (handled, error) in
+            XCTAssertTrue(handled)
+            XCTAssertNil(error)
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+    }
+
+    func testHandleProviderAccountLinkingFailedEvent() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.providerAccountLinkingFailedNotification, object: nil) { (notification) -> Bool in
+            return true
+        }
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let events = Events(service: service)
+
+        events.handleEvent("PA_FAILED") { (handled, error) in
+            XCTAssertTrue(handled)
+            XCTAssertNil(error)
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+    }
+
+    func testHandleMFARequestEvent() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.providerAccountMFARequiredNotification, object: nil) { (notification) -> Bool in
+            return true
+        }
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let events = Events(service: service)
+
+        events.handleEvent("PA_MFA") { (handled, error) in
+            XCTAssertTrue(handled)
+            XCTAssertNil(error)
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+    }
 }
