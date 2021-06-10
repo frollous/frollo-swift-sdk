@@ -1109,6 +1109,7 @@ class UserManagementTests: BaseTestCase {
                 XCTFail(error.localizedDescription)
             case .success(let data):
                 XCTAssertNotNil(data.mobileNumber)
+                XCTAssertNotNil(data.email)
             }
 
             expectation1.fulfill()
