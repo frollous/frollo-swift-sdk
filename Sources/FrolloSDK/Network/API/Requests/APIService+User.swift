@@ -66,7 +66,7 @@ extension APIService {
             let url = URL(string: UserEndpoint.register.path, relativeTo: self.serverURL)!
             
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM"
+            dateFormatter.dateFormat = "yyyy-MM-dd"
             
             guard let urlRequest = self.network.contentRequest(url: url, method: .post, content: request, dateEncodingStrategy: .formatted(dateFormatter))
             else {
@@ -105,7 +105,7 @@ extension APIService {
             let url = URL(string: UserEndpoint.details.path, relativeTo: self.serverURL)!
             
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM"
+            dateFormatter.dateFormat = "yyyy-MM-dd"
             
             guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: request, dateEncodingStrategy: .formatted(dateFormatter), userOtp: otpCode)
             else {
@@ -295,7 +295,7 @@ extension APIService {
         switch response.result {
             case .success(let value):
                 let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM"
+                dateFormatter.dateFormat = "yyyy-MM-dd"
                 
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .formatted(dateFormatter)

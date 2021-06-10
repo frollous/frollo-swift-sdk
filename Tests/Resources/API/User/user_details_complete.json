@@ -7,7 +7,7 @@
 	"status": "active",
 	"primary_currency": "AUD",
 	"gender": "male",
-	"date_of_birth": "1990-01",
+	"date_of_birth": "1990-01-01",
     "tfn": "12345678",
     "tax_residency": "AU",
     "foreign_tax": false,

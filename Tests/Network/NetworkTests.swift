@@ -167,7 +167,7 @@ class NetworkTests: BaseTestCase {
         let config = FrolloSDKConfiguration.testConfig()
         
         stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> HTTPStubsResponse in
-            XCTAssertEqual(request.allHTTPHeaderFields?["X-Api-Version"], "2.13")
+            XCTAssertEqual(request.allHTTPHeaderFields?["X-Api-Version"], "2.14")
             XCTAssertEqual(request.allHTTPHeaderFields?["X-Bundle-Id"], "us.frollo.FrolloSDK")
             XCTAssertTrue(request.allHTTPHeaderFields?["X-Device-Version"]?.contains(ProcessInfo.processInfo.operatingSystemVersionString) == true)
             
