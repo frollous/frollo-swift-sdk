@@ -108,7 +108,9 @@ class FrolloSDKTests: XCTestCase {
         let config = FrolloSDKConfiguration(authenticationType: .oAuth2(redirectURL: FrolloSDKConfiguration.redirectURL,
                                                                         authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint,
                                                                         tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint,
-                                                                        revokeTokenEndpoint: FrolloSDKConfiguration.revokeTokenEndpoint),
+                                                                        revokeTokenEndpoint: FrolloSDKConfiguration.revokeTokenEndpoint,
+                                                                        audience: nil,
+                                                                        supportsRealm: false),
                                             clientID: "abc123",
                                             dataDirectory: dataDirectory,
                                             serverEndpoint: URL(string: "https://api.example.com")!)
@@ -686,7 +688,9 @@ class FrolloSDKTests: XCTestCase {
         let config = FrolloSDKConfiguration(authenticationType: .oAuth2(redirectURL: FrolloSDKConfiguration.redirectURL,
                                                                         authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint,
                                                                         tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint,
-                                                                        revokeTokenEndpoint: FrolloSDKConfiguration.revokeTokenEndpoint),
+                                                                        revokeTokenEndpoint: FrolloSDKConfiguration.revokeTokenEndpoint,
+                                                                        audience: nil,
+                                                                        supportsRealm: false),
                                             clientID: "abc123",
                                             dataDirectory: tempFolder,
                                             serverEndpoint: URL(string: "https://api.example.com")!)
