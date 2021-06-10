@@ -63,6 +63,15 @@ public class Aggregation: CachedObjects, ResponseHandler {
     /// Notification fired when provider accounts cache has been updated
     public static let providerAccountsUpdatedNotification = Notification.Name("FrolloSDK.aggregation.providerAccountsUpdatedNotification")
     
+    /// Notification fired when a Provider Account has linking has failed
+    public static let providerAccountLinkingFailedNotification = Notification.Name("FrolloSDK.aggregation.providerAccountLinkingFailedNotification")
+    
+    /// Notification fired when a Provider Account has linked successfully.
+    public static let providerAccountLinkedNotification = Notification.Name("FrolloSDK.aggregation.providerAccountLinkedNotification")
+    
+    /// Notification fired when a MFA is requested for the provider account currently being linked
+    public static let providerAccountMFARequiredNotification = Notification.Name("FrolloSDK.aggregation.providerAccountsMFARequiredNotification")
+    
     /// Notification fired when merchants cache has been updated
     public static let merchantsUpdatedNotification = Notification.Name("FrolloSDK.aggregation.merchantsUpdatedNotification")
     
