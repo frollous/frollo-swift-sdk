@@ -419,6 +419,7 @@ public class User: NSManagedObject {
         primaryCurrency = response.primaryCurrency
         status = response.status
         validPassword = response.validPassword
+        emailVerified = response.emailVerified
         
         // Optional properties
         address = response.address
