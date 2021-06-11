@@ -28,9 +28,7 @@ extension FrolloSDKConfiguration {
         return FrolloSDKConfiguration(authenticationType: .oAuth2(redirectURL: redirectURL,
                                                                   authorizationEndpoint: authorizationEndpoint,
                                                                   tokenEndpoint: tokenEndpoint,
-                                                                  revokeTokenEndpoint: revokeTokenEndpoint,
-                                                                  audience: nil,
-                                                                  supportsRealm: false),
+                                                                  revokeTokenEndpoint: revokeTokenEndpoint),
                                       clientID: "abc123",
                                       serverEndpoint: URL(string: "https://api.example.com")!)
     }

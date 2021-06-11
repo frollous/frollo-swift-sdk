@@ -23,15 +23,6 @@ struct OAuth2TokenRequest: Codable {
         case password
         case refreshToken = "refresh_token"
         case passwordRealm = "http://auth0.com/oauth/grant-type/password-realm"
-        
-        var realm: String? {
-            switch self {
-                case .passwordRealm:
-                    return "Username-Password-Authentication"
-                default:
-                    return nil
-            }
-        }
     }
     
     enum Scope: String, Codable, CaseIterable {

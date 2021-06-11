@@ -393,9 +393,9 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
                 _authentication.dataSource = authenticationDataSource
                 _authentication.delegate = authenticationDelegate
                 
-            case .oAuth2(let redirectURL, let authorizationEndpoint, let tokenEndpoint, let revokeTokenEndpoint, let audience, let supportsRealm):
+            case .oAuth2(let redirectURL, let authorizationEndpoint, let tokenEndpoint, let revokeTokenEndpoint, let audience, let realm):
                 let authService = OAuth2Service(authorizationEndpoint: authorizationEndpoint, tokenEndpoint: tokenEndpoint, redirectURL: redirectURL, revokeURL: revokeTokenEndpoint, network: network)
-                oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: configuration.clientID, redirectURL: redirectURL, serverURL: audience ?? configuration.serverEndpoint, authService: authService, preferences: preferences, delegate: self, supportsRealm: supportsRealm)
+                oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: configuration.clientID, redirectURL: redirectURL, serverURL: audience ?? configuration.serverEndpoint, authService: authService, preferences: preferences, delegate: self, realm: realm)
                 _authentication.dataSource = oAuth2Authentication
                 _authentication.delegate = oAuth2Authentication
         }

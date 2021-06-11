@@ -626,9 +626,7 @@ class NetworkAuthenticatorTests: XCTestCase {
         let config = FrolloSDKConfiguration(authenticationType: .oAuth2(redirectURL: URL(string: "app://redirect")!,
                                     authorizationEndpoint: URL(string: "https://api.example.com/oauth/authorize")!,
                                     tokenEndpoint: URL(string: "https://api.example.com/oauth/token")!,
-                                    revokeTokenEndpoint: URL(string: "https://api.example.com/oauth/revoke")!,
-                                    audience: nil,
-                                    supportsRealm: false),
+                                    revokeTokenEndpoint: URL(string: "https://api.example.com/oauth/revoke")!),
         clientID: "abc123",
         serverEndpoint: URL(string: "https://api.example.com")!)
         

@@ -34,8 +34,9 @@ public struct FrolloSDKConfiguration {
         /// - authorizationEndpoint: URL of the OAuth2 authorization endpoint for web based login
         /// - tokenEndpoint: URL of the OAuth2 token endpoint for getting tokens and native login
         /// - revokeTokenEndpoint: URL of the OAuth2 revoke endpoint if supported
-        /// - supportsRealm: Offers similar functionality to the Resource Owner Password grant, but allows you to keep separate user directories (which map to separate connections) and specify which one to use during the flow.
-        case oAuth2(redirectURL: URL, authorizationEndpoint: URL, tokenEndpoint: URL, revokeTokenEndpoint: URL?, audience: URL?, supportsRealm: Bool)
+        /// - audience: The audience for the token; defaults to SDK serverEndpoint.
+        /// - realm: Name of the realm to which the user belongs, if realm support is configured; Defaults to nil
+        case oAuth2(redirectURL: URL, authorizationEndpoint: URL, tokenEndpoint: URL, revokeTokenEndpoint: URL?, audience: URL? = nil, realm: String? = nil)
         
     }
     

@@ -115,9 +115,9 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
     private let preferences: Preferences
     private let redirectURL: URL
     private let serverURL: URL
-    private let supportsRealm: Bool
+    private let realm: String?
     
-    init(keychain: Keychain, clientID: String, redirectURL: URL, serverURL: URL, authService: OAuth2Service, preferences: Preferences, delegate: OAuth2AuthenticationDelegate?, supportsRealm: Bool = false) {
+    init(keychain: Keychain, clientID: String, redirectURL: URL, serverURL: URL, authService: OAuth2Service, preferences: Preferences, delegate: OAuth2AuthenticationDelegate?, realm: String? = nil) {
         self.keychain = keychain
         self.clientID = clientID
         self.domain = serverURL.host ?? serverURL.absoluteString
@@ -126,7 +126,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
         self.redirectURL = redirectURL
         self.serverURL = serverURL
         self.delegate = delegate
-        self.supportsRealm = supportsRealm
+        self.realm = realm
     }
     
     // MARK: - Login
@@ -237,7 +237,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
             return
         }
         
-        let grantType: OAuth2TokenRequest.GrantType = supportsRealm ? .passwordRealm : .password
+        let grantType: OAuth2TokenRequest.GrantType = realm != nil ? .passwordRealm : .password
         let request = OAuth2TokenRequest(audience: serverURL.absoluteString,
                                          clientID: clientID,
                                          code: nil,
@@ -250,7 +250,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
                                          refreshToken: nil,
                                          scope: scopes.joined(separator: " "),
                                          username: email,
-                                         realm: grantType.realm)
+                                         realm: realm)
         
         // Authorize the user
         authService.refreshTokens(request: request) { result in
@@ -408,7 +408,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
         }
         
         let scopes = [OAuth2TokenRequest.Scope.offlineAccess.rawValue, OIDScopeOpenID, OIDScopeEmail].joined(separator: " ")
-        let grantType: OAuth2TokenRequest.GrantType = supportsRealm ? .passwordRealm : .password
+        let grantType: OAuth2TokenRequest.GrantType = realm != nil ? .passwordRealm : .password
         
         let request = OAuth2TokenRequest(audience: serverURL.absoluteString,
                                          clientID: clientID,
@@ -422,7 +422,7 @@ public class OAuth2Authentication: AuthenticationDataSource, AuthenticationDeleg
                                          refreshToken: nil,
                                          scope: scopes,
                                          username: nil,
-                                         realm: grantType.realm)
+                                         realm: realm)
         
         authService.refreshTokens(request: request) { result in
             switch result {
