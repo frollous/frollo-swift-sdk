@@ -20,7 +20,9 @@ import Foundation
 public struct APIUserDetailsConfirm: Codable {
     enum CodingKeys: String, CodingKey {
         case mobileNumber = "mobile_number"
+        case email
     }
     
-    var mobileNumber: String?
+    public var mobileNumber: String?
+    public var email: String?
 }

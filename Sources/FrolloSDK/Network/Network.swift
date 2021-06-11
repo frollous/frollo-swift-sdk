@@ -33,7 +33,7 @@ class Network: SessionDelegate {
     internal var authentication: Authentication
     internal var sessionManager: Session!
     
-    private let APIVersion = "2.13"
+    private let APIVersion = "2.14"
     private var encoder: JSONEncoder?
     
     /**

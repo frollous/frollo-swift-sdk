@@ -28,6 +28,9 @@ public class Events {
         static let transactionsUpdated = "T_UPDATED"
         static let currentBudgetPeriodReady = "B_CURRENT_PERIOD_READY"
         static let onboardingStepCompleted = "ONBOARDING_STEP_COMPLETED"
+        static let linkProviderAccountFailed = "PA_FAILED"
+        static let providerAccountLinked = "PA_LINKED"
+        static let mfaRequest = "PA_MFA"
     }
     
     internal weak var delegate: FrolloSDKDelegate?
@@ -110,6 +113,24 @@ public class Events {
                     NotificationCenter.default.post(name: UserManagement.onboardingStepCompletedNotification, object: self, userInfo: [UserManagement.onboardingEventKey: onboardingStep])
                 }
                 
+                completion?(true, nil)
+                
+            case EventNames.providerAccountLinked:
+                Log.debug("Provider Account Linking failed")
+                
+                NotificationCenter.default.post(name: Aggregation.providerAccountLinkedNotification, object: self, userInfo: nil)
+                completion?(true, nil)
+                
+            case EventNames.linkProviderAccountFailed:
+                Log.debug("Provider Account Linked successfully")
+                
+                NotificationCenter.default.post(name: Aggregation.providerAccountLinkingFailedNotification, object: self, userInfo: nil)
+                completion?(true, nil)
+                
+            case EventNames.mfaRequest:
+                Log.debug("MFA is required for the providerAccount being linked")
+                
+                NotificationCenter.default.post(name: Aggregation.providerAccountMFARequiredNotification, object: self, userInfo: nil)
                 completion?(true, nil)
                 
             default:
