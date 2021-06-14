@@ -22,6 +22,7 @@ struct OAuth2TokenRequest: Codable {
         case authorizationCode = "authorization_code"
         case password
         case refreshToken = "refresh_token"
+        case passwordRealm = "http://auth0.com/oauth/grant-type/password-realm"
     }
     
     enum Scope: String, Codable, CaseIterable {
@@ -41,6 +42,7 @@ struct OAuth2TokenRequest: Codable {
         case refreshToken = "refresh_token"
         case scope
         case username
+        case realm
     }
     
     let audience: String?
@@ -55,6 +57,7 @@ struct OAuth2TokenRequest: Codable {
     let refreshToken: String?
     let scope: String?
     let username: String?
+    let realm: String?
     
     var valid: Bool {
         switch grantType {
@@ -64,6 +67,8 @@ struct OAuth2TokenRequest: Codable {
                 return (password != nil && username != nil) || legacyToken != nil
             case .refreshToken:
                 return refreshToken != nil
+            case .passwordRealm:
+                return realm != nil
         }
     }
     

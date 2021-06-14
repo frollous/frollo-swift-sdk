@@ -126,7 +126,7 @@ public class Authentication: RequestInterceptor {
     public func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
         
         /// Don't append access token if the url is one of the OAuth URL, or any other URL outside base url
-        if case FrolloSDKConfiguration.AuthenticationType.oAuth2(let redirectURL, let authorizationEndpoint, let tokenEndpoint, let revokeTokenEndpoint) = authenticationType, let url = urlRequest.url, [redirectURL.absoluteString, authorizationEndpoint.absoluteString, tokenEndpoint.absoluteString, revokeTokenEndpoint?.absoluteString ?? ""].contains(url.absoluteString) || url.host != serverURL.host {
+        if case FrolloSDKConfiguration.AuthenticationType.oAuth2(let redirectURL, let authorizationEndpoint, let tokenEndpoint, let revokeTokenEndpoint, _, _) = authenticationType, let url = urlRequest.url, [redirectURL.absoluteString, authorizationEndpoint.absoluteString, tokenEndpoint.absoluteString, revokeTokenEndpoint?.absoluteString ?? ""].contains(url.absoluteString) || url.host != serverURL.host {
             
             completion(.success(urlRequest))
             return

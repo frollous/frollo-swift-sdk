@@ -353,7 +353,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
         if let host = configuration.serverEndpoint.host, host.contains(frolloHost) {
             pinServer = true
         }
-        if case FrolloSDKConfiguration.AuthenticationType.oAuth2(_, _, let tokenEndpoint, _) = configuration.authenticationType, let host = tokenEndpoint.host, host.contains(frolloHost) {
+        if case FrolloSDKConfiguration.AuthenticationType.oAuth2(_, _, let tokenEndpoint, _, _, _) = configuration.authenticationType, let host = tokenEndpoint.host, host.contains(frolloHost) {
             pinToken = true
         }
         
@@ -378,7 +378,7 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
                 if pinServer {
                     pinnedKeys?[configuration.serverEndpoint] = [activeKey, backupKey]
                 }
-                if pinToken, case FrolloSDKConfiguration.AuthenticationType.oAuth2(_, _, let tokenEndpoint, _) = configuration.authenticationType {
+                if pinToken, case FrolloSDKConfiguration.AuthenticationType.oAuth2(_, _, let tokenEndpoint, _, _, _) = configuration.authenticationType {
                     pinnedKeys?[tokenEndpoint] = [activeKey, backupKey]
                 }
             }
@@ -393,9 +393,9 @@ public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
                 _authentication.dataSource = authenticationDataSource
                 _authentication.delegate = authenticationDelegate
                 
-            case .oAuth2(let redirectURL, let authorizationEndpoint, let tokenEndpoint, let revokeTokenEndpoint):
+            case .oAuth2(let redirectURL, let authorizationEndpoint, let tokenEndpoint, let revokeTokenEndpoint, let audience, let realm):
                 let authService = OAuth2Service(authorizationEndpoint: authorizationEndpoint, tokenEndpoint: tokenEndpoint, redirectURL: redirectURL, revokeURL: revokeTokenEndpoint, network: network)
-                oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: configuration.clientID, redirectURL: redirectURL, serverURL: configuration.serverEndpoint, authService: authService, preferences: preferences, delegate: self)
+                oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: configuration.clientID, redirectURL: redirectURL, serverURL: audience ?? configuration.serverEndpoint, authService: authService, preferences: preferences, delegate: self, realm: realm)
                 _authentication.dataSource = oAuth2Authentication
                 _authentication.delegate = oAuth2Authentication
         }
