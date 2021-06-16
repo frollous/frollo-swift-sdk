@@ -116,8 +116,8 @@ extension Provider {
     /// Raw value of the status. Use only in predicate
     @NSManaged public var statusRawValue: String
     
-    /// Raw value of the permissions array. Use only in predicate (Optional)
-    @NSManaged public var permissionObjectsRawValue: Data?
+    /// Raw value of the permission IDs array. Use only in predicate (Optional)
+    @NSManaged public var permissionIDsRawValue: Data?
     
     /// Raw value of the aggregator type. Use only in predicate
     @NSManaged public var aggregatorTypeRawValue: String

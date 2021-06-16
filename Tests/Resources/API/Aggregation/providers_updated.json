@@ -9,30 +9,8 @@
 	"login_url": "https://www.paypal.com/signin/",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -46,30 +24,8 @@
 	"login_url": "https://www.paypal.com/signin/",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -83,30 +39,8 @@
 	"login_url": "https://www.paypal.com/signin/",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -120,30 +54,8 @@
 	"login_url": "https://onlinebanking.nationwide.co.uk/AccessManagement/Login",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -157,30 +69,8 @@
 	"login_url": "https://www.my.commbank.com.au/netbank/Logon/Logon.aspx",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -194,30 +84,8 @@
 	"login_url": "https://www.ing.com.au/securebanking/",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -231,30 +99,8 @@
 	"login_url": "https://internetbanking.suncorpbank.com.au/",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -268,30 +114,8 @@
 	"login_url": "https://online.btfunds.com.au/retailinvestor/investor",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -305,30 +129,8 @@
 	"login_url": "https://online.westpac.com.au/esis/Login/SrvPage",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -342,30 +144,8 @@
 	"login_url": "https://onlineinvesting.westpac.com.au/",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -379,30 +159,8 @@
 	"login_url": "https://www.sanford.com.au/sanford/Public/Home/Login.asp",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -416,30 +174,8 @@
 	"login_url": "https://shareinvesting.anz.com/Home.aspx?user=anzvis",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -453,30 +189,8 @@
 	"login_url": "https://www.mlc.com.au/common/auth/login?",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -490,30 +204,8 @@
 	"login_url": "https://www.anz.com/INETBANK/login.asp",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -527,30 +219,8 @@
 	"login_url": "https://www.investoronline.info/",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -564,30 +234,8 @@
 	"login_url": "https://www2.commsec.com.au/Public/HomePage/Login.aspx",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -601,30 +249,8 @@
 	"login_url": "https://www.hsbc.co.uk/1/2/welcome-gsp?initialAccess=true\u0026IDV_URL=hsbc.MyHSBC_pib",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -638,30 +264,8 @@
 	"login_url": "https://bank.barclays.co.uk/olb/auth/LoginLink.action",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -675,30 +279,8 @@
 	"login_url": "https://secure.ampbanking.com/au/Logon",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -712,30 +294,8 @@
 	"login_url": "https://www.colonialfirststate.com.au/FirstNet/login.asp?type=investor",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -749,30 +309,8 @@
 	"login_url": "https://www.bendigobank.com.au/banking/BBLIBanking/",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -786,30 +324,8 @@
 	"login_url": "https://ibs.bankwest.com.au/BWLogin/rib.aspx",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -823,30 +339,8 @@
 	"login_url": "https://secure.defencebank.com.au/daib/logon/cu3205/logon.asp",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -860,30 +354,8 @@
 	"login_url": "https://online.hbs.net.au/hbsv47/ntv471.asp?wci=entry",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -897,30 +369,8 @@
 	"login_url": "http://www.netbank.commbank.com.au/ezybanking/",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -934,30 +384,8 @@
 	"login_url": "https://www.hsbc.com.au/1/2/!ut/p/c5/04_SB8K8xLLM9MSSzPy8xBz9CP0os3gDd-NQv1BDg2AXA1-PEE9zR39DAwjQD07Niw8N1i_IdlQEAAU0804!/?__Destination=HUB_IDV_CUSTOMER_MIGRATION\u0026__IWLang=en\u0026__IWCountry=US\u0026__registrationType=PIB-Registration",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -971,30 +399,8 @@
 	"login_url": "https://digital.qudosbank.com.au",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1008,30 +414,8 @@
 	"login_url": "https://online.therock.com.au/banking/personal/servletcontroller",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1045,30 +429,8 @@
 	"login_url": "https://ib.nab.com.au/nabib/index.jsp",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1082,30 +444,8 @@
 	"login_url": "https://ib.tmbank.com.au/ib/signon/Login.aspx",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1119,30 +459,8 @@
 	"login_url": "https://banking.beyondbank.com.au/daib/logon/cu5022/logon.asp",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1156,30 +474,8 @@
 	"login_url": "https://nabtrade.com.au/home",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1193,30 +489,8 @@
 	"login_url": "https://www.nwolb.com/",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1230,30 +504,8 @@
 	"login_url": "http://dag2.yodlee.com/dag/index.do",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1267,30 +519,8 @@
 	"login_url": "https://www.citibank.com.au/AUGCB/JSO/signon/DisplayUsernameSignon.do",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1304,30 +534,8 @@
 	"login_url": "https://online.mystate.com.au/banking/personal/servletcontroller",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1341,30 +549,8 @@
 	"login_url": "https://www.tescobank.com/sss/authcc",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1378,30 +564,8 @@
 	"login_url": "https://www-au.computershare.com/Investor/",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1415,30 +579,8 @@
 	"login_url": "https://ibanking.stgeorge.com.au/ibank/loginPage.action",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1452,30 +594,8 @@
 	"login_url": "https://www-au.computershare.com/Issuer/Login.asp?",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1489,30 +609,8 @@
 	"login_url": "https://www-au.computershare.com/employee/login/selectcompany.aspx?",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1526,30 +624,8 @@
 	"login_url": "https://lowrate-online.gemoney.com.au/access/login",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1563,30 +639,8 @@
 	"login_url": "https://gemastercard-online.gemoney.com.au/access/login",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1600,30 +654,8 @@
 	"login_url": "https://www.onepath.com.au/personal/myOnePath/customer-login.aspx",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1637,30 +669,8 @@
 	"login_url": "https://www.ing.com.au/adviser/AdviserAdvantage/adviser-login.aspx",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1674,30 +684,8 @@
 	"login_url": "https://online.newcastlepermanent.com.au/corp/AuthenticationController?FORMSGROUP_ID__=AuthenticationFG\u0026__START_TRAN_FLAG__=Y\u0026FG_BUTTONS__=LOAD\u0026ACTION.LOAD=Y\u0026AuthenticationFG.LOGIN_FLAG=1\u0026BANK_ID=NPBS",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1711,30 +699,8 @@
 	"login_url": "https://eco-online.gemoney.com.au/access/login",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1748,30 +714,8 @@
 	"login_url": "https://www.lsn.com.au/scripts/cgiclnt.dll/LSN/ND000_?EWF_SYS_0=e95654f1-2565-11d4-8fa4-00b0d0302a92\u0026EWF_FORM_NAME=0000201\u0026EWF_BUTTON_Submit=Submit",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1785,30 +729,8 @@
 	"login_url": "https://secure.superfacts.com/public/virginmoney/Home.tpz",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }, {
@@ -1822,30 +744,8 @@
 	"login_url": "https://online.interestfree.com.au/access/login",
     "aggregator_type": "yodlee",
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "products_available" : false
 }]

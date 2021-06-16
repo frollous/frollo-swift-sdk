@@ -40,4 +40,7 @@ extension CDRConfiguration {
     /// The raw sharing durations JSON data
     @NSManaged public var sharingDurationRawValue: Data
     
+    /// The raw Consent permissions JSON data
+    @NSManaged public var permissionObjectsRawValue: Data?
+    
 }

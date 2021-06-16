@@ -282,14 +282,20 @@ public class Provider: NSManagedObject, UniqueManagedObject {
         }
     }
     
-    /// The aggregator permissions on the provider (This value will be set for cdr aggregator)
-    public var permissions: [CDRPermission] {
+    /// The aggregator permissions ids on the provider.
+    public var permissionIDs: [String] {
         get {
-            guard let permissionObjectsRawValue = permissionObjectsRawValue else { return [] }
-            return try! JSONDecoder().decode([CDRPermission].self, from: permissionObjectsRawValue)
+            guard let permissionIDsRawValue = permissionIDsRawValue else { return [] }
+            do {
+                let permissions = try JSONDecoder().decode([String].self, from: permissionIDsRawValue)
+                return permissions
+            } catch {
+                error.logError()
+                return []
+            }
         }
         set {
-            permissionObjectsRawValue = try! JSONEncoder().encode(newValue)
+            permissionIDsRawValue = try? JSONEncoder().encode(newValue)
         }
     }
     
@@ -317,7 +323,7 @@ public class Provider: NSManagedObject, UniqueManagedObject {
         smallLogoURLString = response.smallLogoURLString
         status = response.status
         aggregatorType = AggregatorType(rawValue: response.aggregatorType) ?? .unknown
-        permissions = response.permissions
+        permissionIDs = response.permissionIDs
         productsAvailable = response.productsAvailable ?? false
         
         // Reset all containers

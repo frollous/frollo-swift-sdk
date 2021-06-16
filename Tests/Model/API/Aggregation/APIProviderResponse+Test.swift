@@ -43,10 +43,7 @@ extension APIProviderResponse {
                                    smallLogoURLString: "https://example.com/small_logo.png",
                                    aggregatorType: "yodlee",
                                    productsAvailable: false,
-                                   permissions: [
-                                    .init(id: "account_details", title: "Account Details", description: "We leverage...", required: true, details: [
-                                        .init(id: "transaction_details", description: "transaction details")])
-                                   ]
+                                   permissionIDs: ["account_details"]
         )
     }
     
@@ -70,10 +67,7 @@ extension APIProviderResponse {
                                    smallLogoURLString: "https://example.com/small_logo.png",
                                    aggregatorType: "yodlee",
                                    productsAvailable: false,
-                                   permissions: [
-                                    .init(id: "account_details", title: "Account Details", description: "We leverage...", required: true, details: [
-                                        .init(id: "transaction_details", description: "transaction details")])
-                                   ]
+                                   permissionIDs: ["account_details"]
         )
     }
     
@@ -114,10 +108,7 @@ extension APIProviderResponse {
                                    smallLogoURLString: "https://example.com/small_logo.png",
                                    aggregatorType: "yodlee",
                                    productsAvailable: false,
-                                   permissions: [
-                                    .init(id: "account_details", title: "Account Details", description: "We leverage...", required: true, details: [
-                                        .init(id: "transaction_details", description: "transaction details")])
-                                   ]
+                                   permissionIDs: ["account_details"]
         )
     }
     

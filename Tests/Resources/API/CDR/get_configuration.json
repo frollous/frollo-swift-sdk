@@ -6,5 +6,60 @@
         "duration": 86400,
         "description": "Instant",
         "image_url": "https://picsum.com/50"
+    }],
+    "permissions": [{
+        "id": "account_details",
+        "title": "Account balance details",
+        "description": "We leverage this data to support you with your savings goals.",
+        "required": true,
+        "details": [{
+            "id": "account_type",
+            "description": "Type of account"
+        }, {
+            "id": "account_name",
+            "description": "Name of account"
+        }, {
+            "id": "account_balance",
+            "description": "Account balance"
+        }, {
+            "id": "account_number",
+            "description": "Account number"
+        }, {
+            "id": "interest_rates",
+            "description": "Interest rates"
+        }, {
+            "id": "fees",
+            "description": "Fees"
+        }, {
+            "id": "discounts",
+            "description": "Discounts"
+        }, {
+            "id": "account_terms",
+            "description": "Account terms"
+        }, {
+            "id": "account_mail_address",
+            "description": "Account mail address"
+        }]
+    }, {
+        "id": "transaction_details",
+        "title": "Transaction details",
+        "description": "We leverage this data to support you with your savings goals.",
+        "required": true,
+        "details": [{
+            "id": "transactions",
+            "description": "Incoming and outgoing transactions"
+        }, {
+            "id": "amounts",
+            "description": "Amounts"
+        }, {
+            "id": "dates",
+            "description": "Dates"
+        }, {
+            "id": "description_of_transactions",
+            "description": "Descriptions of transactions"
+        }, {
+            "id": "contacts_names",
+            "description": "Who you have sent money to and received money from"
+        }]
     }]
 }

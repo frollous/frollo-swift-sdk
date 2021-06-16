@@ -49,11 +49,30 @@ public class CDRConfiguration: NSManagedObject {
         }
     }
     
+    /// The permissions for the CDR configuration
+    public var permissions: [CDRPermission] {
+        get {
+            guard let permissionObjectsRawValue = permissionObjectsRawValue else { return [] }
+            do {
+                let permissions = try JSONDecoder().decode([CDRPermission].self, from: permissionObjectsRawValue)
+                return permissions
+            } catch {
+                error.logError()
+                return []
+            }
+            
+        }
+        set {
+            permissionObjectsRawValue = try! JSONEncoder().encode(newValue)
+        }
+    }
+    
     internal func update(response: APICDRConfigurationResponse) {
         supportEmail = response.supportEmail
         adrID = response.adrID
         adrName = response.adrName
         sharingDurations = response.sharingDurations.map { SharingDuration(duration: $0.duration, description: $0.description, imageURL: $0.imageURL) }
+        permissions = response.permissions
     }
     
 }

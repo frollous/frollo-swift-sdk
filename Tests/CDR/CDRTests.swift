@@ -289,6 +289,7 @@ class CDRTests: BaseTestCase {
                         XCTAssertEqual(configuration?.adrName, "ACME")
                         XCTAssertEqual(configuration?.supportEmail, "suppert@acme.com")
                         XCTAssertEqual(configuration?.sharingDurations.count, 1)
+                        XCTAssertEqual(configuration?.permissions.count, 2)
                         break
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
