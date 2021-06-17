@@ -127,7 +127,7 @@ public class Consent: NSManagedObject, UniqueManagedObject {
             }
         }
         set {
-            permissionIDsRawValue = try! JSONEncoder().encode(newValue)
+            permissionIDsRawValue = try? JSONEncoder().encode(newValue)
         }
     }
     

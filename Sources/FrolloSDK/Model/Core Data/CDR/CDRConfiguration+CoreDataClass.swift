@@ -63,7 +63,7 @@ public class CDRConfiguration: NSManagedObject {
             
         }
         set {
-            permissionObjectsRawValue = try! JSONEncoder().encode(newValue)
+            permissionObjectsRawValue = try? JSONEncoder().encode(newValue)
         }
     }
     
