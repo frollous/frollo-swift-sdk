@@ -39,7 +39,7 @@ struct APIProviderResponse: APIUniqueResponse, Codable {
         case smallLogoURLString = "small_logo_url"
         case status
         case aggregatorType = "aggregator_type"
-        case permissions
+        case permissionIDs = "permissions"
     }
     
     enum ContainerName: String, Codable {
@@ -89,6 +89,6 @@ struct APIProviderResponse: APIUniqueResponse, Codable {
     var smallLogoURLString: String?
     var aggregatorType: String
     let productsAvailable: Bool?
-    var permissions: [CDRPermission]
+    var permissionIDs: [String]
     
 }

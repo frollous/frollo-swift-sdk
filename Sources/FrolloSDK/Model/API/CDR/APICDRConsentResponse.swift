@@ -32,7 +32,7 @@ struct APICDRConsentResponse: Codable, APIUniqueResponse {
         case sharingStoppedAt = "sharing_stopped_at"
         case status
         case withdrawalPDFURL = "withdrawal_pdf_url"
-        case permissions
+        case permissionIDs = "permissions"
     }
     
     /// Additional permissions that can be set
@@ -50,8 +50,8 @@ struct APICDRConsentResponse: Codable, APIUniqueResponse {
     /// The ID of the consent
     var id: Int64
     
-    /// The permissions requested for the consent
-    var permissions: [CDRPermission]
+    /// The permissions ids requested for the consent
+    var permissionIDs: [String]
     
     /// The provider account ID for the consent
     let providerAccountID: Int64?

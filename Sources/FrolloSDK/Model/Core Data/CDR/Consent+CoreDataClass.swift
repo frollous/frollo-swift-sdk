@@ -114,14 +114,20 @@ public class Consent: NSManagedObject, UniqueManagedObject {
         }
     }
     
-    /// The permissions on the consent
-    public var permissions: [CDRPermission] {
+    /// The permission ids on the consent
+    public var permissionIDs: [String] {
         get {
-            guard let permissionObjectsRawValue = permissionObjectsRawValue else { return [] }
-            return try! JSONDecoder().decode([CDRPermission].self, from: permissionObjectsRawValue)
+            guard let permissionIDsRawValue = permissionIDsRawValue else { return [] }
+            do {
+                let permissions = try JSONDecoder().decode([String].self, from: permissionIDsRawValue)
+                return permissions
+            } catch {
+                error.logError()
+                return []
+            }
         }
         set {
-            permissionObjectsRawValue = try! JSONEncoder().encode(newValue)
+            permissionIDsRawValue = try? JSONEncoder().encode(newValue)
         }
     }
     
@@ -207,7 +213,7 @@ public class Consent: NSManagedObject, UniqueManagedObject {
         providerID = response.providerID
         providerAccountID = response.providerAccountID ?? -1
         sharingDuration = response.sharingDuration
-        permissions = response.permissions
+        permissionIDs = response.permissionIDs
         additionalPermissions = response.additionalPermissions
         status = Consent.Status(rawValue: response.status) ?? .unknown
         authorizationURL = response.authorisationRequestURL?.url

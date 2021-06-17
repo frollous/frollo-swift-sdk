@@ -4872,7 +4872,7 @@ class AggregationTests: BaseTestCase {
             aggregation.refreshConsent(consentID: 353) { result in
                 switch result {
                     case .failure(let error):
-                        XCTFail("User logged in, request should success")
+                        XCTAssertNil(error, "User logged in, request should succeed")
                     case .success:
                         XCTAssertTrue(true)
                 }

@@ -5,30 +5,8 @@
     "status": "pending",
     "sharing_duration": 10368000,
     "permissions": [
-        {
-            "id": "account_details",
-            "title": "Account balance and details",
-            "description": "We leverage...",
-            "required": true,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        },
-        {
-            "id": "transaction_details",
-            "title": "Transaction and details",
-            "description": "We leverage...",
-            "required": false,
-            "details": [
-                {
-                    "id": "account_name",
-                    "description": "Name of account"
-                }
-            ]
-        }
+        "account_details",
+        "transaction_details"
     ],
     "additional_permissions": {
         "suggest_ways_to_save_money": true,
