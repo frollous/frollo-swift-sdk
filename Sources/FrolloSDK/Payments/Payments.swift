@@ -241,7 +241,7 @@ public class Payments: ResponseHandler {
          - bsb: BSB number to verity
          - completion: Optional completion handler with `VerifyPayAnyoneResponse` result if succeeds and error if the request fails
      */
-    public func verifyPayAnyone(accountHolder: String?, accountNumber: String?, bsb: String, completion: @escaping (Result<VerifyPayAnyoneResponse, Error>) -> Void) {
+    public func verifyPayAnyone(accountHolder: String? = nil, accountNumber: String? = nil, bsb: String, completion: @escaping (Result<VerifyPayAnyoneResponse, Error>) -> Void) {
         
         let request = APIVerifyPayAnyoneRequest(accountHolder: accountHolder, accountNumber: accountNumber, bsb: bsb)
         
@@ -289,25 +289,6 @@ public class Payments: ResponseHandler {
                     }
             }
         }
-    }
-    
-    public func verifyBSB(_ bsb: String, completion: @escaping (Result<VerifyBSBResponse, Error>) -> Void) {
-        service.verifyBSB(bsb) { result in
-            switch result {
-                case .failure(let error):
-                    error.logError()
-                    
-                    DispatchQueue.main.async {
-                        completion(.failure(error))
-                    }
-                case .success(let response):
-                    
-                    DispatchQueue.main.async {
-                        completion(.success(response))
-                    }
-            }
-        }
-        
     }
     
 }

@@ -22,28 +22,63 @@ import Foundation
  Represents the response of verify pay anyone
  */
 public struct VerifyPayAnyoneResponse: Codable {
-    
-    enum CodingKeys: String, CodingKey {
-        case bsb
-        case bsbName = "bsb_name"
-        case accountNumber = "account_number"
-        case accountHolder = "account_holder"
-        case valid
+
+    /// Address of the Bank
+    public struct BSBAdress: Codable, Equatable {
+        
+        enum CodingKeys: String, CodingKey {
+            case street
+            case suburb
+            case state
+            case postcode = "postal_code"
+        }
+        
+        /// The street of the bank address
+        public let street: String?
+        
+        /// The suburb of the bank address
+        public let suburb: String?
+
+        /// The state of the bank address
+        public let state: String?
+
+        /// The postcode of the bank address
+        public let postcode: String?
     }
     
-    /// BSB number if valid is true nil otherwise (Optional)
+    enum CodingKeys: String, CodingKey {
+        case valid
+        case bsb
+        case institutionMnemonic = "mnemonic"
+        case bsbName = "name"
+        case address
+        case isNPPAllowed = "npp_allowed"
+        case accountNumber = "account_number"
+        case accountHolder = "account_holder"
+    }
+    
+    /// True if the lookup was successful, false otherwise
+    public let valid: Bool
+    
+    /// BSB number if BSB is valid, nil otherwise (Optional)
     public let bsb: String?
     
-    /// BSB name if valid is true nil otherwise (Optional)
+    /// institution mnemonic if BSB is valid, nil otherwise (Optional)
+    public let institutionMnemonic: String?
+    
+    /// BSB name if BSB is valid, nil otherwise (Optional)
     public let bsbName: String?
     
-    /// Account number if valid is true nil otherwise (Optional)
+    /// Address of the bank if BSB is valid, nil otherwise (Optional)
+    public let address: BSBAdress?
+    
+    /// Indicates if NPP is supported by the bank. (Optional)
+    public let isNPPAllowed: Bool?
+    
+    /// Account number if valid, nil otherwise (Optional)
     public let accountNumber: String?
     
-    /// Account holder name if valid is true nil otherwise (Optional)
+    /// Account holder name if valid, nil otherwise (Optional)
     public let accountHolder: String?
-    
-    /// True if the lookup is valid, false otherwise
-    public let valid: Bool
     
 }

@@ -403,10 +403,10 @@ class PaymentsTests: XCTestCase {
                     XCTFail(error.localizedDescription)
                 case .success(let response):
                     XCTAssertEqual(response.bsb, "123456")
-                    XCTAssertEqual(response.accountNumber, "98765432")
-                    XCTAssertEqual(response.bsbName, "Westpac Manly Corso")
+                    XCTAssertEqual(response.bsbName, "Volt Bank Limited")
+                    XCTAssertEqual(response.institutionMnemonic, "VOL")
                     XCTAssertEqual(response.valid, true)
-                    XCTAssertEqual(response.accountHolder, "Joe Blow")
+                    XCTAssertNotNil(response.address)
                     expectation1.fulfill()
             }
         }
@@ -468,11 +468,11 @@ class PaymentsTests: XCTestCase {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 case .success(let response):
-                    XCTAssertEqual(response.bsb, nil)
-                    XCTAssertEqual(response.accountNumber, nil)
-                    XCTAssertEqual(response.bsbName, nil)
                     XCTAssertEqual(response.valid, false)
-                    XCTAssertEqual(response.accountHolder, nil)
+                    XCTAssertEqual(response.bsb, nil)
+                    XCTAssertEqual(response.bsbName, nil)
+                    XCTAssertEqual(response.institutionMnemonic, nil)
+                    XCTAssertEqual(response.address, nil)
                     expectation1.fulfill()
             }
         }
@@ -543,58 +543,5 @@ class PaymentsTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
         HTTPStubs.removeAllStubs()
     }
-
-    func testVerifyValidBSB() {
-        let expectation1 = expectation(description: "Network Request 1")
-
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.verifyBSB(bsb: "517000").path)) { (request) -> HTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "verify_BSB_response", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-
-        let payments = Payments(service: service)
-        payments.verifyBSB("517000") { result in
-            switch result {
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
-                case .success(let response):
-                    XCTAssertEqual(response.institutionMnemonic, "VOL")
-                    XCTAssertEqual(response.name, "Volt Bank Limited")
-                    XCTAssertEqual(response.isNPPAllowed, true)
-                    expectation1.fulfill()
-            }
-        }
-
-        wait(for: [expectation1], timeout: 3.0)
-        HTTPStubs.removeAllStubs()
-    }
     
-    func testVerifyValidBSBInvalid() {
-        let expectation1 = expectation(description: "Network Request 1")
-
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + PaymentsEndpoint.verifyBSB(bsb: "517000").path)) { (request) -> HTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "verify_BSB_response", ofType: "json")!, status: 404, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-
-        let payments = Payments(service: service)
-        payments.verifyBSB("517000") { result in
-            switch result {
-                case .failure(let error):
-                    XCTAssertTrue(error is APIError)
-                    if let error = error as? APIError {
-                        XCTAssertEqual(error.statusCode, 404)
-                    }
-                case .success:
-                    XCTFail("Data response is invalid")
-            }
-
-            expectation1.fulfill()
-        }
-
-        wait(for: [expectation1], timeout: 3.0)
-        HTTPStubs.removeAllStubs()
-    }
 }
