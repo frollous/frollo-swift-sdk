@@ -8,7 +8,7 @@
     "tracking_type": "debit",
     "status": "active",
     "frequency": "weekly",
-    "target": "amount",
+    "target": "current_balance",
     "currency": "AUD",
     "current_amount": "1352.19",
     "period_amount": "400",

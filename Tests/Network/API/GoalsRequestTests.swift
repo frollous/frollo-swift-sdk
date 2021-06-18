@@ -56,7 +56,7 @@ class GoalsRequestTests: BaseTestCase {
                     XCTFail(error.localizedDescription)
                 case .success(let response):
                     XCTAssertEqual(response.id, 3211)
-                    XCTAssertEqual(response.target, .amount)
+                    XCTAssertEqual(response.target, .currentBalance)
             }
             
             expectation1.fulfill()

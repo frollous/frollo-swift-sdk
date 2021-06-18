@@ -99,6 +99,12 @@ public class Goal: NSManagedObject, UniqueManagedObject {
         /// Amount - target amount to be reached
         case amount
         
+        /// Available Balance: track the available balance of an account towards an amount instead of by transactions, similar to amount
+        case availableBalance = "available_balance"
+        
+        /// Current Balance: track the current balance of an account towards an amount instead of by transactions, similar to amount
+        case currentBalance = "current_balance"
+        
         /// Date - target to be reached by a certain date
         case date
         
