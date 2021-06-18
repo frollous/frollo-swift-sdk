@@ -158,16 +158,4 @@ extension APIService {
         }
     }
     
-    // MARK: - Verify BSB
-    
-    internal func verifyBSB(_ bsb: String, completion: @escaping RequestCompletion<VerifyBSBResponse>) {
-        requestQueue.async {
-            let url = URL(string: PaymentsEndpoint.verifyBSB(bsb: bsb).path, relativeTo: self.serverURL)!
-            
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: VerifyBSBResponse.self, errorType: APIError.self, response: response, completion: completion)
-            }
-        }
-    }
-    
 }
