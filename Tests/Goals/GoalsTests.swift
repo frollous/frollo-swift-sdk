@@ -523,6 +523,55 @@ class GoalsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testCreateCurrentBalanceGoal() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goal_id_3211", addingStatusCode: 201)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            
+            self.goals.createGoal(name: "My test goal",
+                             description: "The bestest test goal",
+                             imageURL: URL(string: "https://example.com/image.png"),
+                             target: .currentBalance,
+                             trackingType: .credit,
+                             frequency: .weekly,
+                             startDate: nil,
+                             endDate: Date().addingTimeInterval(100000),
+                             periodAmount: 700,
+                             startAmount: 0,
+                             targetAmount: 20000,
+                             accountID: 123,
+                             metadata: ["seen": true]) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success(let goalID):
+                        let context = self.database.viewContext
+                        XCTAssertEqual(goalID, 3211)
+                        
+                        let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "goalID == %ld", argumentArray: [goalID])
+                        
+                        do {
+                            let fetchedGoals = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedGoals.first?.goalID, 3211)
+                            XCTAssertEqual(fetchedGoals.first?.target, .currentBalance)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testCreateGoalEncodeFail() {
         let expectation1 = expectation(description: "Network Request 1")
         
