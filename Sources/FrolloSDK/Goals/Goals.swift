@@ -232,10 +232,10 @@ public class Goals: CachedObjects, ResponseHandler {
          - target: Target of the goal
          - trackingType: Tracking method the goal uses
          - frequency: Frequency of contributions to the goal
-         - startDate: Start date of the goal. Defaults to today (Optional)
+         - startDate: Start date of the goal (Optional)
          - endDate: End date of the goal. Required for open ended and date based goals
          - periodAmount: Amount to be saved each period. Required for open ended and amount based goals
-         - startAmount: Amount already contributed to a goal. Defaults to zero (Optional)
+         - startAmount: Amount already contributed to a goal. (Optional)
          - targetAmount: Target amount to reach for the goal. Required for amount and date based goals
          - accountID: Account ID to track the goal against
          - metadata: Optional metadata payload to append to the goal
@@ -249,8 +249,8 @@ public class Goals: CachedObjects, ResponseHandler {
                            frequency: Goal.Frequency,
                            startDate: Date? = nil,
                            endDate: Date?,
-                           periodAmount: Decimal?,
-                           startAmount: Decimal = 0,
+                           periodAmount: Decimal? = nil,
+                           startAmount: Decimal? = nil,
                            targetAmount: Decimal?,
                            accountID: Int64,
                            metadata: JSON = [:],

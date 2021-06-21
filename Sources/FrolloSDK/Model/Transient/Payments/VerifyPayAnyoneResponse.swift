@@ -22,7 +22,7 @@ import Foundation
  Represents the response of verify pay anyone
  */
 public struct VerifyPayAnyoneResponse: Codable {
-
+    
     /// Address of the Bank
     public struct BSBAdress: Codable, Equatable {
         
@@ -38,10 +38,10 @@ public struct VerifyPayAnyoneResponse: Codable {
         
         /// The suburb of the bank address
         public let suburb: String?
-
+        
         /// The state of the bank address
         public let state: String?
-
+        
         /// The postcode of the bank address
         public let postcode: String?
     }
