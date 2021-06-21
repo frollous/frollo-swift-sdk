@@ -277,7 +277,7 @@ public class Database {
     }
     
     private func performMigration(from sourceModel: NSManagedObjectModel, to destinationModel: NSManagedObjectModel) throws {
-        var mappingModel = NSMappingModel(from: [Bundle(for: type(of: self))], forSourceModel: sourceModel, destinationModel: destinationModel)
+        var mappingModel = NSMappingModel(from: [Bundle.module], forSourceModel: sourceModel, destinationModel: destinationModel)
         
         if mappingModel == nil {
             do {
