@@ -55,8 +55,6 @@ public class UserManagement {
         self.clientID = clientID
         self.preferences = preferences
         self.delegate = delegate
-        
-        _ = fetchUser(context: database.viewContext)
     }
     
     // MARK: - User
