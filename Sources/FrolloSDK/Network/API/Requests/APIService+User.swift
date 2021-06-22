@@ -300,9 +300,9 @@ extension APIService {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .formatted(dateFormatter)
                 do {
-                    let tokenResponse = try decoder.decode(APIUserResponse.self, from: value)
+                    let userResponse = try decoder.decode(APIUserResponse.self, from: value)
                     
-                    completion(.success(tokenResponse))
+                    completion(.success(userResponse))
                 } catch {
                     error.logError()
                     

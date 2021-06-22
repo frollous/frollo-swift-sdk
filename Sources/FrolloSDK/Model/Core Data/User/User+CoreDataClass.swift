@@ -444,6 +444,7 @@ public class User: NSManagedObject {
         taxResidency = response.taxResidency
         tfn = response.tfn
         tin = response.tfn
+        externalID = response.externalID
     }
     
     // MARK: - Update request

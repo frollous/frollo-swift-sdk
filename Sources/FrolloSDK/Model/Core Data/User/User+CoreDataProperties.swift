@@ -113,4 +113,7 @@ extension User {
     /// User has a valid password
     @NSManaged public var validPassword: Bool
     
+    /// External ID (Optional)
+    @NSManaged public var externalID: String?
+    
 }

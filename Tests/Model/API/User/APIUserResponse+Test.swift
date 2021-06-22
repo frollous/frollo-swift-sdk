@@ -51,7 +51,8 @@ extension APIUserResponse {
                                tfn: "12345678",
                                taxResidency: "AU",
                                foreignTax: false,
-                               tin: "12345")
+                               tin: "12345",
+                               externalID: "123456")
     }
     
 }

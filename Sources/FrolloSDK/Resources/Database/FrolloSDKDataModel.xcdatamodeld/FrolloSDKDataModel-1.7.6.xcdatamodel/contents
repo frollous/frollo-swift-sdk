@@ -601,6 +601,7 @@
         <attribute name="dateOfBirth" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="email" attributeType="String"/>
         <attribute name="emailVerified" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="externalID" optional="YES" attributeType="String"/>
         <attribute name="facebookID" optional="YES" attributeType="String"/>
         <attribute name="featuresRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="firstName" optional="YES" attributeType="String"/>
@@ -659,6 +660,6 @@
         <element name="Tag" positionX="283.4609375" positionY="696.9375" width="128" height="89"/>
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="599"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="164"/>
-        <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="449"/>
+        <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="464"/>
     </elements>
 </model>
