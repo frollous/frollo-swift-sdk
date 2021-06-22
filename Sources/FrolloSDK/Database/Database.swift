@@ -312,7 +312,7 @@ public class Database {
         
         // Making sure the option set in persistentContainer is reflected during migration. Othewise lightweight migration fails
         var options: [AnyHashable: Any]?
-        if #available(iOS 11.0, *) {
+        if #available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, macOS 10.13, *) {
             options = [NSPersistentHistoryTrackingKey: true as NSNumber]
         }
         
