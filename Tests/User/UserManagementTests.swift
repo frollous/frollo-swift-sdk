@@ -1490,6 +1490,45 @@ class UserManagementTests: BaseTestCase {
 
     }
     
+    func testPayIDNotificationFired() {
+        
+        let notificationExpectation = expectation(forNotification: UserManagement.payIDUpdatedNotification, object: nil, handler: nil)
+        
+        let expectation1 = expectation(description: "Network Request")
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.payID.path)) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_register_payid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        let keychain = validKeychain()
+        let networkAuthenticator = defaultAuthentication(keychain: keychain)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: networkAuthenticator)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let authentication = defaultOAuth2Authentication(keychain: keychain, loggedIn: true)
+        let user = UserManagement(database: database, service: service, clientID: config.clientID, authentication: authentication, preferences: preferences, delegate: nil)
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            user.registerPayID(accountID: 325, payID: "+61411111111", type: .phoneNumber, trackingID: "VE20db0310501c4d7cc347c8d897967039", otpCode: "444684") { result in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        break
+                }
+
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+        
+    }
+    
     func testRegisterPayIDEncodeFail() {
         let expectation1 = expectation(description: "Network Request")
 
