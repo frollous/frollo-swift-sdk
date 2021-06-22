@@ -52,7 +52,7 @@ struct APIGoalCreateRequest: Codable {
     internal func valid() -> Bool {
         switch target {
             case .amount, .availableBalance, .currentBalance:
-                return targetAmount != nil && periodAmount != nil
+                return targetAmount != nil
             case .date:
                 return endDate != nil && targetAmount != nil
             case .openEnded:
