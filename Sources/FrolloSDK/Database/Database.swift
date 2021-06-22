@@ -291,7 +291,7 @@ public class Database {
         }
         
         // Create a scratch directory to migrate to
-        let tempDirectory = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(UUID().uuidString)
+        let tempDirectory = URL(fileURLWithPath: storeURL.deletingLastPathComponent().relativePath).appendingPathComponent(UUID().uuidString)
         do {
             try FileManager.default.createDirectory(at: tempDirectory, withIntermediateDirectories: true, attributes: nil)
         } catch let error as NSError {
@@ -309,8 +309,15 @@ public class Database {
         let destinationURL = tempDirectory.appendingPathComponent(storeURL.lastPathComponent)
         
         let migrationManager = NSMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
+        
+        // Making sure the option set in persistentContainer is reflected during migration. Othewise lightweight migration fails
+        var options: [AnyHashable: Any]?
+        if #available(iOS 11.0, *) {
+            options = [NSPersistentHistoryTrackingKey: true as NSNumber]
+        }
+        
         do {
-            try migrationManager.migrateStore(from: storeURL, sourceType: NSSQLiteStoreType, options: nil, with: mappingModel, toDestinationURL: destinationURL, destinationType: NSSQLiteStoreType, destinationOptions: nil)
+            try migrationManager.migrateStore(from: storeURL, sourceType: NSSQLiteStoreType, options: options, with: mappingModel, toDestinationURL: destinationURL, destinationType: NSSQLiteStoreType, destinationOptions: options)
         } catch let error as NSError {
             error.logError()
             Log.debug(error.debugDescription)
