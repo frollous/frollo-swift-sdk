@@ -33,6 +33,9 @@ public class UserManagement {
     /// Notification fired when silent push notification recieved after onboarding step is completed
     public static let onboardingStepCompletedNotification = Notification.Name("UserNotification.onboardingStepCompleted")
     
+    /// Notification fired when PayID has been updated
+    public static let payIDUpdatedNotification = Notification.Name("FrolloSDK.UserNotification.payIDUpdatedNotification")
+    
     internal static let onboardingEventKey = "onboarding_step"
     
     internal struct UserNotification {
@@ -620,6 +623,9 @@ public class UserManagement {
                         completion(.failure(error))
                     }
                 case .success:
+                    
+                    NotificationCenter.default.post(name: UserManagement.payIDUpdatedNotification, object: self)
+                    
                     DispatchQueue.main.async {
                         completion(.success)
                     }
@@ -648,6 +654,9 @@ public class UserManagement {
                         completion(.failure(error))
                     }
                 case .success:
+                    
+                    NotificationCenter.default.post(name: UserManagement.payIDUpdatedNotification, object: self)
+                    
                     DispatchQueue.main.async {
                         completion(.success)
                     }
