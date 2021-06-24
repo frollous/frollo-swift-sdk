@@ -45,7 +45,7 @@ struct APIUserResponse: Codable {
         case tin
         case userID = "id"
         case validPassword = "valid_password"
-        
+        case externalID = "external_id"
     }
     
     struct Attribution: Codable {
@@ -91,5 +91,5 @@ struct APIUserResponse: Codable {
     let taxResidency: String?
     let foreignTax: Bool?
     let tin: String?
-    
+    let externalID: String?
 }
