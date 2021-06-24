@@ -502,9 +502,9 @@ public class User: NSManagedObject {
         
         return APIUserUpdateRequest(email: email,
                                     primaryCurrency: primaryCurrency,
-                                    address: address,
-                                    mailingAddress: mailingAddress,
-                                    previousAddress: previousAddress,
+                                    residensialAddressID: address?.id,
+                                    mailingAddressID: mailingAddress?.id,
+                                    previousAddressID: previousAddress?.id,
                                     attribution: attribution,
                                     dateOfBirth: dateOfBirth,
                                     firstName: firstName,

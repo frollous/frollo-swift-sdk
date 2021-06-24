@@ -17,15 +17,15 @@
 import XCTest
 @testable import FrolloSDK
 
-class AddressTest: XCTestCase {
+class AddressAutocompleteTest: XCTestCase {
 
 
 }
 
-extension Address {
+extension APIAddressAutocompleteResopnse {
     
-    static func getTestAddress() -> Address{
-        return Address(buildingName: "100 Mount", unitNumber: "Unit 3", streetNumber: "100", streetName: "Mount", streetType: "street", suburb: "North Sydney", town: "Sydney", region: "Greater Sydney", state: "NSW", country: "AU", postcode: "2060", longForm: "Frollo, Level 33, 100 Mount St, North Sydney, NSW, 2060, Australia")
+    static func getTestAddress() -> APIAddressAutocompleteResopnse{
+        return APIAddressAutocompleteResopnse(buildingName: "100 Mount", unitNumber: "Unit 3", streetNumber: "100", streetName: "Mount", streetType: "street", suburb: "North Sydney", town: "Sydney", region: "Greater Sydney", state: "NSW", country: "AU", postcode: "2060", longForm: "Frollo, Level 33, 100 Mount St, North Sydney, NSW, 2060, Australia")
     }
     
 }

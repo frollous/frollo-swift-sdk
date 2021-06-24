@@ -21,7 +21,7 @@ import SwiftyJSON
 /**
  Card
  
- Core Data represenation of a Card
+ Core Data represenation of an Address
  */
 public class Address: NSManagedObject, UniqueManagedObject {
     
@@ -34,13 +34,6 @@ public class Address: NSManagedObject, UniqueManagedObject {
         return addressID
     }
     
-    internal func isValid() -> Bool {
-        guard let postcode = postcode else {
-            return false
-        }
-        return !postcode.isEmpty
-    }
-    
     // MARK: Updating Object
     
     internal func linkObject(object: NSManagedObject) {
@@ -48,8 +41,8 @@ public class Address: NSManagedObject, UniqueManagedObject {
     }
     
     internal func update(response: APIUniqueResponse, context: NSManagedObjectContext) {
-        if let cardsResponse = response as? APIAddressResponse {
-            update(response: cardsResponse, context: context)
+        if let addressResponse = response as? APIAddressResponse {
+            update(response: addressResponse, context: context)
         }
     }
     

@@ -44,10 +44,10 @@ public class AddressManagement: CachedObjects, ResponseHandler {
      Fetch cards from the cache
      - Parameters:
      - context: Managed object context to fetch these from; background or main thread
-     - predicate: Predicate of properties to match for fetching. See `Card` for properties (Optional)
+     - predicate: Predicate of properties to match for fetching. See `Address` for properties (Optional)
      - sortDescriptors: Array of sort descriptors to sort the results by. Defaults to cardID ascending (Optional)
      - limit: Fetch limit to set maximum number of returned items (Optional)
-     - Returns: Array of cards See `Card` for properties
+     - Returns: Array of cards See `Address` for properties
      */
     public func addresses(context: NSManagedObjectContext,
                           filteredBy predicate: NSPredicate? = nil,
@@ -58,19 +58,19 @@ public class AddressManagement: CachedObjects, ResponseHandler {
     }
     
     /**
-     Fetch card by ID from the cache
+     Fetch address by ID from the cache
      
      - parameters:
      - context: Managed object context to fetch these from; background or main thread
-     - cardID: Unique card ID to fetch
-     - Returns: Card with matching cardID
+     - addressID: Unique address ID to fetch
+     - Returns: Address with matching addressID
      */
     public func address(context: NSManagedObjectContext, addressID: Int64) -> Address? {
         return cachedObject(type: Address.self, context: context, objectID: addressID, objectKey: #keyPath(Address.addressID))
     }
     
     /**
-     Refresh cards from the host.
+     Refresh addresses from the host.
      
      - parameters:
      - completion: Optional completion handler with optional error if the request fails
@@ -88,7 +88,7 @@ public class AddressManagement: CachedObjects, ResponseHandler {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleAddressesResponse(response, managedObjectContext: managedObjectContext)
-
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -116,7 +116,7 @@ public class AddressManagement: CachedObjects, ResponseHandler {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleAddressResponse(response, managedObjectContext: managedObjectContext)
-
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -124,6 +124,22 @@ public class AddressManagement: CachedObjects, ResponseHandler {
         }
     }
     
+    /**
+     Create an address in the host
+     
+     - Parameters:
+     - unitNumber: unit number of the Address. (Optional)
+     - buildingName: building name of the Address. (Optional)
+     - streetNumber: building number of the Address. (Optional)
+     - streetName: street name of the Address. (Optional)
+     - streetType: street type of the Address. (Optional)
+     - suburb: name of suburb of the Address. (Optional)
+     - region: region of the Address. (Optional)
+     - state: state of the Address. (Optional)
+     - country: country name in short form of the Address. eg: AUD
+     - postcode: postcode of the Address. (Optional)
+     - completion: Optional completion handler with optional error if the request fails
+     */
     public func createAddress(unitNumber: String?, buildingName: String?, streetNumber: String?, streetName: String?, streetType: String?, suburb: String, region: String, state: String, country: String, postcode: String, completion: FrolloSDKCompletionHandler? = nil) {
         
         let request = APIPostAddressRequest(buildingName: buildingName, unitNumber: unitNumber, streetNumber: streetNumber, streetName: streetName, streetType: streetType, suburb: suburb, region: region, state: state, country: country, postcode: postcode)
@@ -140,9 +156,58 @@ public class AddressManagement: CachedObjects, ResponseHandler {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleAddressResponse(response, managedObjectContext: managedObjectContext)
-                                        
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
+     Get addresses list that matches the query string
+     
+     - Parameters:
+     - query: String to match address
+     - max: Maximum number of items to fetch. Should be between 10 and 100; defaults to 20.
+     - completion: Completion handler with either the `AddressAutocompleteResponse` list from the host or an error
+     */
+    public func addressAutocomplete(query: String, max: Int = 20, completion: @escaping (Result<[AddressAutocomplete], Error>) -> Void) {
+        service.addressAutocomplete(query: query, max: max) { result in
+            switch result {
+                case .failure(let error):
+                    error.logError()
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Get address by ID
+     
+     - Parameters:
+     - addressID: ID of the address to get the details
+     - completion: Completion handler with either the `Address` from the host or an error
+     */
+    public func fetchAddress(for addressID: String, completion: @escaping (Result<APIAddressAutocompleteResopnse, Error>) -> Void) {
+        service.getAddress(addressID: addressID) { result in
+            switch result {
+                case .failure(let error):
+                    error.logError()
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    DispatchQueue.main.async {
+                        completion(.success(response))
                     }
             }
         }
@@ -158,7 +223,7 @@ public class AddressManagement: CachedObjects, ResponseHandler {
         }
         
         updateObjectsWithResponse(type: Address.self, objectsResponse: addressResponse, primaryKey: #keyPath(Address.addressID), linkedKeys: [], filterPredicate: nil, managedObjectContext: managedObjectContext)
-
+        
         managedObjectContext.performAndWait {
             do {
                 try managedObjectContext.save()
@@ -176,7 +241,7 @@ public class AddressManagement: CachedObjects, ResponseHandler {
         }
         
         updateObjectWithResponse(type: Address.self, objectResponse: addressResponse, primaryKey: #keyPath(Address.addressID), managedObjectContext: managedObjectContext)
-
+        
         managedObjectContext.performAndWait {
             do {
                 try managedObjectContext.save()

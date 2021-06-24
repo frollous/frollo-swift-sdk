@@ -24,6 +24,8 @@ internal enum AddressEndpoint: Endpoint {
     
     case addresses
     case address(id: Int64)
+    case addressAutocomplete(addressID: String)
+    case addressesAutocomplete
     
     private func urlPath() -> String {
         switch self {
@@ -31,6 +33,10 @@ internal enum AddressEndpoint: Endpoint {
                 return "addresses"
             case .address(let addressID):
                 return "addresses/" + String(addressID)
+            case .addressAutocomplete(let addressID):
+                return "addresses/autocomplete/" + addressID
+            case .addressesAutocomplete:
+                return "addresses/autocomplete"
         }
     }
     
