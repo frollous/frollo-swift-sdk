@@ -21,7 +21,7 @@ import SwiftyJSON
 /**
  Card
  
- Core Data represenation of a Card
+ Core Data represenation of an Address
  */
 public class Address: NSManagedObject, UniqueManagedObject {
     

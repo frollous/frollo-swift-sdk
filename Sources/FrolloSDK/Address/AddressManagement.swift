@@ -88,7 +88,7 @@ public class AddressManagement: CachedObjects, ResponseHandler {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleAddressesResponse(response, managedObjectContext: managedObjectContext)
-
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -116,7 +116,7 @@ public class AddressManagement: CachedObjects, ResponseHandler {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleAddressResponse(response, managedObjectContext: managedObjectContext)
-
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
@@ -140,13 +140,62 @@ public class AddressManagement: CachedObjects, ResponseHandler {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleAddressResponse(response, managedObjectContext: managedObjectContext)
-                                        
+                    
                     DispatchQueue.main.async {
                         completion?(.success)
                     }
             }
         }
     }
+    
+    
+    /**
+     Get addresses list that matches the query string
+     
+     - Parameters:
+     - query: String to match address
+     - max: Maximum number of items to fetch. Should be between 10 and 100; defaults to 20.
+     - completion: Completion handler with either the `AddressAutocompleteResponse` list from the host or an error
+     */
+    public func addressAutocomplete(query: String, max: Int = 20, completion: @escaping (Result<[AddressAutocomplete], Error>) -> Void) {
+        service.addressAutocomplete(query: query, max: max) { result in
+            switch result {
+                case .failure(let error):
+                    error.logError()
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Get address by ID
+     
+     - Parameters:
+     - addressID: ID of the address to get the details
+     - completion: Completion handler with either the `Address` from the host or an error
+     */
+    public func getAddress(for addressID: String, completion: @escaping (Result<Address, Error>) -> Void) {
+        service.getAddress(addressID: addressID) { result in
+            switch result {
+                case .failure(let error):
+                    error.logError()
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+            }
+        
     
     // MARK: - Response Handling
     
@@ -158,7 +207,7 @@ public class AddressManagement: CachedObjects, ResponseHandler {
         }
         
         updateObjectsWithResponse(type: Address.self, objectsResponse: addressResponse, primaryKey: #keyPath(Address.addressID), linkedKeys: [], filterPredicate: nil, managedObjectContext: managedObjectContext)
-
+        
         managedObjectContext.performAndWait {
             do {
                 try managedObjectContext.save()
@@ -176,7 +225,7 @@ public class AddressManagement: CachedObjects, ResponseHandler {
         }
         
         updateObjectWithResponse(type: Address.self, objectResponse: addressResponse, primaryKey: #keyPath(Address.addressID), managedObjectContext: managedObjectContext)
-
+        
         managedObjectContext.performAndWait {
             do {
                 try managedObjectContext.save()

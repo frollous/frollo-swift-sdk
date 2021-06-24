@@ -27,8 +27,6 @@ enum UserEndpoint: Endpoint {
         case max
     }
     
-    case address(addressID: String)
-    case addressesAutocomplete
     case details
     case migrate
     case register
@@ -44,10 +42,6 @@ enum UserEndpoint: Endpoint {
     
     private func urlPath() -> String {
         switch self {
-            case .address(let addressID):
-                return "user/addresses/autocomplete/" + addressID
-            case .addressesAutocomplete:
-                return "user/addresses/autocomplete"
             case .details:
                 return "user/details"
             case .migrate:

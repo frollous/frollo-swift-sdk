@@ -1266,6 +1266,7 @@
 		1321546F2390ECEB001495A2 /* BudgetPeriod+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1321546C2390ECE6001495A2 /* BudgetPeriod+Test.swift */; };
 		132154702390ECEB001495A2 /* BudgetPeriod+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1321546C2390ECE6001495A2 /* BudgetPeriod+Test.swift */; };
 		132154712390ECEB001495A2 /* BudgetPeriod+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1321546C2390ECE6001495A2 /* BudgetPeriod+Test.swift */; };
+		1333DEDB268436EF00800F57 /* AddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1333DEDA268436EF00800F57 /* AddressTests.swift */; };
 		133B024D23A9A1A00067D6FA /* PaginatedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D44A32238B5E2400AF74EC /* PaginatedResponse.swift */; };
 		133E59292637A01F0000E0BB /* Error+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133E59282637A01F0000E0BB /* Error+Logging.swift */; };
 		133E592A2637A01F0000E0BB /* Error+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133E59282637A01F0000E0BB /* Error+Logging.swift */; };
@@ -2442,6 +2443,7 @@
 		132154622390CC62001495A2 /* BudgetPeriod+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BudgetPeriod+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		132154662390EC1C001495A2 /* Budget+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Budget+Test.swift"; sourceTree = "<group>"; };
 		1321546C2390ECE6001495A2 /* BudgetPeriod+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BudgetPeriod+Test.swift"; sourceTree = "<group>"; };
+		1333DEDA268436EF00800F57 /* AddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressTests.swift; sourceTree = "<group>"; };
 		133E59282637A01F0000E0BB /* Error+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+Logging.swift"; sourceTree = "<group>"; };
 		1357F3A325DE448F00E6EF06 /* kyc_response_medicare.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kyc_response_medicare.json; sourceTree = "<group>"; };
 		1357F3A425DE449000E6EF06 /* kyc_response_non_existent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kyc_response_non_existent.json; sourceTree = "<group>"; };
@@ -3264,6 +3266,7 @@
 		01527CCC20E1B5C300B5042A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				1333DED9268436DC00800F57 /* Address */,
 				01527CCF20E1B5C300B5042A /* Info.plist */,
 				1357F48825DF66A700E6EF06 /* ManagedProducts */,
 				135B792C25B142E800BD3140 /* KYC */,
@@ -4457,6 +4460,14 @@
 				13CFDA77239747A300559476 /* BudgetPeriodTests.swift */,
 			);
 			path = Budget;
+			sourceTree = "<group>";
+		};
+		1333DED9268436DC00800F57 /* Address */ = {
+			isa = PBXGroup;
+			children = (
+				1333DEDA268436EF00800F57 /* AddressTests.swift */,
+			);
+			path = Address;
 			sourceTree = "<group>";
 		};
 		1357F48825DF66A700E6EF06 /* ManagedProducts */ = {
@@ -6456,6 +6467,7 @@
 				01555F2821812C62004A313A /* DeviceRequestTests.swift in Sources */,
 				037934032526EB9E00FE053C /* CDRConfiguration+Test.swift in Sources */,
 				0126069921994A0D005D8377 /* MessagesRequestTests.swift in Sources */,
+				1333DEDB268436EF00800F57 /* AddressTests.swift in Sources */,
 				01BB5A6D221F54A3000C03F0 /* OAuthServiceTests.swift in Sources */,
 				0160953A20F41ECF0060791B /* VersionTests.swift in Sources */,
 				015EEDFD211018420081AD76 /* ProviderTests.swift in Sources */,
