@@ -229,15 +229,23 @@ public class User: NSManagedObject {
         
     }
     
+    /**
+     User Address
+     
+     Represents an address type of the user
+     */
     public struct UserAddress: Codable {
         
         enum CodingKeys: String, CodingKey {
+            /// Address ID
             case id
+            
+            /// Long form of the address
             case longForm = "long_form"
             
         }
         
-        public let id: Int64
+        public var id: Int64
         public let longForm: String
     }
     
@@ -465,6 +473,7 @@ public class User: NSManagedObject {
         // Optional properties
         address = response.address
         mailingAddress = response.mailingAddress
+        previousAddress = response.previousAddress
         attributionAdGroup = response.attribution?.adGroup
         attributionCampaign = response.attribution?.campaign
         attributionCreative = response.attribution?.creative

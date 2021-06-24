@@ -64,7 +64,7 @@ class AddressTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            self.address.createAddress(unitNumber: "1", buildingName: "Test building", streetNumber: "22", streetName: "Street name", streetType: "road", suburb: "suburb name", region: "Sycney", state: "NSW", country: "AUD", postcode: "2210") { (result) in
+            self.address.createAddress(unitNumber: "1", buildingName: "Test building", streetNumber: "22", streetName: "Street name", streetType: "road", suburb: "suburb name", town: nil, region: "Sydney", state: "NSW", country: "AU", postcode: "2210") { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -187,6 +187,89 @@ class AddressTests: BaseTestCase {
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
+                }
+
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
+    func testUpdateAddress() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AddressEndpoint.address(id: 9).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "update_address", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = self.database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let address = Address(context: managedObjectContext)
+                address.populateTestData()
+                address.addressID = 9
+
+                try? managedObjectContext.save()
+
+                self.address.updateAddress(addressID: 9, unitNumber: "1", buildingName: "105 Ashmole", streetNumber: "105", streetName: "Ashmole", streetType: "Road", suburb: "Redcliffe", town: nil, region: nil, state: "QLD", country: "AU", postcode: "4020") { (result) in
+                    switch result {
+                        case .failure(let error):
+                            XCTFail(error.localizedDescription)
+                        case .success:
+                            let context = self.database.viewContext
+
+                            let fetchRequest: NSFetchRequest<Address> = Address.fetchRequest()
+                            fetchRequest.predicate = NSPredicate(format: "addressID == %ld", argumentArray: [9])
+
+                            do {
+                                let fetchedMessages = try context.fetch(fetchRequest)
+
+                                XCTAssertEqual(fetchedMessages.first?.addressID, 9)
+                                XCTAssertEqual(fetchedMessages.first?.postcode, "4020")
+                            } catch {
+                                XCTFail(error.localizedDescription)
+                            }
+                    }
+
+                    expectation1.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+        HTTPStubs.removeAllStubs()
+    }
+
+    func testDeleteAddress() {
+        let expectation1 = expectation(description: "Network Request")
+
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AddressEndpoint.address(id: 11).path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            let managedObjectContext = self.database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let address = Contact(context: managedObjectContext)
+                address.populateTestData()
+                address.contactID = 11
+
+                try? managedObjectContext.save()
+            }
+
+            self.address.deleteAddress(addressID: 11) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        XCTAssertNil(self.address.address(context: self.database.viewContext, addressID: 11))
                 }
 
                 expectation1.fulfill()

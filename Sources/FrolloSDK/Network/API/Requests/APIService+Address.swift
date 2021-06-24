@@ -56,6 +56,34 @@ extension APIService {
         }
     }
     
+    internal func updateAddress(addressID: Int64, request: APIPostAddressRequest, completion: @escaping RequestCompletion<APIAddressResponse>) {
+        requestQueue.async {
+            let url = URL(string: AddressEndpoint.address(id: addressID).path, relativeTo: self.serverURL)!
+            
+            guard let urlRequest = self.network.contentRequest(url: url, method: .put, content: request)
+            else {
+                let dataError = DataError(type: .api, subType: .invalidData)
+                
+                completion(.failure(dataError))
+                return
+            }
+            
+            self.network.sessionManager.request(urlRequest).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleResponse(type: APIAddressResponse.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
+    internal func deleteAddress(addressID: Int64, completion: @escaping NetworkCompletion) {
+        requestQueue.async {
+            let url = URL(string: AddressEndpoint.address(id: addressID).path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue, emptyResponseCodes: [204]) { response in
+                self.network.handleEmptyResponse(errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     internal func addressAutocomplete(query: String, max: Int, completion: @escaping RequestCompletion<[AddressAutocomplete]>) {
         requestQueue.async {
             let url = URL(string: AddressEndpoint.addressesAutocomplete.path, relativeTo: self.serverURL)!

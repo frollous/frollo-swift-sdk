@@ -134,15 +134,16 @@ public class AddressManagement: CachedObjects, ResponseHandler {
      - streetName: street name of the Address. (Optional)
      - streetType: street type of the Address. (Optional)
      - suburb: name of suburb of the Address. (Optional)
+     - town: name of town of the Address. (Optional)
      - region: region of the Address. (Optional)
      - state: state of the Address. (Optional)
      - country: country name in short form of the Address. eg: AUD
      - postcode: postcode of the Address. (Optional)
-     - completion: Optional completion handler with optional error if the request fails
+     - completion: Optional completion handler with optional error if the request fails & ID of address if request succeeds
      */
-    public func createAddress(unitNumber: String?, buildingName: String?, streetNumber: String?, streetName: String?, streetType: String?, suburb: String, region: String, state: String, country: String, postcode: String, completion: FrolloSDKCompletionHandler? = nil) {
+    public func createAddress(unitNumber: String?, buildingName: String?, streetNumber: String?, streetName: String?, streetType: String?, suburb: String?, town: String?, region: String?, state: String?, country: String, postcode: String, completion: FrolloSDKObjectCompletionHandler? = nil) {
         
-        let request = APIPostAddressRequest(buildingName: buildingName, unitNumber: unitNumber, streetNumber: streetNumber, streetName: streetName, streetType: streetType, suburb: suburb, region: region, state: state, country: country, postcode: postcode)
+        let request = APIPostAddressRequest(buildingName: buildingName, unitNumber: unitNumber, streetNumber: streetNumber, streetName: streetName, streetType: streetType, suburb: suburb, town: town, region: region, state: state, country: country, postcode: postcode)
         
         service.createAddress(request: request) { result in
             switch result {
@@ -156,6 +157,75 @@ public class AddressManagement: CachedObjects, ResponseHandler {
                     let managedObjectContext = self.database.newBackgroundContext()
                     
                     self.handleAddressResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success(response.id))
+                    }
+            }
+        }
+    }
+    
+    /**
+     Update an Address on the host.
+     
+     - Parameters:
+     - addressID: The ID of the address to be updated
+     - unitNumber: unit number of the Address. (Optional)
+     - buildingName: building name of the Address. (Optional)
+     - streetNumber: building number of the Address. (Optional)
+     - streetName: street name of the Address. (Optional)
+     - streetType: street type of the Address. (Optional)
+     - suburb: name of suburb of the Address. (Optional)
+     - town: name of town of the Address. (Optional)
+     - region: region of the Address. (Optional)
+     - state: state of the Address. (Optional)
+     - country: country name in short form of the Address. eg: AUD
+     - postcode: postcode of the Address. (Optional)
+     - completion: Optional completion handler with optional error if the request fails
+     */
+    public func updateAddress(addressID: Int64, unitNumber: String?, buildingName: String?, streetNumber: String?, streetName: String?, streetType: String?, suburb: String?, town: String?, region: String?, state: String?, country: String, postcode: String, completion: FrolloSDKCompletionHandler? = nil) {
+        
+        let request = APIPostAddressRequest(buildingName: buildingName, unitNumber: unitNumber, streetNumber: streetNumber, streetName: streetName, streetType: streetType, suburb: suburb, town: town, region: region, state: state, country: country, postcode: postcode)
+        
+        service.updateAddress(addressID: addressID, request: request) { result in
+            switch result {
+                case .failure(let error):
+                    error.logError()
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success(let response):
+                    let managedObjectContext = self.database.newBackgroundContext()
+                    
+                    self.handleAddressResponse(response, managedObjectContext: managedObjectContext)
+                    
+                    DispatchQueue.main.async {
+                        completion?(.success)
+                    }
+            }
+        }
+    }
+    
+    /**
+     Delete a specific address by ID from the host
+     
+     - parameters:
+        - contactID: ID of the address to be deleted
+        - completion: Optional completion handler with optional error if the request fails
+     */
+    public func deleteAddress(addressID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+        
+        service.deleteAddress(addressID: addressID) { result in
+            switch result {
+                case .failure(let error):
+                    error.logError()
+                    
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
+                case .success:
+                    self.removeCachedAddress(addressID: addressID)
                     
                     DispatchQueue.main.async {
                         completion?(.success)
@@ -241,6 +311,26 @@ public class AddressManagement: CachedObjects, ResponseHandler {
         }
         
         updateObjectWithResponse(type: Address.self, objectResponse: addressResponse, primaryKey: #keyPath(Address.addressID), managedObjectContext: managedObjectContext)
+        
+        managedObjectContext.performAndWait {
+            do {
+                try managedObjectContext.save()
+            } catch {
+                error.logError()
+            }
+        }
+    }
+    
+    private func removeCachedAddress(addressID: Int64) {
+        addressLock.lock()
+        
+        defer {
+            addressLock.unlock()
+        }
+        
+        let managedObjectContext = database.newBackgroundContext()
+        
+        removeObject(type: Address.self, id: addressID, primaryKey: #keyPath(Address.addressID), managedObjectContext: managedObjectContext)
         
         managedObjectContext.performAndWait {
             do {

@@ -25,6 +25,7 @@ struct APIPostAddressRequest: Codable {
         case streetName = "street_name"
         case streetType = "street_type"
         case suburb
+        case town
         case region
         case state
         case country
@@ -37,6 +38,7 @@ struct APIPostAddressRequest: Codable {
     let streetName: String?
     let streetType: String?
     let suburb: String?
+    let town: String?
     let region: String?
     let state: String?
     let country: String
