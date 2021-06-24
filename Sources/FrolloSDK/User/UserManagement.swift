@@ -126,16 +126,11 @@ public class UserManagement {
          - completion: Completion handler with any error that occurred
      */
     public func registerUser(firstName: String, lastName: String?, mobileNumber: String?, postcode: String?, dateOfBirth: Date?, email: String, password: String, completion: @escaping FrolloSDKCompletionHandler) {
-        var address: APIUserRegisterRequest.Address?
-        if let registerPostcode = postcode {
-            address = APIUserRegisterRequest.Address(postcode: registerPostcode)
-        }
         
         let userRegisterRequest = APIUserRegisterRequest(clientID: clientID,
                                                          email: email,
                                                          firstName: firstName,
                                                          password: password,
-                                                         address: address,
                                                          dateOfBirth: dateOfBirth,
                                                          lastName: lastName,
                                                          mobileNumber: mobileNumber)

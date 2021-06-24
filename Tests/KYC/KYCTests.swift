@@ -62,11 +62,9 @@ class KYCTests: XCTestCase {
                     XCTAssertEqual(userKYC.gender, nil)
                     XCTAssertEqual(userKYC.mobileNumber, nil)
                     XCTAssertEqual(userKYC.name?.givenName, nil)
-                    XCTAssertEqual(userKYC.addresses?.count, nil)
                     XCTAssertEqual(userKYC.dateOfBirth?.dateOfBirth, nil)
                     XCTAssertEqual(userKYC.dateOfBirth?.yearOfBirth, nil)
                     XCTAssertEqual(userKYC.identityDocuments?.count, nil)
-                    XCTAssertEqual(userKYC.addresses?.count, nil)
                     XCTAssertEqual(userKYC.status, .nonExistent)
             }
             expectation1.fulfill()
@@ -96,7 +94,6 @@ class KYCTests: XCTestCase {
                     XCTAssertEqual(userKYC.gender, "M")
                     XCTAssertEqual(userKYC.mobileNumber, "0421354444")
                     XCTAssertEqual(userKYC.name?.givenName, "Sheldon")
-                    XCTAssertEqual(userKYC.addresses?.count, 3)
                     XCTAssertEqual(userKYC.dateOfBirth?.dateOfBirth, "1991-01-01")
                     XCTAssertEqual(userKYC.dateOfBirth?.yearOfBirth, "1991")
                     XCTAssertEqual(userKYC.identityDocuments?.count, 3)
@@ -105,11 +102,6 @@ class KYCTests: XCTestCase {
                     XCTAssertEqual(userKYC.identityDocuments?[0].idSubType, "certificate")
                     XCTAssertEqual(userKYC.identityDocuments?[0].country, "AU")
                     XCTAssertEqual(userKYC.identityDocuments?[0].region, "Sydney")
-                    XCTAssertEqual(userKYC.addresses?[0].country, "AU")
-                    XCTAssertEqual(userKYC.addresses?[1].state, "NSW")
-                    XCTAssertEqual(userKYC.addresses?[1].streetName, "Mount")
-                    XCTAssertEqual(userKYC.addresses?[1].streetType, "Street")
-                    XCTAssertEqual(userKYC.addresses?[1].suburb, "North Sydney")
                     XCTAssertEqual(userKYC.status, .verified)
             }
             expectation1.fulfill()
@@ -138,7 +130,6 @@ class KYCTests: XCTestCase {
                     XCTAssertEqual(userKYC.gender, "M")
                     XCTAssertEqual(userKYC.mobileNumber, "+61411458987")
                     XCTAssertEqual(userKYC.name?.givenName, "JAMES")
-                    XCTAssertEqual(userKYC.addresses?.count, 1)
                     XCTAssertEqual(userKYC.dateOfBirth?.dateOfBirth, "1950-01-01")
                     XCTAssertEqual(userKYC.dateOfBirth?.yearOfBirth, nil)
                     XCTAssertEqual(userKYC.identityDocuments?.count, 2)
@@ -147,11 +138,6 @@ class KYCTests: XCTestCase {
                     XCTAssertEqual(userKYC.identityDocuments?[0].idSubType, nil)
                     XCTAssertEqual(userKYC.identityDocuments?[0].country, "AUS")
                     XCTAssertEqual(userKYC.identityDocuments?[0].region, "VIC")
-                    XCTAssertEqual(userKYC.addresses?[0].country, "AUS")
-                    XCTAssertEqual(userKYC.addresses?[0].state, "VIC")
-                    XCTAssertEqual(userKYC.addresses?[0].streetName, "CONN")
-                    XCTAssertEqual(userKYC.addresses?[0].streetType, "STREET")
-                    XCTAssertEqual(userKYC.addresses?[0].suburb, nil)
                     XCTAssertEqual(userKYC.status, .unverified)
             }
             expectation1.fulfill()
@@ -204,6 +190,6 @@ extension KYCTests {
     
     static func createTestKyc() -> UserKYC {
         
-        return UserKYC(addresses: [ Address.getTestAddress()], dateOfBirth: UserKYC.DateOfBirth(dateOfBirth: "1991-01-01", yearOfBirth: "1991"), email: "drsheldon@frollo.us", gender: "M", mobileNumber: "0421354444", name: UserKYC.Name(displayName: "Sheldon", familyName: "Cooper", givenName: "Shelly", honourific: "Dr", middleName: "K"), identityDocuments: [UserKYC.IdentityDocument(country: "AU", idExpiry: "2022-12-12", idNumber: "123456", idSubType: "certificate", idType: .nationalHealthID, region: "Sydney")], status: .verified)
+        return UserKYC(dateOfBirth: UserKYC.DateOfBirth(dateOfBirth: "1991-01-01", yearOfBirth: "1991"), email: "drsheldon@frollo.us", gender: "M", mobileNumber: "0421354444", name: UserKYC.Name(displayName: "Sheldon", familyName: "Cooper", givenName: "Shelly", honourific: "Dr", middleName: "K"), identityDocuments: [UserKYC.IdentityDocument(country: "AU", idExpiry: "2022-12-12", idNumber: "123456", idSubType: "certificate", idType: .nationalHealthID, region: "Sydney")], status: .verified)
     }
 }

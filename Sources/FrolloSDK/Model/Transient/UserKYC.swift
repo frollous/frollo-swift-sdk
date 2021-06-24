@@ -23,9 +23,6 @@ import Foundation
  */
 public class UserKYC: Codable {
     
-//    /// Array of Addresses
-//    public var addresses: [Address]?
-    
     /// Object to hold information of  date of birth
     public var dateOfBirth: DateOfBirth?
     

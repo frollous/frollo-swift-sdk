@@ -20,7 +20,7 @@ struct APIUserResponse: Codable {
     
     enum CodingKeys: String, CodingKey {
         
-        case address
+        case address = "residential_address"
         case attribution
         case dateOfBirth = "date_of_birth"
         case email

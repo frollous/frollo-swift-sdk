@@ -22,49 +22,49 @@ extension Address {
     /**
      Fetch Request
      
-     - returns: Fetch request for `User` type
+     - returns: Fetch request for `Address` type
      */
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<User> {
-        return NSFetchRequest<User>(entityName: "Address")
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Address> {
+        return NSFetchRequest<Address>(entityName: "Address")
     }
     
-    /// Attribution ad group of the user (optional)
+    /// Unique identifier of the address
     @NSManaged public var addressID: Int64
     
-    /// Attribution campaign of the user (optional)
+    /// Building name of the Address (optional)
     @NSManaged public var buildingName: String?
     
-    /// Attribution creative of the user (optional)
+    /// Country of the Address in short form. eg: AUD
     @NSManaged public var country: String
     
-    /// Attribution network of the user (optional)
+    /// Long formatted name of the Address (optional)
     @NSManaged public var longForm: String?
     
-    /// Raw value for current address. Do not use
+    /// Postcode of the Address (optional)
     @NSManaged public var postcode: String?
     
-    /// Date of birth of the user (optional)
+    /// Region of the Address (optional)
     @NSManaged public var region: String?
     
-    /// Email address of the user
+    /// State of the Address (optional)
     @NSManaged public var state: String?
     
-    /// User verified their email address
+    /// Street name of the Address (optional)
     @NSManaged public var streetName: String?
     
-    /// Facebook ID associated with the user (optional)
+    /// Street number of the Address (optional)
     @NSManaged public var streetNumber: String?
     
-    /// Raw value for features. Do not use
+    /// Street type of the Address (optional)
     @NSManaged public var streetType: String?
     
-    /// First name of the user
+    /// Suburb name of the Address (optional)
     @NSManaged public var suburb: String?
     
-    /// First name of the user
+    /// Town name of the Address (optional)
     @NSManaged public var town: String?
     
-    /// Foreign tax user
+    /// Unit number of the Address (optional)
     @NSManaged public var unitNumber: String?
     
 }
