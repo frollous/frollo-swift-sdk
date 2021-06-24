@@ -41,21 +41,12 @@ public class Cards: CachedObjects, ResponseHandler {
      - firstName: First name of the card holder
      - middleName: Middle name of the card holder; Optional
      - lastName: Last name of the card holder
-     - unitNumber: Unit Number of the postal address to which the card is to be sent; Optional
-     - buildingName: Building Name of the postal address to which the card is to be sent; Optional
-     - streetNumber: Street number of the postal address to which the card is to be sent
-     - streetName: Street Name of the postal address to which the card is to be sent
-     - streetType: Street Type of the postal address to which the card is to be sent
-     - postalAddressSuburb: Suburb of the postal address to which the card is to be sent
-     - postalCode: Postcode of the address to which the card is to be sent
-     - postalAddressState: State of the address to which the card is to be sent
-     - postalAddressCountry: Country of the address to which the card is to be sent
+     - unitNumber: The address ID to which the card is to be sent;
      - completion: Optional completion handler with optional error if the request fails
      */
-    public func createCard(accountID: Int64, firstName: String, middleName: String? = nil, lastName: String, unitNumber: String? = nil, buildingName: String? = nil, streetNumber: String, streetName: String, streetType: String = "street", postalAddressSuburb: String, postalCode: String, postalAddressState: String, postalAddressCountry: String, completion: FrolloSDKCompletionHandler? = nil) {
-        
-        let address = Address(buildingName: buildingName, unitNumber: unitNumber, streetNumber: streetNumber, streetName: streetName, streetType: streetType, suburb: postalAddressSuburb, state: postalAddressState, country: postalAddressCountry, postcode: postalCode)
-        let request = APICreateCardRequest(accountID: accountID, firstName: firstName, middleName: middleName, lastName: lastName, address: address)
+    public func createCard(accountID: Int64, firstName: String, middleName: String? = nil, lastName: String, addressID: Int64, completion: FrolloSDKCompletionHandler? = nil) {
+
+        let request = APICreateCardRequest(accountID: accountID, firstName: firstName, middleName: middleName, lastName: lastName, addressID: addressID)
         
         service.createCard(request: request) { result in
             switch result {

@@ -16,19 +16,29 @@
 
 import Foundation
 
-struct APICreateCardRequest: Codable {
+struct APIPostAddressRequest: Codable {
     
     enum CodingKeys: String, CodingKey {
-        case accountID = "account_id"
-        case firstName = "first_name"
-        case middleName = "middle_names"
-        case lastName = "last_name"
-        case addressID = "address_id"
+        case buildingName = "building_name"
+        case unitNumber = "unit_number"
+        case streetNumber = "street_number"
+        case streetName = "street_name"
+        case streetType = "street_type"
+        case suburb
+        case region
+        case state
+        case country
+        case postcode = "postal_code"
     }
     
-    let accountID: Int64
-    let firstName: String
-    let middleName: String?
-    let lastName: String
-    let addressID: Int64
+    let buildingName: String?
+    let unitNumber: String?
+    let streetNumber: String?
+    let streetName: String?
+    let streetType: String?
+    let suburb: String?
+    let region: String?
+    let state: String?
+    let country: String
+    let postcode: String?
 }

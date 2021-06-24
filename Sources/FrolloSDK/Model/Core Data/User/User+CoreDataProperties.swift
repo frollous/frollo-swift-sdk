@@ -83,6 +83,9 @@ extension User {
     /// Raw value for mailing address. Do not use
     @NSManaged public var mailingAddressRawValue: Data?
     
+    /// Raw value for previous address. Do not use
+    @NSManaged public var previousAddressRawValue: Data?
+    
     /// Mobile phone number of the user (optional)
     @NSManaged public var mobileNumber: String?
     

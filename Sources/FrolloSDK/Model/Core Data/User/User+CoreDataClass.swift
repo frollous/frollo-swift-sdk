@@ -229,6 +229,18 @@ public class User: NSManagedObject {
         
     }
     
+    public struct UserAddress: Codable {
+        
+        enum CodingKeys: String, CodingKey {
+            case id
+            case longForm = "long_form"
+            
+        }
+        
+        public let id: Int64
+        public let longForm: String
+    }
+    
     /// Core Data entity description name
     static let entityName = "User"
     
@@ -353,13 +365,13 @@ public class User: NSManagedObject {
     }
     
     /// Address of user (optional)
-    public var address: Address? {
+    public var address: UserAddress? {
         get {
             if let addressData = addressRawValue {
                 let decoder = JSONDecoder()
                 
                 do {
-                    let address = try decoder.decode(Address.self, from: addressData)
+                    let address = try decoder.decode(UserAddress.self, from: addressData)
                     return address
                 } catch {
                     error.logError()
@@ -382,13 +394,13 @@ public class User: NSManagedObject {
     }
     
     /// Mailing Address of user (optional)
-    public var mailingAddress: Address? {
+    public var mailingAddress: UserAddress? {
         get {
             if let mailingAddressData = mailingAddressRawValue {
                 let decoder = JSONDecoder()
                 
                 do {
-                    let mailingAddress = try decoder.decode(Address.self, from: mailingAddressData)
+                    let mailingAddress = try decoder.decode(UserAddress.self, from: mailingAddressData)
                     return mailingAddress
                 } catch {
                     error.logError()
@@ -406,6 +418,35 @@ public class User: NSManagedObject {
                 }
             } else {
                 mailingAddressRawValue = nil
+            }
+        }
+    }
+    
+    /// Previous Address of user (optional)
+    public var previousAddress: UserAddress? {
+        get {
+            if let mailingAddressData = previousAddressRawValue {
+                let decoder = JSONDecoder()
+                
+                do {
+                    let mailingAddress = try decoder.decode(UserAddress.self, from: mailingAddressData)
+                    return mailingAddress
+                } catch {
+                    error.logError()
+                }
+            }
+            return nil
+        }
+        set {
+            if let newRawValue = newValue {
+                let encoder = JSONEncoder()
+                do {
+                    previousAddressRawValue = try encoder.encode(newRawValue)
+                } catch {
+                    previousAddressRawValue = nil
+                }
+            } else {
+                previousAddressRawValue = nil
             }
         }
     }
@@ -461,8 +502,9 @@ public class User: NSManagedObject {
         
         return APIUserUpdateRequest(email: email,
                                     primaryCurrency: primaryCurrency,
-                                    address: address?.isValid() ?? false ? address : nil,
-                                    mailingAddress: mailingAddress?.isValid() ?? false ? mailingAddress : nil,
+                                    address: address,
+                                    mailingAddress: mailingAddress,
+                                    previousAddress: previousAddress,
                                     attribution: attribution,
                                     dateOfBirth: dateOfBirth,
                                     firstName: firstName,

@@ -41,7 +41,7 @@ struct APIUserRegisterRequest: Codable {
     let email: String
     let firstName: String
     let password: String
-    let address: Address?
+    let address: User.UserAddress?
     let dateOfBirth: Date?
     let lastName: String?
     let mobileNumber: String?

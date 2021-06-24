@@ -16,19 +16,22 @@
 
 import Foundation
 
-struct APICreateCardRequest: Codable {
+internal enum AddressEndpoint: Endpoint {
     
-    enum CodingKeys: String, CodingKey {
-        case accountID = "account_id"
-        case firstName = "first_name"
-        case middleName = "middle_names"
-        case lastName = "last_name"
-        case addressID = "address_id"
+    internal var path: String {
+        return urlPath()
     }
     
-    let accountID: Int64
-    let firstName: String
-    let middleName: String?
-    let lastName: String
-    let addressID: Int64
+    case addresses
+    case address(id: Int64)
+    
+    private func urlPath() -> String {
+        switch self {
+            case .addresses:
+                return "addresses"
+            case .address(let addressID):
+                return "addresses/" + String(addressID)
+        }
+    }
+    
 }

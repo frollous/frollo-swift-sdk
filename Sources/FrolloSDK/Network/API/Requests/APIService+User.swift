@@ -279,12 +279,12 @@ extension APIService {
         }
     }
     
-    internal func getAddress(addressID: String, completion: @escaping RequestCompletion<Address>) {
+    internal func getAddress(addressID: String, completion: @escaping RequestCompletion<APIAddressResponse>) {
         requestQueue.async {
             let url = URL(string: UserEndpoint.address(addressID: addressID).path, relativeTo: self.serverURL)!
             
             self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: Address.self, errorType: APIError.self, response: response, completion: completion)
+                self.network.handleResponse(type: APIAddressResponse.self, errorType: APIError.self, response: response, completion: completion)
             }
         }
     }

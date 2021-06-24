@@ -1663,6 +1663,20 @@
 		4E144E9225D2260E002BDBC6 /* verify_payID_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 4E144E8F25D2260B002BDBC6 /* verify_payID_response.json */; };
 		4E144EC225D2654B002BDBC6 /* APIVerifyPayIDRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E144EC125D2654A002BDBC6 /* APIVerifyPayIDRequest.swift */; };
 		4E144EC325D2654B002BDBC6 /* APIVerifyPayIDRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E144EC125D2654A002BDBC6 /* APIVerifyPayIDRequest.swift */; };
+		4E1C83312682C4CE00E1E061 /* AddressManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1C83302682C4CE00E1E061 /* AddressManagement.swift */; };
+		4E1C83322682C4CE00E1E061 /* AddressManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1C83302682C4CE00E1E061 /* AddressManagement.swift */; };
+		4E1C83342682E30800E1E061 /* APIService+Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1C83332682E30800E1E061 /* APIService+Address.swift */; };
+		4E1C83352682E30800E1E061 /* APIService+Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1C83332682E30800E1E061 /* APIService+Address.swift */; };
+		4E1C83372682E99100E1E061 /* AddressEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1C83362682E99100E1E061 /* AddressEndpoint.swift */; };
+		4E1C83382682E99100E1E061 /* AddressEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1C83362682E99100E1E061 /* AddressEndpoint.swift */; };
+		4E1C833B2684044300E1E061 /* Address+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1C833A2684044300E1E061 /* Address+CoreDataClass.swift */; };
+		4E1C833C2684044300E1E061 /* Address+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1C833A2684044300E1E061 /* Address+CoreDataClass.swift */; };
+		4E1C833E2684045300E1E061 /* Address+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1C833D2684045300E1E061 /* Address+CoreDataProperties.swift */; };
+		4E1C833F2684045300E1E061 /* Address+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1C833D2684045300E1E061 /* Address+CoreDataProperties.swift */; };
+		4E1C8342268407D700E1E061 /* APIAddressResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1C8341268407D700E1E061 /* APIAddressResponse.swift */; };
+		4E1C8343268407D700E1E061 /* APIAddressResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1C8341268407D700E1E061 /* APIAddressResponse.swift */; };
+		4E1C8345268411FC00E1E061 /* APIPostAddressRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1C8344268411FC00E1E061 /* APIPostAddressRequest.swift */; };
+		4E1C8346268411FC00E1E061 /* APIPostAddressRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1C8344268411FC00E1E061 /* APIPostAddressRequest.swift */; };
 		4E45D8BB25A3F2A30092F26E /* CardsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E45D8BA25A3F2A30092F26E /* CardsTests.swift */; };
 		4E45D8BC25A3F2A30092F26E /* CardsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E45D8BA25A3F2A30092F26E /* CardsTests.swift */; };
 		4E45D8BD25A3F2A30092F26E /* CardsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E45D8BA25A3F2A30092F26E /* CardsTests.swift */; };
@@ -2582,6 +2596,13 @@
 		4E144E7125D0E09E002BDBC6 /* VerifyPayIDResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyPayIDResponse.swift; sourceTree = "<group>"; };
 		4E144E8F25D2260B002BDBC6 /* verify_payID_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = verify_payID_response.json; sourceTree = "<group>"; };
 		4E144EC125D2654A002BDBC6 /* APIVerifyPayIDRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIVerifyPayIDRequest.swift; sourceTree = "<group>"; };
+		4E1C83302682C4CE00E1E061 /* AddressManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressManagement.swift; sourceTree = "<group>"; };
+		4E1C83332682E30800E1E061 /* APIService+Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+Address.swift"; sourceTree = "<group>"; };
+		4E1C83362682E99100E1E061 /* AddressEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressEndpoint.swift; sourceTree = "<group>"; };
+		4E1C833A2684044300E1E061 /* Address+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Address+CoreDataClass.swift"; sourceTree = "<group>"; };
+		4E1C833D2684045300E1E061 /* Address+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Address+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4E1C8341268407D700E1E061 /* APIAddressResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIAddressResponse.swift; sourceTree = "<group>"; };
+		4E1C8344268411FC00E1E061 /* APIPostAddressRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIPostAddressRequest.swift; sourceTree = "<group>"; };
 		4E45D8BA25A3F2A30092F26E /* CardsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsTests.swift; sourceTree = "<group>"; };
 		4E45D8C625A3F44B0092F26E /* create_card.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = create_card.json; sourceTree = "<group>"; };
 		4E45D8EE25A40D3A0092F26E /* Cards+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cards+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -3111,6 +3132,7 @@
 		013D2D81210A885F00EEDEC5 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				4E1C8340268407B600E1E061 /* Address */,
 				13A48EBD25E380B2006403A4 /* ManagedProduct */,
 				01819145211168C8000E0F80 /* APIUniqueResponse.swift */,
 				032F10BE23DA85B400F3BF01 /* CDR */,
@@ -3638,6 +3660,7 @@
 		017391EC20EEFFEA00C0BB32 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
+				4E1C83392684041800E1E061 /* Address */,
 				016097F3210EE2820034E857 /* Aggregation */,
 				4E45D8ED25A40D1B0092F26E /* Cards */,
 				01D7A4A0247C9390000339D9 /* CDR */,
@@ -3878,6 +3901,7 @@
 				4EFB627125A3E60E00930C95 /* CardsEndpoint.swift */,
 				135B78EC25AFC23F00BD3140 /* KYCEndpoint.swift */,
 				1357F44B25DF449400E6EF06 /* ManagedProductEndpoint.swift */,
+				4E1C83362682E99100E1E061 /* AddressEndpoint.swift */,
 			);
 			path = Endpoints;
 			sourceTree = "<group>";
@@ -3903,6 +3927,7 @@
 				4EFB626725A3E5C600930C95 /* APIService+Cards.swift */,
 				135B78F625AFC33D00BD3140 /* APIService+KYC.swift */,
 				1357F44125DF444100E6EF06 /* APIService+ManagedProduct.swift */,
+				4E1C83332682E30800E1E061 /* APIService+Address.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -4367,12 +4392,10 @@
 			children = (
 				4E6AE6F325EC877E005A5074 /* Info.plist */,
 				4E6AE70425EC8820005A5074 /* FrolloSDKCore-Info.plist */,
-				4E6ADDA325EB6A78005A5074 /* Resources */,
-				4EFFC57B25E5C18400533316 /* ManagedProduct */,
-				135B78DA25AFC1EF00BD3140 /* KYC */,
 				01527CD820E1C5A600B5042A /* FrolloSDK.swift */,
 				01BB5A54221CD2AE000C03F0 /* FrolloSDKConfiguration.swift */,
 				0135D31721A3D74500318142 /* FrolloSDKDelegate.swift */,
+				4E1C832F2682C4B300E1E061 /* Address */,
 				01EED85D20E5A7EA00F4516B /* Aggregation */,
 				01EED85B20E5A7EA00F4516B /* Authentication */,
 				0101A8F921CC647700DCFCEB /* Bills */,
@@ -4386,7 +4409,9 @@
 				017F0FB822DC541F00ACE7BB /* Goals */,
 				034EDC8F250F2DE800C48A57 /* Images */,
 				0136D223210011D90062EAEA /* Keychain */,
+				135B78DA25AFC1EF00BD3140 /* KYC */,
 				01C824EA20EC32DE0093400E /* Logging */,
+				4EFFC57B25E5C18400533316 /* ManagedProduct */,
 				0126068121990158005D8377 /* Messages */,
 				01EED85A20E5A7EA00F4516B /* Model */,
 				01EED85E20E5A7EA00F4516B /* Network */,
@@ -4395,6 +4420,7 @@
 				1394CE2B252E839B009FCC2C /* Payments */,
 				01EED86020E5A7EA00F4516B /* Preferences */,
 				01236D0821EBF4CD008DD61A /* Reports */,
+				4E6ADDA325EB6A78005A5074 /* Resources */,
 				01819147211178AC000E0F80 /* Shared */,
 				2F657DA1223B24E400471B85 /* Surveys */,
 				0161394B2283EF53001A62E8 /* User */,
@@ -4696,6 +4722,32 @@
 				4E4DD71125C7A4D300ED8A32 /* AccountPayIDResponse.swift */,
 			);
 			path = PayID;
+			sourceTree = "<group>";
+		};
+		4E1C832F2682C4B300E1E061 /* Address */ = {
+			isa = PBXGroup;
+			children = (
+				4E1C83302682C4CE00E1E061 /* AddressManagement.swift */,
+			);
+			path = Address;
+			sourceTree = "<group>";
+		};
+		4E1C83392684041800E1E061 /* Address */ = {
+			isa = PBXGroup;
+			children = (
+				4E1C833A2684044300E1E061 /* Address+CoreDataClass.swift */,
+				4E1C833D2684045300E1E061 /* Address+CoreDataProperties.swift */,
+			);
+			path = Address;
+			sourceTree = "<group>";
+		};
+		4E1C8340268407B600E1E061 /* Address */ = {
+			isa = PBXGroup;
+			children = (
+				4E1C8341268407D700E1E061 /* APIAddressResponse.swift */,
+				4E1C8344268411FC00E1E061 /* APIPostAddressRequest.swift */,
+			);
+			path = Address;
 			sourceTree = "<group>";
 		};
 		4E45D8C525A3F4100092F26E /* Cards */ = {
@@ -6102,6 +6154,7 @@
 				034EDC91250F2DFD00C48A57 /* Images.swift in Sources */,
 				01C824FD20EDD6630093400E /* FrolloSDKError.swift in Sources */,
 				012606B2219A784D005D8377 /* MessageText+CoreDataProperties.swift in Sources */,
+				4E1C83312682C4CE00E1E061 /* AddressManagement.swift in Sources */,
 				01527CD920E1C5A600B5042A /* FrolloSDK.swift in Sources */,
 				018B0426216EC785008C34D7 /* Date.swift in Sources */,
 				13DB95AA23E5210400555338 /* MerchantSearch.swift in Sources */,
@@ -6162,6 +6215,7 @@
 				018240DE21C8B80B005705F9 /* Bill+CoreDataProperties.swift in Sources */,
 				4E8052F62579E4F90087C01A /* Contacts+CoreDataClass.swift in Sources */,
 				0101A8E021C9BDEF00DCFCEB /* APIService+Bills.swift in Sources */,
+				4E1C833B2684044300E1E061 /* Address+CoreDataClass.swift in Sources */,
 				034EDC97250F2FE100C48A57 /* ImagesEndpoint.swift in Sources */,
 				1394CE6A252EC796009FCC2C /* PaymentTransferResponse.swift in Sources */,
 				0125879923442FAB0077D8B4 /* PayDayEndpoint.swift in Sources */,
@@ -6174,6 +6228,7 @@
 				0125878E234412E10077D8B4 /* APIPayDayResponse.swift in Sources */,
 				01236D0721EBEC09008DD61A /* APITransactionHistoryReportResponse.swift in Sources */,
 				13AC07742394CF5300982FB1 /* BudgetsEndPoint.swift in Sources */,
+				4E1C83342682E30800E1E061 /* APIService+Address.swift in Sources */,
 				011586F1234567A200DE854A /* APIPayDayRequest.swift in Sources */,
 				4E4DD71225C7A4D500ED8A32 /* AccountPayIDResponse.swift in Sources */,
 				01483B712117C7E900D0DA87 /* APIAccountResponse.swift in Sources */,
@@ -6217,6 +6272,7 @@
 				01483B6C2117C70600D0DA87 /* Account+CoreDataClass.swift in Sources */,
 				013D2D94210AA38800EEDEC5 /* DeviceInfo.swift in Sources */,
 				135B790125AFD5EB00BD3140 /* UserKYC.swift in Sources */,
+				4E1C8345268411FC00E1E061 /* APIPostAddressRequest.swift in Sources */,
 				135B78F725AFC33D00BD3140 /* APIService+KYC.swift in Sources */,
 				4E81F08A243D92E50006162A /* Aggregation.swift in Sources */,
 				1394CE2D252E83B3009FCC2C /* Payments.swift in Sources */,
@@ -6240,6 +6296,7 @@
 				0126069621992AD4005D8377 /* APIMessageResponse.swift in Sources */,
 				015EEDDE210FD7710081AD76 /* FailableCodable.swift in Sources */,
 				4E805371257D85EC0087C01A /* PayIDContact+CoreDataClass.swift in Sources */,
+				4E1C83372682E99100E1E061 /* AddressEndpoint.swift in Sources */,
 				013BC1DF218A6998005A2714 /* ProviderLoginFormViewModel.swift in Sources */,
 				034EDC94250F2EF200C48A57 /* APIService+Images.swift in Sources */,
 				011F1A60216B289B00119474 /* APIUserResetPasswordRequest.swift in Sources */,
@@ -6298,6 +6355,7 @@
 				017E58D0217FD92D00DC56FF /* CachedObjects.swift in Sources */,
 				01A1F59A2148DBC9002B9A93 /* Data.swift in Sources */,
 				0125879623442C0D0077D8B4 /* APIService+PayDay.swift in Sources */,
+				4E1C8342268407D700E1E061 /* APIAddressResponse.swift in Sources */,
 				01874B7820F82C98005A7D0C /* DeviceEndpoint.swift in Sources */,
 				13A48EBF25E380D2006403A4 /* APIProductCreateRequest.swift in Sources */,
 				013A32C12112AF4E00B0590B /* DateFormatter.swift in Sources */,
@@ -6337,6 +6395,7 @@
 				032F10B323DA7A5000F3BF01 /* CDREndpoint.swift in Sources */,
 				4EFB625725A3E0EC00930C95 /* APICreateCardRequest.swift in Sources */,
 				01EED86320E5A7EB00F4516B /* Network.swift in Sources */,
+				4E1C833E2684045300E1E061 /* Address+CoreDataProperties.swift in Sources */,
 				017F0FBA22DC543700ACE7BB /* Goals.swift in Sources */,
 				01236D1021EC02CC008DD61A /* APIService+Reports.swift in Sources */,
 				0159E4892193CBAD002CC3BB /* Account+CoreDataProperties.swift in Sources */,
@@ -6887,6 +6946,7 @@
 				4E6ADDBF25EB6A78005A5074 /* FrolloSDKDataModelMapping-1.5.1-1.5.2.xcmappingmodel in Sources */,
 				01E5BEF02227A475003D85FD /* Transaction+CoreDataProperties.swift in Sources */,
 				01E5BEF12227A475003D85FD /* TransactionCategory+CoreDataProperties.swift in Sources */,
+				4E1C83322682C4CE00E1E061 /* AddressManagement.swift in Sources */,
 				01E5BEF22227A475003D85FD /* FrolloSDKError.swift in Sources */,
 				4E6ADDC325EB6A78005A5074 /* FrolloSDKDataModel.xcdatamodeld in Sources */,
 				01E5BEF32227A475003D85FD /* MessageText+CoreDataProperties.swift in Sources */,
@@ -6947,6 +7007,7 @@
 				01E5BF082227A475003D85FD /* PreferencesPersistence.swift in Sources */,
 				01E5BF092227A475003D85FD /* BillPayment+CoreDataProperties.swift in Sources */,
 				01E5BF0A2227A475003D85FD /* ProviderAccount+CoreDataClass.swift in Sources */,
+				4E1C833C2684044300E1E061 /* Address+CoreDataClass.swift in Sources */,
 				4E8052F72579E4F90087C01A /* Contacts+CoreDataClass.swift in Sources */,
 				0125879A23442FAB0077D8B4 /* PayDayEndpoint.swift in Sources */,
 				034EDC98250F2FE100C48A57 /* ImagesEndpoint.swift in Sources */,
@@ -6959,6 +7020,7 @@
 				01E5BF0C2227A475003D85FD /* Bill+CoreDataProperties.swift in Sources */,
 				0125878F234412E10077D8B4 /* APIPayDayResponse.swift in Sources */,
 				01E5BF0D2227A475003D85FD /* APIService+Bills.swift in Sources */,
+				4E1C83352682E30800E1E061 /* APIService+Address.swift in Sources */,
 				13AC07752394CF5300982FB1 /* BudgetsEndPoint.swift in Sources */,
 				011586F2234567A200DE854A /* APIPayDayRequest.swift in Sources */,
 				01E5BF0E2227A475003D85FD /* ConsoleLogger.swift in Sources */,
@@ -7002,6 +7064,7 @@
 				1394CE6D252ED699009FCC2C /* APIBPAYPaymentRequest.swift in Sources */,
 				01E5BF272227A475003D85FD /* ProviderAccount+CoreDataProperties.swift in Sources */,
 				01E5BF292227A475003D85FD /* APIProviderAccountResponse.swift in Sources */,
+				4E1C8346268411FC00E1E061 /* APIPostAddressRequest.swift in Sources */,
 				1321545E2390B867001495A2 /* Budget+CoreDataProperties.swift in Sources */,
 				135B790225AFD5EB00BD3140 /* UserKYC.swift in Sources */,
 				135B78F825AFC33D00BD3140 /* APIService+KYC.swift in Sources */,
@@ -7025,6 +7088,7 @@
 				01E5BF332227A475003D85FD /* Messages.swift in Sources */,
 				01E5BF342227A475003D85FD /* APIMessageResponse.swift in Sources */,
 				01E5BF352227A475003D85FD /* FailableCodable.swift in Sources */,
+				4E1C83382682E99100E1E061 /* AddressEndpoint.swift in Sources */,
 				01E5BF362227A475003D85FD /* ProviderLoginFormViewModel.swift in Sources */,
 				4E805372257D85EC0087C01A /* PayIDContact+CoreDataClass.swift in Sources */,
 				01E5BF372227A475003D85FD /* APIUserResetPasswordRequest.swift in Sources */,
@@ -7083,6 +7147,7 @@
 				01E5BF522227A475003D85FD /* APIAccountBalanceReportResponse.swift in Sources */,
 				01E5BF532227A475003D85FD /* APITransactionUpdateRequest.swift in Sources */,
 				01E5BF542227A475003D85FD /* CachedObjects.swift in Sources */,
+				4E1C8343268407D700E1E061 /* APIAddressResponse.swift in Sources */,
 				0125879723442C0D0077D8B4 /* APIService+PayDay.swift in Sources */,
 				01E5BF552227A475003D85FD /* Data.swift in Sources */,
 				01E5BF562227A475003D85FD /* DeviceEndpoint.swift in Sources */,
@@ -7122,6 +7187,7 @@
 				01E5BF652227A475003D85FD /* APIBillsResponse.swift in Sources */,
 				032F10B423DA7A5000F3BF01 /* CDREndpoint.swift in Sources */,
 				4EFB625825A3E0EC00930C95 /* APICreateCardRequest.swift in Sources */,
+				4E1C833F2684045300E1E061 /* Address+CoreDataProperties.swift in Sources */,
 				01E5BF662227A475003D85FD /* APITransactionResponse.swift in Sources */,
 				017F0FBB22DC543700ACE7BB /* Goals.swift in Sources */,
 				01E5BF672227A475003D85FD /* Network.swift in Sources */,

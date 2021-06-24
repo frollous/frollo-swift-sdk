@@ -31,6 +31,7 @@ struct APIUserUpdateRequest: Codable {
         case industry
         case lastName = "last_name"
         case mailingAddress = "mailing_address"
+        case previousAddress = "previous_address"
         case mobileNumber = "mobile_number"
         case occupation
         case primaryCurrency = "primary_currency"
@@ -59,8 +60,9 @@ struct APIUserUpdateRequest: Codable {
     
     let email: String
     let primaryCurrency: String
-    let address: Address?
-    let mailingAddress: Address?
+    let address: User.UserAddress?
+    let mailingAddress: User.UserAddress?
+    let previousAddress: User.UserAddress?
     let attribution: Attribution?
     let dateOfBirth: Date?
     let firstName: String?
