@@ -29,7 +29,7 @@ struct APIUserUpdateRequest: Codable {
         case householdType = "marital_status"
         case industry
         case lastName = "last_name"
-        case residensialAddressID = "residensial_address_id"
+        case residensialAddressID = "residential_address_id"
         case mailingAddressID = "mailing_address_id"
         case mobileNumber = "mobile_number"
         case occupation
