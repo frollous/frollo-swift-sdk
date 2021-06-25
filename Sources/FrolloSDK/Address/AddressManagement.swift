@@ -33,19 +33,13 @@ public class AddressManagement: CachedObjects, ResponseHandler {
         self.database = database
         self.service = service
     }
-    
+
     /**
-     Fetch all the addresses on the user
-     
-     - parameters:
-     - completion: Completion handler with any error that occurred
-     */
-    /**
-     Fetch cards from the cache
+     Fetch adresses from the cache
      - Parameters:
      - context: Managed object context to fetch these from; background or main thread
      - predicate: Predicate of properties to match for fetching. See `Address` for properties (Optional)
-     - sortDescriptors: Array of sort descriptors to sort the results by. Defaults to cardID ascending (Optional)
+     - sortDescriptors: Array of sort descriptors to sort the results by. Defaults to addressID ascending (Optional)
      - limit: Fetch limit to set maximum number of returned items (Optional)
      - Returns: Array of cards See `Address` for properties
      */

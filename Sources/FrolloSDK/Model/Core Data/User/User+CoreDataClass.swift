@@ -237,15 +237,15 @@ public class User: NSManagedObject {
     public struct UserAddress: Codable {
         
         enum CodingKeys: String, CodingKey {
-            /// Address ID
             case id
-            
-            /// Long form of the address
             case longForm = "long_form"
             
         }
-        
+
+        /// Address ID
         public var id: Int64
+
+        /// Long form of the address
         public let longForm: String
     }
     

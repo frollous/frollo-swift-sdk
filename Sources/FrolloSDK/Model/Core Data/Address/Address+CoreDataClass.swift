@@ -19,7 +19,7 @@ import Foundation
 import SwiftyJSON
 
 /**
- Card
+ Address
  
  Core Data represenation of an Address
  */
