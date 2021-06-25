@@ -20,7 +20,6 @@ struct APIUserUpdateRequest: Codable {
     
     enum CodingKeys: String, CodingKey {
         case attribution
-        case address
         case dateOfBirth = "date_of_birth"
         case email
         case firstName = "first_name"
@@ -30,9 +29,11 @@ struct APIUserUpdateRequest: Codable {
         case householdType = "marital_status"
         case industry
         case lastName = "last_name"
-        case mailingAddress = "mailing_address"
+        case residensialAddressID = "residential_address_id"
+        case mailingAddressID = "mailing_address_id"
         case mobileNumber = "mobile_number"
         case occupation
+        case previousAddressID = "previous_address_id"
         case primaryCurrency = "primary_currency"
         case taxResidency = "tax_residency"
         case tfn
@@ -59,8 +60,9 @@ struct APIUserUpdateRequest: Codable {
     
     let email: String
     let primaryCurrency: String
-    let address: Address?
-    let mailingAddress: Address?
+    let residensialAddressID: Int64?
+    let mailingAddressID: Int64?
+    let previousAddressID: Int64?
     let attribution: Attribution?
     let dateOfBirth: Date?
     let firstName: String?

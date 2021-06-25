@@ -20,7 +20,7 @@ struct APIUserResponse: Codable {
     
     enum CodingKeys: String, CodingKey {
         
-        case address
+        case address = "residential_address"
         case attribution
         case dateOfBirth = "date_of_birth"
         case email
@@ -36,6 +36,7 @@ struct APIUserResponse: Codable {
         case lastName = "last_name"
         case mailingAddress = "mailing_address"
         case mobileNumber = "mobile_number"
+        case previousAddress = "previous_address"
         case occupation
         case primaryCurrency = "primary_currency"
         case registerSteps = "register_steps"
@@ -72,8 +73,9 @@ struct APIUserResponse: Codable {
     let status: User.Status
     let userID: Int64
     let validPassword: Bool
-    let address: Address?
-    let mailingAddress: Address?
+    let address: User.UserAddress?
+    let mailingAddress: User.UserAddress?
+    let previousAddress: User.UserAddress?
     let attribution: Attribution?
     let dateOfBirth: Date?
     let facebookID: String?

@@ -12,34 +12,18 @@
     "tax_residency": "AU",
     "foreign_tax": false,
     "tin": "12345",
-	"address": {
-        "building_name": "100 Mount",
-        "unit_number": "Unit 3, Level 33",
-        "street_number": "100",
-        "street_name": "Mount",
-        "street_type": "street",
-        "suburb": "North Sydney",
-        "town": "Sydney",
-        "region": "Greater Sydney",
-        "state": "NSW",
-        "country": "AU",
-        "postal_code": "2060",
+	"residential_address": {
+        "id": 0,
         "long_form": "Frollo, Level 33, 100 Mount St, North Sydney, NSW, 2060, Australia"
 	},
     "mailing_address": {
-        "building_name": "100 Mount",
-        "unit_number": "Unit 3, Level 33",
-        "street_number": "100",
-        "street_name": "Mount",
-        "street_type": "street",
-        "suburb": "North Sydney",
-        "town": "Sydney",
-        "region": "Greater Sydney",
-        "state": "NSW",
-        "country": "AU",
-        "postal_code": "2060",
-        "long_form": "Frollo, Level 33, 100 Mount St, North Sydney, NSW, 2060, Australia"
-      },
+        "id": 1,
+        "long_form": "U 1 33 Harrow Road, Bexley, NSW, 2216"
+    },
+    "previous_address": {
+        "id": 2,
+        "long_form": "U 5 21 Hampton Court Road, Carlton, NSW, 2218"
+    },
 	"attribution": {
 		"ad_group": "ADGROUP1",
 		"campaign": "CAMPAIGN1",

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20D74" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.7.6">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D91" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.7.6">
     <entity name="Account" representedClassName="FrolloSDK.Account" syncable="YES">
         <attribute name="accountHolderName" optional="YES" attributeType="String"/>
         <attribute name="accountID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
@@ -80,6 +80,26 @@
         <attribute name="minimum" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="balanceTiers" inverseEntity="Account"/>
+    </entity>
+    <entity name="Address" representedClassName="FrolloSDK.Address" syncable="YES">
+        <attribute name="addressID" attributeType="Integer 64" minValueString="-1" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="buildingName" optional="YES" attributeType="String"/>
+        <attribute name="country" optional="YES" attributeType="String"/>
+        <attribute name="longForm" optional="YES" attributeType="String"/>
+        <attribute name="postcode" optional="YES" attributeType="String"/>
+        <attribute name="region" optional="YES" attributeType="String"/>
+        <attribute name="state" optional="YES" attributeType="String"/>
+        <attribute name="streetName" optional="YES" attributeType="String"/>
+        <attribute name="streetNumber" optional="YES" attributeType="String"/>
+        <attribute name="streetType" optional="YES" attributeType="String"/>
+        <attribute name="suburb" optional="YES" attributeType="String"/>
+        <attribute name="town" optional="YES" attributeType="String"/>
+        <attribute name="unitNumber" optional="YES" attributeType="String"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="addressID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="Bill" representedClassName="FrolloSDK.Bill" syncable="YES">
         <attribute name="accountID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -614,6 +634,7 @@
         <attribute name="mailingAddressRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="mobileNumber" optional="YES" attributeType="String"/>
         <attribute name="occupationRawValue" optional="YES" attributeType="String"/>
+        <attribute name="previousAddressRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="primaryCurrency" attributeType="String"/>
         <attribute name="registerStepsRawValue" optional="YES" attributeType="Binary"/>
         <attribute name="statusRawValue" attributeType="String" defaultValueString="registered"/>
@@ -631,6 +652,7 @@
     <elements>
         <element name="Account" positionX="56.68359375" positionY="17.46484375" width="128" height="914"/>
         <element name="AccountBalanceTier" positionX="57.90234375" positionY="768.3125" width="128" height="89"/>
+        <element name="Address" positionX="-378" positionY="171" width="128" height="224"/>
         <element name="Bill" positionX="-378" positionY="162" width="128" height="359"/>
         <element name="BillPayment" positionX="-378" positionY="162" width="128" height="164"/>
         <element name="BPAYContact" positionX="-360" positionY="180" width="128" height="89"/>
@@ -660,6 +682,6 @@
         <element name="Tag" positionX="283.4609375" positionY="696.9375" width="128" height="89"/>
         <element name="Transaction" positionX="277.71484375" positionY="20.28125" width="128" height="599"/>
         <element name="TransactionCategory" positionX="507.08203125" positionY="227.6484375" width="128" height="164"/>
-        <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="464"/>
+        <element name="User" positionX="-583.6328125" positionY="8.46484375" width="128" height="479"/>
     </elements>
 </model>

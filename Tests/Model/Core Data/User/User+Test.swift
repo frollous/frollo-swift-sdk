@@ -34,8 +34,9 @@ extension User: TestableCoreData {
         primaryCurrency = "AUD"
         gender = .male
         dateOfBirth = date
-        address = Address.getTestAddress()
-        mailingAddress = Address.getTestAddress()
+        address = User.UserAddress(id: 0, longForm: "")
+        mailingAddress = User.UserAddress(id: 1, longForm: "")
+        previousAddress = User.UserAddress(id: 2, longForm: "")
         mobileNumber = "0412345678"
         householdType = .single
         householdSize = 1

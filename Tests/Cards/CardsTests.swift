@@ -64,7 +64,7 @@ class CardsTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
 
-            self.cards.createCard(accountID: 325, firstName: "Jacob", lastName: "Smith", streetNumber: "41-45", streetName: "Belmore Street", streetType: "Street", postalAddressSuburb: "Mock Suburb", postalCode: "123456", postalAddressState: "NSW", postalAddressCountry: "Australia") { (result) in
+            self.cards.createCard(accountID: 325, firstName: "Jacob", lastName: "Smith", addressID: 0) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -111,7 +111,7 @@ class CardsTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
 
-            self.cards.createCard(accountID: 325, firstName: "Jacob", lastName: "Smith", streetNumber: "41-45", streetName: "Belmore Street", streetType: "Street", postalAddressSuburb: "Mock Suburb", postalCode: "123456", postalAddressState: "NSW", postalAddressCountry: "Australia") { (result) in
+            self.cards.createCard(accountID: 325, firstName: "Jacob", lastName: "Smith", addressID: 1) { (result) in
                 switch result {
                 case .failure(let error):
                     XCTAssertTrue(error is DataError)

@@ -267,28 +267,6 @@ extension APIService {
         }
     }
     
-    internal func addressAutocomplete(query: String, max: Int, completion: @escaping RequestCompletion<[AddressAutocomplete]>) {
-        requestQueue.async {
-            let url = URL(string: UserEndpoint.addressesAutocomplete.path, relativeTo: self.serverURL)!
-            
-            let parameters = [UserEndpoint.QueryParameters.query.rawValue: query, UserEndpoint.QueryParameters.max.rawValue: String(max)]
-            
-            self.network.sessionManager.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleArrayResponse(type: AddressAutocomplete.self, errorType: APIError.self, response: response, completion: completion)
-            }
-        }
-    }
-    
-    internal func getAddress(addressID: String, completion: @escaping RequestCompletion<Address>) {
-        requestQueue.async {
-            let url = URL(string: UserEndpoint.address(addressID: addressID).path, relativeTo: self.serverURL)!
-            
-            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
-                self.network.handleResponse(type: Address.self, errorType: APIError.self, response: response, completion: completion)
-            }
-        }
-    }
-    
     // MARK: - Response Handling
     
     private func handleUserResponse(response: DataResponse<Data, AFError>, completion: UserRequestCompletion) {
