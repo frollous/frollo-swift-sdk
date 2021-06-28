@@ -247,6 +247,18 @@ public class User: NSManagedObject {
 
         /// Long form of the address
         public let longForm: String
+
+        /**
+         Initilizer
+
+         - Parameters:
+         - id: ID of the address
+         - longForm: Long form of the address
+         */
+        public init(id: Int64, longForm: String = "") {
+            self.id = id
+            self.longForm = longForm
+        }
     }
     
     /// Core Data entity description name
