@@ -33,7 +33,7 @@ public class AddressManagement: CachedObjects, ResponseHandler {
         self.database = database
         self.service = service
     }
-
+    
     /**
      Fetch adresses from the cache
      - Parameters:
@@ -135,7 +135,7 @@ public class AddressManagement: CachedObjects, ResponseHandler {
      - postcode: postcode of the Address. (Optional)
      - completion: Optional completion handler with optional error if the request fails & ID of address if request succeeds
      */
-    public func createAddress(unitNumber: String?, buildingName: String?, streetNumber: String?, streetName: String?, streetType: String?, suburb: String?, town: String?, region: String?, state: String?, country: String, postcode: String, completion: FrolloSDKObjectCompletionHandler? = nil) {
+    public func createAddress(unitNumber: String?, buildingName: String?, streetNumber: String?, streetName: String?, streetType: String?, suburb: String?, town: String?, region: String?, state: String?, country: String, postcode: String, completion: FrolloSDKAddressCompletionHandler? = nil) {
         
         let request = APIPostAddressRequest(buildingName: buildingName, unitNumber: unitNumber, streetNumber: streetNumber, streetName: streetName, streetType: streetType, suburb: suburb, town: town, region: region, state: state, country: country, postcode: postcode)
         
@@ -153,7 +153,7 @@ public class AddressManagement: CachedObjects, ResponseHandler {
                     self.handleAddressResponse(response, managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
-                        completion?(.success(response.id))
+                        completion?(.success((response.id, response.longForm)))
                     }
             }
         }
@@ -177,7 +177,7 @@ public class AddressManagement: CachedObjects, ResponseHandler {
      - postcode: postcode of the Address. (Optional)
      - completion: Optional completion handler with optional error if the request fails
      */
-    public func updateAddress(addressID: Int64, unitNumber: String?, buildingName: String?, streetNumber: String?, streetName: String?, streetType: String?, suburb: String?, town: String?, region: String?, state: String?, country: String, postcode: String, completion: FrolloSDKCompletionHandler? = nil) {
+    public func updateAddress(addressID: Int64, unitNumber: String?, buildingName: String?, streetNumber: String?, streetName: String?, streetType: String?, suburb: String?, town: String?, region: String?, state: String?, country: String, postcode: String, completion: FrolloSDKAddressCompletionHandler? = nil) {
         
         let request = APIPostAddressRequest(buildingName: buildingName, unitNumber: unitNumber, streetNumber: streetNumber, streetName: streetName, streetType: streetType, suburb: suburb, town: town, region: region, state: state, country: country, postcode: postcode)
         
@@ -195,7 +195,7 @@ public class AddressManagement: CachedObjects, ResponseHandler {
                     self.handleAddressResponse(response, managedObjectContext: managedObjectContext)
                     
                     DispatchQueue.main.async {
-                        completion?(.success)
+                        completion?(.success((response.id, response.longForm)))
                     }
             }
         }

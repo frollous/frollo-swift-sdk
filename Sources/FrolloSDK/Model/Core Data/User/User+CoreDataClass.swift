@@ -241,16 +241,16 @@ public class User: NSManagedObject {
             case longForm = "long_form"
             
         }
-
+        
         /// Address ID
         public var id: Int64
-
+        
         /// Long form of the address
         public let longForm: String
-
+        
         /**
          Initilizer
-
+         
          - Parameters:
          - id: ID of the address
          - longForm: Long form of the address

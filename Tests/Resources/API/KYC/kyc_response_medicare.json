@@ -11,20 +11,6 @@
   "date_of_birth": {
     "date_of_birth": "1950-01-01"
   },
-  "addresses": [
-    {
-      "address_id": "78deb8c1-c7eb-e588-b36a-4e3547187227",
-      "address_type": "RESIDENTIAL1",
-      "country": "AUS",
-      "postal_code": "3156",
-      "state": "VIC",
-      "street_name": "CONN",
-      "street_number": "35",
-      "street_type": "STREET",
-      "town": "FERNTREE GULLY",
-      "unit_number": "U 1"
-    }
-  ],
   "identity_docs": [
     {
       "document_id": "66c7bbea-5b12-fd8b-d6db-1e76592a1520",
