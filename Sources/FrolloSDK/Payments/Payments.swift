@@ -291,4 +291,32 @@ public class Payments: ResponseHandler {
         }
     }
     
+    /**
+     Verify BPAY
+     
+     - parameters:
+     - billerCode: Biller code
+     - crn: CRN of the biller
+     - completion: Optional completion handler with `VerifyPayIDResponse` result if succeeds and error if the request fails
+     */
+    public func verifyBPAY(billerCode: String, crn: String, completion: @escaping (Result<VerifyBPAYResponse, Error>) -> Void) {
+        
+        let request = APIVerifyBPAYRequest(billerCode: billerCode, crn: crn)
+        
+        service.verifyBPAY(request: request) { result in
+            switch result {
+                case .failure(let error):
+                    error.logError()
+                    
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                case .success(let response):
+                    
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+            }
+        }
+    }
 }
