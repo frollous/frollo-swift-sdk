@@ -1,41 +1,4 @@
 {
-  "addresses": [
-    {
-      "country": "AU",
-      "suburb": "North Sydney",
-      "region": "NSW"
-    },
-    {
-      "country": "AU",
-      "town": "Sydney",
-      "street_number": "100",
-      "address_id": "FrolloAddressID",
-      "unit_number": "33",
-      "suburb": "North Sydney",
-      "state": "NSW",
-      "address_type": "BUSINESS",
-      "region": "Greater Sydney",
-      "long_form": "100 Mount Street, North Sydney, NSW",
-      "street_type": "Street",
-      "street_name": "Mount"
-    },
-    {
-      "country": "AU",
-      "postal_code": "2217",
-      "street_type": "Street",
-      "address_id": "ResStreet",
-      "state": "NSW",
-      "address_type": "RESIDENTIAL1",
-      "building_name": "voluptate",
-      "street_number": "2",
-      "suburb": "Carlton",
-      "region": "Carlton",
-      "town": "Sydney",
-      "street_name": "Beaconsfield",
-      "unit_number": "1",
-      "long_form": "20 beaconsfield street, Carlton, 2217, NSW"
-    }
-  ],
   "date_of_birth": {
     "year_of_birth": "1991",
     "date_of_birth": "1991-01-01"

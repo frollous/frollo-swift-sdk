@@ -46,7 +46,6 @@ public class UserKYC: Codable {
     
     /// initilizer
     public init(addresses: [Address]? = nil, dateOfBirth: DateOfBirth? = nil, email: String? = nil, gender: String? = nil, mobileNumber: String? = nil, name: Name? = nil, identityDocuments: [IdentityDocument]? = nil, status: KYCStatus? = nil) {
-//        self.addresses = addresses
         self.dateOfBirth = dateOfBirth
         self.email = email
         self.gender = gender
@@ -57,7 +56,6 @@ public class UserKYC: Codable {
     }
     
     private enum CodingKeys: String, CodingKey {
-//        case addresses
         case dateOfBirth = "date_of_birth"
         case email
         case gender

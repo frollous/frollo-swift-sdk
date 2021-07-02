@@ -25,6 +25,9 @@ public typealias PaginationInfoWithData<T> = (before: String?, after: String?, t
 /// Paginated Completion Handler with `PaginationInfoWithData` and optional error if an issue occurs
 public typealias PaginatedDataCompletionHandler<T> = (Result<PaginationInfoWithData<T>, Error>) -> Void
 
+/// Frollo SDK Completion Handler with tuple of Address ID and long form if success and optional error if an issue occurs
+public typealias FrolloSDKAddressCompletionHandler = (Result<(Int64, String?), Error>) -> Void
+
 /// Frollo SDK manager and main instantiation. Responsible for managing the lifecycle and coordination of the SDK
 public class Frollo: OAuth2AuthenticationDelegate, UserManagementDelegate {
     
