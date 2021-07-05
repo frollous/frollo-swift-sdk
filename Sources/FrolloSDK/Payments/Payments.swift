@@ -299,7 +299,7 @@ public class Payments: ResponseHandler {
      - crn: CRN of the biller
      - completion: Optional completion handler with `VerifyPayIDResponse` result if succeeds and error if the request fails
      */
-    public func verifyBPAY(billerCode: String, crn: String, completion: @escaping (Result<VerifyBPAYResponse, Error>) -> Void) {
+    public func verifyBPAY(billerCode: String, crn: String?, completion: @escaping (Result<VerifyBPAYResponse, Error>) -> Void) {
         
         let request = APIVerifyBPAYRequest(billerCode: billerCode, crn: crn)
         
