@@ -39,14 +39,14 @@ public struct VerifyBPAYResponse: Codable {
     public let billerCode: String
     
     /// The name of the biller
-    public let billerName: String
+    public let billerName: String?
     
     /// The CRN of the biller
-    public let crn: String
+    public let crn: String?
     
     /// The minimum payment amount of this biller
-    public let billerMinAmount: String
+    public let billerMinAmount: String?
     
     /// The maximum payment amount of this biller
-    public let billerMaxAmount: String
+    public let billerMaxAmount: String?
 }
