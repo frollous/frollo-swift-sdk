@@ -36,7 +36,7 @@ public struct VerifyBPAYResponse: Codable {
     public let valid: Bool
     
     /// The code of the biller
-    public let billerCode: String
+    public let billerCode: String?
     
     /// The name of the biller
     public let billerName: String?

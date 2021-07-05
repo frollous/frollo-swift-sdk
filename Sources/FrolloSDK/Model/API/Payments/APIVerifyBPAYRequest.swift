@@ -24,6 +24,6 @@ struct APIVerifyBPAYRequest: Codable {
     }
     
     let billerCode: String
-    let crn: String
+    let crn: String?
     
 }
