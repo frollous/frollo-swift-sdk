@@ -1,0 +1,10 @@
+{
+  "id": 1,
+  "account_id": 5182,
+  "status": "active",
+  "design_type": "default",
+  "created_at": "2021-01-04T12:25:14.872+11:00",
+  "name": "My Card Name",
+  "nick_name": "Ciao card 2",
+  "pin_set_at": "2021-04-07"
+}

@@ -1,0 +1,8 @@
+{
+  "biller_code": "123456",
+  "crn": "98765432122232",
+  "amount": "542.37",
+  "source_account_id": 42,
+  "payment_date": "2020-12-25",
+  "reference": "Visible to customer"
+}

@@ -33,7 +33,9 @@ extension APIUserResponse {
                                status: .active,
                                userID: Int64(arc4random()),
                                validPassword: true,
-                               address: Address(line1: "41 McLaren Street", line2: "Frollo Level 1", postcode: "2060", suburb: "North Sydney"),
+                               address: User.UserAddress(id: 0, longForm: ""),
+                               mailingAddress: User.UserAddress(id: 1, longForm: ""),
+                               previousAddress: User.UserAddress(id: 2, longForm: ""),
                                attribution: Attribution(adGroup: String.randomString(range: 1...10), campaign: String.randomString(range: 1...10), creative: String.randomString(range: 1...10), network: String.randomString(range: 1...10)),
                                dateOfBirth: date,
                                facebookID: String(arc4random()),
@@ -46,8 +48,12 @@ extension APIUserResponse {
                                lastName: UUID().uuidString,
                                mobileNumber: "0412345678",
                                occupation: .communityAndPersonalServiceWorkers,
-                               previousAddress: Address(line1: "Bay 9 Middlemiss St", line2: "Frollo Unit 13", postcode: "2060", suburb: "Lavender Bay"),
-                               registerComplete: Bool.random())
+                               registerSteps: [User.RegisterStep(key: "survey", index: 0, required: true, completed: false), User.RegisterStep(key: "kyc", index: 1, required: true, completed: false)],
+                               tfn: "12345678",
+                               taxResidency: "AU",
+                               foreignTax: false,
+                               tin: "12345",
+                               externalID: "123456")
     }
     
 }

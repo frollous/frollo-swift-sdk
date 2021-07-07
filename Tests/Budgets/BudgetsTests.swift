@@ -19,6 +19,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class BudgetsTests: BaseTestCase {
     
@@ -43,7 +46,7 @@ class BudgetsTests: BaseTestCase {
     }
     
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
     
@@ -136,7 +139,7 @@ class BudgetsTests: BaseTestCase {
                 testBudget1.frequency = .weekly
                 testBudget1.status = .failed
                 testBudget1.budgetType = .merchant
-                testBudget1.trackingStatus = .ahead
+                testBudget1.trackingStatus = .above
                 testBudget1.isCurrent = true
                 
                 let testBudget2 = Budget(context: managedObjectContext)
@@ -144,7 +147,7 @@ class BudgetsTests: BaseTestCase {
                 testBudget2.frequency = .monthly
                 testBudget2.status = .active
                 testBudget2.budgetType = .category
-                testBudget2.trackingStatus = .behind
+                testBudget2.trackingStatus = .below
                 testBudget2.isCurrent = false
                 
                 let testBudget3 = Budget(context: managedObjectContext)
@@ -152,13 +155,13 @@ class BudgetsTests: BaseTestCase {
                 testBudget3.frequency = .weekly
                 testBudget3.status = .failed
                 testBudget3.budgetType = .budgetCategory
-                testBudget3.trackingStatus = .ahead
+                testBudget3.trackingStatus = .above
                 testBudget3.isCurrent = true
                 
                 try! managedObjectContext.save()
             }
             
-            let fetchedBudgets = self.budgets.budgets(context: self.database.viewContext, current: false, budgetType: .category, frequency: .monthly, status: .active, trackingStatus: .behind)
+            let fetchedBudgets = self.budgets.budgets(context: self.database.viewContext, current: false, budgetType: .category, frequency: .monthly, status: .active, trackingStatus: .below)
             
             XCTAssertNotNil(fetchedBudgets)
             XCTAssertEqual(fetchedBudgets?.count, 1)
@@ -197,7 +200,7 @@ class BudgetsTests: BaseTestCase {
             }
             
             let predicate = NSPredicate(format: #keyPath(Budget.frequencyRawValue) + " == %@", argumentArray: [Budget.Frequency.daily.rawValue])
-            let fetchedResultsController = self.budgets.budgetsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
+            let fetchedResultsController = self.budgets.budgetsFetchedResultsController(context: managedObjectContext, trackingType: .debitCredit, filteredBy: predicate)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -229,7 +232,7 @@ class BudgetsTests: BaseTestCase {
                 testBudget1.isCurrent = true
                 testBudget1.frequency = .monthly
                 testBudget1.status = .active
-                testBudget1.trackingStatus = .onTrack
+                testBudget1.trackingStatus = .equal
                 testBudget1.budgetType = .category
                 
                 let testBudget2 = Budget(context: managedObjectContext)
@@ -237,7 +240,7 @@ class BudgetsTests: BaseTestCase {
                 testBudget2.isCurrent = true
                 testBudget2.frequency = .monthly
                 testBudget2.status = .active
-                testBudget2.trackingStatus = .onTrack
+                testBudget2.trackingStatus = .equal
                 testBudget2.budgetType = .category
                 
                 let testBudget3 = Budget(context: managedObjectContext)
@@ -245,13 +248,13 @@ class BudgetsTests: BaseTestCase {
                 testBudget3.isCurrent = true
                 testBudget3.frequency = .annually
                 testBudget3.status = .completed
-                testBudget3.trackingStatus = .ahead
+                testBudget3.trackingStatus = .above
                 testBudget3.budgetType = .category
                 
                 try! managedObjectContext.save()
             }
             
-            let fetchedResultsController = self.budgets.budgetsFetchedResultsController(context: self.database.viewContext, current: true, budgetType: .category, frequency: .annually, status: .completed, trackingStatus: .ahead)
+            let fetchedResultsController = self.budgets.budgetsFetchedResultsController(context: self.database.viewContext, current: true, budgetType: .category, frequency: .annually, status: .completed, trackingStatus: .above, trackingType: .debitCredit)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -308,6 +311,34 @@ class BudgetsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testRefreshBudgetByIDFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.budget(budgetID: 4).path.prefixedWithSlash, toResourceWithName: "budget_valid_4", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.budgets.refreshBudget(budgetID: 4) { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testRefreshBudgets() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -345,10 +376,104 @@ class BudgetsTests: BaseTestCase {
                             XCTAssertEqual(budget.status, .active)
                             XCTAssertEqual(budget.typeValue, "lifestyle")
                             XCTAssertEqual(budget.imageURLString, "http://www.example.com/image/image_1.png")
-                            XCTAssertEqual(budget.trackingStatus, .ahead)
+                            XCTAssertEqual(budget.trackingStatus, .above)
                             XCTAssertEqual(budget.budgetType, .category)
+                            XCTAssertEqual(budget.periods?.first?.budgetPeriodID, 94)
+                                                        
                         } catch {
                             XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testRefreshBudgetsFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "budgets_valid", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.budgets.refreshBudgets() { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testCreateAccountBudget() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "account_budget", addingStatusCode: 201)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.budgets.createBudgetCategoryBudget(budgetCategory: .lifestyle, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png") { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = self.database.viewContext
+                        
+                        let fetchRequest: NSFetchRequest<Budget> = Budget.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [4])
+                        
+                        do {
+                            let fetchedBudgets = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedBudgets.first?.budgetID, 4)
+                            XCTAssertEqual(fetchedBudgets.first?.typeValue, "223")
+                            XCTAssertEqual(fetchedBudgets.first?.budgetType, .account)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testCreateInvalidBudget() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.budgets.path.prefixedWithSlash, toResourceWithName: "account_budget", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.budgets.createBudgetCategoryBudget(budgetCategory: .lifestyle, frequency: .weekly, periodAmount: 100, imageURL: "http://www.example.com/image/image_1.png") { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
                         }
                 }
                 
@@ -407,11 +532,12 @@ class BudgetsTests: BaseTestCase {
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
-                    case .success:
+                    case .success(let budgetID):
                         let context = self.database.viewContext
+                        XCTAssertEqual(budgetID, 4)
                         
                         let fetchRequest: NSFetchRequest<Budget> = Budget.fetchRequest()
-                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [4])
+                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [budgetID])
                         
                         do {
                             let fetchedBudgets = try context.fetch(fetchRequest)
@@ -443,11 +569,12 @@ class BudgetsTests: BaseTestCase {
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
-                    case .success:
+                    case .success(let budgetID):
                         let context = self.database.viewContext
+                        XCTAssertEqual(budgetID, 4)
                         
                         let fetchRequest: NSFetchRequest<Budget> = Budget.fetchRequest()
-                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [4])
+                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [budgetID])
                         
                         do {
                             let fetchedBudgets = try context.fetch(fetchRequest)
@@ -501,6 +628,44 @@ class BudgetsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testDeleteBudgetFail() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: BudgetsEndpoint.budget(budgetID: 4).path.prefixedWithSlash, addingData: Data(), addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let budget = Budget(context: managedObjectContext)
+                budget.populateTestData()
+                budget.budgetID = 4
+                
+                try? managedObjectContext.save()
+            }
+            
+            self.budgets.deleteBudget(budgetID: 4) { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testUpdateBudget() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -523,11 +688,12 @@ class BudgetsTests: BaseTestCase {
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
-                    case .success:
+                    case .success(let budgetID):
                         let context = self.database.viewContext
+                        XCTAssertEqual(budgetID, 4)
                         
                         let fetchRequest: NSFetchRequest<Budget> = Budget.fetchRequest()
-                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [4])
+                        fetchRequest.predicate = NSPredicate(format: "budgetID == %ld", argumentArray: [budgetID])
                         
                         do {
                             let fetchedBudgets = try context.fetch(fetchRequest)
@@ -536,6 +702,58 @@ class BudgetsTests: BaseTestCase {
                             XCTAssertEqual(fetchedBudgets.first?.startDateString, "2019-10-02")
                         } catch {
                             XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testUpdateBudgetEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.budget(budgetID: 4).path.prefixedWithSlash, toResourceWithName: "budget_valid_4")
+        
+        let keychain = defaultKeychain(isNetwork: true)
+        
+        let authentication = defaultAuthentication(keychain: keychain)
+        let network = defaultNetwork(keychain: keychain, authentication: authentication)
+        let service = invalidService(keychain: keychain)
+        
+        let authService = defaultAuthService(keychain: keychain, network: network)
+        
+        let oAuth2Authentication = OAuth2Authentication(keychain: keychain, clientID: config.clientID, redirectURL: FrolloSDKConfiguration.redirectURL, serverURL: config.serverEndpoint, authService: authService, preferences: preferences, delegate: nil)
+        oAuth2Authentication.loggedIn = true
+        aggregation = Aggregation(database: database, service: service)
+        
+        budgets = Budgets(database: database, service: service)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let context = self.database.newBackgroundContext()
+            
+            context.performAndWait {
+                let budget = Budget(context: context)
+                budget.populateTestData()
+                budget.budgetID = 4
+                
+                try? context.save()
+            }
+            
+            self.budgets.updateBudget(budgetID: 4) { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, .api)
+                            XCTAssertEqual(error.subType, .invalidData)
+                        } else {
+                            XCTFail("Not correct error type")
                         }
                 }
                 
@@ -589,21 +807,21 @@ class BudgetsTests: BaseTestCase {
             managedObjectContext.performAndWait {
                 let testBudgetPeriod1 = BudgetPeriod(context: managedObjectContext)
                 testBudgetPeriod1.populateTestData()
-                testBudgetPeriod1.trackingStatus = .behind
+                testBudgetPeriod1.trackingStatus = .below
                 
                 let testBudgetPeriod2 = BudgetPeriod(context: managedObjectContext)
                 testBudgetPeriod2.populateTestData()
-                testBudgetPeriod2.trackingStatus = .ahead
+                testBudgetPeriod2.trackingStatus = .above
                 
                 let testBudgetPeriod3 = BudgetPeriod(context: managedObjectContext)
                 testBudgetPeriod3.populateTestData()
-                testBudgetPeriod3.trackingStatus = .behind
+                testBudgetPeriod3.trackingStatus = .below
                 
                 try! managedObjectContext.save()
             }
             
             
-            let predicate = NSPredicate(format: #keyPath(BudgetPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Budget.TrackingStatus.behind.rawValue])
+            let predicate = NSPredicate(format: #keyPath(BudgetPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Budget.TrackingStatus.below.rawValue])
             let fetchedBudgetPeriods = self.budgets.budgetPeriods(context: self.database.viewContext, filteredBy: predicate)
             
             XCTAssertNotNil(fetchedBudgetPeriods)
@@ -626,20 +844,20 @@ class BudgetsTests: BaseTestCase {
             managedObjectContext.performAndWait {
                 let testBudgetPeriod1 = BudgetPeriod(context: managedObjectContext)
                 testBudgetPeriod1.populateTestData()
-                testBudgetPeriod1.trackingStatus = .ahead
+                testBudgetPeriod1.trackingStatus = .above
                 
                 let testBudgetPeriod2 = BudgetPeriod(context: managedObjectContext)
                 testBudgetPeriod2.populateTestData()
-                testBudgetPeriod2.trackingStatus = .onTrack
+                testBudgetPeriod2.trackingStatus = .equal
                 
                 let testBudgetPeriod3 = BudgetPeriod(context: managedObjectContext)
                 testBudgetPeriod3.populateTestData()
-                testBudgetPeriod3.trackingStatus = .onTrack
+                testBudgetPeriod3.trackingStatus = .equal
                 
                 try! managedObjectContext.save()
             }
             
-            let predicate = NSPredicate(format: #keyPath(BudgetPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Budget.TrackingStatus.onTrack.rawValue])
+            let predicate = NSPredicate(format: #keyPath(BudgetPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Budget.TrackingStatus.equal.rawValue])
             let fetchedResultsController = self.budgets.budgetPeriodsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
             
             do {
@@ -667,8 +885,8 @@ class BudgetsTests: BaseTestCase {
         database.setup { (error) in
             XCTAssertNil(error)
             
-            let fromDate = Budget.budgetDateFormatter.date(from: "2019-11-21")!
-            let toDate = Budget.budgetDateFormatter.date(from: "2019-12-05")!
+            let fromDate = BudgetPeriod.budgetPeriodDateFormatter.date(from: "2019-11-21")!
+            let toDate = BudgetPeriod.budgetPeriodDateFormatter.date(from: "2019-12-05")!
             
             self.budgets.refreshBudgetPeriods(budgetID: 4, from: fromDate, to: toDate) { (result) in
                 switch result {
@@ -693,10 +911,10 @@ class BudgetsTests: BaseTestCase {
                                 XCTAssertEqual(budgetPeriod.requiredAmount, 173.5)
                                 XCTAssertEqual(budgetPeriod.startDateString, "2019-11-21")
                                 XCTAssertEqual(budgetPeriod.targetAmount, 15.62)
-                                XCTAssertEqual(budgetPeriod.trackingStatus, .behind)
+                                XCTAssertEqual(budgetPeriod.trackingStatus, .below)
                                 XCTAssertEqual(budgetPeriod.index, 50)
                             } else {
-                                XCTFail("Budget Period missing")
+                                XCTFail("Budget Periods missing")
                             }
                         } catch {
                             XCTFail(error.localizedDescription)
@@ -708,6 +926,170 @@ class BudgetsTests: BaseTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testRefreshBudgetPeriodsFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.periods(budgetID: 4).path.prefixedWithSlash, toResourceWithName: "budget_periods_valid", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let fromDate = BudgetPeriod.budgetPeriodDateFormatter.date(from: "2019-11-21")!
+            let toDate = BudgetPeriod.budgetPeriodDateFormatter.date(from: "2019-12-05")!
+            
+            self.budgets.refreshBudgetPeriods(budgetID: 4, from: fromDate, to: toDate) { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testRefreshAllBudgetPeriodsFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.periods(budgetID: nil).path.prefixedWithSlash, toResourceWithName: "budget_periods_valid", addingStatusCode: 404)
+
+        database.setup { error in
+            XCTAssertNil(error)
+
+            self.budgets.refreshAllBudgetPeriods(size: 15) { result in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
+    func testFetchPaginatedBudgetPeriod() {
+        let expectation1 = expectation(description: "Database")
+        let expectation2 = expectation(description: "Network Request Page 1")
+        let expectation3 = expectation(description: "Fetch Request Page 1")
+        let expectation4 = expectation(description: "Network Request Page 2")
+        let expectation5 = expectation(description: "Fetch Request Page 2")
+
+        let contactsStub = connect(endpoint: BudgetsEndpoint.periods(budgetID: nil).path.prefixedWithSlash, toResourceWithName: "budget_periods_valid")
+
+        database.setup { error in
+            XCTAssertNil(error)
+
+            let managedObjectContext = self.database.newBackgroundContext()
+
+            managedObjectContext.performAndWait {
+                let budgetPeriod = BudgetPeriod(context: managedObjectContext)
+                budgetPeriod.populateTestData()
+                budgetPeriod.budgetPeriodID = 109
+                budgetPeriod.trackingStatus = .above
+
+                try? managedObjectContext.save()
+            }
+
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 3.0)
+
+        self.budgets.refreshAllBudgetPeriods(size: 15) { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let (before, after, total)):
+                    XCTAssertEqual(before, nil)
+                    XCTAssertEqual(after, "1614038400_109")
+                    XCTAssertEqual(total, 15)
+            }
+
+            expectation2.fulfill()
+        }
+
+        wait(for: [expectation2], timeout: 3.0)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = self.database.viewContext
+
+            let fetchRequest: NSFetchRequest<BudgetPeriod> = BudgetPeriod.fetchRequest()
+
+            do {
+                let fetchedPeriods = try context.fetch(fetchRequest)
+                let updatedPeriod = self.budgets.budgetPeriod(context: context, budgetPeriodID: 109)
+                XCTAssertEqual(updatedPeriod?.trackingStatus, .below)
+
+                XCTAssertEqual(fetchedPeriods.count, 15)
+
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+
+            expectation3.fulfill()
+        }
+
+        wait(for: [expectation3], timeout: 3.0)
+
+        HTTPStubs.removeStub(contactsStub)
+
+        connect(endpoint: BudgetsEndpoint.periods(budgetID: nil).path.prefixedWithSlash, toResourceWithName: "budget_periods_valid_page_2")
+
+        self.budgets.refreshAllBudgetPeriods(after: "1614038400_109", size: 10) { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let (before, after, total)):
+                    XCTAssertEqual(before, "1614038400_109")
+                    XCTAssertEqual(after, nil)
+                    XCTAssertEqual(total, 20)
+            }
+
+            expectation4.fulfill()
+        }
+
+        wait(for: [expectation4], timeout: 3.0)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = self.database.viewContext
+
+            let fetchRequest: NSFetchRequest<BudgetPeriod> = BudgetPeriod.fetchRequest()
+
+            do {
+                let fetchedPeriods = try context.fetch(fetchRequest)
+
+                XCTAssertEqual(fetchedPeriods.count, 20)
+                XCTAssertNotNil(self.budgets.budgetPeriod(context: context, budgetPeriodID: 109))
+
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+
+            expectation5.fulfill()
+        }
+
+        wait(for: [expectation5], timeout: 3.0)
+
     }
     
     func testRefreshBudgetPeriod() {
@@ -734,6 +1116,34 @@ class BudgetsTests: BaseTestCase {
                             XCTAssertEqual(fetchedBudgetPeriods.first?.budgetPeriodID, 96)
                         } catch {
                             XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testRefreshBudgetPeriodFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: BudgetsEndpoint.period(budgetID: 4, budgetPeriodID: 96).path.prefixedWithSlash, toResourceWithName: "budget_periods_96", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.budgets.refreshBudgetPeriod(budgetID: 4, budgetPeriodID: 96) { (result) in
+                switch result {
+                    case .success:
+                        XCTFail("Encode data should not success")
+                    case .failure(let error):
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.type, .notFound)
+                            XCTAssertEqual(error.statusCode, 404)
+                        } else {
+                            XCTFail("Not correct error type")
                         }
                 }
                 
@@ -789,10 +1199,11 @@ class BudgetsTests: BaseTestCase {
         let context = database.viewContext
         
         let fetchRequest: NSFetchRequest<BudgetPeriod> = BudgetPeriod.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "budgetPeriodID == %ld", argumentArray: [85])
+        fetchRequest.predicate = NSPredicate(format: "budgetPeriodID == %ld", argumentArray: [94])
         
         do {
             let fetchedBudgetPeriods = try context.fetch(fetchRequest)
+            
             
             XCTAssertEqual(fetchedBudgetPeriods.count, 1)
             
@@ -805,6 +1216,6 @@ class BudgetsTests: BaseTestCase {
             XCTFail(error.localizedDescription)
         }
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 }

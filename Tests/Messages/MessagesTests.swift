@@ -19,6 +19,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class MessagesTests: XCTestCase, FrolloSDKDelegate {
     
@@ -34,7 +37,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         expectations = []
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
     
@@ -44,7 +47,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         let config = FrolloSDKConfiguration.testConfig()
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -85,7 +88,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         let config = FrolloSDKConfiguration.testConfig()
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -138,7 +141,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         let config = FrolloSDKConfiguration.testConfig()
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -200,7 +203,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         let config = FrolloSDKConfiguration.testConfig()
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -258,12 +261,12 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.messages.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.messages.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -318,12 +321,12 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.messages.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.messages.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let mockAuthentication = MockAuthentication(valid: false)
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -355,7 +358,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testRefreshMessageByID() {
@@ -365,12 +368,12 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let id: Int64 = 12345
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: id).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: id).path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -415,12 +418,12 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let id: Int64 = 12345
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: id).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: id).path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let mockAuthentication = MockAuthentication(valid: false)
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -452,7 +455,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testUpdateMessage() {
@@ -460,12 +463,12 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -513,17 +516,68 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testUpdateMessageFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+        }
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication, encoder: InvalidEncoder())
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let database = Database(path: tempFolderPath())
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let message = Message(context: managedObjectContext)
+                message.populateTestData()
+                message.messageID = 12345
+                
+                try? managedObjectContext.save()
+                
+                let messages = Messages(database: database, service: service)
+                
+                messages.updateMessage(messageID: 12345, completion: { (result) in
+                    switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is DataError)
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                            XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                        }
+                    case .success:
+                        XCTFail("Invalid service throw Error when encoding")
+                    }
+                    
+                    expectation1.fulfill()
+                })
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testUpdateMessageByIDFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let mockAuthentication = MockAuthentication(valid: false)
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -565,7 +619,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testUpdateMessageNotFound() {
@@ -573,12 +627,12 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 12345).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -625,12 +679,12 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.unread.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.unread.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_unread", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -687,12 +741,12 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.unread.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.unread.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_unread", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let mockAuthentication = MockAuthentication(valid: false)
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -724,7 +778,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testHandlingPushMessageTriggersDelegate() {
@@ -734,7 +788,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         let notificationPayload = NotificationPayload.testMessageData()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: notificationPayload.userMessageID!).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: notificationPayload.userMessageID!).path)) { (request) -> HTTPStubsResponse in
             expectation1.fulfill()
             
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
@@ -743,7 +797,7 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         let path = tempFolderPath()
         let database = Database(path: path)
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -762,6 +816,72 @@ class MessagesTests: XCTestCase, FrolloSDKDelegate {
         
         wait(for: [expectation1], timeout: 3.0)
     }
+    
+    
+//    func testMarkMessageReadFromHandlePushNotification() {
+//
+//        let expectation1 = expectation(description: "Network Request 1")
+//
+//        let config = FrolloSDKConfiguration.testConfig()
+//
+//        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 98765).path) && isMethodPUT()) { (request) -> HTTPStubsResponse in
+//            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_98765", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+//        }
+//
+//        let mockAuthentication = MockAuthentication()
+//        let authentication = Authentication(configuration: config)
+//        authentication.dataSource = mockAuthentication
+//        authentication.delegate = mockAuthentication
+//        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+//        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+//        let database = Database(path: tempFolderPath())
+//
+//        let notificationPayload = NotificationPayload.testMessageData()
+//
+//        database.setup { (error) in
+//            XCTAssertNil(error)
+//
+//            let managedObjectContext = database.newBackgroundContext()
+//
+//            managedObjectContext.performAndWait {
+//                let message = Message(context: managedObjectContext)
+//                message.populateTestData()
+//                message.read = false
+//                message.interacted = false
+//                message.messageID = 98765
+//
+//                try? managedObjectContext.save()
+//
+//                let messages = Messages(database: database, service: service)
+//                messages.handleMessageNotification(notificationPayload, completion: { (result) in
+//                    switch result {
+//                        case .failure(let error):
+//                            XCTFail(error.localizedDescription)
+//                        case .success:
+//                            let context = database.viewContext
+//
+//                            let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
+//                            fetchRequest.predicate = NSPredicate(format: "messageID == %ld", argumentArray: [98765])
+//
+//                            do {
+//                                let fetchedMessages = try context.fetch(fetchRequest)
+//                                XCTAssertTrue(fetchedMessages.first!.read)
+//                                XCTAssertTrue(fetchedMessages.first!.interacted)
+//                                XCTAssertEqual(fetchedMessages.first?.messageID, 98765)
+//                            } catch {
+//                                XCTFail(error.localizedDescription)
+//                            }
+//                    }
+//
+//                    expectation1.fulfill()
+//                })
+//
+//            }
+//        }
+//
+//        wait(for: [expectation1], timeout: 10.0)
+//    }
+    
     
     // MARK: - Delegate
     

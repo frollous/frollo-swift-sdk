@@ -34,10 +34,9 @@ extension User: TestableCoreData {
         primaryCurrency = "AUD"
         gender = .male
         dateOfBirth = date
-        addressLine1 = "41 McLaren Street"
-        addressLine2 = "Frollo Level 1"
-        postcode = "2060"
-        suburb = "North Sydney"
+        address = User.UserAddress(id: 0, longForm: "")
+        mailingAddress = User.UserAddress(id: 1, longForm: "")
+        previousAddress = User.UserAddress(id: 2, longForm: "")
         mobileNumber = "0412345678"
         householdType = .single
         householdSize = 1
@@ -49,6 +48,11 @@ extension User: TestableCoreData {
         attributionCreative = String.randomString(range: 1...10)
         attributionNetwork = String.randomString(range: 1...10)
         validPassword = true
+        foreignTax = false
+        tin = "12345"
+        tfn = "12345678"
+        taxResidency = "AU"
     }
     
 }
+

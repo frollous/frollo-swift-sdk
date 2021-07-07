@@ -18,6 +18,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class PayDayRequestTests: BaseTestCase {
 
@@ -35,7 +38,7 @@ class PayDayRequestTests: BaseTestCase {
     
     override func tearDown() {
         Keychain(service: keychainService).removeAll()
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         
         super.tearDown()
     }
@@ -86,4 +89,32 @@ class PayDayRequestTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
 
+    func testUpdatePayDayEncodeRequestFail() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        service = invalidService(keychain: keychain)
+        connect(endpoint: PayDayEndpoint.payDay.path.prefixedWithSlash, toResourceWithName: "pay_day", addingStatusCode: 200)
+        
+        let request = APIPayDayRequest.testCompleteData()
+        
+        service.updatePayDay(request: request) { (result) in
+            switch result {
+                case .success:
+                    XCTFail("Encode data should not success")
+                case .failure(let error):
+                    if let error = error as? DataError {
+                        XCTAssertEqual(error.type, .api)
+                        XCTAssertEqual(error.subType, .invalidData)
+                    } else {
+                        XCTFail("Not correct error type")
+                    }
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+
+    
 }

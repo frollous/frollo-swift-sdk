@@ -1,5 +1,148 @@
 # Changelog
 
+## 4.9.2
+
+### Fixes
+
+- Fix SPM build issue
+- Error logging improvements
+
+## 4.9.1
+
+### Features
+
+- Card Management
+- Making Log API Public
+
+### Fixes
+
+- Pagination in Budget Period response
+
+## 4.9.0
+
+### Features
+
+- Managed Products
+- PayID Management
+- NPP Payments
+- Add SPM Support
+
+### Fixes
+
+- Contacts caching
+
+## 4.8.1
+
+### Fixes
+
+- Core data merge policy
+
+## 4.8.0
+
+### Features
+
+- Contacts
+
+### Changes
+
+- User details API  address, tax details
+- User details Onboarding steps
+- Remove tracking_type in budget
+
+### Fixes
+
+- Fixed crash in merchants
+- Fixed passing legacy refresh token
+- Fixed Alamofire valid empty response codes
+
+
+## 4.7.0
+
+### Features
+
+- Payments API
+- CDR Configuration API
+- OTP endpoint protection
+- Images API
+
+### Changes
+
+- Xcode 12 support
+- API 2.11 upgrade
+- Added support for CDR existing consent ID parameter
+
+## 4.6.3
+
+### Fixes
+
+- Fixed crash in metadata for messages
+
+## 4.6.2
+
+### Changes
+
+- Updated Alamofire dependency to 5.2.1
+
+## 4.6.1
+
+### Changes
+
+- Added support for Sharing Stopped At field on Consents
+
+## 4.6.0
+
+### Features
+
+- Included provider availability status
+- Added consent object caching
+
+### Fixes
+
+- Fix for sending a push notification sent to SDK before setup has completed
+
+## 4.5.1
+
+### Features
+
+- CDR Products List API
+- Added CDR Product Object in Account
+- Budget By Account
+
+### Fixes
+
+- Fixed various issues in CDR response
+- Fixed an issue in budgets API creation
+
+## 4.5.0
+
+- Open Banking support
+
+### Features
+
+- CDR Consent support
+- Automatically mark push notifications as read
+
+## 4.4.1
+
+### Fixes
+
+- Fixed issue with refreshing cached merchants
+
+## 4.4
+
+- Transaction and Merchant Enhancements
+
+### Features
+
+- Transactions advanced filtering and searching
+- Merchants searching
+- Submit Consent
+
+### Changes
+
+- Transaction pagination improvements
+- Goal and Budget Period tracking status renamed for clarity
+
 ## 4.3
 
 - Budgeting and Reports Enhancements

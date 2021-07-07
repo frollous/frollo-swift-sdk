@@ -7,19 +7,23 @@
 	"status": "active",
 	"primary_currency": "AUD",
 	"gender": "male",
-	"date_of_birth": "1990-01",
-	"address": {
-		"line_1": "41 McLaren Street",
-		"line_2": "Frollo Level 1",
-		"postcode": "2060",
-		"suburb": "North Sydney"
+	"date_of_birth": "1990-01-01",
+    "tfn": "12345678",
+    "tax_residency": "AU",
+    "foreign_tax": false,
+    "tin": "12345",
+	"residential_address": {
+        "id": 0,
+        "long_form": "Frollo, Level 33, 100 Mount St, North Sydney, NSW, 2060, Australia"
 	},
-	"previous_address": {
-		"line_1": "Bay 9 Middlemiss St",
-		"line_2": "Frollo Unit 13",
-		"postcode": "2060",
-		"suburb": "Lavender Bay"
-	},
+    "mailing_address": {
+        "id": 1,
+        "long_form": "U 1 33 Harrow Road, Bexley, NSW, 2216"
+    },
+    "previous_address": {
+        "id": 2,
+        "long_form": "U 5 21 Hampton Court Road, Carlton, NSW, 2218"
+    },
 	"attribution": {
 		"ad_group": "ADGROUP1",
 		"campaign": "CAMPAIGN1",
@@ -36,9 +40,28 @@
 		"enabled": true
 	}],
 	"facebook_id": "1234567890",
-	"register_complete": false,
 	"valid_password": true,
 	"refresh_token": "sdjfnlasdjknfldskjngdflskjgnldsjkfnoa;nfeiansvijnasdvijda;nfgi;ej",
 	"access_token": "sdjfnlasdjknfldskjngdflskjgnldsjkfnoa;nfeiansvijnasdvijda;nfgi;ej",
-	"access_token_exp": 1939911061
+	"access_token_exp": 1939911061,
+    "register_steps": [
+        {
+          "key": "kyc",
+          "index": 0,
+          "required": true,
+          "completed": true
+        },
+        {
+          "key": "survey",
+          "index": 1,
+          "required": true,
+          "completed": false
+        },
+        {
+          "key": "otp",
+          "index": 2,
+          "required": false,
+          "completed": false
+        }
+      ]
 }

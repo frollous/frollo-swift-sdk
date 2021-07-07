@@ -17,6 +17,9 @@
 import XCTest
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 @testable import FrolloSDK
 
@@ -29,7 +32,7 @@ class NetworkLoggerTests: XCTestCase {
     }
 
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
 
@@ -38,13 +41,13 @@ class NetworkLoggerTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.log.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.log.path)) { (request) -> HTTPStubsResponse in
             expectation1.fulfill()
-            return OHHTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
+            return HTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
         }
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)

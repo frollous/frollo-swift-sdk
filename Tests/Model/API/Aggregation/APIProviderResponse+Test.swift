@@ -25,7 +25,7 @@ extension APIProviderResponse {
                                                         pem: "PublicKeyHere")
         
         return APIProviderResponse(id: 54321,
-                                   containerNames: [.bank, .creditCard],
+                                   containerNames: [ContainerName.bank, ContainerName.creditCard],
                                    name: "Detailed Test Provider",
                                    popular: true,
                                    status: .supported,
@@ -40,7 +40,11 @@ extension APIProviderResponse {
                                    loginURLString: "https://example.com/login",
                                    mfaType: .token,
                                    oAuthSite: false,
-                                   smallLogoURLString: "https://example.com/small_logo.png")
+                                   smallLogoURLString: "https://example.com/small_logo.png",
+                                   aggregatorType: "yodlee",
+                                   productsAvailable: false,
+                                   permissionIDs: ["account_details"]
+        )
     }
     
     static func testIncompleteData() -> APIProviderResponse {
@@ -60,7 +64,11 @@ extension APIProviderResponse {
                                    loginURLString: nil,
                                    mfaType: nil,
                                    oAuthSite: nil,
-                                   smallLogoURLString: "https://example.com/small_logo.png")
+                                   smallLogoURLString: "https://example.com/small_logo.png",
+                                   aggregatorType: "yodlee",
+                                   productsAvailable: false,
+                                   permissionIDs: ["account_details"]
+        )
     }
     
     static func testDetailsCompleteData() -> APIProviderResponse {
@@ -97,7 +105,11 @@ extension APIProviderResponse {
                                    loginURLString: "https://example.com/login",
                                    mfaType: .token,
                                    oAuthSite: false,
-                                   smallLogoURLString: "https://example.com/small_logo.png")
+                                   smallLogoURLString: "https://example.com/small_logo.png",
+                                   aggregatorType: "yodlee",
+                                   productsAvailable: false,
+                                   permissionIDs: ["account_details"]
+        )
     }
     
 }

@@ -25,6 +25,7 @@
         "FrolloSDKConfiguration",
         "FrolloSDKCompletionHandler",
         "FrolloSDKPaginatedCompletionHandler",
+        "PaginationInfo",
         "LogLevel",
         "EmptyResult"
       ]
@@ -43,7 +44,11 @@
       "name": "User",
       "children": [
         "UserManagement",
-        "User"
+        "User",
+        "APIUserDetailsConfirm",
+        "APIUserPayIDOTPRequest",
+        "AccountPayIDResponse",
+        "PayIDResponse"
       ]
     },
   {
@@ -55,9 +60,11 @@
       "Account",
       "Transaction",
       "TransactionCategory",
+      "TransactionFilter",
       "Tag",
       "SuggestedTag",
       "Merchant",
+      "MerchantSearchResult",
       "AccountBalanceTier",
       "AccountRefreshStatus",
       "AccountRefreshSubStatus",
@@ -65,6 +72,17 @@
       "BudgetCategory",
       "ProviderLoginForm",
       "ProviderLoginFormViewModel"
+    ]
+  },
+  {
+    "name": "Open Banking",
+    "children": [
+      "Consent",
+      "CDRConsentForm",
+      "CDRPermission",
+      "CDRProduct",
+      "CDRProductCategory",
+      "CDRProductInformation"
     ]
   },
   {
@@ -84,6 +102,32 @@
     ]
   },
   {
+    "name": "Cards",
+    "children": [
+      "Cards",
+      "Card",
+      "APICardLockOrReplaceRequest",
+      "APICardPublicKeyResponse"
+    ]
+  },
+  {
+    "name": "Contacts",
+    "children": [
+      "Contacts",
+      "Contact",
+      "PayAnyoneContact",
+      "BPAYContact",
+      "PayIDContact",
+      "InternationalContact"
+    ]
+  },
+  {
+    "name": "Configuration",
+    "children": [
+      "CDRConfiguration"
+    ]
+  },
+  {
     "name": "Events",
     "children": [
       "Events"
@@ -95,6 +139,39 @@
       "Goals",
       "Goal",
       "GoalPeriod"
+    ]
+  },
+  {
+    "name": "Images",
+    "children": [
+      "Images",
+      "Image"
+    ]
+  },
+  {
+    "name": "Address",
+    "children": [
+      "Address"
+    ]
+  },
+  {
+    "name": "KYC",
+    "children": [
+      "KYC",
+      "UserKYC"
+    ]
+  },
+  {
+    "name": "ManagedProducts",
+    "children": [
+      "ManagedProducts",
+      "ManagedProduct"
+    ]
+  },
+  {
+    "name": "Log",
+    "children": [
+      "Log"
     ]
   },
   {
@@ -120,6 +197,18 @@
     "children": [
       "PayDays",
       "PayDay"
+    ]
+  },
+  {
+    "name": "Payments",
+    "children": [
+      "Payments",
+      "BPAYPaymentResponse",
+      "PayAnyoneResponse",
+      "PaymentTransferResponse",
+      "VerifyPayAnyoneResponse",
+      "PayIDPaymentResponse",
+      "VerifyPayIDResponse"
     ]
   },
   {

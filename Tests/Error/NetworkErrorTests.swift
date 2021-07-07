@@ -30,22 +30,22 @@ class NetworkErrorTests: XCTestCase {
     }
     
     func testNetworkErrorConnectionFailure() {
-        let systemError = NSError(domain: NSURLErrorDomain, code: -999, userInfo: [NSURLErrorFailingURLStringErrorKey: "https://example.com", NSLocalizedDescriptionKey: "cancelled", NSURLErrorFailingURLErrorKey: URL(string: "https://example.com")!])
+        let systemError = NSError(domain: NSURLErrorDomain, code: -999, userInfo: [NSLocalizedDescriptionKey: "cancelled"])
         
         let networkError = NetworkError(error: systemError)
         XCTAssertEqual(networkError.type, .connectionFailure)
         XCTAssertEqual(networkError.systemError, systemError)
-        XCTAssertEqual(networkError.localizedDescription, Localization.string("Error.Network.ConnectionFailure"))
+        XCTAssertEqual(networkError.localizedDescription, Localization.string("Error.Network.ConnectionFailure") + "\n\nNSURLErrorDomain -999: Error Domain=NSURLErrorDomain Code=-999 \"cancelled\" UserInfo={NSLocalizedDescription=cancelled}")
         XCTAssertGreaterThan(networkError.debugDescription.count, networkError.localizedDescription.count)
     }
     
     func testNetworkErrorInvalidSSL() {
-        let systemError = NSError(domain: NSStreamSocketSSLErrorDomain, code: -999, userInfo: [NSURLErrorFailingURLStringErrorKey: "https://example.com", NSLocalizedDescriptionKey: "cancelled", NSURLErrorFailingURLErrorKey: URL(string: "https://example.com")!])
+        let systemError = NSError(domain: NSStreamSocketSSLErrorDomain, code: -999, userInfo: [NSLocalizedDescriptionKey: "cancelled"])
         
         let networkError = NetworkError(error: systemError)
         XCTAssertEqual(networkError.type, .invalidSSL)
         XCTAssertEqual(networkError.systemError, systemError)
-        XCTAssertEqual(networkError.localizedDescription, Localization.string("Error.Network.InvalidSSL"))
+        XCTAssertEqual(networkError.localizedDescription, Localization.string("Error.Network.InvalidSSL") + "\n\nNSStreamSocketSSLErrorDomain -999: Error Domain=NSStreamSocketSSLErrorDomain Code=-999 \"cancelled\" UserInfo={NSLocalizedDescription=cancelled}")
         XCTAssertGreaterThan(networkError.debugDescription.count, networkError.localizedDescription.count)
     }
     
@@ -55,8 +55,22 @@ class NetworkErrorTests: XCTestCase {
         let networkError = NetworkError(error: systemError)
         XCTAssertEqual(networkError.type, .unknown)
         XCTAssertEqual(networkError.systemError, systemError)
-        XCTAssertEqual(networkError.localizedDescription, Localization.string("Error.Network.UnknownError"))
+        XCTAssertEqual(networkError.localizedDescription, Localization.string("Error.Network.UnknownError") + "\n\nNSMachErrorDomain -1: Error Domain=NSMachErrorDomain Code=-1 \"some unexpected NSError\" UserInfo={NSLocalizedDescription=some unexpected NSError}")
         XCTAssertGreaterThan(networkError.debugDescription.count, networkError.localizedDescription.count)
+    }
+    
+    func testNetworkErrorNotLogged() {
+        let systemError = NSError(domain: NSMachErrorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: "some unexpected NSError"])
+        XCTAssertEqual(systemError.isNetworkConnectionError, false)
+        
+        let noInternetError = NetworkError(error: NSError(domain: NSURLErrorDomain, code: NSURLErrorNotConnectedToInternet, userInfo: [NSLocalizedDescriptionKey: "No Internet"]))
+        XCTAssertEqual(noInternetError.isNetworkConnectionError, true)
+        
+        let connectionLostError = NetworkError(error: NSError(domain: NSURLErrorDomain, code: NSURLErrorNetworkConnectionLost, userInfo: [NSLocalizedDescriptionKey: "Connection Lost"]))
+        XCTAssertEqual(connectionLostError.isNetworkConnectionError, true)
+        
+        let timeoutError = NetworkError(error: NSError(domain: NSURLErrorDomain, code: NSURLErrorTimedOut, userInfo: [NSLocalizedDescriptionKey: "Timed out"]))
+        XCTAssertEqual(timeoutError.isNetworkConnectionError, true)
     }
     
 }

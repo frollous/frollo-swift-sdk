@@ -6,12 +6,13 @@
     "user_id": 374,
     "target": "cycle_target",
     "status": "active",
-    "tracking_status": "ahead",
+    "tracking_status": "above",
     "frequency": "four_weekly",
     "currency": "AUD",
     "current_amount": "3880.00",
     "period_amount": "15.38",
     "image_url": "http://www.example.com/image/image_1.png",
+    "tracking_type": "debit_credit",
     "metadata": {},
     "start_date": "2019-10-02",
     "periods_count": 75,
@@ -23,7 +24,7 @@
         "target_amount": "15.62",
         "current_amount": "0.00",
         "required_amount": "0.00",
-        "tracking_status": "behind",
+        "tracking_status": "below",
         "index": 61
     }
 }

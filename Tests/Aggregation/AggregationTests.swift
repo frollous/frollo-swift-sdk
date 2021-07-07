@@ -17,8 +17,12 @@
 import CoreData
 @testable import FrolloSDK
 import XCTest
+import Alamofire
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class AggregationTests: BaseTestCase {
     
@@ -31,12 +35,16 @@ class AggregationTests: BaseTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
     
     private func aggregation(loggedIn: Bool) -> Aggregation {
         return self.aggregation(keychain: self.defaultKeychain(isNetwork: true), loggedIn: loggedIn)
+    }
+    
+    private func aggregationWithInvalidEncodingService() -> Aggregation {
+        return Aggregation(database: database, service: invalidService(keychain: defaultKeychain(isNetwork: true)))
     }
     
     // MARK: - Provider Tests
@@ -176,7 +184,7 @@ class AggregationTests: BaseTestCase {
                         do {
                             let fetchedProviders = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedProviders.count, 311)
+                            XCTAssertEqual(fetchedProviders.count, 50)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -265,13 +273,13 @@ class AggregationTests: BaseTestCase {
             do {
                 let fetchedTotalProviders = try context.fetch(totalFetchRequest)
                 
-                XCTAssertEqual(fetchedTotalProviders.count, 311)
+                XCTAssertEqual(fetchedTotalProviders.count, 50)
             } catch {
                 XCTFail(error.localizedDescription)
             }
             
             let individualFetchRequest: NSFetchRequest<Provider> = Provider.fetchRequest()
-            individualFetchRequest.predicate = NSPredicate(format: "providerID == %ld", argumentArray: [15441])
+            individualFetchRequest.predicate = NSPredicate(format: "providerID == %ld", argumentArray: [586])
             
             do {
                 let fetchedIndividualProviders = try context.fetch(individualFetchRequest)
@@ -279,7 +287,7 @@ class AggregationTests: BaseTestCase {
                 XCTAssertEqual(fetchedIndividualProviders.count, 1)
                 
                 if let provider = fetchedIndividualProviders.first {
-                    XCTAssertEqual(provider.providerID, 15441)
+                    XCTAssertEqual(provider.providerID, 586)
                 } else {
                     XCTFail("Provider not found")
                 }
@@ -292,7 +300,7 @@ class AggregationTests: BaseTestCase {
         
         wait(for: [expectation3], timeout: 3.0)
         
-        OHHTTPStubs.removeStub(providerStub)
+        HTTPStubs.removeStub(providerStub)
         
         connect(endpoint: AggregationEndpoint.providers.path.prefixedWithSlash, toResourceWithName: "providers_updated")
         
@@ -317,7 +325,7 @@ class AggregationTests: BaseTestCase {
             do {
                 let fetchedTotalProviders = try context.fetch(totalFetchRequest)
                 
-                XCTAssertEqual(fetchedTotalProviders.count, 313)
+                XCTAssertEqual(fetchedTotalProviders.count, 50)
             } catch {
                 XCTFail(error.localizedDescription)
             }
@@ -396,7 +404,7 @@ class AggregationTests: BaseTestCase {
                         do {
                             let fetchedProviders = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedProviders.count, 311)
+                            XCTAssertEqual(fetchedProviders.count, 50)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -789,6 +797,39 @@ class AggregationTests: BaseTestCase {
         
     }
     
+    func testCreateProviderAccountEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let providerID: Int64 = 12345
+        
+        let loginForm = ProviderLoginForm.loginFormFilledData()
+        
+        connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "provider_account_id_123", addingStatusCode: 201)
+        
+        let aggregation = self.aggregationWithInvalidEncodingService()
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            aggregation.createProviderAccount(providerID: providerID, loginForm: loginForm, completion: { result in
+                switch result {
+                case .failure(let error):
+                    XCTAssertTrue(error is DataError)
+                    if let error = error as? DataError {
+                        XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                        XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                    }
+                case .success:
+                    XCTFail("Invalid service throw Error when encoding")
+                }
+                
+                expectation1.fulfill()
+            })
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+    }
+    
     func testCreateProviderAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -898,6 +939,7 @@ class AggregationTests: BaseTestCase {
         let notificationExpectation = expectation(forNotification: Aggregation.providerAccountsUpdatedNotification, object: nil, handler: nil)
         
         let providerAccountID: Int64 = 123
+        let consentID: Int64 = 3
         
         let loginForm = ProviderLoginForm.loginFormFilledData()
         
@@ -908,7 +950,7 @@ class AggregationTests: BaseTestCase {
         database.setup { error in
             XCTAssertNil(error)
             
-            aggregation.updateProviderAccount(providerAccountID: providerAccountID, loginForm: loginForm) { result in
+            aggregation.updateProviderAccount(providerAccountID: providerAccountID, loginForm: loginForm, consentID: consentID) { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -934,6 +976,40 @@ class AggregationTests: BaseTestCase {
         
     }
     
+    func testUpdateProviderAccountEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let providerAccountID: Int64 = 123
+        let consentID: Int64 = 3
+        
+        let loginForm = ProviderLoginForm.loginFormFilledData()
+        
+        connect(endpoint: AggregationEndpoint.providerAccount(providerAccountID: providerAccountID).path.prefixedWithSlash, toResourceWithName: "provider_account_id_123")
+        
+        let aggregation = self.aggregationWithInvalidEncodingService()
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            aggregation.updateProviderAccount(providerAccountID: providerAccountID, loginForm: loginForm, consentID: consentID) { result in
+                switch result {
+                case .failure(let error):
+                    XCTAssertTrue(error is DataError)
+                    if let error = error as? DataError {
+                        XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                        XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                    }
+                case .success:
+                    XCTFail("Invalid service throw Error when encoding")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+    }
+    
     func testUpdateProviderAccountsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -946,7 +1022,7 @@ class AggregationTests: BaseTestCase {
             
             let loginForm = ProviderLoginForm.loginFormFilledData()
             
-            aggregation.updateProviderAccount(providerAccountID: 12345, loginForm: loginForm) { result in
+            aggregation.updateProviderAccount(providerAccountID: 12345, loginForm: loginForm, consentID: 3) { result in
                 switch result {
                     case .failure(let error):
                         XCTAssertNotNil(error)
@@ -1414,8 +1490,15 @@ class AggregationTests: BaseTestCase {
             
             if let account = fetchedAccounts.first {
                 XCTAssertNotNil(account.providerAccount)
-                
                 XCTAssertEqual(account.providerAccountID, account.providerAccount?.providerAccountID)
+                XCTAssertEqual(account.providerName, "ME Bank (demo)")
+                XCTAssertEqual(account.productsAvailable, true)
+                XCTAssertEqual(account.productDetailsPageURL, "www.example.com/product_details")
+                XCTAssertEqual(account.productName, "Everyday Saver")
+                XCTAssertEqual(account.productID, 1)
+                XCTAssertEqual(account.productInformations?.count, 1)
+                XCTAssertEqual(account.productInformations?.first?.name, "Benefits")
+                XCTAssertEqual(account.productInformations?.first?.value, "Free ATMs")
             }
         } catch {
             XCTFail(error.localizedDescription)
@@ -1468,6 +1551,45 @@ class AggregationTests: BaseTestCase {
         }
         
         wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+        
+    }
+    
+    func testUpdatingAccountEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        connect(endpoint: AggregationEndpoint.account(accountID: 542).path.prefixedWithSlash, toResourceWithName: "account_id_542")
+        
+        let aggregation = self.aggregationWithInvalidEncodingService()
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let account = Account(context: managedObjectContext)
+                account.populateTestData()
+                account.accountID = 542
+                
+                try? managedObjectContext.save()
+                
+                aggregation.updateAccount(accountID: 542) { result in
+                    switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is DataError)
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                            XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                        }
+                    case .success:
+                        XCTFail("Invalid service throw Error when encoding")
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
         
     }
     
@@ -1703,17 +1825,14 @@ class AggregationTests: BaseTestCase {
         let expectation1 = expectation(description: "Network Request 1")
         let notificationExpectation = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil, handler: nil)
         
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
         
         let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-            let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-            
-            aggregation.refreshTransactions(from: fromDate, to: toDate) { result in
+                        
+            aggregation.refreshTransactions() { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -1725,7 +1844,9 @@ class AggregationTests: BaseTestCase {
                         do {
                             let fetchedTransactions = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedTransactions.count, 111)
+                            XCTAssertEqual(fetchedTransactions.count, 34)
+                            let goalID = fetchedTransactions.first(where: { $0.transactionID == 168475 })?.goalID
+                            XCTAssertEqual(goalID, 2048)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -1735,24 +1856,21 @@ class AggregationTests: BaseTestCase {
             }
         }
         
-        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+        wait(for: [expectation1, notificationExpectation], timeout: 10.0)
         
     }
-    
+        
     func testRefreshTransactionsFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
         
         let aggregation = self.aggregation(loggedIn: false)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-            let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-            
-            aggregation.refreshTransactions(from: fromDate, to: toDate) { result in
+                        
+            aggregation.refreshTransactions() { result in
                 switch result {
                     case .failure(let error):
                         XCTAssertNotNil(error)
@@ -1778,17 +1896,14 @@ class AggregationTests: BaseTestCase {
     func testRefreshTransactionsSkipsInvalid() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_invalid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_invalid")
         
         let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-            let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-            
-            aggregation.refreshTransactions(from: fromDate, to: toDate) { result in
+                        
+            aggregation.refreshTransactions() { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -1800,7 +1915,7 @@ class AggregationTests: BaseTestCase {
                         do {
                             let fetchedTransactions = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedTransactions.count, 108)
+                            XCTAssertEqual(fetchedTransactions.count, 30)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -1813,63 +1928,7 @@ class AggregationTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
         
     }
-    
-    func testRefreshPaginatedTransactions() {
-        let expectation1 = expectation(description: "Network Request 1")
-        let notificationExpectation = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil, handler: nil)
         
-        stub(condition: isHost(self.config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (request) -> OHHTTPStubsResponse in
-            if let requestURL = request.url, let queryItems = URLComponents(url: requestURL, resolvingAgainstBaseURL: true)?.queryItems {
-                var skip: Int = 0
-                
-                for queryItem in queryItems {
-                    if queryItem.name == "skip", let value = queryItem.value, let skipCount = Int(value) {
-                        skip = skipCount
-                    }
-                }
-                
-                if skip == 200 {
-                    return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-12-04_count_200_skip_200", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-                }
-            }
-            
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-12-04_count_200_skip_0", ofType: "json")!, headers: [HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let aggregation = self.aggregation(loggedIn: true)
-        
-        database.setup { error in
-            XCTAssertNil(error)
-            
-            let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-            let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-            
-            aggregation.refreshTransactions(from: fromDate, to: toDate) { result in
-                switch result {
-                    case .failure(let error):
-                        XCTFail(error.localizedDescription)
-                    case .success:
-                        let context = self.context
-                        
-                        let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-                        
-                        do {
-                            let fetchedTransactions = try context.fetch(fetchRequest)
-                            
-                            XCTAssertEqual(fetchedTransactions.count, 311)
-                        } catch {
-                            XCTFail(error.localizedDescription)
-                        }
-                }
-                
-                expectation1.fulfill()
-            }
-        }
-        
-        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
-        
-    }
-    
     func testRefreshTransactionByIDIsCached() {
         let expectation1 = expectation(description: "Network Request 1")
         let notificationExpectation = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil, handler: nil)
@@ -1905,6 +1964,138 @@ class AggregationTests: BaseTestCase {
         }
         
         wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+        
+    }
+    
+    
+    func testFetchPaginatedTransactions() {
+        
+        let expectation1 = expectation(description: "Database")
+        let expectation2 = expectation(description: "Network Request Page 1")
+        let expectation3 = expectation(description: "Fetch Request Page 1")
+        let expectation4 = expectation(description: "Network Request Page 2")
+        let expectation5 = expectation(description: "Fetch Request Page 2")
+        
+        let transactionStub = connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_page_1")
+                
+        var transactionFilter = TransactionFilter()
+        transactionFilter.fromDate = "2019-07-26"
+        transactionFilter.toDate = "2020-01-31"
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+
+            let context = self.context
+
+            context.performAndWait {
+                let transaction1 = Transaction(context: context)
+                transaction1.populateTestData()
+                transaction1.transactionID = 164438
+                transaction1.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-11-11")!
+                transaction1.originalDescription = "Updating transaction"
+
+                let transaction2 = Transaction(context: context)
+                transaction2.populateTestData()
+                transaction2.transactionID = 600
+                transaction2.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-08-12")!
+                transaction2.userDescription = "Deleting transaction"
+
+                let transaction3 = Transaction(context: context)
+                transaction3.populateTestData()
+                transaction3.transactionID = 500
+                transaction3.transactionDate = Transaction.transactionDateFormatter.date(from: "2019-06-11")!
+                transaction3.userDescription = "Ignored transaction"
+
+                try! context.save()
+            }
+
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        aggregation.refreshTransactions(transactionFilter: transactionFilter) { (result) in
+            
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let paginationSuccess):
+                    XCTAssertEqual(paginationSuccess.before, nil)
+                    XCTAssertEqual(paginationSuccess.after, "1564138032_160746")
+                    XCTAssertEqual(paginationSuccess.afterID, 160808)
+                    XCTAssertEqual(paginationSuccess.afterDate, "2019-10-31")
+                    transactionFilter.after = paginationSuccess.after
+            }
+            
+             expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 10.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = self.context
+            
+            let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+            
+            do {
+                
+                let fetchedTransactions = try context.fetch(fetchRequest)
+                let updatedTransaction = aggregation.transaction(context: context, transactionID: 160142)
+                XCTAssertEqual(updatedTransaction?.originalDescription, "BURGER PROJECT SYDNEY AU")
+                
+                XCTAssertEqual(fetchedTransactions.count, 202)
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+        
+        HTTPStubs.removeStub(transactionStub)
+
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_page_2")
+
+        aggregation.refreshTransactions(transactionFilter: transactionFilter) { (result) in
+
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success(let paginationSuccess):
+                    XCTAssertEqual(paginationSuccess.before, "1564051625_160540")
+                    XCTAssertEqual(paginationSuccess.beforeID, 160540)
+                    XCTAssertEqual(paginationSuccess.beforeDate, "2019-07-25")
+                    XCTAssertEqual(paginationSuccess.after, nil)
+                    transactionFilter.after = paginationSuccess.after
+            }
+
+             expectation4.fulfill()
+        }
+
+        wait(for: [expectation4], timeout: 3.0)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = self.context
+
+            let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+
+            do {
+                let fetchedTransactions = try context.fetch(fetchRequest)
+
+                XCTAssertEqual(fetchedTransactions.count, 399)
+                XCTAssertNotNil(aggregation.transaction(context: self.context, transactionID: 161135))
+
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+
+            expectation5.fulfill()
+        }
+
+        wait(for: [expectation5], timeout: 3.0)
         
     }
     
@@ -1947,7 +2138,7 @@ class AggregationTests: BaseTestCase {
         
         let transactions: [Int64] = [1, 2, 3, 4, 5]
         
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -1966,7 +2157,7 @@ class AggregationTests: BaseTestCase {
                         do {
                             let fetchedTransactions = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedTransactions.count, 111)
+                            XCTAssertEqual(fetchedTransactions.count, 34)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -1985,7 +2176,7 @@ class AggregationTests: BaseTestCase {
         
         let transactions: [Int64] = [1, 2, 3, 4, 5]
         
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
         
         let aggregation = self.aggregation(loggedIn: false)
         
@@ -2021,7 +2212,7 @@ class AggregationTests: BaseTestCase {
         let expectation3 = expectation(description: "Network Transaction Request")
         
         connect(endpoint: AggregationEndpoint.accounts.path.prefixedWithSlash, toResourceWithName: "accounts_valid")
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2045,11 +2236,8 @@ class AggregationTests: BaseTestCase {
         }
         
         wait(for: [expectation2], timeout: 3.0)
-        
-        let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-        let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-        
-        aggregation.refreshTransactions(from: fromDate, to: toDate) { result in
+                
+        aggregation.refreshTransactions() { result in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -2065,7 +2253,7 @@ class AggregationTests: BaseTestCase {
         let context = self.context
         
         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
+        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [165379])
         
         do {
             let fetchedTransactions = try context.fetch(fetchRequest)
@@ -2089,17 +2277,14 @@ class AggregationTests: BaseTestCase {
         let expectation2 = expectation(description: "Network Transaction Request")
         
         connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_by_id")
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
         
         let aggregation = self.aggregation(loggedIn: true)
         
         database.setup { error in
             XCTAssertNil(error)
-            
-            let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-            let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-            
-            aggregation.refreshTransactions(from: fromDate, to: toDate) { result in
+                        
+            aggregation.refreshTransactions() { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -2117,7 +2302,7 @@ class AggregationTests: BaseTestCase {
             let context = self.context
             
             let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
+            fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [165266])
             
             do {
                 let fetchedTransactions = try context.fetch(fetchRequest)
@@ -2146,7 +2331,7 @@ class AggregationTests: BaseTestCase {
         let expectation3 = expectation(description: "Network Transaction Request")
         
         connect(endpoint: AggregationEndpoint.transactionCategories.path.prefixedWithSlash, toResourceWithName: "transaction_categories_valid")
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
         
         let aggregation = self.aggregation(loggedIn: true)
         
@@ -2170,11 +2355,8 @@ class AggregationTests: BaseTestCase {
         }
         
         wait(for: [expectation2], timeout: 3.0)
-        
-        let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-        let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-        
-        aggregation.refreshTransactions(from: fromDate, to: toDate) { result in
+                
+        aggregation.refreshTransactions() { result in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -2190,7 +2372,7 @@ class AggregationTests: BaseTestCase {
         let context = self.context
         
         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [194630])
+        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [164525])
         
         do {
             let fetchedTransactions = try context.fetch(fetchRequest)
@@ -2201,6 +2383,74 @@ class AggregationTests: BaseTestCase {
                 XCTAssertNotNil(transaction)
                 
                 XCTAssertEqual(transaction.transactionCategoryID, transaction.transactionCategory?.transactionCategoryID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
+        
+    }
+    
+    func testTransactionsLinkToBills() {
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Bills Request")
+        let expectation3 = expectation(description: "Network Transaction Request")
+        
+        connect(endpoint: BillsEndpoint.bills.path.prefixedWithSlash, toResourceWithName: "bills_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: defaultAuthentication(keychain: defaultKeychain(isNetwork: true)))
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        let bills = Bills(database: database, service: service, aggregation: aggregation)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        bills.refreshBills() { (result) in
+            switch result {
+               case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+                
+        aggregation.refreshTransactions() { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+        
+        let context = self.context
+        
+        let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "transactionID == %ld", argumentArray: [164525])
+        
+        do {
+            let fetchedTransactions = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedTransactions.count, 1)
+            
+            if let transaction = fetchedTransactions.first {
+                XCTAssertNotNil(transaction)
+                XCTAssertEqual(transaction.billID, transaction.bill?.billID)
             }
         } catch {
             XCTFail(error.localizedDescription)
@@ -2368,6 +2618,45 @@ class AggregationTests: BaseTestCase {
         
     }
     
+    func testUpdatingTransactionEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        connect(endpoint: AggregationEndpoint.transaction(transactionID: 194630).path.prefixedWithSlash, toResourceWithName: "transaction_id_194630")
+        
+        let aggregation = self.aggregationWithInvalidEncodingService()
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let transaction = Transaction(context: managedObjectContext)
+                transaction.populateTestData()
+                transaction.transactionID = 194630
+                
+                try? managedObjectContext.save()
+                
+                aggregation.updateTransaction(transactionID: 194630) { result in
+                    switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is DataError)
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                            XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                        }
+                    case .success:
+                        XCTFail("Invalid service throw Error when encoding")
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 5.0)
+        
+    }
+    
     func testUpdateTransactionFailsIfLoggedOut() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -2416,7 +2705,7 @@ class AggregationTests: BaseTestCase {
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Fetch Request 1")
         
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_single_page")
         connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_by_id")
         
         let aggregation = self.aggregation(loggedIn: true)
@@ -2429,10 +2718,7 @@ class AggregationTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        let fromDate = Transaction.transactionDateFormatter.date(from: "2018-08-01")!
-        let toDate = Transaction.transactionDateFormatter.date(from: "2018-08-31")!
-        
-        aggregation.refreshTransactions(from: fromDate, to: toDate) { result in
+        aggregation.refreshTransactions() { result in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -2453,7 +2739,7 @@ class AggregationTests: BaseTestCase {
             do {
                 let fetchedTransactions = try context.fetch(fetchRequest)
                 
-                XCTAssertEqual(fetchedTransactions.count, 111)
+                XCTAssertEqual(fetchedTransactions.count, 34)
             } catch {
                 XCTFail(error.localizedDescription)
             }
@@ -3030,6 +3316,49 @@ class AggregationTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testAddTagToTransactionEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: AggregationEndpoint.transactionTags(transactionID: 2233).path.prefixedWithSlash, toResourceWithName: "transaction_update_tag")
+        
+        let aggregation = self.aggregationWithInvalidEncodingService()
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let transaction = Transaction(context: managedObjectContext)
+                transaction.populateTestData()
+                transaction.transactionID = 2233
+                transaction.userTags = ["Pub","Dinner"]
+                
+                try? managedObjectContext.save()
+                
+                var tuplearray = [Aggregation.tagApplyAllPairs]()
+                tuplearray.append(("tagone",true))
+                tuplearray.append(("tagtwo",true))
+                
+                aggregation.addTagToTransaction(transactionID: 2233, tagApplyAllPairs: tuplearray) { result in
+                    switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is DataError)
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                            XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                        }
+                    case .success:
+                        XCTFail("Invalid service throw Error when encoding")
+                    }
+                    
+                    expectation1.fulfill()
+                }
+            }
+        }
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testAddTagToTransaction() {
         
         let expectation1 = expectation(description: "Network Request 1")
@@ -3088,9 +3417,7 @@ class AggregationTests: BaseTestCase {
         }
         
         wait(for: [expectation1], timeout: 3.0)
-        
     }
-    
     
     func testRemoveTagFromTransaction() {
         
@@ -3157,6 +3484,50 @@ class AggregationTests: BaseTestCase {
        
     }
     
+    func testRemoveTagFromTransactionEncodeFail() {
+        
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: AggregationEndpoint.transactionTags(transactionID: 2233).path.prefixedWithSlash, toResourceWithName: "transaction_update_tag")
+        
+        let aggregation = self.aggregationWithInvalidEncodingService()
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let transaction = Transaction(context: managedObjectContext)
+                transaction.populateTestData()
+                transaction.transactionID = 2233
+                transaction.userTags = ["Pub","Dinner","tagone","tagtwo"]
+                
+                try? managedObjectContext.save()
+                
+                var tuplearray = [Aggregation.tagApplyAllPairs]()
+                tuplearray.append(("tagone",true))
+                tuplearray.append(("tagtwo",true))
+                
+                aggregation.removeTagFromTransaction(transactionID: 2233, tagApplyAllPairs: tuplearray) { result in
+                    switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is DataError)
+                        if let error = error as? DataError {
+                            XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                            XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                        }
+                    case .success:
+                        XCTFail("Invalid service throw Error when encoding")
+                    }
+                    expectation1.fulfill()
+                }
+            }
+        }
+        wait(for: [expectation1], timeout: 3.0)
+       
+    }
+    
     func testListTagsForTransaction() {
         
         let expectation1 = expectation(description: "Network Request 1")
@@ -3180,6 +3551,37 @@ class AggregationTests: BaseTestCase {
                 
                 expectation1.fulfill()
                 
+            })
+
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+    }
+    
+    func testListTagsForTransactionEncodeFail() {
+        
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: AggregationEndpoint.transactionTags(transactionID: 2233).path.prefixedWithSlash, toResourceWithName: "transaction_update_tag", addingStatusCode: 404)
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            aggregation.listAllTagsForTransaction(transactionID: 2233, completion: { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is APIError)
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.statusCode, 404)
+                        }
+                    case .success:
+                        XCTFail("Data response is invalid")
+                }
+
+                expectation1.fulfill()
             })
 
         }
@@ -3474,9 +3876,10 @@ class AggregationTests: BaseTestCase {
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
-                case .success(let before, let after):
-                    XCTAssertEqual(before, 10)
-                    XCTAssertEqual(after, 60)
+                case .success(let (before, after, total)):
+                    XCTAssertEqual(before, "10")
+                    XCTAssertEqual(after, "60")
+                    XCTAssertEqual(total, 100)
             }
             
             expectation2.fulfill()
@@ -3505,17 +3908,17 @@ class AggregationTests: BaseTestCase {
         
         wait(for: [expectation3], timeout: 3.0)
         
-        OHHTTPStubs.removeStub(merchantStub)
+        HTTPStubs.removeStub(merchantStub)
         
         connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchant_page_2")
         
-         aggregation.refreshMerchants(after: 51, size: 50) { result in
+         aggregation.refreshMerchants(after: "51", size: 50) { result in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
-                    case .success(let before, let after):
-                        XCTAssertEqual(before, 60)
-                        XCTAssertEqual(after, 110)
+                    case .success(let (before, after, _)):
+                        XCTAssertEqual(before, "60")
+                        XCTAssertEqual(after, "110")
                 }
             
             XCTAssertNil(aggregation.merchant(context: self.context, merchantID: 78))
@@ -3615,7 +4018,7 @@ class AggregationTests: BaseTestCase {
                         do {
                             let fetchedMerchants = try context.fetch(fetchRequest)
                             
-                            XCTAssertEqual(fetchedMerchants.count, 1200)
+                            XCTAssertEqual(fetchedMerchants.count, 1199)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -3820,7 +4223,7 @@ class AggregationTests: BaseTestCase {
         let expectation2 = expectation(description: "Network Request 1")
         let expectation3 = expectation(description: "Fetch Request 1")
 
-        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_by_id")
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_valid")
 
         database.setup { (error) in
             XCTAssertNil(error)
@@ -3844,7 +4247,7 @@ class AggregationTests: BaseTestCase {
 
             let cachedMerchant3 = Merchant(context: managedObjectContext)
             cachedMerchant3.populateTestData()
-            cachedMerchant3.merchantID = 268
+            cachedMerchant3.merchantID = 1257
 
             try! managedObjectContext.save()
         }
@@ -3874,11 +4277,11 @@ class AggregationTests: BaseTestCase {
             do {
                 let fetchedMerchants = try context.fetch(fetchRequest)
 
-                XCTAssertEqual(fetchedMerchants.count, 2)
+                XCTAssertEqual(fetchedMerchants.count, 1199)
 
                 if let merchant = fetchedMerchants.last {
-                    XCTAssertEqual(merchant.merchantID, 686)
-                    XCTAssertEqual(merchant.name, "Rent")
+                    XCTAssertEqual(merchant.merchantID, 1258)
+                    XCTAssertEqual(merchant.name, "Sushi 8")
                     XCTAssertEqual(merchant.merchantType, .retailer)
                 } else {
                     XCTFail("No merchants")
@@ -3887,7 +4290,92 @@ class AggregationTests: BaseTestCase {
                 let updatedMerchant = aggregation.merchant(context: context, merchantID: 238)
                 XCTAssertEqual(updatedMerchant?.name, "The Occidental Hotel")
 
-                let deletedMerchant = aggregation.merchant(context: context, merchantID: 239)
+                let deletedMerchant = aggregation.merchant(context: context, merchantID: 1257)
+                XCTAssertNil(deletedMerchant)
+
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 5.0)
+    }
+    
+    func testCachedMerchantsRefreshEncodeFail() {
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Request 1")
+        let expectation3 = expectation(description: "Fetch Request 1")
+
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_valid")
+
+        database.setup { (error) in
+            XCTAssertNil(error)
+
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 5.0)
+
+        // Insert stale data
+        let managedObjectContext = self.database.newBackgroundContext()
+
+        managedObjectContext.performAndWait {
+            let cachedMerchant1 = Merchant(context: managedObjectContext)
+            cachedMerchant1.populateTestData()
+            cachedMerchant1.merchantID = 238
+
+            let cachedMerchant2 = Merchant(context: managedObjectContext)
+            cachedMerchant2.populateTestData()
+            cachedMerchant2.merchantID = 239
+
+            let cachedMerchant3 = Merchant(context: managedObjectContext)
+            cachedMerchant3.populateTestData()
+            cachedMerchant3.merchantID = 1257
+
+            try! managedObjectContext.save()
+        }
+
+        let aggregation = self.aggregation(loggedIn: true)
+
+        aggregation.refreshCachedMerchants { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                break
+                    
+            }
+
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 5.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = self.context
+
+            let fetchRequest: NSFetchRequest<Merchant> = Merchant.fetchRequest()
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Merchant.merchantID), ascending: true)]
+
+            do {
+                let fetchedMerchants = try context.fetch(fetchRequest)
+
+                XCTAssertEqual(fetchedMerchants.count, 1199)
+
+                if let merchant = fetchedMerchants.last {
+                    XCTAssertEqual(merchant.merchantID, 1258)
+                    XCTAssertEqual(merchant.name, "Sushi 8")
+                    XCTAssertEqual(merchant.merchantType, .retailer)
+                } else {
+                    XCTFail("No merchants")
+                }
+
+                let updatedMerchant = aggregation.merchant(context: context, merchantID: 238)
+                XCTAssertEqual(updatedMerchant?.name, "The Occidental Hotel")
+
+                let deletedMerchant = aggregation.merchant(context: context, merchantID: 1257)
                 XCTAssertNil(deletedMerchant)
 
             } catch {
@@ -3939,10 +4427,11 @@ class AggregationTests: BaseTestCase {
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
-                case .success(let before, let after):
+                case .success(let (before, after, total)):
                     
-                    XCTAssertEqual(before, 60)
-                    XCTAssertEqual(after, 110)
+                    XCTAssertEqual(before, "60")
+                    XCTAssertEqual(after, "110")
+                    XCTAssertEqual(total, 100)
                     
                     let context = self.context
                     
@@ -3970,6 +4459,57 @@ class AggregationTests: BaseTestCase {
         wait(for: [expectation2], timeout: 3.0)
     }
     
+    func testrefreshMerchantWithCompletionHandlerEncodeFail(){
+        let expectation1 = expectation(description: "Database Setup")
+        let expectation2 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchant_page_2", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        // Insert stale data
+        let managedObjectContext = self.database.newBackgroundContext()
+        
+        managedObjectContext.performAndWait {
+            let cachedMerchant1 = Merchant(context: managedObjectContext)
+            cachedMerchant1.populateTestData()
+            cachedMerchant1.merchantID = 109
+            
+            let cachedMerchant2 = Merchant(context: managedObjectContext)
+            cachedMerchant2.populateTestData()
+            cachedMerchant2.merchantID = 78
+            
+            let cachedMerchant3 = Merchant(context: managedObjectContext)
+            cachedMerchant3.populateTestData()
+            cachedMerchant3.merchantID = 268
+            
+            try! managedObjectContext.save()
+        }
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        aggregation.refreshMerchantsWithCompletionHandler(merchantIDs: []) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTAssertTrue(error is APIError)
+                    if let error = error as? APIError {
+                        XCTAssertEqual(error.statusCode, 404)
+                    }
+                case .success:
+                    XCTFail("Data response is invalid")
+            }
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+    }
+    
     func testTransactionsRefreshedOnNotification() {
         let expectation1 = expectation(forNotification: Aggregation.transactionsUpdatedNotification, object: nil) { (_) -> Bool in
             true
@@ -3977,7 +4517,7 @@ class AggregationTests: BaseTestCase {
         
         let ids: [Int64] = [4, 87, 9077777]
         
-        connect(endpoint: AggregationEndpoint.transactions.path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
+        connect(endpoint: AggregationEndpoint.transactions().path.prefixedWithSlash, toResourceWithName: "transactions_2018-08-01_valid")
         
         database.setup { error in
             XCTAssertNil(error)
@@ -3986,6 +4526,553 @@ class AggregationTests: BaseTestCase {
         }
         
         wait(for: [expectation1], timeout: 5.0)
+    }
+    
+    func testSearchMerchants() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: AggregationEndpoint.merchants.path.prefixedWithSlash, toResourceWithName: "merchants_valid")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            aggregation.searchMerchants(keyword: "") { result in
+                switch result{
+                    case .success(let merchants):
+                        XCTAssertEqual(merchants.data.count, 1199)
+                        XCTAssertEqual(merchants.data.first?.merchantID, 1)
+                        XCTAssertEqual(merchants.data.first?.merchantName, "Unknown")
+                        XCTAssertEqual(merchants.data.first?.iconURL, "https://frollo-sandbox.s3.amazonaws.com/merchants/1/original/Untitled-1.png?1519084540")
+                        XCTAssertEqual(merchants.after, "1258")
+                        XCTAssertEqual(merchants.before, "1")
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    }
+                
+                    expectation1.fulfill()
+                }
+            }
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    // MARK: - Consent Tests
+    
+    func testFetchConsentByID() {
+        let expectation1 = expectation(description: "Completion")
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            let id: Int64 = 12345
+            
+            managedObjectContext.performAndWait {
+                let testConsent = Consent(context: managedObjectContext)
+                testConsent.populateTestData(withID: id)
+                
+                try! managedObjectContext.save()
+            }
+            
+            let consent = aggregation.consent(context: self.context, consentID: id)
+            
+            XCTAssertNotNil(consent)
+            XCTAssertEqual(consent?.consentID, id)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testFetchConsents() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testConsent1 = Consent(context: managedObjectContext)
+                testConsent1.populateTestData()
+                testConsent1.status = .active
+                
+                let testProvider2 = Consent(context: managedObjectContext)
+                testProvider2.populateTestData()
+                testProvider2.status = .withdrawn
+                
+                let testProvider3 = Consent(context: managedObjectContext)
+                testProvider3.populateTestData()
+                testProvider3.status = .withdrawn
+                
+                try! managedObjectContext.save()
+            }
+            
+            let predicate = NSPredicate(format: "statusRawValue == %@", argumentArray: [Consent.Status.withdrawn.rawValue])
+            let consents = aggregation.consents(context: self.context, filteredBy: predicate)
+            
+            XCTAssertNotNil(consents)
+            XCTAssertEqual(consents?.count, 2)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testConsentsFetchedResultsController() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testConsent1 = Consent(context: managedObjectContext)
+                testConsent1.populateTestData()
+                testConsent1.status = .withdrawn
+                
+                let testConsent2 = Consent(context: managedObjectContext)
+                testConsent2.populateTestData()
+                testConsent2.status = .active
+                
+                let testConsent3 = Consent(context: managedObjectContext)
+                testConsent3.populateTestData()
+                testConsent3.status = .active
+                
+                try! managedObjectContext.save()
+            }
+            
+            let predicate = NSPredicate(format: "statusRawValue == %@", argumentArray: [Consent.Status.active.rawValue])
+            let fetchedResultsController = aggregation.consentsFetchedResultsController(context: self.context, filteredBy: predicate)
+            
+            do {
+                try fetchedResultsController?.performFetch()
+                
+                XCTAssertNotNil(fetchedResultsController?.fetchedObjects)
+                XCTAssertEqual(fetchedResultsController?.fetchedObjects?.count, 2)
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testRefreshConsentsIsCached() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.consentsUpdatedNotification, object: nil, handler: nil)
+        
+        connect(endpoint: CDREndpoint.consents.path.prefixedWithSlash, toResourceWithName: "consents_valid")
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let aggregation = self.aggregation(loggedIn: true)
+            
+            aggregation.refreshConsents { result in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success:
+                        let context = self.context
+                        
+                        let fetchRequest: NSFetchRequest<Consent> = Consent.fetchRequest()
+                        
+                        do {
+                            let fetchedConsents = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedConsents.count, 8)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+        
+    }
+    
+    func testRefreshConsentsFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: CDREndpoint.consents.path.prefixedWithSlash, toResourceWithName: "consents_valid")
+        
+        let aggregation = self.aggregation(loggedIn: false)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            aggregation.refreshConsents { result in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let loggedOutError = error as? DataError {
+                            XCTAssertEqual(loggedOutError.type, .authentication)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
+                        } else {
+                            XCTFail("Wrong error type returned")
+                        }
+                    case .success:
+                        XCTFail("User logged out, request should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+    }
+    
+    func testRefreshConsentByIDIsCached() {
+        let expectation1 = expectation(description: "Database")
+        let expectation2 = expectation(description: "Network Request 1")
+        let expectation3 = expectation(description: "Fetch Request 1")
+        let expectation4 = expectation(description: "Network Request 2")
+        let expectation5 = expectation(description: "Fetch Request 2")
+        let notificationExpectation = expectation(forNotification: Aggregation.consentsUpdatedNotification, object: nil, handler: nil)
+        
+        let providerStub = connect(endpoint: CDREndpoint.consents.path.prefixedWithSlash, toResourceWithName: "consents_valid")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        
+        aggregation.refreshConsents { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = self.context
+            
+            let totalFetchRequest: NSFetchRequest<Consent> = Consent.fetchRequest()
+            
+            do {
+                let fetchedTotalConsents = try context.fetch(totalFetchRequest)
+                
+                XCTAssertEqual(fetchedTotalConsents.count, 8)
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            let individualFetchRequest: NSFetchRequest<Consent> = Consent.fetchRequest()
+            individualFetchRequest.predicate = NSPredicate(format: "consentID == %ld", argumentArray: [353])
+            
+            do {
+                let fetchedIndividualConsents = try context.fetch(individualFetchRequest)
+                
+                XCTAssertEqual(fetchedIndividualConsents.count, 1)
+                
+                if let consent = fetchedIndividualConsents.first {
+                    XCTAssertEqual(consent.consentID, 353)
+                } else {
+                    XCTFail("Provider not found")
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+        
+        HTTPStubs.removeStub(providerStub)
+        
+        connect(endpoint: CDREndpoint.consents.path.prefixedWithSlash, toResourceWithName: "consents_updated")
+        
+        aggregation.refreshConsents { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation4.fulfill()
+        }
+        
+        wait(for: [expectation4, notificationExpectation], timeout: 3.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let context = self.context
+            
+            let totalFetchRequest: NSFetchRequest<Consent> = Consent.fetchRequest()
+            
+            do {
+                let fetchedTotalConsents = try context.fetch(totalFetchRequest)
+                
+                XCTAssertEqual(fetchedTotalConsents.count, 8)
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            let individualFetchRequest: NSFetchRequest<Consent> = Consent.fetchRequest()
+            individualFetchRequest.predicate = NSPredicate(format: "consentID == %ld", argumentArray: [353])
+            
+            do {
+                let fetchedIndividualConsents = try context.fetch(individualFetchRequest)
+                
+                XCTAssertEqual(fetchedIndividualConsents.count, 1)
+                XCTAssertEqual(fetchedIndividualConsents.first?.status, Consent.Status.withdrawn)
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            
+            expectation5.fulfill()
+        }
+        
+        wait(for: [expectation5], timeout: 3.0)
+        
+    }
+    
+    func testRefreshConsentByID() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: CDREndpoint.consents(id: 353).path.prefixedWithSlash, toResourceWithName: "consent_id_353")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            aggregation.refreshConsent(consentID: 353) { result in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNil(error, "User logged in, request should succeed")
+                    case .success:
+                        XCTAssertTrue(true)
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+    }
+    
+    func testRefreshConsentByIDFailsIfLoggedOut() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: CDREndpoint.consents(id: 353).path.prefixedWithSlash, toResourceWithName: "consent_id_353")
+        
+        let aggregation = self.aggregation(loggedIn: false)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            aggregation.refreshConsent(consentID: 353) { result in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let loggedOutError = error as? DataError {
+                            XCTAssertEqual(loggedOutError.type, .authentication)
+                            XCTAssertEqual(loggedOutError.subType, .missingAccessToken)
+                        } else {
+                            XCTFail("Wrong error type returned")
+                        }
+                    case .success:
+                        XCTFail("User logged out, request should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+    }
+    
+    func testConsentsLinkToProvider() {
+        let expectation1 = expectation(description: "Database Request")
+        let expectation2 = expectation(description: "Network Request 1")
+        let expectation3 = expectation(description: "Network Request 2")
+        
+        connect(endpoint: AggregationEndpoint.providers.path.prefixedWithSlash, toResourceWithName: "providers_valid")
+        connect(endpoint: CDREndpoint.consents.path.prefixedWithSlash, toResourceWithName: "consents_valid")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        aggregation.refreshProviders { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+        
+        aggregation.refreshConsents { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+        
+        let context = database.viewContext
+        
+        let fetchRequest: NSFetchRequest<Consent> = Consent.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "consentID == %ld", argumentArray: [353])
+        
+        do {
+            let fetchedConsents = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedConsents.count, 1)
+            
+            if let consent = fetchedConsents.first {
+                XCTAssertNotNil(consent.provider)
+                XCTAssertEqual(consent.providerID, consent.provider?.providerID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
+    }
+    
+    func testConsentsLinkToProviderAccount() {
+        let expectation1 = expectation(description: "Database Request")
+        let expectation2 = expectation(description: "Network Request 1")
+        let expectation3 = expectation(description: "Network Request 2")
+        
+        connect(endpoint: AggregationEndpoint.providerAccounts.path.prefixedWithSlash, toResourceWithName: "provider_accounts_valid")
+        connect(endpoint: CDREndpoint.consents.path.prefixedWithSlash, toResourceWithName: "consents_valid")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+        
+        aggregation.refreshConsents { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation2.fulfill()
+        }
+        
+        wait(for: [expectation2], timeout: 3.0)
+        
+        aggregation.refreshProviderAccounts { result in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    break
+            }
+            
+            expectation3.fulfill()
+        }
+        
+        wait(for: [expectation3], timeout: 3.0)
+        
+        let context = database.viewContext
+        
+        let fetchRequest: NSFetchRequest<Consent> = Consent.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "consentID == %ld", argumentArray: [351])
+        
+        do {
+            let fetchedConsents = try context.fetch(fetchRequest)
+            
+            XCTAssertEqual(fetchedConsents.count, 1)
+            
+            if let consent = fetchedConsents.first {
+                XCTAssertNotNil(consent.providerAccount)
+                XCTAssertEqual(consent.providerAccountID, consent.providerAccount?.providerAccountID)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
+    }
+    
+    func testMerchantTypeFallBack() {
+        let expectation1 = expectation(description: "Completion")
+        
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let testMerchant1 = Merchant(context: managedObjectContext)
+                testMerchant1.populateTestData()
+                testMerchant1.merchantTypeRawValue = nil
+                
+                try! managedObjectContext.save()
+            }
+            
+            let merchant = aggregation.merchants(context: self.context)?.first
+            
+            XCTAssertNotNil(merchant)
+            XCTAssertEqual(merchant?.merchantType, .unknown)
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
     }
 }
 

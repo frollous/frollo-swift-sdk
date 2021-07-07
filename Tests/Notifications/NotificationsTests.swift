@@ -18,6 +18,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class NotificationsTests: XCTestCase {
     
@@ -28,23 +31,8 @@ class NotificationsTests: XCTestCase {
     }
 
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
-    }
-    
-    func dataWithHexString(hex: String) -> Data {
-        var hex = hex
-        var data = Data()
-        while(hex.count > 0) {
-            let subIndex = hex.index(hex.startIndex, offsetBy: 2)
-            let c = String(hex[..<subIndex])
-            hex = String(hex[subIndex...])
-            var ch: UInt32 = 0
-            Scanner(string: c).scanHexInt32(&ch)
-            var char = UInt8(ch)
-            data.append(&char, count: 1)
-        }
-        return data
     }
 
     func testRegisteringPushNotificationToken() {
@@ -52,17 +40,17 @@ class NotificationsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.device.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.device.path)) { (request) -> HTTPStubsResponse in
             expectation1.fulfill()
             
-            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+            return HTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
         let path = tempFolderPath()
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -75,9 +63,9 @@ class NotificationsTests: XCTestCase {
         let notifications = Notifications(events: events, messages: messages, userManagement: userManagement)
         
         let tokenString = "740f4707bebcf74f9b7c25d48e3358945f6aa01da5ddb387462c7eaf61bb78ad"
-        let tokenData = dataWithHexString(hex: tokenString)
+        let tokenData = Data.dataWithHexString(hex: tokenString)
         
-        notifications.registerPushNotificationToken(tokenData)
+        notifications.handlePushNotificationToken(tokenData)
         
         wait(for: [expectation1], timeout: 5.0)
     }
@@ -91,7 +79,7 @@ class NotificationsTests: XCTestCase {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -121,7 +109,7 @@ class NotificationsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 98765).path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.message(messageID: 98765).path)) { (request) -> HTTPStubsResponse in
             expectation1.fulfill()
             
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "message_id_12345", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
@@ -131,7 +119,7 @@ class NotificationsTests: XCTestCase {
         let database = Database(path: path)
         let preferences = Preferences(path: path)
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)

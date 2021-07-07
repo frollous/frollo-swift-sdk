@@ -1,0 +1,14 @@
+{
+    "id": 1,
+    "name": "Volt Bank Savings",
+    "provider_id": 22772,
+    "container": "bank",
+    "account_type": "savings",
+    "terms_conditions": [
+        {
+            "id": 1,
+            "name": "Volt Bank Savings Terms & Conditions",
+            "url": "https://www.voltbank.com.au/voltsaveterms"
+        }
+    ]
+}

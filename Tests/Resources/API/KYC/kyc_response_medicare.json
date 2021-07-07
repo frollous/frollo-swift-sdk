@@ -1,0 +1,42 @@
+{
+  "gender": "M",
+  "mobile_number": "+61411458987",
+  "email": "gaetan+new@frollo.us",
+  "name": {
+    "display_name": "JAMES A TESTONE",
+    "family_name": "TESTONE",
+    "given_name": "JAMES",
+    "middle_name": "A"
+  },
+  "date_of_birth": {
+    "date_of_birth": "1950-01-01"
+  },
+  "identity_docs": [
+    {
+      "document_id": "66c7bbea-5b12-fd8b-d6db-1e76592a1520",
+      "country": "AUS",
+      "id_number": "283229690",
+      "id_type": "DRIVERS_LICENCE",
+      "region": "VIC",
+      "id_expiry": "0001-01-01",
+      "id_issued": "0001-01-01"
+    },
+    {
+      "document_id": "b36bf68f-66ea-a6d2-9d54-54a6d592f322",
+      "country": "AUS",
+      "id_number": "6603984391",
+      "id_type": "NATIONAL_HEALTH_ID",
+      "id_sub_type": "G",
+      "id_expiry": "0001-01-01",
+      "id_issued": "0001-01-01",
+      "extra_data": [
+        {
+          "kvp_key": "reference",
+          "kvp_type": "general.integer",
+          "kvp_value": "1"
+        }
+      ]
+    }
+  ],
+  "status": "unverified"
+}

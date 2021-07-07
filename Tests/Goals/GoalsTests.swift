@@ -19,6 +19,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class GoalsTests: BaseTestCase {
     
@@ -41,7 +44,7 @@ class GoalsTests: BaseTestCase {
     }
     
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
     
@@ -132,7 +135,7 @@ class GoalsTests: BaseTestCase {
                 testGoal1.frequency = .weekly
                 testGoal1.status = .failed
                 testGoal1.trackingType = .credit
-                testGoal1.trackingStatus = .ahead
+                testGoal1.trackingStatus = .above
                 
                 let testGoal2 = Goal(context: managedObjectContext)
                 testGoal2.populateTestData()
@@ -140,7 +143,7 @@ class GoalsTests: BaseTestCase {
                 testGoal2.frequency = .monthly
                 testGoal2.status = .active
                 testGoal2.trackingType = .debitCredit
-                testGoal2.trackingStatus = .behind
+                testGoal2.trackingStatus = .below
                 
                 let testGoal3 = Goal(context: managedObjectContext)
                 testGoal3.populateTestData()
@@ -148,12 +151,12 @@ class GoalsTests: BaseTestCase {
                 testGoal3.frequency = .weekly
                 testGoal3.status = .failed
                 testGoal3.trackingType = .credit
-                testGoal3.trackingStatus = .ahead
+                testGoal3.trackingStatus = .above
                 
                 try! managedObjectContext.save()
             }
             
-            let fetchedGoals = self.goals.goals(context: self.database.viewContext, frequency: .monthly, status: .active, target: .amount, trackingStatus: .behind, trackingType: .debitCredit)
+            let fetchedGoals = self.goals.goals(context: self.database.viewContext, frequency: .monthly, status: .active, target: .amount, trackingStatus: .below, trackingType: .debitCredit)
             
             XCTAssertNotNil(fetchedGoals)
             XCTAssertEqual(fetchedGoals?.count, 1)
@@ -223,7 +226,7 @@ class GoalsTests: BaseTestCase {
                 testGoal1.target = .date
                 testGoal1.frequency = .monthly
                 testGoal1.status = .active
-                testGoal1.trackingStatus = .onTrack
+                testGoal1.trackingStatus = .equal
                 testGoal1.trackingType = .credit
                 
                 let testGoal2 = Goal(context: managedObjectContext)
@@ -231,7 +234,7 @@ class GoalsTests: BaseTestCase {
                 testGoal2.target = .amount
                 testGoal2.frequency = .monthly
                 testGoal2.status = .active
-                testGoal2.trackingStatus = .onTrack
+                testGoal2.trackingStatus = .equal
                 testGoal2.trackingType = .credit
                 
                 let testGoal3 = Goal(context: managedObjectContext)
@@ -239,13 +242,13 @@ class GoalsTests: BaseTestCase {
                 testGoal3.target = .date
                 testGoal3.frequency = .annually
                 testGoal3.status = .completed
-                testGoal3.trackingStatus = .ahead
+                testGoal3.trackingStatus = .above
                 testGoal3.trackingType = .debit
                 
                 try! managedObjectContext.save()
             }
             
-            let fetchedResultsController = self.goals.goalsFetchedResultsController(context: self.database.viewContext, frequency: .annually, status: .completed, target: .date, trackingStatus: .ahead, trackingType: .debit)
+            let fetchedResultsController = self.goals.goalsFetchedResultsController(context: self.database.viewContext, frequency: .annually, status: .completed, target: .date, trackingStatus: .above, trackingType: .debit)
             
             do {
                 try fetchedResultsController?.performFetch()
@@ -299,6 +302,33 @@ class GoalsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testRefreshGoalByIDFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.goal(goalID: 12345).path.prefixedWithSlash, toResourceWithName: "goal_id_3211", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            
+            self.goals.refreshGoal(goalID: 12345) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is APIError)
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.statusCode, 404)
+                        }
+                    case .success:
+                        XCTFail("Data response is invalid")
+                }
+
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testRefreshGoals() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -344,8 +374,9 @@ class GoalsTests: BaseTestCase {
                             XCTAssertEqual(goal.status, .active)
                             XCTAssertEqual(goal.target, .amount)
                             XCTAssertEqual(goal.targetAmount, 5000)
-                            XCTAssertEqual(goal.trackingStatus, .ahead)
+                            XCTAssertEqual(goal.trackingStatus, .above)
                             XCTAssertEqual(goal.trackingType, .debit)
+                            XCTAssertEqual(goal.periods?.count, 1)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -358,10 +389,37 @@ class GoalsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testRefreshGoalsEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goals_valid", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            
+            self.goals.refreshGoals() { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is APIError)
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.statusCode, 404)
+                        }
+                    case .success:
+                        XCTFail("Data response is invalid")
+                }
+
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testRefreshGoalsFiltered() {
         let expectation1 = expectation(description: "Network Request 1")
         
-        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goals_filtered_cancelled_ontrack")
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goals_filtered_cancelled_equal")
         
         database.setup { (error) in
             XCTAssertNil(error)
@@ -373,12 +431,12 @@ class GoalsTests: BaseTestCase {
                 goal.populateTestData()
                 goal.goalID = 3211
                 goal.status = .active
-                goal.trackingStatus = .behind
+                goal.trackingStatus = .below
                 
                 try? context.save()
             }
             
-            self.goals.refreshGoals(status: .cancelled, trackingStatus: .onTrack) { (result) in
+            self.goals.refreshGoals(status: .cancelled, trackingStatus: .equal) { (result) in
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
@@ -399,7 +457,7 @@ class GoalsTests: BaseTestCase {
                     
                         // Check new goals added
                         let fetchFilteredRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
-                        fetchFilteredRequest.predicate = NSPredicate(format: #keyPath(Goal.statusRawValue) + " == %@ &&" + #keyPath(Goal.trackingStatusRawValue) + " == %@", argumentArray: [Goal.Status.cancelled.rawValue, Goal.TrackingStatus.onTrack.rawValue])
+                        fetchFilteredRequest.predicate = NSPredicate(format: #keyPath(Goal.statusRawValue) + " == %@ &&" + #keyPath(Goal.trackingStatusRawValue) + " == %@", argumentArray: [Goal.Status.cancelled.rawValue, Goal.TrackingStatus.equal.rawValue])
                         
                         do {
                             let fetchedFilteredGoals = try context.fetch(fetchFilteredRequest)
@@ -442,11 +500,12 @@ class GoalsTests: BaseTestCase {
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
-                    case .success:
+                    case .success(let goalID):
                         let context = self.database.viewContext
+                        XCTAssertEqual(goalID, 3211)
                         
                         let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
-                        fetchRequest.predicate = NSPredicate(format: "goalID == %ld", argumentArray: [3211])
+                        fetchRequest.predicate = NSPredicate(format: "goalID == %ld", argumentArray: [goalID])
                         
                         do {
                             let fetchedGoals = try context.fetch(fetchRequest)
@@ -455,6 +514,100 @@ class GoalsTests: BaseTestCase {
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testCreateCurrentBalanceGoal() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goal_id_3211", addingStatusCode: 201)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            
+            self.goals.createGoal(name: "My test goal",
+                             description: "The bestest test goal",
+                             imageURL: URL(string: "https://example.com/image.png"),
+                             target: .currentBalance,
+                             trackingType: .credit,
+                             frequency: .weekly,
+                             startDate: nil,
+                             endDate: Date().addingTimeInterval(100000),
+                             periodAmount: 700,
+                             startAmount: 0,
+                             targetAmount: 20000,
+                             accountID: 123,
+                             metadata: ["seen": true]) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    case .success(let goalID):
+                        let context = self.database.viewContext
+                        XCTAssertEqual(goalID, 3211)
+                        
+                        let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "goalID == %ld", argumentArray: [goalID])
+                        
+                        do {
+                            let fetchedGoals = try context.fetch(fetchRequest)
+                            
+                            XCTAssertEqual(fetchedGoals.first?.goalID, 3211)
+                            XCTAssertEqual(fetchedGoals.first?.target, .currentBalance)
+                        } catch {
+                            XCTFail(error.localizedDescription)
+                        }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testCreateGoalEncodeFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goal_id_3211", addingStatusCode: 201)
+        
+        let service = invalidService(keychain: defaultKeychain(isNetwork: true))
+        aggregation = Aggregation(database: database, service: service)
+        
+        goals = Goals(database: database, service: service, aggregation: aggregation)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            
+            self.goals.createGoal(name: "My test goal",
+                             description: "The bestest test goal",
+                             imageURL: URL(string: "https://example.com/image.png"),
+                             target: .amount,
+                             trackingType: .credit,
+                             frequency: .weekly,
+                             startDate: nil,
+                             endDate: Date().addingTimeInterval(100000),
+                             periodAmount: 700,
+                             startAmount: 0,
+                             targetAmount: 20000,
+                             accountID: 123,
+                             metadata: ["seen": true]) { (result) in
+                switch result {
+                case .failure(let error):
+                    XCTAssertTrue(error is DataError)
+                    if let error = error as? DataError {
+                        XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                        XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                    }
+                case .success:
+                    XCTFail("Invalid service throw Error when encoding")
                 }
                 
                 expectation1.fulfill()
@@ -507,6 +660,93 @@ class GoalsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testCreateDateGoalFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goal_id_3211", addingStatusCode: 201)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            
+            self.goals.createGoal(name: "My test goal",
+                             description: "The bestest test goal",
+                             imageURL: URL(string: "https://example.com/image.png"),
+                             target: .date,
+                             trackingType: .credit,
+                             frequency: .weekly,
+                             startDate: nil,
+                             endDate: Date().addingTimeInterval(100000),
+                             periodAmount: 700,
+                             startAmount: 0,
+                             targetAmount: nil,
+                             accountID: 123,
+                             metadata: ["seen": true]) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .api)
+                            XCTAssertEqual(dataError.subType, .invalidData)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success(let goalID):
+                        XCTAssertEqual(goalID, 3211)
+                        XCTFail("Invalid data should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testCreateOpenEndedGoalFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goal_id_3211", addingStatusCode: 201)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            
+            self.goals.createGoal(name: "My test goal",
+                             description: "The bestest test goal",
+                             imageURL: URL(string: "https://example.com/image.png"),
+                             target: .openEnded,
+                             trackingType: .credit,
+                             frequency: .weekly,
+                             startDate: nil,
+                             endDate: nil,
+                             periodAmount: 700,
+                             startAmount: 0,
+                             targetAmount: 20000,
+                             accountID: 123,
+                             metadata: ["seen": true]) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                        
+                        if let dataError = error as? DataError {
+                            XCTAssertEqual(dataError.type, .api)
+                            XCTAssertEqual(dataError.subType, .invalidData)
+                        } else {
+                            XCTFail("Wrong error returned")
+                        }
+                    case .success:
+                        XCTFail("Invalid data should fail")
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testDeleteGoal() {
         let expectation1 = expectation(description: "Network Request")
         
@@ -540,6 +780,42 @@ class GoalsTests: BaseTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testDeleteGoalFail() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        connect(endpoint: GoalsEndpoint.goal(goalID: 12345).path.prefixedWithSlash, addingData: Data(), addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                let goal = Goal(context: managedObjectContext)
+                goal.populateTestData()
+                goal.goalID = 12345
+                
+                try? managedObjectContext.save()
+            }
+            
+            self.goals.deleteGoal(goalID: 12345) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is APIError)
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.statusCode, 404)
+                        }
+                    case .success:
+                        XCTFail("Data response is invalid")
+                }
+
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testUpdateGoal() {
         let expectation1 = expectation(description: "Network Request 1")
         
@@ -563,11 +839,12 @@ class GoalsTests: BaseTestCase {
                 switch result {
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
-                    case .success:
+                    case .success(let goalID):
                         let context = self.database.viewContext
+                        XCTAssertEqual(goalID, 3211)
                         
                         let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
-                        fetchRequest.predicate = NSPredicate(format: "goalID == %ld", argumentArray: [3211])
+                        fetchRequest.predicate = NSPredicate(format: "goalID == %ld", argumentArray: [goalID])
                         
                         do {
                             let fetchedGoals = try context.fetch(fetchRequest)
@@ -576,6 +853,48 @@ class GoalsTests: BaseTestCase {
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
+                }
+                
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testUpdateGoalFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+
+        let service = invalidService(keychain: defaultKeychain(isNetwork: true))
+        aggregation = Aggregation(database: database, service: service)
+        
+        goals = Goals(database: database, service: service, aggregation: aggregation)
+        
+        connect(endpoint: GoalsEndpoint.goal(goalID: 3211).path.prefixedWithSlash, toResourceWithName: "goal_id_3211")
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            let context = self.database.newBackgroundContext()
+            
+            context.performAndWait {
+                let goal = Goal(context: context)
+                goal.populateTestData()
+                goal.goalID = 3211
+                
+                try? context.save()
+            }
+            
+            self.goals.updateGoal(goalID: 3211) { (result) in
+                switch result {
+                case .failure(let error):
+                    XCTAssertTrue(error is DataError)
+                    if let error = error as? DataError {
+                        XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                        XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                    }
+                case .success:
+                    XCTFail("Invalid service throw Error when encoding")
                 }
                 
                 expectation1.fulfill()
@@ -646,7 +965,7 @@ class GoalsTests: BaseTestCase {
             XCTFail(error.localizedDescription)
         }
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         
     }
     
@@ -693,21 +1012,21 @@ class GoalsTests: BaseTestCase {
             managedObjectContext.performAndWait {
                 let testGoalPeriod1 = GoalPeriod(context: managedObjectContext)
                 testGoalPeriod1.populateTestData()
-                testGoalPeriod1.trackingStatus = .behind
+                testGoalPeriod1.trackingStatus = .below
                 
                 let testGoalPeriod2 = GoalPeriod(context: managedObjectContext)
                 testGoalPeriod2.populateTestData()
-                testGoalPeriod2.trackingStatus = .ahead
+                testGoalPeriod2.trackingStatus = .above
                 
                 let testGoalPeriod3 = GoalPeriod(context: managedObjectContext)
                 testGoalPeriod3.populateTestData()
-                testGoalPeriod3.trackingStatus = .behind
+                testGoalPeriod3.trackingStatus = .below
                 
                 try! managedObjectContext.save()
             }
             
             
-            let predicate = NSPredicate(format: #keyPath(GoalPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Goal.TrackingStatus.behind.rawValue])
+            let predicate = NSPredicate(format: #keyPath(GoalPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Goal.TrackingStatus.below.rawValue])
             let fetchedGoalPeriods = self.goals.goalPeriods(context: self.database.viewContext, filteredBy: predicate)
             
             XCTAssertNotNil(fetchedGoalPeriods)
@@ -730,21 +1049,21 @@ class GoalsTests: BaseTestCase {
             managedObjectContext.performAndWait {
                 let testGoalPeriod1 = GoalPeriod(context: managedObjectContext)
                 testGoalPeriod1.populateTestData()
-                testGoalPeriod1.trackingStatus = .ahead
+                testGoalPeriod1.trackingStatus = .above
                 
                 let testGoalPeriod2 = GoalPeriod(context: managedObjectContext)
                 testGoalPeriod2.populateTestData()
-                testGoalPeriod2.trackingStatus = .onTrack
+                testGoalPeriod2.trackingStatus = .equal
                 
                 let testGoalPeriod3 = GoalPeriod(context: managedObjectContext)
                 testGoalPeriod3.populateTestData()
-                testGoalPeriod3.trackingStatus = .onTrack
+                testGoalPeriod3.trackingStatus = .equal
                 
                 try! managedObjectContext.save()
             }
             
             
-            let predicate = NSPredicate(format: #keyPath(GoalPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Goal.TrackingStatus.onTrack.rawValue])
+            let predicate = NSPredicate(format: #keyPath(GoalPeriod.trackingStatusRawValue) + " == %@", argumentArray: [Goal.TrackingStatus.equal.rawValue])
             let fetchedResultsController = self.goals.goalPeriodsFetchedResultsController(context: managedObjectContext, filteredBy: predicate)
             
             do {
@@ -795,7 +1114,7 @@ class GoalsTests: BaseTestCase {
                                 XCTAssertEqual(goalPeriod.requiredAmount, 173.5)
                                 XCTAssertEqual(goalPeriod.startDateString, "2019-07-18")
                                 XCTAssertEqual(goalPeriod.targetAmount, 150)
-                                XCTAssertEqual(goalPeriod.trackingStatus, .behind)
+                                XCTAssertEqual(goalPeriod.trackingStatus, .below)
                                 XCTAssertEqual(goalPeriod.index, 0)
                             } else {
                                 XCTFail("Goal Period missing")
@@ -805,6 +1124,32 @@ class GoalsTests: BaseTestCase {
                         }
                 }
                 
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testRefreshGoalPeriodsFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.periods(goalID: 123).path.prefixedWithSlash, toResourceWithName: "goal_periods_valid", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.goals.refreshGoalPeriods(goalID: 123) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is APIError)
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.statusCode, 404)
+                        }
+                    case .success:
+                        XCTFail("Data response is invalid")
+                }
+
                 expectation1.fulfill()
             }
         }
@@ -839,6 +1184,32 @@ class GoalsTests: BaseTestCase {
                         }
                 }
                 
+                expectation1.fulfill()
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testRefreshGoalPeriodFail() {
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: GoalsEndpoint.period(goalID: 123, goalPeriodID: 897).path.prefixedWithSlash, toResourceWithName: "goal_period_id_897", addingStatusCode: 404)
+        
+        database.setup { (error) in
+            XCTAssertNil(error)
+            
+            self.goals.refreshGoalPeriod(goalID: 123, goalPeriodID: 897) { (result) in
+                switch result {
+                    case .failure(let error):
+                        XCTAssertTrue(error is APIError)
+                        if let error = error as? APIError {
+                            XCTAssertEqual(error.statusCode, 404)
+                        }
+                    case .success:
+                        XCTFail("Data response is invalid")
+                }
+
                 expectation1.fulfill()
             }
         }
@@ -907,7 +1278,7 @@ class GoalsTests: BaseTestCase {
             XCTFail(error.localizedDescription)
         }
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
 }

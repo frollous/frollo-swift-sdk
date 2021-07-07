@@ -18,6 +18,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class GoalsRequestTests: BaseTestCase {
     
@@ -35,7 +38,7 @@ class GoalsRequestTests: BaseTestCase {
     
     override func tearDown() {
         Keychain(service: keychainService).removeAll()
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         
         super.tearDown()
     }
@@ -53,9 +56,33 @@ class GoalsRequestTests: BaseTestCase {
                     XCTFail(error.localizedDescription)
                 case .success(let response):
                     XCTAssertEqual(response.id, 3211)
-                    XCTAssertEqual(response.target, .amount)
+                    XCTAssertEqual(response.target, .currentBalance)
             }
             
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
+    func testCreateGoalFail() {
+        let expectation1 = expectation(description: "Network Request")
+        service = invalidService(keychain: keychain)
+        connect(endpoint: GoalsEndpoint.goals.path.prefixedWithSlash, toResourceWithName: "goal_id_3211", addingStatusCode: 404)
+        
+        let request = APIGoalCreateRequest.testAmountTargetData()
+        
+        service.createGoal(request: request) { (result) in
+            switch result {
+            case .failure(let error):
+                XCTAssertTrue(error is DataError)
+                if let error = error as? DataError {
+                    XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                    XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                }
+            case .success:
+                XCTFail("Invalid service throw Error when encoding")
+            }
             expectation1.fulfill()
         }
         
@@ -147,7 +174,7 @@ class GoalsRequestTests: BaseTestCase {
                         XCTAssertEqual(period.targetAmount, "150")
                         XCTAssertEqual(period.startDate, "2019-07-18")
                         XCTAssertEqual(period.endDate, "2019-07-25")
-                        XCTAssertEqual(period.trackingStatus, .behind)
+                        XCTAssertEqual(period.trackingStatus, .below)
                         XCTAssertEqual(period.index, 0)
                     }
             }

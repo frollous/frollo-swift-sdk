@@ -31,7 +31,8 @@ extension OAuth2TokenRequest {
                                  redirectURI: nil,
                                  refreshToken: nil,
                                  scope: OAuth2TokenRequest.Scope.offlineAccess.rawValue,
-                                 username: "user@example.com")
+                                 username: "user@example.com",
+                                 realm: nil)
     }
     
     static func testLoginInvalidData() -> OAuth2TokenRequest {
@@ -46,7 +47,8 @@ extension OAuth2TokenRequest {
                                  redirectURI: nil,
                                  refreshToken: nil,
                                  scope: nil,
-                                 username: "user@example.com")
+                                 username: "user@example.com",
+                                 realm: nil)
     }
     
 //    static func testTokenRefreshData() -> OAuthTokenRequest {

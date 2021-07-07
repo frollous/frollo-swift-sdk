@@ -57,5 +57,11 @@
         }]
       }
     ]
-  }
+  },
+  "aggregator_type": "yodlee",
+  "permissions": [
+      "account_details",
+      "transaction_details"
+  ],
+  "products_available" : false
 }

@@ -10,6 +10,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class FrolloSDKTests: XCTestCase {
     
@@ -217,6 +220,7 @@ class FrolloSDKTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         let sdk = Frollo()
+        
         sdk.setup(configuration: config) { (result) in
             switch result {
                 case .failure(let error):
@@ -224,7 +228,7 @@ class FrolloSDKTests: XCTestCase {
                 case .success:
                     sdk.applicationWillEnterForeground()
                     
-                    XCTAssertNotNil(sdk.refreshTimer)
+                    XCTAssertNil(sdk.refreshTimer)
             }
             expectation1.fulfill()
         }
@@ -232,127 +236,127 @@ class FrolloSDKTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
-    func testRefreshData() {
-        let expectation1 = expectation(description: "Setup")
-        let expectation2 = expectation(description: "Setup")
-        
-        let config = FrolloSDKConfiguration.testConfig()
-        
-        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_accounts_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_2018-08-01_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.unread.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_unread", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.billPayments.path)) { (request) -> OHHTTPStubsResponse in
-            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payments_2018-12-01_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
-        }
-        
-        let sdk = Frollo()
-        
-        sdk.setup(configuration: config) { (result) in
-            switch result {
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
-                case .success:
-                    sdk.oAuth2Authentication?.loginUser(email: "user@example.com", password: "password", scopes: ["offline_access", "email", "openid"], completion: { (error) in
-                        sdk.refreshData()
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                            let context = sdk.database.viewContext
-                            
-                            let userFetchRequest: NSFetchRequest<User> = User.fetchRequest()
-                            
-                            do {
-                                let fetchedUsers = try context.fetch(userFetchRequest)
-                                
-                                XCTAssertTrue(fetchedUsers.count > 0)
-                            } catch {
-                                XCTFail(error.localizedDescription)
-                            }
-                            
-                            let providerAccountFetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
-                            
-                            do {
-                                let fetchedProviderAccounts = try context.fetch(providerAccountFetchRequest)
-                                
-                                XCTAssertTrue(fetchedProviderAccounts.count > 0)
-                            } catch {
-                                XCTFail(error.localizedDescription)
-                            }
-                            
-                            let accountFetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
-                            
-                            do {
-                                let fetchedUsers = try context.fetch(accountFetchRequest)
-                                
-                                XCTAssertTrue(fetchedUsers.count > 0)
-                            } catch {
-                                XCTFail(error.localizedDescription)
-                            }
-                            
-                            let transactionFetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-                            
-                            do {
-                                let fetchedTransactions = try context.fetch(transactionFetchRequest)
-                                
-                                XCTAssertTrue(fetchedTransactions.count > 0)
-                            } catch {
-                                XCTFail(error.localizedDescription)
-                            }
-                            
-                            let messageFetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
-                            
-                            do {
-                                let fetchedMessages = try context.fetch(messageFetchRequest)
-                                
-                                XCTAssertTrue(fetchedMessages.count > 0)
-                            } catch {
-                                XCTFail(error.localizedDescription)
-                            }
-                            
-                            expectation1.fulfill()
-                        })
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
-                            let context = sdk.database.viewContext
-                            
-                            let billPaymentFetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
-                            
-                            do {
-                                let fetchedBillPayments = try context.fetch(billPaymentFetchRequest)
-                                
-                                XCTAssertTrue(fetchedBillPayments.count > 0)
-                            } catch {
-                                XCTFail(error.localizedDescription)
-                            }
-                            
-                            expectation2.fulfill()
-                        })
-                    })
-            }
-        }
-        
-        wait(for: [expectation1, expectation2], timeout: 15.0)
-    }
+//    func testRefreshData() {
+//        let expectation1 = expectation(description: "Setup")
+//        let expectation2 = expectation(description: "Setup")
+//
+//        let config = FrolloSDKConfiguration.testConfig()
+//
+//        stub(condition: isHost(FrolloSDKConfiguration.tokenEndpoint.host!) && isPath(FrolloSDKConfiguration.tokenEndpoint.path)) { (request) -> HTTPStubsResponse in
+//            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "token_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+//        }
+//
+//        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> HTTPStubsResponse in
+//            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+//        }
+//
+//        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.accounts.path)) { (request) -> HTTPStubsResponse in
+//            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "accounts_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+//        }
+//
+//        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.providerAccounts.path)) { (request) -> HTTPStubsResponse in
+//            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "provider_accounts_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+//        }
+//
+//        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + AggregationEndpoint.transactions().path)) { (request) -> HTTPStubsResponse in
+//            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "transactions_single_page", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+//        }
+//
+//        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + MessagesEndpoint.unread.path)) { (request) -> HTTPStubsResponse in
+//            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "messages_unread", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+//        }
+//
+//        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + BillsEndpoint.billPayments.path)) { (request) -> HTTPStubsResponse in
+//            return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "bill_payments_2018-12-01_valid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
+//        }
+//
+//        let sdk = Frollo()
+//
+//        sdk.setup(configuration: config) { (result) in
+//            switch result {
+//                case .failure(let error):
+//                    XCTFail(error.localizedDescription)
+//                case .success:
+//                    sdk.oAuth2Authentication?.loginUser(email: "user@example.com", password: "password", scopes: ["offline_access", "email", "openid"], completion: { (error) in
+//                        sdk.refreshData()
+//
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+//                            let context = sdk.database.viewContext
+//
+//                            let userFetchRequest: NSFetchRequest<User> = User.fetchRequest()
+//
+//                            do {
+//                                let fetchedUsers = try context.fetch(userFetchRequest)
+//
+//                                XCTAssertTrue(fetchedUsers.count > 0)
+//                            } catch {
+//                                XCTFail(error.localizedDescription)
+//                            }
+//
+//                            let providerAccountFetchRequest: NSFetchRequest<ProviderAccount> = ProviderAccount.fetchRequest()
+//
+//                            do {
+//                                let fetchedProviderAccounts = try context.fetch(providerAccountFetchRequest)
+//
+//                                XCTAssertTrue(fetchedProviderAccounts.count > 0)
+//                            } catch {
+//                                XCTFail(error.localizedDescription)
+//                            }
+//
+//                            let accountFetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
+//
+//                            do {
+//                                let fetchedUsers = try context.fetch(accountFetchRequest)
+//
+//                                XCTAssertTrue(fetchedUsers.count > 0)
+//                            } catch {
+//                                XCTFail(error.localizedDescription)
+//                            }
+//
+//                            let transactionFetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+//
+//                            do {
+//                                let fetchedTransactions = try context.fetch(transactionFetchRequest)
+//
+//                                XCTAssertTrue(fetchedTransactions.count > 0)
+//                            } catch {
+//                                XCTFail(error.localizedDescription)
+//                            }
+//
+//                            let messageFetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
+//
+//                            do {
+//                                let fetchedMessages = try context.fetch(messageFetchRequest)
+//
+//                                XCTAssertTrue(fetchedMessages.count > 0)
+//                            } catch {
+//                                XCTFail(error.localizedDescription)
+//                            }
+//
+//                            expectation1.fulfill()
+//                        })
+//
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+//                            let context = sdk.database.viewContext
+//
+//                            let billPaymentFetchRequest: NSFetchRequest<BillPayment> = BillPayment.fetchRequest()
+//
+//                            do {
+//                                let fetchedBillPayments = try context.fetch(billPaymentFetchRequest)
+//
+//                                XCTAssertTrue(fetchedBillPayments.count > 0)
+//                            } catch {
+//                                XCTFail(error.localizedDescription)
+//                            }
+//
+//                            expectation2.fulfill()
+//                        })
+//                    })
+//            }
+//        }
+//
+//        wait(for: [expectation1, expectation2], timeout: 15.0)
+//    }
     
     func testSingletonInstantiatedOnce() {
         XCTAssertTrue(Frollo.shared === Frollo.shared)
@@ -568,6 +572,27 @@ class FrolloSDKTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
     
+    func testPaymentsAfterSetup() {
+        let expectation1 = expectation(description: "Setup")
+        
+        var config = FrolloSDKConfiguration.testConfig()
+        config.publicKeyPinningEnabled = false
+        
+        let sdk = Frollo()
+        sdk.setup(configuration: config) { (result) in
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    _ = sdk.payments
+            }
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
     func testReportsAfterSetup() {
         let expectation1 = expectation(description: "Setup")
         
@@ -606,7 +631,7 @@ class FrolloSDKTests: XCTestCase {
             expectation1.fulfill()
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1], timeout: 10.0)
         
         sdk.setup(configuration: config) { (result) in
             switch result {
@@ -619,7 +644,7 @@ class FrolloSDKTests: XCTestCase {
             expectation2.fulfill()
         }
         
-        wait(for: [expectation2], timeout: 15.0)
+        wait(for: [expectation2], timeout: 25.0)
     }
     
     func testReset() {
@@ -632,7 +657,7 @@ class FrolloSDKTests: XCTestCase {
         
         let sdk = Frollo()
         
-        populateTestDataNamed(name: "FrolloSDKDataModel-1.2.0", atPath: Frollo.defaultDataFolderURL)
+        populateTestDataNamed(name: "FrolloSDKDataModel-1.7.0", atPath: Frollo.defaultDataFolderURL)
         
         sdk.setup(configuration: config) { (result) in
             switch result {
@@ -650,7 +675,7 @@ class FrolloSDKTests: XCTestCase {
             }
         }
         
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 15.0)
     }
     
     func testSDKCustomDataFolder() {
@@ -680,7 +705,44 @@ class FrolloSDKTests: XCTestCase {
             expectation1.fulfill()
         }
         
-        wait(for: [expectation1], timeout: 3.0)
+        wait(for: [expectation1], timeout: 5.0)
+    }
+    
+    func testRegisterPushNotificationTokenBeforeSetup() {
+        let expectation1 = expectation(description: "Setup")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        var firedOnce = false
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + DeviceEndpoint.device.path)) { (request) -> HTTPStubsResponse in
+            if !firedOnce {
+                expectation1.fulfill()
+                
+            firedOnce = true
+            }
+            
+            return HTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        }
+        
+        let sdk = Frollo()
+        
+        let tokenString = "740f4707bebcf74f9b7c25d48e3358945f6aa01da5ddb387462c7eaf61bb78ad"
+        let tokenData = Data.dataWithHexString(hex: tokenString)
+        sdk.registerPushNotificationToken(tokenData)
+        
+        sdk.setup(configuration: config) { (result) in
+            sdk.authentication.dataSource = MockAuthentication(token: "abc123", valid: true)
+            
+            switch result {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                case .success:
+                    XCTAssertTrue(sdk.setup)
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 10.0)
     }
     
 }

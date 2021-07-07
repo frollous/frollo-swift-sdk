@@ -1,0 +1,5971 @@
+{
+    "data": [{
+        "id": 168476,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-25",
+        "post_date": "2020-01-25",
+        "amount": {
+            "amount": "-10.24",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "WOOLWORTHS W1766         KOGARAH      AU Card xx0996",
+            "simple": "Woolworths"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 2,
+            "name": "Woolworths",
+            "phone": "(02) 8565 9336",
+            "website": "https://www.woolworths.com.au"
+        },
+        "user_tags": []
+    }, {
+        "id": 168475,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-25",
+        "post_date": "2020-01-25",
+        "amount": {
+            "amount": "-50.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Wdl ATM CBA ATM  KOGARAH T/C    NSW XX9093   AUS",
+            "simple": "ATM Withdrawal at Commonwealth Bank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 80,
+            "name": "ATM/Cash Withdrawals",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 715,
+            "name": "Commonwealth Bank"
+        },
+        "user_tags": []
+    }, {
+        "id": 168426,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-25",
+        "post_date": "2020-01-25",
+        "amount": {
+            "amount": "-4.48",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW TAP SYDNEY  AUS Card xx0996 Value Date_ 24/01/2020",
+            "simple": "Transport For Nsw"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 924,
+            "name": "Transport For Nsw"
+        },
+        "user_tags": []
+    }, {
+        "id": 168425,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-25",
+        "post_date": "2020-01-25",
+        "amount": {
+            "amount": "-40.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL CHIPPENDALE  AUS Card xx0996 Value Date_ 24/01/2020",
+            "simple": "Opal"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 168424,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-25",
+        "post_date": "2020-01-25",
+        "amount": {
+            "amount": "50.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 168423,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-25",
+        "post_date": "2020-01-25",
+        "amount": {
+            "amount": "-50.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 168427,
+        "account_id": 2149,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-24",
+        "post_date": "2020-01-24",
+        "amount": {
+            "amount": "73.95",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Direct Credit XX4806 BUPA_CLM_CR-2401 CXXXX1663 XXXX4848",
+            "simple": "Bupa"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 67,
+            "name": "Healthcare/Medical",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 47,
+            "name": "Bupa"
+        },
+        "user_tags": []
+    }, {
+        "id": 168303,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-23",
+        "post_date": "2020-01-23",
+        "amount": {
+            "amount": "73.95",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Direct Credit XX4806 BUPA_CLM_CR-2301 CXXXX1663 XXXX5107",
+            "simple": "Bupa"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 67,
+            "name": "Healthcare/Medical",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 47,
+            "name": "Bupa"
+        },
+        "user_tags": []
+    }, {
+        "id": 168306,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-22",
+        "post_date": "2020-01-22",
+        "amount": {
+            "amount": "500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 168305,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-22",
+        "post_date": "2020-01-22",
+        "amount": {
+            "amount": "-470.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to CBA A/c CommBank app rent",
+            "simple": "Transfer to Commonwealth Bank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 715,
+            "name": "Commonwealth Bank"
+        },
+        "user_tags": []
+    }, {
+        "id": 168304,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-22",
+        "post_date": "2020-01-22",
+        "amount": {
+            "amount": "-500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 168165,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-20",
+        "post_date": "2020-01-20",
+        "amount": {
+            "amount": "-20.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL     CHIPPENDALE  AU Card xx0996",
+            "simple": "Opal Chippendale"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 167923,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-17",
+        "post_date": "2020-01-17",
+        "amount": {
+            "amount": "-20.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL CHIPPENDALE  AUS Card xx0996 Value Date_ 16/01/2020",
+            "simple": "Opal Chippendale"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 167922,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-17",
+        "post_date": "2020-01-17",
+        "amount": {
+            "amount": "-1.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "THE FRESH PANTRY         NORTH SYDNEY AU Card xx0996",
+            "simple": "THE FRESH PANTRY NORTH SYDNEY AU Card XX0996"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 167785,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-15",
+        "post_date": "2020-01-15",
+        "amount": {
+            "amount": "-20.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL CHIPPENDALE  AUS Card xx0996 Value Date_ 14/01/2020",
+            "simple": "Opal Chippendale"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 167518,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-11",
+        "post_date": "2020-01-11",
+        "amount": {
+            "amount": "-50.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to CBA A/c CommBank app pest control",
+            "simple": "Commonwealth Bank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 715,
+            "name": "Commonwealth Bank"
+        },
+        "user_tags": []
+    }, {
+        "id": 167517,
+        "account_id": 2149,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-11",
+        "post_date": "2020-01-11",
+        "amount": {
+            "amount": "25.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from ROJIN SUBEDI CommBank app thanks",
+            "simple": "Transfer from ROJIN SUBEDI CommBank app thanks"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 167444,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-11",
+        "post_date": "2020-01-11",
+        "amount": {
+            "amount": "-20.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL CHIPPENDALE  AUS Card xx0996 Value Date_ 10/01/2020",
+            "simple": "Opal Chippendale"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 167398,
+        "account_id": 2149,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-10",
+        "post_date": "2020-01-10",
+        "amount": {
+            "amount": "400.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer From SAGAR THAPA Loan  400 cleared",
+            "simple": "Transfer From SAGAR THAPA Loan 400 cleared"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 167403,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-09",
+        "post_date": "2020-01-09",
+        "amount": {
+            "amount": "-95.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to CBA A/c CommBank app internet shopping",
+            "simple": "Transfer to Commonwealth Bank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 715,
+            "name": "Commonwealth Bank"
+        },
+        "user_tags": []
+    }, {
+        "id": 167402,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-09",
+        "post_date": "2020-01-09",
+        "amount": {
+            "amount": "-470.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to CBA A/c CommBank app rent",
+            "simple": "Transfer to Commonwealth Bank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 715,
+            "name": "Commonwealth Bank"
+        },
+        "user_tags": []
+    }, {
+        "id": 167401,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-09",
+        "post_date": "2020-01-09",
+        "amount": {
+            "amount": "600.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 167400,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-09",
+        "post_date": "2020-01-09",
+        "amount": {
+            "amount": "-600.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 165379,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-09",
+        "post_date": "2020-01-09",
+        "amount": {
+            "amount": "-20.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL CHIPPENDALE  AUS Card xx0996 Value Date_ 08/01/2020",
+            "simple": "Opal Chippendale"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 165266,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-08",
+        "post_date": "2020-01-08",
+        "amount": {
+            "amount": "-7.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "FACEBK - PPGF XXXXXX7733 AU AUS Card xx0996 Value Date_ 05/01/2020",
+            "simple": "Facebook"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 71,
+            "name": "Services/Supplies",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 657,
+            "name": "Facebook"
+        },
+        "user_tags": []
+    }, {
+        "id": 165267,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-07",
+        "post_date": "2020-01-07",
+        "amount": {
+            "amount": "-158.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to CBA A/c CommBank app electricity",
+            "simple": "Transfer to Commonwealth Bank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 715,
+            "name": "Commonwealth Bank"
+        },
+        "user_tags": []
+    }, {
+        "id": 165217,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-07",
+        "post_date": "2020-01-07",
+        "amount": {
+            "amount": "-20.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL CHIPPENDALE  AUS Card xx0996 Value Date_ 05/01/2020",
+            "simple": "Opal Chippendale"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 165017,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-05",
+        "post_date": "2020-01-05",
+        "amount": {
+            "amount": "-3.95",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "WOOLWORTHS W1766         KOGARAH      AU Card xx0996",
+            "simple": "Woolworths Kogarah"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 2,
+            "name": "Woolworths",
+            "phone": "(02) 8565 9336",
+            "website": "https://www.woolworths.com.au"
+        },
+        "user_tags": ["groceries"]
+    }, {
+        "id": 164913,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-04",
+        "post_date": "2020-01-04",
+        "amount": {
+            "amount": "198.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Return Wish.com AU SYDNEY NS AUS Card xx0996 Value Date_ 01/01/2020",
+            "simple": "Return Wish.com AU SYDNEY NS AUS Card XX0996 Value Date_"
+        },
+        "budget_category": "income",
+        "category": {
+            "id": 67,
+            "name": "Healthcare/Medical",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 164839,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-03",
+        "post_date": "2020-01-03",
+        "amount": {
+            "amount": "-20.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL CHIPPENDALE  AUS Card xx0996 Value Date_ 01/01/2020",
+            "simple": "Opal Chippendale"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 164838,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-03",
+        "post_date": "2020-01-03",
+        "amount": {
+            "amount": "-5.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "EZYMART 65 NOBONE LT CANBERRA AC AUS Card xx0996 Value Date_ 27/12/2019",
+            "simple": "Ezymart Canberra"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 919,
+            "name": "Ezymart"
+        },
+        "user_tags": ["test"]
+    }, {
+        "id": 164528,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-01",
+        "post_date": "2020-01-01",
+        "amount": {
+            "amount": "-16.75",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "EVE`S APPLE KOGARAH NS AUS Card xx0996 Value Date_ 28/12/2019",
+            "simple": "Eve's Apple Kogarah"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 2567,
+            "name": "Eve's Apple"
+        },
+        "user_tags": []
+    }, {
+        "id": 164527,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-01",
+        "post_date": "2020-01-01",
+        "amount": {
+            "amount": "-18.98",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "SALAAM NAMASTE MIXED KOGARAH NS AUS Card xx0996 Value Date_ 28/12/2019",
+            "simple": "SALAAM NAMASTE MIXED KOGARAH NS AUS Card XX0996 Value Date_"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 164525,
+        "account_id": 2149,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2020-01-01",
+        "post_date": "2020-01-01",
+        "amount": {
+            "amount": "0.52",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Credit Interest",
+            "simple": "Credit Interest"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 164529,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-31",
+        "post_date": "2019-12-31",
+        "amount": {
+            "amount": "-3.50",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "ST GEORGE MINI MARKE     CARLTON      AU Card xx0996",
+            "simple": "ST GEORGE MINI MARKE CARLTON AU Card XX0996"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 164438,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-31",
+        "post_date": "2019-12-31",
+        "amount": {
+            "amount": "-20.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL CHIPPENDALE  AUS Card xx0996 Value Date_ 28/12/2019",
+            "simple": "Opal Chippendale"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 164437,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-31",
+        "post_date": "2019-12-31",
+        "amount": {
+            "amount": "-86.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "MURRAYS AUSTRALIA LIMI RED HILL AC AUS Card xx0996 Value Date_ 26/12/2019",
+            "simple": "MURRAYS AUSTRALIA LIMI RED HILL AC AUS Card XX0996 Value Date_"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 71,
+            "name": "Services/Supplies",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 164436,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-31",
+        "post_date": "2019-12-31",
+        "amount": {
+            "amount": "-17.47",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "UBER   *TRIP Sydney AU AUS Card xx0996 Value Date_ 24/12/2019",
+            "simple": "Uber"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 204,
+            "name": "Uber",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 164435,
+        "account_id": 2149,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-31",
+        "post_date": "2019-12-31",
+        "amount": {
+            "amount": "5615.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Direct Credit XX1000 FROLLO AUSTRALIA SALARY",
+            "simple": "Salary/Regular Income from Frollo"
+        },
+        "budget_category": "income",
+        "category": {
+            "id": 84,
+            "name": "Salary/Regular Income",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1619,
+            "name": "Frollo"
+        },
+        "user_tags": []
+    }, {
+        "id": 164349,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-29",
+        "post_date": "2019-12-29",
+        "amount": {
+            "amount": "500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Commbank"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 164348,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-29",
+        "post_date": "2019-12-29",
+        "amount": {
+            "amount": "-470.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to CBA A/c CommBank app rent",
+            "simple": "Transfer to Commonwealth Bank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 715,
+            "name": "Commonwealth Bank"
+        },
+        "user_tags": []
+    }, {
+        "id": 164347,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-29",
+        "post_date": "2019-12-29",
+        "amount": {
+            "amount": "-500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 164208,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-28",
+        "post_date": "2019-12-28",
+        "amount": {
+            "amount": "-2.85",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "WOOLWORTHS W1766         KOGARAH      AU Card xx0996",
+            "simple": "Woolworths"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 2,
+            "name": "Woolworths",
+            "phone": "(02) 8565 9336",
+            "website": "https://www.woolworths.com.au"
+        },
+        "user_tags": []
+    }, {
+        "id": 164206,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-28",
+        "post_date": "2019-12-28",
+        "amount": {
+            "amount": "-10.09",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "ALDI STORES - KOGARAH    KOGARAH      AU Card xx0996",
+            "simple": "Aldi"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 954,
+            "name": "Aldi"
+        },
+        "user_tags": []
+    }, {
+        "id": 164055,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-26",
+        "post_date": "2019-12-26",
+        "amount": {
+            "amount": "-28.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "ADIDAS AUSTRALIA PTY     CARINDALE    AU Card xx0996",
+            "simple": "Adidas"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 94,
+            "name": "Electronics",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 565,
+            "name": "Adidas"
+        },
+        "user_tags": []
+    }, {
+        "id": 163676,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-21",
+        "post_date": "2019-12-21",
+        "amount": {
+            "amount": "3000.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 163675,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-21",
+        "post_date": "2019-12-21",
+        "amount": {
+            "amount": "-78.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "MURRAYS AUSTRALIA LIMI RED HILL AC AUS Card xx0996 Value Date_ 18/12/2019",
+            "simple": "MURRAYS AUSTRALIA LIMI RED HILL AC AUS Card XX0996 Value Date_"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 71,
+            "name": "Services/Supplies",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 163674,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-21",
+        "post_date": "2019-12-21",
+        "amount": {
+            "amount": "-3175.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to other Bank CommBank app dipesh dhakal",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 163673,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-21",
+        "post_date": "2019-12-21",
+        "amount": {
+            "amount": "-3000.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 163483,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-19",
+        "post_date": "2019-12-19",
+        "amount": {
+            "amount": "-40.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL CHIPPENDALE  AUS Card xx0996 Value Date_ 18/12/2019",
+            "simple": "Opal"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 163486,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-18",
+        "post_date": "2019-12-18",
+        "amount": {
+            "amount": "500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 163484,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-18",
+        "post_date": "2019-12-18",
+        "amount": {
+            "amount": "-500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 163274,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-17",
+        "post_date": "2019-12-17",
+        "amount": {
+            "amount": "-20.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL CHIPPENDALE  AUS Card xx0996 Value Date_ 14/12/2019",
+            "simple": "Opal"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 163070,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-14",
+        "post_date": "2019-12-14",
+        "amount": {
+            "amount": "-3.95",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "PAYPAL *EBAY AUZISELLI XXXXXX7733 AU AUS Card xx0996 Value Date_ 11/12/2019",
+            "simple": "Ebay Inc."
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 119,
+            "name": "General Merchandise",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1604,
+            "name": "Ebay Inc."
+        },
+        "user_tags": []
+    }, {
+        "id": 162988,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-12",
+        "post_date": "2019-12-12",
+        "amount": {
+            "amount": "-470.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to CBA A/c CommBank app rent",
+            "simple": "Transfer to Commonwealth Bank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 715,
+            "name": "Commonwealth Bank"
+        },
+        "user_tags": []
+    }, {
+        "id": 162987,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-12",
+        "post_date": "2019-12-12",
+        "amount": {
+            "amount": "500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 162986,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-12",
+        "post_date": "2019-12-12",
+        "amount": {
+            "amount": "-500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 162925,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-12",
+        "post_date": "2019-12-12",
+        "amount": {
+            "amount": "-15.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL CHIPPENDALE  AUS Card xx0996 Value Date_ 11/12/2019",
+            "simple": "Opal"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 162924,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-12",
+        "post_date": "2019-12-12",
+        "amount": {
+            "amount": "-15.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "CommBank app TFR to XXXXXXX4569 test",
+            "simple": "Transfer to Agl South Australia"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 2547,
+            "name": "Agl South Australia"
+        },
+        "user_tags": []
+    }, {
+        "id": 162828,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-11",
+        "post_date": "2019-12-11",
+        "amount": {
+            "amount": "-198.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Wish.com AU SYDNEY NS AUS Card xx0996 Value Date_ 08/12/2019",
+            "simple": "Wish.com AU SYDNEY NS AUS Card XX0996 Value Date_"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 94,
+            "name": "Electronics",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 162826,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-11",
+        "post_date": "2019-12-11",
+        "amount": {
+            "amount": "-5.78",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "PAYPAL *EBAY SALES XXXXXX7733 AU AUS Card xx0996 Value Date_ 08/12/2019",
+            "simple": "Ebay Inc."
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 119,
+            "name": "General Merchandise",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1604,
+            "name": "Ebay Inc."
+        },
+        "user_tags": []
+    }, {
+        "id": 162832,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-10",
+        "post_date": "2019-12-10",
+        "amount": {
+            "amount": "-2.52",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW TAP SYDNEY  AUS Card xx0996 Value Date_ 08/12/2019",
+            "simple": "Transport For Nsw"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 924,
+            "name": "Transport For Nsw"
+        },
+        "user_tags": []
+    }, {
+        "id": 162831,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-10",
+        "post_date": "2019-12-10",
+        "amount": {
+            "amount": "-10.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL CHIPPENDALE  AUS Card xx0996 Value Date_ 08/12/2019",
+            "simple": "Opal"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 162830,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-10",
+        "post_date": "2019-12-10",
+        "amount": {
+            "amount": "-1.89",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW TAP SYDNEY  AUS Card xx0996 Value Date_ 08/12/2019",
+            "simple": "Transport For Nsw"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 924,
+            "name": "Transport For Nsw"
+        },
+        "user_tags": []
+    }, {
+        "id": 162829,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-10",
+        "post_date": "2019-12-10",
+        "amount": {
+            "amount": "-6.72",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW TAP SYDNEY  AUS Card xx0996 Value Date_ 07/12/2019",
+            "simple": "Transport For Nsw"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 924,
+            "name": "Transport For Nsw"
+        },
+        "user_tags": []
+    }, {
+        "id": 162835,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-08",
+        "post_date": "2019-12-08",
+        "amount": {
+            "amount": "300.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Agl South Australia"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 2547,
+            "name": "Agl South Australia"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 162833,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-08",
+        "post_date": "2019-12-08",
+        "amount": {
+            "amount": "-300.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Agl South Australia"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 2547,
+            "name": "Agl South Australia"
+        },
+        "user_tags": []
+    }, {
+        "id": 162836,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-07",
+        "post_date": "2019-12-07",
+        "amount": {
+            "amount": "-8.96",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW TAP SYDNEY  AUS Card xx0996 Value Date_ 06/12/2019",
+            "simple": "Transport For Nsw"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 924,
+            "name": "Transport For Nsw"
+        },
+        "user_tags": []
+    }, {
+        "id": 162837,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-06",
+        "post_date": "2019-12-06",
+        "amount": {
+            "amount": "-8.96",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW TAP SYDNEY  AUS Card xx0996 Value Date_ 05/12/2019",
+            "simple": "Transport For Nsw"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 924,
+            "name": "Transport For Nsw"
+        },
+        "user_tags": []
+    }, {
+        "id": 162838,
+        "account_id": 2149,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-05",
+        "post_date": "2019-12-05",
+        "amount": {
+            "amount": "73.95",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Direct Credit XX4806 BUPA_CLM_CR-0512 CXXXX1663 XXXX4464",
+            "simple": "Bupa"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 67,
+            "name": "Healthcare/Medical",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 47,
+            "name": "Bupa"
+        },
+        "user_tags": []
+    }, {
+        "id": 162327,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-05",
+        "post_date": "2019-12-05",
+        "amount": {
+            "amount": "-8.96",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW TAP SYDNEY  AUS Card xx0996 Value Date_ 04/12/2019",
+            "simple": "Transport For Nsw"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 67,
+            "name": "Healthcare/Medical",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 924,
+            "name": "Transport For Nsw"
+        },
+        "user_tags": []
+    }, {
+        "id": 162245,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-04",
+        "post_date": "2019-12-04",
+        "amount": {
+            "amount": "-194.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "JBHiFi.com.au SOUTHBANK VI AUS Card xx0996 Value Date_ 01/12/2019",
+            "simple": "Jb Hi-fi"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 94,
+            "name": "Electronics",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 918,
+            "name": "Jb Hi-fi"
+        },
+        "user_tags": []
+    }, {
+        "id": 162244,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-04",
+        "post_date": "2019-12-04",
+        "amount": {
+            "amount": "-268.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "JB HOME HURSTVILLE HURSTVILLE NS AUS Card xx0996 Value Date_ 29/11/2019",
+            "simple": "Jb Hi-fi"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 94,
+            "name": "Electronics",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 918,
+            "name": "Jb Hi-fi"
+        },
+        "user_tags": []
+    }, {
+        "id": 162243,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-04",
+        "post_date": "2019-12-04",
+        "amount": {
+            "amount": "-11.99",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW TAP SYDNEY  AUS Card xx0996 Value Date_ 03/12/2019",
+            "simple": "Transport For Nsw"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 67,
+            "name": "Healthcare/Medical",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 924,
+            "name": "Transport For Nsw"
+        },
+        "user_tags": []
+    }, {
+        "id": 162249,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-03",
+        "post_date": "2019-12-03",
+        "amount": {
+            "amount": "500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 162247,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-03",
+        "post_date": "2019-12-03",
+        "amount": {
+            "amount": "-400.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to other Bank CommBank app loan",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 162246,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-03",
+        "post_date": "2019-12-03",
+        "amount": {
+            "amount": "-500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 162149,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-03",
+        "post_date": "2019-12-03",
+        "amount": {
+            "amount": "-170.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Cardless Cash for third party collection loan",
+            "simple": "Cardless Cash for third party collection loan"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 67,
+            "name": "Healthcare/Medical",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 162148,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-03",
+        "post_date": "2019-12-03",
+        "amount": {
+            "amount": "100.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 162146,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-03",
+        "post_date": "2019-12-03",
+        "amount": {
+            "amount": "-100.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 161934,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-01",
+        "post_date": "2019-12-01",
+        "amount": {
+            "amount": "-50.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Wdl ATM CBA ATM  KOGARAH T/C    NSW XX9093   AUS",
+            "simple": "ATM Withdrawal at Commonwealth Bank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 80,
+            "name": "ATM/Cash Withdrawals",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 715,
+            "name": "Commonwealth Bank"
+        },
+        "user_tags": []
+    }, {
+        "id": 161933,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-01",
+        "post_date": "2019-12-01",
+        "amount": {
+            "amount": "-4.70",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "ALDI STORES - KOGARAH    KOGARAH      AU Card xx0996",
+            "simple": "Aldi"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 954,
+            "name": "Aldi"
+        },
+        "user_tags": []
+    }, {
+        "id": 161932,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-01",
+        "post_date": "2019-12-01",
+        "amount": {
+            "amount": "-3.95",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "WOOLWORTHS W1766         KOGARAH      AU Card xx0996",
+            "simple": "Woolworths"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 2,
+            "name": "Woolworths",
+            "phone": "(02) 8565 9336",
+            "website": "https://www.woolworths.com.au"
+        },
+        "user_tags": []
+    }, {
+        "id": 161931,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-01",
+        "post_date": "2019-12-01",
+        "amount": {
+            "amount": "-40.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL     CHIPPENDALE  AU Card xx0996",
+            "simple": "Opal"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 161930,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-01",
+        "post_date": "2019-12-01",
+        "amount": {
+            "amount": "-14.74",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "ALDI STORES - HURSTVIL   HURSTVILLE   AU Card xx0996",
+            "simple": "Aldi"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 954,
+            "name": "Aldi"
+        },
+        "user_tags": []
+    }, {
+        "id": 161929,
+        "account_id": 2149,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-12-01",
+        "post_date": "2019-12-01",
+        "amount": {
+            "amount": "0.41",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Credit Interest",
+            "simple": "Interest Income"
+        },
+        "budget_category": "income",
+        "category": {
+            "id": 97,
+            "name": "Interest Income",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 161819,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-30",
+        "post_date": "2019-11-30",
+        "amount": {
+            "amount": "-3.70",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "E \u0026amp; P GLOBAL PTY LTD     ALLAWAH      AU Card xx0996",
+            "simple": "E \u0026amp; P GLOBAL PTY LTD ALLAWAH AU Card XX0996"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 80,
+            "name": "ATM/Cash Withdrawals",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160802,
+        "account_id": 2146,
+        "base_type": "other",
+        "status": "posted",
+        "included": false,
+        "transaction_date": "2019-11-30",
+        "post_date": "2019-11-30",
+        "amount": {
+            "amount": "715.00",
+            "currency": "PNT"
+        },
+        "description": {
+            "original": "Manageable Debt",
+            "simple": "715 - Manageable Debt"
+        },
+        "budget_category": "income",
+        "category": {
+            "id": 84,
+            "name": "Salary/Regular Income",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160800,
+        "account_id": 2146,
+        "base_type": "other",
+        "status": "posted",
+        "included": false,
+        "transaction_date": "2019-11-30",
+        "post_date": "2019-11-30",
+        "amount": {
+            "amount": "610.00",
+            "currency": "PNT"
+        },
+        "description": {
+            "original": "Bills Paid",
+            "simple": "610 - Bills Paid"
+        },
+        "budget_category": "income",
+        "category": {
+            "id": 84,
+            "name": "Salary/Regular Income",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160798,
+        "account_id": 2146,
+        "base_type": "other",
+        "status": "posted",
+        "included": false,
+        "transaction_date": "2019-11-30",
+        "post_date": "2019-11-30",
+        "amount": {
+            "amount": "601.00",
+            "currency": "PNT"
+        },
+        "description": {
+            "original": "Afford Little Things",
+            "simple": "601 - Afford Little Things"
+        },
+        "budget_category": "income",
+        "category": {
+            "id": 84,
+            "name": "Salary/Regular Income",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160796,
+        "account_id": 2146,
+        "base_type": "other",
+        "status": "posted",
+        "included": false,
+        "transaction_date": "2019-11-30",
+        "post_date": "2019-11-30",
+        "amount": {
+            "amount": "575.00",
+            "currency": "PNT"
+        },
+        "description": {
+            "original": "Savings Buffer",
+            "simple": "575 - Savings Buffer"
+        },
+        "budget_category": "income",
+        "category": {
+            "id": 84,
+            "name": "Salary/Regular Income",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 161824,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-29",
+        "post_date": "2019-11-29",
+        "amount": {
+            "amount": "500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 161822,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-29",
+        "post_date": "2019-11-29",
+        "amount": {
+            "amount": "-21.80",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "PATHIVARA TRADERS        HURSTVILLE   AU Card xx0996",
+            "simple": "PATHIVARA TRADERS HURSTVILLE AU Card XX0996"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 161821,
+        "account_id": 2149,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-29",
+        "post_date": "2019-11-29",
+        "amount": {
+            "amount": "5378.86",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Direct Credit XX1000 FROLLO AUSTRALIA SALARY",
+            "simple": "Salary/Regular Income from Frollo"
+        },
+        "budget_category": "income",
+        "category": {
+            "id": 84,
+            "name": "Salary/Regular Income",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1619,
+            "name": "Frollo"
+        },
+        "user_tags": []
+    }, {
+        "id": 161820,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-29",
+        "post_date": "2019-11-29",
+        "amount": {
+            "amount": "-500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 161697,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-29",
+        "post_date": "2019-11-29",
+        "amount": {
+            "amount": "300.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "goals",
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 161696,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-29",
+        "post_date": "2019-11-29",
+        "amount": {
+            "amount": "-400.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to CBA A/c CommBank app loan",
+            "simple": "Transfer to Commonwealth Bank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 715,
+            "name": "Commonwealth Bank"
+        },
+        "user_tags": []
+    }, {
+        "id": 161695,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-29",
+        "post_date": "2019-11-29",
+        "amount": {
+            "amount": "-300.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 161596,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-28",
+        "post_date": "2019-11-28",
+        "amount": {
+            "amount": "50.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "goals",
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 161595,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-28",
+        "post_date": "2019-11-28",
+        "amount": {
+            "amount": "-50.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 161582,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-28",
+        "post_date": "2019-11-28",
+        "amount": {
+            "amount": "500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "goals",
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 161581,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-28",
+        "post_date": "2019-11-28",
+        "amount": {
+            "amount": "-470.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to CBA A/c CommBank app rent",
+            "simple": "Transfer to Commonwealth Bank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 715,
+            "name": "Commonwealth Bank"
+        },
+        "user_tags": []
+    }, {
+        "id": 161580,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-28",
+        "post_date": "2019-11-28",
+        "amount": {
+            "amount": "-500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 161586,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-27",
+        "post_date": "2019-11-27",
+        "amount": {
+            "amount": "40.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "goals",
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 161585,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-27",
+        "post_date": "2019-11-27",
+        "amount": {
+            "amount": "5.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "goals",
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 161584,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-27",
+        "post_date": "2019-11-27",
+        "amount": {
+            "amount": "-40.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 161583,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-27",
+        "post_date": "2019-11-27",
+        "amount": {
+            "amount": "-5.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 161495,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-27",
+        "post_date": "2019-11-27",
+        "amount": {
+            "amount": "30.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "goals",
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 161494,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-27",
+        "post_date": "2019-11-27",
+        "amount": {
+            "amount": "-30.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 161493,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-27",
+        "post_date": "2019-11-27",
+        "amount": {
+            "amount": "20.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "goals",
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 161492,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-27",
+        "post_date": "2019-11-27",
+        "amount": {
+            "amount": "-20.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 161491,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-27",
+        "post_date": "2019-11-27",
+        "amount": {
+            "amount": "10.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 161490,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-27",
+        "post_date": "2019-11-27",
+        "amount": {
+            "amount": "-10.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 161489,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-27",
+        "post_date": "2019-11-27",
+        "amount": {
+            "amount": "10.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app Test",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 161488,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-27",
+        "post_date": "2019-11-27",
+        "amount": {
+            "amount": "-10.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app Test",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 160722,
+        "account_id": 2144,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-26",
+        "post_date": "2019-11-26",
+        "amount": {
+            "amount": "-6.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Fee Transaction"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 79,
+            "name": "Automotive",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160720,
+        "account_id": 2144,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-26",
+        "post_date": "2019-11-26",
+        "amount": {
+            "amount": "-20.37",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Insurance Premium"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 67,
+            "name": "Healthcare/Medical",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160718,
+        "account_id": 2144,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-26",
+        "post_date": "2019-11-26",
+        "amount": {
+            "amount": "3.82",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Contribution Tax"
+        },
+        "budget_category": "goals",
+        "category": {
+            "id": 67,
+            "name": "Healthcare/Medical",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160716,
+        "account_id": 2144,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-26",
+        "post_date": "2019-11-26",
+        "amount": {
+            "amount": "1189.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Contribution Processing"
+        },
+        "budget_category": "goals",
+        "category": {
+            "id": 67,
+            "name": "Healthcare/Medical",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160452,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-25",
+        "post_date": "2019-11-25",
+        "amount": {
+            "amount": "-8.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "MCDONALDS AUS",
+            "simple": "McDonald's"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 81,
+            "name": "McDonald's",
+            "phone": "(02) 9550 4804",
+            "website": "https://www.mcdonalds.com.au",
+            "location": {
+                "formatted_address": "Cnr Parramatta \u0026 Bridge Rd, Stanmore NSW 2048, Australia",
+                "line_1": "Cnr Parramatta \u0026 Bridge Rd",
+                "state": "NSW",
+                "suburb": "Stanmore",
+                "postcode": "2048",
+                "country": "Australia",
+                "longitude": 151.172038,
+                "latitude": -33.888219
+            }
+        },
+        "memo": "lunch",
+        "user_tags": []
+    }, {
+        "id": 159756,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-25",
+        "post_date": "2019-11-25",
+        "amount": {
+            "amount": "-12.50",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "WOOLWORTHS 1128 Grocery Stores and Supermarkets",
+            "simple": "Woolworths"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 2,
+            "name": "Woolworths",
+            "phone": "(02) 8565 9336",
+            "website": "https://www.woolworths.com.au",
+            "location": {
+                "formatted_address": "10 Falcon St, Crows Nest NSW 2065, Australia",
+                "line_1": "10 Falcon St",
+                "state": "NSW",
+                "suburb": "Crows Nest",
+                "postcode": "2065",
+                "country": "Australia",
+                "longitude": 151.201699,
+                "latitude": -33.827499
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 159440,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-25",
+        "post_date": "2019-11-25",
+        "amount": {
+            "amount": "-38.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "UBER *AU XUPS2 HELP.UBER.COM",
+            "simple": "Uber"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 204,
+            "name": "Uber",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160911,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-25",
+        "post_date": "2019-11-25",
+        "amount": {
+            "amount": "100.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 160910,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-25",
+        "post_date": "2019-11-25",
+        "amount": {
+            "amount": "-40.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL     CHIPPENDALE  AU Card xx0996",
+            "simple": "Opal"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160909,
+        "account_id": 2149,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-25",
+        "post_date": "2019-11-25",
+        "amount": {
+            "amount": "100.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from ROJIN SUBEDI CommBank app thanks",
+            "simple": "Refunds from Commbank"
+        },
+        "budget_category": "income",
+        "category": {
+            "id": 67,
+            "name": "Healthcare/Medical",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 160908,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-25",
+        "post_date": "2019-11-25",
+        "amount": {
+            "amount": "-100.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 160454,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-24",
+        "post_date": "2019-11-24",
+        "amount": {
+            "amount": "-10.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "MCDONALDS AUS",
+            "simple": "McDonald's"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 81,
+            "name": "McDonald's",
+            "phone": "(02) 9550 4804",
+            "website": "https://www.mcdonalds.com.au",
+            "location": {
+                "formatted_address": "Cnr Parramatta \u0026 Bridge Rd, Stanmore NSW 2048, Australia",
+                "line_1": "Cnr Parramatta \u0026 Bridge Rd",
+                "state": "NSW",
+                "suburb": "Stanmore",
+                "postcode": "2048",
+                "country": "Australia",
+                "longitude": 151.172038,
+                "latitude": -33.888219
+            }
+        },
+        "memo": "lunch",
+        "user_tags": []
+    }, {
+        "id": 159416,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-24",
+        "post_date": "2019-11-24",
+        "amount": {
+            "amount": "-25.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "INTEREST CHARGES - PUR CH",
+            "simple": "Charge/Fee"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 79,
+            "name": "Automotive",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 148,
+            "name": "Charge/Fee",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 159382,
+        "account_id": 2142,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-24",
+        "post_date": "2019-11-24",
+        "amount": {
+            "amount": "1000.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Credit Card Payment"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 79,
+            "name": "Automotive",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160456,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-23",
+        "post_date": "2019-11-23",
+        "amount": {
+            "amount": "-8.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "MCDONALDS AUS",
+            "simple": "McDonald's"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 81,
+            "name": "McDonald's",
+            "phone": "(02) 9550 4804",
+            "website": "https://www.mcdonalds.com.au",
+            "location": {
+                "formatted_address": "Cnr Parramatta \u0026 Bridge Rd, Stanmore NSW 2048, Australia",
+                "line_1": "Cnr Parramatta \u0026 Bridge Rd",
+                "state": "NSW",
+                "suburb": "Stanmore",
+                "postcode": "2048",
+                "country": "Australia",
+                "longitude": 151.172038,
+                "latitude": -33.888219
+            }
+        },
+        "memo": "lunch",
+        "user_tags": []
+    }, {
+        "id": 160140,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-23",
+        "post_date": "2019-11-23",
+        "amount": {
+            "amount": "-120.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "THE OCCIDENTAL HOTEL SYDNEY",
+            "simple": "The Occidental Hotel"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 238,
+            "name": "The Occidental Hotel",
+            "phone": "(02) 9299 2531",
+            "website": "https://www.theoccidental.com",
+            "location": {
+                "formatted_address": "43 York St, Sydney NSW 2000, Australia",
+                "line_1": "43 York St",
+                "state": "NSW",
+                "suburb": "Sydney",
+                "postcode": "2000",
+                "country": "Australia",
+                "longitude": 151.205643,
+                "latitude": -33.86678
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 159900,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-23",
+        "post_date": "2019-11-23",
+        "amount": {
+            "amount": "-7.95",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "ROMEOS FOODHALL IGA Grocery Stores and Supermarkets",
+            "simple": "IGA grocery stores"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 23,
+            "name": "IGA grocery stores",
+            "phone": "(03) 5257 3127",
+            "website": "https://www.iga.com.au",
+            "location": {
+                "formatted_address": "201-205 Pacific Hwy, St Leonards NSW 2065, Australia",
+                "line_1": "201-205 Pacific Hwy",
+                "state": "NSW",
+                "suburb": "St Leonards",
+                "postcode": "2065",
+                "country": "Australia",
+                "longitude": 151.194138,
+                "latitude": -33.823067
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 160912,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-23",
+        "post_date": "2019-11-23",
+        "amount": {
+            "amount": "-3.95",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "WOOLWORTHS W1766         KOGARAH      AU Card xx0996",
+            "simple": "Woolworths"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 2,
+            "name": "Woolworths",
+            "phone": "(02) 8565 9336",
+            "website": "https://www.woolworths.com.au"
+        },
+        "user_tags": []
+    }, {
+        "id": 160020,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-21",
+        "post_date": "2019-11-21",
+        "amount": {
+            "amount": "-24.50",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "COLES 693 Grocery Stores and Supermarkets",
+            "simple": "Coles"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 44,
+            "name": "Coles",
+            "phone": "(02) 8912 3400",
+            "website": "https://www.coles.com.au",
+            "location": {
+                "formatted_address": "99 Walker St, North Sydney NSW 2060, Australia",
+                "line_1": "99 Walker St",
+                "state": "NSW",
+                "suburb": "North Sydney",
+                "postcode": "2060",
+                "country": "Australia",
+                "longitude": 151.20897,
+                "latitude": -33.839286
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 160142,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-20",
+        "post_date": "2019-11-20",
+        "amount": {
+            "amount": "-85.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "BURGER PROJECT SYDNEY AU",
+            "simple": "Burger Project"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 249,
+            "name": "Burger Project",
+            "phone": "(02) 9259 5600",
+            "website": "https://www.burgerproject.com",
+            "location": {
+                "formatted_address": "MLC Centre Lower Ground Floor, Shop 6, 22 19 Martin Pl, Sydney NSW 2000, Australia",
+                "line_1": "MLC Centre Lower Ground Floor,",
+                "line_2": "Shop 6, 22 19 Martin Pl",
+                "state": "NSW",
+                "suburb": "Sydney",
+                "postcode": "2000",
+                "country": "Australia",
+                "longitude": 151.209306,
+                "latitude": -33.868327
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 159660,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-20",
+        "post_date": "2019-11-20",
+        "amount": {
+            "amount": "-12.50",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "PAYPAL*BUYALOT 0424030029 AU",
+            "simple": "PayPal"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 71,
+            "name": "Services/Supplies",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 31,
+            "name": "PayPal"
+        },
+        "user_tags": []
+    }, {
+        "id": 160914,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-20",
+        "post_date": "2019-11-20",
+        "amount": {
+            "amount": "-12.28",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "PAYPAL *EBAY LI HONG L XXXXXX7733 AU AUS Card xx0996 Value Date_ 16/11/2019",
+            "simple": "Ebay Inc."
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 119,
+            "name": "General Merchandise",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1604,
+            "name": "Ebay Inc."
+        },
+        "user_tags": []
+    }, {
+        "id": 160913,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-20",
+        "post_date": "2019-11-20",
+        "amount": {
+            "amount": "-205.98",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Kogan.com JTN9JKPC Melbourne AU AUS Card xx0996 Value Date_ 18/11/2019",
+            "simple": "Kogan.com"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 119,
+            "name": "General Merchandise",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 2504,
+            "name": "Kogan.com"
+        },
+        "user_tags": []
+    }, {
+        "id": 160458,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-19",
+        "post_date": "2019-11-19",
+        "amount": {
+            "amount": "-8.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "MCDONALDS AUS",
+            "simple": "McDonald's"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 81,
+            "name": "McDonald's",
+            "phone": "(02) 9550 4804",
+            "website": "https://www.mcdonalds.com.au",
+            "location": {
+                "formatted_address": "Cnr Parramatta \u0026 Bridge Rd, Stanmore NSW 2048, Australia",
+                "line_1": "Cnr Parramatta \u0026 Bridge Rd",
+                "state": "NSW",
+                "suburb": "Stanmore",
+                "postcode": "2048",
+                "country": "Australia",
+                "longitude": 151.172038,
+                "latitude": -33.888219
+            }
+        },
+        "memo": "lunch",
+        "user_tags": []
+    }, {
+        "id": 159758,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-19",
+        "post_date": "2019-11-19",
+        "amount": {
+            "amount": "-15.95",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "WOOLWORTHS 1128 Grocery Stores and Supermarkets",
+            "simple": "Woolworths"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 2,
+            "name": "Woolworths",
+            "phone": "(02) 8565 9336",
+            "website": "https://www.woolworths.com.au",
+            "location": {
+                "formatted_address": "10 Falcon St, Crows Nest NSW 2065, Australia",
+                "line_1": "10 Falcon St",
+                "state": "NSW",
+                "suburb": "Crows Nest",
+                "postcode": "2065",
+                "country": "Australia",
+                "longitude": 151.201699,
+                "latitude": -33.827499
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 160915,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-19",
+        "post_date": "2019-11-19",
+        "amount": {
+            "amount": "-15.60",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "KACHA B FRUIT \u0026amp; V PL KOGARAH  AUS Card xx0996 Value Date_ 13/11/2019",
+            "simple": "KACHA B FRUIT \u0026amp; V PL KOGARAH AUS Card XX0996 Value Date_"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160460,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-18",
+        "post_date": "2019-11-18",
+        "amount": {
+            "amount": "-8.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "MCDONALDS AUS",
+            "simple": "McDonald's"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 81,
+            "name": "McDonald's",
+            "phone": "(02) 9550 4804",
+            "website": "https://www.mcdonalds.com.au",
+            "location": {
+                "formatted_address": "Cnr Parramatta \u0026 Bridge Rd, Stanmore NSW 2048, Australia",
+                "line_1": "Cnr Parramatta \u0026 Bridge Rd",
+                "state": "NSW",
+                "suburb": "Stanmore",
+                "postcode": "2048",
+                "country": "Australia",
+                "longitude": 151.172038,
+                "latitude": -33.888219
+            }
+        },
+        "memo": "lunch",
+        "user_tags": []
+    }, {
+        "id": 160919,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-18",
+        "post_date": "2019-11-18",
+        "amount": {
+            "amount": "300.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "goals",
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 160918,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-18",
+        "post_date": "2019-11-18",
+        "amount": {
+            "amount": "-40.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL     CHIPPENDALE  AU Card xx0996",
+            "simple": "Opal"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160917,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-18",
+        "post_date": "2019-11-18",
+        "amount": {
+            "amount": "-100.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to CBA A/c CommBank app test",
+            "simple": "Transfer to Commonwealth Bank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 715,
+            "name": "Commonwealth Bank"
+        },
+        "user_tags": []
+    }, {
+        "id": 160916,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-18",
+        "post_date": "2019-11-18",
+        "amount": {
+            "amount": "-300.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 160462,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-17",
+        "post_date": "2019-11-17",
+        "amount": {
+            "amount": "-8.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "MCDONALDS AUS",
+            "simple": "McDonald's"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 81,
+            "name": "McDonald's",
+            "phone": "(02) 9550 4804",
+            "website": "https://www.mcdonalds.com.au",
+            "location": {
+                "formatted_address": "Cnr Parramatta \u0026 Bridge Rd, Stanmore NSW 2048, Australia",
+                "line_1": "Cnr Parramatta \u0026 Bridge Rd",
+                "state": "NSW",
+                "suburb": "Stanmore",
+                "postcode": "2048",
+                "country": "Australia",
+                "longitude": 151.172038,
+                "latitude": -33.888219
+            }
+        },
+        "memo": "lunch",
+        "user_tags": []
+    }, {
+        "id": 160380,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-17",
+        "post_date": "2019-11-17",
+        "amount": {
+            "amount": "-30.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "BUNNINGS 71 AU",
+            "simple": "Bunnings"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 72,
+            "name": "Bunnings",
+            "phone": "(02) 9462 0300",
+            "website": "https://www.bunnings.com.au",
+            "location": {
+                "formatted_address": "71 Reserve Rd, Artarmon NSW 2064, Australia",
+                "line_1": "71 Reserve Rd",
+                "state": "NSW",
+                "suburb": "Artarmon",
+                "postcode": "2064",
+                "country": "Australia",
+                "longitude": 151.185257,
+                "latitude": -33.81365
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 159902,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-17",
+        "post_date": "2019-11-17",
+        "amount": {
+            "amount": "-21.50",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "ROMEOS FOODHALL IGA Grocery Stores and Supermarkets",
+            "simple": "IGA grocery stores"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 23,
+            "name": "IGA grocery stores",
+            "phone": "(03) 5257 3127",
+            "website": "https://www.iga.com.au",
+            "location": {
+                "formatted_address": "201-205 Pacific Hwy, St Leonards NSW 2065, Australia",
+                "line_1": "201-205 Pacific Hwy",
+                "state": "NSW",
+                "suburb": "St Leonards",
+                "postcode": "2065",
+                "country": "Australia",
+                "longitude": 151.194138,
+                "latitude": -33.823067
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 159442,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-17",
+        "post_date": "2019-11-17",
+        "amount": {
+            "amount": "-23.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "UBER *AU XUPS2 HELP.UBER.COM",
+            "simple": "Uber"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 204,
+            "name": "Uber",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160920,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-17",
+        "post_date": "2019-11-17",
+        "amount": {
+            "amount": "-6.41",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "ALDI STORES - HURSTVIL   HURSTVILLE   AU Card xx0996",
+            "simple": "Aldi"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 954,
+            "name": "Aldi"
+        },
+        "user_tags": []
+    }, {
+        "id": 160146,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-16",
+        "post_date": "2019-11-16",
+        "amount": {
+            "amount": "-44.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "THE TREEHOUSE HOTEL NORTH SYDNE AUS",
+            "simple": "The Tree House"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 248,
+            "name": "The Tree House",
+            "phone": "(02) 8458 8980",
+            "website": "https://www.thetreehousehotel.com.au",
+            "location": {
+                "formatted_address": "60 Miller St, North Sydney NSW 2060, Australia",
+                "line_1": "60 Miller St",
+                "state": "NSW",
+                "suburb": "North Sydney",
+                "postcode": "2060",
+                "country": "Australia",
+                "longitude": 151.209011,
+                "latitude": -33.828837
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 160144,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-16",
+        "post_date": "2019-11-16",
+        "amount": {
+            "amount": "-22.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "THE TREEHOUSE HOTEL NORTH SYDNE AUS",
+            "simple": "The Tree House"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 248,
+            "name": "The Tree House",
+            "phone": "(02) 8458 8980",
+            "website": "https://www.thetreehousehotel.com.au",
+            "location": {
+                "formatted_address": "60 Miller St, North Sydney NSW 2060, Australia",
+                "line_1": "60 Miller St",
+                "state": "NSW",
+                "suburb": "North Sydney",
+                "postcode": "2060",
+                "country": "Australia",
+                "longitude": 151.209011,
+                "latitude": -33.828837
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 159708,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-16",
+        "post_date": "2019-11-16",
+        "amount": {
+            "amount": "-11.99",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "ITUNES MUSIC STORE SYDNEY AU",
+            "simple": "Apple Inc"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 94,
+            "name": "Electronics",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 14,
+            "name": "Apple Inc"
+        },
+        "user_tags": []
+    }, {
+        "id": 159444,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-16",
+        "post_date": "2019-11-16",
+        "amount": {
+            "amount": "-27.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "UBER *AU XUPS2 HELP.UBER.COM",
+            "simple": "Uber"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 204,
+            "name": "Uber",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160404,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-15",
+        "post_date": "2019-11-15",
+        "amount": {
+            "amount": "-60.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "DAN MURPHYS 1546 AUS",
+            "simple": "Dan Murphy"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 97,
+            "name": "Dan Murphy",
+            "phone": "1300 723 388",
+            "website": "https://www.danmurphys.com.au",
+            "location": {
+                "formatted_address": "2/10 Fountain St, Alexandria NSW 2015, Australia",
+                "line_1": "2/10 Fountain St",
+                "state": "NSW",
+                "suburb": "Alexandria",
+                "postcode": "2015",
+                "country": "Australia",
+                "longitude": 151.194334,
+                "latitude": -33.901505
+            }
+        },
+        "memo": "party",
+        "user_tags": []
+    }, {
+        "id": 160022,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-15",
+        "post_date": "2019-11-15",
+        "amount": {
+            "amount": "-40.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "COLES 693 Grocery Stores and Supermarkets",
+            "simple": "Coles"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 44,
+            "name": "Coles",
+            "phone": "(02) 8912 3400",
+            "website": "https://www.coles.com.au",
+            "location": {
+                "formatted_address": "99 Walker St, North Sydney NSW 2060, Australia",
+                "line_1": "99 Walker St",
+                "state": "NSW",
+                "suburb": "North Sydney",
+                "postcode": "2060",
+                "country": "Australia",
+                "longitude": 151.20897,
+                "latitude": -33.839286
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 160923,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-14",
+        "post_date": "2019-11-14",
+        "amount": {
+            "amount": "500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "goals",
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 160922,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-14",
+        "post_date": "2019-11-14",
+        "amount": {
+            "amount": "-470.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to CBA A/c CommBank app rent",
+            "simple": "Transfer to Commonwealth Bank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 715,
+            "name": "Commonwealth Bank"
+        },
+        "user_tags": []
+    }, {
+        "id": 160921,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-14",
+        "post_date": "2019-11-14",
+        "amount": {
+            "amount": "-500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 160148,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-13",
+        "post_date": "2019-11-13",
+        "amount": {
+            "amount": "-74.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "SUSHI TRAIN BONDI BONDI JUNCTION",
+            "simple": "SUSHI PTY. LTD."
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 292,
+            "name": "SUSHI PTY. LTD.",
+            "phone": "(02) 9387 3774",
+            "website": "http://www.sushitrain.com.au",
+            "location": {
+                "formatted_address": "shop 4/183-193 Oxford St, Bondi Junction NSW 2022, Australia",
+                "line_1": "shop 4/183-193 Oxford St",
+                "state": "NSW",
+                "suburb": "Bondi Junction",
+                "postcode": "2022",
+                "country": "Australia",
+                "longitude": 151.24181,
+                "latitude": -33.889795
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 159760,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-13",
+        "post_date": "2019-11-13",
+        "amount": {
+            "amount": "-159.41",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "WOOLWORTHS 1128 Grocery Stores and Supermarkets",
+            "simple": "Woolworths"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 2,
+            "name": "Woolworths",
+            "phone": "(02) 8565 9336",
+            "website": "https://www.woolworths.com.au",
+            "location": {
+                "formatted_address": "10 Falcon St, Crows Nest NSW 2065, Australia",
+                "line_1": "10 Falcon St",
+                "state": "NSW",
+                "suburb": "Crows Nest",
+                "postcode": "2065",
+                "country": "Australia",
+                "longitude": 151.201699,
+                "latitude": -33.827499
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 159662,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-13",
+        "post_date": "2019-11-13",
+        "amount": {
+            "amount": "-15.95",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "PAYPAL*PAYPALPAYME 4029357733 AU",
+            "simple": "PayPal"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 71,
+            "name": "Services/Supplies",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 31,
+            "name": "PayPal"
+        },
+        "user_tags": []
+    }, {
+        "id": 160464,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-12",
+        "post_date": "2019-11-12",
+        "amount": {
+            "amount": "-8.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "MCDONALDS AUS",
+            "simple": "McDonald's"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 81,
+            "name": "McDonald's",
+            "phone": "(02) 9550 4804",
+            "website": "https://www.mcdonalds.com.au",
+            "location": {
+                "formatted_address": "Cnr Parramatta \u0026 Bridge Rd, Stanmore NSW 2048, Australia",
+                "line_1": "Cnr Parramatta \u0026 Bridge Rd",
+                "state": "NSW",
+                "suburb": "Stanmore",
+                "postcode": "2048",
+                "country": "Australia",
+                "longitude": 151.172038,
+                "latitude": -33.888219
+            }
+        },
+        "memo": "lunch",
+        "user_tags": []
+    }, {
+        "id": 160466,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-11",
+        "post_date": "2019-11-11",
+        "amount": {
+            "amount": "-8.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "MCDONALDS AUS",
+            "simple": "McDonald's"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 81,
+            "name": "McDonald's",
+            "phone": "(02) 9550 4804",
+            "website": "https://www.mcdonalds.com.au",
+            "location": {
+                "formatted_address": "Cnr Parramatta \u0026 Bridge Rd, Stanmore NSW 2048, Australia",
+                "line_1": "Cnr Parramatta \u0026 Bridge Rd",
+                "state": "NSW",
+                "suburb": "Stanmore",
+                "postcode": "2048",
+                "country": "Australia",
+                "longitude": 151.172038,
+                "latitude": -33.888219
+            }
+        },
+        "memo": "lunch",
+        "user_tags": []
+    }, {
+        "id": 160926,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-11",
+        "post_date": "2019-11-11",
+        "amount": {
+            "amount": "100.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "goals",
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 160925,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-11",
+        "post_date": "2019-11-11",
+        "amount": {
+            "amount": "-40.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL     CHIPPENDALE  AU Card xx0996",
+            "simple": "Opal"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160924,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-11",
+        "post_date": "2019-11-11",
+        "amount": {
+            "amount": "-100.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 160428,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-10",
+        "post_date": "2019-11-10",
+        "amount": {
+            "amount": "-40.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "BIG W 0117 TOP RYDE AUS",
+            "simple": "BIG W"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 94,
+            "name": "Electronics",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 125,
+            "name": "BIG W",
+            "location": {
+                "formatted_address": "115/121 Blaxland Rd, Ryde NSW 2112, Australia",
+                "line_1": "115/121 Blaxland Rd",
+                "state": "NSW",
+                "suburb": "Ryde",
+                "postcode": "2112",
+                "country": "Australia",
+                "longitude": 151.109423,
+                "latitude": -33.816506
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 159904,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-10",
+        "post_date": "2019-11-10",
+        "amount": {
+            "amount": "-12.60",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "ROMEOS FOODHALL IGA Grocery Stores and Supermarkets",
+            "simple": "IGA grocery stores"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 23,
+            "name": "IGA grocery stores",
+            "phone": "(03) 5257 3127",
+            "website": "https://www.iga.com.au",
+            "location": {
+                "formatted_address": "201-205 Pacific Hwy, St Leonards NSW 2065, Australia",
+                "line_1": "201-205 Pacific Hwy",
+                "state": "NSW",
+                "suburb": "St Leonards",
+                "postcode": "2065",
+                "country": "Australia",
+                "longitude": 151.194138,
+                "latitude": -33.823067
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 159446,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-10",
+        "post_date": "2019-11-10",
+        "amount": {
+            "amount": "-32.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "UBER *AU XUPS2 HELP.UBER.COM",
+            "simple": "Uber"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 204,
+            "name": "Uber",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160150,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-09",
+        "post_date": "2019-11-09",
+        "amount": {
+            "amount": "-65.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "BREW HOUSE HOTEL",
+            "simple": "The Brew House Hotel"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 107,
+            "name": "The Brew House Hotel",
+            "location": {
+                "formatted_address": "6 Cobham St, Kings Park NSW 2148, Australia",
+                "line_1": "6 Cobham St",
+                "state": "NSW",
+                "suburb": "Kings Park",
+                "postcode": "2148",
+                "country": "Australia",
+                "longitude": 150.901736,
+                "latitude": -33.741834
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 159450,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-09",
+        "post_date": "2019-11-09",
+        "amount": {
+            "amount": "-18.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "UBER *AU XUPS2 HELP.UBER.COM",
+            "simple": "Uber"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 204,
+            "name": "Uber",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160024,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-07",
+        "post_date": "2019-11-07",
+        "amount": {
+            "amount": "-10.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "COLES 693 Grocery Stores and Supermarkets",
+            "simple": "Coles"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 44,
+            "name": "Coles",
+            "phone": "(02) 8912 3400",
+            "website": "https://www.coles.com.au",
+            "location": {
+                "formatted_address": "99 Walker St, North Sydney NSW 2060, Australia",
+                "line_1": "99 Walker St",
+                "state": "NSW",
+                "suburb": "North Sydney",
+                "postcode": "2060",
+                "country": "Australia",
+                "longitude": 151.20897,
+                "latitude": -33.839286
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 159732,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-07",
+        "post_date": "2019-11-07",
+        "amount": {
+            "amount": "-17.99",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "NETFLIX.COM LOS GATOS CA   Cable and Other Pay Television Services",
+            "simple": "Netflix"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 94,
+            "name": "Electronics",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 40,
+            "name": "Netflix"
+        },
+        "user_tags": []
+    }, {
+        "id": 159448,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-07",
+        "post_date": "2019-11-07",
+        "amount": {
+            "amount": "-66.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "UBER *AU XUPS2 HELP.UBER.COM",
+            "simple": "Uber"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 204,
+            "name": "Uber",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 159384,
+        "account_id": 2142,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-07",
+        "post_date": "2019-11-07",
+        "amount": {
+            "amount": "1000.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Credit Card Payment"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 79,
+            "name": "Automotive",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160152,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-06",
+        "post_date": "2019-11-06",
+        "amount": {
+            "amount": "-150.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "KANSAI",
+            "simple": "Unknown"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160468,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-05",
+        "post_date": "2019-11-05",
+        "amount": {
+            "amount": "-8.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "MCDONALDS AUS",
+            "simple": "McDonald's"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 81,
+            "name": "McDonald's",
+            "phone": "(02) 9550 4804",
+            "website": "https://www.mcdonalds.com.au",
+            "location": {
+                "formatted_address": "Cnr Parramatta \u0026 Bridge Rd, Stanmore NSW 2048, Australia",
+                "line_1": "Cnr Parramatta \u0026 Bridge Rd",
+                "state": "NSW",
+                "suburb": "Stanmore",
+                "postcode": "2048",
+                "country": "Australia",
+                "longitude": 151.172038,
+                "latitude": -33.888219
+            }
+        },
+        "memo": "lunch",
+        "user_tags": []
+    }, {
+        "id": 159762,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-05",
+        "post_date": "2019-11-05",
+        "amount": {
+            "amount": "-39.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "WOOLWORTHS 1128 Grocery Stores and Supermarkets",
+            "simple": "Woolworths"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 2,
+            "name": "Woolworths",
+            "phone": "(02) 8565 9336",
+            "website": "https://www.woolworths.com.au",
+            "location": {
+                "formatted_address": "10 Falcon St, Crows Nest NSW 2065, Australia",
+                "line_1": "10 Falcon St",
+                "state": "NSW",
+                "suburb": "Crows Nest",
+                "postcode": "2065",
+                "country": "Australia",
+                "longitude": 151.201699,
+                "latitude": -33.827499
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 160927,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-05",
+        "post_date": "2019-11-05",
+        "amount": {
+            "amount": "-40.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "TRANSPORTFORNSW OPAL     CHIPPENDALE  AU Card xx0996",
+            "simple": "Opal"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1603,
+            "name": "Opal",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160470,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-04",
+        "post_date": "2019-11-04",
+        "amount": {
+            "amount": "-8.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "MCDONALDS AUS",
+            "simple": "McDonald's"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 81,
+            "name": "McDonald's",
+            "phone": "(02) 9550 4804",
+            "website": "https://www.mcdonalds.com.au",
+            "location": {
+                "formatted_address": "Cnr Parramatta \u0026 Bridge Rd, Stanmore NSW 2048, Australia",
+                "line_1": "Cnr Parramatta \u0026 Bridge Rd",
+                "state": "NSW",
+                "suburb": "Stanmore",
+                "postcode": "2048",
+                "country": "Australia",
+                "longitude": 151.172038,
+                "latitude": -33.888219
+            }
+        },
+        "memo": "lunch",
+        "user_tags": []
+    }, {
+        "id": 160154,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-04",
+        "post_date": "2019-11-04",
+        "amount": {
+            "amount": "-53.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "SUSHI TRAIN BONDI BONDI JUNCTION",
+            "simple": "SUSHI PTY. LTD."
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 292,
+            "name": "SUSHI PTY. LTD.",
+            "phone": "(02) 9387 3774",
+            "website": "http://www.sushitrain.com.au",
+            "location": {
+                "formatted_address": "shop 4/183-193 Oxford St, Bondi Junction NSW 2022, Australia",
+                "line_1": "shop 4/183-193 Oxford St",
+                "state": "NSW",
+                "suburb": "Bondi Junction",
+                "postcode": "2022",
+                "country": "Australia",
+                "longitude": 151.24181,
+                "latitude": -33.889795
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 159906,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-04",
+        "post_date": "2019-11-04",
+        "amount": {
+            "amount": "-34.95",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "ROMEOS FOODHALL IGA Grocery Stores and Supermarkets",
+            "simple": "IGA grocery stores"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 23,
+            "name": "IGA grocery stores",
+            "phone": "(03) 5257 3127",
+            "website": "https://www.iga.com.au",
+            "location": {
+                "formatted_address": "201-205 Pacific Hwy, St Leonards NSW 2065, Australia",
+                "line_1": "201-205 Pacific Hwy",
+                "state": "NSW",
+                "suburb": "St Leonards",
+                "postcode": "2065",
+                "country": "Australia",
+                "longitude": 151.194138,
+                "latitude": -33.823067
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 160472,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-03",
+        "post_date": "2019-11-03",
+        "amount": {
+            "amount": "-8.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "MCDONALDS AUS",
+            "simple": "McDonald's"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 81,
+            "name": "McDonald's",
+            "phone": "(02) 9550 4804",
+            "website": "https://www.mcdonalds.com.au",
+            "location": {
+                "formatted_address": "Cnr Parramatta \u0026 Bridge Rd, Stanmore NSW 2048, Australia",
+                "line_1": "Cnr Parramatta \u0026 Bridge Rd",
+                "state": "NSW",
+                "suburb": "Stanmore",
+                "postcode": "2048",
+                "country": "Australia",
+                "longitude": 151.172038,
+                "latitude": -33.888219
+            }
+        },
+        "memo": "lunch",
+        "user_tags": []
+    }, {
+        "id": 160928,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-03",
+        "post_date": "2019-11-03",
+        "amount": {
+            "amount": "-20.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer To Dipesh Dhakal CommBank App Transfer",
+            "simple": "Transfer To Dipesh Dhakal CommBank App Transfer"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160026,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-02",
+        "post_date": "2019-11-02",
+        "amount": {
+            "amount": "-25.50",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "COLES 693 Grocery Stores and Supermarkets",
+            "simple": "Coles"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 44,
+            "name": "Coles",
+            "phone": "(02) 8912 3400",
+            "website": "https://www.coles.com.au",
+            "location": {
+                "formatted_address": "99 Walker St, North Sydney NSW 2060, Australia",
+                "line_1": "99 Walker St",
+                "state": "NSW",
+                "suburb": "North Sydney",
+                "postcode": "2060",
+                "country": "Australia",
+                "longitude": 151.20897,
+                "latitude": -33.839286
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 159452,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-02",
+        "post_date": "2019-11-02",
+        "amount": {
+            "amount": "-26.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "UBER *AU XUPS2 HELP.UBER.COM",
+            "simple": "Uber"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 204,
+            "name": "Uber",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 159764,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-01",
+        "post_date": "2019-11-01",
+        "amount": {
+            "amount": "-63.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "WOOLWORTHS 1128 Grocery Stores and Supermarkets",
+            "simple": "Woolworths"
+        },
+        "budget_category": "living",
+        "category": {
+            "id": 66,
+            "name": "Groceries",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 2,
+            "name": "Woolworths",
+            "phone": "(02) 8565 9336",
+            "website": "https://www.woolworths.com.au",
+            "location": {
+                "formatted_address": "10 Falcon St, Crows Nest NSW 2065, Australia",
+                "line_1": "10 Falcon St",
+                "state": "NSW",
+                "suburb": "Crows Nest",
+                "postcode": "2065",
+                "country": "Australia",
+                "longitude": 151.201699,
+                "latitude": -33.827499
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 159454,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-01",
+        "post_date": "2019-11-01",
+        "amount": {
+            "amount": "-24.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "UBER *AU XUPS2 HELP.UBER.COM",
+            "simple": "Uber"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 78,
+            "name": "Public Transport",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 204,
+            "name": "Uber",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160930,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-01",
+        "post_date": "2019-11-01",
+        "amount": {
+            "amount": "-30.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer To Rojin Subedi CommBank App internet",
+            "simple": "Transfer To Rojin Subedi CommBank App internet"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160929,
+        "account_id": 2149,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-11-01",
+        "post_date": "2019-11-01",
+        "amount": {
+            "amount": "0.25",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Credit Interest",
+            "simple": "Interest Income"
+        },
+        "budget_category": "income",
+        "category": {
+            "id": 97,
+            "name": "Interest Income",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160158,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-10-31",
+        "post_date": "2019-10-31",
+        "amount": {
+            "amount": "-59.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "THE OCCIDENTAL HOTEL SYDNEY",
+            "simple": "The Occidental Hotel"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 238,
+            "name": "The Occidental Hotel",
+            "phone": "(02) 9299 2531",
+            "website": "https://www.theoccidental.com",
+            "location": {
+                "formatted_address": "43 York St, Sydney NSW 2000, Australia",
+                "line_1": "43 York St",
+                "state": "NSW",
+                "suburb": "Sydney",
+                "postcode": "2000",
+                "country": "Australia",
+                "longitude": 151.205643,
+                "latitude": -33.86678
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 160156,
+        "account_id": 2142,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-10-31",
+        "post_date": "2019-10-31",
+        "amount": {
+            "amount": "-40.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "THE OCCIDENTAL HOTEL SYDNEY",
+            "simple": "The Occidental Hotel"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 77,
+            "name": "Travel/Entertainment",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 238,
+            "name": "The Occidental Hotel",
+            "phone": "(02) 9299 2531",
+            "website": "https://www.theoccidental.com",
+            "location": {
+                "formatted_address": "43 York St, Sydney NSW 2000, Australia",
+                "line_1": "43 York St",
+                "state": "NSW",
+                "suburb": "Sydney",
+                "postcode": "2000",
+                "country": "Australia",
+                "longitude": 151.205643,
+                "latitude": -33.86678
+            }
+        },
+        "user_tags": []
+    }, {
+        "id": 160934,
+        "account_id": 2150,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-10-31",
+        "post_date": "2019-10-31",
+        "amount": {
+            "amount": "500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer from xx3656 CommBank app",
+            "simple": "Transfer from Commbank"
+        },
+        "budget_category": "goals",
+        "category": {
+            "id": 91,
+            "name": "Entertainment/Recreation",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": ["travel"]
+    }, {
+        "id": 160933,
+        "account_id": 2150,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-10-31",
+        "post_date": "2019-10-31",
+        "amount": {
+            "amount": "-470.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to CBA A/c CommBank app rent",
+            "simple": "Transfer to Commonwealth Bank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 83,
+            "name": "Transfers",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 715,
+            "name": "Commonwealth Bank"
+        },
+        "user_tags": []
+    }, {
+        "id": 160932,
+        "account_id": 2149,
+        "base_type": "debit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-10-31",
+        "post_date": "2019-10-31",
+        "amount": {
+            "amount": "-500.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Transfer to xx3621 CommBank app",
+            "simple": "Transfer to Commbank"
+        },
+        "budget_category": "lifestyle",
+        "category": {
+            "id": 110,
+            "name": "Transfer Between Accounts",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1423,
+            "name": "Commbank"
+        },
+        "user_tags": []
+    }, {
+        "id": 160931,
+        "account_id": 2149,
+        "base_type": "credit",
+        "status": "posted",
+        "included": true,
+        "transaction_date": "2019-10-31",
+        "post_date": "2019-10-31",
+        "amount": {
+            "amount": "3716.00",
+            "currency": "AUD"
+        },
+        "description": {
+            "original": "Direct Credit XX1000 FROLLO AUSTRALIA SALARY",
+            "simple": "Salary/Regular Income from Frollo"
+        },
+        "budget_category": "income",
+        "category": {
+            "id": 84,
+            "name": "Salary/Regular Income",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1619,
+            "name": "Frollo"
+        },
+        "user_tags": []
+    }, {
+        "id": 160810,
+        "account_id": 2146,
+        "base_type": "other",
+        "status": "posted",
+        "included": false,
+        "transaction_date": "2019-10-31",
+        "post_date": "2019-10-31",
+        "amount": {
+            "amount": "715.00",
+            "currency": "PNT"
+        },
+        "description": {
+            "original": "Manageable Debt",
+            "simple": "715 - Manageable Debt"
+        },
+        "budget_category": "income",
+        "category": {
+            "id": 84,
+            "name": "Salary/Regular Income",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }, {
+        "id": 160808,
+        "account_id": 2146,
+        "base_type": "other",
+        "status": "posted",
+        "included": false,
+        "transaction_date": "2019-10-31",
+        "post_date": "2019-10-31",
+        "amount": {
+            "amount": "610.00",
+            "currency": "PNT"
+        },
+        "description": {
+            "original": "Bills Paid",
+            "simple": "610 - Bills Paid"
+        },
+        "budget_category": "income",
+        "category": {
+            "id": 84,
+            "name": "Salary/Regular Income",
+            "image_url": "https://example.com/image.png",
+        },
+        "merchant": {
+            "id": 1,
+            "name": "Unknown",
+            "phone": "",
+            "website": ""
+        },
+        "user_tags": []
+    }],
+    "paging": {
+        "cursors": {
+            "after": "1564138032_160746"
+        },
+        "next": "https://volt-sandbox.frollo.us/api/v2/aggregation/transactions/?after=1564138032_160746\u0026size=500\u0026from_date=2019-06-01\u0026to_date=2020-01-31",
+        "total": 698
+    }
+}

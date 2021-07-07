@@ -1,0 +1,10 @@
+{
+  "bsb": "123456",
+  "account_number": "98765432",
+  "account_holder": "Joe Blow",
+  "amount": "542.37",
+  "source_account_id": 42,
+  "payment_date": "2020-12-25",
+  "description": "Visible to both",
+  "reference": "Visible to payer",
+}

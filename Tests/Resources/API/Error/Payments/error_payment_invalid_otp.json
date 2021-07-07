@@ -1,0 +1,6 @@
+{
+    "error": {
+        "error_code": "F0117",
+        "error_message": "Invalid X-User-Otp code"
+    }
+}

@@ -25,7 +25,8 @@ extension NotificationPayload {
                                    link: nil,
                                    transactionIDs: nil,
                                    userEventID: 12345,
-                                   userMessageID: nil)
+                                   userMessageID: nil,
+                                   onboardingStep: nil)
     }
     
     static func testMessageData() -> NotificationPayload {
@@ -56,7 +57,8 @@ extension NotificationPayload {
                                    link: "frollo://dashboard",
                                    transactionIDs: nil,
                                    userEventID: 12345,
-                                   userMessageID: 98765)
+                                   userMessageID: 98765,
+                                   onboardingStep: "account_opening")
     }
     
     static func testTransactionUpdatedData() -> NotificationPayload {
@@ -65,7 +67,18 @@ extension NotificationPayload {
                                    link: nil,
                                    transactionIDs: [45123, 986, 7000072],
                                    userEventID: Int64.random(in: 1...100000000),
-                                   userMessageID: nil)
+                                   userMessageID: nil,
+                                   onboardingStep: nil)
+    }
+    
+    static func testOnboardingData() -> NotificationPayload {
+        return NotificationPayload(aps: nil,
+                                   event: "ONBOARDING_STEP_COMPLETED",
+                                   link: nil,
+                                   transactionIDs: nil,
+                                   userEventID: nil,
+                                   userMessageID: nil,
+                                   onboardingStep: "account_opening")
     }
     
 }

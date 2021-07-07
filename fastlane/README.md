@@ -12,7 +12,7 @@ Install _fastlane_ using
 ```
 [sudo] gem install fastlane -NV
 ```
-or alternatively using `brew cask install fastlane`
+or alternatively using `brew install fastlane`
 
 # Available Actions
 ## iOS
@@ -31,6 +31,11 @@ fastlane ios update_dependencies
 fastlane ios test
 ```
 Frollo SDK testing and deployment
+### ios release
+```
+fastlane ios release
+```
+
 
 ----
 

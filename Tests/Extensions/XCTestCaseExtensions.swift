@@ -18,6 +18,9 @@ import XCTest
 @testable import FrolloSDK
 import CoreData
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 protocol KeychainServiceIdentifying {
     var keychainService: String { get }
@@ -46,14 +49,14 @@ extension KeychainServiceIdentifying where Self: XCTestCase {
     
     func defaultAuthentication(keychain: Keychain, loggedIn: Bool = true) -> Authentication {
         let mockAuthentication = MockAuthentication(valid: loggedIn)
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         return authentication
     }
     
     func defaultAuthentication(keychain: Keychain, handler: AuthenticationDataSource & AuthenticationDelegate) -> Authentication {
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = handler
         authentication.delegate = handler
         return authentication
@@ -102,6 +105,18 @@ extension KeychainServiceIdentifying where Self: XCTestCase {
     func defaultAuthService(keychain: Keychain, network: Network) -> OAuth2Service {
         return OAuth2Service(authorizationEndpoint: FrolloSDKConfiguration.authorizationEndpoint, tokenEndpoint: FrolloSDKConfiguration.tokenEndpoint, redirectURL: FrolloSDKConfiguration.redirectURL, revokeURL: FrolloSDKConfiguration.revokeTokenEndpoint, network: network)
     }
+    
+    func invalidNetwork(authentication: Authentication) -> Network {
+        Network(serverEndpoint: self.config.serverEndpoint,
+                authentication: authentication,
+                encoder: InvalidEncoder())
+    }
+    
+    func invalidService(keychain: Keychain, loggedIn: Bool = true) -> APIService {
+        APIService(serverEndpoint: self.config.serverEndpoint,
+                   network: invalidNetwork(authentication: defaultAuthentication(keychain: keychain,
+                                                                                 loggedIn: loggedIn)))
+    }
 }
 
 extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTestCase {
@@ -113,6 +128,10 @@ extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTe
     
     func aggregation(keychain: Keychain, loggedIn: Bool) -> Aggregation {
         return Aggregation(database: database, service: defaultService(keychain: keychain, loggedIn: loggedIn))
+    }
+    
+    func aggregation(keychain: Keychain, service: APIService) -> Aggregation {
+        return Aggregation(database: database, service: service)
     }
     
     // MARK: - Bills
@@ -146,6 +165,9 @@ extension DatabaseIdentifying where Self: KeychainServiceIdentifying, Self: XCTe
         return UserManagement(database: database, service: defaultService(keychain: keychain, authentication: authentication), clientID: config.clientID, authentication: nil, preferences: preferences, delegate: delegate)
     }
     
+    func userWithInvalidEncodingService() -> UserManagement {
+        UserManagement(database: database, service: invalidService(keychain: defaultKeychain(isNetwork: true)), clientID: config.clientID, authentication: nil, preferences: preferences, delegate: nil)
+    }
 }
 
 extension XCTestCase {
@@ -170,30 +192,55 @@ extension XCTestCase {
 
 extension XCTestCase {
     
-    @discardableResult
-    func connect(endpoint: String, toResourceWithName name: String, addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
-        return connect(host: serverEndpointHost, endpoint: endpoint, toResourceWithName: name, addingStatusCode: statusCode, addingHeaders: headers)
+    enum Method {
+        case post
+        case put
+        case get
+        
+        var condition: HTTPStubsTestBlock {
+            switch self {
+            case .post:
+                return isMethodPOST()
+            case .put:
+                return isMethodPUT()
+            case .get:
+                return isMethodGET()
+            }
+        }
     }
     
     @discardableResult
-    func connect(endpoint: String, addingData data: Data = Data(), addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
-        return connect(host: serverEndpointHost, endpoint: endpoint, addingData: data, addingStatusCode: statusCode, addingHeaders: headers)
+    func connect(endpoint: String, method: Method? = nil, toResourceWithName name: String, addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> HTTPStubsDescriptor {
+        return connect(host: serverEndpointHost, endpoint: endpoint, method: method, toResourceWithName: name, addingStatusCode: statusCode, addingHeaders: headers)
     }
     
     @discardableResult
-    func connect(host: String, endpoint: String, toResourceWithName name: String, addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
+    func connect(endpoint: String, method: Method? = nil, addingData data: Data = Data(), addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> HTTPStubsDescriptor {
+        return connect(host: serverEndpointHost, endpoint: endpoint, method: method, addingData: data, addingStatusCode: statusCode, addingHeaders: headers)
+    }
+    
+    @discardableResult
+    func connect(host: String, endpoint: String, method: Method? = nil, toResourceWithName name: String, addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> HTTPStubsDescriptor {
         var finalHeaders = headers ?? [:]
         finalHeaders[HTTPHeader.contentType.rawValue] = "application/json"
-        let response: OHHTTPStubsResponseBlock = { _ in fixture(filePath: Bundle(for: type(of: self)).path(forResource: name, ofType: "json")!, status: Int32(statusCode), headers: finalHeaders) }
-        return stub(condition: isHost(host) && isPath(endpoint), response: response)
+        let response: HTTPStubsResponseBlock = { _ in fixture(filePath: Bundle.module.path(forResource: name, ofType: "json")!, status: Int32(statusCode), headers: finalHeaders) }
+        var condition = isHost(host) && isPath(endpoint)
+        if let method = method {
+            condition = condition && method.condition
+        }
+        return stub(condition: condition, response: response)
     }
     
     @discardableResult
-    func connect(host: String, endpoint: String, addingData data: Data = Data(), addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> OHHTTPStubsDescriptor {
+    func connect(host: String, endpoint: String, method: Method? = nil, addingData data: Data = Data(), addingStatusCode statusCode: Int = 200, addingHeaders headers: [String: String]? = nil) -> HTTPStubsDescriptor {
         var finalHeaders = headers ?? [:]
         finalHeaders[HTTPHeader.contentType.rawValue] = "application/json"
-        let response: OHHTTPStubsResponseBlock = { _ in OHHTTPStubsResponse(data: data, statusCode: Int32(statusCode), headers: finalHeaders) }
-        return stub(condition: isHost(host) && isPath(endpoint), response: response)
+        let response: HTTPStubsResponseBlock = { _ in HTTPStubsResponse(data: data, statusCode: Int32(statusCode), headers: finalHeaders) }
+        var condition = isHost(host) && isPath(endpoint)
+        if let method = method {
+            condition = condition && method.condition
+        }
+        return stub(condition: condition, response: response)
     }
 }
 

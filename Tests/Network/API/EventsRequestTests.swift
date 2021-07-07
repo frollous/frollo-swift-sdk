@@ -18,17 +18,20 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
-class EventsRequestTests: XCTestCase {
+class EventsRequestTests: XCTestCase, KeychainServiceIdentifying {
     
-    private let keychainService = "EventsRequestTests"
+    let keychainService = "EventsRequestTests"
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
 
@@ -37,12 +40,12 @@ class EventsRequestTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + EventsEndpoint.events.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + EventsEndpoint.events.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: "{}".data(using: .utf8)!, statusCode: 201, headers: nil)
         }
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -64,4 +67,40 @@ class EventsRequestTests: XCTestCase {
         wait(for: [expectation1], timeout: 3.0)
     }
 
+    func testCreateEventFail() {
+        let expectation1 = expectation(description: "Network Request")
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + EventsEndpoint.events.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: "{}".data(using: .utf8)!, statusCode: 201, headers: nil)
+        }
+        
+        let keychain = defaultKeychain(isNetwork: true)
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let service = invalidService(keychain: keychain)
+        
+        let request = APIEventCreateRequest(delayMinutes: 0, event: "EVENT_TEST")
+        
+        service.createEvent(request: request) { (result) in
+            switch result {
+            case .failure(let error):
+                XCTAssertTrue(error is DataError)
+                if let error = error as? DataError {
+                    XCTAssertEqual(error.type, DataError.DataErrorType.api)
+                    XCTAssertEqual(error.subType, DataError.DataErrorSubType.invalidData)
+                }
+            case .success:
+                XCTFail("Invalid service throw Error when encoding")
+            }            
+            
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+    }
+    
 }

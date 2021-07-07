@@ -4,11 +4,11 @@
     "description": "New York",
     "image_url": "https://example.com/image.png",
     "account_id": 45,
-    "tracking_status": "ahead",
+    "tracking_status": "above",
     "tracking_type": "debit",
     "status": "active",
     "frequency": "weekly",
-    "target": "amount",
+    "target": "current_balance",
     "currency": "AUD",
     "current_amount": "1352.19",
     "period_amount": "400",
@@ -27,7 +27,7 @@
       "target_amount": "400",
       "current_amount": "200",
       "required_amount": "347.54",
-      "tracking_status": "ahead",
+      "tracking_status": "above",
       "index": 2
     }
 }

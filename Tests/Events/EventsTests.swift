@@ -18,6 +18,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class EventsTests: XCTestCase {
     
@@ -28,7 +31,7 @@ class EventsTests: XCTestCase {
     }
 
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
 
@@ -37,12 +40,12 @@ class EventsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + EventsEndpoint.events.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + EventsEndpoint.events.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: "{}".data(using: .utf8)!, statusCode: 201, headers: nil)
         }
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -69,12 +72,12 @@ class EventsTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + EventsEndpoint.events.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + EventsEndpoint.events.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
         }
         
         let mockAuthentication = MockAuthentication(valid: false)
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -109,7 +112,7 @@ class EventsTests: XCTestCase {
         let config = FrolloSDKConfiguration.testConfig()
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -135,7 +138,7 @@ class EventsTests: XCTestCase {
         let config = FrolloSDKConfiguration.testConfig()
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -174,7 +177,7 @@ class EventsTests: XCTestCase {
         let config = FrolloSDKConfiguration.testConfig()
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -193,5 +196,145 @@ class EventsTests: XCTestCase {
         
         wait(for: [expectation1, notificationExpectation], timeout: 3.0)
     }
+    
+    func testHandlebudgetPeriodReadyEvent() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Budgets.currentBudgetPeriodReadyNotification, object: nil) { (notification) -> Bool in
+            return true
+        }
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let events = Events(service: service)
+                
+        events.handleEvent("B_CURRENT_PERIOD_READY") { (handled, error) in
+            XCTAssertTrue(handled)
+            XCTAssertNil(error)
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+    }
+    
+    func testHandleOnboardingEvent() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: UserManagement.onboardingStepCompletedNotification, object: nil) { (notification) -> Bool in
+            
+            XCTAssertNotNil(notification.userInfo)
+            
+            guard let onboardingStep = notification.userInfo?[UserManagement.onboardingEventKey] as? String
+                else {
+                    XCTFail()
+                    return true
+            }
+            
+            XCTAssertEqual(onboardingStep, "account_opening")
+            
+            return true
+        }
+        
+        let config = FrolloSDKConfiguration.testConfig()
+        
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+        
+        let events = Events(service: service)
+                
+        events.handleEvent("ONBOARDING_STEP_COMPLETED", notification: NotificationPayload.testOnboardingData()) { (handled, error) in
+            XCTAssertTrue(handled)
+            XCTAssertNil(error)
+            expectation1.fulfill()
+        }
+        
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+    }
 
+    func testHandleProviderAccountLinkedEvent() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.providerAccountLinkedNotification, object: nil) { (notification) -> Bool in
+            return true
+        }
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let events = Events(service: service)
+
+        events.handleEvent("PA_LINKED") { (handled, error) in
+            XCTAssertTrue(handled)
+            XCTAssertNil(error)
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+    }
+
+    func testHandleProviderAccountLinkingFailedEvent() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.providerAccountLinkingFailedNotification, object: nil) { (notification) -> Bool in
+            return true
+        }
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let events = Events(service: service)
+
+        events.handleEvent("PA_FAILED") { (handled, error) in
+            XCTAssertTrue(handled)
+            XCTAssertNil(error)
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+    }
+
+    func testHandleMFARequestEvent() {
+        let expectation1 = expectation(description: "Network Request 1")
+        let notificationExpectation = expectation(forNotification: Aggregation.providerAccountMFARequiredNotification, object: nil) { (notification) -> Bool in
+            return true
+        }
+
+        let config = FrolloSDKConfiguration.testConfig()
+
+        let mockAuthentication = MockAuthentication()
+        let authentication = Authentication(configuration: config)
+        authentication.dataSource = mockAuthentication
+        authentication.delegate = mockAuthentication
+        let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
+        let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
+
+        let events = Events(service: service)
+
+        events.handleEvent("PA_MFA") { (handled, error) in
+            XCTAssertTrue(handled)
+            XCTAssertNil(error)
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1, notificationExpectation], timeout: 3.0)
+    }
 }

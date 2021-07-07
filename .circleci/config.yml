@@ -1,0 +1,130 @@
+# For a detailed guide to building and testing on iOS, read the docs:
+# https://circleci.com/docs/2.0/testing-ios/
+
+version: 2.1
+
+orbs:
+  aws-s3: circleci/aws-s3@2.0.0
+  jira: circleci/jira@1.2.2
+  slack: circleci/slack@4.0.2
+
+aliases:
+  - &restore_gem_cache
+      name: Restore gem cache
+      keys:
+        - gem-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+        - gem-cache-v1-{{ arch }}-{{ .Branch }}
+        # Fall back to using the latest cache if no exact match is found.
+        - gem-cache-v1
+  - &save_gem_cache
+      name: Save gem cache
+      key: gem-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+      paths:
+        - gems
+  - &bundle_install
+      name: Install Gems via Bundler
+      command: bundle install --path gems
+  - &restore_carthage_cache
+      name: Restore Carthage cache
+      keys:
+        - carthage-cache-v3-{{ arch }}-{{ .Branch }}-{{ checksum "Cartfile.resolved" }}
+        - carthage-cache-v3-{{ arch }}-{{ .Branch }}
+        # Fall back to using the latest cache if no exact match is found.
+        - carthage-cache-v3
+  - &save_carthage_cache
+      name: Save Carthage cache
+      key: carthage-cache-v3-{{ arch }}-{{ .Branch }}-{{ checksum "Cartfile.resolved" }}
+      paths:
+        - Carthage
+  - &bootstrap_if_needed
+      name: Bootstrap Carthage
+      command: |
+        if ! cmp -s Cartfile.resolved Carthage/Cartfile.resolved; then
+          carthage bootstrap
+          cp Cartfile.resolved Carthage
+        fi
+
+
+jobs:
+  build-test:
+
+    macos:
+      xcode: 12.0.1
+    environment:
+      FL_OUTPUT_DIR: output
+      FASTLANE_LANE: test
+      
+    steps:
+      - run:
+          name: Setup Environment Variables
+          command: |
+            echo 'export XCODE_XCCONFIG_FILE=$PWD/tmp.xcconfig' >> $BASH_ENV
+            source $BASH_ENV
+      - checkout
+      - restore_cache: *restore_gem_cache
+      - run: *bundle_install
+      - save_cache: *save_gem_cache
+      - restore_cache: *restore_carthage_cache
+      - run: *bootstrap_if_needed
+      - save_cache: *save_carthage_cache
+      - run:
+          name: Install simulators
+          command: xcrun simctl create 'iPhone 11 (13.5)' com.apple.CoreSimulator.SimDeviceType.iPhone-11 com.apple.CoreSimulator.SimRuntime.iOS-13-5
+      - run:
+          name: Fastlane
+          command: |
+            export TERM=${TERM:-dumb}
+            bundle exec fastlane $FASTLANE_LANE
+      - store_artifacts:
+          path: output
+      - store_test_results:
+          path: output/scan
+      - run:
+          name: Move Documentation
+          command: |
+            export APP_VERSION=`xcodebuild -showBuildSettings | grep MARKETING_VERSION | tr -d 'MARKETING_VERSION ='`
+            mkdir -p output/docs/${APP_VERSION}; mv docs/* $_
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/output
+      - slack/notify:
+          event: fail
+          channel: ci
+          template: basic_fail_1
+
+  release:
+    macos:
+      xcode: 12.0.1
+    environment:
+      FL_OUTPUT_DIR: output
+
+    steps:
+      - attach_workspace:
+          at: ~/
+      - aws-s3/sync:
+          arguments: |
+            --acl public-read \
+            --cache-control "max-age=86400"
+          from: output/docs
+          to: 's3://frollo-shared-documentation/sdk/swift'
+
+workflows:
+  build-test:
+    jobs:
+      - build-test:
+          context:
+            - ios-context
+          post-steps:
+            - jira/notify
+      - release:
+          filters:
+            branches:
+              only: 
+                - /release\/.*/
+          requires:
+            - build-test
+          context:
+            - aws-docs
+      
+

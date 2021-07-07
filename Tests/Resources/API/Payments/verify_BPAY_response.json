@@ -1,0 +1,8 @@
+{
+  "valid": true,
+  "biller_code": "123456",
+  "biller_name": "AGL",
+  "crn": "98765432",
+  "biller_min_amount": "1.00",
+  "biller_max_amount": "11111.00"
+}

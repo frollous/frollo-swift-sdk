@@ -1,0 +1,13 @@
+{
+  "valid": true,
+  "bsb": "123456",
+  "mnemonic": "VOL",
+  "name": "Volt Bank Limited",
+  "address": {
+    "street": "Level 3, 41 McLaren Street",
+    "suburb": "North Sydney",
+    "state": "NSW",
+    "postal_code": "2060"
+  },
+  "npp_allowed": true
+}

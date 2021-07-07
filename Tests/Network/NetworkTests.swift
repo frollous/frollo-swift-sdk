@@ -19,6 +19,9 @@ import XCTest
 
 import Alamofire
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class NetworkTests: BaseTestCase {
     
@@ -163,15 +166,15 @@ class NetworkTests: BaseTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
-            XCTAssertEqual(request.allHTTPHeaderFields?["X-Api-Version"], "2.7")
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> HTTPStubsResponse in
+            XCTAssertEqual(request.allHTTPHeaderFields?["X-Api-Version"], "2.14")
             XCTAssertEqual(request.allHTTPHeaderFields?["X-Bundle-Id"], "us.frollo.FrolloSDK")
             XCTAssertTrue(request.allHTTPHeaderFields?["X-Device-Version"]?.contains(ProcessInfo.processInfo.operatingSystemVersionString) == true)
             
             if Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleVersion) != nil && Bundle.main.object(forInfoDictionaryKey: VersionConstants.bundleShortVersion) != nil {
-                XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "SDK4.3-B430|APP1.0-B1")
+                XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "SDK4.9.2-B492|APP1.0-B1")
             } else {
-                XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "SDK4.3-B430")
+                XCTAssertEqual(request.allHTTPHeaderFields?["X-Software-Version"], "SDK4.0.0-B492")
             }
             
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
@@ -204,8 +207,8 @@ class NetworkTests: BaseTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(error: NSError(domain: NSURLErrorDomain, code: -999, userInfo: [NSURLErrorFailingURLStringErrorKey: "https://example.com", NSLocalizedDescriptionKey: "cancelled", NSURLErrorFailingURLErrorKey: URL(string: "https://api.example.com/" + UserEndpoint.details.path)!]))
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(error: NSError(domain: NSURLErrorDomain, code: -999, userInfo: [NSURLErrorFailingURLStringErrorKey: "https://example.com", NSLocalizedDescriptionKey: "cancelled", NSURLErrorFailingURLErrorKey: URL(string: "https://api.example.com/" + UserEndpoint.details.path)!]))
         }
         
         let keychain = Keychain(service: keychainService)
@@ -232,7 +235,7 @@ class NetworkTests: BaseTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     // MARK: - Forced Logout Tests
@@ -270,7 +273,7 @@ class NetworkTests: BaseTestCase {
         
         wait(for: [expectation1, expectation2], timeout: 3.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testUnauthorizedClientTriggersForcedLogout() {
@@ -307,7 +310,7 @@ class NetworkTests: BaseTestCase {
         
         wait(for: [expectation1, expectation2], timeout: 3.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testInvalidRefreshTokenAPIFail() {
@@ -320,7 +323,7 @@ class NetworkTests: BaseTestCase {
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: networkAuthenticator)
         let service = APIService(serverEndpoint: config.serverEndpoint, network: network)
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_invalid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
     
@@ -407,3 +410,4 @@ class NetworkTests: BaseTestCase {
  
     
 }
+ 

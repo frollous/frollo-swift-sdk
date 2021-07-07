@@ -60,7 +60,7 @@ class UserTests: XCTestCase {
                 XCTAssertEqual(userModel.primaryCurrency, userResponseModel.primaryCurrency)
                 XCTAssertEqual(userModel.gender, userResponseModel.gender)
                 XCTAssertEqual(userModel.dateOfBirth, userResponseModel.dateOfBirth)
-                XCTAssertEqual(userModel.postcode, userResponseModel.address?.postcode)
+                XCTAssertEqual(userModel.address?.id, 0)
                 XCTAssertEqual(userModel.householdType, userResponseModel.householdType)
                 XCTAssertEqual(userModel.occupation, userResponseModel.occupation)
                 XCTAssertEqual(userModel.industry, userResponseModel.industry)
@@ -69,14 +69,15 @@ class UserTests: XCTestCase {
                 XCTAssertEqual(userModel.validPassword, userResponseModel.validPassword)
                 XCTAssertEqual(userModel.features, userResponseModel.features)
                 XCTAssertEqual(userModel.mobileNumber, userResponseModel.mobileNumber)
-                XCTAssertEqual(userModel.addressLine1, userResponseModel.address?.line1)
-                XCTAssertEqual(userModel.addressLine2, userResponseModel.address?.line2)
-                XCTAssertEqual(userModel.suburb, userResponseModel.address?.suburb)
+                XCTAssertEqual(userModel.address?.longForm, "")
+                XCTAssertEqual(userModel.mailingAddress?.id, 1)
+                XCTAssertEqual(userModel.previousAddress?.id, 2)
                 XCTAssertEqual(userModel.attributionAdGroup, userResponseModel.attribution?.adGroup)
                 XCTAssertEqual(userModel.attributionCampaign, userResponseModel.attribution?.campaign)
                 XCTAssertEqual(userModel.attributionCreative, userResponseModel.attribution?.creative)
                 XCTAssertEqual(userModel.attributionNetwork, userResponseModel.attribution?.network)
-                XCTAssertEqual(userModel.registerComplete, userResponseModel.registerComplete)
+                XCTAssertEqual(userModel.registerSteps, userResponseModel.registerSteps)
+                
                 
                 expectation1.fulfill()
             }
@@ -102,8 +103,8 @@ class UserTests: XCTestCase {
             XCTAssertEqual(user.mobileNumber, updateRequest.mobileNumber)
             XCTAssertEqual(user.gender, updateRequest.gender)
             XCTAssertEqual(user.dateOfBirth, updateRequest.dateOfBirth)
-            XCTAssertEqual(user.addressLine1, updateRequest.address?.line1)
-            XCTAssertEqual(user.addressLine2, updateRequest.address?.line2)
+            XCTAssertEqual(user.address?.id, 0)
+            XCTAssertEqual(user.mailingAddress?.id, 1)
             XCTAssertEqual(user.householdType, updateRequest.householdType)
             XCTAssertEqual(user.householdSize, updateRequest.householdSize)
             XCTAssertEqual(user.occupation, updateRequest.occupation)
@@ -113,6 +114,10 @@ class UserTests: XCTestCase {
             XCTAssertEqual(user.attributionCampaign, updateRequest.attribution?.campaign)
             XCTAssertEqual(user.attributionCreative, updateRequest.attribution?.creative)
             XCTAssertEqual(user.attributionNetwork, updateRequest.attribution?.network)
+            XCTAssertEqual(user.tin, updateRequest.tin)
+            XCTAssertEqual(user.tfn, updateRequest.tfn)
+            XCTAssertEqual(user.taxResidency, updateRequest.taxResidency)
+            XCTAssertEqual(user.foreignTax, updateRequest.foreignTax)
         }
     }
     

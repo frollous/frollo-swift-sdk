@@ -1,0 +1,13 @@
+{
+  "transaction_id": "34",
+  "amount": "542.37",
+  "payment_date": "2020-12-25",
+  "destination_bsb": "123456",
+  "destination_account_number": "12345678",
+  "destination_account_holder": "Joe Blow",
+  "source_account_id": 42,
+  "source_account_name": "Everyday Txn",
+  "description": "Visible to customer",
+  "transaction_reference": "XXX",
+  "status": "confirmed"
+}

@@ -17,7 +17,11 @@
         "user": "Occi"
     },
     "budget_category": "lifestyle",
-    "category_id": 77,
+    "category": {
+        "id": 77,
+        "name": "Travel/Entertainment",
+        "image_url": "https://example.com/image.png",
+    },
     "memo": "Remind me",
     "merchant": {
         "id": 238,

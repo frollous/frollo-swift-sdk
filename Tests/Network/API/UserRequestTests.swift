@@ -18,6 +18,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class UserRequestTests: XCTestCase {
     
@@ -33,7 +36,7 @@ class UserRequestTests: XCTestCase {
         super.tearDown()
         
         Keychain(service: keychainService).removeAll()
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     // MARK: - Login User
@@ -43,12 +46,12 @@ class UserRequestTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.register.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.register.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, status: 201, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -69,7 +72,7 @@ class UserRequestTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     // MARK: - Refresh User
@@ -79,12 +82,12 @@ class UserRequestTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_complete", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -109,14 +112,11 @@ class UserRequestTests: XCTestCase {
                     XCTAssertEqual(userResponse.gender, .male)
                     XCTAssertEqual(userResponse.dateOfBirth, date)
                     XCTAssertEqual(userResponse.mobileNumber, "0412345678")
-                    XCTAssertEqual(userResponse.address?.line1, "41 McLaren Street")
-                    XCTAssertEqual(userResponse.address?.line2, "Frollo Level 1")
-                    XCTAssertEqual(userResponse.address?.postcode, "2060")
-                    XCTAssertEqual(userResponse.address?.suburb, "North Sydney")
-                    XCTAssertEqual(userResponse.previousAddress?.line1, "Bay 9 Middlemiss St")
-                    XCTAssertEqual(userResponse.previousAddress?.line2, "Frollo Unit 13")
-                    XCTAssertEqual(userResponse.previousAddress?.postcode, "2060")
-                    XCTAssertEqual(userResponse.previousAddress?.suburb, "Lavender Bay")
+                    XCTAssertEqual(userResponse.address?.id, 0)
+                    XCTAssertEqual(userResponse.mailingAddress?.id, 1)
+                    XCTAssertEqual(userResponse.previousAddress?.id, 2)
+                    XCTAssertEqual(userResponse.previousAddress?.longForm, "U 5 21 Hampton Court Road, Carlton, NSW, 2218")
+                    XCTAssertEqual(userResponse.mailingAddress?.longForm, "U 1 33 Harrow Road, Bexley, NSW, 2216")
                     XCTAssertEqual(userResponse.attribution?.adGroup, "ADGROUP1")
                     XCTAssertEqual(userResponse.attribution?.creative, "CREATIVE1")
                     XCTAssertEqual(userResponse.attribution?.campaign, "CAMPAIGN1")
@@ -126,9 +126,15 @@ class UserRequestTests: XCTestCase {
                     XCTAssertEqual(userResponse.industry, .electricityGasWaterAndWasteServices)
                     XCTAssertEqual(userResponse.householdSize, 2)
                     XCTAssertEqual(userResponse.facebookID, "1234567890")
-                    XCTAssertEqual(userResponse.registerComplete, false)
                     XCTAssertEqual(userResponse.validPassword, true)
                     XCTAssertEqual(userResponse.features, [User.FeatureFlag(enabled: true, feature: "aggregation")])
+                    XCTAssertEqual(userResponse.registerSteps.count, 3)
+                    XCTAssertEqual(userResponse.registerSteps[1].key, "survey")
+                    XCTAssertEqual(userResponse.registerSteps[2].completed, false)
+                    XCTAssertEqual(userResponse.tfn, "12345678")
+                    XCTAssertEqual(userResponse.tin, "12345")
+                    XCTAssertEqual(userResponse.taxResidency, "AU")
+                    XCTAssertEqual(userResponse.foreignTax, false)
             }
             
             expectation1.fulfill()
@@ -136,7 +142,7 @@ class UserRequestTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testFetchUserIncomplete() {
@@ -144,12 +150,12 @@ class UserRequestTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_incomplete", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -167,10 +173,9 @@ class UserRequestTests: XCTestCase {
                     XCTAssertEqual(userResponse.emailVerified, true)
                     XCTAssertEqual(userResponse.status, .active)
                     XCTAssertEqual(userResponse.primaryCurrency, "AUD")
-                    XCTAssertEqual(userResponse.registerComplete, false)
                     XCTAssertNil(userResponse.gender)
                     XCTAssertNil(userResponse.dateOfBirth)
-                    XCTAssertNil(userResponse.address?.postcode)
+                    XCTAssertNil(userResponse.address?.id)
                     XCTAssertNil(userResponse.householdType)
                     XCTAssertNil(userResponse.occupation)
                     XCTAssertNil(userResponse.industry)
@@ -185,7 +190,7 @@ class UserRequestTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testFetchUserInvalid() {
@@ -193,12 +198,12 @@ class UserRequestTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.details.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "user_details_invalid", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -223,12 +228,12 @@ class UserRequestTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.user.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.user.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -249,7 +254,7 @@ class UserRequestTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
     func testDeleteUser() {
@@ -257,12 +262,12 @@ class UserRequestTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.user.path)) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + UserEndpoint.user.path)) { (request) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: Data(), statusCode: 204, headers: nil)
         }
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -281,7 +286,7 @@ class UserRequestTests: XCTestCase {
         
         wait(for: [expectation1], timeout: 3.0)
         
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
     
 }

@@ -18,6 +18,9 @@ import XCTest
 @testable import FrolloSDK
 
 import OHHTTPStubs
+#if canImport(OHHTTPStubsSwift)
+import OHHTTPStubsSwift
+#endif
 
 class ReportsRequestTests: XCTestCase {
     
@@ -28,7 +31,7 @@ class ReportsRequestTests: XCTestCase {
     }
 
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         Keychain(service: keychainService).removeAll()
     }
     
@@ -37,12 +40,12 @@ class ReportsRequestTests: XCTestCase {
         
         let config = FrolloSDKConfiguration.testConfig()
         
-        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> OHHTTPStubsResponse in
+        stub(condition: isHost(config.serverEndpoint.host!) && isPath("/" + ReportsEndpoint.accountBalance.path)) { (request) -> HTTPStubsResponse in
             return fixture(filePath: Bundle(for: type(of: self)).path(forResource: "account_balance_reports_by_day_2018-10-29_2019-01-29", ofType: "json")!, headers: [ HTTPHeader.contentType.rawValue: "application/json"])
         }
         
         let mockAuthentication = MockAuthentication()
-        let authentication = Authentication(serverEndpoint: config.serverEndpoint)
+        let authentication = Authentication(configuration: config)
         authentication.dataSource = mockAuthentication
         authentication.delegate = mockAuthentication
         let network = Network(serverEndpoint: config.serverEndpoint, authentication: authentication)
@@ -51,7 +54,7 @@ class ReportsRequestTests: XCTestCase {
         let fromDate = ReportAccountBalance.dailyDateFormatter.date(from: "2018-10-29")!
         let toDate = ReportAccountBalance.dailyDateFormatter.date(from: "2019-01-29")!
         
-        service.fetchAccountBalanceReports(period: .day, from: fromDate, to: toDate) { (result) in
+        service.fetchAccountBalanceReports(period: .day, from: fromDate, to: toDate, accountID: 542, accountType: .bank) { (result) in
             switch result {
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -80,6 +83,25 @@ class ReportsRequestTests: XCTestCase {
         }
         
         wait(for: [expectation1], timeout: 5.0)
+    }
+    
+    func testReportsEndpoint() {
+        let testPath1 = ReportsEndpoint.transactionsHistory(entity: "tag", id: "groceries world").path
+        XCTAssertEqual(testPath1, "reports/transactions/tag/groceries%20world")
+        let url1 = URL(string: testPath1, relativeTo: config.serverEndpoint)!
+        XCTAssertNotNil(url1)
+        
+        let testPath2 = ReportsEndpoint.transactionsHistory(entity: "tag", id: "groceries @ sydney").path
+        XCTAssertEqual(testPath2, "reports/transactions/tag/groceries%20@%20sydney")
+        let url2 = URL(string: testPath2, relativeTo: config.serverEndpoint)!
+        XCTAssertNotNil(url2)
+        
+        let testPath3 = ReportsEndpoint.transactionsHistory(entity: "tag", id: "groceries 😀 sydney").path
+        XCTAssertEqual(testPath3, "reports/transactions/tag/groceries%20%F0%9F%98%80%20sydney")
+        let url3 = URL(string: testPath3, relativeTo: config.serverEndpoint)!
+        XCTAssertNotNil(url3)
+        
+        
     }
 
 }
