@@ -19,7 +19,7 @@ import Foundation
 /**
  VerifyBPAYResponse
  
- Represents the response of verify pay id
+ Represents the response of verify BPAY
  */
 public struct VerifyBPAYResponse: Codable {
     

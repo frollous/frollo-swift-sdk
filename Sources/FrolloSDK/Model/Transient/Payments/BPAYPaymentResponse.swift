@@ -35,6 +35,7 @@ public struct BPAYPaymentResponse: Codable {
         case status
         case transactionID = "transaction_id"
         case transactionReference = "transaction_reference"
+        case paymentMode = "payment_type"
     }
     
     /// Amount of the the payment
@@ -69,4 +70,7 @@ public struct BPAYPaymentResponse: Codable {
     
     /// Transaction reference of the payment
     public let transactionReference: String
+
+    /// Mode with which the payment was made; Optional
+    public let paymentMode: String?
 }
