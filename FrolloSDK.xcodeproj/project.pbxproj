@@ -1259,6 +1259,11 @@
 		131EC63F240C870E0004F7CB /* products_account_id_542.json in Resources */ = {isa = PBXBuildFile; fileRef = 131EC63E240C870E0004F7CB /* products_account_id_542.json */; };
 		131EC640240C870E0004F7CB /* products_account_id_542.json in Resources */ = {isa = PBXBuildFile; fileRef = 131EC63E240C870E0004F7CB /* products_account_id_542.json */; };
 		131EC641240C870E0004F7CB /* products_account_id_542.json in Resources */ = {isa = PBXBuildFile; fileRef = 131EC63E240C870E0004F7CB /* products_account_id_542.json */; };
+		132142552696B4D5008AEA41 /* PaymentLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132142542696B4D5008AEA41 /* PaymentLimit.swift */; };
+		132142562696B4D5008AEA41 /* PaymentLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132142542696B4D5008AEA41 /* PaymentLimit.swift */; };
+		132142682696BA71008AEA41 /* limits_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 1321425E2696BA69008AEA41 /* limits_valid.json */; };
+		132142702696BA72008AEA41 /* limits_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 1321425E2696BA69008AEA41 /* limits_valid.json */; };
+		132142782696BA72008AEA41 /* limits_valid.json in Resources */ = {isa = PBXBuildFile; fileRef = 1321425E2696BA69008AEA41 /* limits_valid.json */; };
 		1321545A2390B763001495A2 /* Budget+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132154592390B763001495A2 /* Budget+CoreDataClass.swift */; };
 		1321545B2390B763001495A2 /* Budget+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132154592390B763001495A2 /* Budget+CoreDataClass.swift */; };
 		1321545D2390B867001495A2 /* Budget+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1321545C2390B867001495A2 /* Budget+CoreDataProperties.swift */; };
@@ -2465,6 +2470,8 @@
 		1318C1F2237D180B00ABFC51 /* CustomMessageMigrationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessageMigrationTest.swift; sourceTree = "<group>"; };
 		131EC63B240C7B7D0004F7CB /* CDRProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDRProduct.swift; sourceTree = "<group>"; };
 		131EC63E240C870E0004F7CB /* products_account_id_542.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = products_account_id_542.json; sourceTree = "<group>"; };
+		132142542696B4D5008AEA41 /* PaymentLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentLimit.swift; sourceTree = "<group>"; };
+		1321425E2696BA69008AEA41 /* limits_valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = limits_valid.json; sourceTree = "<group>"; };
 		132154592390B763001495A2 /* Budget+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Budget+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1321545C2390B867001495A2 /* Budget+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Budget+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1321545F2390CBB6001495A2 /* BudgetPeriod+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BudgetPeriod+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -3347,6 +3354,7 @@
 		015EEDDF210FDA4D0081AD76 /* Aggregation */ = {
 			isa = PBXGroup;
 			children = (
+				1321425E2696BA69008AEA41 /* limits_valid.json */,
 				1387A9A023A1BB56002E0483 /* merchant_page_1.json */,
 				1387A9A123A1BB56002E0483 /* merchant_page_2.json */,
 				1387A9AC23A3142B002E0483 /* invalid_data.json */,
@@ -4694,6 +4702,7 @@
 				1394CE7D252FE14E009FCC2C /* VerifyPayAnyoneResponse.swift */,
 				4E144E7125D0E09E002BDBC6 /* VerifyPayIDResponse.swift */,
 				10C450D7268EE22F009A2512 /* VerifyBPAYResponse.swift */,
+				132142542696B4D5008AEA41 /* PaymentLimit.swift */,
 			);
 			path = Payments;
 			sourceTree = "<group>";
@@ -5493,6 +5502,7 @@
 				10A17F982631340C00C7681E /* bills_invalid.json in Resources */,
 				137914AF25F056A000B7058E /* FrolloSDKDataModel-1.7.4.sqlite-shm in Resources */,
 				135B2AE3241B3B3B001B73BB /* FrolloSDKDataModel-1.6.2.sqlite in Resources */,
+				132142682696BA71008AEA41 /* limits_valid.json in Resources */,
 				03DC5B612446D64B0019CABC /* FrolloSDKDataModel-1.7.0.sqlite-wal in Resources */,
 				01D7A4B5247CA35F000339D9 /* FrolloSDKDataModel-1.7.1.sqlite in Resources */,
 				2FE1802B22498A2200B87AAB /* error_oauth2_invalid_grant.json in Resources */,
@@ -5777,6 +5787,7 @@
 				10A17FA02631340C00C7681E /* bills_invalid.json in Resources */,
 				137914B025F056A000B7058E /* FrolloSDKDataModel-1.7.4.sqlite-shm in Resources */,
 				135B2B0E241B4BE1001B73BB /* FrolloSDKDataModel-1.6.2.sqlite in Resources */,
+				132142702696BA72008AEA41 /* limits_valid.json in Resources */,
 				03DC5B622446D64B0019CABC /* FrolloSDKDataModel-1.7.0.sqlite-wal in Resources */,
 				01D7A4B6247CA35F000339D9 /* FrolloSDKDataModel-1.7.1.sqlite in Resources */,
 				2FE1802C22498A2200B87AAB /* error_oauth2_invalid_grant.json in Resources */,
@@ -6070,6 +6081,7 @@
 				10A17FA12631340D00C7681E /* bills_invalid.json in Resources */,
 				137914B125F056A000B7058E /* FrolloSDKDataModel-1.7.4.sqlite-shm in Resources */,
 				2FE1802D22498A2200B87AAB /* error_oauth2_invalid_grant.json in Resources */,
+				132142782696BA72008AEA41 /* limits_valid.json in Resources */,
 				03DC5B632446D64B0019CABC /* FrolloSDKDataModel-1.7.0.sqlite-wal in Resources */,
 				01D7A4B7247CA35F000339D9 /* FrolloSDKDataModel-1.7.1.sqlite in Resources */,
 				01236D5C21EED5F7008DD61A /* transaction_reports_current_txn_category_living.json in Resources */,
@@ -6232,6 +6244,7 @@
 				4E8052F42579E4F90087C01A /* Contacts+CoreDataProperties.swift in Sources */,
 				01C8250720EDDB4F0093400E /* DataError.swift in Sources */,
 				01ED8FC7211A5DE800ACE691 /* Transaction+CoreDataClass.swift in Sources */,
+				132142552696B4D5008AEA41 /* PaymentLimit.swift in Sources */,
 				011C198921E3063600490EDD /* APIBillPaymentUpdateRequest.swift in Sources */,
 				012C450A212A775D00799A0A /* ProviderLoginForm.swift in Sources */,
 				01EED86E20E5AAAB00F4516B /* Database.swift in Sources */,
@@ -7033,6 +7046,7 @@
 				4E8052F52579E4F90087C01A /* Contacts+CoreDataProperties.swift in Sources */,
 				01E5BEEA2227A475003D85FD /* DataError.swift in Sources */,
 				01E5BEEB2227A475003D85FD /* Transaction+CoreDataClass.swift in Sources */,
+				132142562696B4D5008AEA41 /* PaymentLimit.swift in Sources */,
 				01E5BEEC2227A475003D85FD /* APIBillPaymentUpdateRequest.swift in Sources */,
 				01E5BEED2227A475003D85FD /* ProviderLoginForm.swift in Sources */,
 				03D965B122768C92009BC283 /* SuggestedTag.swift in Sources */,

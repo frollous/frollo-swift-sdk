@@ -169,6 +169,16 @@ extension APIService {
         }
     }
     
+    internal func fetchPaymentLimit(accountID: Int64, completion: @escaping RequestCompletion<[PaymentLimit]>) {
+        requestQueue.async {
+            let url = URL(string: AggregationEndpoint.accountPaymentLimits(accountID: accountID).path, relativeTo: self.serverURL)!
+            
+            self.network.sessionManager.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).validate(statusCode: 200...299).responseData(queue: self.responseQueue) { response in
+                self.network.handleArrayResponse(type: PaymentLimit.self, errorType: APIError.self, response: response, completion: completion)
+            }
+        }
+    }
+    
     // MARK: - Transactions
     
     internal func fetchTransaction(transactionID: Int64, completion: @escaping RequestCompletion<APITransactionResponse>) {

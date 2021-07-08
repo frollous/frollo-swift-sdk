@@ -1054,6 +1054,26 @@ public class Aggregation: CachedObjects, ResponseHandler {
         
     }
     
+    /**
+     Fetches payment limits of a specific account
+     
+     - parameters:
+        - accountID: Account ID of the account to fetch payment limits
+        - completion: The block that will be executed when the submit request is complete
+     */
+    public func fetchAccountPaymentLimits(accountID: Int64, completion: ((Result<[PaymentLimit], Error>) -> Void)?) {
+        
+        service.fetchPaymentLimit(accountID: accountID) { result in
+            switch result {
+                case .success(let response):
+                    completion?(.success(response))
+                case .failure(let error):
+                    completion?(.failure(error))
+            }
+        }
+        
+    }
+    
     // MARK: - Transactions
     
     /**

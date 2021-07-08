@@ -74,7 +74,7 @@ public struct PayAnyoneResponse: Codable {
     
     /// Payment is duplicate; Optional - returned only for NPP
     public let isDuplicate: Bool?
-
+    
     /// Mode with which the payment was made; Optional
     public let paymentMode: String?
 }

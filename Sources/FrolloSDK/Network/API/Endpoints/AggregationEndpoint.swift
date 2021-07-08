@@ -40,6 +40,7 @@ enum AggregationEndpoint: Endpoint {
     }
     
     case account(accountID: Int64)
+    case accountPaymentLimits(accountID: Int64)
     case accounts
     case merchant(merchantID: Int64)
     case merchants
@@ -62,6 +63,8 @@ enum AggregationEndpoint: Endpoint {
         switch self {
             case .account(let accountID):
                 return "aggregation/accounts/" + String(accountID)
+            case .accountPaymentLimits(let accountID):
+                return "aggregation/accounts/" + String(accountID) + "/limits"
             case .accounts:
                 return "aggregation/accounts"
             case .merchant(let merchantID):
