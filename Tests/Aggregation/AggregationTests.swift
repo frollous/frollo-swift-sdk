@@ -1644,24 +1644,36 @@ class AggregationTests: BaseTestCase {
                
         let aggregation = self.aggregation(loggedIn: true)
         
-        aggregation.fetchAccountPaymentLimits(accountID: 542) { result in
-            switch result {
-                case .failure(let error):
-                    XCTFail("Fetching products failed with error \(error)")
-                case .success(let limits):
-                    XCTAssertEqual(limits.first?.type, .transaction)
-                    XCTAssertEqual(limits.first?.period, .singular)
-                    XCTAssertEqual(limits.first?.limitAmount, "20000.00")
-                    XCTAssertEqual(limits.last?.type, .npp)
-                    XCTAssertEqual(limits.last?.period, .daily)
-                    XCTAssertEqual(limits.last?.limitAmount, "1000.00")
-                    XCTAssertEqual(limits.last?.consumedAmount, "93.47")
-            }
+        database.setup { error in
+            XCTAssertNil(error)
             
-            expectation1.fulfill()
-        }
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                
+                aggregation.fetchAccountPaymentLimits(accountID: 542) { result in
+                    switch result {
+                        case .failure(let error):
+                            XCTFail("Fetching products failed with error \(error)")
+                        case .success(let limits):
+                            XCTAssertEqual(limits.first?.type, .transaction)
+                            XCTAssertEqual(limits.first?.period, .singular)
+                            XCTAssertEqual(limits.first?.limitAmount, "20000.00")
+                            XCTAssertEqual(limits.last?.type, .npp)
+                            XCTAssertEqual(limits.last?.period, .daily)
+                            XCTAssertEqual(limits.last?.limitAmount, "1000.00")
+                            XCTAssertEqual(limits.last?.consumedAmount, "93.47")
+                    }
+                    
+                    expectation1.fulfill()
+                }
+                       
                
+            }
+        }
+        
         wait(for: [expectation1], timeout: 3.0)
+
     }
     
     // MARK: - Transaction Tests

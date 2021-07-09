@@ -1066,9 +1066,13 @@ public class Aggregation: CachedObjects, ResponseHandler {
         service.fetchPaymentLimit(accountID: accountID) { result in
             switch result {
                 case .success(let response):
-                    completion?(.success(response))
+                    DispatchQueue.main.async {
+                        completion?(.success(response))
+                    }
                 case .failure(let error):
-                    completion?(.failure(error))
+                    DispatchQueue.main.async {
+                        completion?(.failure(error))
+                    }
             }
         }
         
