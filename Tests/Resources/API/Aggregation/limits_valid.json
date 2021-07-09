@@ -1,0 +1,13 @@
+[
+  {
+    "type": "transaction",
+    "period": "singular",
+    "limit_amount": "20000.00"
+  },
+  {
+    "type": "npp",
+    "period": "daily",
+    "limit_amount": "1000.00",
+    "consumed_amount": "93.47"
+  }
+]

@@ -1636,6 +1636,46 @@ class AggregationTests: BaseTestCase {
         
     }
     
+    func testFetchPaymentLimitsByAccountID() {
+
+        let expectation1 = expectation(description: "Network Request 1")
+        
+        connect(endpoint: AggregationEndpoint.accountPaymentLimits(accountID: 542).path.prefixedWithSlash, toResourceWithName: "limits_valid")
+               
+        let aggregation = self.aggregation(loggedIn: true)
+        
+        database.setup { error in
+            XCTAssertNil(error)
+            
+            let managedObjectContext = self.database.newBackgroundContext()
+            
+            managedObjectContext.performAndWait {
+                
+                aggregation.fetchAccountPaymentLimits(accountID: 542) { result in
+                    switch result {
+                        case .failure(let error):
+                            XCTFail("Fetching products failed with error \(error)")
+                        case .success(let limits):
+                            XCTAssertEqual(limits.first?.type, .transaction)
+                            XCTAssertEqual(limits.first?.period, .singular)
+                            XCTAssertEqual(limits.first?.limitAmount, "20000.00")
+                            XCTAssertEqual(limits.last?.type, .npp)
+                            XCTAssertEqual(limits.last?.period, .daily)
+                            XCTAssertEqual(limits.last?.limitAmount, "1000.00")
+                            XCTAssertEqual(limits.last?.consumedAmount, "93.47")
+                    }
+                    
+                    expectation1.fulfill()
+                }
+                       
+               
+            }
+        }
+        
+        wait(for: [expectation1], timeout: 3.0)
+
+    }
+    
     // MARK: - Transaction Tests
     
     func testFetchTransactionByID() {

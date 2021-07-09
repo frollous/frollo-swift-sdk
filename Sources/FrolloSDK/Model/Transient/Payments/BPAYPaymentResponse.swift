@@ -70,7 +70,7 @@ public struct BPAYPaymentResponse: Codable {
     
     /// Transaction reference of the payment
     public let transactionReference: String
-
+    
     /// Mode with which the payment was made; Optional
     public let paymentMode: String?
 }
