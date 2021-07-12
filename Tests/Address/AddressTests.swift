@@ -75,9 +75,9 @@ class AddressTests: BaseTestCase {
                         fetchRequest.predicate = NSPredicate(format: "addressID == %ld", argumentArray: [3])
 
                         do {
-                            let fetchedCards = try context.fetch(fetchRequest)
+                            let fetchedAddresses = try context.fetch(fetchRequest)
 
-                            XCTAssertEqual(fetchedCards.first?.addressID, 3)
+                            XCTAssertEqual(fetchedAddresses.first?.addressID, 3)
                         } catch {
                             XCTFail(error.localizedDescription)
                         }
@@ -257,9 +257,9 @@ class AddressTests: BaseTestCase {
             let managedObjectContext = self.database.newBackgroundContext()
 
             managedObjectContext.performAndWait {
-                let address = Contact(context: managedObjectContext)
+                let address = Address(context: managedObjectContext)
                 address.populateTestData()
-                address.contactID = 11
+                address.addressID = 11
 
                 try? managedObjectContext.save()
             }

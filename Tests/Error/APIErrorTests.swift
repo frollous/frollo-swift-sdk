@@ -427,11 +427,25 @@ class APIErrorTests: XCTestCase {
     }
 
     func testAPIErrorPaymentOTPMissing() {
-        validatePaymentErrors(resourceFileName: "error_payment_missing_otp", errorCode: .missingOTP)
+        let errorJSON = errorJSONNamed("error_payment_missing_otp")
+
+        let error = APIError(statusCode: 401, response: errorJSON)
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.MissingOTP") + "\n\nAPI Error " + error.errorCode!.rawValue + ": " + error.message!)
+        XCTAssertEqual(error.statusCode, 401)
+        XCTAssertEqual(error.type, .securityCodeRequired)
+        XCTAssertEqual(error.errorCode, .missingOTP)
+        XCTAssertNotNil(error.message)
     }
 
     func testAPIErrorPaymentInvalidOTP() {
-        validatePaymentErrors(resourceFileName: "error_payment_invalid_otp", errorCode: .invalidOTP)
+        let errorJSON = errorJSONNamed("error_payment_invalid_otp")
+
+        let error = APIError(statusCode: 401, response: errorJSON)
+        XCTAssertEqual(error.localizedDescription, Localization.string("Error.API.InvalidOTP") + "\n\nAPI Error " + error.errorCode!.rawValue + ": " + error.message!)
+        XCTAssertEqual(error.statusCode, 401)
+        XCTAssertEqual(error.type, .invalidSecurityCode)
+        XCTAssertEqual(error.errorCode, .invalidOTP)
+        XCTAssertNotNil(error.message)
     }
     
     func validatePaymentErrors(resourceFileName: String, errorCode: APIErrorCode) {
